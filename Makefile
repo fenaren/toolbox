@@ -10,15 +10,14 @@ CFLAGS := -DLINUX -fPIC -Wall -g2 -c
 
 # List of directories containing source files
 DIRECTORY_LIST := \
-sockets \
 logging \
-netstructs
+networking
 
 # Where the built object files go
 OBJ_DIR := obj
 
 
-SOCKETS_OBJ := \
+NETWORKING_OBJ := \
 LinuxRawSocket.o \
 LinuxSocketCommon.o \
 LinuxTCPSocketImpl.o \
@@ -33,14 +32,10 @@ UDPSocketImpl.o
 LOGGING_OBJ := \
 Log.o
 
-# Netstructs is nothing but headers at the moment
-NETSTRUCTS_OBJ :=
-
 # The final list of all object files
 OBJ := \
-$(SOCKETS_OBJ) \
 $(LOGGING_OBJ) \
-$(NETSTRUCTS_OBJ)
+$(NETWORKING_OBJ)
 
 OBJ_FULL_PATH := $(addprefix $(OBJ_DIR)/, $(OBJ))
 
