@@ -11,11 +11,18 @@ CFLAGS := -DLINUX -fPIC -Wall -g2 -c
 # List of directories containing source files
 DIRECTORY_LIST := \
 logging \
+misc \
 networking
 
 # Where the built object files go
 OBJ_DIR := obj
 
+
+LOGGING_OBJ := \
+Log.o
+
+MISC_OBJ := \
+endian.o
 
 NETWORKING_OBJ := \
 LinuxRawSocket.o \
@@ -29,12 +36,11 @@ TCPSocketImpl.o \
 UDPSocket.o \
 UDPSocketImpl.o
 
-LOGGING_OBJ := \
-Log.o
 
 # The final list of all object files
 OBJ := \
 $(LOGGING_OBJ) \
+$(MISC_OBJ) \
 $(NETWORKING_OBJ)
 
 OBJ_FULL_PATH := $(addprefix $(OBJ_DIR)/, $(OBJ))
