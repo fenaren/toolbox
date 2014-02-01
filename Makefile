@@ -10,7 +10,6 @@ CFLAGS := -DLINUX -fPIC -Wall -g2 -c
 
 # List of directories containing source files
 DIRECTORY_LIST := \
-logging \
 misc \
 networking
 
@@ -18,10 +17,8 @@ networking
 OBJ_DIR := obj
 
 
-LOGGING_OBJ := \
-Log.o
-
 MISC_OBJ := \
+Log.o \
 endian.o
 
 NETWORKING_OBJ := \
@@ -39,7 +36,6 @@ UDPSocketImpl.o
 
 # The final list of all object files
 OBJ := \
-$(LOGGING_OBJ) \
 $(MISC_OBJ) \
 $(NETWORKING_OBJ)
 
