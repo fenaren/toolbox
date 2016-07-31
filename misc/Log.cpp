@@ -14,7 +14,8 @@
 //==============================================================================
 Log::Log(std::ostream& output_stream) :
   output_stream(&output_stream),
-  current_time_format(GMT)
+  current_time_format(GMT),
+  flush_after_write(false)
 {
 }
 
@@ -36,6 +37,11 @@ void Log::write(const std::string& message)
 
   // Write the log message
   *output_stream << timestamp + " " + message + "\n";
+
+  if (flush_after_write)
+  {
+    flush();
+  }
 }
 
 //==============================================================================
@@ -49,6 +55,11 @@ void Log::writeWarning(const std::string& message)
 
   // Write the log message
   *output_stream << timestamp + " WARNING - " + message + "\n";
+
+  if (flush_after_write)
+  {
+    flush();
+  }
 }
 
 //==============================================================================
@@ -62,6 +73,11 @@ void Log::writeError(const std::string& message)
 
   // Write the log message
   *output_stream << timestamp + " ERROR - " + message + "\n";
+
+  if (flush_after_write)
+  {
+    flush();
+  }
 }
 
 //==============================================================================
