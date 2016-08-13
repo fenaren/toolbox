@@ -1,7 +1,8 @@
 # Toolbox library makefile
 # Leigh Garbs
 
-# Name of libraries to be produced; appropriate .a or .so extension will be added later
+# Name of libraries to be produced; appropriate .a or .so extension will be
+# added later
 LIB_NAME := libtoolbox
 
 # Compilation is done with g++
@@ -15,7 +16,6 @@ networking
 
 # Where the built object files go
 OBJ_DIR := obj
-
 
 MISC_OBJ := \
 Log.o \
@@ -33,7 +33,6 @@ TCPSocketImpl.o \
 UDPSocket.o \
 UDPSocketImpl.o
 
-
 # The final list of all object files
 OBJ := \
 $(MISC_OBJ) \
@@ -49,14 +48,14 @@ vpath %.hpp $(DIRECTORY_LIST)
 all: $(LIB_NAME).a $(LIB_NAME).so
 
 $(LIB_NAME).a: $(OBJ_FULL_PATH)
-	ar rcs $@ $?
+	@ar rcs $@ $?
 
 $(LIB_NAME).so: $(OBJ_FULL_PATH)
-	$(CC) -shared -Wl,-soname,$@ -o $@ $^
+	@$(CC) -shared -Wl,-soname,$@ -o $@ $^
 
 # Implicit rule specifying how to make object files
 $(OBJ_DIR)/%.o: %.cpp %.hpp
-	$(CC) $(CFLAGS) -o $@ $<
+	@$(CC) $(CFLAGS) -o $@ $<
 
 clean:
-	-rm $(LIB_NAME).a $(LIB_NAME).so $(OBJ_FULL_PATH)
+	@-rm $(LIB_NAME).a $(LIB_NAME).so $(OBJ_FULL_PATH)
