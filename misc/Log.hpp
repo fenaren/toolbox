@@ -39,7 +39,7 @@ class Log
 
     // Causes log timestamps to be generated in local time
     void useLocalTime();
-  
+
     // Should the log flush the output stream after every write?
     void flushAfterWrite(bool flush_after_write);
 
