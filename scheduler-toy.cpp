@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <map>
 #include <sched.h>
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -11,6 +12,13 @@ int main(int argc, char** argv)
   scheduler_params.sched_priority = 0;
 
   int policy = SCHED_OTHER;
+
+  std::map<int, std::string> policy_names;
+  policy_names[SCHED_OTHER] = "SCHED_OTHER";
+  policy_names[SCHED_BATCH] = "SCHED_BATCH";
+  policy_names[SCHED_IDLE]  = "SCHED_IDLE";
+  policy_names[SCHED_RR]    = "SCHED_RR";
+  policy_names[SCHED_FIFO]  = "SCHED_FIFO";
 
   // Parse arguments
   for (int arg = 1; arg < argc; arg++)
@@ -56,14 +64,14 @@ int main(int argc, char** argv)
   std::cout << "RLIMIT_NICE current " << rlim.rlim_cur
             << " max " << rlim.rlim_max << "\n";
 
-  std::cout << "Setting scheduling policy " << policy << " priority "
-            << scheduler_params.sched_priority << "\n";
+  std::cout << "Setting scheduling policy " << policy_names[policy]
+            << " priority " << scheduler_params.sched_priority << "\n";
 
   std::cout << "sched_setscheduler returns "
             << sched_setscheduler(0, policy, &scheduler_params) << "\n";
 
-  std::cout << "Scheduling policy is " << sched_getscheduler(0) << " priority "
-            << getpriority(PRIO_PROCESS, 0) << "\n";
+  std::cout << "Scheduling policy is " << policy_names[sched_getscheduler(0)]
+            << " priority " << getpriority(PRIO_PROCESS, 0) << "\n";
 
   while(1) {}
 
