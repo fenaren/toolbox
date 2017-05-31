@@ -57,12 +57,15 @@ int main(int argc, char** argv)
   }
 
   rlimit rlim;
-  std::cout << "getrlimit returns " << getrlimit(RLIMIT_RTPRIO, &rlim) << "\n";
+  getrlimit(RLIMIT_RTPRIO, &rlim);
   std::cout << "RLIMIT_RTPRIO current " << rlim.rlim_cur
             << " max " << rlim.rlim_max << "\n";
-  std::cout << "getrlimit returns " << getrlimit(RLIMIT_NICE, &rlim) << "\n";
+  getrlimit(RLIMIT_NICE, &rlim);
   std::cout << "RLIMIT_NICE current " << rlim.rlim_cur
             << " max " << rlim.rlim_max << "\n";
+  std::cout << policy_names[policy] << " policy min priority "
+            << sched_get_priority_min(policy) << " max "
+            << sched_get_priority_max(policy) << "\n";
 
   std::cout << "Setting scheduling policy " << policy_names[policy]
             << " priority " << scheduler_params.sched_priority << "\n";
