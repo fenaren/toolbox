@@ -6,12 +6,6 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-void print_help(const std::string& name)
-{
-  std::cout << name << " [ -p <priority> ] [ -n <niceness> ] [ --sched-other | "
-    "--sched-idle | --sched-batch | --sched-rr | --sched-fifo ] [ --loop ]\n";
-}
-
 int main(int argc, char** argv)
 {
   sched_param scheduler_params;
@@ -75,37 +69,56 @@ int main(int argc, char** argv)
     }
     else
     {
-      print_help(argv[0]);
+      std::cout << argv[0] << " [ -p <priority> ] [ -n <niceness> ] "
+        "[ --sched-other | --sched-idle | --sched-batch | --sched-rr | "
+        "--sched-fifo ] [ --loop ]\n";
+
       return 1;
     }
   }
 
+  // What is RLIMIT_RTPRIO set to?  RLIMIT_RTPRIO limits the priority that an
+  // unprivileged user can assign to a thread/process
   rlimit rlim;
   getrlimit(RLIMIT_RTPRIO, &rlim);
   std::cout << "RLIMIT_RTPRIO current " << rlim.rlim_cur
             << " max " << rlim.rlim_max << "\n";
+
+  // What is RLIMIT_NICE set to?  RLIMIT_NICE limits the niceness that an
+  // unprivileged user can assign to a thread/process
   getrlimit(RLIMIT_NICE, &rlim);
   std::cout << "RLIMIT_NICE current " << rlim.rlim_cur
             << " max " << rlim.rlim_max << "\n";
+
+  // What are the minimum and maximum allowable priorities for the given
+  // scheduling policy?
   std::cout << policy_names[policy] << " policy priority min "
             << sched_get_priority_min(policy) << " max "
             << sched_get_priority_max(policy) << "\n";
 
+  // We try to set the scheduling policy and priority here
   std::cout << "Setting scheduling policy " << policy_names[policy]
             << " priority " << scheduler_params.sched_priority << "\n";
 
+  // Did we set the scheduling policy and priority ok?
   std::cout << "sched_setscheduler returns "
             << sched_setscheduler(0, policy, &scheduler_params) << "\n";
 
+  // What is the scheduling policy and priority after we tried to set it?
   sched_getparam(0, &scheduler_params);
   std::cout << "Scheduling policy is " << policy_names[sched_getscheduler(0)]
             << " priority " << scheduler_params.sched_priority << "\n";
 
+  // Try to set the given nice value
   std::cout << "Setting nice value " << niceness << "\n";
   std::cout << "setpriority returns " << setpriority(PRIO_PROCESS, 0, niceness)
             << "\n";
+
+  // Report what the current niceness is
   std::cout << "Niceness is " << getpriority(PRIO_PROCESS, 0) << "\n";
 
+  // Loop forever if the user so desires; this can be useful for observing how
+  // this process looks in top and ps
   if (loop)
   {
     while(1) {}
