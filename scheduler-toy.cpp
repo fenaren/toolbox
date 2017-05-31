@@ -6,12 +6,19 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
+void print_help(const std::string& name)
+{
+  std::cout << name << " [ -p <priority> ] [ -n <niceness> ] [ --sched-other | "
+    "--sched-idle | --sched-batch | --sched-rr | --sched-fifo ] [ --loop ]\n";
+}
+
 int main(int argc, char** argv)
 {
   sched_param scheduler_params;
   scheduler_params.sched_priority = 0;
 
   int niceness = 0;
+  bool loop = false;
 
   int policy = SCHED_OTHER;
 
@@ -37,7 +44,6 @@ int main(int argc, char** argv)
       arg++;
       niceness = atoi(argv[arg]);
     }
-
     // Argument --sched-other sets SCHED_OTHER scheduling policy
     else if (strcmp(argv[arg], "--sched-other") == 0)
     {
@@ -62,6 +68,15 @@ int main(int argc, char** argv)
     else if (strcmp(argv[arg], "--sched-fifo") == 0)
     {
       policy = SCHED_FIFO;
+    }
+    else if (strcmp(argv[arg], "--loop") == 0)
+    {
+      loop = true;
+    }
+    else
+    {
+      print_help(argv[0]);
+      return 1;
     }
   }
 
@@ -91,7 +106,10 @@ int main(int argc, char** argv)
             << "\n";
   std::cout << "Niceness is " << getpriority(PRIO_PROCESS, 0) << "\n";
 
-  while(1) {}
+  if (loop)
+  {
+    while(1) {}
+  }
 
   return 0;
 }
