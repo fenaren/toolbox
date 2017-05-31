@@ -11,6 +11,8 @@ int main(int argc, char** argv)
   sched_param scheduler_params;
   scheduler_params.sched_priority = 0;
 
+  int niceness = 0;
+
   int policy = SCHED_OTHER;
 
   std::map<int, std::string> policy_names;
@@ -29,6 +31,13 @@ int main(int argc, char** argv)
       arg++;
       scheduler_params.sched_priority = atoi(argv[arg]);
     }
+    // Argument -p sets static priority
+    else if (strcmp(argv[arg], "-n") == 0 && arg + 1 < argc)
+    {
+      arg++;
+      niceness = atoi(argv[arg]);
+    }
+
     // Argument --sched-other sets SCHED_OTHER scheduling policy
     else if (strcmp(argv[arg], "--sched-other") == 0)
     {
@@ -63,7 +72,7 @@ int main(int argc, char** argv)
   getrlimit(RLIMIT_NICE, &rlim);
   std::cout << "RLIMIT_NICE current " << rlim.rlim_cur
             << " max " << rlim.rlim_max << "\n";
-  std::cout << policy_names[policy] << " policy min priority "
+  std::cout << policy_names[policy] << " policy priority min "
             << sched_get_priority_min(policy) << " max "
             << sched_get_priority_max(policy) << "\n";
 
@@ -73,8 +82,14 @@ int main(int argc, char** argv)
   std::cout << "sched_setscheduler returns "
             << sched_setscheduler(0, policy, &scheduler_params) << "\n";
 
+  sched_getparam(0, &scheduler_params);
   std::cout << "Scheduling policy is " << policy_names[sched_getscheduler(0)]
-            << " priority " << getpriority(PRIO_PROCESS, 0) << "\n";
+            << " priority " << scheduler_params.sched_priority << "\n";
+
+  std::cout << "Setting nice value " << niceness << "\n";
+  std::cout << "setpriority returns " << setpriority(PRIO_PROCESS, 0, niceness)
+            << "\n";
+  std::cout << "Niceness is " << getpriority(PRIO_PROCESS, 0) << "\n";
 
   while(1) {}
 
