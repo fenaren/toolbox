@@ -21,9 +21,10 @@ build:
     - make
     - make -C tests
 
-  #artifacts:
-  #  paths:
-  #    - mybinary
+  artifacts:
+    paths:
+      - tests/logtest
+
   # depending on your build setup it's most likely a good idea to cache outputs
   # to reduce the build time
   # cache:
