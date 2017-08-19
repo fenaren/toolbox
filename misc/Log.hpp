@@ -1,17 +1,17 @@
- // General-purpose timestamp-based log utility
-// Leigh Garbs
-
 #if !defined LOG_HPP
 #define LOG_HPP
 
 #include <iostream>
 
+/* A general purpose text-based logging utility.  
+ */
 class Log
 {
   public:
 
     // Log constructor; initializes output_stream
-    Log(std::ostream& output_stream = std::cout);
+    Log(std::ostream& output_stream     = std::cout,
+        bool          flush_after_write = false);
 
     // Log destructor; does nothing
     ~Log();
