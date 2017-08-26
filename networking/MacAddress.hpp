@@ -27,14 +27,11 @@ class MacAddress
 
   private:
 
-    friend std::ostream& operator<<(std::ostream&     os,
-                                    const MacAddress& mac_address);
-
     // The six bytes of the MAC address
     unsigned char mac_address[6];
 };
 
 // Writes a string representation of this MAC address
-std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);
+std::ostream& operator<<(std::ostream& os, MacAddress& mac_address);
 
 #endif

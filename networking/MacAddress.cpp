@@ -40,7 +40,7 @@ unsigned char& MacAddress::operator[](const unsigned int byteNum)
 //==============================================================================
 // Writes string representation of self to the ostream
 //==============================================================================
-std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address)
+std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
 {
     // 18 characters for the whole representation; 12 for the actual numbers, 5
     // for the colons in-between, and 1 on the end for the null
@@ -48,12 +48,12 @@ std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address)
     mac_cstr[17] = 0;
     sprintf(mac_cstr,
             "%02x:%02x:%02x:%02x:%02x:%02x",
-            mac_address.mac_address[0],
-            mac_address.mac_address[1],
-            mac_address.mac_address[2],
-            mac_address.mac_address[3],
-            mac_address.mac_address[4],
-            mac_address.mac_address[5]);
+            mac_address[0],
+            mac_address[1],
+            mac_address[2],
+            mac_address[3],
+            mac_address[4],
+            mac_address[5]);
 
     return os << mac_cstr;
 }
