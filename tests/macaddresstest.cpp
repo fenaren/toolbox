@@ -15,5 +15,9 @@ int main (int argc, char** argv)
     std::cout << mac_address2 << "\n";
 
     std::cout << (mac_address1 == mac_address2) << "\n";
+
+    MacAddress mac_address3;
+    std::cin >> mac_address3;
+    std::cout << mac_address3 << "\n";
     return 0;
 }

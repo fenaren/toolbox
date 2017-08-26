@@ -79,9 +79,10 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
 //==============================================================================
 std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 {
-    // Grab 17 characters from the stream and store temporarily
-    char tempstr[17];
-    is.get(tempstr, 17);
+    // Grab 17 characters from the stream and store temporarily; we use the
+    // number 18 below because the istream get function reads the argument - 1
+    char tempstr[18];
+    is.get(tempstr, 18);
 
     int tempmac[6];
     // Scan the temporary string as a MAC address
