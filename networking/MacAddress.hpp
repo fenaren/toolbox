@@ -23,6 +23,8 @@ class MacAddress
     // MacAddress equality
     bool operator==(const MacAddress& mac_address);
 
+    unsigned char& operator[](const unsigned int byteNum);
+
   private:
 
     friend std::ostream& operator<<(std::ostream&     os,

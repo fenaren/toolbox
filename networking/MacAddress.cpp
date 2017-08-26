@@ -10,6 +10,8 @@
 MacAddress::MacAddress()
 {
     memset(&mac_address, 0, 6);
+    mac_address[1] = 'a';
+    mac_address[2] = 'b';
 }
 
 //==============================================================================
@@ -25,6 +27,14 @@ MacAddress::MacAddress(const MacAddress& mac_address)
 //==============================================================================
 MacAddress::~MacAddress()
 {
+}
+
+//==============================================================================
+// Writes string representation of self to the ostream
+//==============================================================================
+unsigned char& MacAddress::operator[](const unsigned int byteNum)
+{
+    return mac_address[byteNum];
 }
 
 //==============================================================================
