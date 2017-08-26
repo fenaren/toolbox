@@ -10,8 +10,6 @@
 MacAddress::MacAddress()
 {
     memset(&mac_address, 0, 6);
-    mac_address[1] = 'a';
-    mac_address[2] = 'b';
 }
 
 //==============================================================================
@@ -19,7 +17,7 @@ MacAddress::MacAddress()
 //==============================================================================
 MacAddress::MacAddress(const MacAddress& mac_address)
 {
-    memcpy(&this->mac_address, mac_address.mac_address, 6);
+    *this = mac_address;
 }
 
 //==============================================================================
@@ -30,7 +28,25 @@ MacAddress::~MacAddress()
 }
 
 //==============================================================================
-// Writes string representation of self to the ostream
+// Assigns one MAC address to another
+//==============================================================================
+MacAddress& MacAddress::operator=(const MacAddress& mac_address)
+{
+    memcpy(&this->mac_address, &mac_address, 6);
+
+    return *this;
+}
+
+//==============================================================================
+// Compares two MAC addresses for equality
+//==============================================================================
+bool MacAddress::operator==(const MacAddress& mac_address)
+{
+    return memcmp(&this->mac_address[0], &mac_address, 6) == 0;
+}
+
+//==============================================================================
+// Allows the use of brackets to index into the MAC address
 //==============================================================================
 unsigned char& MacAddress::operator[](const unsigned int byteNum)
 {
@@ -56,4 +72,19 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
             mac_address[5]);
 
     return os << mac_cstr;
+}
+
+std::istream& operator>>(std::istream& is, MacAddress& mac_address)
+{
+    // Scan the device's MAC address into temporary storage
+    /*sscanf(token.c_str(),
+           "%2x:%2x:%2x:%2x:%2x:%2x",
+           &temp_mac[0],
+           &temp_mac[1],
+           &temp_mac[2],
+           &temp_mac[3],
+           &temp_mac[4],
+           &temp_mac[5]);*/
+    
+    return is;
 }

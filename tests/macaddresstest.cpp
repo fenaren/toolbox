@@ -4,10 +4,16 @@
 
 int main (int argc, char** argv)
 {
-    MacAddress mac_address;
-    std::cout << mac_address << "\n";
-    std::cout << mac_address[1] << "\n";
-    mac_address[1] = 'q';
-    std::cout << mac_address[1] << "\n";
+    MacAddress mac_address1;
+    std::cout << mac_address1 << "\n";
+
+    std::cout << (mac_address1 == mac_address1) << "\n";
+
+    MacAddress mac_address2(mac_address1);
+    mac_address2[1] = 'a';
+    mac_address2[2] = 'b';
+    std::cout << mac_address2 << "\n";
+
+    std::cout << (mac_address1 == mac_address2) << "\n";
     return 0;
 }
