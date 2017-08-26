@@ -74,17 +74,33 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
     return os << mac_cstr;
 }
 
+//==============================================================================
+// Reads string representation of self from ostream
+//==============================================================================
 std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 {
-    // Scan the device's MAC address into temporary storage
-    /*sscanf(token.c_str(),
+    // Grab 17 characters from the stream and store temporarily
+    char tempstr[17];
+    is.get(tempstr, 17);
+
+    int tempmac[6];
+    // Scan the temporary string as a MAC address
+    sscanf(tempstr,
            "%2x:%2x:%2x:%2x:%2x:%2x",
-           &temp_mac[0],
-           &temp_mac[1],
-           &temp_mac[2],
-           &temp_mac[3],
-           &temp_mac[4],
-           &temp_mac[5]);*/
-    
+           &tempmac[0],
+           &tempmac[1],
+           &tempmac[2],
+           &tempmac[3],
+           &tempmac[4],
+           &tempmac[5]);
+
+    // Copy from temporary storage into permanent storage
+    for (unsigned int i = 0; i < 6; i++)
+    {
+        mac_address[i] = static_cast<unsigned char>(tempmac[i]);
+    }
+
+    // I feel like there may be a better way to implement this ...
+
     return is;
 }
