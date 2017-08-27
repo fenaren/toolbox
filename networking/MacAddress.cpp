@@ -28,8 +28,7 @@ MacAddress::MacAddress(const MacAddress& mac_address)
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str)
 {
-    std::istringstream tempstream(mac_address_str);
-    tempstream >> *this;
+    *this = mac_address_str;
 }
 
 //==============================================================================
@@ -45,6 +44,17 @@ MacAddress::~MacAddress()
 MacAddress& MacAddress::operator=(const MacAddress& mac_address)
 {
     memcpy(&this->mac_address, &mac_address, 6);
+
+    return *this;
+}
+
+//==============================================================================
+// Assigns a string to a MAC address
+//==============================================================================
+MacAddress& MacAddress::operator=(const std::string& mac_address_str)
+{
+    std::istringstream tempstream(mac_address_str);
+    tempstream >> *this;
 
     return *this;
 }

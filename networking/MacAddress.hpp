@@ -25,6 +25,9 @@ class MacAddress
     // Assigns one MAC address to another
     MacAddress& operator=(const MacAddress& mac_address);
 
+    // Assigns a string to a MAC address
+    MacAddress& operator=(const std::string& mac_address_str);
+
     // Compares two MAC addresses for equality
     bool operator==(const MacAddress& mac_address);
 
