@@ -31,5 +31,5 @@ int main (int argc, char** argv)
     //MacAddress mac_address3;
     //std::cin >> mac_address3;
     //std::cout << mac_address3 << "\n";
-    return passed;
+    return !passed;
 }
