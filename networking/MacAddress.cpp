@@ -46,6 +46,15 @@ bool MacAddress::operator==(const MacAddress& mac_address)
 }
 
 //==============================================================================
+// Compares two MAC addresses for inequality
+//==============================================================================
+bool MacAddress::operator!=(const MacAddress& mac_address)
+{
+    // Reuse code by using the == operator
+    return !(*this == mac_address);
+}
+
+//==============================================================================
 // Allows the use of brackets to index into the MAC address
 //==============================================================================
 unsigned char& MacAddress::operator[](const unsigned int byteNum)

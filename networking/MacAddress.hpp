@@ -24,6 +24,9 @@ class MacAddress
     // Compares two MAC addresses for equality
     bool operator==(const MacAddress& mac_address);
 
+    // Compares two MAC addresses for inequality
+    bool operator!=(const MacAddress& mac_address);
+
     // Allows the use of brackets to index into the MAC address
     unsigned char& operator[](const unsigned int byteNum);
 
