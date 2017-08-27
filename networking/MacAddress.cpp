@@ -84,7 +84,7 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
 }
 
 //==============================================================================
-// Reads string representation of self from ostream
+// Reads string representation of self from the istream
 //==============================================================================
 std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 {
