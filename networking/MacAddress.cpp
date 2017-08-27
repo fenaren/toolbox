@@ -2,7 +2,10 @@
 
 #include <cstdio>
 #include <cstring>
+#include <ios>
 #include <ostream>
+#include <sstream>
+#include <string>
 
 //==============================================================================
 // MacAddress constructor; initializes to all zeros
@@ -18,6 +21,15 @@ MacAddress::MacAddress()
 MacAddress::MacAddress(const MacAddress& mac_address)
 {
     *this = mac_address;
+}
+
+//==============================================================================
+// MacAddress constructor; initializes to match the given string
+//==============================================================================
+MacAddress::MacAddress(const std::string& mac_address_str)
+{
+    std::istringstream tempstream(mac_address_str);
+    tempstream >> *this;
 }
 
 //==============================================================================
@@ -71,14 +83,18 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
     // for the colons in-between, and 1 on the end for the null
     char mac_cstr[18];
     mac_cstr[17] = 0;
-    sprintf(mac_cstr,
-            "%02x:%02x:%02x:%02x:%02x:%02x",
-            mac_address[0],
-            mac_address[1],
-            mac_address[2],
-            mac_address[3],
-            mac_address[4],
-            mac_address[5]);
+    if (sprintf(mac_cstr,
+                "%02x:%02x:%02x:%02x:%02x:%02x",
+                mac_address[0],
+                mac_address[1],
+                mac_address[2],
+                mac_address[3],
+                mac_address[4],
+                mac_address[5]) < 0)
+    {
+        // Something bad happened, so set the fail bit on the stream
+        os.setstate(std::ios_base::failbit);
+    }
 
     return os << mac_cstr;
 }
@@ -95,14 +111,20 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 
     int tempmac[6];
     // Scan the temporary string as a MAC address
-    sscanf(tempstr,
-           "%2x:%2x:%2x:%2x:%2x:%2x",
-           &tempmac[0],
-           &tempmac[1],
-           &tempmac[2],
-           &tempmac[3],
-           &tempmac[4],
-           &tempmac[5]);
+    if (sscanf(tempstr,
+               "%2x:%2x:%2x:%2x:%2x:%2x",
+               &tempmac[0],
+               &tempmac[1],
+               &tempmac[2],
+               &tempmac[3],
+               &tempmac[4],
+               &tempmac[5]) != 6)
+    {
+        // We didn't convert all 6 bytes.  Leave our internal state as-is but
+        // set the fail bit on the stream so the user has some way of knowing
+        is.setstate(std::ios_base::failbit);
+        return is;
+    }
 
     // Copy from temporary storage into permanent storage
     for (unsigned int i = 0; i < 6; i++)

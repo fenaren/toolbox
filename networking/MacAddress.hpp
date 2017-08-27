@@ -3,6 +3,7 @@
 
 #include <istream>
 #include <ostream>
+#include <string>
 
 class MacAddress
 {
@@ -10,6 +11,9 @@ class MacAddress
 
     // Constructs a new MacAddress.
     MacAddress();
+
+    // Constructs a new MacAddress matching the given string representation.
+    MacAddress(const std::string& mac_address_str);
 
     // Destroys a MacAddress; does nothing, since this class doesn't dynamically
     // allocate memory.
