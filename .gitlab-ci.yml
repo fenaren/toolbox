@@ -24,6 +24,7 @@ build:
   artifacts:
     paths:
       - tests/logtest
+      - tests/macaddresstest
 
   # depending on your build setup it's most likely a good idea to cache outputs
   # to reduce the build time
@@ -36,3 +37,4 @@ test:
   stage: test
   script:
     - tests/logtest
+    - "echo 11:22:33:44:55:66 | tests/macaddresstest"

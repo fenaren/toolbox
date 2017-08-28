@@ -26,6 +26,7 @@ LinuxRawSocket.o \
 LinuxSocketCommon.o \
 LinuxTCPSocketImpl.o \
 LinuxUDPSocketImpl.o \
+MacAddress.o \
 SocketFactory.o \
 SocketImpl.o \
 TCPSocket.o \
