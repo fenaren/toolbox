@@ -3,9 +3,9 @@
 
 # Compilation is done with g++
 CC := g++
-CFLAGS := -DLINUX -Wall -g2
+CFLAGS := -DLINUX -Wall -g
 
-TOOLBOX_INC := -I../misc -I../networking
+TOOLBOX_INC := -I.. -I../networking
 TOOLBOX_A   := ../libtoolbox.a
 TOOLBOX_SO  := ../libtoolbox.so
 

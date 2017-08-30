@@ -11,7 +11,6 @@ CFLAGS := -DLINUX -fPIC -Wall -g2 -c
 
 # List of directories containing source files
 DIRECTORY_LIST := \
-misc \
 networking
 
 # Where the built object files go
