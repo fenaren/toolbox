@@ -26,7 +26,7 @@ void FrameStatistics::reset()
     sample_count   = 0;
     mean           = 0.0;
     varianceSource = 0.0;
-    maximum        = 0.0;
+    maximum        = std::numeric_limits<double>::min();
     minimum        = std::numeric_limits<double>::max();
 }
 
