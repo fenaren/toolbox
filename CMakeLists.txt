@@ -1,11 +1,9 @@
 project(toolbox)
 cmake_minimum_required(VERSION 3.5)
 
-set(SRC
-  FrameStatistics.cpp
-  Log.cpp
-  endian.cpp)
+add_library(toolbox STATIC
+  ${CMAKE_CURRENT_LIST_DIR}/FrameStatistics.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/endian.cpp)
 
-add_library(toolbox ${SRC})
-
-include(networking/CMakeLists.txt)
+include(${CMAKE_CURRENT_LIST_DIR}/networking/CMakeLists.txt)
