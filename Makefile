@@ -17,9 +17,10 @@ networking
 OBJ_DIR := obj
 
 MISC_OBJ := \
-OnlineStatistics.o \
+Endian.o \
 Log.o \
-endian.o
+OnlineStatistics.o
+
 
 NETWORKING_OBJ := \
 LinuxRawSocket.o \

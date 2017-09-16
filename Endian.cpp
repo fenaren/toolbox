@@ -1,8 +1,8 @@
-// endian.cpp
+// Endian.cpp
 // Contains a utility function for determining the endianness of the host
 // machine.
 
-#include "endian.hpp"
+#include "Endian.hpp"
 
 namespace Endian
 {
