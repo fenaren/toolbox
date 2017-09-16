@@ -1,24 +1,23 @@
-#if !defined FRAME_STATISTICS_HPP
-#define FRAME_STATISTICS_HPP
+#if !defined ONLINE_STATISTICS_HPP
+#define ONLINE_STATISTICS_HPP
 
 #include <cmath>
 
-// Maintains a set of statistics useful in determining the chronological
-// performance of a rate-based system  Mean and variance calculations are done
-// using Welford's online algorithm, meaning the frame time samples that are
-// provided to this class are not stored internally.  This class does not
-// perform dynamic memory allocation nor does its memory footprint grow over
-// time.
-class FrameStatistics
+// Maintains a set of statistics useful meant for use during system runtime, in
+// an "online" fashion.  Mean and variance calculations are done using Welford's
+// online algorithm, meaning the samples that are provided to this class are not
+// stored internally.  This class does not perform dynamic memory allocation nor
+// does its memory footprint grow over time.
+class OnlineStatistics
 {
 public:
 
-    // FrameStatistics constructor; initializes internal state by calling
+    // OnlineStatistics constructor; initializes internal state by calling
     // reset()
-    FrameStatistics();
+    OnlineStatistics();
 
     // Frame Statistics destructor; does nothing
-    ~FrameStatistics();
+    ~OnlineStatistics();
 
     // Resets (initializes) internal state
     void reset();
@@ -72,39 +71,39 @@ private:
     double minimum;
 };
 
-inline unsigned long FrameStatistics::getSampleCount() const
+inline unsigned long OnlineStatistics::getSampleCount() const
 {
     return sample_count;
 }
 
-inline double FrameStatistics::getMean() const
+inline double OnlineStatistics::getMean() const
 {
     return mean;
 }
 
-inline double FrameStatistics::getVariance() const
+inline double OnlineStatistics::getVariance() const
 {
     // Protect against divide-by-zero and underflow; variance is only meaningful
     // with two or more samples anyway
     if (sample_count <= 1)
     {
-        return 0.0;
+	return 0.0;
     }
 
     return varianceSource / (sample_count - 1);
 }
 
-inline double FrameStatistics::getStandardDeviation() const
+inline double OnlineStatistics::getStandardDeviation() const
 {
     return std::sqrt(getVariance());
 }
 
-inline double FrameStatistics::getMaximumSample() const
+inline double OnlineStatistics::getMaximumSample() const
 {
     return maximum;
 }
 
-inline double FrameStatistics::getMinimumSample() const
+inline double OnlineStatistics::getMinimumSample() const
 {
     return minimum;
 }

@@ -17,7 +17,7 @@ networking
 OBJ_DIR := obj
 
 MISC_OBJ := \
-FrameStatistics.o \
+OnlineStatistics.o \
 Log.o \
 endian.o
 
