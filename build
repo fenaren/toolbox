@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function displayhelp {
+    echo "$0 [ --debug | --release ]"
+}
+
+DEBUG_SET=false
+RELEASE_SET=false
+
+while [ -n "$1" ]
+do
+    case "$1" in
+	--debug)
+	    DEBUG_SET=true
+	    ;;
+
+	--release)
+	    RELEASE_SET=true
+	    ;;
+
+	-h | --help)
+	    displayhelp
+	    exit
+	    ;;
+
+    esac
+
+    # We're done with the current argument, move to the next.
+    shift
+done
+
+BUILD_TYPE=
+
+if [ $RELEASE_SET == true ]; then
+    BUILD_TYPE=Release
+else
+    BUILD_TYPE=Debug
+fi
+
+# Generate the makefile with cmake
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+# Build
+make
