@@ -1,27 +1,27 @@
-#include "FrameStatistics.hpp"
+#include "OnlineStatistics.hpp"
 
 #include <limits>
 
 //==============================================================================
-// FrameStatistics constructor; initializes internal state by calling reset()
+// OnlineStatistics constructor; initializes internal state by calling reset()
 //==============================================================================
-FrameStatistics::FrameStatistics()
+OnlineStatistics::OnlineStatistics()
 {
     // Reset (initialize) all internal state
     reset();
 }
 
 //==============================================================================
-// FrameStatistics destructor; does nothing
+// OnlineStatistics destructor; does nothing
 //==============================================================================
-FrameStatistics::~FrameStatistics()
+OnlineStatistics::~OnlineStatistics()
 {
 }
 
 //==============================================================================
 // Resets (initializes) internal state
 //==============================================================================
-void FrameStatistics::reset()
+void OnlineStatistics::reset()
 {
     sample_count   = 0;
     mean           = 0.0;
@@ -33,12 +33,12 @@ void FrameStatistics::reset()
 //==============================================================================
 // Recalculates internal state, taking the provided unitless sample into account
 //==============================================================================
-void FrameStatistics::update(double sample)
+void OnlineStatistics::update(double sample)
 {
     // We've been given a new sample so increment the sample counter
     ++sample_count;
 
-    // Update running frame time statistics
+    // Update running statistics
 
     // We need to retain the old mean for the variance calculation below
     double last_mean = mean;
@@ -49,15 +49,15 @@ void FrameStatistics::update(double sample)
     // Update the variance
     varianceSource += (sample - mean) * (sample - last_mean);
 
-    // Is this frame larger than any sample yet received?
+    // Is this sample than any sample yet received?
     if (sample > maximum)
     {
-        maximum = sample;
+	maximum = sample;
     }
 
-    // Is this frame smaller than any sample yet received?
+    // Is this sample smaller than any sample yet received?
     if (sample < minimum)
     {
-        minimum = sample;
+	minimum = sample;
     }
 }
