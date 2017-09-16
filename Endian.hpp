@@ -1,4 +1,4 @@
-// endian.hpp
+// Endian.hpp
 // Contains a utility function for determining the endianness of the host
 // machine.
 
