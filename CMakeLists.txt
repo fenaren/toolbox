@@ -9,9 +9,10 @@ set(COMMON_LINUX_FLAGS "-DLINUX")
 set(COMMON_WINDOWS_FLAGS "-DWINDOWS")
 
 # Generate the LINUX variable
-set(LINUX 0)
 if(${UNIX} AND NOT ${APPLE})
   set(LINUX 1)
+else(${UNIX} AND NOT ${APPLE})
+  set(LINUX 0)
 endif(${UNIX} AND NOT ${APPLE})
 
 if(${LINUX})
