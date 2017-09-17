@@ -1,11 +1,12 @@
 #!/bin/bash
 
 function displayhelp {
-    echo "$0 [ --debug | --release ]"
+    echo "$0 [ --debug | --release ] [ --verbose ]"
 }
 
 DEBUG_SET=false
 RELEASE_SET=false
+VERBOSE_SET=false
 
 while [ -n "$1" ]
 do
@@ -16,6 +17,10 @@ do
 
 	--release)
 	    RELEASE_SET=true
+	    ;;
+
+	--verbose)
+	    VERBOSE_SET=true
 	    ;;
 
 	-h | --help)
@@ -29,6 +34,11 @@ do
     shift
 done
 
+VERBOSITY_SETTING=
+if [ $VERBOSE_SET == true ]; then
+    VERBOSITY_SETTING="VERBOSE=1"
+fi
+
 BUILD_TYPE=
 
 if [ $RELEASE_SET == true ]; then
@@ -41,4 +51,4 @@ fi
 cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
 # Build
-make
+make $VERBOSITY_SETTING
