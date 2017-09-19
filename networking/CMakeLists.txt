@@ -12,16 +12,16 @@ target_sources(toolbox PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/UDPSocketImpl.cpp)
 
 # Include platform-specific sources
-if(${LINUX})
+if(LINUX)
   target_sources(toolbox PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/LinuxRawSocket.cpp
     ${CMAKE_CURRENT_LIST_DIR}/LinuxSocketCommon.cpp
     ${CMAKE_CURRENT_LIST_DIR}/LinuxTCPSocketImpl.cpp
     ${CMAKE_CURRENT_LIST_DIR}/LinuxUDPSocketImpl.cpp)
-elseif(${WIN32})
+elseif(WIN32)
   target_sources(toolbox PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/WindowsRawSocket.cpp
     ${CMAKE_CURRENT_LIST_DIR}/WindowsSocketCommon.cpp
     ${CMAKE_CURRENT_LIST_DIR}/WindowsTCPSocketImpl.cpp
     ${CMAKE_CURRENT_LIST_DIR}/WindowsUDPSocketImpl.cpp)
-endif(${LINUX})
+endif(LINUX)
