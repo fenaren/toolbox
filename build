@@ -11,22 +11,22 @@ VERBOSE_SET=false
 while [ -n "$1" ]
 do
     case "$1" in
-	--debug)
-	    DEBUG_SET=true
-	    ;;
+        --debug)
+            DEBUG_SET=true
+            ;;
 
-	--release)
-	    RELEASE_SET=true
-	    ;;
+        --release)
+            RELEASE_SET=true
+            ;;
 
-	--verbose)
-	    VERBOSE_SET=true
-	    ;;
+        --verbose)
+            VERBOSE_SET=true
+            ;;
 
-	-h | --help)
-	    displayhelp
-	    exit
-	    ;;
+        -h | --help)
+            displayhelp
+            exit
+            ;;
 
     esac
 
@@ -41,10 +41,10 @@ fi
 
 BUILD_TYPE=
 
-if [ $RELEASE_SET == true ]; then
-    BUILD_TYPE=Release
-else
+if [ $DEBUG_SET == true ]; then
     BUILD_TYPE=Debug
+else
+    BUILD_TYPE=Release
 fi
 
 # Generate the makefile with cmake
