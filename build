@@ -1,31 +1,45 @@
 #!/bin/bash
 
 function displayhelp {
-    echo "$0 [ --debug | --release ] [ --verbose ]"
+    echo "$0 [ --debug | --release ] [ --verbose ] [ --static | --shared ]"
 }
 
 DEBUG_SET=false
 RELEASE_SET=false
 VERBOSE_SET=false
+STATIC_SET=false
+SHARED_SET=false
 
 while [ -n "$1" ]
 do
     case "$1" in
-        --debug)
+        -d | --debug)
             DEBUG_SET=true
-            ;;
-
-        --release)
-            RELEASE_SET=true
-            ;;
-
-        --verbose)
-            VERBOSE_SET=true
+            RELEASE_SET=false
             ;;
 
         -h | --help)
             displayhelp
             exit
+            ;;
+
+        -r | --release)
+            RELEASE_SET=true
+            DEBUG_SET=false
+            ;;
+
+        --static)
+            STATIC_SET=true
+            SHARED_SET=false
+            ;;
+
+        --shared)
+            SHARED_SET=true
+            STATIC_SET=false
+            ;;
+
+        -v | --verbose)
+            VERBOSE_SET=true
             ;;
 
     esac
@@ -47,8 +61,13 @@ else
     BUILD_TYPE=Release
 fi
 
+SHARED_ON=
+if [ $SHARED_SET == true ]; then
+    SHARED_ON=ON
+fi
+
 # Generate the makefile with cmake
-cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_SHARED_LIBS=$SHARED_ON
 
 # Build
 make $VERBOSITY_SETTING

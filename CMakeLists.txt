@@ -23,7 +23,7 @@ elseif(WIN32)
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_WINDOWS_FLAGS}")
 endif(LINUX)
 
-add_library(toolbox STATIC
+add_library(toolbox
   ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
