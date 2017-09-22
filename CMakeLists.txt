@@ -29,4 +29,5 @@ add_library(toolbox
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
 
 include(${CMAKE_CURRENT_LIST_DIR}/networking/CMakeLists.txt)
-include(${CMAKE_CURRENT_LIST_DIR}/tests/CMakeLists.txt)
+
+add_subdirectory(tests EXCLUDE_FROM_ALL)
