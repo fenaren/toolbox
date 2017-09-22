@@ -13,3 +13,6 @@ target_include_directories(macaddresstest PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/..
   ${CMAKE_CURRENT_LIST_DIR}/../networking)
 target_link_libraries(macaddresstest toolbox)
+
+add_custom_target(tests)
+add_dependencies(tests logtest macaddresstest)
