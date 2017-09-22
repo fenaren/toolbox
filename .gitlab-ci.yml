@@ -18,8 +18,8 @@ build:
   #   - apt update && apt -y install make autoconf
 
   script:
-    - make
-    - make -C tests
+    - ./prebuild --static --release
+    - make tests
 
   artifacts:
     paths:
