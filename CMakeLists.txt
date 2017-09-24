@@ -1,12 +1,15 @@
 project(toolbox)
 cmake_minimum_required(VERSION 3.5)
 
+# Tests of the code in this project are located in the tests subdirectory
+add_subdirectory(tests EXCLUDE_FROM_ALL)
+
 # Flags used for all builds
-set(COMMON_FLAGS "-Wall")
+set(${PROJECT_NAME}_COMMON_FLAGS "-Wall")
 
 # Flags used for all builds on specific platforms
-set(COMMON_LINUX_FLAGS "-DLINUX")
-set(COMMON_WINDOWS_FLAGS "-DWINDOWS")
+set(${PROJECT_NAME}_COMMON_LINUX_FLAGS "-DLINUX ${${PROJECT_NAME}_COMMON_FLAGS}")
+set(${PROJECT_NAME}_COMMON_WINDOWS_FLAGS "-DWINDOWS ${${PROJECT_NAME}_COMMON_FLAGS}")
 
 # Generate the LINUX variable
 if(UNIX AND NOT APPLE)
@@ -16,20 +19,26 @@ else(UNIX AND NOT APPLE)
 endif(UNIX AND NOT APPLE)
 
 if(LINUX)
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_LINUX_FLAGS}")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_LINUX_FLAGS}")
+  set(CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG} ${${PROJECT_NAME}_COMMON_LINUX_FLAGS}")
+  set(CMAKE_CXX_FLAGS_RELEASE
+    "${CMAKE_CXX_FLAGS_RELEASE} ${${PROJECT_NAME}_COMMON_LINUX_FLAGS}")
 elseif(WIN32)
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_WINDOWS_FLAGS}")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_WINDOWS_FLAGS}")
+  set(CMAKE_CXX_FLAGS_DEBUG
+    "${CMAKE_CXX_FLAGS_DEBUG} ${${PROJECT_NAME}_COMMON_WINDOWS_FLAGS}")
+  set(CMAKE_CXX_FLAGS_RELEASE
+    "${CMAKE_CXX_FLAGS_RELEASE} ${${PROJECT_NAME}_COMMON_WINDOWS_FLAGS}")
 endif(LINUX)
 
-add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
-
-add_library(toolbox
+# Add the library and all the source files in this directory
+add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
 
+# Other toolbox source files are in the networking directory, the CMakeLists.txt
+# file in there will pick those up
 include(${CMAKE_CURRENT_LIST_DIR}/networking/CMakeLists.txt)
 
-add_subdirectory(tests EXCLUDE_FROM_ALL)
+# Not sure where else to put this so put it here for now
+add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
