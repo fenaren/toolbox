@@ -1,5 +1,8 @@
-project(TOOLBOX)
+project(toolbox)
 cmake_minimum_required(VERSION 3.5)
+
+# Tests of the code in this project are located in the tests subdirectory
+add_subdirectory(tests EXCLUDE_FROM_ALL)
 
 # Flags used for all builds
 set(${PROJECT_NAME}_COMMON_FLAGS "-Wall")
@@ -27,13 +30,15 @@ elseif(WIN32)
     "${CMAKE_CXX_FLAGS_RELEASE} ${${PROJECT_NAME}_COMMON_WINDOWS_FLAGS}")
 endif(LINUX)
 
-add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
-
-add_library(toolbox
+# Add the library and all the source files in this directory
+add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
 
+# Other toolbox source files are in the networking directory, the CMakeLists.txt
+# file in there will pick those up
 include(${CMAKE_CURRENT_LIST_DIR}/networking/CMakeLists.txt)
 
-add_subdirectory(tests EXCLUDE_FROM_ALL)
+# Not sure where else to put this so put it here for now
+add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
