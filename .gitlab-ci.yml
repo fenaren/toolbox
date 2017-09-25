@@ -18,7 +18,7 @@ build:
   #   - apt update && apt -y install make autoconf
 
   script:
-    - cmake -DCMAKE_BUILD_TYPE=Release
+    - cmake -DCMAKE_BUILD_TYPE=Release .
     - make tests
 
   artifacts:
