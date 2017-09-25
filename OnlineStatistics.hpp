@@ -3,11 +3,20 @@
 
 #include <cmath>
 
-// Maintains a set of statistics useful meant for use during system runtime, in
-// an "online" fashion.  Mean and variance calculations are done using Welford's
-// online algorithm, meaning the samples that are provided to this class are not
-// stored internally.  This class does not perform dynamic memory allocation nor
-// does its memory footprint grow over time.
+// Maintains statistics which are kept up-to-date and available for reference
+// during the runtime of a system (this is where the "online" in
+// OnlineStatistics comes from), without requiring simultaneous access to every
+// sample.
+
+// New samples are provided using the update() function.  This function
+// recalculates the statistics maintained internally to account for the new
+// sample.  Statistics which take the new sample into account are available
+// immediately after a call to update().
+
+// Mean and variance calculations are done using Welford's online algorithm,
+// meaning the samples that are provided to this class are not stored
+// internally.  This class does not perform dynamic memory allocation nor does
+// its memory footprint grow over time.
 class OnlineStatistics
 {
 public:
@@ -16,7 +25,7 @@ public:
     // reset()
     OnlineStatistics();
 
-    // Frame Statistics destructor; does nothing
+    // OnlineStatistics destructor; does nothing
     ~OnlineStatistics();
 
     // Resets (initializes) internal state
@@ -53,7 +62,7 @@ public:
 private:
 
     // Incremented by one with each call to update(); represents the number of
-    // provided frame time samples
+    // samples provided using update()
     unsigned long sample_count;
 
     // The current running mean
@@ -64,10 +73,10 @@ private:
     // the theory name this variable "S" or "M2".
     double varianceSource;
 
-    // The largest frame time yet recorded
+    // The largest sample yet recorded
     double maximum;
 
-    // The smallest frame time yet recorded
+    // The smallest sample yet recorded
     double minimum;
 };
 
@@ -87,7 +96,7 @@ inline double OnlineStatistics::getVariance() const
     // with two or more samples anyway
     if (sample_count <= 1)
     {
-	return 0.0;
+        return 0.0;
     }
 
     return varianceSource / (sample_count - 1);
