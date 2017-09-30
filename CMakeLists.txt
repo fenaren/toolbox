@@ -1,5 +1,8 @@
 project(toolbox)
-cmake_minimum_required(VERSION 3.5)
+
+# CMake 2.6 is the oldest version of CMake that still has documentation
+# available online
+cmake_minimum_required(VERSION 2.6)
 
 # Tests of the code in this project are located in the tests subdirectory
 add_subdirectory(tests EXCLUDE_FROM_ALL)
