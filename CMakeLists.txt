@@ -20,5 +20,8 @@ add_library(${PROJECT_NAME}
 # file in there will pick those up
 include(${CMAKE_CURRENT_LIST_DIR}/networking/CMakeLists.txt)
 
-# Not sure where else to put this so put it here for now
-add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
+# Not sure where else to put this so put it here for now; scheduler toy is
+# for Linux only
+if(LINUX)
+  add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
+endif(LINUX)
