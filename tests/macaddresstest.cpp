@@ -1,42 +1,47 @@
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include "MacAddress.hpp"
 
-int main (int argc, char** argv)
+int main(int argc, char** argv)
 {
-    // Will be set to false if any test case fails
-    bool passed = true;
+    // Initialize vector of test MAC addresses; EACH ELEMENT MUST CONTAIN A
+    // UNIQUE MAC ADDRESS, NO DUPLICATES ALLOWED
+    std::vector<MacAddress> mac_address;
+    mac_address.push_back(MacAddress("11:22:33:44:55:66"));
+    mac_address.push_back(MacAddress("aa:bb:cc:dd:ee:ff"));
+    mac_address.push_back(MacAddress("00:00:00:00:00:00"));
+    mac_address.push_back(MacAddress("ff:ff:ff:ff:ff:ff"));
+    mac_address.push_back(MacAddress("ff:ff:ff:ff:ff:ff"));
 
-    // TEST CASE 1
+    // Failed cases are recorded here and output at the end of the test
+    std::vector<std::pair<unsigned int, unsigned int> > failed_cases;
 
-    MacAddress mac_address1;
+    // Check all MAC addresses against each other
+    for (unsigned int i = 0; i < mac_address.size(); i++)
+    {
+        for (unsigned int j = 0; j < mac_address.size(); j++)
+        {
+            // If differing MAC addresses are being compared, test for
+            // inequality, otherwise test for equality
+            if ((mac_address[i] == mac_address[j] && i != j) ||
+                (mac_address[i] != mac_address[j] && i == j))
+            {
+                failed_cases.push_back(
+                    std::pair<unsigned int, unsigned int>(i, j));
+            }
+        }
+    }
 
-    bool result = mac_address1 == mac_address1;
-    std::cout << "MAC address equals itself: " << result << "\n";
-    if (!result) passed = false;
+    std::cout << "Failed cases: " << failed_cases.size() << "\n";
 
-    // TEST CASE 2
+    for (unsigned int i = 0; i < failed_cases.size(); i++)
+    {
+        std::cout << mac_address[failed_cases[i].first] << " and "
+                  << mac_address[failed_cases[i].second] << "\n";
+    }
 
-    MacAddress mac_address2(mac_address1);
-    mac_address2[1] = 'a';
-    mac_address2[2] = 'b';
-
-    result = mac_address1 != mac_address2;
-    std::cout << "MAC address does not equal a different MAC address: "
-              << result << "\n";
-    if (!result) passed = false;
-
-    // TEST CASE 3
-
-    MacAddress mac_address3;
-    std::cin >> mac_address3;
-
-    MacAddress mac_address4("11:22:33:44:55:66");
-
-    result = mac_address3 == mac_address4;
-    std::cout << mac_address3 << " equals " << mac_address4 << ": " << result
-              << "\n";
-    if (!result) passed = false;
-
-    return !passed;
+    // This unit test passes if no failed cases were recorded
+    return failed_cases.size() == 0;
 }
