@@ -12,6 +12,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/cmake/ProjectCommon.cmake)
 
 # Add the library and all the source files in this directory
 add_library(${PROJECT_NAME}
+  ${CMAKE_CURRENT_LIST_DIR}/Data.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
