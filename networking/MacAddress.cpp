@@ -16,19 +16,21 @@ MacAddress::MacAddress() :
 }
 
 //==============================================================================
-// MacAddress copy constructor; copies the address of the given MAC address
+// MacAddress constructor; initializes to match the given string
 //==============================================================================
-MacAddress::MacAddress(const MacAddress& mac_address)
+MacAddress::MacAddress(const std::string& mac_address_str) :
+    Data(mac_address, MacAddress::length)
 {
-    *this = mac_address;
+    *this = mac_address_str;
 }
 
 //==============================================================================
-// MacAddress constructor; initializes to match the given string
+// MacAddress copy constructor; copies the address of the given MAC address
 //==============================================================================
-MacAddress::MacAddress(const std::string& mac_address_str)
+MacAddress::MacAddress(const MacAddress& mac_address) :
+    Data(this->mac_address, MacAddress::length)
 {
-    *this = mac_address_str;
+    *this = mac_address;
 }
 
 //==============================================================================
