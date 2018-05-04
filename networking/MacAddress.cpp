@@ -1,5 +1,3 @@
-#include "MacAddress.hpp"
-
 #include <cstdio>
 #include <cstring>
 #include <ios>
@@ -7,12 +5,14 @@
 #include <sstream>
 #include <string>
 
+#include "MacAddress.hpp"
+
 //==============================================================================
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
-MacAddress::MacAddress()
+MacAddress::MacAddress() :
+    Data(mac_address, MacAddress::length)
 {
-    memset(&mac_address, 0, 6);
 }
 
 //==============================================================================
@@ -43,7 +43,7 @@ MacAddress::~MacAddress()
 //==============================================================================
 MacAddress& MacAddress::operator=(const MacAddress& mac_address)
 {
-    memcpy(&this->mac_address, &mac_address, 6);
+    memcpy(&this->mac_address, &mac_address, MacAddress::length);
 
     return *this;
 }
@@ -60,26 +60,9 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 }
 
 //==============================================================================
-// Compares two MAC addresses for equality
-//==============================================================================
-bool MacAddress::operator==(const MacAddress& mac_address)
-{
-    return memcmp(&this->mac_address[0], &mac_address, 6) == 0;
-}
-
-//==============================================================================
-// Compares two MAC addresses for inequality
-//==============================================================================
-bool MacAddress::operator!=(const MacAddress& mac_address)
-{
-    // Reuse code by using the == operator
-    return !(*this == mac_address);
-}
-
-//==============================================================================
 // Allows the use of brackets to index into the MAC address
 //==============================================================================
-unsigned char& MacAddress::operator[](const unsigned int byteNum)
+char& MacAddress::operator[](const unsigned int byteNum)
 {
     return mac_address[byteNum];
 }
@@ -119,7 +102,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     char tempstr[18];
     is.get(tempstr, 18);
 
-    int tempmac[6];
+    int tempmac[MacAddress::length];
     // Scan the temporary string as a MAC address
     if (sscanf(tempstr,
                "%2x:%2x:%2x:%2x:%2x:%2x",
@@ -128,7 +111,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
                &tempmac[2],
                &tempmac[3],
                &tempmac[4],
-               &tempmac[5]) != 6)
+               &tempmac[5]) != MacAddress::length)
     {
         // We didn't convert all 6 bytes.  Leave our internal state as-is but
         // set the fail bit on the stream so the user has some way of knowing
@@ -137,7 +120,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     }
 
     // Copy from temporary storage into permanent storage
-    for (unsigned int i = 0; i < 6; i++)
+    for (unsigned int i = 0; i < MacAddress::length; i++)
     {
         mac_address[i] = static_cast<unsigned char>(tempmac[i]);
     }

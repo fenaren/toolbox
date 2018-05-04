@@ -5,7 +5,9 @@
 #include <ostream>
 #include <string>
 
-class MacAddress
+#include "Data.hpp"
+
+class MacAddress : public Data
 {
   public:
 
@@ -15,12 +17,12 @@ class MacAddress
     // Constructs a new MacAddress matching the given string representation.
     MacAddress(const std::string& mac_address_str);
 
+    // Copy constructor
+    MacAddress(const MacAddress& mac_address);
+
     // Destroys a MacAddress; does nothing, since this class doesn't dynamically
     // allocate memory.
     ~MacAddress();
-
-    // Copy constructor
-    MacAddress(const MacAddress& mac_address);
 
     // Assigns one MAC address to another
     MacAddress& operator=(const MacAddress& mac_address);
@@ -28,19 +30,16 @@ class MacAddress
     // Assigns a string to a MAC address
     MacAddress& operator=(const std::string& mac_address_str);
 
-    // Compares two MAC addresses for equality
-    bool operator==(const MacAddress& mac_address);
-
-    // Compares two MAC addresses for inequality
-    bool operator!=(const MacAddress& mac_address);
-
     // Allows the use of brackets to index into the MAC address
-    unsigned char& operator[](const unsigned int byteNum);
+    char& operator[](const unsigned int byteNum);
+
+    // MAC addresses are this long
+    static const unsigned int length = 6;
 
   private:
 
     // The six bytes of the MAC address
-    unsigned char mac_address[6];
+    char mac_address[length];
 };
 
 // Writes a string representation of this MAC address
