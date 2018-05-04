@@ -6,6 +6,8 @@ class Data
 {
 public:
 
+    Data();
+
     Data(char* data, unsigned int length);
 
     // Does nothing
