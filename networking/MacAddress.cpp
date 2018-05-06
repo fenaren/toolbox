@@ -80,7 +80,7 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
     mac_cstr[17] = 0;
     if (snprintf(mac_cstr,
                  18,
-                 "%02x:%02x:%02x:%02x:%02x:%02x",
+                 "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
                  mac_address[0],
                  mac_address[1],
                  mac_address[2],
