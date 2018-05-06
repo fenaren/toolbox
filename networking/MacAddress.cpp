@@ -45,7 +45,7 @@ MacAddress::~MacAddress()
 //==============================================================================
 MacAddress& MacAddress::operator=(const MacAddress& mac_address)
 {
-    memcpy(&this->mac_address, &mac_address, MacAddress::length);
+    memcpy(this->mac_address, mac_address.getData(), MacAddress::length);
 
     return *this;
 }
@@ -78,14 +78,15 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
     // for the colons in-between, and 1 on the end for the null
     char mac_cstr[18];
     mac_cstr[17] = 0;
-    if (sprintf(mac_cstr,
-                "%02x:%02x:%02x:%02x:%02x:%02x",
-                mac_address[0],
-                mac_address[1],
-                mac_address[2],
-                mac_address[3],
-                mac_address[4],
-                mac_address[5]) < 0)
+    if (snprintf(mac_cstr,
+                 18,
+                 "%02x:%02x:%02x:%02x:%02x:%02x",
+                 mac_address[0],
+                 mac_address[1],
+                 mac_address[2],
+                 mac_address[3],
+                 mac_address[4],
+                 mac_address[5]) < 0)
     {
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
