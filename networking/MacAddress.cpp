@@ -12,7 +12,7 @@
 //==============================================================================
 MacAddress::MacAddress()
 {
-    reserve(length);
+    initialize();
 }
 
 //==============================================================================
@@ -20,7 +20,7 @@ MacAddress::MacAddress()
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str)
 {
-    reserve(length);
+    initialize();
 
     *this = mac_address_str;
 }
@@ -30,7 +30,7 @@ MacAddress::MacAddress(const std::string& mac_address_str)
 //==============================================================================
 MacAddress::MacAddress(const MacAddress& mac_address)
 {
-    reserve(length);
+    initialize();
 
     *this = mac_address;
 }
@@ -67,6 +67,26 @@ bool MacAddress::toString(std::string& mac_address_str) const
     mac_address_str = mac_cstr;
 
     return true;
+}
+
+//==============================================================================
+// Assigns a string to a MAC address
+//==============================================================================
+MacAddress& MacAddress::operator=(const std::string& mac_address_str)
+{
+    std::istringstream tempstream(mac_address_str);
+    tempstream >> *this;
+
+    return *this;
+}
+
+//==============================================================================
+//
+//==============================================================================
+void MacAddress::initialize()
+{
+    reserve(length);
+    assign(length, 0);
 }
 
 //==============================================================================

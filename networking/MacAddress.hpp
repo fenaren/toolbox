@@ -28,8 +28,14 @@ class MacAddress : public std::vector<char>
     // Writes string representation of self to the given string
     bool toString(std::string& mac_address_str) const;
 
+    MacAddress& operator=(const std::string& mac_address_str);
+
     // MAC addresses are this long
     static const unsigned int length = 6;
+
+private:
+
+    void initialize();
 };
 
 // Writes a string representation of this MAC address
