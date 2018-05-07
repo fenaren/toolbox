@@ -1,12 +1,17 @@
 #if !defined DATA_HPP
 #define DATA_HPP
 
+#include <cstring>
+#include <vector>
+
 // Represents an amount of data.
 class Data
 {
 public:
 
     Data();
+
+    Data(unsigned int reserve);
 
     Data(char* data, unsigned int length);
 
@@ -15,15 +20,12 @@ public:
 
     void set(char* data, unsigned int length);
 
-    void setData(char* data);
-
-    void setLength(unsigned int length);
-
     void get(char*& data, unsigned int& length) const;
 
-    char* getData() const;
-
     unsigned int getLength() const;
+
+    // Allows the use of brackets to index into the MAC address
+    char& operator[](const unsigned int index);
 
     bool operator==(const Data& data) const;
 
@@ -31,41 +33,22 @@ public:
 
 private:
 
-    char* data;
-
-    unsigned int length;
+    std::vector<char> data;
 };
 
 inline void Data::set(char* data, unsigned int length)
 {
-    this->data   = data;
-    this->length = length;
-}
-
-inline void Data::setData(char* data)
-{
-    this->data = data;
-}
-
-inline void Data::setLength(unsigned int length)
-{
-    this->length = length;
+    memcpy(this->data.data(), data, length);
 }
 
 inline void Data::get(char*& data, unsigned int& length) const
 {
-    data   = this->data;
-    length = this->length;
-}
-
-inline char* Data::getData() const
-{
-    return data;
+    memcpy(data, this->data.data(), length);
 }
 
 inline unsigned int Data::getLength() const
 {
-    return length;
+    return data.size();
 }
 
 #endif

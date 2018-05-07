@@ -1,23 +1,29 @@
 #include <cstring>
+#include <stdexcept>
 
 #include "Data.hpp"
 
 //==============================================================================
 //
 //==============================================================================
-Data::Data() :
-    data(0),
-    length(0)
+Data::Data()
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-Data::Data(char* data, unsigned int length) :
-    data(data),
-    length(length)
+Data::Data(unsigned int reserve)
 {
+    data.reserve(reserve);
+}
+
+//==============================================================================
+//
+//==============================================================================
+Data::Data(char* data, unsigned int length)
+{
+    set(data, length);
 }
 
 //==============================================================================
@@ -28,18 +34,19 @@ Data::~Data()
 }
 
 //==============================================================================
+// Allows the use of brackets to index into the MAC address
+//==============================================================================
+char& Data::operator[](const unsigned int index)
+{
+    return data[index];
+}
+
+//==============================================================================
 //
 //==============================================================================
 bool Data::operator==(const Data& data) const
 {
-    // Not equal if amount of data does not match
-    if (length != data.getLength())
-    {
-        return false;
-    }
-
-    // Use memcmp to determine equality
-    return !memcmp(this->data, data.getData(), length);
+    return *this->data == data;
 }
 
 //==============================================================================

@@ -10,26 +10,28 @@
 //==============================================================================
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
-MacAddress::MacAddress() :
-    Data(mac_address, MacAddress::length)
+MacAddress::MacAddress()
 {
+    reserve(length);
 }
 
 //==============================================================================
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
-MacAddress::MacAddress(const std::string& mac_address_str) :
-    Data(mac_address, MacAddress::length)
+MacAddress::MacAddress(const std::string& mac_address_str)
 {
+    reserve(length);
+
     *this = mac_address_str;
 }
 
 //==============================================================================
 // MacAddress copy constructor; copies the address of the given MAC address
 //==============================================================================
-MacAddress::MacAddress(const MacAddress& mac_address) :
-    Data(this->mac_address, MacAddress::length)
+MacAddress::MacAddress(const MacAddress& mac_address)
 {
+    reserve(length);
+
     *this = mac_address;
 }
 
@@ -38,35 +40,6 @@ MacAddress::MacAddress(const MacAddress& mac_address) :
 //==============================================================================
 MacAddress::~MacAddress()
 {
-}
-
-//==============================================================================
-// Assigns one MAC address to another
-//==============================================================================
-MacAddress& MacAddress::operator=(const MacAddress& mac_address)
-{
-    memcpy(this->mac_address, mac_address.getData(), MacAddress::length);
-
-    return *this;
-}
-
-//==============================================================================
-// Assigns a string to a MAC address
-//==============================================================================
-MacAddress& MacAddress::operator=(const std::string& mac_address_str)
-{
-    std::istringstream tempstream(mac_address_str);
-    tempstream >> *this;
-
-    return *this;
-}
-
-//==============================================================================
-// Allows the use of brackets to index into the MAC address
-//==============================================================================
-char& MacAddress::operator[](const unsigned int byteNum)
-{
-    return mac_address[byteNum];
 }
 
 //==============================================================================
@@ -81,12 +54,12 @@ bool MacAddress::toString(std::string& mac_address_str) const
     if (snprintf(mac_cstr,
                  18,
                  "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
-                 mac_address[0],
-                 mac_address[1],
-                 mac_address[2],
-                 mac_address[3],
-                 mac_address[4],
-                 mac_address[5]) < 0)
+                 at(0),
+                 at(1),
+                 at(2),
+                 at(3),
+                 at(4),
+                 at(5)) < 0)
     {
         return false;
     }
@@ -94,38 +67,6 @@ bool MacAddress::toString(std::string& mac_address_str) const
     mac_address_str = mac_cstr;
 
     return true;
-}
-
-//==============================================================================
-// Compares for equality with the given MAC address string
-//==============================================================================
-bool MacAddress::operator==(const MacAddress& mac_address) const
-{
-    return *dynamic_cast<const Data*>(this) == mac_address;
-}
-
-//==============================================================================
-// Compares for equality with the given MAC address string
-//==============================================================================
-bool MacAddress::operator==(const std::string& mac_address_str) const
-{
-    return !operator==(MacAddress(mac_address_str));
-}
-
-//==============================================================================
-// Compares for equality with the given MAC address string
-//==============================================================================
-bool MacAddress::operator!=(const MacAddress& mac_address) const
-{
-    return *dynamic_cast<const Data*>(this) != mac_address;
-}
-
-//==============================================================================
-// Compares for inequality with the given MAC address string
-//==============================================================================
-bool MacAddress::operator!=(const std::string& mac_address_str) const
-{
-    return !operator==(mac_address_str);
 }
 
 //==============================================================================
@@ -173,7 +114,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     // Copy from temporary storage into permanent storage
     for (unsigned int i = 0; i < MacAddress::length; i++)
     {
-        mac_address[i] = static_cast<unsigned char>(tempmac[i]);
+        mac_address.at(i) = static_cast<unsigned char>(tempmac[i]);
     }
 
     return is;
