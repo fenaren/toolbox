@@ -13,7 +13,6 @@ int main(int argc, char** argv)
     unique_mac_addresses.push_back(MacAddress("aa:bb:cc:dd:ee:ff"));
     unique_mac_addresses.push_back(MacAddress("00:00:00:00:00:00"));
     unique_mac_addresses.push_back(MacAddress("ff:ff:ff:ff:ff:ff"));
-    unique_mac_addresses.push_back(MacAddress("ff:ff:ff:ff:ff:ff"));
 
     // Failed cases are recorded here and output at the end of the test
     std::vector<std::pair<unsigned int, unsigned int> > failed_cases;
