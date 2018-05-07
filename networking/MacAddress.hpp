@@ -30,8 +30,11 @@ class MacAddress : public std::vector<char>
 
     MacAddress& operator=(const std::string& mac_address_str);
 
-    // MAC addresses are this long
-    static const unsigned int length = 6;
+    // MAC addresses are this many bytes long
+    static const unsigned int MAC_LENGTH = 6;
+
+    // MAC address strings are this many characters long
+    static const unsigned int MAC_STR_LENGTH = 18;
 
 private:
 

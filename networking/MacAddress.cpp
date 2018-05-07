@@ -49,10 +49,10 @@ bool MacAddress::toString(std::string& mac_address_str) const
 {
     // 18 characters for the whole representation; 12 for the actual numbers, 5
     // for the colons in-between, and 1 on the end for the null
-    char mac_cstr[18];
-    mac_cstr[17] = 0;
+    char mac_cstr[MAC_STR_LENGTH];
+    mac_cstr[MAC_STR_LENGTH - 1] = 0;
     if (snprintf(mac_cstr,
-                 18,
+                 MAC_STR_LENGTH,
                  "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
                  at(0),
                  at(1),
@@ -85,8 +85,8 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 //==============================================================================
 void MacAddress::initialize()
 {
-    reserve(length);
-    assign(length, 0);
+    reserve(MAC_LENGTH);
+    assign(MAC_LENGTH, 0);
 }
 
 //==============================================================================
@@ -111,10 +111,10 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 {
     // Grab 17 characters from the stream and store temporarily; we use the
     // number 18 below because the istream get function reads the argument - 1
-    char tempstr[18];
-    is.get(tempstr, 18);
+    char tempstr[MacAddress::MAC_STR_LENGTH];
+    is.get(tempstr, MacAddress::MAC_STR_LENGTH);
 
-    int tempmac[MacAddress::length];
+    int tempmac[MacAddress::MAC_LENGTH];
     // Scan the temporary string as a MAC address
     if (sscanf(tempstr,
                "%2x:%2x:%2x:%2x:%2x:%2x",
@@ -123,7 +123,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
                &tempmac[2],
                &tempmac[3],
                &tempmac[4],
-               &tempmac[5]) != MacAddress::length)
+               &tempmac[5]) != MacAddress::MAC_LENGTH)
     {
         // We didn't convert all 6 bytes.  Leave our internal state as-is but
         // set the fail bit on the stream so the user has some way of knowing
@@ -132,7 +132,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     }
 
     // Copy from temporary storage into permanent storage
-    for (unsigned int i = 0; i < MacAddress::length; i++)
+    for (unsigned int i = 0; i < MacAddress::MAC_LENGTH; i++)
     {
         mac_address.at(i) = static_cast<unsigned char>(tempmac[i]);
     }
