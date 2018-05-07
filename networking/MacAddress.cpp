@@ -81,6 +81,22 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 }
 
 //==============================================================================
+// Compares for equality with the given MAC address string
+//==============================================================================
+bool MacAddress::operator==(const std::string& mac_address_str) const
+{
+    return *this == MacAddress(mac_address_str);
+}
+
+//==============================================================================
+// Compares for inequality with the given MAC address string
+//==============================================================================
+bool MacAddress::operator!=(const std::string& mac_address_str) const
+{
+    return !operator==(mac_address_str);
+}
+
+//==============================================================================
 //
 //==============================================================================
 void MacAddress::initialize()

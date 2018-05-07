@@ -30,6 +30,12 @@ class MacAddress : public std::vector<char>
 
     MacAddress& operator=(const std::string& mac_address_str);
 
+    // Compares for equality with the given MAC address string
+    bool operator==(const std::string& mac_address_str) const;
+
+    // Compares for inequality with the given MAC address string
+    bool operator!=(const std::string& mac_address_str) const;
+
     // MAC addresses are this many bytes long
     static const unsigned int MAC_LENGTH = 6;
 
