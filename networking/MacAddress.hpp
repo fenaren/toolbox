@@ -37,10 +37,10 @@ class MacAddress : public std::vector<char>
     bool operator!=(const std::string& mac_address_str) const;
 
     // MAC addresses are this many bytes long
-    static const unsigned int MAC_LENGTH = 6;
+    static const unsigned short MAC_LENGTH = 6;
 
     // MAC address strings are this many characters long
-    static const unsigned int MAC_STR_LENGTH = 18;
+    static const unsigned short MAC_STR_LENGTH = 18;
 
 private:
 
