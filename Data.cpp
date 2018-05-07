@@ -30,7 +30,7 @@ Data::~Data()
 //==============================================================================
 //
 //==============================================================================
-bool Data::operator==(Data& data)
+bool Data::operator==(const Data& data) const
 {
     // Not equal if amount of data does not match
     if (length != data.getLength())
@@ -45,7 +45,7 @@ bool Data::operator==(Data& data)
 //==============================================================================
 //
 //==============================================================================
-bool Data::operator!=(Data& data)
+bool Data::operator!=(const Data& data) const
 {
     return !operator==(data);
 }

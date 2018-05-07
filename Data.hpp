@@ -25,9 +25,9 @@ public:
 
     unsigned int getLength() const;
 
-    bool operator==(Data& data);
+    bool operator==(const Data& data) const;
 
-    bool operator!=(Data& data);
+    bool operator!=(const Data& data) const;
 
 private:
 

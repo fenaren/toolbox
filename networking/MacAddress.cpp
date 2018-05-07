@@ -70,9 +70,9 @@ char& MacAddress::operator[](const unsigned int byteNum)
 }
 
 //==============================================================================
-// Writes string representation of self to the ostream
+// Writes string representation of self to the given string
 //==============================================================================
-std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
+bool MacAddress::toString(std::string& mac_address_str) const
 {
     // 18 characters for the whole representation; 12 for the actual numbers, 5
     // for the colons in-between, and 1 on the end for the null
@@ -88,11 +88,59 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
                  mac_address[4],
                  mac_address[5]) < 0)
     {
+        return false;
+    }
+
+    mac_address_str = mac_cstr;
+
+    return true;
+}
+
+//==============================================================================
+// Compares for equality with the given MAC address string
+//==============================================================================
+bool MacAddress::operator==(const MacAddress& mac_address) const
+{
+    return *dynamic_cast<const Data*>(this) == mac_address;
+}
+
+//==============================================================================
+// Compares for equality with the given MAC address string
+//==============================================================================
+bool MacAddress::operator==(const std::string& mac_address_str) const
+{
+    return !operator==(MacAddress(mac_address_str));
+}
+
+//==============================================================================
+// Compares for equality with the given MAC address string
+//==============================================================================
+bool MacAddress::operator!=(const MacAddress& mac_address) const
+{
+    return *dynamic_cast<const Data*>(this) != mac_address;
+}
+
+//==============================================================================
+// Compares for inequality with the given MAC address string
+//==============================================================================
+bool MacAddress::operator!=(const std::string& mac_address_str) const
+{
+    return !operator==(mac_address_str);
+}
+
+//==============================================================================
+// Writes string representation of self to the ostream
+//==============================================================================
+std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
+{
+    std::string mac_address_str;
+    if (!mac_address.toString(mac_address_str))
+    {
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
     }
 
-    return os << mac_cstr;
+    return os << mac_address_str;
 }
 
 //==============================================================================
@@ -127,8 +175,6 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     {
         mac_address[i] = static_cast<unsigned char>(tempmac[i]);
     }
-
-    // I feel like there may be a better way to implement this ...
 
     return is;
 }
