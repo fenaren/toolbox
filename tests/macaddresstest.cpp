@@ -9,9 +9,9 @@ int main(int argc, char** argv)
     // Initialize vector of test MAC addresses; THESE MUST ALL BE UNIQUE
     std::vector<MacAddress> unique_mac_addresses;
 
+    unique_mac_addresses.push_back(MacAddress());
     unique_mac_addresses.push_back(MacAddress("11:22:33:44:55:66"));
     unique_mac_addresses.push_back(MacAddress("aa:bb:cc:dd:ee:ff"));
-    unique_mac_addresses.push_back(MacAddress("00:00:00:00:00:00"));
     unique_mac_addresses.push_back(MacAddress("ff:ff:ff:ff:ff:ff"));
 
     // Failed cases are recorded here and output at the end of the test

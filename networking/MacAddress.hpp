@@ -6,8 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "Data.hpp"
-
 class MacAddress : public std::vector<char>
 {
   public:
