@@ -20,7 +20,7 @@ int main(int argc, char** argv)
     // Check all MAC addresses against each other
     for (unsigned int i = 0; i < unique_mac_addresses.size(); i++)
     {
-        // Exercise output stream functionality
+        // Exercise output stream functionality by outputting each MAC address
         std::cout << unique_mac_addresses[i] << "\n";
 
         for (unsigned int j = 0; j < unique_mac_addresses.size(); j++)
@@ -60,6 +60,7 @@ int main(int argc, char** argv)
                   << unique_mac_addresses[failed_cases[i].second] << "\n";
     }
 
-    // This unit test passes if no failed cases were recorded
-    return failed_cases.size() == 0;
+    // This unit test passes if no failed cases were recorded; remember that a
+    // zero return value means success
+    return failed_cases.size() != 0;
 }
