@@ -26,6 +26,14 @@ int main(int argc, char** argv)
     unique_mac_addresses.push_back(MacAddress("aa:bb:cc:dd:ee:ff"));
     unique_mac_addresses.push_back(MacAddress("ff:ff:ff:ff:ff:ff"));
 
+    if (fail_on_purpose)
+    {
+        // Add a duplicate MAC address; this will be detected below and the test
+        // should fail
+        std::cout << "FAILING ON PURPOSE, adding duplicate MAC address\n";
+        unique_mac_addresses.push_back(unique_mac_addresses[0]);
+    }
+
     // Failed cases are recorded here and output at the end of the test
     std::vector<std::pair<unsigned int, unsigned int> > failed_cases;
 
@@ -74,5 +82,5 @@ int main(int argc, char** argv)
 
     // This unit test passes if no failed cases were recorded; remember that a
     // zero return value means success
-    return !(failed_cases.size() == 0 && !fail_on_purpose);
+    return failed_cases.size() != 0;
 }
