@@ -6,6 +6,18 @@
 
 int main(int argc, char** argv)
 {
+    // We can fail this test (return non-zero) on purpose if we explicitly ask
+    // for it, useful for testing the test harness
+    bool fail_on_purpose = false;
+
+    for (int i = 1; i < argc; i++)
+    {
+        if (std::string(argv[i]) == "-F")
+        {
+            fail_on_purpose = true;
+        }
+    }
+
     // Initialize vector of test MAC addresses; THESE MUST ALL BE UNIQUE
     std::vector<MacAddress> unique_mac_addresses;
 
@@ -62,5 +74,5 @@ int main(int argc, char** argv)
 
     // This unit test passes if no failed cases were recorded; remember that a
     // zero return value means success
-    return failed_cases.size() != 0;
+    return !(failed_cases.size() == 0 && !fail_on_purpose);
 }
