@@ -155,3 +155,21 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 
     return is;
 }
+
+//==============================================================================
+// Compares for equality with the given MAC address string
+//==============================================================================
+bool operator==(const std::string& mac_address_str,
+                const MacAddress&  mac_address)
+{
+    return mac_address == mac_address_str;
+}
+
+//==============================================================================
+// Compares for inequality with the given MAC address string
+//==============================================================================
+bool operator!=(const std::string& mac_address_str,
+                const MacAddress&  mac_address)
+{
+    return !operator==(mac_address_str, mac_address);
+}

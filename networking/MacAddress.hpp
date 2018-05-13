@@ -51,4 +51,12 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address);
 // Reads a string representation of this MAC address
 std::istream& operator>>(std::istream& is, MacAddress& mac_address);
 
+// Compares for equality with the given MAC address string
+bool operator==(const std::string& mac_address_str,
+                const MacAddress&  mac_address);
+
+// Compares for inequality with the given MAC address string
+bool operator!=(const std::string& mac_address_str,
+                const MacAddress&  mac_address);
+
 #endif

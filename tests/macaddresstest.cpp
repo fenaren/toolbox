@@ -19,12 +19,12 @@ int main(int argc, char** argv)
     }
 
     // Initialize vector of test MAC addresses; THESE MUST ALL BE UNIQUE
-    std::vector<MacAddress> unique_mac_addresses;
+    std::vector<std::string> unique_mac_addresses;
 
-    unique_mac_addresses.push_back(MacAddress());
-    unique_mac_addresses.push_back(MacAddress("11:22:33:44:55:66"));
-    unique_mac_addresses.push_back(MacAddress("aa:bb:cc:dd:ee:ff"));
-    unique_mac_addresses.push_back(MacAddress("ff:ff:ff:ff:ff:ff"));
+    unique_mac_addresses.push_back("00:00:00:00:00:00");
+    unique_mac_addresses.push_back("11:22:33:44:55:66");
+    unique_mac_addresses.push_back("aa:bb:cc:dd:ee:ff");
+    unique_mac_addresses.push_back("ff:ff:ff:ff:ff:ff");
 
     if (fail_on_purpose)
     {
@@ -40,21 +40,29 @@ int main(int argc, char** argv)
     // Check all MAC addresses against each other
     for (unsigned int i = 0; i < unique_mac_addresses.size(); i++)
     {
-        // Exercise output stream functionality by outputting each MAC address
-        std::cout << unique_mac_addresses[i] << "\n";
+        MacAddress mac_address_i(unique_mac_addresses[i]);
+
+        std::string mac_address_i_str;
+        mac_address_i.toString(mac_address_i_str);
+
+        // Exercise output stream functionality by outputting each MacAddress
+        std::cout << mac_address_i << "\n";
 
         for (unsigned int j = 0; j < unique_mac_addresses.size(); j++)
         {
-            std::string mac_address_i;
-            unique_mac_addresses[i].toString(mac_address_i);
+            MacAddress mac_address_j(unique_mac_addresses[j]);
 
-            std::string mac_address_j;
-            unique_mac_addresses[j].toString(mac_address_j);
+            std::string mac_address_j_str;
+            mac_address_j.toString(mac_address_j_str);
 
             if (i == j)
             {
-                if (unique_mac_addresses[i] != unique_mac_addresses[j] ||
-                    mac_address_i != mac_address_j)
+                if (!(mac_address_i == mac_address_j &&
+                      mac_address_i_str == mac_address_j_str &&
+                      mac_address_i == unique_mac_addresses[j] &&
+                      mac_address_j == unique_mac_addresses[i] &&
+                      unique_mac_addresses[i] == mac_address_j &&
+                      unique_mac_addresses[j] == mac_address_i))
                 {
                     failed_cases.push_back(
                         std::pair<unsigned int, unsigned int>(i, j));
@@ -62,9 +70,13 @@ int main(int argc, char** argv)
             }
             else
             {
-                if (unique_mac_addresses[i] == unique_mac_addresses[j] ||
-                    mac_address_i == mac_address_j)
-                {
+                if (!(mac_address_i != mac_address_j &&
+                      mac_address_i_str != mac_address_j_str &&
+                      mac_address_i != unique_mac_addresses[j] &&
+                      mac_address_j != unique_mac_addresses[i] &&
+                      unique_mac_addresses[i] != mac_address_j &&
+                      unique_mac_addresses[j] != mac_address_i))
+            {
                     failed_cases.push_back(
                         std::pair<unsigned int, unsigned int>(i, j));
                 }
