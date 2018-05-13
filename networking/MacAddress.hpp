@@ -4,8 +4,9 @@
 #include <istream>
 #include <ostream>
 #include <string>
+#include <vector>
 
-class MacAddress
+class MacAddress : public std::vector<char>
 {
   public:
 
@@ -15,32 +16,33 @@ class MacAddress
     // Constructs a new MacAddress matching the given string representation.
     MacAddress(const std::string& mac_address_str);
 
+    // Copy constructor
+    MacAddress(const MacAddress& mac_address);
+
     // Destroys a MacAddress; does nothing, since this class doesn't dynamically
     // allocate memory.
     ~MacAddress();
 
-    // Copy constructor
-    MacAddress(const MacAddress& mac_address);
+    // Writes string representation of self to the given string
+    bool toString(std::string& mac_address_str) const;
 
-    // Assigns one MAC address to another
-    MacAddress& operator=(const MacAddress& mac_address);
-
-    // Assigns a string to a MAC address
     MacAddress& operator=(const std::string& mac_address_str);
 
-    // Compares two MAC addresses for equality
-    bool operator==(const MacAddress& mac_address);
+    // Compares for equality with the given MAC address string
+    bool operator==(const std::string& mac_address_str) const;
 
-    // Compares two MAC addresses for inequality
-    bool operator!=(const MacAddress& mac_address);
+    // Compares for inequality with the given MAC address string
+    bool operator!=(const std::string& mac_address_str) const;
 
-    // Allows the use of brackets to index into the MAC address
-    unsigned char& operator[](const unsigned int byteNum);
+    // MAC addresses are this many bytes long
+    static const unsigned short MAC_LENGTH = 6;
 
-  private:
+    // MAC address strings are this many characters long
+    static const unsigned short MAC_STR_LENGTH = 18;
 
-    // The six bytes of the MAC address
-    unsigned char mac_address[6];
+private:
+
+    void initialize();
 };
 
 // Writes a string representation of this MAC address
@@ -48,5 +50,13 @@ std::ostream& operator<<(std::ostream& os, MacAddress& mac_address);
 
 // Reads a string representation of this MAC address
 std::istream& operator>>(std::istream& is, MacAddress& mac_address);
+
+// Compares for equality with the given MAC address string
+bool operator==(const std::string& mac_address_str,
+                const MacAddress&  mac_address);
+
+// Compares for inequality with the given MAC address string
+bool operator!=(const std::string& mac_address_str,
+                const MacAddress&  mac_address);
 
 #endif
