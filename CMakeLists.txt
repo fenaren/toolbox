@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 2.6)
 add_subdirectory(tests EXCLUDE_FROM_ALL)
 
 # Include common project setup
-include(${CMAKE_CURRENT_LIST_DIR}/cmake/ProjectCommon.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
 
 # Add the library and all the source files in this directory
 add_library(${PROJECT_NAME}
