@@ -19,12 +19,12 @@ build:
 
   script:
     - cmake -DCMAKE_BUILD_TYPE=Release .
-    - make tests
+    - make unittests
 
   artifacts:
     paths:
-      - tests/logtest
-      - tests/macaddresstest
+      - unittests/Log.ut
+      - unittests/MacAddress.ut
 
   # depending on your build setup it's most likely a good idea to cache outputs
   # to reduce the build time
@@ -36,5 +36,5 @@ build:
 test:
   stage: test
   script:
-    - tests/logtest
-    - tests/macaddresstest
+    - unittests/Log.ut
+    - unittests/MacAddress.ut
