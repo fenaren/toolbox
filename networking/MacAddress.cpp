@@ -18,6 +18,16 @@ MacAddress::MacAddress()
 //==============================================================================
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
+MacAddress::MacAddress(const char* mac_address_str)
+{
+    initialize();
+
+    *this = mac_address_str;
+}
+
+//==============================================================================
+// MacAddress constructor; initializes to match the given string
+//==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str)
 {
     initialize();
