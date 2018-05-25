@@ -14,10 +14,13 @@ class MacAddress : public std::vector<char>
     MacAddress();
 
     // Constructs a new MacAddress matching the given string representation.
-    MacAddress(const std::string& mac_address_str);
+    explicit MacAddress(const char* mac_address_str);
+
+    // Constructs a new MacAddress matching the given string representation.
+    explicit MacAddress(const std::string& mac_address_str);
 
     // Copy constructor
-    MacAddress(const MacAddress& mac_address);
+    explicit MacAddress(const MacAddress& mac_address);
 
     // Destroys a MacAddress; does nothing, since this class doesn't dynamically
     // allocate memory.

@@ -14,7 +14,7 @@ class WindowsRawSocket : public SocketImpl
 
     // Constructs a new Windows socket.  The 'protocol' argument should be an
     // IPPROTO_* enumeration value (defined in ws2def.h)
-    WindowsRawSocket(int protocol);
+    explicit WindowsRawSocket(int protocol);
 
     // Closes the associated socket.
     virtual ~WindowsRawSocket();

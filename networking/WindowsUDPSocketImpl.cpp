@@ -11,7 +11,8 @@
 // Creates the socket
 //=============================================================================
 WindowsUDPSocketImpl::WindowsUDPSocketImpl() :
-    UDPSocketImpl()
+    UDPSocketImpl(),
+    is_blocking(false)
 {
   // Initialize the addresses to track
   memset(&local_address,  0, sizeof(sockaddr_in));
@@ -41,7 +42,7 @@ WindowsUDPSocketImpl::WindowsUDPSocketImpl() :
              SO_BROADCAST,
              reinterpret_cast<char*>(&t),
              sizeof(bool));
-  
+
   // Check for socket creation errors
   if (socket_fd == INVALID_SOCKET)
   {

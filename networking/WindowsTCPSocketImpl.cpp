@@ -12,7 +12,8 @@
 // Creates the socket
 //=============================================================================
 WindowsTCPSocketImpl::WindowsTCPSocketImpl() :
-    TCPSocketImpl()
+    TCPSocketImpl(),
+    is_blocking(false)
 {
   // Initialize the addresses we're tracking
   memset(&local_address,  0, sizeof(sockaddr_in));

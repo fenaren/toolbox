@@ -74,7 +74,7 @@ void Log::flush()
 //==============================================================================
 // Generates a timestamp to prepend to a log message
 //==============================================================================
-void Log::generateTimestamp(std::string& timestamp)
+void Log::generateTimestamp(std::string& timestamp) const
 {
     // Get numeric timestamp
     timeval ts;
@@ -86,20 +86,20 @@ void Log::generateTimestamp(std::string& timestamp)
     }
 
     // Convert ts into string timestamp
-    tm* ts_local;
+    tm ts_local;
     if (current_time_format == LOCAL)
     {
-        ts_local = localtime(&ts.tv_sec);
+        localtime_r(&ts.tv_sec, &ts_local);
     }
     else
     {
-        ts_local = gmtime(&ts.tv_sec);
+        gmtime_r(&ts.tv_sec, &ts_local);
     }
 
     // Format ts_local
     unsigned int max_ts_len = 30;
     char ts_local_temp[max_ts_len];
-    strftime(ts_local_temp, max_ts_len, "%a %b %d %Y %X:", ts_local);
+    strftime(ts_local_temp, max_ts_len, "%a %b %d %Y %X:", &ts_local);
 
     // Save into string timestamp
     timestamp = "[";
@@ -113,7 +113,7 @@ void Log::generateTimestamp(std::string& timestamp)
     timestamp += out_stream.str();
 
     // Add timezone
-    strftime(ts_local_temp, max_ts_len, " %Z", ts_local);
+    strftime(ts_local_temp, max_ts_len, " %Z", &ts_local);
     timestamp += ts_local_temp;
     timestamp += "]";
 }
