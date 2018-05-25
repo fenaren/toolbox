@@ -55,7 +55,7 @@ class TCPSocket : public Socket
 
     // This is a special constructor used during calls to accept.  It wraps an
     // existing platform-specific TCP socket in an instance of this class.
-    TCPSocket(TCPSocketImpl* socket_impl);
+    explicit TCPSocket(TCPSocketImpl* socket_impl);
 
     // Platform-specific socket implementation to use
     TCPSocketImpl* socket_impl;
