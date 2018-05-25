@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-/* A general purpose text-based logging utility.  
+/* A general purpose text-based logging utility.
  */
 class Log
 {
@@ -53,7 +53,7 @@ class Log
     };
 
     // Generates a timestamp to prepend to log messages
-    void generateTimestamp(std::string& timestamp);
+    void generateTimestamp(std::string& timestamp) const;
 
     // The output stream to write log messages to
     std::ostream* output_stream;

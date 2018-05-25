@@ -74,7 +74,7 @@ void Log::flush()
 //==============================================================================
 // Generates a timestamp to prepend to a log message
 //==============================================================================
-void Log::generateTimestamp(std::string& timestamp)
+void Log::generateTimestamp(std::string& timestamp) const
 {
     // Get numeric timestamp
     timeval ts;
