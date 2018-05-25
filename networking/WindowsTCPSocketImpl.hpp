@@ -60,7 +60,7 @@ class WindowsTCPSocketImpl : public TCPSocketImpl
     // (i.e. sudden peer disconnection without proper disconnection
     // communication).  Does not properly report connection state before a
     // connection has been established.
-  	virtual bool isConnected();
+    virtual bool isConnected();
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
@@ -103,7 +103,8 @@ class WindowsTCPSocketImpl : public TCPSocketImpl
     INT ts_blocking_timeout;
 };
 
-inline void WindowsTCPSocketImpl::getPeerAddress(std::string& peer_address_str) const
+inline
+void WindowsTCPSocketImpl::getPeerAddress(std::string& peer_address_str) const
 {
   peer_address_str = inet_ntoa(peer_address.sin_addr);
 }
