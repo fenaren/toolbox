@@ -17,11 +17,19 @@ public:
 
     virtual int run() = 0;
 
+    // Returns a copy of the program name
+    void getName(std::string& name) const;
+
+    // Returns a copy of the program arguments
+    void getArguments(std::vector<std::string>& arguments) const;
+
 protected:
 
-    // Arguments to the program, parsed out into switch/option and value pairs;
-    // constructor fills this in
-    std::vector<std::pair<std::string, std::string> > program_arguments;
+    // String used to launch this program at the command line
+    std::string program_name;
+
+    // Arguments given to the program at runtime
+    std::vector<std::string> program_arguments;
 };
 
 
