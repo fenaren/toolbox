@@ -1,3 +1,4 @@
+#include <cunistd>
 #include <string>
 #include <utility>
 #include <vector>
@@ -27,6 +28,15 @@ Program::Program(int argc, char** argv)
 //==============================================================================
 Program::~Program()
 {
+}
+
+//==============================================================================
+// Reconfigure self as a background process (daemon)
+//==============================================================================
+bool Program::daemonize()
+{
+    // Linux-specific and possibly outdated
+    return daemon(0, 0) == 0;
 }
 
 //==============================================================================
