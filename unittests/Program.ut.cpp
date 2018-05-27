@@ -32,5 +32,7 @@ int main(int argc, char** argv)
 
     program_ut.run();
 
-    return 0;
+    bool success = program_ut.daemonize();
+    std::cout << "THIS TEXT SHOULD NOT BE DISPLAYED\n";
+    return !success;
 }

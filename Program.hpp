@@ -17,6 +17,9 @@ public:
 
     virtual int run() = 0;
 
+    // Reconfigure self as a background process (daemon)
+    static bool daemonize();
+
     // Returns a copy of the program name
     void getName(std::string& name) const;
 
