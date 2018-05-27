@@ -14,5 +14,14 @@ target_include_directories(MacAddress.ut PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/../networking)
 target_link_libraries(MacAddress.ut toolbox)
 
+# Add the program executable
+add_executable(Program.ut ${CMAKE_CURRENT_LIST_DIR}/Program.ut.cpp)
+add_dependencies(Program.ut toolbox)
+target_include_directories(Program.ut PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}/.
+  ${CMAKE_CURRENT_LIST_DIR}/..
+  ${CMAKE_CURRENT_LIST_DIR}/../networking)
+target_link_libraries(Program.ut toolbox)
+
 add_custom_target(unittests)
-add_dependencies(unittests Log.ut MacAddress.ut)
+add_dependencies(unittests Log.ut MacAddress.ut Program.ut)
