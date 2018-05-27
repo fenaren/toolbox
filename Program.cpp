@@ -33,7 +33,7 @@ Program::~Program()
 //==============================================================================
 // Reconfigure self as a background process (daemon)
 //==============================================================================
-bool Program::daemonize()
+bool Program::daemonize() const
 {
     // Linux-specific and possibly outdated
     return daemon(0, 0) == 0;
