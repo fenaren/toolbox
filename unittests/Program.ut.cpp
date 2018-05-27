@@ -32,5 +32,5 @@ int main(int argc, char** argv)
 
     program_ut.run();
 
-    return 0;
+    return !program_ut.daemonize();
 }
