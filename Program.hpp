@@ -32,5 +32,4 @@ protected:
     std::vector<std::string> program_arguments;
 };
 
-
 #endif
