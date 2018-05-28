@@ -1,4 +1,4 @@
-#include <cstdint>
+#include <climits>
 #include <time.h>
 
 #include "PosixTimespec.hpp"
@@ -38,7 +38,7 @@ PosixTimespec& PosixTimespec::operator+=(const timespec& tp)
     this->tp.tv_nsec += tp.tv_nsec;
 
     // Do we need to add one to tv_sec?
-    if (std::uint64_t(this->tp.tv_nsec) + std::uint64_t(tp.tv_nsec) > 1e9)
+    if (this->tp.tv_nsec >= 1e9 - tp.tv_nsec)
     {
         this->tp.tv_sec += 1;
     }
