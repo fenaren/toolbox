@@ -7,27 +7,29 @@ class PosixTimestamp
 {
 public:
 
-    PosixTimestamp(const timespec& tp);
+    explicit PosixTimestamp(const timespec& tp);
 
     ~PosixTimestamp();
 
-    void getTimestamp(timespec& ts) const;
+    void getTimestamp(timespec& tp) const;
 
-    void setTimestamp(const timespec& ts);
+    void setTimestamp(const timespec& tp);
+
+    PosixTimestamp& operator=(const timespec& tp);
 
 private:
 
-    timespec ts;
+    timespec tp;
 };
 
-inline void PosixTimestamp::getTimestamp(timespec& ts) const
+inline void PosixTimestamp::getTimestamp(timespec& tp) const
 {
-    ts = this->ts;
+    tp = this->tp;
 }
 
-inline void PosixTimestamp::setTimestamp(const timespec& ts)
+inline void PosixTimestamp::setTimestamp(const timespec& tp)
 {
-    this->ts = ts;
+    this->tp = tp;
 }
 
 #endif

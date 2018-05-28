@@ -9,7 +9,7 @@ class PosixTimesource
 {
 public:
 
-    PosixTimesource(clockid_t clk_id);
+    explicit PosixTimesource(clockid_t clk_id);
 
     ~PosixTimesource();
 

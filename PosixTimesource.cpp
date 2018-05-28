@@ -5,7 +5,8 @@
 //==============================================================================
 //
 //==============================================================================
-PosixTimesource::PosixTimesource(clockid_t clk_id)
+PosixTimesource::PosixTimesource(clockid_t clk_id) :
+    clk_id(clk_id)
 {
 }
 
