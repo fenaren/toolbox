@@ -3,7 +3,7 @@
 #include "PosixTimespec.hpp"
 
 //==============================================================================
-//
+// Saves the provided timespec internally
 //==============================================================================
 PosixTimespec::PosixTimespec(const timespec& tp) :
     tp(tp)
@@ -11,14 +11,14 @@ PosixTimespec::PosixTimespec(const timespec& tp) :
 }
 
 //==============================================================================
-//
+// Does nothing
 //==============================================================================
 PosixTimespec::~PosixTimespec()
 {
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 PosixTimespec& PosixTimespec::operator=(const timespec& tp)
 {
@@ -29,7 +29,8 @@ PosixTimespec& PosixTimespec::operator=(const timespec& tp)
 }
 
 //==============================================================================
-//
+// Performs integer addition so no data loss occurs; tv_nsec overflows and adds
+// to tv_sec as one would expect
 //==============================================================================
 PosixTimespec& PosixTimespec::operator+=(const timespec& tp)
 {
@@ -46,7 +47,7 @@ PosixTimespec& PosixTimespec::operator+=(const timespec& tp)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 PosixTimespec& PosixTimespec::operator+=(const PosixTimespec& tp)
 {
@@ -57,28 +58,7 @@ PosixTimespec& PosixTimespec::operator+=(const PosixTimespec& tp)
 }
 
 //==============================================================================
-//
-//==============================================================================
-/*PosixTimespec& PosixTimespec::operator-=(const timespec& tp)
-{
-    // Do the subtraction
-
-    //return *this;
-}
-
-//==============================================================================
-//
-//==============================================================================
-PosixTimespec& PosixTimespec::operator-=(const PosixTimespec& tp)
-{
-    timespec tp_temp;
-    tp.getTimespec(tp_temp);
-
-    return operator-=(tp_temp);
-    }*/
-
-//==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 PosixTimespec operator+(PosixTimespec lhs, const PosixTimespec& rhs)
 {
@@ -87,7 +67,7 @@ PosixTimespec operator+(PosixTimespec lhs, const PosixTimespec& rhs)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 PosixTimespec operator+(PosixTimespec lhs, const timespec& rhs)
 {
@@ -96,7 +76,7 @@ PosixTimespec operator+(PosixTimespec lhs, const timespec& rhs)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 PosixTimespec operator+(timespec lhs, const PosixTimespec& rhs)
 {
@@ -105,33 +85,7 @@ PosixTimespec operator+(timespec lhs, const PosixTimespec& rhs)
 }
 
 //==============================================================================
-//
-//==============================================================================
-/*PosixTimespec operator-(PosixTimespec lhs, const PosixTimespec& rhs)
-{
-    lhs -= rhs;
-    return lhs;
-}
-
-//==============================================================================
-//
-//==============================================================================
-PosixTimespec operator-(PosixTimespec lhs, const timespec& rhs)
-{
-    lhs -= rhs;
-    return lhs;
-}
-
-//==============================================================================
-//
-//==============================================================================
-PosixTimespec operator-(timespec lhs, const PosixTimespec& rhs)
-{
-    // TODO
-    }*/
-
-//==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 bool operator==(const PosixTimespec& lhs, const PosixTimespec& rhs)
 {
@@ -145,7 +99,7 @@ bool operator==(const PosixTimespec& lhs, const PosixTimespec& rhs)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 bool operator==(const PosixTimespec& lhs, const timespec& rhs)
 {
@@ -153,7 +107,7 @@ bool operator==(const PosixTimespec& lhs, const timespec& rhs)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 bool operator==(const timespec& lhs, const PosixTimespec& rhs)
 {
@@ -161,7 +115,7 @@ bool operator==(const timespec& lhs, const PosixTimespec& rhs)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 bool operator!=(const PosixTimespec& lhs, const PosixTimespec& rhs)
 {
@@ -169,7 +123,7 @@ bool operator!=(const PosixTimespec& lhs, const PosixTimespec& rhs)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 bool operator!=(const PosixTimespec& lhs, const timespec& rhs)
 {
@@ -177,7 +131,7 @@ bool operator!=(const PosixTimespec& lhs, const timespec& rhs)
 }
 
 //==============================================================================
-//
+// Does what you would expect
 //==============================================================================
 bool operator!=(const timespec& lhs, const PosixTimespec& rhs)
 {
