@@ -1,6 +1,6 @@
 #include "PosixTimesource.hpp"
 
-#include "PosixTimestamp.hpp"
+#include "PosixTimespec.hpp"
 
 //==============================================================================
 //
@@ -20,7 +20,7 @@ PosixTimesource::~PosixTimesource()
 //==============================================================================
 //
 //==============================================================================
-int PosixTimesource::getCurrentTime(PosixTimestamp& ts) const
+int PosixTimesource::getCurrentTime(PosixTimespec& ts) const
 {
     timespec tp;
     int cg_ret = clock_gettime(clk_id, &tp);

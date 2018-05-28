@@ -1,11 +1,11 @@
 #include <time.h>
 
-#include "PosixTimestamp.hpp"
+#include "PosixTimespec.hpp"
 
 //==============================================================================
 //
 //==============================================================================
-PosixTimestamp::PosixTimestamp(const timespec& tp) :
+PosixTimespec::PosixTimespec(const timespec& tp) :
     tp(tp)
 {
 }
@@ -13,14 +13,14 @@ PosixTimestamp::PosixTimestamp(const timespec& tp) :
 //==============================================================================
 //
 //==============================================================================
-PosixTimestamp::~PosixTimestamp()
+PosixTimespec::~PosixTimespec()
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-PosixTimestamp& PosixTimestamp::operator=(const timespec& tp)
+PosixTimespec& PosixTimespec::operator=(const timespec& tp)
 {
     this->tp.tv_sec  = tp.tv_sec;
     this->tp.tv_nsec = tp.tv_nsec;
@@ -31,27 +31,27 @@ PosixTimestamp& PosixTimestamp::operator=(const timespec& tp)
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimestamp::operator-(const timespec& tp)
+unsigned int PosixTimespec::operator-(const timespec& tp)
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimestamp::operator-(const PosixTimestamp& tp)
+unsigned int PosixTimespec::operator-(const PosixTimespec& tp)
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimestamp::operator+(const timespec& tp)
+unsigned int PosixTimespec::operator+(const timespec& tp)
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimestamp::operator+(const PosixTimestamp& tp)
+unsigned int PosixTimespec::operator+(const PosixTimespec& tp)
 {
 }

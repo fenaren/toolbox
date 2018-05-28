@@ -3,7 +3,7 @@
 
 #include <time.h>
 
-#include "PosixTimestamp.hpp"
+#include "PosixTimespec.hpp"
 
 class PosixTimesource
 {
@@ -13,7 +13,7 @@ public:
 
     ~PosixTimesource();
 
-    int getCurrentTime(PosixTimestamp& ts) const;
+    int getCurrentTime(PosixTimespec& ts) const;
 
     void setClockId(clockid_t clk_id);
 
