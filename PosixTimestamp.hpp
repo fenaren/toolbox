@@ -9,9 +9,25 @@ public:
 
     PosixTimestamp(const timespec& tp);
 
+    ~PosixTimestamp();
+
+    void getTimestamp(timespec& ts) const;
+
+    void setTimestamp(const timespec& ts);
+
 private:
 
     timespec ts;
 };
+
+inline void PosixTimestamp::getTimestamp(timespec& ts) const
+{
+    ts = this->ts;
+}
+
+inline void PosixTimestamp::setTimestamp(const timespec& ts)
+{
+    this->ts = ts;
+}
 
 #endif

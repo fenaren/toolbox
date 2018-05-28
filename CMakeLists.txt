@@ -14,6 +14,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
 add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/PosixTimesource.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/PosixTimestamp.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
 
