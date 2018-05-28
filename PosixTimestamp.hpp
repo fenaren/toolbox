@@ -17,6 +17,14 @@ public:
 
     PosixTimestamp& operator=(const timespec& tp);
 
+    unsigned int operator-(const timespec& tp);
+
+    unsigned int operator-(const PosixTimestamp& tp);
+
+    unsigned int operator+(const timespec& tp);
+
+    unsigned int operator+(const PosixTimestamp& tp);
+
 private:
 
     timespec tp;
