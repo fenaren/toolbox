@@ -1,11 +1,11 @@
-#include "PosixTimesource.hpp"
+#include "PosixClock.hpp"
 
 #include "PosixTimespec.hpp"
 
 //==============================================================================
 //
 //==============================================================================
-PosixTimesource::PosixTimesource(clockid_t clk_id) :
+PosixClock::PosixClock(clockid_t clk_id) :
     clk_id(clk_id)
 {
 }
@@ -13,14 +13,14 @@ PosixTimesource::PosixTimesource(clockid_t clk_id) :
 //==============================================================================
 //
 //==============================================================================
-PosixTimesource::~PosixTimesource()
+PosixClock::~PosixClock()
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-int PosixTimesource::getCurrentTime(PosixTimespec& ts) const
+int PosixClock::getTime(PosixTimespec& ts) const
 {
     timespec tp;
     int cg_ret = clock_gettime(clk_id, &tp);
