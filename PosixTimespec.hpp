@@ -17,26 +17,32 @@ public:
 
     PosixTimespec& operator=(const timespec& tp);
 
-    PosixTimespec& operator-(const timespec& tp) const;
+    PosixTimespec& operator+=(const timespec& tp);
+    PosixTimespec& operator+=(const PosixTimespec& tp);
 
-    PosixTimespec& operator-(const PosixTimespec& tp) const;
-
-    PosixTimespec& operator+(const timespec& tp) const;
-
-    PosixTimespec& operator+(const PosixTimespec& tp) const;
-
-    bool operator==(const timespec& tp) const;
-
-    bool operator==(const PosixTimespec& tp) const;
-
-    bool operator!=(const timespec& tp) const;
-
-    bool operator!=(const PosixTimespec& tp) const;
+    //PosixTimespec& operator-=(const timespec& tp);
+    //PosixTimespec& operator-=(const PosixTimespec& tp);
 
 private:
 
     timespec tp;
 };
+
+PosixTimespec operator+(PosixTimespec lhs,  const PosixTimespec& rhs);
+PosixTimespec operator+(PosixTimespec lhs,  const timespec& rhs);
+PosixTimespec operator+(timespec lhs,       const PosixTimespec& rhs);
+
+//PosixTimespec operator-(PosixTimespec lhs,  const PosixTimespec& rhs);
+//PosixTimespec operator-(PosixTimespec lhs,  const timespec& rhs);
+//PosixTimespec operator-(timespec lhs,       const PosixTimespec& rhs);
+
+bool operator==(const PosixTimespec& lhs, const PosixTimespec& rhs);
+bool operator==(const PosixTimespec& lhs, const timespec& rhs);
+bool operator==(const timespec& lhs,      const PosixTimespec& rhs);
+
+bool operator!=(const PosixTimespec& lhs, const PosixTimespec& rhs);
+bool operator!=(const PosixTimespec& lhs, const timespec& rhs);
+bool operator!=(const timespec& lhs,      const PosixTimespec& rhs);
 
 inline void PosixTimespec::getTimespec(timespec& tp) const
 {
