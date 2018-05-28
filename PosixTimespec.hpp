@@ -17,13 +17,21 @@ public:
 
     PosixTimespec& operator=(const timespec& tp);
 
-    unsigned int operator-(const timespec& tp);
+    PosixTimespec& operator-(const timespec& tp) const;
 
-    unsigned int operator-(const PosixTimespec& tp);
+    PosixTimespec& operator-(const PosixTimespec& tp) const;
 
-    unsigned int operator+(const timespec& tp);
+    PosixTimespec& operator+(const timespec& tp) const;
 
-    unsigned int operator+(const PosixTimespec& tp);
+    PosixTimespec& operator+(const PosixTimespec& tp) const;
+
+    bool operator==(const timespec& tp) const;
+
+    bool operator==(const PosixTimespec& tp) const;
+
+    bool operator!=(const timespec& tp) const;
+
+    bool operator!=(const PosixTimespec& tp) const;
 
 private:
 

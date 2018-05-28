@@ -31,27 +31,66 @@ PosixTimespec& PosixTimespec::operator=(const timespec& tp)
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimespec::operator-(const timespec& tp)
+PosixTimespec& PosixTimespec::operator-(const timespec& tp) const
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimespec::operator-(const PosixTimespec& tp)
+PosixTimespec& PosixTimespec::operator-(const PosixTimespec& tp) const
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimespec::operator+(const timespec& tp)
+PosixTimespec& PosixTimespec::operator+(const timespec& tp) const
 {
 }
 
 //==============================================================================
 //
 //==============================================================================
-unsigned int PosixTimespec::operator+(const PosixTimespec& tp)
+PosixTimespec& PosixTimespec::operator+(const PosixTimespec& tp) const
 {
+}
+
+//==============================================================================
+//
+//==============================================================================
+bool PosixTimespec::operator==(const timespec& tp) const
+{
+    return this->tp.tv_sec == tp.tv_sec && this->tp.tv_nsec == tp.tv_nsec;
+}
+
+//==============================================================================
+//
+//==============================================================================
+bool PosixTimespec::operator==(const PosixTimespec& tp) const
+{
+    timespec tp_temp;
+    tp.getTimespec(tp_temp);
+
+    return operator==(tp_temp);
+}
+
+//==============================================================================
+//
+//==============================================================================
+bool PosixTimespec::operator!=(const timespec& tp) const
+{
+    return !operator==(tp);
+}
+
+//==============================================================================
+//
+//==============================================================================
+bool PosixTimespec::operator!=(const PosixTimespec& tp) const
+{
+    timespec tp_temp;
+    tp.getTimespec(tp_temp);
+
+    return !operator==(tp_temp);
+
 }
