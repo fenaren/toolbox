@@ -1,4 +1,3 @@
-#include <climits>
 #include <time.h>
 
 #include "PosixTimespec.hpp"
@@ -37,9 +36,9 @@ PosixTimespec& PosixTimespec::operator+=(const timespec& tp)
     this->tp.tv_sec += tp.tv_sec;
     this->tp.tv_nsec += tp.tv_nsec;
 
-    // Do we need to add one to tv_sec?
-    if (this->tp.tv_nsec >= 1e9 - tp.tv_nsec)
+    if (this->tp.tv_nsec >= 1e9)
     {
+        this->tp.tv_nsec -= 1e9;
         this->tp.tv_sec += 1;
     }
 
