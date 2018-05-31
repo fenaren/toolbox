@@ -30,6 +30,8 @@ private:
 
     // POSIX-defined
     timespec tp;
+
+    static const unsigned int nanoseconds_per_second;
 };
 
 PosixTimespec operator+(PosixTimespec lhs,  const PosixTimespec& rhs);

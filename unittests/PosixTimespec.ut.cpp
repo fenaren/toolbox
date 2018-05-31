@@ -35,6 +35,18 @@ int main(int argc, char** argv)
         {
             PosixTimespec ts2(timespecs[j]);
 
+            // Test addition
+            PosixTimespec ts_sum1 = ts1 + ts2;
+            PosixTimespec ts_sum2 = ts2 + ts1;
+            if (!(ts_sum1 == ts_sum2 && ts_sum2 == ts_sum1))
+            {
+                failed_cases.push_back(
+                    std::pair<unsigned int, unsigned int>(i, j));
+
+                continue;
+            }
+
+            // Test equality and inequality
             if (i == j)
             {
                 if (!(ts1 == ts2 && ts2 == ts1 &&

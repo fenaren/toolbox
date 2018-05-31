@@ -2,6 +2,8 @@
 
 #include "PosixTimespec.hpp"
 
+const unsigned int PosixTimespec::nanoseconds_per_second = 1000000000;
+
 //==============================================================================
 // Saves the provided timespec internally
 //==============================================================================
@@ -37,9 +39,9 @@ PosixTimespec& PosixTimespec::operator+=(const timespec& tp)
     this->tp.tv_sec += tp.tv_sec;
     this->tp.tv_nsec += tp.tv_nsec;
 
-    if (this->tp.tv_nsec >= 1e9)
+    if (this->tp.tv_nsec >= nanoseconds_per_second)
     {
-        this->tp.tv_nsec -= 1e9;
+        this->tp.tv_nsec -= nanoseconds_per_second;
         this->tp.tv_sec += 1;
     }
 
