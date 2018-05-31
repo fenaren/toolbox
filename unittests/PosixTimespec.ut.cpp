@@ -74,5 +74,5 @@ int main(int argc, char** argv)
 
     // This unit test passes if no failed cases were recorded; remember that a
     // zero return value means success
-    return failed_cases.size() == 0;
+    return failed_cases.size() != 0;
 }
