@@ -37,7 +37,9 @@ int main(int argc, char** argv)
 
             if (i == j)
             {
-                if (!(ts1 == ts2 && ts2 == ts1))
+                if (!(ts1 == ts2 && ts2 == ts1 &&
+                      timespecs[i] == ts2 && ts2 == timespecs[i] &&
+                      ts1 == timespecs[j] && timespecs[j] == ts1))
                 {
                     failed_cases.push_back(
                         std::pair<unsigned int, unsigned int>(i, j));
@@ -45,7 +47,9 @@ int main(int argc, char** argv)
             }
             else
             {
-                if (!(ts1 != ts2 && ts2 != ts1))
+                if (!(ts1 != ts2 && ts2 != ts1 &&
+                      timespecs[i] != ts2 && ts2 != timespecs[i] &&
+                      ts1 != timespecs[j] && timespecs[j] != ts1))
                 {
                     failed_cases.push_back(
                         std::pair<unsigned int, unsigned int>(i, j));
