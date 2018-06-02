@@ -3,7 +3,7 @@
 #include "PosixTimespec.hpp"
 
 //==============================================================================
-//
+// Saves user specified clock
 //==============================================================================
 PosixClock::PosixClock(clockid_t clk_id) :
     clk_id(clk_id)
@@ -11,14 +11,14 @@ PosixClock::PosixClock(clockid_t clk_id) :
 }
 
 //==============================================================================
-//
+// Does nothing
 //==============================================================================
 PosixClock::~PosixClock()
 {
 }
 
 //==============================================================================
-//
+// Returns time according to the users previously specified clock
 //==============================================================================
 int PosixClock::getTime(PosixTimespec& ts) const
 {
