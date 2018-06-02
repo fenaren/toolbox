@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     tp.tv_nsec = 0;
     timespecs.push_back(tp);
 
-    tp.tv_sec = 1;
+    tp.tv_sec = 0;
     tp.tv_nsec = 1;
     timespecs.push_back(tp);
 
@@ -29,9 +29,11 @@ int main(int argc, char** argv)
     tp.tv_nsec = 566486999;
     timespecs.push_back(tp);
 
-    tp.tv_sec = 238576946;
+    tp.tv_sec = 6;
     tp.tv_nsec = 999999999;
     timespecs.push_back(tp);
+
+    std::cout.precision(10);
 
     std::vector<std::pair<unsigned int, unsigned int> > failed_cases;
 
@@ -46,6 +48,17 @@ int main(int argc, char** argv)
             // Test addition
             PosixTimespec ts_sum1 = ts1 + ts2;
             PosixTimespec ts_sum2 = ts2 + ts1;
+
+            timespec ts_sum1_tp;
+            ts_sum1.getTimespec(ts_sum1_tp);
+
+            std::cout << timespecs[i].tv_sec << "("
+                      << timespecs[i].tv_nsec << ") + "
+                      << timespecs[j].tv_sec << "("
+                      << timespecs[j].tv_nsec << ") = "
+                      << ts_sum1_tp.tv_sec << "("
+                      << ts_sum1_tp.tv_nsec << ")\n";
+
             if (!(ts_sum1 == ts_sum2 && ts_sum2 == ts_sum1))
             {
                 failed_cases.push_back(

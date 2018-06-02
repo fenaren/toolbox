@@ -1,6 +1,8 @@
 #if !defined POSIX_TIMESPEC_HPP
 #define POSIX_TIMESPEC_HPP
 
+#include <istream>
+#include <ostream>
 #include <time.h>
 
 class PosixTimespec
@@ -51,6 +53,12 @@ bool operator==(const timespec& lhs,      const PosixTimespec& rhs);
 bool operator!=(const PosixTimespec& lhs, const PosixTimespec& rhs);
 bool operator!=(const PosixTimespec& lhs, const timespec& rhs);
 bool operator!=(const timespec& lhs,      const PosixTimespec& rhs);
+
+// Writes a string representation
+std::ostream& operator<<(std::ostream& os, PosixTimespec& posix_timespec);
+
+// Reads a string representation
+std::istream& operator>>(std::istream& is, PosixTimespec& posix_timespec);
 
 inline void PosixTimespec::getTimespec(timespec& tp) const
 {

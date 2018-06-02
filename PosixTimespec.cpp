@@ -1,4 +1,7 @@
 #include <cmath>
+#include <istream>
+#include <ostream>
+#include <sstream>
 #include <time.h>
 
 #include "PosixTimespec.hpp"
@@ -168,4 +171,32 @@ bool operator!=(const PosixTimespec& lhs, const timespec& rhs)
 bool operator!=(const timespec& lhs, const PosixTimespec& rhs)
 {
     return !(lhs == rhs);
+}
+
+
+//==============================================================================
+// Writes a string representation
+//==============================================================================
+std::ostream& operator<<(std::ostream& os, PosixTimespec& posix_timespec)
+{
+    return os << posix_timespec.getDouble();
+}
+
+//==============================================================================
+// Reads a string representation
+//==============================================================================
+std::istream& operator>>(std::istream& is, PosixTimespec& posix_timespec)
+{
+    // Get the number as a string
+    std::string posix_timespec_str;
+    is >> posix_timespec_str;
+
+    // Convert to double and internalize
+    std::istringstream to_double(posix_timespec_str);
+    double posix_timespec_dbl = 0.0;
+    to_double >> posix_timespec_dbl;
+
+    posix_timespec.setDouble(posix_timespec_dbl);
+
+    return is;
 }
