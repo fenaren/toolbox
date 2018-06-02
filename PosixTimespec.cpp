@@ -9,7 +9,7 @@
 const unsigned int PosixTimespec::nanoseconds_per_second = 1000000000;
 
 //==============================================================================
-// Saves the provided timespec internally
+// Initializes to 0s 0ns
 //==============================================================================
 PosixTimespec::PosixTimespec()
 {
@@ -112,6 +112,20 @@ PosixTimespec& PosixTimespec::operator+=(const PosixTimespec& tp)
 //==============================================================================
 // Does what you would expect
 //==============================================================================
+PosixTimespec& PosixTimespec::operator-=(const timespec& tp)
+{
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+PosixTimespec& PosixTimespec::operator-=(const PosixTimespec& tp)
+{
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
 PosixTimespec operator+(PosixTimespec lhs, const PosixTimespec& rhs)
 {
     lhs += rhs;
@@ -134,6 +148,33 @@ PosixTimespec operator+(timespec lhs, const PosixTimespec& rhs)
 {
     // Addition is symmetric
     return operator+(rhs, lhs);
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+PosixTimespec operator-(PosixTimespec lhs, const PosixTimespec& rhs)
+{
+    lhs -= rhs;
+    return lhs;
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+PosixTimespec operator-(PosixTimespec lhs, const timespec& rhs)
+{
+    lhs -= rhs;
+    return lhs;
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+PosixTimespec operator-(timespec lhs, const PosixTimespec& rhs)
+{
+    lhs -= rhs;
+    return lhs;
 }
 
 //==============================================================================
