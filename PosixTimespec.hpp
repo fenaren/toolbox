@@ -9,8 +9,14 @@ class PosixTimespec
 {
 public:
 
+    // Initializes to 0s 0ns
+    PosixTimespec();
+
     // Saves the proviced timespec internally
     explicit PosixTimespec(const timespec& tp);
+
+    // Converts to timespec before saving
+    PosixTimespec(double tp_sec);
 
     // Does nothing
     ~PosixTimespec();

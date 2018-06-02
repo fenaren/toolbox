@@ -3,11 +3,16 @@
 
 #include "Program.hpp"
 
+#include "PosixClock.hpp"
+#include "PosixTimespec.hpp"
+
 class FixedRateProgram : public Program
 {
 public:
 
     FixedRateProgram(int argc, char** argv, double period_s);
+
+    FixedRateProgram(int argc, char** argv, const PosixTimespec& period);
 
     virtual ~FixedRateProgram();
 
@@ -21,17 +26,18 @@ public:
 
 private:
 
-    double period_s;
+    PosixClock    clock;
+    PosixTimespec period;
 };
 
 inline double FixedRateProgram::getPeriod() const
 {
-    return period_s;
+    return period.getDouble();
 }
 
 inline void FixedRateProgram::setPeriod(double period_s)
 {
-    this->period_s = period_s;
+    this->period.setDouble(period_s);
 }
 
 #endif

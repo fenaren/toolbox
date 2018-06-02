@@ -2,24 +2,39 @@
 
 #include "FixedRateProgram.hpp"
 
+#include "PosixClock.hpp"
+#include "PosixTimespec.hpp"
+
 //==============================================================================
-// OnlineStatistics constructor; initializes internal state by calling reset()
+//
 //==============================================================================
 FixedRateProgram::FixedRateProgram(int argc, char** argv, double period_s) :
     Program(argc, argv),
-    period_s(period_s)
+    clock(CLOCK_MONOTONIC_RAW),
+    period(period_s)
 {
 }
 
 //==============================================================================
-// OnlineStatistics constructor; initializes internal state by calling reset()
+//
+//==============================================================================
+FixedRateProgram::FixedRateProgram(
+    int argc, char** argv, const PosixTimespec& tp) :
+    Program(argc, argv),
+    clock(CLOCK_MONOTONIC_RAW),
+    period(tp)
+{
+}
+
+//==============================================================================
+//
 //==============================================================================
 FixedRateProgram::~FixedRateProgram()
 {
 }
 
 //==============================================================================
-// OnlineStatistics constructor; initializes internal state by calling reset()
+//
 //==============================================================================
 int FixedRateProgram::run()
 {
@@ -27,16 +42,18 @@ int FixedRateProgram::run()
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
-        timespec ts_begin;
-        clock_gettime(CLOCK_MONOTONIC_RAW, &ts_begin);
+        PosixTimespec loop_start;
+        clock.getTime(loop_start);
 
         // Run the iterative code
         step();
 
         // Used to determine the amount of time taken to execute the iterative
         // code
-        timespec ts_end;
-        clock_gettime(CLOCK_MONOTONIC_RAW, &ts_end);
+        PosixTimespec loop_stop;
+        clock.getTime(loop_stop);
+
+        // Sleep until the end of the frame
     }
 
     return 0;

@@ -11,9 +11,26 @@ const unsigned int PosixTimespec::nanoseconds_per_second = 1000000000;
 //==============================================================================
 // Saves the provided timespec internally
 //==============================================================================
+PosixTimespec::PosixTimespec()
+{
+    tp.tv_sec  = 0;
+    tp.tv_nsec = 0;
+}
+
+//==============================================================================
+// Saves the provided timespec internally
+//==============================================================================
 PosixTimespec::PosixTimespec(const timespec& tp) :
     tp(tp)
 {
+}
+
+//==============================================================================
+// Converts to timespec before saving
+//==============================================================================
+PosixTimespec::PosixTimespec(double tp_sec)
+{
+    setDouble(tp_sec);
 }
 
 //==============================================================================
