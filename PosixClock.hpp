@@ -9,14 +9,20 @@ class PosixClock
 {
 public:
 
+    // Saves user specified clock
     explicit PosixClock(clockid_t clk_id);
 
+    // Does nothing
     ~PosixClock();
 
+    // Returns time according to the users previously specified clock and the
+    // POSIX clock_gettime function
     int getTime(PosixTimespec& ts) const;
 
+    // Saves user specified POSIX clock
     void setClockId(clockid_t clk_id);
 
+    // Returns POSIX clock in use
     clockid_t getClockId() const;
 
 private:
