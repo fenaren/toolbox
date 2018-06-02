@@ -19,6 +19,12 @@ public:
     // Sets internally-saved timespec
     void setTimespec(const timespec& tp);
 
+    // Converts timespec to a double-precision floating point
+    double getDouble() const;
+
+    // Sets self based on provided double-precision floating point number
+    bool setDouble(double tp_dbl);
+
     PosixTimespec& operator=(const timespec& tp);
 
     // Performs integer addition so no data loss occurs; tv_nsec overflows and

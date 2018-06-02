@@ -1,3 +1,4 @@
+#include <cmath>
 #include <time.h>
 
 #include "PosixTimespec.hpp"
@@ -17,6 +18,35 @@ PosixTimespec::PosixTimespec(const timespec& tp) :
 //==============================================================================
 PosixTimespec::~PosixTimespec()
 {
+}
+
+//==============================================================================
+// Returns double-precision floating point representation of timespec
+//==============================================================================
+double PosixTimespec::getDouble() const
+{
+    return static_cast<double>(this->tp.tv_sec) +
+        (static_cast<double>(this->tp.tv_nsec) /
+         static_cast<double>(nanoseconds_per_second));
+}
+
+//==============================================================================
+// Sets timespec based on provided double-precision floating point number
+//==============================================================================
+bool PosixTimespec::setDouble(double tp_dbl)
+{
+    // This class can't represent values less than zero
+    if (tp_dbl < 0.0)
+    {
+        return false;
+    }
+
+    double fractional_part = 0.0;
+    this->tp.tv_sec  = std::modf(tp_dbl, &fractional_part);
+    this->tp.tv_nsec = fractional_part *
+        static_cast<double>(nanoseconds_per_second);
+
+    return true;
 }
 
 //==============================================================================

@@ -25,6 +25,14 @@ int main(int argc, char** argv)
     tp.tv_nsec = 566486;
     timespecs.push_back(tp);
 
+    tp.tv_sec = 8576946;
+    tp.tv_nsec = 566486999;
+    timespecs.push_back(tp);
+
+    tp.tv_sec = 238576946;
+    tp.tv_nsec = 999999999;
+    timespecs.push_back(tp);
+
     std::vector<std::pair<unsigned int, unsigned int> > failed_cases;
 
     for (unsigned int i = 0; i < timespecs.size(); i++)
