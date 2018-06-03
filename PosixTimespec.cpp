@@ -114,6 +114,16 @@ PosixTimespec& PosixTimespec::operator+=(const PosixTimespec& tp)
 //==============================================================================
 PosixTimespec& PosixTimespec::operator-=(const timespec& tp)
 {
+    this->tp.tv_sec -= tp.tv_sec;
+
+    if (tp.tv_nsec > this->tp.tv_nsec)
+    {
+        this->tp.tv_sec -= 1;
+        this->tp.tv_nsec = nanoseconds_per_second -
+            (tp.tv_nsec - this->tp.tv_nsec);
+    }
+
+    return *this;
 }
 
 //==============================================================================
@@ -121,6 +131,10 @@ PosixTimespec& PosixTimespec::operator-=(const timespec& tp)
 //==============================================================================
 PosixTimespec& PosixTimespec::operator-=(const PosixTimespec& tp)
 {
+    timespec tp_temp;
+    tp.getTimespec(tp_temp);
+
+    return operator-=(tp_temp);
 }
 
 //==============================================================================
@@ -173,8 +187,8 @@ PosixTimespec operator-(PosixTimespec lhs, const timespec& rhs)
 //==============================================================================
 PosixTimespec operator-(timespec lhs, const PosixTimespec& rhs)
 {
-    lhs -= rhs;
-    return lhs;
+    PosixTimespec lhs_ts(lhs);
+    return operator-(lhs_ts, rhs);
 }
 
 //==============================================================================
