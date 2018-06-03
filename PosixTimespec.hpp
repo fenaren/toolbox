@@ -9,8 +9,14 @@ class PosixTimespec
 {
 public:
 
+    // Initializes to 0s 0ns
+    PosixTimespec();
+
     // Saves the proviced timespec internally
     explicit PosixTimespec(const timespec& tp);
+
+    // Converts to timespec before saving
+    explicit PosixTimespec(double tp_sec);
 
     // Does nothing
     ~PosixTimespec();
@@ -34,6 +40,11 @@ public:
     PosixTimespec& operator+=(const timespec& tp);
     PosixTimespec& operator+=(const PosixTimespec& tp);
 
+    // Performs integer subtraction so no data loss occurs; tv_nsec underflows
+    // and subtracts from tv_sec as one would expect
+    PosixTimespec& operator-=(const timespec& tp);
+    PosixTimespec& operator-=(const PosixTimespec& tp);
+
 private:
 
     // POSIX-defined
@@ -45,6 +56,10 @@ private:
 PosixTimespec operator+(PosixTimespec lhs,  const PosixTimespec& rhs);
 PosixTimespec operator+(PosixTimespec lhs,  const timespec& rhs);
 PosixTimespec operator+(timespec lhs,       const PosixTimespec& rhs);
+
+PosixTimespec operator-(PosixTimespec lhs,  const PosixTimespec& rhs);
+PosixTimespec operator-(PosixTimespec lhs,  const timespec& rhs);
+PosixTimespec operator-(timespec lhs,       const PosixTimespec& rhs);
 
 bool operator==(const PosixTimespec& lhs, const PosixTimespec& rhs);
 bool operator==(const PosixTimespec& lhs, const timespec& rhs);

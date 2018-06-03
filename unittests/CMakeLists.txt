@@ -32,5 +32,16 @@ target_include_directories(PosixTimespec.ut PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}/../networking)
 target_link_libraries(PosixTimespec.ut toolbox)
 
+# Add the FixedRateProgram executable
+add_executable(FixedRateProgram.ut
+        ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgram.ut.cpp)
+add_dependencies(FixedRateProgram.ut toolbox)
+target_include_directories(FixedRateProgram.ut PUBLIC
+  ${CMAKE_CURRENT_LIST_DIR}/.
+  ${CMAKE_CURRENT_LIST_DIR}/..
+  ${CMAKE_CURRENT_LIST_DIR}/../networking)
+target_link_libraries(FixedRateProgram.ut toolbox)
+
 add_custom_target(unittests)
-add_dependencies(unittests Log.ut MacAddress.ut Program.ut PosixTimespec.ut)
+add_dependencies(unittests
+        Log.ut MacAddress.ut Program.ut PosixTimespec.ut FixedRateProgram.ut)
