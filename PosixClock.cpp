@@ -44,6 +44,6 @@ void PosixClock::nanosleep(const PosixTimespec& ts)
     // clock_nanosleep isn't implemented on macOS?
     ::nanosleep(&tp, 0);
 #else
-    clock_nanosleep(clk_id, &tp, 0);
+    clock_nanosleep(clk_id, 0, &tp, 0);
 #endif
 }
