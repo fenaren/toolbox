@@ -57,6 +57,36 @@ int main(int argc, char** argv)
 
     subtraction_cases.push_back(tt);
 
+    // SUBTRACTION CASE 3
+    tp.tv_sec = 5;
+    tp.tv_nsec = 0;
+    tt.lhs = tp;
+
+    tp.tv_sec = 2;
+    tp.tv_nsec = 500000000;
+    tt.rhs = tp;
+
+    tp.tv_sec = 2;
+    tp.tv_nsec = 500000000;
+    tt.result = tp;
+
+    subtraction_cases.push_back(tt);
+
+    // SUBTRACTION CASE 4
+    tp.tv_sec = 1;
+    tp.tv_nsec = 250000000;
+    tt.lhs = tp;
+
+    tp.tv_sec = 0;
+    tp.tv_nsec = 750000000;
+    tt.rhs = tp;
+
+    tp.tv_sec = 0;
+    tp.tv_nsec = 500000000;
+    tt.result = tp;
+
+    subtraction_cases.push_back(tt);
+
     for (unsigned int i = 0; i < subtraction_cases.size(); i++)
     {
         PosixTimespec result = PosixTimespec(subtraction_cases[i].lhs) -
