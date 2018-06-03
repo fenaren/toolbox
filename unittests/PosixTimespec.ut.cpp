@@ -3,11 +3,87 @@
 
 #include "PosixTimespec.hpp"
 
+struct TimespecTuple
+{
+    timespec lhs;
+    timespec rhs;
+    timespec result;
+};
+
 int main(int argc, char** argv)
 {
-    std::vector<timespec> timespecs;
+    std::cout.precision(10);
 
     timespec tp;
+    TimespecTuple tt;
+
+    // Let's do some conclusive addition tests
+    std::vector<TimespecTuple> addition_cases;
+    std::vector<TimespecTuple> addition_cases_failed;
+
+    // Let's do some conclusive subtraction tests
+    std::vector<TimespecTuple> subtraction_cases;
+    std::vector<TimespecTuple> subtraction_cases_failed;
+
+    std::vector<timespec> timespecs;
+
+    // SUBTRACTION CASE 1
+    tp.tv_sec  = 0;
+    tp.tv_nsec = 0;
+    tt.lhs = tp;
+
+    tp.tv_sec  = 0;
+    tp.tv_nsec = 1;
+    tt.rhs = tp;
+
+    tp.tv_sec  -= 1;
+    tp.tv_nsec = 999999999;
+    tt.result = tp;
+
+    subtraction_cases.push_back(tt);
+
+    // SUBTRACTION CASE 2
+    tp.tv_sec = 2346;
+    tp.tv_nsec = 999999999;
+    tt.lhs = tp;
+
+    tp.tv_sec = 1000;
+    tp.tv_nsec = 40;
+    tt.rhs = tp;
+
+    tp.tv_sec = 1346;
+    tp.tv_nsec = 999999959;
+    tt.result = tp;
+
+    subtraction_cases.push_back(tt);
+
+    for (unsigned int i = 0; i < subtraction_cases.size(); i++)
+    {
+        PosixTimespec result = PosixTimespec(subtraction_cases[i].lhs) -
+            PosixTimespec(subtraction_cases[i].rhs);
+
+        if (result != subtraction_cases[i].result)
+        {
+            subtraction_cases_failed.push_back(subtraction_cases[i]);
+            timespec result_tp;
+            result.getTimespec(result_tp);
+
+            std::cout << subtraction_cases[i].lhs.tv_sec << "("
+                      << subtraction_cases[i].lhs.tv_nsec << ") - "
+                      << subtraction_cases[i].rhs.tv_sec << "("
+                      << subtraction_cases[i].rhs.tv_nsec << ") = "
+                      << result_tp.tv_sec << "("
+                      << result_tp.tv_nsec << "), should be "
+                      << subtraction_cases[i].result.tv_sec << "("
+                      << subtraction_cases[i].result.tv_nsec << ")\n";
+        }
+    }
+
+    std::cout << "Failed subtraction cases: " << subtraction_cases_failed.size()
+              << "\n";
+
+    // OTHER CASES
+    // These are all tested against each other
 
     tp.tv_sec = 0;
     tp.tv_nsec = 0;
@@ -33,8 +109,6 @@ int main(int argc, char** argv)
     tp.tv_nsec = 999999999;
     timespecs.push_back(tp);
 
-    std::cout.precision(10);
-
     std::vector<std::pair<unsigned int, unsigned int> > failed_cases;
 
     for (unsigned int i = 0; i < timespecs.size(); i++)
@@ -52,12 +126,12 @@ int main(int argc, char** argv)
             timespec ts_sum1_tp;
             ts_sum1.getTimespec(ts_sum1_tp);
 
-            std::cout << timespecs[i].tv_sec << "("
-                      << timespecs[i].tv_nsec << ") + "
-                      << timespecs[j].tv_sec << "("
-                      << timespecs[j].tv_nsec << ") = "
-                      << ts_sum1_tp.tv_sec << "("
-                      << ts_sum1_tp.tv_nsec << ")\n";
+//            std::cout << timespecs[i].tv_sec << "("
+//                      << timespecs[i].tv_nsec << ") + "
+//                      << timespecs[j].tv_sec << "("
+//                      << timespecs[j].tv_nsec << ") = "
+//                      << ts_sum1_tp.tv_sec << "("
+//                      << ts_sum1_tp.tv_nsec << ")\n";
 
             if (!(ts_sum1 == ts_sum2 && ts_sum2 == ts_sum1))
             {
@@ -91,9 +165,9 @@ int main(int argc, char** argv)
         }
     }
 
-    std::cout << "Failed cases: " << failed_cases.size() << "\n";
+    std::cout << "Other failed cases: " << failed_cases.size() << "\n";
 
     // This unit test passes if no failed cases were recorded; remember that a
     // zero return value means success
-    return failed_cases.size() != 0;
+    return !(failed_cases.size() == 0 && subtraction_cases_failed.size() == 0);
 }

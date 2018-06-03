@@ -122,6 +122,10 @@ PosixTimespec& PosixTimespec::operator-=(const timespec& tp)
         this->tp.tv_nsec = nanoseconds_per_second -
             (tp.tv_nsec - this->tp.tv_nsec);
     }
+    else
+    {
+        this->tp.tv_nsec -= tp.tv_nsec;
+    }
 
     return *this;
 }
