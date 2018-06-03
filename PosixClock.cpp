@@ -1,3 +1,5 @@
+#include <time.h>
+
 #include "PosixClock.hpp"
 
 #include "PosixTimespec.hpp"
@@ -28,4 +30,20 @@ int PosixClock::getTime(PosixTimespec& ts) const
     ts = tp;
 
     return cg_ret;
+}
+
+//==============================================================================
+// Calling process sleeps for specified length of time
+//==============================================================================
+void PosixClock::nanosleep(const PosixTimespec& ts)
+{
+    timespec tp;
+    ts.getTimespec(tp);
+
+#if defined MACOS
+    // clock_nanosleep isn't implemented on macOS?
+    ::nanosleep(&tp, 0);
+#else
+    clock_nanosleep(clk_id, &tp, 0);
+#endif
 }

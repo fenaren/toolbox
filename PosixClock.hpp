@@ -25,6 +25,9 @@ public:
     // Returns POSIX clock in use
     clockid_t getClockId() const;
 
+    // Caling process nanosleeps for specified length of time
+    void nanosleep(const PosixTimespec& ts);
+
 private:
 
     // Currently selected POSIX clock source

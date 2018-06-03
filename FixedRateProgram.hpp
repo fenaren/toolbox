@@ -24,10 +24,16 @@ public:
 
     void setPeriod(double period_s);
 
+    bool getTerminate() const;
+
+    void setTerminate(bool terminate);
+
 private:
 
     PosixClock    clock;
     PosixTimespec period;
+
+    bool terminate;
 };
 
 inline double FixedRateProgram::getPeriod() const
@@ -38,6 +44,16 @@ inline double FixedRateProgram::getPeriod() const
 inline void FixedRateProgram::setPeriod(double period_s)
 {
     this->period.setDouble(period_s);
+}
+
+inline bool FixedRateProgram::getTerminate() const
+{
+    return terminate;
+}
+
+inline void FixedRateProgram::setTerminate(bool terminate)
+{
+    this->terminate = terminate;
 }
 
 #endif

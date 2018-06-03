@@ -11,7 +11,8 @@
 FixedRateProgram::FixedRateProgram(int argc, char** argv, double period_s) :
     Program(argc, argv),
     clock(CLOCK_MONOTONIC_RAW),
-    period(period_s)
+    period(period_s),
+    terminate(false)
 {
 }
 
@@ -22,7 +23,8 @@ FixedRateProgram::FixedRateProgram(
     int argc, char** argv, const PosixTimespec& tp) :
     Program(argc, argv),
     clock(CLOCK_MONOTONIC_RAW),
-    period(tp)
+    period(tp),
+    terminate(false)
 {
 }
 
@@ -38,7 +40,7 @@ FixedRateProgram::~FixedRateProgram()
 //==============================================================================
 int FixedRateProgram::run()
 {
-    while(true)
+    while(!terminate)
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
@@ -46,14 +48,15 @@ int FixedRateProgram::run()
         clock.getTime(loop_start);
 
         // Run the iterative code
-        step();
+        terminate = step();
 
         // Used to determine the amount of time taken to execute the iterative
         // code
         PosixTimespec loop_stop;
         clock.getTime(loop_stop);
 
-        // Sleep until the end of the frame
+        // Sleep off the rest of the frame
+        clock.nanosleep(period - (loop_stop - loop_start));
     }
 
     return 0;
