@@ -21,6 +21,89 @@ int main(int argc, char** argv)
     std::vector<TimespecTuple> addition_cases;
     std::vector<TimespecTuple> addition_cases_failed;
 
+    // ADDITION CASE 1
+    tp.tv_sec  = 0;
+    tp.tv_nsec = 0;
+    tt.lhs = tp;
+
+    tp.tv_sec  = 0;
+    tp.tv_nsec = 1;
+    tt.rhs = tp;
+
+    tt.result = tp;
+
+    addition_cases.push_back(tt);
+
+    // ADDITION CASE 2
+    tp.tv_sec = 2346;
+    tp.tv_nsec = 999999999;
+    tt.lhs = tp;
+
+    tp.tv_sec = 1000;
+    tp.tv_nsec = 40;
+    tt.rhs = tp;
+
+    tp.tv_sec = 3347;
+    tp.tv_nsec = 39;
+    tt.result = tp;
+
+    addition_cases.push_back(tt);
+
+    // ADDITION CASE 3
+    tp.tv_sec = 5;
+    tp.tv_nsec = 0;
+    tt.lhs = tp;
+
+    tp.tv_sec = 2;
+    tp.tv_nsec = 500000000;
+    tt.rhs = tp;
+
+    tp.tv_sec = 7;
+    tp.tv_nsec = 500000000;
+    tt.result = tp;
+
+    addition_cases.push_back(tt);
+
+    // ADDITION CASE 4
+    tp.tv_sec = 1;
+    tp.tv_nsec = 250000000;
+    tt.lhs = tp;
+
+    tp.tv_sec = 0;
+    tp.tv_nsec = 750000000;
+    tt.rhs = tp;
+
+    tp.tv_sec = 2;
+    tp.tv_nsec = 0;
+    tt.result = tp;
+
+    addition_cases.push_back(tt);
+
+    for (unsigned int i = 0; i < addition_cases.size(); i++)
+    {
+        PosixTimespec result = PosixTimespec(addition_cases[i].lhs) +
+            PosixTimespec(addition_cases[i].rhs);
+
+        if (result != addition_cases[i].result)
+        {
+            addition_cases_failed.push_back(addition_cases[i]);
+            timespec result_tp;
+            result.getTimespec(result_tp);
+
+            std::cout << addition_cases[i].lhs.tv_sec << "("
+                      << addition_cases[i].lhs.tv_nsec << ") - "
+                      << addition_cases[i].rhs.tv_sec << "("
+                      << addition_cases[i].rhs.tv_nsec << ") = "
+                      << result_tp.tv_sec << "("
+                      << result_tp.tv_nsec << "), should be "
+                      << addition_cases[i].result.tv_sec << "("
+                      << addition_cases[i].result.tv_nsec << ")\n";
+        }
+    }
+
+    std::cout << "Failed addition cases: " << addition_cases_failed.size()
+              << "\n";
+
     // Let's do some conclusive subtraction tests
     std::vector<TimespecTuple> subtraction_cases;
     std::vector<TimespecTuple> subtraction_cases_failed;
