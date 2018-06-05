@@ -249,6 +249,112 @@ bool operator!=(const timespec& lhs, const PosixTimespec& rhs)
     return !(lhs == rhs);
 }
 
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator<(const PosixTimespec& lhs, const PosixTimespec& rhs)
+{
+    timespec lhs_tp;
+    lhs.getTimespec(lhs_tp);
+
+    timespec rhs_tp;
+    rhs.getTimespec(rhs_tp);
+
+    if (lhs_tp.tv_sec == rhs_tp.tv_sec)
+    {
+        return lhs_tp.tv_nsec < rhs_tp.tv_nsec;
+    }
+
+    return lhs_tp.tv_sec < rhs_tp.tv_sec;
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator<(const PosixTimespec& lhs, const timespec& rhs)
+{
+    return lhs < PosixTimespec(rhs);
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator<(const timespec& lhs, const PosixTimespec& rhs)
+{
+    return PosixTimespec(lhs) < rhs;
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator>(const PosixTimespec& lhs, const PosixTimespec& rhs)
+{
+    return rhs < lhs;
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator>(const PosixTimespec& lhs, const timespec& rhs)
+{
+    return rhs < lhs;
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator>(const timespec& lhs, const PosixTimespec& rhs)
+{
+    return rhs < lhs;
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator<=(const PosixTimespec& lhs, const PosixTimespec& rhs)
+{
+    return !(lhs > rhs);
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator<=(const PosixTimespec& lhs, const timespec& rhs)
+{
+    return !(lhs > rhs);
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator<=(const timespec& lhs, const PosixTimespec& rhs)
+{
+    return !(lhs > rhs);
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator>=(const PosixTimespec& lhs, const PosixTimespec& rhs)
+{
+    return !(lhs < rhs);
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator>=(const PosixTimespec& lhs, const timespec& rhs)
+{
+    return !(lhs < rhs);
+}
+
+//==============================================================================
+// Does what you would expect
+//==============================================================================
+bool operator>=(const timespec& lhs, const PosixTimespec& rhs)
+{
+    return !(lhs < rhs);
+}
 
 //==============================================================================
 // Writes a string representation

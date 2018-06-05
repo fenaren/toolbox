@@ -3,6 +3,20 @@
 
 #include "PosixTimespec.hpp"
 
+enum Greater
+{
+    LHS,
+    RHS,
+    EQUAL
+};
+
+struct TimespecGtlt
+{
+    timespec lhs;
+    timespec rhs;
+    Greater  greater;
+};
+
 struct TimespecTuple
 {
     timespec lhs;
@@ -195,6 +209,88 @@ int main(int argc, char** argv)
     std::cout << "Failed subtraction cases: " << subtraction_cases_failed.size()
               << "\n";
 
+    bool pass_gt   = true;
+    bool pass_gteq = true;
+    bool pass_lt   = true;
+    bool pass_lteq = true;
+
+    timespec tp_10;
+    timespec tp_01;
+    timespec tp_11;
+
+    tp_10.tv_sec  = 1;
+    tp_10.tv_nsec = 0;
+
+    tp_01.tv_sec  = 0;
+    tp_01.tv_nsec = 1;
+
+    tp_11.tv_sec  = 1;
+    tp_11.tv_nsec = 1;
+
+    // GREATER THAN
+    if (!(PosixTimespec(tp_10) > tp_01 &&
+          tp_10 > PosixTimespec(tp_01) &&
+          PosixTimespec(tp_10) > PosixTimespec(tp_01) &&
+
+          !(PosixTimespec(tp_10) > tp_10) &&
+          !(tp_10 > PosixTimespec(tp_10)) &&
+          !(PosixTimespec(tp_10) > PosixTimespec(tp_10)) &&
+
+          !(PosixTimespec(tp_01) > tp_10) &&
+          !(tp_01 > PosixTimespec(tp_10)) &&
+          !(PosixTimespec(tp_01) > PosixTimespec(tp_10))))
+    {
+        pass_gt = false;
+    }
+
+    // GREATER OR EQUAL TO
+    if (!(PosixTimespec(tp_10) >= tp_01 &&
+          tp_10 >= PosixTimespec(tp_01) &&
+          PosixTimespec(tp_10) >= PosixTimespec(tp_01) &&
+
+          PosixTimespec(tp_10) >= tp_10 &&
+          tp_10 >= PosixTimespec(tp_10) &&
+          PosixTimespec(tp_10) >= PosixTimespec(tp_10) &&
+
+          !(PosixTimespec(tp_01) >= tp_10) &&
+          !(tp_01 >= PosixTimespec(tp_10)) &&
+          !(PosixTimespec(tp_01) >= PosixTimespec(tp_10))))
+    {
+        pass_gteq = false;
+    }
+
+    // LESS THAN
+    if (!(!(PosixTimespec(tp_10) < tp_01) &&
+          !(tp_10 < PosixTimespec(tp_01)) &&
+          !(PosixTimespec(tp_10) < PosixTimespec(tp_01)) &&
+
+          !(PosixTimespec(tp_10) < tp_10) &&
+          !(tp_10 < PosixTimespec(tp_10)) &&
+          !(PosixTimespec(tp_10) < PosixTimespec(tp_10)) &&
+
+          PosixTimespec(tp_01) < tp_10 &&
+          tp_01 < PosixTimespec(tp_10) &&
+          PosixTimespec(tp_01) < PosixTimespec(tp_10)))
+    {
+        pass_lt = false;
+    }
+
+    // LESS THAN OR EQUAL TO
+    if (!(!(PosixTimespec(tp_10) <= tp_01) &&
+          !(tp_10 <= PosixTimespec(tp_01)) &&
+          !(PosixTimespec(tp_10) <= PosixTimespec(tp_01)) &&
+
+          PosixTimespec(tp_10) <= tp_10 &&
+          tp_10 <= PosixTimespec(tp_10) &&
+          PosixTimespec(tp_10) <= PosixTimespec(tp_10) &&
+
+          PosixTimespec(tp_01) <= tp_10 &&
+          tp_01 <= PosixTimespec(tp_10) &&
+          PosixTimespec(tp_01) <= PosixTimespec(tp_10)))
+    {
+        pass_lteq = false;
+    }
+
     // OTHER CASES
     // These are all tested against each other
 
@@ -282,5 +378,8 @@ int main(int argc, char** argv)
 
     // This unit test passes if no failed cases were recorded; remember that a
     // zero return value means success
-    return !(failed_cases.size() == 0 && subtraction_cases_failed.size() == 0);
+    return !(failed_cases.size() == 0 &&
+             addition_cases_failed.size() == 0 &&
+             subtraction_cases_failed.size() == 0 &&
+             pass_gt && pass_gteq && pass_lt && pass_lteq);
 }

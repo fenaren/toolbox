@@ -53,21 +53,37 @@ private:
     static const unsigned int nanoseconds_per_second;
 };
 
-PosixTimespec operator+(PosixTimespec lhs,  const PosixTimespec& rhs);
-PosixTimespec operator+(PosixTimespec lhs,  const timespec& rhs);
-PosixTimespec operator+(timespec lhs,       const PosixTimespec& rhs);
+PosixTimespec operator+(PosixTimespec lhs, const PosixTimespec& rhs);
+PosixTimespec operator+(PosixTimespec lhs, const timespec&      rhs);
+PosixTimespec operator+(timespec      lhs, const PosixTimespec& rhs);
 
-PosixTimespec operator-(PosixTimespec lhs,  const PosixTimespec& rhs);
-PosixTimespec operator-(PosixTimespec lhs,  const timespec& rhs);
-PosixTimespec operator-(timespec lhs,       const PosixTimespec& rhs);
+PosixTimespec operator-(PosixTimespec lhs, const PosixTimespec& rhs);
+PosixTimespec operator-(PosixTimespec lhs, const timespec&      rhs);
+PosixTimespec operator-(timespec      lhs, const PosixTimespec& rhs);
 
 bool operator==(const PosixTimespec& lhs, const PosixTimespec& rhs);
-bool operator==(const PosixTimespec& lhs, const timespec& rhs);
-bool operator==(const timespec& lhs,      const PosixTimespec& rhs);
+bool operator==(const PosixTimespec& lhs, const timespec&      rhs);
+bool operator==(const timespec&      lhs, const PosixTimespec& rhs);
 
 bool operator!=(const PosixTimespec& lhs, const PosixTimespec& rhs);
-bool operator!=(const PosixTimespec& lhs, const timespec& rhs);
-bool operator!=(const timespec& lhs,      const PosixTimespec& rhs);
+bool operator!=(const PosixTimespec& lhs, const timespec&      rhs);
+bool operator!=(const timespec&      lhs, const PosixTimespec& rhs);
+
+bool operator<(const PosixTimespec& lhs, const PosixTimespec& rhs);
+bool operator<(const PosixTimespec& lhs, const timespec&      rhs);
+bool operator<(const timespec&      lhs, const PosixTimespec& rhs);
+
+bool operator>(const PosixTimespec& lhs, const PosixTimespec& rhs);
+bool operator>(const PosixTimespec& lhs, const timespec&      rhs);
+bool operator>(const timespec&      lhs, const PosixTimespec& rhs);
+
+bool operator<=(const PosixTimespec& lhs, const PosixTimespec& rhs);
+bool operator<=(const PosixTimespec& lhs, const timespec&      rhs);
+bool operator<=(const timespec&      lhs, const PosixTimespec& rhs);
+
+bool operator>=(const PosixTimespec& lhs, const PosixTimespec& rhs);
+bool operator>=(const PosixTimespec& lhs, const timespec&      rhs);
+bool operator>=(const timespec&      lhs, const PosixTimespec& rhs);
 
 // Writes a string representation
 std::ostream& operator<<(std::ostream& os, PosixTimespec& posix_timespec);
