@@ -259,7 +259,6 @@ PosixTimespec operator-(PosixTimespec lhs, double rhs)
 //==============================================================================
 PosixTimespec operator-(double lhs, const PosixTimespec& rhs)
 {
-    // Addition is symmetric
     return PosixTimespec(lhs) - rhs;
 }
 
