@@ -12,7 +12,7 @@ FixedRateProgram::FixedRateProgram(int argc, char** argv, double period_s) :
     Program(argc, argv),
     clock(CLOCK_MONOTONIC_RAW),
     period(period_s),
-    terminate(false)
+    execute(true)
 {
 }
 
@@ -24,7 +24,7 @@ FixedRateProgram::FixedRateProgram(
     Program(argc, argv),
     clock(CLOCK_MONOTONIC_RAW),
     period(tp),
-    terminate(false)
+    execute(true)
 {
 }
 
@@ -40,7 +40,7 @@ FixedRateProgram::~FixedRateProgram()
 //==============================================================================
 int FixedRateProgram::run()
 {
-    while(!terminate)
+    while(execute)
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
@@ -48,7 +48,7 @@ int FixedRateProgram::run()
         clock.getTime(loop_start);
 
         // Run the iterative code
-        terminate = step();
+        execute = step();
 
         // Used to determine the amount of time taken to execute the iterative
         // code

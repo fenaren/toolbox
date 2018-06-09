@@ -10,50 +10,62 @@ class FixedRateProgram : public Program
 {
 public:
 
+    // Argument period_s specifies the period between iterations
     FixedRateProgram(int argc, char** argv, double period_s);
 
+    // Argument period specifies the period between iterations
     FixedRateProgram(int argc, char** argv, const PosixTimespec& period);
 
     virtual ~FixedRateProgram();
 
+    // Runs the step function every "period" length of time
     virtual int run();
 
+    // Iterative code goes here
     virtual bool step() = 0;
 
-    double getPeriod() const;
-
+    // Sets length of time between iterations in seconds
     void setPeriod(double period_s);
 
-    bool getTerminate() const;
+    // Returns length of time between iterations in seconds
+    double getPeriod() const;
 
-    void setTerminate(bool terminate);
+    // Sets length of time between iterations as a PosixTimespec
+    void setPeriod(const PosixTimespec& tp);
+
+    // Returns length of time between iterations as a PosixTimespec
+    void getPeriod(PosixTimespec& tp) const;
 
 private:
 
-    PosixClock    clock;
+    // Time source used to compare elapsed time against period
+    PosixClock clock;
+
+    // Length of time between iterations
     PosixTimespec period;
 
-    bool terminate;
+    // Iterative loop will exit if this is true
+    bool execute;
 };
-
-inline double FixedRateProgram::getPeriod() const
-{
-    return period.toDouble();
-}
 
 inline void FixedRateProgram::setPeriod(double period_s)
 {
     this->period.fromDouble(period_s);
 }
 
-inline bool FixedRateProgram::getTerminate() const
+inline double FixedRateProgram::getPeriod() const
 {
-    return terminate;
+    return period.toDouble();
 }
 
-inline void FixedRateProgram::setTerminate(bool terminate)
+inline void FixedRateProgram::setPeriod(const PosixTimespec& tp)
 {
-    this->terminate = terminate;
+    period = tp;
+}
+
+inline void FixedRateProgram::getPeriod(PosixTimespec& tp) const
+{
+    tp = period;
 }
 
 #endif
