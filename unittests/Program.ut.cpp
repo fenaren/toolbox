@@ -18,11 +18,11 @@ int main(int argc, char** argv)
     ProgramUT program_ut(argc, argv);
 
     std::string name;
-    program_ut.getName(name);
+    program_ut.getProgramName(name);
     std::cout << name << "\n";
 
     std::vector<std::string> arguments;
-    program_ut.getArguments(arguments);
+    program_ut.getProgramArguments(arguments);
     for (std::vector<std::string>::const_iterator i = arguments.begin();
          i != arguments.end();
          ++i)
