@@ -38,12 +38,12 @@ private:
 
 inline double FixedRateProgram::getPeriod() const
 {
-    return period.getDouble();
+    return period.toDouble();
 }
 
 inline void FixedRateProgram::setPeriod(double period_s)
 {
-    this->period.setDouble(period_s);
+    this->period.fromDouble(period_s);
 }
 
 inline bool FixedRateProgram::getTerminate() const
