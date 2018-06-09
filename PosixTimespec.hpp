@@ -3,6 +3,7 @@
 
 #include <istream>
 #include <ostream>
+#include <sys/types.h>
 #include <time.h>
 
 class PosixTimespec
@@ -27,7 +28,21 @@ public:
     // Sets internally-saved timespec
     void setTimespec(const timespec& tp);
 
-    // Converts timespec to a double-precision floating point
+    // Returns current value of timespec seconds field
+    time_t getSeconds() const;
+
+    // Sets the timespec seconds field
+    void setSeconds(time_t s);
+
+    // Returns the timespec nanoseconds field; unlike seconds this field is
+    // explicitly specified in POSIX as long
+    long getNanoseconds() const;
+
+    // Sets the timespec nanoseconds field; unlike seconds this field is
+    // explicitly specified in POSIX as long
+    void setNanoseconds(long ns);
+
+    // tp timespec to a double-precision floating point
     double getDouble() const;
 
     // Sets self based on provided double-precision floating point number
@@ -99,6 +114,25 @@ inline void PosixTimespec::getTimespec(timespec& tp) const
 inline void PosixTimespec::setTimespec(const timespec& tp)
 {
     this->tp = tp;
+}
+
+inline time_t PosixTimespec::getSeconds() const
+{
+    return tp.tv_sec;
+}
+
+inline void PosixTimespec::setSeconds(time_t s)
+{
+    this->tp.tv_sec = s;
+}
+inline long PosixTimespec::getNanoseconds() const
+{
+    return tp.tv_nsec;
+}
+
+inline void PosixTimespec::setNanoseconds(long ns)
+{
+    this->tp.tv_nsec = ns;
 }
 
 #endif
