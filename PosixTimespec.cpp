@@ -200,7 +200,7 @@ PosixTimespec operator+(PosixTimespec lhs, const timespec& rhs)
 PosixTimespec operator+(timespec lhs, const PosixTimespec& rhs)
 {
     // Addition is symmetric
-    return operator+(rhs, lhs);
+    return rhs + lhs;
 }
 
 //==============================================================================
@@ -208,7 +208,7 @@ PosixTimespec operator+(timespec lhs, const PosixTimespec& rhs)
 //==============================================================================
 PosixTimespec operator+(PosixTimespec lhs, double rhs)
 {
-    return operator+(lhs, PosixTimespec(rhs));
+    return lhs + PosixTimespec(rhs);
 }
 
 //==============================================================================
@@ -217,7 +217,7 @@ PosixTimespec operator+(PosixTimespec lhs, double rhs)
 PosixTimespec operator+(double lhs, const PosixTimespec& rhs)
 {
     // Addition is symmetric
-    return operator+(rhs, lhs);
+    return rhs + lhs;
 }
 
 //==============================================================================
@@ -243,8 +243,7 @@ PosixTimespec operator-(PosixTimespec lhs, const timespec& rhs)
 //==============================================================================
 PosixTimespec operator-(timespec lhs, const PosixTimespec& rhs)
 {
-    PosixTimespec lhs_ts(lhs);
-    return operator-(lhs_ts, rhs);
+    return PosixTimespec(lhs) - rhs;
 }
 
 //==============================================================================
