@@ -133,7 +133,7 @@ PosixTimespec& PosixTimespec::operator+=(const PosixTimespec& tp)
     timespec tp_temp;
     tp.getTimespec(tp_temp);
 
-    return operator+=(tp_temp);
+    return *this += tp_temp;
 }
 
 //==============================================================================
@@ -173,7 +173,7 @@ PosixTimespec& PosixTimespec::operator-=(const PosixTimespec& tp)
     timespec tp_temp;
     tp.getTimespec(tp_temp);
 
-    return operator-=(tp_temp);
+    return *this -= tp_temp;
 }
 
 //==============================================================================
