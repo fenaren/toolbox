@@ -8,55 +8,43 @@
 //==============================================================================
 //
 //==============================================================================
-FixedRateProgram::FixedRateProgram(int argc, char** argv, double period_s) :
-    Program(argc, argv),
-    clock(CLOCK_MONOTONIC_RAW),
-    period(period_s),
-    execute(true)
-{
-}
-
-//==============================================================================
-//
-//==============================================================================
-FixedRateProgram::FixedRateProgram(
-    int argc, char** argv, const PosixTimespec& tp) :
+FixedRateProgram::FixedRateProgram(int                  argc,
+                                   char**               argv,
+                                   const PosixTimespec& tp) :
     Program(argc, argv),
     clock(CLOCK_MONOTONIC_RAW),
     period(tp),
-    execute(true)
+    terminate(false)
 {
 }
 
 //==============================================================================
-//
+// Does nothing
 //==============================================================================
 FixedRateProgram::~FixedRateProgram()
 {
 }
 
 //==============================================================================
-//
+// Step until we're told to stop
 //==============================================================================
 int FixedRateProgram::run()
 {
-    while(execute)
+    while(!terminate)
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
-        PosixTimespec loop_start;
-        clock.getTime(loop_start);
+        clock.getTime(frame_start);
 
         // Run the iterative code
-        execute = step();
+        step();
 
         // Used to determine the amount of time taken to execute the iterative
         // code
-        PosixTimespec loop_stop;
-        clock.getTime(loop_stop);
+        clock.getTime(frame_stop);
 
         // Sleep off the rest of the frame
-        clock.nanosleep(period - (loop_stop - loop_start));
+        clock.nanosleep(period - (frame_stop - frame_start));
     }
 
     return 0;
