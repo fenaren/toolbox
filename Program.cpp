@@ -31,6 +31,14 @@ Program::~Program()
 }
 
 //==============================================================================
+// Do nothing and signal success by default
+//==============================================================================
+int Program::signal(int sig)
+{
+    return 0;
+}
+
+//==============================================================================
 // Reconfigure self as a background process (daemon)
 //==============================================================================
 bool Program::daemonize()
@@ -42,7 +50,7 @@ bool Program::daemonize()
 //==============================================================================
 // Returns a copy of the program name
 //==============================================================================
-void Program::getName(std::string& name) const
+void Program::getProgramName(std::string& name) const
 {
     name = program_name;
 }
@@ -50,7 +58,7 @@ void Program::getName(std::string& name) const
 //==============================================================================
 // Returns a copy of the program arguments
 //==============================================================================
-void Program::getArguments(std::vector<std::string>& arguments) const
+void Program::getProgramArguments(std::vector<std::string>& arguments) const
 {
     arguments = program_arguments;
 }

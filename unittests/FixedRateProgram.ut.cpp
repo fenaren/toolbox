@@ -8,7 +8,7 @@ public:
     TestFRP(int argc, char** argv, double period_s) :
         FixedRateProgram(argc, argv, period_s) {};
 
-    virtual bool step() { std::cout << "Step\n"; return true;}
+    virtual bool step() { std::cout << "Step\n"; return false;}
 };
 
 int main(int argc, char** argv)
