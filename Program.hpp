@@ -22,7 +22,9 @@ public:
     // default this does nothing
     virtual int signal(int sig);
 
-    // Reconfigure self as a background process (daemon)
+    // Reconfigure self as a background process (daemon); this may be a behavior
+    // that only makes sense to implement at this level on Linux systems, not
+    // sure
     static bool daemonize();
 
     // Returns a copy of the program name
