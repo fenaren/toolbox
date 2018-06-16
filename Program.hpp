@@ -34,7 +34,8 @@ public:
     // Returns a copy of the program arguments
     void getArguments(std::vector<std::string>& arguments) const;
 
-    void getReceivedSignals(sigset_t& sigset);
+    // Returns a copy of the set of delivered signals
+    void getDeliveredSignals(sigset_t& sigset);
 
     // C function "cfun" is assigned to handle signals of type sig
     static bool attachSignal(int sig, void cfun(int));
@@ -53,10 +54,10 @@ private:
     std::vector<std::string> arguments;
 
     // Received signals line up here
-    sigset_t received_signals;
+    sigset_t delivered_signals;
 
-    // Provides mutually exclusive access to received_signals
-    pthread_mutex_t received_signals_mutex;
+    // Provides mutually exclusive access to delivered_signals
+    pthread_mutex_t delivered_signals_mutex;
 };
 
 #endif

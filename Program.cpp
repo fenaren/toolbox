@@ -25,10 +25,10 @@ Program::Program(int argc, char** argv)
     }
 
     // We haven't received any signals yet
-    sigemptyset(&received_signals);
+    sigemptyset(&delivered_signals);
 
     // Default attributes should be good enough
-    pthread_mutex_init(&received_signals_mutex, 0);
+    pthread_mutex_init(&delivered_signals_mutex, 0);
 }
 
 //==============================================================================
@@ -56,9 +56,9 @@ bool Program::attachSignal(int sig, void cfun(int))
 void Program::signal(int sig)
 {
     // Add this signal to our list of received signals
-    pthread_mutex_lock(&received_signals_mutex);
-    sigaddset(&received_signals, sig);
-    pthread_mutex_unlock(&received_signals_mutex);
+    pthread_mutex_lock(&delivered_signals_mutex);
+    sigaddset(&delivered_signals, sig);
+    pthread_mutex_unlock(&delivered_signals_mutex);
 }
 
 //==============================================================================
@@ -67,9 +67,9 @@ void Program::signal(int sig)
 void Program::processSignals()
 {
     
-    pthread_mutex_lock(&received_signals_mutex);
-    sigemptyset(&received_signals);
-    pthread_mutex_unlock(&received_signals_mutex);
+    pthread_mutex_lock(&delivered_signals_mutex);
+    sigemptyset(&delivered_signals);
+    pthread_mutex_unlock(&delivered_signals_mutex);
 }
 
 //==============================================================================
@@ -91,11 +91,11 @@ void Program::getArguments(std::vector<std::string>& arguments) const
 //==============================================================================
 //
 //==============================================================================
-void Program::getReceivedSignals(sigset_t& sigset)
+void Program::getDeliveredSignals(sigset_t& sigset)
 {
-    pthread_mutex_lock(&received_signals_mutex);
-    sigset = this->received_signals;
-    pthread_mutex_unlock(&received_signals_mutex);
+    pthread_mutex_lock(&delivered_signals_mutex);
+    sigset = this->delivered_signals;
+    pthread_mutex_unlock(&delivered_signals_mutex);
 }
 
 //==============================================================================
