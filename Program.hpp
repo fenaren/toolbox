@@ -20,13 +20,10 @@ public:
     // Derived programs implement the program in here
     virtual int run() = 0;
 
-    // External sources can use this interface to signal this program; signals
-    // are not handled immediately, they are placed on a list and handled within
-    // the processSignals member function
+    // THREAD-SAFE; External sources can use this interface to signal this
+    // program; signals are not handled immediately, they are placed on a list
+    // and handled within the processSignals member function
     void signal(int sig);
-
-    // Handles signals received via signal()
-    virtual void processSignals();
 
     // Returns a copy of the program name
     void getName(std::string& name) const;
@@ -34,7 +31,7 @@ public:
     // Returns a copy of the program arguments
     void getArguments(std::vector<std::string>& arguments) const;
 
-    // Returns a copy of the set of delivered signals
+    // THREAD-SAFE; Returns a copy of the set of delivered signals
     void getDeliveredSignals(sigset_t& sigset);
 
     // C function "cfun" is assigned to handle signals of type sig
@@ -44,6 +41,21 @@ public:
     // that only makes sense to implement at this level on Linux systems, not
     // sure
     static bool daemonize();
+
+protected:
+
+    // Derived classes should implement this function with their signal handling
+    // code; get the current set of delivered signals by calling
+    // getDeliveredSignals(); after signals are processed use unsignal() or
+    // unsignalAll() to mark signals as processed
+    virtual void processDeliveredSignals();
+
+    // THREAD-SAFE; Removes a particular signal from the set of delivered
+    // signals
+    void unsignal(int sig);
+
+    // THREAD-SAFE; Removes all signals from the set of delivered signals
+    void unsignalAll();
 
 private:
 

@@ -41,34 +41,11 @@ Program::~Program()
 //==============================================================================
 //
 //==============================================================================
-bool Program::attachSignal(int sig, void cfun(int))
-{
-    struct sigaction act;
-    act.sa_handler = cfun;
-    act.sa_flags = 0;
-
-    return sigaction(SIGINT, &act, 0) != -1;
-}
-
-//==============================================================================
-//
-//==============================================================================
 void Program::signal(int sig)
 {
     // Add this signal to our list of received signals
     pthread_mutex_lock(&delivered_signals_mutex);
     sigaddset(&delivered_signals, sig);
-    pthread_mutex_unlock(&delivered_signals_mutex);
-}
-
-//==============================================================================
-//
-//==============================================================================
-void Program::processSignals()
-{
-    
-    pthread_mutex_lock(&delivered_signals_mutex);
-    sigemptyset(&delivered_signals);
     pthread_mutex_unlock(&delivered_signals_mutex);
 }
 
@@ -99,10 +76,50 @@ void Program::getDeliveredSignals(sigset_t& sigset)
 }
 
 //==============================================================================
+//
+//==============================================================================
+bool Program::attachSignal(int sig, void cfun(int))
+{
+    struct sigaction act;
+    act.sa_handler = cfun;
+    act.sa_flags = 0;
+
+    return sigaction(SIGINT, &act, 0) != -1;
+}
+
+//==============================================================================
 // Reconfigure self as a background process (daemon)
 //==============================================================================
 bool Program::daemonize()
 {
     // Linux-specific and possibly outdated
     return daemon(0, 0) == 0;
+}
+
+//==============================================================================
+//
+//==============================================================================
+void Program::processDeliveredSignals()
+{
+    unsignalAll();
+}
+
+//==============================================================================
+//
+//==============================================================================
+void Program::unsignal(int sig)
+{
+    pthread_mutex_lock(&delivered_signals_mutex);
+    sigdelset(&delivered_signals, sig);
+    pthread_mutex_unlock(&delivered_signals_mutex);
+}
+
+//==============================================================================
+//
+//==============================================================================
+void Program::unsignalAll()
+{
+    pthread_mutex_lock(&delivered_signals_mutex);
+    sigemptyset(&delivered_signals);
+    pthread_mutex_unlock(&delivered_signals_mutex);
 }
