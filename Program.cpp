@@ -85,7 +85,7 @@ void Program::getName(std::string& name) const
 //==============================================================================
 void Program::getArguments(std::vector<std::string>& arguments) const
 {
-    arguments = arguments;
+    arguments = this->arguments;
 }
 
 //==============================================================================
