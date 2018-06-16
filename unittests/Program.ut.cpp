@@ -17,7 +17,7 @@ ProgramUT* program_utp = 0;
 
 void handle_signal(int sig)
 {
-    program_utp->handleSignal(sig);
+    program_utp->signal(sig);
 }
 
 int main(int argc, char** argv)

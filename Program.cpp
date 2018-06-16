@@ -1,4 +1,5 @@
 #include <csignal>
+#include <pthread.h>
 #include <string>
 #include <unistd.h>
 #include <utility>
@@ -22,6 +23,12 @@ Program::Program(int argc, char** argv)
     {
         arguments.push_back(argv[i]);
     }
+
+    // We haven't received any signals yet
+    sigemptyset(&received_signals);
+
+    // Default attributes should be good enough
+    pthread_mutex_init(&received_signals_mutex, 0);
 }
 
 //==============================================================================
@@ -46,9 +53,23 @@ bool Program::attachSignal(int sig, void cfun(int))
 //==============================================================================
 //
 //==============================================================================
-int Program::handleSignal(int sig)
+void Program::signal(int sig)
 {
-    return 0;
+    // Add this signal to our list of received signals
+    pthread_mutex_lock(&received_signals_mutex);
+    sigaddset(&received_signals, sig);
+    pthread_mutex_unlock(&received_signals_mutex);
+}
+
+//==============================================================================
+//
+//==============================================================================
+void Program::processSignals()
+{
+    
+    pthread_mutex_lock(&received_signals_mutex);
+    sigemptyset(&received_signals);
+    pthread_mutex_unlock(&received_signals_mutex);
 }
 
 //==============================================================================
@@ -65,6 +86,16 @@ void Program::getName(std::string& name) const
 void Program::getArguments(std::vector<std::string>& arguments) const
 {
     arguments = arguments;
+}
+
+//==============================================================================
+//
+//==============================================================================
+void Program::getReceivedSignals(sigset_t& sigset)
+{
+    pthread_mutex_lock(&received_signals_mutex);
+    sigset = this->received_signals;
+    pthread_mutex_unlock(&received_signals_mutex);
 }
 
 //==============================================================================
