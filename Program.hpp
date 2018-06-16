@@ -18,20 +18,23 @@ public:
     // Derived programs implement the program in here
     virtual int run() = 0;
 
+    // 
+    bool attachSignal(int sig, void cfun(int));
+
     // External sources can use this interface to signal this program; by
     // default this does nothing
-    virtual int signal(int sig);
-
-    // Reconfigure self as a background process (daemon); this may be a behavior
-    // that only makes sense to implement at this level on Linux systems, not
-    // sure
-    static bool daemonize();
+    virtual int handleSignal(int sig);
 
     // Returns a copy of the program name
     void getName(std::string& name) const;
 
     // Returns a copy of the program arguments
     void getArguments(std::vector<std::string>& arguments) const;
+
+    // Reconfigure self as a background process (daemon); this may be a behavior
+    // that only makes sense to implement at this level on Linux systems, not
+    // sure
+    static bool daemonize();
 
 private:
 
