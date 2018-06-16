@@ -24,7 +24,7 @@ Program::Program(int argc, char** argv)
         arguments.push_back(argv[i]);
     }
 
-    // We haven't received any signals yet
+    // No signals delivered, we're not even running yet
     sigemptyset(&delivered_signals);
 
     // Default attributes should be good enough
@@ -45,7 +45,7 @@ Program::~Program()
 //==============================================================================
 void Program::signal(int sig)
 {
-    // Add this signal to our list of received signals
+    // Add this signal to our list of delivered signals
     pthread_mutex_lock(&delivered_signals_mutex);
     sigaddset(&delivered_signals, sig);
     pthread_mutex_unlock(&delivered_signals_mutex);

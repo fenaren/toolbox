@@ -69,7 +69,8 @@ private:
     // Arguments given to the program at runtime
     std::vector<std::string> arguments;
 
-    // Received signals line up here
+    // Delivered signals line up here; signals should be cleared after being
+    // handled
     sigset_t delivered_signals;
 
     // Provides mutually exclusive access to delivered_signals
