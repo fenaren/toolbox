@@ -28,18 +28,18 @@ public:
     static bool daemonize();
 
     // Returns a copy of the program name
-    void getProgramName(std::string& name) const;
+    void getName(std::string& name) const;
 
     // Returns a copy of the program arguments
-    void getProgramArguments(std::vector<std::string>& arguments) const;
+    void getArguments(std::vector<std::string>& arguments) const;
 
 private:
 
     // String used to launch this program at the command line
-    std::string program_name;
+    std::string name;
 
     // Arguments given to the program at runtime
-    std::vector<std::string> program_arguments;
+    std::vector<std::string> arguments;
 };
 
 #endif

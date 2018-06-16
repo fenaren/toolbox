@@ -6,20 +6,20 @@
 #include "Program.hpp"
 
 //==============================================================================
-// Parses program arguments and stores in program_arguments
+// Parses program arguments and stores in arguments
 //==============================================================================
 Program::Program(int argc, char** argv)
 {
     // Program name is always the first argument
     if (argc > 0)
     {
-        program_name = argv[0];
+        name = argv[0];
     }
 
     // Store all arguments
     for (int i = 1; i < argc; i++)
     {
-        program_arguments.push_back(argv[i]);
+        arguments.push_back(argv[i]);
     }
 }
 
@@ -50,15 +50,15 @@ bool Program::daemonize()
 //==============================================================================
 // Returns a copy of the program name
 //==============================================================================
-void Program::getProgramName(std::string& name) const
+void Program::getName(std::string& name) const
 {
-    name = program_name;
+    name = this->name;
 }
 
 //==============================================================================
 // Returns a copy of the program arguments
 //==============================================================================
-void Program::getProgramArguments(std::vector<std::string>& arguments) const
+void Program::getArguments(std::vector<std::string>& arguments) const
 {
-    arguments = program_arguments;
+    arguments = arguments;
 }
