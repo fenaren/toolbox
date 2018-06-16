@@ -34,7 +34,7 @@ public:
     // THREAD-SAFE; Returns a copy of the set of delivered signals
     void getDeliveredSignals(sigset_t& sigset);
 
-    // Returns true if sig has been delivered
+    // THREAD-SAFE; Returns true if sig has been delivered
     bool isSignalDelivered(int sig);
 
     // C function "cfun" is assigned to handle signals of type sig

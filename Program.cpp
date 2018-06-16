@@ -39,7 +39,9 @@ Program::~Program()
 }
 
 //==============================================================================
-//
+// THREAD-SAFE; External sources can use this interface to signal this program;
+// signals are not handled immediately, they are placed on a list and handled
+// within the processSignals member function
 //==============================================================================
 void Program::signal(int sig)
 {
@@ -66,7 +68,7 @@ void Program::getArguments(std::vector<std::string>& arguments) const
 }
 
 //==============================================================================
-//
+// THREAD-SAFE; Returns a copy of the set of delivered signals
 //==============================================================================
 void Program::getDeliveredSignals(sigset_t& sigset)
 {
@@ -76,7 +78,7 @@ void Program::getDeliveredSignals(sigset_t& sigset)
 }
 
 //==============================================================================
-//
+// THREAD-SAFE; Returns true if sig has been delivered
 //==============================================================================
 bool Program::isSignalDelivered(int sig)
 {
@@ -88,7 +90,7 @@ bool Program::isSignalDelivered(int sig)
 }
 
 //==============================================================================
-//
+// C function "cfun" is assigned to handle signals of type sig
 //==============================================================================
 bool Program::attachSignal(int sig, void cfun(int))
 {
@@ -109,7 +111,11 @@ bool Program::daemonize()
 }
 
 //==============================================================================
-//
+// Derived classes should implement this function with their signal handling
+// code; get the current set of delivered signals by calling
+// getDeliveredSignals() or check if a particular signal is delivered using
+// isSignalDelivered(); after signals are processed use unsignal() or
+// unsignalAll() to mark signals as processed
 //==============================================================================
 void Program::processDeliveredSignals()
 {
@@ -117,7 +123,7 @@ void Program::processDeliveredSignals()
 }
 
 //==============================================================================
-//
+// THREAD-SAFE; Removes a particular signal from the set of delivered signals
 //==============================================================================
 void Program::unsignal(int sig)
 {
@@ -127,7 +133,7 @@ void Program::unsignal(int sig)
 }
 
 //==============================================================================
-//
+// THREAD-SAFE; Removes all signals from the set of delivered signals
 //==============================================================================
 void Program::unsignalAll()
 {
