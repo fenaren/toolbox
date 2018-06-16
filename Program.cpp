@@ -97,6 +97,7 @@ bool Program::attachSignal(int sig, void cfun(int))
     struct sigaction act;
     act.sa_handler = cfun;
     act.sa_flags = 0;
+    sigemptyset(&act.sa_mask);
 
     return sigaction(SIGINT, &act, 0) != -1;
 }
