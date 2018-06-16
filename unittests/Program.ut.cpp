@@ -33,7 +33,7 @@ protected:
 
 ProgramUT* program_utp = 0;
 
-void handle_signal(int sig)
+extern "C" void handle_signal(int sig)
 {
     program_utp->signal(sig);
 }
