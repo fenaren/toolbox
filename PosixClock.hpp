@@ -26,7 +26,7 @@ public:
     clockid_t getClockId() const;
 
     // Caling process nanosleeps for specified length of time
-    static void nanosleep(const PosixTimespec& ts);
+    void nanosleep(const PosixTimespec& ts);
 
 private:
 
