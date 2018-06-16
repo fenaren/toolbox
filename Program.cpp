@@ -78,6 +78,18 @@ void Program::getDeliveredSignals(sigset_t& sigset)
 //==============================================================================
 //
 //==============================================================================
+bool Program::isSignalDelivered(int sig)
+{
+    pthread_mutex_lock(&delivered_signals_mutex);
+    bool signal_delivered = sigismember(&delivered_signals, sig);
+    pthread_mutex_unlock(&delivered_signals_mutex);
+
+    return signal_delivered;
+}
+
+//==============================================================================
+//
+//==============================================================================
 bool Program::attachSignal(int sig, void cfun(int))
 {
     struct sigaction act;

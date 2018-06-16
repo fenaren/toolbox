@@ -34,6 +34,9 @@ public:
     // THREAD-SAFE; Returns a copy of the set of delivered signals
     void getDeliveredSignals(sigset_t& sigset);
 
+    // Returns true if sig has been delivered
+    bool isSignalDelivered(int sig);
+
     // C function "cfun" is assigned to handle signals of type sig
     static bool attachSignal(int sig, void cfun(int));
 
@@ -46,7 +49,8 @@ protected:
 
     // Derived classes should implement this function with their signal handling
     // code; get the current set of delivered signals by calling
-    // getDeliveredSignals(); after signals are processed use unsignal() or
+    // getDeliveredSignals() or check if a particular signal is delivered using
+    // isSignalDelivered(); after signals are processed use unsignal() or
     // unsignalAll() to mark signals as processed
     virtual void processDeliveredSignals();
 
