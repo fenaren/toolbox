@@ -93,7 +93,7 @@ bool Program::isSignalDelivered(int sig)
 //==============================================================================
 // C function "cfun" is assigned to handle signals of type sig
 //==============================================================================
-bool Program::attachSignal(int sig, void cfun(int))
+bool Program::registerSignal(int sig, void cfun(int))
 {
     struct sigaction act;
     act.sa_handler = cfun;
