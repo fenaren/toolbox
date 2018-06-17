@@ -7,15 +7,15 @@ class ProgramUT : public Program
 {
 public:
     ProgramUT(int argc, char** argv) :
-        Program(argc, argv) {}
+        Program(argc, argv), signal_handled(false) {}
 
     virtual ~ProgramUT() {}
 
     virtual int run()
         {
             processDeliveredSignals();
-            processDeliveredSignals();
-            return 1;
+
+            return !signal_handled;
         }
 
 protected:
@@ -24,11 +24,15 @@ protected:
         {
             if (isSignalDelivered(SIGINT))
             {
-                std::cout << "SIGINT received\n";
+                signal_handled = true;
             }
 
             unsignalAll();
         }
+
+private:
+
+    bool signal_handled;
 };
 
 ProgramUT* program_utp = 0;
@@ -67,9 +71,8 @@ int main(int argc, char** argv)
     raise(SIGINT);
     raise(SIGCONT);
 
-    program_ut.run();
+    // run() returns 0 if successful
+    int signal_ok = program_ut.run();
 
-    bool success = program_ut.daemonize();
-    std::cout << "THIS TEXT SHOULD NOT BE DISPLAYED\n";
-    return !success;
+    return signal_ok;
 }
