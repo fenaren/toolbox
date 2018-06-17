@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 
     // This has to happen after the assignment above because handle_signal
     // dereferences program_utp
-    program_ut.attachSignal(SIGINT, handle_signal);
+    program_ut.registerSignal(SIGINT, handle_signal);
 
     std::string name;
     program_ut.getName(name);

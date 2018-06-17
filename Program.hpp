@@ -38,7 +38,7 @@ public:
     bool isSignalDelivered(int sig);
 
     // C function "cfun" is assigned to handle signals of type sig
-    static bool attachSignal(int sig, void cfun(int));
+    static bool registerSignal(int sig, void cfun(int));
 
     // Reconfigure self as a background process (daemon); this may be a behavior
     // that only makes sense to implement at this level on Linux systems, not
