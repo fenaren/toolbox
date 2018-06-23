@@ -5,6 +5,7 @@ target_include_directories(toolbox PUBLIC
 #Include platform-independent sources
 target_sources(toolbox PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/MacAddress.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/NetworkAddress.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Socket.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SocketFactory.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SocketImpl.cpp
