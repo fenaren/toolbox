@@ -57,24 +57,22 @@ Ipv4Address::~Ipv4Address()
 //==============================================================================
 bool Ipv4Address::toString(std::string& ipv4_address_str) const
 {
-    // 18 characters for the whole representation; 12 for the actual numbers, 5
-    // for the colons in-between, and 1 on the end for the null
-    char mac_cstr[IPV4_MAX_STR_LENGTH_CHARS];
-    mac_cstr[IPV4_MAX_STR_LENGTH_CHARS - 1] = 0;
-    if (snprintf(mac_cstr,
+    // 16 characters for the whole representation; 12 for the actual numbers, 3
+    // for the periods in-between, and 1 on the end for the null
+    char ipv4_cstr[IPV4_MAX_STR_LENGTH_CHARS];
+    ipv4_cstr[IPV4_MAX_STR_LENGTH_CHARS - 1] = 0;
+    if (snprintf(ipv4_cstr,
                  IPV4_MAX_STR_LENGTH_CHARS,
-                 "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
+                 "%hhu.%hhu.%hhu.%hhu",
                  at(0),
                  at(1),
                  at(2),
-                 at(3),
-                 at(4),
-                 at(5)) < 0)
+                 at(3)) < 0)
     {
         return false;
     }
 
-    ipv4_address_str = mac_cstr;
+    ipv4_address_str = ipv4_cstr;
 
     return true;
 }
@@ -135,23 +133,20 @@ std::ostream& operator<<(std::ostream& os, Ipv4Address& ipv4_address)
 //==============================================================================
 std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 {
-    // Grab 17 characters from the stream and store temporarily; we use the
-    // number 18 below because the istream get function reads the argument - 1
+    // Grab characters from the stream and store temporarily
     char tempstr[Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS];
     is.get(tempstr, Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS);
 
-    int tempmac[Ipv4Address::IPV4_LENGTH_BYTES];
+    int tempipv4[Ipv4Address::IPV4_LENGTH_BYTES];
     // Scan the temporary string as a IPv4 address
     if (sscanf(tempstr,
-               "%2x:%2x:%2x:%2x:%2x:%2x",
-               &tempmac[0],
-               &tempmac[1],
-               &tempmac[2],
-               &tempmac[3],
-               &tempmac[4],
-               &tempmac[5]) != Ipv4Address::IPV4_LENGTH_BYTES)
+               "%u.%u.%u.%u",
+               &tempipv4[0],
+               &tempipv4[1],
+               &tempipv4[2],
+               &tempipv4[3]) != Ipv4Address::IPV4_LENGTH_BYTES)
     {
-        // We didn't convert all 6 bytes.  Leave our internal state as-is but
+        // We didn't convert all 4 bytes.  Leave our internal state as-is but
         // set the fail bit on the stream so the user has some way of knowing
         is.setstate(std::ios_base::failbit);
         return is;
@@ -160,7 +155,7 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
     // Copy from temporary storage into permanent storage
     for (unsigned int i = 0; i < Ipv4Address::IPV4_LENGTH_BYTES; i++)
     {
-        ipv4_address.at(i) = static_cast<unsigned char>(tempmac[i]);
+        ipv4_address.at(i) = static_cast<unsigned char>(tempipv4[i]);
     }
 
     return is;

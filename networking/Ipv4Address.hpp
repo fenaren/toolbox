@@ -41,7 +41,7 @@ class Ipv4Address : public std::vector<char>
     static const unsigned short IPV4_LENGTH_BYTES = 4;
 
     // IPv4 address strings are this many characters long
-    static const unsigned short IPV4_MAX_STR_LENGTH_CHARS = 15;
+    static const unsigned short IPV4_MAX_STR_LENGTH_CHARS = 16;
 
 private:
 
