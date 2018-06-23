@@ -18,7 +18,7 @@ int main(int argc, char** argv)
         }
     }
 
-    // Initialize vector of test MAC addresses; THESE MUST ALL BE UNIQUE
+    // Initialize vector of test IPv4 addresses; THESE MUST ALL BE UNIQUE
     std::vector<std::string> unique_ipv4_addresses;
 
     unique_ipv4_addresses.push_back("0.0.0.0");
@@ -30,16 +30,16 @@ int main(int argc, char** argv)
 
     if (fail_on_purpose)
     {
-        // Add a duplicate MAC address; this will be detected below and the test
+        // Add a duplicate IPv4 address; this will be detected below and the test
         // should fail
-        std::cout << "FAILING ON PURPOSE, adding duplicate MAC address\n";
+        std::cout << "FAILING ON PURPOSE, adding duplicate IPv4 address\n";
         unique_ipv4_addresses.push_back(unique_ipv4_addresses[0]);
     }
 
     // Failed cases are recorded here and output at the end of the test
     std::vector<std::pair<unsigned int, unsigned int> > failed_cases;
 
-    // Check all MAC addresses against each other
+    // Check all IPv4 addresses against each other
     for (unsigned int i = 0; i < unique_ipv4_addresses.size(); i++)
     {
         Ipv4Address ipv4_address_i(unique_ipv4_addresses[i]);
