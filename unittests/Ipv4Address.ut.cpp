@@ -23,6 +23,8 @@ int main(int argc, char** argv)
 
     unique_ipv4_addresses.push_back("0.0.0.0");
     unique_ipv4_addresses.push_back("1.2.3.4");
+    unique_ipv4_addresses.push_back("1.2.200.210");
+    unique_ipv4_addresses.push_back("01.02.200.201");
     unique_ipv4_addresses.push_back("192.168.1.1");
     unique_ipv4_addresses.push_back("255.255.255.255");
 
