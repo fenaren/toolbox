@@ -137,7 +137,7 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
     char tempstr[Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS];
     is.get(tempstr, Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS);
 
-    int tempipv4[Ipv4Address::IPV4_LENGTH_BYTES];
+    unsigned int tempipv4[Ipv4Address::IPV4_LENGTH_BYTES];
     // Scan the temporary string as a IPv4 address
     if (sscanf(tempstr,
                "%u.%u.%u.%u",
