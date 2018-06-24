@@ -59,10 +59,10 @@ bool MacAddress::toString(std::string& mac_address_str) const
 {
     // 18 characters for the whole representation; 12 for the actual numbers, 5
     // for the colons in-between, and 1 on the end for the null
-    char mac_cstr[MAC_STR_LENGTH];
-    mac_cstr[MAC_STR_LENGTH - 1] = 0;
+    char mac_cstr[MAC_MAX_STR_LENGTH_CHARS];
+    mac_cstr[MAC_MAX_STR_LENGTH_CHARS - 1] = 0;
     if (snprintf(mac_cstr,
-                 MAC_STR_LENGTH,
+                 MAC_MAX_STR_LENGTH_CHARS,
                  "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
                  at(0),
                  at(1),
@@ -111,8 +111,8 @@ bool MacAddress::operator!=(const std::string& mac_address_str) const
 //==============================================================================
 void MacAddress::initialize()
 {
-    reserve(MAC_LENGTH);
-    assign(MAC_LENGTH, 0);
+    reserve(MAC_LENGTH_BYTES);
+    assign(MAC_LENGTH_BYTES, 0);
 }
 
 //==============================================================================
@@ -137,10 +137,10 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 {
     // Grab 17 characters from the stream and store temporarily; we use the
     // number 18 below because the istream get function reads the argument - 1
-    char tempstr[MacAddress::MAC_STR_LENGTH];
-    is.get(tempstr, MacAddress::MAC_STR_LENGTH);
+    char tempstr[MacAddress::MAC_MAX_STR_LENGTH_CHARS];
+    is.get(tempstr, MacAddress::MAC_MAX_STR_LENGTH_CHARS);
 
-    int tempmac[MacAddress::MAC_LENGTH];
+    unsigned int tempmac[MacAddress::MAC_LENGTH_BYTES];
     // Scan the temporary string as a MAC address
     if (sscanf(tempstr,
                "%2x:%2x:%2x:%2x:%2x:%2x",
@@ -149,7 +149,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
                &tempmac[2],
                &tempmac[3],
                &tempmac[4],
-               &tempmac[5]) != MacAddress::MAC_LENGTH)
+               &tempmac[5]) != MacAddress::MAC_LENGTH_BYTES)
     {
         // We didn't convert all 6 bytes.  Leave our internal state as-is but
         // set the fail bit on the stream so the user has some way of knowing
@@ -158,7 +158,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     }
 
     // Copy from temporary storage into permanent storage
-    for (unsigned int i = 0; i < MacAddress::MAC_LENGTH; i++)
+    for (unsigned int i = 0; i < MacAddress::MAC_LENGTH_BYTES; i++)
     {
         mac_address.at(i) = static_cast<unsigned char>(tempmac[i]);
     }
