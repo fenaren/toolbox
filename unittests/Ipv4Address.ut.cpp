@@ -44,9 +44,6 @@ int main(int argc, char** argv)
     {
         Ipv4Address ipv4_address_i(unique_ipv4_addresses[i]);
 
-        std::string ipv4_address_i_str;
-        ipv4_address_i.toString(ipv4_address_i_str);
-
         // Exercise output stream functionality by outputting each Ipv4Address
         std::cout << ipv4_address_i << "\n";
 
@@ -54,13 +51,9 @@ int main(int argc, char** argv)
         {
             Ipv4Address ipv4_address_j(unique_ipv4_addresses[j]);
 
-            std::string ipv4_address_j_str;
-            ipv4_address_j.toString(ipv4_address_j_str);
-
             if (i == j)
             {
                 if (!(ipv4_address_i == ipv4_address_j &&
-                      ipv4_address_i_str == ipv4_address_j_str &&
                       ipv4_address_i == unique_ipv4_addresses[j] &&
                       ipv4_address_j == unique_ipv4_addresses[i] &&
                       unique_ipv4_addresses[i] == ipv4_address_j &&
@@ -73,7 +66,6 @@ int main(int argc, char** argv)
             else
             {
                 if (!(ipv4_address_i != ipv4_address_j &&
-                      ipv4_address_i_str != ipv4_address_j_str &&
                       ipv4_address_i != unique_ipv4_addresses[j] &&
                       ipv4_address_j != unique_ipv4_addresses[i] &&
                       unique_ipv4_addresses[i] != ipv4_address_j &&

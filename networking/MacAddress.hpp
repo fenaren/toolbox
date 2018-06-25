@@ -26,9 +26,6 @@ class MacAddress : public std::vector<char>
     // allocate memory.
     ~MacAddress();
 
-    // Writes string representation of self to the given string
-    bool toString(std::string& mac_address_str) const;
-
     MacAddress& operator=(const std::string& mac_address_str);
 
     // Compares for equality with the given MAC address string

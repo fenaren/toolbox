@@ -53,33 +53,6 @@ MacAddress::~MacAddress()
 }
 
 //==============================================================================
-// Writes string representation of self to the given string
-//==============================================================================
-bool MacAddress::toString(std::string& mac_address_str) const
-{
-    // 18 characters for the whole representation; 12 for the actual numbers, 5
-    // for the colons in-between, and 1 on the end for the null
-    char mac_cstr[MAC_MAX_STR_LENGTH_CHARS];
-    mac_cstr[MAC_MAX_STR_LENGTH_CHARS - 1] = 0;
-    if (snprintf(mac_cstr,
-                 MAC_MAX_STR_LENGTH_CHARS,
-                 "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
-                 at(0),
-                 at(1),
-                 at(2),
-                 at(3),
-                 at(4),
-                 at(5)) < 0)
-    {
-        return false;
-    }
-
-    mac_address_str = mac_cstr;
-
-    return true;
-}
-
-//==============================================================================
 // Assigns a string to a MAC address
 //==============================================================================
 MacAddress& MacAddress::operator=(const std::string& mac_address_str)
@@ -120,14 +93,26 @@ void MacAddress::initialize()
 //==============================================================================
 std::ostream& operator<<(std::ostream& os, MacAddress& mac_address)
 {
-    std::string mac_address_str;
-    if (!mac_address.toString(mac_address_str))
+    // 18 characters for the whole representation; 12 for the actual numbers, 5
+    // for the colons in-between, and 1 on the end for the null
+    char mac_cstr[MacAddress::MAC_MAX_STR_LENGTH_CHARS];
+    mac_cstr[MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1] = 0;
+    if (snprintf(mac_cstr,
+                 MacAddress::MAC_MAX_STR_LENGTH_CHARS,
+                 "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
+                 mac_address.at(0),
+                 mac_address.at(1),
+                 mac_address.at(2),
+                 mac_address.at(3),
+                 mac_address.at(4),
+                 mac_address.at(5)) < 0)
     {
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
+        return os;
     }
 
-    return os << mac_address_str;
+    return os << std::string(mac_cstr);
 }
 
 //==============================================================================

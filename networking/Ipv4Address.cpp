@@ -53,31 +53,6 @@ Ipv4Address::~Ipv4Address()
 }
 
 //==============================================================================
-// Writes string representation of self to the given string
-//==============================================================================
-bool Ipv4Address::toString(std::string& ipv4_address_str) const
-{
-    // 16 characters for the whole representation; 12 for the actual numbers, 3
-    // for the periods in-between, and 1 on the end for the null
-    char ipv4_cstr[IPV4_MAX_STR_LENGTH_CHARS];
-    ipv4_cstr[IPV4_MAX_STR_LENGTH_CHARS - 1] = 0;
-    if (snprintf(ipv4_cstr,
-                 IPV4_MAX_STR_LENGTH_CHARS,
-                 "%hhu.%hhu.%hhu.%hhu",
-                 at(0),
-                 at(1),
-                 at(2),
-                 at(3)) < 0)
-    {
-        return false;
-    }
-
-    ipv4_address_str = ipv4_cstr;
-
-    return true;
-}
-
-//==============================================================================
 // Assigns a string to a IPv4 address
 //==============================================================================
 Ipv4Address& Ipv4Address::operator=(const std::string& ipv4_address_str)
@@ -118,14 +93,24 @@ void Ipv4Address::initialize()
 //==============================================================================
 std::ostream& operator<<(std::ostream& os, Ipv4Address& ipv4_address)
 {
-    std::string ipv4_address_str;
-    if (!ipv4_address.toString(ipv4_address_str))
+    // 16 characters for the whole representation; 12 for the actual numbers, 3
+    // for the periods in-between, and 1 on the end for the null
+    char ipv4_cstr[Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS];
+    ipv4_cstr[Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS - 1] = 0;
+    if (snprintf(ipv4_cstr,
+                 Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS,
+                 "%hhu.%hhu.%hhu.%hhu",
+                 static_cast<unsigned char>(ipv4_address.at(0)),
+                 static_cast<unsigned char>(ipv4_address.at(1)),
+                 static_cast<unsigned char>(ipv4_address.at(2)),
+                 static_cast<unsigned char>(ipv4_address.at(3))) < 0)
     {
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
+        return os;
     }
 
-    return os << ipv4_address_str;
+    return os << std::string(ipv4_cstr);
 }
 
 //==============================================================================

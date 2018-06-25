@@ -42,9 +42,6 @@ int main(int argc, char** argv)
     {
         MacAddress mac_address_i(unique_mac_addresses[i]);
 
-        std::string mac_address_i_str;
-        mac_address_i.toString(mac_address_i_str);
-
         // Exercise output stream functionality by outputting each MacAddress
         std::cout << mac_address_i << "\n";
 
@@ -52,13 +49,9 @@ int main(int argc, char** argv)
         {
             MacAddress mac_address_j(unique_mac_addresses[j]);
 
-            std::string mac_address_j_str;
-            mac_address_j.toString(mac_address_j_str);
-
             if (i == j)
             {
                 if (!(mac_address_i == mac_address_j &&
-                      mac_address_i_str == mac_address_j_str &&
                       mac_address_i == unique_mac_addresses[j] &&
                       mac_address_j == unique_mac_addresses[i] &&
                       unique_mac_addresses[i] == mac_address_j &&
@@ -71,7 +64,6 @@ int main(int argc, char** argv)
             else
             {
                 if (!(mac_address_i != mac_address_j &&
-                      mac_address_i_str != mac_address_j_str &&
                       mac_address_i != unique_mac_addresses[j] &&
                       mac_address_j != unique_mac_addresses[i] &&
                       unique_mac_addresses[i] != mac_address_j &&

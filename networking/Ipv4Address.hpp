@@ -26,9 +26,6 @@ class Ipv4Address : public std::vector<char>
     // dynamically allocate memory.
     ~Ipv4Address();
 
-    // Writes string representation of self to the given string
-    bool toString(std::string& ipv4_address_str) const;
-
     Ipv4Address& operator=(const std::string& ipv4_address_str);
 
     // Compares for equality with the given IPv4 address string
