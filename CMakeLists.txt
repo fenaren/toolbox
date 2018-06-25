@@ -20,12 +20,14 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
 
+if(LINUX)
+  target_link_libraries(${PROJECT_NAME} PUBLIC rt)
+
+  # Not sure where else to put this so put it here for now;
+  # scheduler-toy is for Linux only
+  add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
+endif(LINUX)
+
 # Other toolbox source files are in the networking directory, the CMakeLists.txt
 # file in there will pick those up
 include(${CMAKE_CURRENT_LIST_DIR}/networking/CMakeLists.txt)
-
-# Not sure where else to put this so put it here for now; scheduler toy is
-# for Linux only
-if(LINUX)
-  add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
-endif(LINUX)
