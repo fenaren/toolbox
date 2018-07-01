@@ -14,25 +14,27 @@ class Ipv4Address : public std::vector<char>
     Ipv4Address();
 
     // Constructs a new Ipv4Address matching the given string representation.
-    explicit Ipv4Address(const char* ipv4_address_str);
-
-    // Constructs a new Ipv4Address matching the given string representation.
     explicit Ipv4Address(const std::string& ipv4_address_str);
 
     // Copy constructor
     explicit Ipv4Address(const Ipv4Address& ipv4_address);
 
+    // Defines how to convert a MacAddress to a std::string
+    operator std::string() const;
+
     // Destroys a Ipv4Address; does nothing, since this class doesn't
     // dynamically allocate memory.
-    ~Ipv4Address();
+    virtual ~Ipv4Address();
+
+    // Reads a raw 4-byte IPv4 address from memory, "buf" is assumed to point to
+    // a valid IPv4 address
+    void readRaw(const char* buf);
+
+    // Writes a raw 4-byte IPv4 address to memory, "buf" is assumed to point to
+    // 4 bytes of properly allocated and available memory
+    void writeRaw(char* buf) const;
 
     Ipv4Address& operator=(const std::string& ipv4_address_str);
-
-    // Compares for equality with the given IPv4 address string
-    bool operator==(const std::string& ipv4_address_str) const;
-
-    // Compares for inequality with the given IPv4 address string
-    bool operator!=(const std::string& ipv4_address_str) const;
 
     // IPv4 addresses are this many bytes long
     static const unsigned short IPV4_LENGTH_BYTES = 4;
@@ -42,21 +44,26 @@ class Ipv4Address : public std::vector<char>
 
 private:
 
+    // All constructors run this
     void initialize();
 };
 
-// Writes a string representation of this IPv4 address
-std::ostream& operator<<(std::ostream& os, Ipv4Address& ipv4_address);
+std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address);
 
-// Reads a string representation of this IPv4 address
 std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address);
 
-// Compares for equality with the given IPv4 address string
-bool operator==(const std::string& ipv4_address_str,
-                const Ipv4Address& ipv4_address);
+bool operator==(const Ipv4Address& ipv4_address1,
+                const Ipv4Address& ipv4_address2);
+bool operator==(const Ipv4Address& ipv4_address1,
+                const std::string& ipv4_address2);
+bool operator==(const std::string& ipv4_address1,
+                const Ipv4Address& ipv4_address2);
 
-// Compares for inequality with the given IPv4 address string
-bool operator!=(const std::string& ipv4_address_str,
-                const Ipv4Address& ipv4_address);
+bool operator!=(const Ipv4Address& ipv4_address1,
+                const Ipv4Address& ipv4_address2);
+bool operator!=(const Ipv4Address& ipv4_address1,
+                const std::string& ipv4_address2);
+bool operator!=(const std::string& ipv4_address1,
+                const Ipv4Address& ipv4_address2);
 
 #endif

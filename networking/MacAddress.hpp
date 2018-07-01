@@ -14,25 +14,27 @@ class MacAddress : public std::vector<char>
     MacAddress();
 
     // Constructs a new MacAddress matching the given string representation.
-    explicit MacAddress(const char* mac_address_str);
-
-    // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);
 
     // Copy constructor
     explicit MacAddress(const MacAddress& mac_address);
 
+    // Defines how to convert a MacAddress to a std::string
+    operator std::string() const;
+
     // Destroys a MacAddress; does nothing, since this class doesn't dynamically
     // allocate memory.
-    ~MacAddress();
+    virtual ~MacAddress();
+
+    // Reads a raw 6-byte MAC address from memory, "buf" is assumed to point to
+    // a valid raw MAC address (NOT A C STRING!)
+    void readRaw(const char* buf);
+
+    // Writes a raw 6-byte MAC address to memory, "buf" is assumed to point to 6
+    // bytes of properly allocated and available memory
+    void writeRaw(char* buf) const;
 
     MacAddress& operator=(const std::string& mac_address_str);
-
-    // Compares for equality with the given MAC address string
-    bool operator==(const std::string& mac_address_str) const;
-
-    // Compares for inequality with the given MAC address string
-    bool operator!=(const std::string& mac_address_str) const;
 
     // MAC addresses are this many bytes long
     static const unsigned short MAC_LENGTH_BYTES = 6;
@@ -42,21 +44,26 @@ class MacAddress : public std::vector<char>
 
 private:
 
+    // All constructors run this
     void initialize();
 };
 
-// Writes a string representation of this MAC address
-std::ostream& operator<<(std::ostream& os, MacAddress& mac_address);
+std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);
 
-// Reads a string representation of this MAC address
 std::istream& operator>>(std::istream& is, MacAddress& mac_address);
 
-// Compares for equality with the given MAC address string
-bool operator==(const std::string& mac_address_str,
-                const MacAddress&  mac_address);
+bool operator==(const MacAddress&  mac_address1,
+                const MacAddress&  mac_address2);
+bool operator==(const MacAddress&  mac_address1,
+                const std::string& mac_address2);
+bool operator==(const std::string& mac_address1,
+                const MacAddress&  mac_address2);
 
-// Compares for inequality with the given MAC address string
-bool operator!=(const std::string& mac_address_str,
-                const MacAddress&  mac_address);
+bool operator!=(const MacAddress&  mac_address1,
+                const MacAddress&  mac_address2);
+bool operator!=(const MacAddress&  mac_address1,
+                const std::string& mac_address2);
+bool operator!=(const std::string& mac_address1,
+                const MacAddress&  mac_address2);
 
 #endif
