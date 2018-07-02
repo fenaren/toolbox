@@ -66,7 +66,26 @@ node () {
   }
 
   stage ('Valgrind') {
-    step([$class: 'ValgrindBuilder', childSilentAfterFork: false, excludePattern: '', generateSuppressions: false, ignoreExitCode: false, includePattern: 'unittests/*.ut', outputDirectory: '', outputFileEnding: '.valgrind.xml', programOptions: '', removeOldReports: false, suppressionFiles: '', tool: [$class: 'ValgrindToolMemcheck', leakCheckLevel: 'full', showReachable: false, trackOrigins: true, undefinedValueErrors: true], traceChildren: false, valgrindExecutable: '', valgrindOptions: '', workingDirectory: ''])
+    step([$class: 'ValgrindBuilder',
+      childSilentAfterFork: false,
+      excludePattern: '',
+      generateSuppressions: false,
+      ignoreExitCode: false,
+      includePattern: 'unittests/*.ut',
+      outputDirectory: '',
+      outputFileEnding: '.valgrind.xml',
+      programOptions: '',
+      removeOldReports: false,
+      suppressionFiles: '',
+      tool: [$class: 'ValgrindToolMemcheck',
+            leakCheckLevel: 'full',
+            showReachable: false,
+            trackOrigins: true,
+            undefinedValueErrors: true],
+      traceChildren: false,
+      valgrindExecutable: '',
+      valgrindOptions: '',
+      workingDirectory: ''])
   }
 
   stage ('Clang Static Analyzer')
