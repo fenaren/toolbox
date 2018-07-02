@@ -13,7 +13,7 @@ node ()
 
   stage ('toolbox - cppcheck')
   {
-    sh returnStatus: true """
+    sh returnStatus: true, script: """
     $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     """
   }
