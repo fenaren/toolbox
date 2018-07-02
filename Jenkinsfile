@@ -1,5 +1,5 @@
 node () {
-  stage ('toolbox - Checkout') {
+  stage ('Checkout') {
     deleteDir()
 
     checkout changelog: true, poll: true, scm:
@@ -23,13 +23,13 @@ node () {
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/config', version: '11.0'], doGenerateSubmoduleConfigurations: true, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_CONFIG']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/config']]]
   }
 
-  stage ('toolbox - cppcheck') {
+  stage ('cppcheck') {
     sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
   }
 
-  stage ('toolbox - Release Unit Tests') {
+  stage ('Release Unit Tests') {
     sh '''
       $TEMP_BIN/run-cmake --release .
       make unittests
@@ -38,7 +38,7 @@ node () {
     '''
   }
 
-  stage ('toolbox - Debug Unit Tests') {
+  stage ('Debug Unit Tests') {
     sh '''
     $TEMP_BIN/run-cmake --debug .
     make unittests
@@ -47,11 +47,11 @@ node () {
     '''
   }
 
-  stage ('toolbox - Valgrind') {
+  stage ('Valgrind') {
     step([$class: 'ValgrindBuilder', childSilentAfterFork: false, excludePattern: '', generateSuppressions: false, ignoreExitCode: false, includePattern: 'unittests/*.ut', outputDirectory: '', outputFileEnding: '.valgrind.xml', programOptions: '', removeOldReports: false, suppressionFiles: '', tool: [$class: 'ValgrindToolMemcheck', leakCheckLevel: 'full', showReachable: false, trackOrigins: true, undefinedValueErrors: true], traceChildren: false, valgrindExecutable: '', valgrindOptions: '', workingDirectory: ''])
   }
 
-  stage ('toolbox - Clang Static Analyzer')
+  stage ('Clang Static Analyzer')
   {
     sh '''
       rm CMakeCache.txt
