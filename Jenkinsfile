@@ -14,17 +14,6 @@ node ()
   stage ('toolbox - Build')
   {
     // Shell build step
-    //sh """
-    //git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
-    //"""
-
-    // Shell build step
-    def shellReturnStatus = sh returnStatus: true, script: """
-    $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
-    """
-    if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
-
-    // Shell build step
     sh """
     $TEMP_BIN/run-cmake --release .
     make unittests
