@@ -8,7 +8,6 @@ node () {
       browser: [$class: 'GitLab',
                repoUrl: 'gitlab.dmz/leighgarbs/toolbox',
                version: '11.0'],
-      doGenerateSubmoduleConfigurations: true,
       extensions: [[$class: 'SubmoduleOption',
                   disableSubmodules: false,
                   parentCredentials: false,
