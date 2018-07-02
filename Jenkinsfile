@@ -20,7 +20,7 @@ node ()
 
   stage ('toolbox - Release Unit Tests')
   {
-    sh script: """
+    sh """
     $TEMP_BIN/run-cmake --release .
     make unittests
 
@@ -40,6 +40,7 @@ node ()
 
   stage ('toolbox - Valgrind')
   {
+    step([$class: 'ValgrindBuilder', childSilentAfterFork: false, excludePattern: '', generateSuppressions: false, ignoreExitCode: false, includePattern: 'unittests/*.ut', outputDirectory: '', outputFileEnding: '.valgrind.xml', programOptions: '', removeOldReports: false, suppressionFiles: '', tool: [$class: 'ValgrindToolMemcheck', leakCheckLevel: 'full', showReachable: false, trackOrigins: true, undefinedValueErrors: true], traceChildren: false, valgrindExecutable: '', valgrindOptions: '', workingDirectory: ''])
   }
 
   stage ('toolbox - Clang Static Analyzer')
