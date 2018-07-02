@@ -30,7 +30,6 @@ node ()
 
   stage ('toolbox - Debug Unit Tests')
   {
-    // Shell build step
     sh """
     $TEMP_BIN/run-cmake --debug .
     make unittests
