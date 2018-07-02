@@ -2,11 +2,11 @@ node () {
   stage ('toolbox - Checkout') {
     deleteDir()
 
-    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/toolbox', version: '11.0'], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
+    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/toolbox', version: '11.0'], doGenerateSubmoduleConfigurations: true, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
 
-    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/bin', version: '11.0'], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_BIN']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/bin']]]
+    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/bin', version: '11.0'], doGenerateSubmoduleConfigurations: true, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_BIN']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/bin']]]
 
-    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/config', version: '11.0'], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_CONFIG']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/config']]]
+    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/config', version: '11.0'], doGenerateSubmoduleConfigurations: true, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_CONFIG']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/config']]]
   }
 
   stage ('toolbox - cppcheck') {
