@@ -2,7 +2,7 @@ node ()
 {
   stage ('toolbox - Checkout')
   {
-    checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/toolbox']]])
+    checkout([$class: 'GitSCM', branches: [[name: "env.BRANCH_NAME"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/toolbox']]])
   }
 
   stage ('toolbox - Build')
