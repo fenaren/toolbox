@@ -45,6 +45,8 @@ node () {
     sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
+
+    if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
   }
 
   stage ('Unit Tests - Release Build') {
