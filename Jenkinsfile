@@ -2,7 +2,7 @@
 
 node () {
   stage ('Checkout') {
-    steps {
+    step {
       deleteDir()
 
       checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
@@ -19,7 +19,8 @@ node () {
         submoduleCfg: [],
         userRemoteConfigs: [[credentialsId: '',
                            url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
-
+}
+step {
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: 'master']],
       browser: [$class: 'GitLab',
@@ -30,7 +31,8 @@ node () {
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
                          url: 'http://gitlab.dmz/leighgarbs/bin']]]
-
+}
+step {
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: 'master']],
       browser: [$class: 'GitLab',
@@ -42,6 +44,7 @@ node () {
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
                          url: 'http://gitlab.dmz/leighgarbs/config']]]
+    }
     }
   }
 
