@@ -29,9 +29,7 @@ node ()
     for file in unittests/*.ut; do $file; done
     """
 
-    // Unable to convert a build step referring to
-    // "org.jenkinsci.plugins.valgrind.ValgrindBuilder". Please verify and
-    // convert manually if required.
+    // Valgrind here
 
     // Shell build step
     sh """
