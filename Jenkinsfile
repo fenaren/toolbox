@@ -4,15 +4,16 @@ node ()
   {
     deleteDir()
 
-    checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/toolbox']]])
-  }
+    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/toolbox', version: 11.0], doGenerateSubmoduleConfigurations: false, submoduleCfg: [], userRemoteConfigs: [[url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
+
+    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: master]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/bin', version: 11.0], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'TEMP_BIN']], submoduleCfg: [], userRemoteConfigs: [[url: 'http://gitlab.dmz/leighgarbs/bin']]]
+
+    //checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: master]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/toolbox', version: 11.0], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ASDF']], submoduleCfg: [], userRemoteConfigs: [[url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
+
+}
 
   stage ('toolbox - Build')
   {
-    // Unable to convert a build step referring to
-    // "hudson.plugins.ws__cleanup.PreBuildCleanup". Please verify and
-    // convert manually if required.
-
     // Shell build step
     sh """
     git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
