@@ -1,21 +1,24 @@
+#!/usr/bin/env groovy
+
 node () {
   stage ('Checkout') {
-    deleteDir()
+    steps {
+      deleteDir()
 
-    checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
-      branches: [[name: env.BRANCH_NAME]],
-      browser: [$class: 'GitLab',
-               repoUrl: 'gitlab.dmz/leighgarbs/toolbox',
-               version: '11.0'],
-      extensions: [[$class: 'SubmoduleOption',
-                  disableSubmodules: false,
-                  parentCredentials: false,
-                  recursiveSubmodules: false,
-                  reference: '',
-                  trackingSubmodules: false]],
-      submoduleCfg: [],
-      userRemoteConfigs: [[credentialsId: '',
-                         url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
+      checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
+        branches: [[name: env.BRANCH_NAME]],
+        browser: [$class: 'GitLab',
+                 repoUrl: 'gitlab.dmz/leighgarbs/toolbox',
+                 version: '11.0'],
+        extensions: [[$class: 'SubmoduleOption',
+                    disableSubmodules: false,
+                    parentCredentials: false,
+                    recursiveSubmodules: false,
+                    reference: '',
+                    trackingSubmodules: false]],
+        submoduleCfg: [],
+        userRemoteConfigs: [[credentialsId: '',
+                           url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: 'master']],
@@ -39,6 +42,7 @@ node () {
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
                          url: 'http://gitlab.dmz/leighgarbs/config']]]
+    }
   }
 
   stage ('cppcheck') {
