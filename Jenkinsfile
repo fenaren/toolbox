@@ -18,7 +18,17 @@ node () {
       userRemoteConfigs: [[credentialsId: '',
                          url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
 
-    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/bin', version: '11.0'], doGenerateSubmoduleConfigurations: true, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_BIN']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/bin']]]
+    checkout changelog: true, poll: true, scm:
+      [$class: 'GitSCM',
+      branches: [[name: 'master']],
+      browser: [$class: 'GitLab',
+               repoUrl: 'gitlab.dmz/leighgarbs/bin',
+               version: '11.0'],
+      extensions: [[$class: 'RelativeTargetDirectory',
+                  relativeTargetDir: '$TEMP_BIN']],
+      submoduleCfg: [],
+      userRemoteConfigs: [[credentialsId: '',
+                         url: 'http://gitlab.dmz/leighgarbs/bin']]]
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/config', version: '11.0'], doGenerateSubmoduleConfigurations: true, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_CONFIG']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/config']]]
   }
