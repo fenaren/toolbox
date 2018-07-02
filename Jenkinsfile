@@ -58,10 +58,10 @@ node () {
 
   stage ('Unit Tests - Debug Build') {
     sh '''
-    $TEMP_BIN/run-cmake --debug .
-    make unittests
+      $TEMP_BIN/run-cmake --debug .
+      make unittests
 
-    for file in unittests/*.ut; do $file; done
+      for file in unittests/*.ut; do $file; done
     '''
   }
 
@@ -86,6 +86,20 @@ node () {
       valgrindExecutable: '',
       valgrindOptions: '',
       workingDirectory: ''])
+
+    step([$class: 'ValgrindPublisher',
+      failBuildOnInvalidReports: false,
+      failBuildOnMissingReports: false,
+      failThresholdDefinitelyLost: '',
+      failThresholdInvalidReadWrite: '',
+      failThresholdTotal: '',
+      pattern: '*.valgrind.xml',
+      publishResultsForAbortedBuilds: false,
+      publishResultsForFailedBuilds: false,
+      sourceSubstitutionPaths: '',
+      unstableThresholdDefinitelyLost: '0',
+      unstableThresholdInvalidReadWrite: '0',
+      unstableThresholdTotal: '0'])
   }
 
   stage ('Clang Static Analyzer')
