@@ -20,12 +20,12 @@ node ()
 
   stage ('toolbox - Release Unit Tests')
   {
-    sh """
+    sh '
     $TEMP_BIN/run-cmake --release .
     make unittests
 
     for file in unittests/*.ut; do $file; done
-    """
+    '
   }
 
   stage ('toolbox - Debug Unit Tests')
