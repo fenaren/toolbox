@@ -25,12 +25,12 @@ node () {
   }
 
   stage ('toolbox - Debug Unit Tests') {
-    sh """
+    sh '''
     $TEMP_BIN/run-cmake --debug .
     make unittests
 
     for file in unittests/*.ut; do $file; done
-    """
+    '''
   }
 
   stage ('toolbox - Valgrind') {
@@ -39,11 +39,11 @@ node () {
 
   stage ('toolbox - Clang Static Analyzer')
   {
-    sh """
-    rm CMakeCache.txt
-    rm -rf CMakeFiles
-    scan-build $TEMP_BIN/run-cmake --debug .
-    scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
-    """
+    sh '''
+      rm CMakeCache.txt
+      rm -rf CMakeFiles
+      scan-build $TEMP_BIN/run-cmake --debug .
+      scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
+    ''
   }
 }
