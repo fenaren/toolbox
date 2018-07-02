@@ -11,16 +11,25 @@ node ()
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: 'master']], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/config', version: '11.0'], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: '$TEMP_CONFIG']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/config']]]
   }
 
-  stage ('toolbox - Build')
+  stage ('toolbox - cppcheck')
   {
-    // Shell build step
+    sh """
+    $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
+    """
+  }
+
+  stage ('toolbox - Release Unit Tests')
+  {
     sh """
     $TEMP_BIN/run-cmake --release .
     make unittests
 
     for file in unittests/*.ut; do $file; done
     """
+  }
 
+  stage ('toolbox - Debug Unit Tests')
+  {
     // Shell build step
     sh """
     $TEMP_BIN/run-cmake --debug .
@@ -28,10 +37,14 @@ node ()
 
     for file in unittests/*.ut; do $file; done
     """
+  }
 
-    // Valgrind here
+  stage ('toolbox - Valgrind')
+  {
+  }
 
-    // Shell build step
+  stage ('toolbox - Clang Static Analyzer')
+  {
     sh """
     rm CMakeCache.txt
     rm -rf CMakeFiles
