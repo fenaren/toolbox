@@ -47,7 +47,7 @@ node () {
     '''
   }
 
-  stage ('Unit Tests - Release') {
+  stage ('Unit Tests - Release Build') {
     sh '''
       $TEMP_BIN/run-cmake --release .
       make unittests
@@ -56,7 +56,7 @@ node () {
     '''
   }
 
-  stage ('Unit Tests - Debug') {
+  stage ('Unit Tests - Debug Build') {
     sh '''
     $TEMP_BIN/run-cmake --debug .
     make unittests
