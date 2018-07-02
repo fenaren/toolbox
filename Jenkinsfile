@@ -1,15 +1,21 @@
-timestamps {
+timestamps
+{
+  node ()
+  {
+    stage ('toolbox - Checkout')
+    {
+      checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'gitlab.dmz/leighgarbs/toolbox']]])
+    }
 
-node () {
+    stage ('toolbox - Build')
+    {
+      // Unable to convert a build step referring to
+      // "hudson.plugins.ws__cleanup.PreBuildCleanup". Please verify and
+      // convert manually if required.
 
-	stage ('toolbox - Checkout') {
- 	 checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'gitlab.dmz/leighgarbs/toolbox']]])
-	}
-	stage ('toolbox - Build') {
-
-// Unable to convert a build step referring to "hudson.plugins.ws__cleanup.PreBuildCleanup". Please verify and convert manually if required.		// Shell build step
-sh """
-git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
+      // Shell build step
+      sh """xs
+      git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
  """		// Shell build step
 {
  def shellReturnStatus = sh returnStatus: true, script: """
