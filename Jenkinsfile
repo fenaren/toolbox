@@ -2,6 +2,8 @@ node ()
 {
   stage ('toolbox - Checkout')
   {
+    deleteDir()
+
     checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'http://gitlab.dmz/leighgarbs/toolbox']]])
   }
 
