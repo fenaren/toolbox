@@ -6,7 +6,7 @@ node ()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/toolbox', version: 11.0], doGenerateSubmoduleConfigurations: false, submoduleCfg: [], userRemoteConfigs: [[url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
 
-    checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: master]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/bin', version: 11.0], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'TEMP_BIN']], submoduleCfg: [], userRemoteConfigs: [[url: 'http://gitlab.dmz/leighgarbs/bin']]]
+    //checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: master]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/bin', version: 11.0], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'TEMP_BIN']], submoduleCfg: [], userRemoteConfigs: [[url: 'http://gitlab.dmz/leighgarbs/bin']]]
 
     //checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: master]], browser: [$class: 'GitLab', repoUrl: 'gitlab.dmz/leighgarbs/toolbox', version: 11.0], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ASDF']], submoduleCfg: [], userRemoteConfigs: [[url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
 
