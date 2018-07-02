@@ -19,8 +19,8 @@ node () {
         submoduleCfg: [],
         userRemoteConfigs: [[credentialsId: '',
                            url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
-}
-step {
+      }
+      step {
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: 'master']],
       browser: [$class: 'GitLab',
@@ -44,7 +44,7 @@ step {
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
                          url: 'http://gitlab.dmz/leighgarbs/config']]]
-    }
+    
     }
   }
 
