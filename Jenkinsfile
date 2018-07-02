@@ -42,7 +42,7 @@ node () {
   }
 
   stage ('cppcheck') {
-    sh returnStatus: true, script: '''
+    def shellReturnStatus = sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
 
