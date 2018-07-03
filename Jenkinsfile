@@ -1,21 +1,20 @@
 #!/usr/bin/env groovy
 
 GITLAB_URL_TOOLBOX = 'http://gitlab.dmz/leighgarbs/toolbox.git'
-GITLAB_BUILDS      = ['Checkout',
-                      'cppcheck',
-                      'Unit Tests - Release Build',
-                      'Unit Tests - Debug Build',
-                      'Valgrind']
+
+STAGES = ['Checkout',
+          'cppcheck',
+          'Unit Tests - Release Build',
+          'Unit Tests - Debug Build',
+          'Valgrind']
 
 properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']])
 
-gitlabBuilds(builds: GITLAB_BUILDS) {
-  // This has to happen after the checkout?
-  updateGitlabCommitStatus name: GITLAB_BUILDS[0], state: 'pending'
+gitlabBuilds(builds: STAGES) {
 
 node ()
 {
-  stage (GITLAB_BUILDS[0])
+  stage (STAGES[0])
   {
     deleteDir()
 
@@ -39,7 +38,7 @@ node ()
     '''
   }
 
-  stage ('cppcheck')
+  stage (STAGES[1])
   {
     def shellReturnStatus = sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
@@ -48,7 +47,7 @@ node ()
     if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
   }
 
-  stage ('Unit Tests - Release Build')
+  stage (STAGES[2])
   {
     sh '''
       $TEMP_BIN/run-cmake --release .
@@ -58,7 +57,7 @@ node ()
     '''
   }
 
-  stage ('Unit Tests - Debug Build')
+  stage (STAGES[3])
   {
     sh '''
       $TEMP_BIN/run-cmake --debug .
@@ -68,7 +67,7 @@ node ()
     '''
   }
 
-  stage ('Valgrind')
+  stage (STAGES[4])
   {
     step([$class: 'ValgrindBuilder',
       childSilentAfterFork: false,
@@ -116,4 +115,5 @@ node ()
     '''
   }
 }
+
 }
