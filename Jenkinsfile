@@ -11,8 +11,8 @@ properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']
 
 node ()
 {
-  gitlabCommitStatus()
-  {
+  updateGitlabCommitStatus name: 'jenkins', state: 'running'
+
   stage ('Checkout')
   {
     deleteDir()
@@ -120,5 +120,4 @@ node ()
       scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
     '''
   }
-}
 }
