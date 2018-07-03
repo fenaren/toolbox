@@ -9,7 +9,7 @@ GITLAB_VERSION = '11.0'
 
 node ()
 {
-  updateGitlabCommitStatus()
+  gitlabCommitStatus()
 
   stage ('Checkout')
   {
