@@ -13,10 +13,10 @@ properties([[$class: 'GitLabConnectionProperty',
             pipelineTriggers([[$class: 'GitLabPushTrigger',
                               pendingBuildName: STAGES[0]]])])
 
+gitlabBuilds(builds: STAGES) {
+
 node ()
 {
-  gitlabBuilds(builds: STAGES) {
-
   stage (STAGES[0])
   {
     deleteDir()
