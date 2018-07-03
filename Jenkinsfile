@@ -11,8 +11,6 @@ properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']
 
 node ()
 {
-  updateGitlabCommitStatus name: 'jenkins', state: 'running'
-
   stage ('Checkout')
   {
     deleteDir()
@@ -47,6 +45,8 @@ node ()
       git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
     '''
   }
+
+  updateGitlabCommitStatus name: 'jenkins', state: 'running'
 
   stage ('cppcheck')
   {
