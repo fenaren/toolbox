@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
 
-GITLAB_URL     = 'http://gitlab.dmz/'
-GITLAB_TOOLBOX = GITLAB_URL + 'leighgarbs/toolbox.git'
+GITLAB_URL     = 'http://gitlab.dmz/leighgarbs/'
 GITLAB_VERSION = '11.0'
 
 node () {
@@ -11,7 +10,7 @@ node () {
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: env.BRANCH_NAME]],
       browser: [$class: 'GitLab',
-               repoUrl: GITLAB_TOOLBOX,
+               repoUrl: GITLAB_URL + 'toolbox',
                version: GITLAB_VERSION],
       extensions: [[$class: 'SubmoduleOption',
                   disableSubmodules: false,
