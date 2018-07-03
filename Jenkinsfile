@@ -11,7 +11,7 @@ properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']
 
 node ()
 {
-  updateGitlabCommitStatus name: 'jenkins', state: 'running'
+  updateGitlabCommitStatus name: 'jenkins', state: 'pending'
 
   stage ('Checkout')
   {
