@@ -7,24 +7,12 @@ STAGES = ['Checkout',
           'Valgrind']
 
 properties([[$class: 'GitLabConnectionProperty',
-            gitLabConnection: 'gitlab.dmz'],
-            pipelineTriggers([[$class: 'GitLabPushTrigger',
-                  triggerOnPush: false,
-                  triggerOnMergeRequest: true,
-                  triggerOpenMergeRequestOnPush: "never",
-                  triggerOnNoteRequest: true,
-                  noteRegex: "Jenkins please retry a build",
-                  skipWorkInProgressMergeRequest: true,
-                  ciSkip: false,
-                  setBuildDescription: true,
-                  addNoteOnMergeRequest: true,
-                  addCiMessage: true,
-                  addVoteOnMergeRequest: true,
-                  acceptMergeRequestOnSuccess: false,
-                  includeBranchesSpec: "",
-                  excludeBranchesSpec: "",
-                  pendingBuildName: STAGES[0],
-                  cancelPendingBuildsOnUpdate: false]])])
+            gitLabConnection: 'gitlab.dmz']])
+
+triggers {
+    gitlab(
+      pendingBuildName: STAGES[0],
+}
 
 gitlabBuilds(builds: STAGES) {
 
