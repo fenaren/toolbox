@@ -11,7 +11,7 @@ STAGES = ['Checkout',
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz'],
             pipelineTriggers([[$class: 'GitLabPushTrigger',
-                              pendingBuildName: STAGES[0]])])
+                              pendingBuildName: STAGES[0]]])])
 
 gitlabBuilds(builds: STAGES) {
 
