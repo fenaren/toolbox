@@ -1,6 +1,10 @@
 #!/usr/bin/env groovy
 
-GITLAB_URL     = 'http://gitlab.dmz/leighgarbs/'
+GITLAB_URL         = 'http://gitlab.dmz/leighgarbs/'
+GITLAB_URL_TOOLBOX = GITLAB_URL + 'toolbox.git'
+GITLAB_URL_BIN     = GITLAB_URL + 'bin.git'
+GITLAB_URL_CONFIG  = GITLAB_URL + 'config.git'
+
 GITLAB_VERSION = '11.0'
 
 node () {
@@ -10,7 +14,7 @@ node () {
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: env.BRANCH_NAME]],
       browser: [$class: 'GitLab',
-               repoUrl: GITLAB_URL + 'toolbox',
+               repoUrl: GITLAB_URL_TOOLBOX,
                version: GITLAB_VERSION],
       extensions: [[$class: 'SubmoduleOption',
                   disableSubmodules: false,
@@ -20,30 +24,30 @@ node () {
                   trackingSubmodules: false]],
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
-                         url: 'http://gitlab.dmz/leighgarbs/toolbox']]]
+                         url: GITLAB_URL_TOOLBOX]]]
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: 'master']],
       browser: [$class: 'GitLab',
-               repoUrl: 'gitlab.dmz/leighgarbs/bin',
+               repoUrl: GITLAB_URL_BIN,
                version: GITLAB_VERSION],
       extensions: [[$class: 'RelativeTargetDirectory',
                   relativeTargetDir: '$TEMP_BIN']],
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
-                         url: 'http://gitlab.dmz/leighgarbs/bin']]]
+                         url: GITLAB_URL_BIN]]]
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
       branches: [[name: 'master']],
       browser: [$class: 'GitLab',
-               repoUrl: 'gitlab.dmz/leighgarbs/config',
+               repoUrl: GITLAB_URL_CONFIG,
                version: GITLAB_VERSION],
       doGenerateSubmoduleConfigurations: true,
       extensions: [[$class: 'RelativeTargetDirectory',
                   relativeTargetDir: '$TEMP_CONFIG']],
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
-                         url: 'http://gitlab.dmz/leighgarbs/config']]]
+                         url: GITLAB_URL_CONFIG]]]
   }
 
   stage ('cppcheck') {
