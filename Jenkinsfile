@@ -1,13 +1,15 @@
 #!/usr/bin/env groovy
 
-GITLAB_URL         = 'http://gitlab.dmz/leighgarbs/'
-GITLAB_URL_TOOLBOX = GITLAB_URL + 'toolbox.git'
-GITLAB_URL_BIN     = GITLAB_URL + 'bin.git'
-
-GITLAB_VERSION = '11.0'
+GITLAB_TOOLBOX_URL = 'http://gitlab.dmz/leighgarbs/toolbox.git'
+GITLAB_BUILDS      = ['Checkout',
+                      'cppcheck',
+                      'Unit Tests - Release Build',
+                      'Unit Tests - Debug Build',
+                      'Valgrind']
 
 properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']])
 
+gitlabBuilds(builds: GITLAB_BUILDS) {
 node ()
 {
   stage ('Checkout')
@@ -18,7 +20,7 @@ node ()
       branches: [[name: env.BRANCH_NAME]],
       browser: [$class: 'GitLab',
                repoUrl: GITLAB_URL_TOOLBOX,
-               version: GITLAB_VERSION],
+               version: '11.0'],
       extensions: [[$class: 'SubmoduleOption',
                   disableSubmodules: false,
                   parentCredentials: false,
@@ -30,7 +32,7 @@ node ()
                          url: GITLAB_URL_TOOLBOX]]]
 
     sh '''
-      git clone GITLAB_URL_BIN $TEMP_BIN
+      git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
     '''
   }
 
@@ -113,4 +115,5 @@ node ()
       scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
     '''
   }
+}
 }
