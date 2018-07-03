@@ -30,7 +30,7 @@ node ()
                          url: GITLAB_URL_TOOLBOX]]]
 
     sh '''
-      git clone $GITLAB_URL_BIN $TEMP_BIN
+      git clone GITLAB_URL_BIN $TEMP_BIN
     '''
   }
 
