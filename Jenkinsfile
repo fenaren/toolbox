@@ -9,22 +9,14 @@ STAGES = ['Checkout',
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz']])
 
-pipeline {
-
-triggers {
-    gitlab(
-      pendingBuildName: STAGES[0])
-}
-
-}
-
 gitlabBuilds(builds: STAGES) {
-
 
 node ()
 {
   stage (STAGES[0])
   {
+    updateGitlabCommitStatus name: STAGE[0], state: 'running'
+
     deleteDir()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
