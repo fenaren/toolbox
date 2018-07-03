@@ -11,7 +11,7 @@ properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']
 
 node ()
 {
-  gitlabCommitStatus(connection: [gitLabConnection: 'gitlab.dmz'])
+  gitlabCommitStatus()
   {
   stage ('Checkout')
   {
