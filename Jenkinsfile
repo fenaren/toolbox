@@ -7,9 +7,9 @@ GITLAB_URL_CONFIG  = GITLAB_URL + 'config.git'
 
 GITLAB_VERSION = '11.0'
 
-gitlabCommitStatus {
 node ()
 {
+  gitlabCommitStatus {
   stage ('Checkout')
   {
     deleteDir()
