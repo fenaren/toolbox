@@ -8,7 +8,7 @@ STAGES = ['Checkout',
           'Unit Tests - Debug Build',
           'Valgrind']
 
-properties([gitLabConnection('gitlab.dmz'])
+properties([gitLabConnection('gitlab.dmz')])
 
 gitlabBuilds(builds: STAGES) {
 
