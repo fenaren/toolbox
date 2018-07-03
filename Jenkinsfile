@@ -12,34 +12,32 @@ properties([[$class: 'GitLabConnectionProperty',
 
 gitlabBuilds(builds: STAGES) {
 
-node ()
-{
-  stage (STAGES[0])
-  {
-    gitlabCommitStatus(name: STAGES[0]) {
+node () {
 
-    deleteDir()
+stage (STAGES[0]) { gitlabCommitStatus(name: STAGES[0]) {
 
-    checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
-      branches: [[name: env.BRANCH_NAME]],
-      browser: [$class: 'GitLab',
-               repoUrl: GITLAB_URL_TOOLBOX,
-               version: '11.0'],
-      extensions: [[$class: 'SubmoduleOption',
-                  disableSubmodules: false,
-                  parentCredentials: false,
-                  recursiveSubmodules: false,
-                  reference: '',
-                  trackingSubmodules: false]],
-      submoduleCfg: [],
-      userRemoteConfigs: [[credentialsId: '',
-                         url: GITLAB_URL_TOOLBOX]]]
+  deleteDir()
 
-    sh '''
-      git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
-    '''
-  }
-  }
+  checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
+    branches: [[name: env.BRANCH_NAME]],
+    browser: [$class: 'GitLab',
+             repoUrl: GITLAB_URL_TOOLBOX,
+             version: '11.0'],
+    extensions: [[$class: 'SubmoduleOption',
+                disableSubmodules: false,
+                parentCredentials: false,
+                recursiveSubmodules: false,
+                reference: '',
+                trackingSubmodules: false]],
+    submoduleCfg: [],
+    userRemoteConfigs: [[credentialsId: '',
+                       url: GITLAB_URL_TOOLBOX]]]
+
+  sh '''
+    git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
+  '''
+
+}}
 
   stage (STAGES[1])
   {
