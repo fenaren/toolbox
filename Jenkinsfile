@@ -13,7 +13,7 @@ properties([[$class: 'GitLabConnectionProperty',
             pipelineTriggers([[$class: 'GitLabPushTrigger',
                               pendingBuildName: STAGES[0]]])])
 
-gitlabBuilds(builds: ['Checkout', 'cppcheck', 'Unit Tests - Release Build', 'Unit Tests - Debug Build', 'Valgrind]) {
+gitlabBuilds(builds: ['Checkout', 'cppcheck', 'Unit Tests - Release Build', 'Unit Tests - Debug Build', 'Valgrind]') {
 
 node ()
 {
