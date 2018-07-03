@@ -14,7 +14,7 @@ properties([[$class: 'GitLabConnectionProperty',
                               branchFilterType: 'All',
                               triggerOnPush: true,
                               triggerOnMergeRequest: false,
-                              pendingBuildName: STAGES[0]]])])
+                              pendingBuildName: 'Checkout']])])
 
 gitlabBuilds(builds: STAGES) {
 
