@@ -11,7 +11,7 @@ properties([[$class: 'GitLabConnectionProperty',
 
 triggers {
     gitlab(
-      pendingBuildName: STAGES[0]
+      pendingBuildName: STAGES[0])
 }
 
 gitlabBuilds(builds: STAGES) {
