@@ -48,7 +48,7 @@ node ()
 
   stage ('cppcheck')
   {
-    gitlabCommitStatus('cppcheck') {
+    gitlabCommitStatus("cppcheck") {
     def shellReturnStatus = sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
