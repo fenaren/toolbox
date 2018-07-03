@@ -4,7 +4,8 @@ STAGES = ['Checkout',
           'cppcheck',
           'Unit Tests - Release Build',
           'Unit Tests - Debug Build',
-          'Valgrind']
+          'Valgrind',
+          'Clang Static Analyzer']
 
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz']])
@@ -115,7 +116,7 @@ node ()
   }
   }
 
-  stage ('Clang Static Analyzer')
+  stage (STAGES[5])
   {
     gitlabCommitStatus(name: STAGES[5]) {
     sh '''
