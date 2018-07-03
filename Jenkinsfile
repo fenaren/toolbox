@@ -11,11 +11,23 @@ STAGES = ['Checkout',
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz'],
             pipelineTriggers([[$class: 'GitLabPushTrigger',
-                              branchFilterType: 'All',
-                              triggerOnPush: true,
-                              triggerOnMergeRequest: false,
-                              ciSkip: true,
-                              pendingBuildName: 'Checkout']])])
+                  triggerOnPush: false,
+                  triggerOnMergeRequest: true,
+                  triggerOpenMergeRequestOnPush: "never",
+                  triggerOnNoteRequest: true,
+                  noteRegex: "Jenkins please retry a build",
+                  skipWorkInProgressMergeRequest: true,
+                  ciSkip: false,
+                  setBuildDescription: true,
+                  addNoteOnMergeRequest: true,
+                  addCiMessage: true,
+                  addVoteOnMergeRequest: true,
+                  acceptMergeRequestOnSuccess: false,
+                  branchFilterType: "",
+                  includeBranchesSpec: "",
+                  excludeBranchesSpec: "",
+                  pendingBuildName: STAGES[0],
+                  cancelPendingBuildsOnUpdate: false]])])
 
 gitlabBuilds(builds: STAGES) {
 
