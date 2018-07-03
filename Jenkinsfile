@@ -7,10 +7,9 @@ GITLAB_URL_CONFIG  = GITLAB_URL + 'config.git'
 
 GITLAB_VERSION = '11.0'
 
+gitlabCommitStatus {
 node ()
 {
-  gitlabCommitStatus()
-
   stage ('Checkout')
   {
     deleteDir()
@@ -130,4 +129,5 @@ node ()
       scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
     '''
   }
+}
 }
