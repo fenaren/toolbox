@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+GITLAB_VERSION = '11.0'
+
 node () {
   stage ('Checkout') {
     deleteDir()
