@@ -9,9 +9,13 @@ STAGES = ['Checkout',
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz']])
 
+pipeline {
+
 triggers {
     gitlab(
       pendingBuildName: STAGES[0])
+}
+
 }
 
 gitlabBuilds(builds: STAGES) {
