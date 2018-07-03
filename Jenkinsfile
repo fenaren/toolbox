@@ -15,7 +15,7 @@ node ()
 {
   stage (STAGES[0])
   {
-    gitlabCommitStatus("STAGES[0]") {
+    gitlabCommitStatus("Checkout") {
     deleteDir()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
