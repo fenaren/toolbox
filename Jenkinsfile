@@ -39,44 +39,40 @@ stage (STAGES[0]) { gitlabCommitStatus(name: STAGES[0]) {
 
 }}
 
-  stage (STAGES[1])
-  {
-    gitlabCommitStatus(name: STAGES[1]) {
-    def shellReturnStatus = sh returnStatus: true, script: '''
-      $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
-    '''
+stage (STAGES[1]) { gitlabCommitStatus(name: STAGES[1]) {
 
-    if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
-  }
-  }
+  def shellReturnStatus = sh returnStatus: true, script: '''
+    $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
+  '''
 
-  stage (STAGES[2])
-  {
-    gitlabCommitStatus(name: STAGES[2]) {
-    sh '''
-      $TEMP_BIN/run-cmake --release .
-      make unittests
+  if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
 
-      for file in unittests/*.ut; do $file; done
-    '''
-  }
-  }
+}}
 
-  stage (STAGES[3])
-  {
-    gitlabCommitStatus(name: STAGES[3]) {
-    sh '''
-      $TEMP_BIN/run-cmake --debug .
-      make unittests
+stage (STAGES[2]) { gitlabCommitStatus(name: STAGES[2]) {
 
-      for file in unittests/*.ut; do $file; done
-    '''
-  }
-  }
+  sh '''
+    $TEMP_BIN/run-cmake --release .
+    make unittests
 
-  stage (STAGES[4])
-  {
-    gitlabCommitStatus(name: STAGES[4]) {
+    for file in unittests/*.ut; do $file; done
+  '''
+
+}}
+
+stage (STAGES[3]) { gitlabCommitStatus(name: STAGES[3]) {
+
+  sh '''
+    $TEMP_BIN/run-cmake --debug .
+    make unittests
+
+    for file in unittests/*.ut; do $file; done
+  '''
+
+}}
+
+stage (STAGES[4]) { gitlabCommitStatus(name: STAGES[4]) {
+
     step([$class: 'ValgrindBuilder',
       childSilentAfterFork: false,
       excludePattern: '',
@@ -111,20 +107,20 @@ stage (STAGES[0]) { gitlabCommitStatus(name: STAGES[0]) {
       unstableThresholdDefinitelyLost: '0',
       unstableThresholdInvalidReadWrite: '0',
       unstableThresholdTotal: '0'])
-  }
-  }
 
-  stage (STAGES[5])
-  {
-    gitlabCommitStatus(name: STAGES[5]) {
-    sh '''
-      rm CMakeCache.txt
-      rm -rf CMakeFiles
-      scan-build $TEMP_BIN/run-cmake --debug .
-      scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
-    '''
-  }
-  }
+}}
+
+stage (STAGES[5]) { gitlabCommitStatus(name: STAGES[5]) {
+
+  sh '''
+    rm CMakeCache.txt
+    rm -rf CMakeFiles
+    scan-build $TEMP_BIN/run-cmake --debug .
+    scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
+  '''
+
+}}
+
 }
 
 }
