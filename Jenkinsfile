@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-GITLAB_TOOLBOX_URL = 'http://gitlab.dmz/leighgarbs/toolbox.git'
+GITLAB_URL_TOOLBOX = 'http://gitlab.dmz/leighgarbs/toolbox.git'
 GITLAB_BUILDS      = ['Checkout',
                       'cppcheck',
                       'Unit Tests - Release Build',
