@@ -11,7 +11,6 @@ node ()
 {
   stage ('Checkout')
   {
-    gitlabCommitStatus(connection: [gitLabConnection: 'gitlab.dmz']) {
     deleteDir()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
@@ -52,15 +51,16 @@ node ()
       userRemoteConfigs: [[credentialsId: '',
                          url: GITLAB_URL_CONFIG]]]
   }
-  }
 
   stage ('cppcheck')
   {
+    gitlabCommitStatus(connection: [gitLabConnection: 'gitlab.dmz']) {
     def shellReturnStatus = sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
 
     if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
+  }
   }
 
   stage ('Unit Tests - Release Build')
