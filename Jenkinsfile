@@ -9,7 +9,9 @@ STAGES = ['Checkout',
           'Valgrind']
 
 properties([[$class: 'GitLabConnectionProperty',
-            gitLabConnection: 'gitlab.dmz']])
+            gitLabConnection: 'gitlab.dmz'],
+            pipelineTriggers([[$class: 'GitLabPushTrigger',
+                              pendingBuildName: STAGES[0]])])
 
 gitlabBuilds(builds: STAGES) {
 
