@@ -30,20 +30,20 @@ node ()
       userRemoteConfigs: [[credentialsId: '',
                          url: GITLAB_URL_TOOLBOX]]]
 
-    //checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
-    //  branches: [[name: 'master']],
-    //  browser: [$class: 'GitLab',
-    //           repoUrl: GITLAB_URL_BIN,
-    //           version: GITLAB_VERSION],
-    //  extensions: [[$class: 'RelativeTargetDirectory',
-    //              relativeTargetDir: '$TEMP_BIN']],
-    //  submoduleCfg: [],
-    //  userRemoteConfigs: [[credentialsId: '',
-    //                     url: GITLAB_URL_BIN]]]
+    checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
+      branches: [[name: 'master']],
+      browser: [$class: 'GitLab',
+               repoUrl: GITLAB_URL_BIN,
+               version: GITLAB_VERSION],
+      extensions: [[$class: 'RelativeTargetDirectory',
+                  relativeTargetDir: '$TEMP_BIN']],
+      submoduleCfg: [],
+      userRemoteConfigs: [[credentialsId: '',
+                         url: GITLAB_URL_BIN]]]
 
-    sh '''
-    git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
-    '''
+    //sh '''
+    //git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
+    //'''
   }
 
   stage ('cppcheck')
