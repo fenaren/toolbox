@@ -37,7 +37,7 @@ node ()
   }
 
   // This has to happen after the checkout?
-  updateGitlabCommitStatus name: 'jenkins', state: 'running'
+  //updateGitlabCommitStatus name: 'jenkins', state: 'running'
 
   stage ('cppcheck')
   {
