@@ -52,6 +52,8 @@ node ()
                          url: GITLAB_URL_CONFIG]]]
   }
 
+  gitlabBuilds('external')
+  {
   stage ('cppcheck')
   {
     gitlabCommitStatus(connection: [gitLabConnection: 'gitlab.dmz']) {
@@ -60,6 +62,7 @@ node ()
     '''
 
     if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
+  }
   }
   }
 
