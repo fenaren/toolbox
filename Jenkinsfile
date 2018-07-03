@@ -15,6 +15,7 @@ properties([[$class: 'GitLabConnectionProperty',
 
 gitlabBuilds(builds: STAGES) {
 
+
 node ()
 {
   stage (STAGES[0])
