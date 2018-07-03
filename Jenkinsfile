@@ -15,8 +15,7 @@ node ()
 {
   stage (STAGES[0])
   {
-    updateGitlabCommitStatus name: STAGE[0], state: 'running'
-
+    gitlabCommitStatus(STAGES[0]) {
     deleteDir()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
@@ -37,6 +36,7 @@ node ()
     sh '''
       git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
     '''
+  }
   }
 
   stage (STAGES[1])
