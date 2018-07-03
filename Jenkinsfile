@@ -7,12 +7,11 @@ GITLAB_URL_CONFIG  = GITLAB_URL + 'config.git'
 
 GITLAB_VERSION = '11.0'
 
-properties([gitLabConnection('gitlab.dmz')])
-
 node ()
 {
   stage ('Checkout')
   {
+    gitlabCommitStatus(connection: [gitLabConnection: 'gitlab.dmz']) {
     deleteDir()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
@@ -52,6 +51,7 @@ node ()
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
                          url: GITLAB_URL_CONFIG]]]
+  }
   }
 
   stage ('cppcheck')
