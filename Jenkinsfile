@@ -10,7 +10,7 @@ node () {
       branches: [[name: env.BRANCH_NAME]],
       browser: [$class: 'GitLab',
                repoUrl: 'gitlab.dmz/leighgarbs/toolbox',
-               version: '11.0'],
+               version: GITLAB_VERSION],
       extensions: [[$class: 'SubmoduleOption',
                   disableSubmodules: false,
                   parentCredentials: false,
