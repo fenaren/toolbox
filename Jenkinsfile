@@ -8,12 +8,12 @@ STAGES = ['Checkout',
           'Unit Tests - Debug Build',
           'Valgrind']
 
+gitlabBuilds(builds: STAGES) {
+
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz'],
             pipelineTriggers([[$class: 'GitLabPushTrigger',
                               pendingBuildName: STAGES[0]]])])
-
-gitlabBuilds(builds: ['Checkout', 'cppcheck', 'Unit Tests - Release Build', 'Unit Tests - Debug Build', 'Valgrind']) {
 
 node ()
 {
