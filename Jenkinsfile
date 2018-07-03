@@ -10,6 +10,9 @@ GITLAB_BUILDS      = ['Checkout',
 properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']])
 
 gitlabBuilds(builds: GITLAB_BUILDS) {
+  // This has to happen after the checkout?
+  updateGitlabCommitStatus name: GITLAB_BUILDS[0], state: 'pending'
+
 node ()
 {
   stage (GITLAB_BUILDS[0])
@@ -35,9 +38,6 @@ node ()
       git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
     '''
   }
-
-  // This has to happen after the checkout?
-  //updateGitlabCommitStatus name: 'jenkins', state: 'running'
 
   stage ('cppcheck')
   {
