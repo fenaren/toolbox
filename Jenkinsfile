@@ -11,6 +11,8 @@ properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']
 
 node ()
 {
+  gitlabCommitStatus(connection: [gitLabConnection: 'gitlab.dmz'])
+  {
   stage ('Checkout')
   {
     deleteDir()
@@ -40,22 +42,16 @@ node ()
       submoduleCfg: [],
       userRemoteConfigs: [[credentialsId: '',
                          url: GITLAB_URL_BIN]]]
-
-    //sh '''
-    //git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
-    //'''
   }
 
   stage ('cppcheck')
   {
-    gitlabCommitStatus(connection: [gitLabConnection: 'gitlab.dmz']) {
     def shellReturnStatus = sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
 
     if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
   }
-    }
 
   stage ('Unit Tests - Release Build')
   {
@@ -124,4 +120,5 @@ node ()
       scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
     '''
   }
+}
 }
