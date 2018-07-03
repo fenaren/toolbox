@@ -9,6 +9,8 @@ GITLAB_VERSION = '11.0'
 
 node ()
 {
+  updateGitlabCommitStatus()
+
   stage ('Checkout')
   {
     deleteDir()
