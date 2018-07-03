@@ -42,15 +42,18 @@ node ()
 
   stage (STAGES[1])
   {
+    gitlabCommitStatus(name: STAGES[1]) {
     def shellReturnStatus = sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
 
     if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
   }
+  }
 
   stage (STAGES[2])
   {
+    gitlabCommitStatus(name: STAGES[2]) {
     sh '''
       $TEMP_BIN/run-cmake --release .
       make unittests
@@ -58,9 +61,11 @@ node ()
       for file in unittests/*.ut; do $file; done
     '''
   }
+  }
 
   stage (STAGES[3])
   {
+    gitlabCommitStatus(name: STAGES[3]) {
     sh '''
       $TEMP_BIN/run-cmake --debug .
       make unittests
@@ -68,9 +73,11 @@ node ()
       for file in unittests/*.ut; do $file; done
     '''
   }
+  }
 
   stage (STAGES[4])
   {
+    gitlabCommitStatus(name: STAGES[4]) {
     step([$class: 'ValgrindBuilder',
       childSilentAfterFork: false,
       excludePattern: '',
@@ -106,15 +113,18 @@ node ()
       unstableThresholdInvalidReadWrite: '0',
       unstableThresholdTotal: '0'])
   }
+  }
 
   stage ('Clang Static Analyzer')
   {
+    gitlabCommitStatus(name: STAGES[5]) {
     sh '''
       rm CMakeCache.txt
       rm -rf CMakeFiles
       scan-build $TEMP_BIN/run-cmake --debug .
       scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
     '''
+  }
   }
 }
 
