@@ -11,6 +11,9 @@ STAGES = ['Checkout',
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz'],
             pipelineTriggers([[$class: 'GitLabPushTrigger',
+                              branchFilterType: 'All',
+                              triggerOnPush: true,
+                              triggerOnMergeRequest: false,
                               pendingBuildName: STAGES[0]]])])
 
 gitlabBuilds(builds: STAGES) {
