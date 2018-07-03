@@ -7,8 +7,10 @@ GITLAB_URL_CONFIG  = GITLAB_URL + 'config.git'
 
 GITLAB_VERSION = '11.0'
 
-node () {
-  stage ('Checkout') {
+node ()
+{
+  stage ('Checkout')
+  {
     deleteDir()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
@@ -50,7 +52,8 @@ node () {
                          url: GITLAB_URL_CONFIG]]]
   }
 
-  stage ('cppcheck') {
+  stage ('cppcheck')
+  {
     def shellReturnStatus = sh returnStatus: true, script: '''
       $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
     '''
@@ -58,7 +61,8 @@ node () {
     if(shellReturnStatus == 1) { currentBuild.result = 'UNSTABLE' }
   }
 
-  stage ('Unit Tests - Release Build') {
+  stage ('Unit Tests - Release Build')
+  {
     sh '''
       $TEMP_BIN/run-cmake --release .
       make unittests
@@ -67,7 +71,8 @@ node () {
     '''
   }
 
-  stage ('Unit Tests - Debug Build') {
+  stage ('Unit Tests - Debug Build')
+  {
     sh '''
       $TEMP_BIN/run-cmake --debug .
       make unittests
@@ -76,7 +81,8 @@ node () {
     '''
   }
 
-  stage ('Valgrind') {
+  stage ('Valgrind')
+  {
     step([$class: 'ValgrindBuilder',
       childSilentAfterFork: false,
       excludePattern: '',
