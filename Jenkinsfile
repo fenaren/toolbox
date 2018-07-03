@@ -3,7 +3,6 @@
 GITLAB_URL         = 'http://gitlab.dmz/leighgarbs/'
 GITLAB_URL_TOOLBOX = GITLAB_URL + 'toolbox.git'
 GITLAB_URL_BIN     = GITLAB_URL + 'bin.git'
-GITLAB_URL_CONFIG  = GITLAB_URL + 'config.git'
 
 GITLAB_VERSION = '11.0'
 
@@ -30,22 +29,12 @@ node ()
       userRemoteConfigs: [[credentialsId: '',
                          url: GITLAB_URL_TOOLBOX]]]
 
-    //checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
-    //  branches: [[name: 'master']],
-    //  browser: [$class: 'GitLab',
-    //           repoUrl: GITLAB_URL_BIN,
-    //           version: GITLAB_VERSION],
-    //  extensions: [[$class: 'RelativeTargetDirectory',
-    //              relativeTargetDir: '$TEMP_BIN']],
-    //  submoduleCfg: [],
-    //  userRemoteConfigs: [[credentialsId: '',
-    //                     url: GITLAB_URL_BIN]]]
-
     sh '''
-      git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
+      git clone $GITLAB_URL_BIN $TEMP_BIN
     '''
   }
 
+  // This has to happen after the checkout?
   updateGitlabCommitStatus name: 'jenkins', state: 'running'
 
   stage ('cppcheck')
