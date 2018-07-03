@@ -8,8 +8,6 @@ STAGES = ['Checkout',
           'Unit Tests - Debug Build',
           'Valgrind']
 
-gitlabBuilds(builds: STAGES) {
-
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz'],
             pipelineTriggers([[$class: 'GitLabPushTrigger',
@@ -17,6 +15,8 @@ properties([[$class: 'GitLabConnectionProperty',
 
 node ()
 {
+  gitlabBuilds(builds: STAGES) {
+
   stage (STAGES[0])
   {
     deleteDir()
