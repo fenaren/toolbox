@@ -1,5 +1,3 @@
-#!/usr/bin/env groovy
-
 GITLAB_URL_TOOLBOX = 'http://gitlab.dmz/leighgarbs/toolbox.git'
 
 STAGES = ['Checkout',
