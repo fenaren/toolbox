@@ -9,12 +9,14 @@ STAGES = ['Checkout',
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz']])
 
+gitlabBuilds(builds: STAGES) {
+
 node ()
 {
-  gitlabBuilds(builds: STAGES) {
   stage (STAGES[0])
   {
-    gitlabCommitStatus("Checkout") {
+    gitlabCommitStatus(name: STAGES[0]) {
+
     deleteDir()
 
     checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
