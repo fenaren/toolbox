@@ -12,7 +12,7 @@ properties([[$class: 'GitLabConnectionProperty', gitLabConnection: 'gitlab.dmz']
 gitlabBuilds(builds: GITLAB_BUILDS) {
 node ()
 {
-  stage ('Checkout')
+  stage (GITLAB_BUILDS[0])
   {
     deleteDir()
 
