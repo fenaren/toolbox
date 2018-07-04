@@ -14,12 +14,11 @@ properties([[$class: 'GitLabConnectionProperty',
 
 gitlabBuilds(builds: STAGES) {
 
-updateGitlabCommitStatus name: STAGES[0], state: 'pending'
-
 node () {
 
 stage (STAGES[0]) { gitlabCommitStatus(name: STAGES[0]) {
 
+  sleep 10
   deleteDir()
 
   checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
