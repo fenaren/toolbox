@@ -14,7 +14,6 @@ properties([[$class: 'GitLabConnectionProperty',
 
 gitlabBuilds(builds: STAGES) {
 
-
 updateGitlabCommitStatus name: STAGES[0], state: 'pending'
 
 node () {
