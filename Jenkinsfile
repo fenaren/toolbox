@@ -1,5 +1,7 @@
 GITLAB_URL_TOOLBOX = 'http://gitlab.dmz/leighgarbs/toolbox.git'
 
+
+
 STAGES = ['Checkout',
           'cppcheck',
           'Unit Tests - Release Build',
@@ -7,6 +9,7 @@ STAGES = ['Checkout',
           'Valgrind',
           'Clang Static Analyzer']
 
+/**
 properties([[$class: 'GitLabConnectionProperty',
             gitLabConnection: 'gitlab.dmz'],
             pipelineTriggers([[$class: 'GitLabPushTrigger',
@@ -130,3 +133,4 @@ stage (STAGES[5]) { gitlabCommitStatus(name: STAGES[5]) {
 }
 
 }
+*/
