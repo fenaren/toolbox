@@ -1,13 +1,53 @@
 GITLAB_URL_TOOLBOX = 'http://gitlab.dmz/leighgarbs/toolbox.git'
 
-
-
 STAGES = ['Checkout',
           'cppcheck',
           'Unit Tests - Release Build',
           'Unit Tests - Debug Build',
           'Valgrind',
           'Clang Static Analyzer']
+
+pipeline
+{
+  agent any
+
+  options
+  {
+    gitLabConnection('gitlab.dmz')
+    gitlabBuilds(builds: STAGES)
+  }
+
+  triggers
+  {
+      gitlab(triggerOnPush: true,
+             triggerOnMergeRequest: true,
+             branchFilterType: 'All')
+  }
+
+  stages
+  {
+    stage("build")
+    {
+      steps
+      {
+        echo "hello world"
+      }
+    }
+  }
+
+  post
+  {
+    failure
+    {
+      //updateGitlabCommitStatus name: 'build', state: 'failed'
+    }
+    success
+    {
+      //updateGitlabCommitStatus name: 'build', state: 'success'
+    }
+  }
+
+}
 
 /**
 properties([[$class: 'GitLabConnectionProperty',
