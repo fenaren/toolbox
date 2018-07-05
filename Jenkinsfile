@@ -35,17 +35,17 @@ pipeline
     }
   }
 
-  post
-  {
-    failure
-    {
+  //post
+  //{
+    //failure
+    //{
       //updateGitlabCommitStatus name: 'build', state: 'failed'
-    }
-    success
-    {
+    //}
+    //success
+   // {
       //updateGitlabCommitStatus name: 'build', state: 'success'
-    }
-  }
+    //}
+ // }
 
 }
 
