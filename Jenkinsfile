@@ -1,32 +1,41 @@
-GITLAB_URL_TOOLBOX = 'http://gitlab.dmz/leighgarbs/toolbox.git'
+def setUnstableOnShellResult =
+{
+  resultShell, resultUnstable ->
+  if(resultShell == resultUnstable)
+  {
+    currentBuild.result = 'UNSTABLE'
+  }
+}
 
-STAGES = ['Checkout',
-          'cppcheck',
-          'Unit Tests - Release Build',
-          'Unit Tests - Debug Build',
-          'Valgrind',
-          'Clang Static Analyzer']
+def doStage =
+{
+  stageName, stageBody ->
+  stage (stageName)
+  {
+    gitlabCommitStatus(name: stageName)
+    {
+      stageBody()
+    }
 
-properties([[$class: 'GitLabConnectionProperty',
-            gitLabConnection: 'gitlab.dmz'],
-            pipelineTriggers([[$class: 'GitLabPushTrigger',
-                              triggerOnPush: true,
-                              triggerOnMergeRequest: true,
-                              skipWorkInProgressMergeRequest: true,
-                              pendingBuildName: STAGES[0]]])])
+    if (currentBuild.result == 'UNSTABLE')
+    {
+      updateGitlabCommitStatus(name: stageName, state: 'failed')
+    }
+  }
+}
 
-gitlabBuilds(builds: STAGES) {
-
-node () {
-
-stage (STAGES[0]) { gitlabCommitStatus(name: STAGES[0]) {
+def stageCheckout =
+{
+  gitlabUrl         = 'http://gitlab.dmz/leighgarbs/'
+  gitlabUrlToolbox  = gitlabUrl + 'toolbox.git'
+  gitlabUrlBin      = gitlabUrl + 'bin.git'
 
   deleteDir()
 
   checkout changelog: true, poll: true, scm: [$class: 'GitSCM',
     branches: [[name: env.BRANCH_NAME]],
     browser: [$class: 'GitLab',
-             repoUrl: GITLAB_URL_TOOLBOX,
+             repoUrl: gitlabUrlToolbox,
              version: '11.0'],
     extensions: [[$class: 'SubmoduleOption',
                 disableSubmodules: false,
@@ -36,34 +45,24 @@ stage (STAGES[0]) { gitlabCommitStatus(name: STAGES[0]) {
                 trackingSubmodules: false]],
     submoduleCfg: [],
     userRemoteConfigs: [[credentialsId: '',
-                       url: GITLAB_URL_TOOLBOX]]]
+                       url: gitlabUrlToolbox]]]
 
-  sh '''
-    git clone http://gitlab.dmz/leighgarbs/bin.git $TEMP_BIN
-  '''
+  sh """
+    git clone $gitlabUrlBin $TEMP_BIN
+  """
+}
 
-}}
-
-stage (STAGES[1]) { gitlabCommitStatus(name: STAGES[1]) {
-
+def stageCppcheck =
+{
   def shellReturnStatus = sh returnStatus: true, script: '''
     $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
   '''
 
-  if(shellReturnStatus == 1)
-  {
-    currentBuild.result = 'UNSTABLE'
-  }
-
-}}
-
-if (currentBuild.result == 'UNSTABLE')
-{
-  updateGitlabCommitStatus(name: STAGES[1], state: 'failed')
+  setUnstableOnShellResult(shellReturnStatus, 1)
 }
 
-stage (STAGES[2]) { gitlabCommitStatus(name: STAGES[2]) {
-
+def stageUnitTestRelease =
+{
   sh '''
     $TEMP_BIN/run-cmake --release .
     make unittests
@@ -75,75 +74,95 @@ stage (STAGES[2]) { gitlabCommitStatus(name: STAGES[2]) {
            canResolveRelativePaths: false,
            categoriesPattern: '',
            consoleParsers: [[parserName: 'GNU Make + GNU C Compiler (gcc)']]
+}
 
-}}
-
-stage (STAGES[3]) { gitlabCommitStatus(name: STAGES[3]) {
-
+def stageUnitTestDebug =
+{
   sh '''
     $TEMP_BIN/run-cmake --debug .
     make unittests
 
     for file in unittests/*.ut; do $file; done
   '''
-
-}}
-
-stage (STAGES[4]) { gitlabCommitStatus(name: STAGES[4]) {
-
-    step([$class: 'ValgrindBuilder',
-      childSilentAfterFork: false,
-      excludePattern: '',
-      generateSuppressions: false,
-      ignoreExitCode: false,
-      includePattern: 'unittests/*.ut',
-      outputDirectory: '',
-      outputFileEnding: '.valgrind.xml',
-      programOptions: '',
-      removeOldReports: false,
-      suppressionFiles: '',
-      tool: [$class: 'ValgrindToolMemcheck',
-            leakCheckLevel: 'full',
-            showReachable: false,
-            trackOrigins: true,
-            undefinedValueErrors: true],
-      traceChildren: false,
-      valgrindExecutable: '',
-      valgrindOptions: '',
-      workingDirectory: ''])
-
-    step([$class: 'ValgrindPublisher',
-      failBuildOnInvalidReports: false,
-      failBuildOnMissingReports: false,
-      failThresholdDefinitelyLost: '',
-      failThresholdInvalidReadWrite: '',
-      failThresholdTotal: '',
-      pattern: '*.valgrind.xml',
-      publishResultsForAbortedBuilds: false,
-      publishResultsForFailedBuilds: false,
-      sourceSubstitutionPaths: '',
-      unstableThresholdDefinitelyLost: '0',
-      unstableThresholdInvalidReadWrite: '0',
-      unstableThresholdTotal: '0'])
-
-}}
-
-if (currentBuild.result == 'UNSTABLE')
-{
-  updateGitlabCommitStatus(name: STAGES[4], state: 'failed')
 }
 
-stage (STAGES[5]) { gitlabCommitStatus(name: STAGES[5]) {
+def stageValgrind =
+{
+  step([$class: 'ValgrindBuilder',
+    childSilentAfterFork: false,
+    excludePattern: '',
+    generateSuppressions: false,
+    ignoreExitCode: false,
+    includePattern: 'unittests/*.ut',
+    outputDirectory: '',
+    outputFileEnding: '.valgrind.xml',
+    programOptions: '',
+    removeOldReports: false,
+    suppressionFiles: '',
+    tool: [$class: 'ValgrindToolMemcheck',
+          leakCheckLevel: 'full',
+          showReachable: false,
+          trackOrigins: true,
+          undefinedValueErrors: true],
+    traceChildren: false,
+    valgrindExecutable: '',
+    valgrindOptions: '',
+    workingDirectory: ''])
 
+  step([$class: 'ValgrindPublisher',
+    failBuildOnInvalidReports: false,
+    failBuildOnMissingReports: false,
+    failThresholdDefinitelyLost: '',
+    failThresholdInvalidReadWrite: '',
+    failThresholdTotal: '',
+    pattern: '*.valgrind.xml',
+    publishResultsForAbortedBuilds: false,
+    publishResultsForFailedBuilds: false,
+    sourceSubstitutionPaths: '',
+    unstableThresholdDefinitelyLost: '0',
+    unstableThresholdInvalidReadWrite: '0',
+    unstableThresholdTotal: '0'])
+}
+
+def stageClangStaticAnalysis =
+{
   sh '''
     rm CMakeCache.txt
     rm -rf CMakeFiles
     scan-build $TEMP_BIN/run-cmake --debug .
-    scan-build -o clangScanBuildReports -v -v --use-cc clang --use-analyzer=/usr/bin/clang make
+    scan-build -o clangScanBuildReports -v -v --use-cc clang \
+      --use-analyzer=/usr/bin/clang make
   '''
-
-}}
-
 }
 
+stages = [[name: 'Checkout',                   body: stageCheckout],
+          [name: 'cppcheck',                   body: stageCppcheck],
+          [name: 'Unit Tests - Release Build', body: stageUnitTestRelease],
+          [name: 'Unit Tests - Debug Build',   body: stageUnitTestDebug],
+          [name: 'Valgrind',                   body: stageValgrind],
+          [name: 'Clang Static Analyzer',      body: stageClangStaticAnalysis]]
+
+stageNames = []
+for (i = 0; i < stages.size(); i++)
+{
+  stageNames.plus(stages[i].name)
+}
+
+properties([[$class: 'GitLabConnectionProperty',
+            gitLabConnection: 'gitlab.dmz'],
+            pipelineTriggers([[$class: 'GitLabPushTrigger',
+                              triggerOnPush: true,
+                              triggerOnMergeRequest: true,
+                              skipWorkInProgressMergeRequest: true,
+                              pendingBuildName: stageNames[0]]])])
+
+gitlabBuilds(builds: stageNames)
+{
+  node ()
+  {
+    for (i = 0; i < stages.size(); i++)
+    {
+      doStage(stages[i].name, stages[i].body)
+    }
+  }
 }
