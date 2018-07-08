@@ -49,7 +49,7 @@ class Socket
     Socket();
 
     // Sets the platform-specific implementation to be used
-    virtual void setImplementation(SocketImpl* socket_impl);
+    void setImplementation(SocketImpl* socket_impl);
 
   private:
 

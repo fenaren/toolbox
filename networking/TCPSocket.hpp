@@ -49,7 +49,7 @@ class TCPSocket : public Socket
   protected:
 
     // Sets the platform-specific socket implementation to use
-    virtual void setImplementation(TCPSocketImpl* socket_impl);
+    void setImplementation(TCPSocketImpl* socket_impl);
 
   private:
 

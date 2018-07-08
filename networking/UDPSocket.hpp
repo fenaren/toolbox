@@ -29,7 +29,7 @@ class UDPSocket : public Socket
   protected:
 
     // Sets the platform-specific socket implementation to use
-    virtual void setImplementation(UDPSocketImpl* socket_impl);
+    void setImplementation(UDPSocketImpl* socket_impl);
 
   private:
 
