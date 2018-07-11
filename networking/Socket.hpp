@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined SOCKET_HPP
 #define SOCKET_HPP
 
@@ -10,7 +8,7 @@ class SocketImpl;
 // This is the base class for all abstract socket classes.
 class Socket
 {
-  public:
+public:
 
     // Closes the associated socket.
     virtual ~Socket();
@@ -42,7 +40,7 @@ class Socket
     // Forces this socket to discard all received data.
     void clearBuffer();
 
-  protected:
+protected:
 
     // Constructs a new socket that will use the given protocol.  This class
     // should not be directly instantiated.
@@ -51,7 +49,7 @@ class Socket
     // Sets the platform-specific implementation to be used
     void setImplementation(SocketImpl* socket_impl);
 
-  private:
+private:
 
     // A concrete socket implementation created by derived classes
     SocketImpl* socket_impl;
@@ -59,7 +57,7 @@ class Socket
 
 inline void Socket::setImplementation(SocketImpl* socket_impl)
 {
-  this->socket_impl = socket_impl;
+    this->socket_impl = socket_impl;
 }
 
 #endif

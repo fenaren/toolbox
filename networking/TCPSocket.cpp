@@ -1,9 +1,7 @@
-// Leigh Garbs
-
-#include "TCPSocket.hpp"
-
 #include <iostream>
 #include <string>
+
+#include "TCPSocket.hpp"
 
 #include "SocketFactory.hpp"
 
@@ -11,16 +9,16 @@
 // Creates a platform-specific TCP socket
 //=============================================================================
 TCPSocket::TCPSocket() :
-  Socket()
+    Socket()
 {
-  // Get a platform-specific socket
-  socket_impl = SocketFactory::createTCPSocket();
-  if (!socket_impl)
-  {
-    std::cerr << "Platform-specific TCP socket could not be created\n";
-  }
+    // Get a platform-specific socket
+    socket_impl = SocketFactory::createTCPSocket();
+    if (!socket_impl)
+    {
+        std::cerr << "Platform-specific TCP socket could not be created\n";
+    }
 
-  Socket::setImplementation(socket_impl);
+    Socket::setImplementation(socket_impl);
 }
 
 //=============================================================================
@@ -28,10 +26,10 @@ TCPSocket::TCPSocket() :
 // already-created implementation-specific TCP socket
 //=============================================================================
 TCPSocket::TCPSocket(TCPSocketImpl* socket_impl) :
-  Socket(),
-  socket_impl(socket_impl)
+    Socket(),
+    socket_impl(socket_impl)
 {
-  Socket::setImplementation(socket_impl);
+    Socket::setImplementation(socket_impl);
 }
 
 //=============================================================================
@@ -39,10 +37,10 @@ TCPSocket::TCPSocket(TCPSocketImpl* socket_impl) :
 //=============================================================================
 TCPSocket::~TCPSocket()
 {
-  if (socket_impl)
-  {
-    delete socket_impl;
-  }
+    if (socket_impl)
+    {
+        delete socket_impl;
+    }
 }
 
 //=============================================================================
@@ -50,12 +48,12 @@ TCPSocket::~TCPSocket()
 //=============================================================================
 bool TCPSocket::bind(unsigned int port)
 {
-  if (socket_impl)
-  {
-    return socket_impl->bind(port);
-  }
+    if (socket_impl)
+    {
+        return socket_impl->bind(port);
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -63,12 +61,12 @@ bool TCPSocket::bind(unsigned int port)
 //=============================================================================
 bool TCPSocket::listen()
 {
-  if (socket_impl)
-  {
-    return socket_impl->listen();
-  }
+    if (socket_impl)
+    {
+        return socket_impl->listen();
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -76,25 +74,25 @@ bool TCPSocket::listen()
 //=============================================================================
 TCPSocket* TCPSocket::accept(bool take_over)
 {
-  if (socket_impl)
-  {
-    TCPSocketImpl* new_socket_impl = socket_impl->accept(take_over);
+    if (socket_impl)
+    {
+        TCPSocketImpl* new_socket_impl = socket_impl->accept(take_over);
 
-    if (!new_socket_impl)
-    {
-      return 0;
+        if (!new_socket_impl)
+        {
+            return 0;
+        }
+        else if (new_socket_impl != socket_impl)
+        {
+            return new TCPSocket(new_socket_impl);
+        }
+        else
+        {
+            return this;
+        }
     }
-    else if (new_socket_impl != socket_impl)
-    {
-      return new TCPSocket(new_socket_impl);
-    }
-    else
-    {
-      return this;
-    }
-  }
 
-  return 0;
+    return 0;
 }
 
 //=============================================================================
@@ -102,12 +100,12 @@ TCPSocket* TCPSocket::accept(bool take_over)
 //=============================================================================
 bool TCPSocket::connect(const std::string& hostname, unsigned int port)
 {
-  if (socket_impl)
-  {
-    return socket_impl->connect(hostname, port);
-  }
+    if (socket_impl)
+    {
+        return socket_impl->connect(hostname, port);
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -115,12 +113,12 @@ bool TCPSocket::connect(const std::string& hostname, unsigned int port)
 //=============================================================================
 bool TCPSocket::isConnected()
 {
-  if (socket_impl)
-  {
-    return socket_impl->isConnected();
-  }
+    if (socket_impl)
+    {
+        return socket_impl->isConnected();
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -128,8 +126,8 @@ bool TCPSocket::isConnected()
 //=============================================================================
 void TCPSocket::getPeerAddress(std::string& peer_address_str) const
 {
-  if (socket_impl)
-  {
-    socket_impl->getPeerAddress(peer_address_str);
-  }
+    if (socket_impl)
+    {
+        socket_impl->getPeerAddress(peer_address_str);
+    }
 }

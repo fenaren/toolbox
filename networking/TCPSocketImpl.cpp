@@ -1,12 +1,10 @@
-// Leigh Garbs
-
 #include "TCPSocketImpl.hpp"
 
 //=============================================================================
 // Constructor; does nothing.
 //=============================================================================
 TCPSocketImpl::TCPSocketImpl() :
-  SocketImpl()
+    SocketImpl()
 {
 }
 

@@ -1,7 +1,3 @@
-// Leigh Garbs
-
-#include "LinuxUDPSocketImpl.hpp"
-
 #include <cstring>
 #include <errno.h>
 #include <iostream>
@@ -13,6 +9,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "LinuxUDPSocketImpl.hpp"
+
 #include "LinuxSocketCommon.hpp"
 
 //====================================================================
@@ -20,32 +18,32 @@
 //====================================================================
 LinuxUDPSocketImpl::LinuxUDPSocketImpl()
 {
-  blocking_timeout = -1.0;
+    blocking_timeout = -1.0;
 
-  ts_blocking_timeout.tv_sec =  0;
-  ts_blocking_timeout.tv_nsec = 0;
+    ts_blocking_timeout.tv_sec =  0;
+    ts_blocking_timeout.tv_nsec = 0;
 
-  // Create the socket
-  socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
+    // Create the socket
+    socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
 
-  // Check for errors
-  if (socket_fd == -1)
-  {
-    perror("LinuxUDPSocketImpl::LinuxUDPSocketImpl");
-    return;
-  }
+    // Check for errors
+    if (socket_fd == -1)
+    {
+        perror("LinuxUDPSocketImpl::LinuxUDPSocketImpl");
+        return;
+    }
 
-  int bcast = 1;
+    int bcast = 1;
 
-  // Enable broadcasting by default
-  if (setsockopt(socket_fd,
-		 SOL_SOCKET,
-		 SO_BROADCAST,
-		 &bcast,
-		 sizeof(bcast)) == -1)
-  {
-    perror("LinuxUDPSocketImpl::LinuxUDPSocketImpl");
-  }
+    // Enable broadcasting by default
+    if (setsockopt(socket_fd,
+                   SOL_SOCKET,
+                   SO_BROADCAST,
+                   &bcast,
+                   sizeof(bcast)) == -1)
+    {
+        perror("LinuxUDPSocketImpl::LinuxUDPSocketImpl");
+    }
 }
 
 //====================================================================
@@ -53,7 +51,7 @@ LinuxUDPSocketImpl::LinuxUDPSocketImpl()
 //====================================================================
 LinuxUDPSocketImpl::~LinuxUDPSocketImpl()
 {
-  LinuxSocketCommon::shutdown(socket_fd);
+    LinuxSocketCommon::shutdown(socket_fd);
 }
 
 //====================================================================
@@ -61,7 +59,7 @@ LinuxUDPSocketImpl::~LinuxUDPSocketImpl()
 //====================================================================
 bool LinuxUDPSocketImpl::enableBlocking()
 {
-  return LinuxSocketCommon::enableBlocking(socket_fd);
+    return LinuxSocketCommon::enableBlocking(socket_fd);
 }
 
 //====================================================================
@@ -69,7 +67,7 @@ bool LinuxUDPSocketImpl::enableBlocking()
 //====================================================================
 bool LinuxUDPSocketImpl::disableBlocking()
 {
-  return LinuxSocketCommon::disableBlocking(socket_fd);
+    return LinuxSocketCommon::disableBlocking(socket_fd);
 }
 
 //====================================================================
@@ -77,7 +75,7 @@ bool LinuxUDPSocketImpl::disableBlocking()
 //====================================================================
 bool LinuxUDPSocketImpl::isBlockingEnabled()
 {
-  return LinuxSocketCommon::isBlockingEnabled(socket_fd);
+    return LinuxSocketCommon::isBlockingEnabled(socket_fd);
 }
 
 //====================================================================
@@ -85,9 +83,9 @@ bool LinuxUDPSocketImpl::isBlockingEnabled()
 //====================================================================
 void LinuxUDPSocketImpl::setBlockingTimeout(double blocking_timeout)
 {
-  LinuxSocketCommon::setBlockingTimeout(blocking_timeout,
-					this->blocking_timeout,
-					ts_blocking_timeout);
+    LinuxSocketCommon::setBlockingTimeout(blocking_timeout,
+                                          this->blocking_timeout,
+                                          ts_blocking_timeout);
 }
 
 //====================================================================
@@ -95,7 +93,7 @@ void LinuxUDPSocketImpl::setBlockingTimeout(double blocking_timeout)
 //====================================================================
 double LinuxUDPSocketImpl::getBlockingTimeout() const
 {
-  return blocking_timeout;
+    return blocking_timeout;
 }
 
 //====================================================================
@@ -103,19 +101,19 @@ double LinuxUDPSocketImpl::getBlockingTimeout() const
 //====================================================================
 bool LinuxUDPSocketImpl::bind(unsigned int port)
 {
-  // Set up local address info to bind with
-  local_address.sin_family      = AF_INET;
-  local_address.sin_port        = htons(port);
-  local_address.sin_addr.s_addr = 0;
+    // Set up local address info to bind with
+    local_address.sin_family      = AF_INET;
+    local_address.sin_port        = htons(port);
+    local_address.sin_addr.s_addr = 0;
 
-  // Do the bind
-  if (::bind(socket_fd, (sockaddr*)&local_address, sizeof(sockaddr_in)) == -1)
-  {
-    perror("LinuxUDPSocketImpl::bind");
-    return false;
-  }
+    // Do the bind
+    if (::bind(socket_fd, (sockaddr*)&local_address, sizeof(sockaddr_in)) == -1)
+    {
+        perror("LinuxUDPSocketImpl::bind");
+        return false;
+    }
 
-  return true;
+    return true;
 }
 
 //====================================================================
@@ -123,14 +121,14 @@ bool LinuxUDPSocketImpl::bind(unsigned int port)
 //====================================================================
 int LinuxUDPSocketImpl::read(char* buffer, unsigned int size)
 {
-  return LinuxSocketCommon::read(
-    socket_fd,
-    buffer,
-    size,
-    blocking_timeout,
-    ts_blocking_timeout,
-    reinterpret_cast<sockaddr*>(&peer_address),
-    sizeof(sockaddr_in));
+    return LinuxSocketCommon::read(
+        socket_fd,
+        buffer,
+        size,
+        blocking_timeout,
+        ts_blocking_timeout,
+        reinterpret_cast<sockaddr*>(&peer_address),
+        sizeof(sockaddr_in));
 }
 
 //====================================================================
@@ -138,14 +136,14 @@ int LinuxUDPSocketImpl::read(char* buffer, unsigned int size)
 //====================================================================
 int LinuxUDPSocketImpl::write(const char* buffer, unsigned int size)
 {
-  return LinuxSocketCommon::write(
-    socket_fd,
-    buffer,
-    size,
-    blocking_timeout,
-    ts_blocking_timeout,
-    reinterpret_cast<sockaddr*>(&sendto_address),
-    sizeof(sockaddr_in));
+    return LinuxSocketCommon::write(
+        socket_fd,
+        buffer,
+        size,
+        blocking_timeout,
+        ts_blocking_timeout,
+        reinterpret_cast<sockaddr*>(&sendto_address),
+        sizeof(sockaddr_in));
 }
 
 //====================================================================
@@ -153,43 +151,43 @@ int LinuxUDPSocketImpl::write(const char* buffer, unsigned int size)
 //====================================================================
 bool LinuxUDPSocketImpl::sendTo(const std::string& address, unsigned int port)
 {
-  // Create some hints for getaddrinfo
-  addrinfo hints;
-  hints.ai_family   = AF_INET;
-  hints.ai_socktype = SOCK_DGRAM;
-  hints.ai_protocol = 0;
-  hints.ai_flags    = 0;
+    // Create some hints for getaddrinfo
+    addrinfo hints;
+    hints.ai_family   = AF_INET;
+    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_protocol = 0;
+    hints.ai_flags    = 0;
 
-  // Will point to the results list
-  addrinfo* results = 0;
+    // Will point to the results list
+    addrinfo* results = 0;
 
-  // Loop up the provided hostname
-  int ret = getaddrinfo(address.c_str(), 0, &hints, &results);
+    // Loop up the provided hostname
+    int ret = getaddrinfo(address.c_str(), 0, &hints, &results);
 
-  // Check for errors
-  if (ret != 0)
-  {
-    std::cerr << "LinuxUDPSocketImpl::sendTo: " << gai_strerror(ret) << "\n";
-    return false;
-  }
+    // Check for errors
+    if (ret != 0)
+    {
+        std::cerr << "LinuxUDPSocketImpl::sendTo: " << gai_strerror(ret) << "\n";
+        return false;
+    }
 
-  // If there weren't any results just error and leave
-  if (!results)
-  {
-    std::cerr << "Address not usable\n";
-    return false;
-  }
+    // If there weren't any results just error and leave
+    if (!results)
+    {
+        std::cerr << "Address not usable\n";
+        return false;
+    }
 
-  // If anything was found just choose the first one; if anything more
-  // complicated is needed it'll be implemented later
-  memcpy(&sendto_address, results->ai_addr, sizeof(sockaddr_in));
+    // If anything was found just choose the first one; if anything more
+    // complicated is needed it'll be implemented later
+    memcpy(&sendto_address, results->ai_addr, sizeof(sockaddr_in));
 
-  // Set the target port
-  sendto_address.sin_port = htons(port);
+    // Set the target port
+    sendto_address.sin_port = htons(port);
 
-  freeaddrinfo(results);
+    freeaddrinfo(results);
 
-  return true;
+    return true;
 }
 
 //====================================================================
@@ -197,8 +195,8 @@ bool LinuxUDPSocketImpl::sendTo(const std::string& address, unsigned int port)
 //====================================================================
 void LinuxUDPSocketImpl::clearBuffer()
 {
-  LinuxSocketCommon::clearBuffer(
-    socket_fd,
-    reinterpret_cast<sockaddr*>(&peer_address),
-    sizeof(sockaddr_in));
+    LinuxSocketCommon::clearBuffer(
+        socket_fd,
+        reinterpret_cast<sockaddr*>(&peer_address),
+        sizeof(sockaddr_in));
 }

@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined WINDOWS_TCP_SOCKET_IMPL_HPP
 #define WINDOWS_TCP_SOCKET_IMPL_HPP
 
@@ -10,7 +8,7 @@
 // Defines a socket implementation specific to Windows.
 class WindowsTCPSocketImpl : public TCPSocketImpl
 {
-  public:
+public:
 
     // Constructs a new socket that will use the given protocol.
     WindowsTCPSocketImpl();
@@ -76,7 +74,7 @@ class WindowsTCPSocketImpl : public TCPSocketImpl
     // Forces this socket to discard any received data.
     virtual void clearBuffer();
 
-  private:
+private:
 
     // A special constructor used during accept; duplicates a socket and assumes
     // the new socket is open
@@ -106,7 +104,7 @@ class WindowsTCPSocketImpl : public TCPSocketImpl
 inline
 void WindowsTCPSocketImpl::getPeerAddress(std::string& peer_address_str) const
 {
-  peer_address_str = inet_ntoa(peer_address.sin_addr);
+    peer_address_str = inet_ntoa(peer_address.sin_addr);
 }
 
 #endif

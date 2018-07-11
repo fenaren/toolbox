@@ -1,9 +1,7 @@
-// Leigh Garbs
-
-#include "UDPSocket.hpp"
-
 #include <iostream>
 #include <string>
+
+#include "UDPSocket.hpp"
 
 #include "SocketFactory.hpp"
 
@@ -11,17 +9,17 @@
 // Creates a platform-specific UDP socket
 //=============================================================================
 UDPSocket::UDPSocket() :
-  Socket()
+    Socket()
 {
-  // Get an platform-specific UDP socket
-  socket_impl = SocketFactory::createUDPSocket();
+    // Get an platform-specific UDP socket
+    socket_impl = SocketFactory::createUDPSocket();
 
-  if (!socket_impl)
-  {
-    std::cerr << "Platform-specific UDP socket could not be created\n";
-  }
+    if (!socket_impl)
+    {
+        std::cerr << "Platform-specific UDP socket could not be created\n";
+    }
 
-  Socket::setImplementation(socket_impl);
+    Socket::setImplementation(socket_impl);
 }
 
 //=============================================================================
@@ -29,10 +27,10 @@ UDPSocket::UDPSocket() :
 //=============================================================================
 UDPSocket::~UDPSocket()
 {
-  if (socket_impl)
-  {
-    delete socket_impl;
-  }
+    if (socket_impl)
+    {
+        delete socket_impl;
+    }
 }
 
 //=============================================================================
@@ -40,12 +38,12 @@ UDPSocket::~UDPSocket()
 //=============================================================================
 bool UDPSocket::bind(unsigned int port)
 {
-  if (socket_impl)
-  {
-    return socket_impl->bind(port);
-  }
+    if (socket_impl)
+    {
+        return socket_impl->bind(port);
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -53,12 +51,12 @@ bool UDPSocket::bind(unsigned int port)
 //=============================================================================
 bool UDPSocket::sendTo(const std::string& address, unsigned int port)
 {
-  if (socket_impl)
-  {
-    return socket_impl->sendTo(address, port);
-  }
+    if (socket_impl)
+    {
+        return socket_impl->sendTo(address, port);
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -66,8 +64,8 @@ bool UDPSocket::sendTo(const std::string& address, unsigned int port)
 //=============================================================================
 void UDPSocket::getPeerAddress(std::string& peer_address_str) const
 {
-  if (socket_impl)
-  {
-    socket_impl->getPeerAddress(peer_address_str);
-  }
+    if (socket_impl)
+    {
+        socket_impl->getPeerAddress(peer_address_str);
+    }
 }

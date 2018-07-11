@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #include "SocketFactory.hpp"
 
 #if defined LINUX

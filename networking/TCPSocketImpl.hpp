@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined TCP_SOCKET_IMPL_HPP
 #define TCP_SOCKET_IMPL_HPP
 
@@ -7,7 +5,7 @@
 
 class TCPSocketImpl : public SocketImpl
 {
-  public:
+public:
 
     // Does nothing but call parent constructor.
     TCPSocketImpl();

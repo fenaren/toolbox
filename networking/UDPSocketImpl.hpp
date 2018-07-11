@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined UDP_SOCKET_IMPL_HPP
 #define UDP_SOCKET_IMPL_HPP
 
@@ -7,7 +5,7 @@
 
 class UDPSocketImpl : public SocketImpl
 {
-  public:
+public:
 
     // Does nothing but call parent constructor.
     UDPSocketImpl();

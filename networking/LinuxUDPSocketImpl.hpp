@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined LINUX_UDP_SOCKET_HPP
 #define LINUX_UDP_SOCKET_HPP
 
@@ -13,7 +11,7 @@
 // Defines a socket implementation specific to Windows.
 class LinuxUDPSocketImpl : public UDPSocketImpl
 {
-  public:
+public:
 
     // Constructs a new socket that will use the given protocol.
     LinuxUDPSocketImpl();
@@ -82,7 +80,7 @@ private:
 inline
 void LinuxUDPSocketImpl::getPeerAddress(std::string& peer_address_str) const
 {
-  peer_address_str = inet_ntoa(peer_address.sin_addr);
+    peer_address_str = inet_ntoa(peer_address.sin_addr);
 }
 
 #endif

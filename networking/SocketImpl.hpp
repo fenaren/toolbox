@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined SOCKET_IMPL_HPP
 #define SOCKET_IMPL_HPP
 
@@ -8,7 +6,7 @@
 // This is the base class for all socket implementations.
 class SocketImpl
 {
-  public:
+public:
 
     // Constructs a new socket.
     SocketImpl();

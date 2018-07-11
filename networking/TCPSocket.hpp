@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined TCP_SOCKET_HPP
 #define TCP_SOCKET_HPP
 
@@ -9,7 +7,7 @@ class TCPSocketImpl;
 
 class TCPSocket : public Socket
 {
-  public:
+public:
 
     // Does nothing but call parent constructor.
     TCPSocket();
@@ -46,12 +44,12 @@ class TCPSocket : public Socket
     // Gets the source IP address of the last received packet
     void getPeerAddress(std::string& peer_address_str) const;
 
-  protected:
+protected:
 
     // Sets the platform-specific socket implementation to use
     void setImplementation(TCPSocketImpl* socket_impl);
 
-  private:
+private:
 
     // This is a special constructor used during calls to accept.  It wraps an
     // existing platform-specific TCP socket in an instance of this class.
@@ -63,7 +61,7 @@ class TCPSocket : public Socket
 
 inline void TCPSocket::setImplementation(TCPSocketImpl* socket_impl)
 {
-  this->socket_impl = socket_impl;
+    this->socket_impl = socket_impl;
 }
 
 #endif

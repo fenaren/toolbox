@@ -1,16 +1,14 @@
-// Leigh Garbs
-
 #if !defined WINDOWS_RAW_SOCKET_HPP
 #define WINDOWS_RAW_SOCKET_HPP
 
-#include "SocketImpl.hpp"
-
 #include <WinSock2.h>
+
+#include "SocketImpl.hpp"
 
 // Defines a socket implementation specific to Windows.
 class WindowsRawSocket : public SocketImpl
 {
-  public:
+public:
 
     // Constructs a new Windows socket.  The 'protocol' argument should be an
     // IPPROTO_* enumeration value (defined in ws2def.h)
@@ -70,7 +68,7 @@ class WindowsRawSocket : public SocketImpl
     // Forces this socket to discard any received data.
     virtual void clearBuffer();
 
-  private:
+private:
 
     // Descriptor for this socket
     SOCKET socket_fd;
@@ -97,17 +95,17 @@ class WindowsRawSocket : public SocketImpl
 
 inline void WindowsRawSocket::getInputInterface(std::string& interface_ip) const
 {
-  interface_ip = recv_addr_str;
+    interface_ip = recv_addr_str;
 }
 
 inline void WindowsRawSocket::getDestinationIP(std::string& interface_ip) const
 {
-  interface_ip = send_addr_str;
+    interface_ip = send_addr_str;
 }
 
 inline void WindowsRawSocket::getPeerAddress(std::string& peer_address) const
 {
-  peer_address = inet_ntoa(last_source_addr.sin_addr);
+    peer_address = inet_ntoa(last_source_addr.sin_addr);
 }
 
 #endif

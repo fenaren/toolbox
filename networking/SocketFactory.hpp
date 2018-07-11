@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined SOCKET_FACTORY_HPP
 #define SOCKET_FACTORY_HPP
 
@@ -10,7 +8,7 @@
 // implementations.
 class SocketFactory
 {
-  public:
+public:
 
     // The interface through which platform-specific TCP sockets are acquired.
     static TCPSocketImpl* createTCPSocket();
@@ -18,7 +16,7 @@ class SocketFactory
     // The interface through which platform-specific UDP sockets are acquired.
     static UDPSocketImpl* createUDPSocket();
 
-  private:
+private:
 
     // Creating objects of this class should not be allowed.
     SocketFactory();

@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined UDP_SOCKET_HPP
 #define UDP_SOCKET_HPP
 
@@ -9,7 +7,7 @@ class UDPSocketImpl;
 
 class UDPSocket : public Socket
 {
-  public:
+public:
 
     // Does nothing but call parent constructor.
     UDPSocket();
@@ -26,12 +24,12 @@ class UDPSocket : public Socket
     // Gets the source IP address of the last received packet
     void getPeerAddress(std::string& peer_address_str) const;
 
-  protected:
+protected:
 
     // Sets the platform-specific socket implementation to use
     void setImplementation(UDPSocketImpl* socket_impl);
 
-  private:
+private:
 
     // Platform-specific socket implementation
     UDPSocketImpl* socket_impl;
@@ -39,7 +37,7 @@ class UDPSocket : public Socket
 
 inline void UDPSocket::setImplementation(UDPSocketImpl* socket_impl)
 {
-  this->socket_impl = socket_impl;
+    this->socket_impl = socket_impl;
 }
 
 #endif

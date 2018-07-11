@@ -1,13 +1,12 @@
 // General-purpose timestamp-based log utility
-// Leigh Garbs
-
-#include "Log.hpp"
 
 #include <ctime>
 #include <ostream>
 #include <sstream>
 #include <string>
 #include <sys/time.h>
+
+#include "Log.hpp"
 
 //==============================================================================
 // Log constructor; initializes output_stream

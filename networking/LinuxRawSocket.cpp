@@ -1,7 +1,3 @@
-// Leigh Garbs
-
-#include "LinuxRawSocket.hpp"
-
 #include <cstdio>
 #include <cstring>
 #include <errno.h>
@@ -18,6 +14,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include "LinuxRawSocket.hpp"
+
 #include "LinuxSocketCommon.hpp"
 
 //====================================================================
@@ -25,34 +23,34 @@
 //====================================================================
 LinuxRawSocket::LinuxRawSocket()
 {
-  // Zero out input and output interface structures
-  memset(&input_interface,  0, sizeof(sockaddr_ll));
-  memset(&output_interface, 0, sizeof(sockaddr_ll));
+    // Zero out input and output interface structures
+    memset(&input_interface,  0, sizeof(sockaddr_ll));
+    memset(&output_interface, 0, sizeof(sockaddr_ll));
 
-  // Fill in common interface information
-  input_interface.sll_family   = AF_PACKET;
-  input_interface.sll_protocol = htons(ETH_P_ALL);
-  input_interface.sll_ifindex  = 0;
+    // Fill in common interface information
+    input_interface.sll_family   = AF_PACKET;
+    input_interface.sll_protocol = htons(ETH_P_ALL);
+    input_interface.sll_ifindex  = 0;
 
-  output_interface.sll_family   = AF_PACKET;
-  output_interface.sll_protocol = htons(ETH_P_ALL);
-  output_interface.sll_ifindex  = 1;
-  output_interface.sll_halen    = 6;
+    output_interface.sll_family   = AF_PACKET;
+    output_interface.sll_protocol = htons(ETH_P_ALL);
+    output_interface.sll_ifindex  = 1;
+    output_interface.sll_halen    = 6;
 
-  blocking_timeout = -1.0;
+    blocking_timeout = -1.0;
 
-  ts_blocking_timeout.tv_sec  = 0;
-  ts_blocking_timeout.tv_nsec = 0;
+    ts_blocking_timeout.tv_sec  = 0;
+    ts_blocking_timeout.tv_nsec = 0;
 
-  // Create the socket; third argument specifies which Ethernet protocols are
-  // received, current setting is all
-  socket_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+    // Create the socket; third argument specifies which Ethernet protocols are
+    // received, current setting is all
+    socket_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 
-  // Check for errors
-  if (socket_fd == -1)
-  {
-    perror("LinuxRawSocket::LinuxRawSocket");
-  }
+    // Check for errors
+    if (socket_fd == -1)
+    {
+        perror("LinuxRawSocket::LinuxRawSocket");
+    }
 }
 
 //====================================================================
@@ -60,7 +58,7 @@ LinuxRawSocket::LinuxRawSocket()
 //====================================================================
 LinuxRawSocket::~LinuxRawSocket()
 {
-  LinuxSocketCommon::shutdown(socket_fd);
+    LinuxSocketCommon::shutdown(socket_fd);
 }
 
 //====================================================================
@@ -68,7 +66,7 @@ LinuxRawSocket::~LinuxRawSocket()
 //====================================================================
 bool LinuxRawSocket::enableBlocking()
 {
-  return LinuxSocketCommon::enableBlocking(socket_fd);
+    return LinuxSocketCommon::enableBlocking(socket_fd);
 }
 
 //====================================================================
@@ -76,7 +74,7 @@ bool LinuxRawSocket::enableBlocking()
 //====================================================================
 bool LinuxRawSocket::disableBlocking()
 {
-  return LinuxSocketCommon::disableBlocking(socket_fd);
+    return LinuxSocketCommon::disableBlocking(socket_fd);
 }
 
 //====================================================================
@@ -84,7 +82,7 @@ bool LinuxRawSocket::disableBlocking()
 //====================================================================
 bool LinuxRawSocket::isBlockingEnabled()
 {
-  return LinuxSocketCommon::isBlockingEnabled(socket_fd);
+    return LinuxSocketCommon::isBlockingEnabled(socket_fd);
 }
 
 //====================================================================
@@ -92,9 +90,9 @@ bool LinuxRawSocket::isBlockingEnabled()
 //====================================================================
 void LinuxRawSocket::setBlockingTimeout(double blocking_timeout)
 {
-  LinuxSocketCommon::setBlockingTimeout(blocking_timeout,
-					this->blocking_timeout,
-					ts_blocking_timeout);
+    LinuxSocketCommon::setBlockingTimeout(blocking_timeout,
+                                          this->blocking_timeout,
+                                          ts_blocking_timeout);
 }
 
 //====================================================================
@@ -102,7 +100,7 @@ void LinuxRawSocket::setBlockingTimeout(double blocking_timeout)
 //====================================================================
 double LinuxRawSocket::getBlockingTimeout() const
 {
-  return blocking_timeout;
+    return blocking_timeout;
 }
 
 //====================================================================
@@ -110,32 +108,32 @@ double LinuxRawSocket::getBlockingTimeout() const
 //====================================================================
 bool LinuxRawSocket::setInputInterface(const std::string& interface_name)
 {
-  // Operation cannot complete successfully without an open socket
-  if (socket_fd == -1)
-  {
-    return false;
-  }
+    // Operation cannot complete successfully without an open socket
+    if (socket_fd == -1)
+    {
+        return false;
+    }
 
-  // Determine appropriate interface number, or 0 for all interfaces
-  if (interface_name == "")
-  {
-    input_interface.sll_ifindex = 0;
-  }
-  else
-  {
-    input_interface.sll_ifindex = getInterfaceIndex(interface_name);
-  }
+    // Determine appropriate interface number, or 0 for all interfaces
+    if (interface_name == "")
+    {
+        input_interface.sll_ifindex = 0;
+    }
+    else
+    {
+        input_interface.sll_ifindex = getInterfaceIndex(interface_name);
+    }
 
-  // Now attempt to bind this socket to the desired interface
-  if (bind(socket_fd,
-	   (const sockaddr*)&input_interface,
-	   sizeof(sockaddr_ll)) == -1)
-  {
-    perror("LinuxRawSocket::setInputInterface");
-    return false;
-  }
-  
-  return true;
+    // Now attempt to bind this socket to the desired interface
+    if (bind(socket_fd,
+             (const sockaddr*)&input_interface,
+             sizeof(sockaddr_ll)) == -1)
+    {
+        perror("LinuxRawSocket::setInputInterface");
+        return false;
+    }
+
+    return true;
 }
 
 //====================================================================
@@ -143,16 +141,16 @@ bool LinuxRawSocket::setInputInterface(const std::string& interface_name)
 //====================================================================
 bool LinuxRawSocket::setOutputInterface(const std::string& interface_name)
 {
-  // Operation cannot complete successfully without an open socket
-  if (socket_fd == -1)
-  {
-    return false;
-  }
+    // Operation cannot complete successfully without an open socket
+    if (socket_fd == -1)
+    {
+        return false;
+    }
 
-  // Retrieve the index of the desired interface
-  output_interface.sll_ifindex = getInterfaceIndex(interface_name);
+    // Retrieve the index of the desired interface
+    output_interface.sll_ifindex = getInterfaceIndex(interface_name);
 
-  return true;
+    return true;
 }
 
 //====================================================================
@@ -160,14 +158,14 @@ bool LinuxRawSocket::setOutputInterface(const std::string& interface_name)
 //====================================================================
 int LinuxRawSocket::read(char* buffer, unsigned int size)
 {
-  return LinuxSocketCommon::read(
-    socket_fd,
-    buffer,
-    size,
-    blocking_timeout,
-    ts_blocking_timeout,
-    reinterpret_cast<sockaddr*>(&input_interface),
-    sizeof(sockaddr_ll));
+    return LinuxSocketCommon::read(
+        socket_fd,
+        buffer,
+        size,
+        blocking_timeout,
+        ts_blocking_timeout,
+        reinterpret_cast<sockaddr*>(&input_interface),
+        sizeof(sockaddr_ll));
 }
 
 //====================================================================
@@ -175,14 +173,14 @@ int LinuxRawSocket::read(char* buffer, unsigned int size)
 //====================================================================
 int LinuxRawSocket::write(const char* buffer, unsigned int size)
 {
-  return LinuxSocketCommon::write(
-    socket_fd,
-    buffer,
-    size,
-    blocking_timeout,
-    ts_blocking_timeout,
-    reinterpret_cast<sockaddr*>(&output_interface),
-    sizeof(sockaddr_ll));
+    return LinuxSocketCommon::write(
+        socket_fd,
+        buffer,
+        size,
+        blocking_timeout,
+        ts_blocking_timeout,
+        reinterpret_cast<sockaddr*>(&output_interface),
+        sizeof(sockaddr_ll));
 }
 
 //====================================================================
@@ -190,10 +188,10 @@ int LinuxRawSocket::write(const char* buffer, unsigned int size)
 //====================================================================
 void LinuxRawSocket::clearBuffer()
 {
-  LinuxSocketCommon::clearBuffer(
-    socket_fd,
-    reinterpret_cast<sockaddr*>(&input_interface),
-    sizeof(sockaddr_ll));
+    LinuxSocketCommon::clearBuffer(
+        socket_fd,
+        reinterpret_cast<sockaddr*>(&input_interface),
+        sizeof(sockaddr_ll));
 }
 
 //====================================================================
@@ -201,13 +199,13 @@ void LinuxRawSocket::clearBuffer()
 //====================================================================
 int LinuxRawSocket::getInterfaceIndex(const std::string& interface_name)
 {
-  // Fill out an ifreq with name of desired interface
-  ifreq iface;
-  strcpy(iface.ifr_name, interface_name.c_str());
+    // Fill out an ifreq with name of desired interface
+    ifreq iface;
+    strcpy(iface.ifr_name, interface_name.c_str());
 
-  // Request the corresponding interface number
-  ioctl(socket_fd, SIOCGIFINDEX, &iface);
+    // Request the corresponding interface number
+    ioctl(socket_fd, SIOCGIFINDEX, &iface);
 
-  // Return interface #
-  return iface.ifr_ifindex;
+    // Return interface #
+    return iface.ifr_ifindex;
 }

@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined LINUX_TCP_SOCKET_HPP
 #define LINUX_TCP_SOCKET_HPP
 
@@ -13,7 +11,7 @@
 // Defines a socket implementation specific to Linux.
 class LinuxTCPSocketImpl : public TCPSocketImpl
 {
-  public:
+public:
 
     // Constructs a new Linux socket.
     LinuxTCPSocketImpl();
@@ -76,7 +74,7 @@ class LinuxTCPSocketImpl : public TCPSocketImpl
     // Gets the source IP address of the last received packet
     virtual void getPeerAddress(std::string& peer_address_str) const;
 
-  private:
+private:
 
     // A special constructor used during accept; duplicates a socket and assumes
     // the new socket is open
@@ -108,7 +106,7 @@ class LinuxTCPSocketImpl : public TCPSocketImpl
 inline
 void LinuxTCPSocketImpl::getPeerAddress(std::string& peer_address_str) const
 {
-  peer_address_str = inet_ntoa(peer_address.sin_addr);
+    peer_address_str = inet_ntoa(peer_address.sin_addr);
 }
 
 #endif

@@ -1,8 +1,6 @@
-// Leigh Garbs
+#include <string>
 
 #include "Socket.hpp"
-
-#include <string>
 
 #include "SocketImpl.hpp"
 
@@ -26,12 +24,12 @@ Socket::~Socket()
 //=============================================================================
 bool Socket::enableBlocking()
 {
-  if (socket_impl)
-  {
-    return socket_impl->enableBlocking();
-  }
+    if (socket_impl)
+    {
+        return socket_impl->enableBlocking();
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -39,12 +37,12 @@ bool Socket::enableBlocking()
 //=============================================================================
 bool Socket::disableBlocking()
 {
-  if (socket_impl)
-  {
-    return socket_impl->disableBlocking();
-  }
+    if (socket_impl)
+    {
+        return socket_impl->disableBlocking();
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -52,12 +50,12 @@ bool Socket::disableBlocking()
 //=============================================================================
 bool Socket::isBlockingEnabled()
 {
-  if (socket_impl)
-  {
-    return socket_impl->isBlockingEnabled();
-  }
+    if (socket_impl)
+    {
+        return socket_impl->isBlockingEnabled();
+    }
 
-  return false;
+    return false;
 }
 
 //=============================================================================
@@ -65,10 +63,10 @@ bool Socket::isBlockingEnabled()
 //=============================================================================
 void Socket::setBlockingTimeout(double blocking_timeout)
 {
-  if (socket_impl)
-  {
-    return socket_impl->setBlockingTimeout(blocking_timeout);
-  }
+    if (socket_impl)
+    {
+        return socket_impl->setBlockingTimeout(blocking_timeout);
+    }
 }
 
 //=============================================================================
@@ -76,12 +74,12 @@ void Socket::setBlockingTimeout(double blocking_timeout)
 //=============================================================================
 double Socket::getBlockingTimeout() const
 {
-  if (socket_impl)
-  {
-    return socket_impl->getBlockingTimeout();
-  }
+    if (socket_impl)
+    {
+        return socket_impl->getBlockingTimeout();
+    }
 
-  return 0.0;
+    return 0.0;
 }
 
 //=============================================================================
@@ -89,12 +87,12 @@ double Socket::getBlockingTimeout() const
 //=============================================================================
 int Socket::read(char* buffer, unsigned int size)
 {
-  if (socket_impl)
-  {
-    return socket_impl->read(buffer, size);
-  }
+    if (socket_impl)
+    {
+        return socket_impl->read(buffer, size);
+    }
 
-  return -1;
+    return -1;
 }
 
 //=============================================================================
@@ -102,12 +100,12 @@ int Socket::read(char* buffer, unsigned int size)
 //=============================================================================
 int Socket::write(const char* buffer, unsigned int size)
 {
-  if (socket_impl)
-  {
-    return socket_impl->write(buffer, size);
-  }
+    if (socket_impl)
+    {
+        return socket_impl->write(buffer, size);
+    }
 
-  return -1;
+    return -1;
 }
 
 //=============================================================================
@@ -115,8 +113,8 @@ int Socket::write(const char* buffer, unsigned int size)
 //=============================================================================
 void Socket::clearBuffer()
 {
-  if (socket_impl)
-  {
-    socket_impl->clearBuffer();
-  }
+    if (socket_impl)
+    {
+        socket_impl->clearBuffer();
+    }
 }

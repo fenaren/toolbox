@@ -1,12 +1,10 @@
-// Leigh Garbs
-
 #include "UDPSocketImpl.hpp"
 
 //=============================================================================
 // Constructor, does nothing.
 //=============================================================================
 UDPSocketImpl::UDPSocketImpl() :
-  SocketImpl()
+    SocketImpl()
 {
 }
 

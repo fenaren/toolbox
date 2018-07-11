@@ -1,5 +1,3 @@
-// Leigh Garbs
-
 #if !defined LINUX_RAW_SOCKET_HPP
 #define LINUX_RAW_SOCKET_HPP
 
@@ -12,7 +10,7 @@
 // require root priviledges to create and use.
 class LinuxRawSocket : public SocketImpl
 {
-  public:
+public:
 
     // Constructs a new Linux socket.
     LinuxRawSocket();
@@ -61,7 +59,7 @@ class LinuxRawSocket : public SocketImpl
     // Forces this socket to discard any received data.
     virtual void clearBuffer();
 
-  private:
+private:
 
     // Retrieves the number corresponding to an interface, given its name
     int getInterfaceIndex(const std::string& interface_name);
@@ -86,12 +84,12 @@ class LinuxRawSocket : public SocketImpl
 
 inline void LinuxRawSocket::getInputInterface(std::string& interface_name)
 {
-  interface_name = input_interface_name;
+    interface_name = input_interface_name;
 }
 
 inline void LinuxRawSocket::getOutputInterface(std::string& interface_name)
 {
-  interface_name = output_interface_name;
+    interface_name = output_interface_name;
 }
 
 #endif
