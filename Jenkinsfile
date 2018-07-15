@@ -162,9 +162,15 @@ gitlabBuilds(builds: stageNames)
 {
   node ()
   {
-    for (i = 0; i < stages.size(); i++)
-    {
-      doStage(stages[i].name, stages[i].body)
-    }
+    doStage("Checkout", stageCheckout)
+    doStage("cppcheck", stageCppcheck)
+    doStage("Unit Tests - Release Build", stageUnitTestRelease)
+    doStage("Clang Static Analyzer", stageClangStaticAnalyzer)
+  }
+
+  node ()
+  {
+    doStage("Checkout", stageCheckout)
+    doStage("Valgrind", stageValgrind)
   }
 }
