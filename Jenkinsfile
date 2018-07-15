@@ -66,8 +66,9 @@ def stageUnitTestRelease =
   sh '''
     $TEMP_BIN/run-cmake --release .
     make unittests
+    cd unittests
 
-    for file in unittests/*.ut; do $file; done
+    for file in *.ut; do ./$file; done
   '''
 
   warnings canComputeNew: false,
@@ -81,8 +82,9 @@ def stageUnitTestDebug =
   sh '''
     $TEMP_BIN/run-cmake --debug .
     make unittests
+    cd unittests
 
-    for file in unittests/*.ut; do $file; done
+    for file in *.ut; do ./$file; done
   '''
 }
 
@@ -107,11 +109,11 @@ def stageValgrind =
     traceChildren: false,
     valgrindExecutable: '',
     valgrindOptions: '',
-    workingDirectory: ''])
+    workingDirectory: 'unittests'])
 
   step([$class: 'ValgrindPublisher',
-    failBuildOnInvalidReports: false,
-    failBuildOnMissingReports: false,
+    failBuildOnInvalidReports: true,
+    failBuildOnMissingReports: true,
     failThresholdDefinitelyLost: '',
     failThresholdInvalidReadWrite: '',
     failThresholdTotal: '',
