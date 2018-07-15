@@ -126,7 +126,7 @@ def stageValgrind =
     unstableThresholdTotal: '0'])
 }
 
-def stageClangStaticAnalysis =
+def stageClangStaticAnalyzer =
 {
   sh '''
     rm CMakeCache.txt
