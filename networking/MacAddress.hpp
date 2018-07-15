@@ -6,7 +6,9 @@
 #include <string>
 #include <vector>
 
-class MacAddress : public std::vector<char>
+#include "NetworkAddress.hpp"
+
+class MacAddress : public NetworkAddress
 {
   public:
 
@@ -26,14 +28,6 @@ class MacAddress : public std::vector<char>
     // allocate memory.
     virtual ~MacAddress();
 
-    // Reads a raw 6-byte MAC address from memory, "buf" is assumed to point to
-    // a valid raw MAC address (NOT A C STRING!)
-    void readRaw(const char* buf);
-
-    // Writes a raw 6-byte MAC address to memory, "buf" is assumed to point to 6
-    // bytes of properly allocated and available memory
-    void writeRaw(char* buf) const;
-
     MacAddress& operator=(const std::string& mac_address_str);
 
     // MAC addresses are this many bytes long
@@ -41,11 +35,6 @@ class MacAddress : public std::vector<char>
 
     // MAC address strings are this many characters long
     static const unsigned short MAC_MAX_STR_LENGTH_CHARS = 18;
-
-private:
-
-    // All constructors run this
-    void initialize();
 };
 
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);

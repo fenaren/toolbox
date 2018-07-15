@@ -6,9 +6,11 @@
 #include <string>
 #include <vector>
 
-class Ipv4Address : public std::vector<char>
+#include "NetworkAddress.hpp"
+
+class Ipv4Address : public NetworkAddress
 {
-  public:
+public:
 
     // Constructs a new Ipv4Address.
     Ipv4Address();
@@ -26,14 +28,6 @@ class Ipv4Address : public std::vector<char>
     // dynamically allocate memory.
     virtual ~Ipv4Address();
 
-    // Reads a raw 4-byte IPv4 address from memory, "buf" is assumed to point to
-    // a valid IPv4 address
-    void readRaw(const char* buf);
-
-    // Writes a raw 4-byte IPv4 address to memory, "buf" is assumed to point to
-    // 4 bytes of properly allocated and available memory
-    void writeRaw(char* buf) const;
-
     Ipv4Address& operator=(const std::string& ipv4_address_str);
 
     // IPv4 addresses are this many bytes long
@@ -41,11 +35,6 @@ class Ipv4Address : public std::vector<char>
 
     // IPv4 address strings are this many characters long
     static const unsigned short IPV4_MAX_STR_LENGTH_CHARS = 16;
-
-private:
-
-    // All constructors run this
-    void initialize();
 };
 
 std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address);

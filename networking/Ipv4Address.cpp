@@ -11,28 +11,26 @@
 //==============================================================================
 // Ipv4Address constructor; initializes to all zeros
 //==============================================================================
-Ipv4Address::Ipv4Address()
+Ipv4Address::Ipv4Address() :
+    NetworkAddress(IPV4_LENGTH_BYTES)
 {
-    initialize();
 }
 
 //==============================================================================
 // Ipv4Address constructor; initializes to match the given string
 //==============================================================================
-Ipv4Address::Ipv4Address(const std::string& ipv4_address_str)
+Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
+    NetworkAddress(IPV4_LENGTH_BYTES)
 {
-    initialize();
-
     *this = ipv4_address_str;
 }
 
 //==============================================================================
 // Ipv4Address copy constructor; copies the address of the given IPv4 address
 //==============================================================================
-Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address)
+Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
+    NetworkAddress(IPV4_LENGTH_BYTES)
 {
-    initialize();
-
     *this = ipv4_address;
 }
 
@@ -54,22 +52,6 @@ Ipv4Address::~Ipv4Address()
 }
 
 //==============================================================================
-// Assigns a string to a MAC address
-//==============================================================================
-void Ipv4Address::readRaw(const char* buf)
-{
-    memcpy(&at(0), buf, IPV4_LENGTH_BYTES);
-}
-
-//==============================================================================
-// Assigns a string to a MAC address
-//==============================================================================
-void Ipv4Address::writeRaw(char* buf) const
-{
-    memcpy(buf, &at(0), IPV4_LENGTH_BYTES);
-}
-
-//==============================================================================
 // Assigns a string to a IPv4 address
 //==============================================================================
 Ipv4Address& Ipv4Address::operator=(const std::string& ipv4_address_str)
@@ -78,15 +60,6 @@ Ipv4Address& Ipv4Address::operator=(const std::string& ipv4_address_str)
     tempstream >> *this;
 
     return *this;
-}
-
-//==============================================================================
-// All constructors run this
-//==============================================================================
-void Ipv4Address::initialize()
-{
-    reserve(IPV4_LENGTH_BYTES);
-    assign(IPV4_LENGTH_BYTES, 0);
 }
 
 //==============================================================================

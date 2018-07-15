@@ -11,28 +11,26 @@
 //==============================================================================
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
-MacAddress::MacAddress()
+MacAddress::MacAddress() :
+    NetworkAddress(MAC_LENGTH_BYTES)
 {
-    initialize();
 }
 
 //==============================================================================
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
-MacAddress::MacAddress(const std::string& mac_address_str)
+MacAddress::MacAddress(const std::string& mac_address_str) :
+    NetworkAddress(MAC_LENGTH_BYTES)
 {
-    initialize();
-
     *this = mac_address_str;
 }
 
 //==============================================================================
 // MacAddress copy constructor; copies the address of the given MAC address
 //==============================================================================
-MacAddress::MacAddress(const MacAddress& mac_address)
+MacAddress::MacAddress(const MacAddress& mac_address) :
+    NetworkAddress(MAC_LENGTH_BYTES)
 {
-    initialize();
-
     *this = mac_address;
 }
 
@@ -54,25 +52,7 @@ MacAddress::~MacAddress()
 }
 
 //==============================================================================
-// Reads a raw 6-byte MAC address from memory, "buf" is assumed to point to a
-// valid raw MAC address (NOT A C STRING!)
-//==============================================================================
-void MacAddress::readRaw(const char* buf)
-{
-    memcpy(&at(0), buf, MAC_LENGTH_BYTES);
-}
-
-//==============================================================================
-// Writes a raw 6-byte MAC address to memory, "buf" is assumed to point to 6
-// bytes of properly allocated and available memory
-//==============================================================================
-void MacAddress::writeRaw(char* buf) const
-{
-    memcpy(buf, &at(0), MAC_LENGTH_BYTES);
-}
-
-//==============================================================================
-// Assigns a string to a MAC address
+// Assigns a string to a IPv4 address
 //==============================================================================
 MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 {
@@ -80,15 +60,6 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
     tempstream >> *this;
 
     return *this;
-}
-
-//==============================================================================
-// All constructors run this
-//==============================================================================
-void MacAddress::initialize()
-{
-    reserve(MAC_LENGTH_BYTES);
-    assign(MAC_LENGTH_BYTES, 0);
 }
 
 //==============================================================================
