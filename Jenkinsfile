@@ -142,7 +142,7 @@ stages = [[name: 'Checkout',                   body: stageCheckout],
           [name: 'Unit Tests - Release Build', body: stageUnitTestRelease],
           [name: 'Unit Tests - Debug Build',   body: stageUnitTestDebug],
           [name: 'Valgrind',                   body: stageValgrind],
-          [name: 'Clang Static Analyzer',      body: stageClangStaticAnalysis]]
+          [name: 'Clang Static Analyzer',      body: stageClangStaticAnalyzer]]
 
 stageNames = []
 for (i = 0; i < stages.size(); i++)
