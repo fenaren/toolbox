@@ -8,6 +8,7 @@ class NetworkAddress : public std::vector<char>
 public:
 
     // Constructs a new NetworkAddress.
+    // cppcheck-suppress noExplicitConstructor
     NetworkAddress(unsigned short length_bytes);
 
     // Destroys a NetworkAddress; does nothing, since this class doesn't

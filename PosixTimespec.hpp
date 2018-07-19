@@ -17,6 +17,7 @@ public:
     explicit PosixTimespec(const timespec& tp);
 
     // Converts to timespec before saving
+    // cppcheck-suppress noExplicitConstructor
     PosixTimespec(double tp_sec);
 
     // Initializes to tv_sec tv_nsec
