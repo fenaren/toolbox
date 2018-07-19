@@ -37,10 +37,7 @@ TCPSocket::TCPSocket(TCPSocketImpl* socket_impl) :
 //=============================================================================
 TCPSocket::~TCPSocket()
 {
-    if (socket_impl)
-    {
-        delete socket_impl;
-    }
+    delete socket_impl;
 }
 
 //=============================================================================

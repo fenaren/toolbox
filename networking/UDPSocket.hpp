@@ -31,6 +31,12 @@ protected:
 
 private:
 
+    // Copy construction not allowed
+    UDPSocket(const UDPSocket&);
+
+    // Assignment not allowed
+    UDPSocket& operator=(const UDPSocket&);
+
     // Platform-specific socket implementation
     UDPSocketImpl* socket_impl;
 };
