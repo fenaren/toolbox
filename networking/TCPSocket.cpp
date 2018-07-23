@@ -1,5 +1,8 @@
-#include <iostream>
 #include <string>
+
+#if defined DEBUG
+#include <iostream>
+#endif
 
 #include "TCPSocket.hpp"
 
@@ -13,10 +16,13 @@ TCPSocket::TCPSocket() :
 {
     // Get a platform-specific socket
     socket_impl = SocketFactory::createTCPSocket();
+
+#if defined DEBUG
     if (!socket_impl)
     {
         std::cerr << "Platform-specific TCP socket could not be created\n";
     }
+#endif
 
     Socket::setImplementation(socket_impl);
 }

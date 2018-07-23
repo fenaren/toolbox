@@ -1,7 +1,6 @@
 #include <errno.h>
 #include <cstring>
 #include <fcntl.h>
-#include <iostream>
 #include <netdb.h>
 #include <poll.h>
 #include <sstream>
@@ -10,6 +9,10 @@
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <unistd.h>
+
+#if defined DEBUG
+#include <iostream>
+#endif
 
 #include "LinuxTCPSocketImpl.hpp"
 
@@ -28,11 +31,12 @@ LinuxTCPSocketImpl::LinuxTCPSocketImpl()
     // Create the socket
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
 
-    // Check for errors
+#if defined DEBUG
     if (socket_fd == -1)
     {
         perror("LinuxTCPSocketImpl::LinuxTCPSocketImpl");
     }
+#endif
 }
 
 //====================================================================
@@ -110,7 +114,9 @@ bool LinuxTCPSocketImpl::bind(unsigned int port)
     // Do the bind
     if (::bind(socket_fd, (sockaddr*)&local_address, sizeof(sockaddr_in)) == -1)
     {
+#if defined DEBUG
         perror("LinuxTCPSocketImpl::bind");
+#endif
         return false;
     }
 
@@ -125,7 +131,9 @@ bool LinuxTCPSocketImpl::listen()
     // Start listening on this socket
     if (::listen(socket_fd, 0) == -1)
     {
+#if defined DEBUG
         perror("LinuxTCPSocketImpl::listen");
+#endif
         return false;
     }
 
@@ -164,7 +172,9 @@ LinuxTCPSocketImpl* LinuxTCPSocketImpl::accept(bool take_over)
         // Deal with nonblocking behavior
         if (errno!= EAGAIN && errno != EWOULDBLOCK)
         {
+#if defined DEBUG
             perror("LinuxTCPSocketImpl::accept");
+#endif
         }
 
         return 0;
@@ -182,12 +192,16 @@ LinuxTCPSocketImpl* LinuxTCPSocketImpl::accept(bool take_over)
             // Set status
             if (fcntl(new_socket_fd, F_SETFL, status) == -1)
             {
+#if defined DEBUG
                 perror("LinuxTCPSocketImpl::accept");
+#endif
             }
         }
         else
         {
+#if defined DEBUG
             perror("LinuxTCPSocketImpl::accept");
+#endif
         }
 
         // Abandon the old descriptor and start using the new; THIS NEEDS WORK
@@ -222,7 +236,10 @@ bool LinuxTCPSocketImpl::connect(const std::string& hostname,
     // If there weren't any results just error and leave
     if (!results)
     {
-        std::cerr << "LinuxTCPSocketImpl::connect: " << gai_strerror(ret) << "\n";
+#if defined DEBUG
+        std::cerr << "LinuxTCPSocketImpl::connect: " << gai_strerror(ret)
+                  << "\n";
+#endif
         return false;
     }
 
@@ -242,7 +259,9 @@ bool LinuxTCPSocketImpl::connect(const std::string& hostname,
     // Check for errors
     if (ret == -1)
     {
+#if defined DEBUG
         perror("LinuxTCPSocketImpl::connect");
+#endif
         return false;
     }
 
@@ -258,10 +277,10 @@ bool LinuxTCPSocketImpl::isConnected()
     char buf;
     int ret = recv(socket_fd, &buf, 1, MSG_PEEK | MSG_DONTWAIT);
 
-    // If the previous read returned 0, the peer performed an orderly shutdown and
-    // the socket is therefore not connected.  Besides that case, if the read
-    // results in an ENOTCONN error, this also obviously means the socket is not
-    // connected.  Consider the socket connected in any other case.
+    // If the previous read returned 0, the peer performed an orderly shutdown
+    // and the socket is therefore not connected.  Besides that case, if the
+    // read results in an ENOTCONN error, this also obviously means the socket
+    // is not connected.  Consider the socket connected in any other case.
     return !(ret == 0 || (ret == -1 && errno == ENOTCONN));
 }
 
@@ -298,7 +317,5 @@ int LinuxTCPSocketImpl::write(const char* buffer, unsigned int size)
 //====================================================================
 void LinuxTCPSocketImpl::clearBuffer()
 {
-    LinuxSocketCommon::clearBuffer(socket_fd,
-                                   0,
-                                   0);
+    LinuxSocketCommon::clearBuffer(socket_fd, 0, 0);
 }

@@ -23,7 +23,9 @@ bool LinuxSocketCommon::enableBlocking(int socket_fd)
     // Enable blocking
     if (fcntl(socket_fd, F_SETFL, fd_stat & ~O_NONBLOCK) != 0)
     {
+#if defined DEBUG
         perror("LinuxSocketCommon::enableBlocking");
+#endif
         return false;
     }
 
@@ -41,7 +43,9 @@ bool LinuxSocketCommon::disableBlocking(int socket_fd)
     // Disable blocking and check for errors
     if (fcntl(socket_fd, F_SETFL, fd_stat | O_NONBLOCK) != 0)
     {
+#if defined DEBUG
         perror("LinuxSocketCommon::disableBlocking");
+#endif
         return false;
     }
 
@@ -93,12 +97,13 @@ int LinuxSocketCommon::doBlockingTimeout(int       socket_fd,
     // Perform the poll
     int ready_count = ppoll(&polldata, 1, &class_ts_bt, 0);
 
-    // Handle errors
+#if defined DEBUG
     if (ready_count == -1)
     {
         // A poll error occurred, report it
         perror("LinuxSocketCommon::doBlockingTimeout");
     }
+#endif
 
     return ready_count;
 }
@@ -128,11 +133,12 @@ int LinuxSocketCommon::read(int          socket_fd,
     // Read data
     int ret = recvfrom(socket_fd, buffer, size, 0, class_rfa, &class_rfa_size);
 
-    // Check for errors
+#if defined DEBUG
     if (ret == -1)
     {
         perror("LinuxSocketCommon::read");
     }
+#endif
 
     return ret;
 }
@@ -162,11 +168,12 @@ int LinuxSocketCommon::write(int          socket_fd,
     // Write data
     int ret = sendto(socket_fd, buffer, size, 0, class_sta, class_sta_size);
 
-    // Check for errors
+#if defined DEBUG
     if (ret == -1 && errno != EAGAIN && errno != EWOULDBLOCK)
     {
         perror("LinuxSocketCommon::write");
     }
+#endif
 
     return ret;
 }
@@ -190,7 +197,9 @@ void LinuxSocketCommon::clearBuffer(int       socket_fd,
         // Poll the socket and see if there is data
         if (poll(&polldata, 1, 0) == -1)
         {
+#if defined DEBUG
             perror("LinuxSocketCommon::clearBuffer");
+#endif
             return;
         }
 
@@ -206,13 +215,8 @@ void LinuxSocketCommon::clearBuffer(int       socket_fd,
         temp_timespec.tv_nsec = 0;
 
         // Read a byte, leave if error
-        if (read(socket_fd,
-                 &buf,
-                 1,
-                 -1,
-                 temp_timespec,
-                 class_rfa,
-                 class_rfa_size) < 1)
+        if (read(socket_fd, &buf, 1, -1, temp_timespec, class_rfa, class_rfa_size)
+            < 1)
         {
             return;
         }

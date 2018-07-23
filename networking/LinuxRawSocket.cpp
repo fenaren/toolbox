@@ -46,11 +46,12 @@ LinuxRawSocket::LinuxRawSocket()
     // received, current setting is all
     socket_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 
-    // Check for errors
+#if defined DEBUG
     if (socket_fd == -1)
     {
         perror("LinuxRawSocket::LinuxRawSocket");
     }
+#endif
 }
 
 //====================================================================
@@ -129,7 +130,9 @@ bool LinuxRawSocket::setInputInterface(const std::string& interface_name)
              (const sockaddr*)&input_interface,
              sizeof(sockaddr_ll)) == -1)
     {
+#if defined DEBUG
         perror("LinuxRawSocket::setInputInterface");
+#endif
         return false;
     }
 

@@ -1,6 +1,5 @@
 #include <cstring>
 #include <errno.h>
-#include <iostream>
 #include <netdb.h>
 #include <sstream>
 #include <stdio.h>
@@ -8,6 +7,10 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+
+#if defined DEBUG
+#include <iostream>
+#endif
 
 #include "LinuxUDPSocketImpl.hpp"
 
@@ -29,7 +32,9 @@ LinuxUDPSocketImpl::LinuxUDPSocketImpl()
     // Check for errors
     if (socket_fd == -1)
     {
+#if defined DEBUG
         perror("LinuxUDPSocketImpl::LinuxUDPSocketImpl");
+#endif
         return;
     }
 
@@ -42,7 +47,9 @@ LinuxUDPSocketImpl::LinuxUDPSocketImpl()
                    &bcast,
                    sizeof(bcast)) == -1)
     {
+#if defined DEBUG
         perror("LinuxUDPSocketImpl::LinuxUDPSocketImpl");
+#endif
     }
 }
 
@@ -109,7 +116,9 @@ bool LinuxUDPSocketImpl::bind(unsigned int port)
     // Do the bind
     if (::bind(socket_fd, (sockaddr*)&local_address, sizeof(sockaddr_in)) == -1)
     {
+#if defined DEBUG
         perror("LinuxUDPSocketImpl::bind");
+#endif
         return false;
     }
 
@@ -167,14 +176,18 @@ bool LinuxUDPSocketImpl::sendTo(const std::string& address, unsigned int port)
     // Check for errors
     if (ret != 0)
     {
+#if defined DEBUG
         std::cerr << "LinuxUDPSocketImpl::sendTo: " << gai_strerror(ret) << "\n";
+#endif
         return false;
     }
 
     // If there weren't any results just error and leave
     if (!results)
     {
+#if defined DEBUG
         std::cerr << "Address not usable\n";
+#endif
         return false;
     }
 
