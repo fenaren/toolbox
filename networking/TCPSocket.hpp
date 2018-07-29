@@ -15,8 +15,10 @@ public:
     // Does nothing.
     virtual ~TCPSocket();
 
-    // Associates a name and port with a newly-created socket.
-    bool bind(unsigned int port);
+    // Associates a name and port with a newly-created socket.  Specify 0 to
+    // request any available port.  The chosen port is returned in place of the
+    // argument.
+    bool bind(unsigned int& port);
 
     // Instructs this socket to begin listening for incoming traffic.  Must
     // call 'bind' prior to this.

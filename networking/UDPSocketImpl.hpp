@@ -13,8 +13,10 @@ public:
     // Does nothing.
     virtual ~UDPSocketImpl();
 
-    // Associates a name and port with a newly-created socket.
-    virtual bool bind(unsigned int port) = 0;
+    // Associates a name and port with a newly-created socket.  Specify 0 to
+    // request any available port.  The chosen port is returned in place of the
+    // argument.
+    virtual bool bind(unsigned int& port) = 0;
 
     // Causes outgoing messages to be sent to the specified address and port.
     virtual bool sendTo(const std::string& address, unsigned int port) = 0;

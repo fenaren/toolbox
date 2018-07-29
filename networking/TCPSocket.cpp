@@ -49,7 +49,7 @@ TCPSocket::~TCPSocket()
 //=============================================================================
 // Calls implementation-specific bind
 //=============================================================================
-bool TCPSocket::bind(unsigned int port)
+bool TCPSocket::bind(unsigned int& port)
 {
     if (socket_impl)
     {

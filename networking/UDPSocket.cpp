@@ -38,7 +38,7 @@ UDPSocket::~UDPSocket()
 //=============================================================================
 // Calls implementation-specific bind
 //=============================================================================
-bool UDPSocket::bind(unsigned int port)
+bool UDPSocket::bind(unsigned int& port)
 {
     if (socket_impl)
     {

@@ -22,6 +22,10 @@ public:
     // Initializes to tv_sec tv_nsec
     PosixTimespec(time_t tv_sec, long tv_nsec);
 
+    // For converting PosixTimespecs to other types
+    operator double() const;
+    operator timespec() const;
+
     // Does nothing
     ~PosixTimespec();
 

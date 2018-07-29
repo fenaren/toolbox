@@ -43,6 +43,22 @@ PosixTimespec::PosixTimespec(time_t tv_sec, long tv_nsec)
 }
 
 //==============================================================================
+// Converts PosixTimespecs to doubles
+//==============================================================================
+PosixTimespec::operator double() const
+{
+    return toDouble();
+}
+
+//==============================================================================
+// Converts PosixTimespecs to actual POSIX timespecs
+//==============================================================================
+PosixTimespec::operator timespec() const
+{
+    return tp;
+}
+
+//==============================================================================
 // Does nothing
 //==============================================================================
 PosixTimespec::~PosixTimespec()

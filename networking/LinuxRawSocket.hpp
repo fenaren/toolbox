@@ -1,8 +1,7 @@
 #if !defined LINUX_RAW_SOCKET_HPP
 #define LINUX_RAW_SOCKET_HPP
 
-#include <netpacket/packet.h>
-#include <poll.h>
+#include <linux/if_packet.h>
 
 #include "SocketImpl.hpp"
 
@@ -12,7 +11,7 @@ class LinuxRawSocket : public SocketImpl
 {
 public:
 
-    // Constructs a new Linux socket.
+    // Constructs a new Linux raw socket.
     LinuxRawSocket();
 
     // Closes the associated socket.
@@ -27,11 +26,11 @@ public:
     // Returns whether or not this socket blocks.
     virtual bool isBlockingEnabled();
 
-    // Enables a timeout of the given length (in seconds) on blocking
-    // operations.  A negative timeout value disables the blocking timeout.
+    // Enables a timeout of the given length (seconds) on blocking operations.
+    // A non-positive timeout value disables the blocking timeout.
     virtual void setBlockingTimeout(double blocking_timeout);
 
-    // Returns the current blocking timeout.
+    // Returns the current blocking timeout (seconds)
     virtual double getBlockingTimeout() const;
 
     // Sets the interface from which to receive data; empty string means data
@@ -75,12 +74,18 @@ private:
     std::string input_interface_name;
     std::string output_interface_name;
 
-    // The blocking timeout is stored in two forms.  The first is in the double
-    // form it was given in.  The second form is converted from the double form,
-    // and is given directly to ppoll.
-    double   blocking_timeout;
-    timespec ts_blocking_timeout;
+    double blocking_timeout;
 };
+
+inline void LinuxRawSocket::setBlockingTimeout(double blocking_timeout)
+{
+    this->blocking_timeout = blocking_timeout;
+}
+
+inline double LinuxRawSocket::getBlockingTimeout() const
+{
+    return this->blocking_timeout;
+}
 
 inline void LinuxRawSocket::getInputInterface(std::string& interface_name)
 {

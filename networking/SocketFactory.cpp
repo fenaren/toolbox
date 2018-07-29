@@ -1,11 +1,11 @@
 #include "SocketFactory.hpp"
 
-#if defined LINUX
-#include "LinuxTCPSocketImpl.hpp"
-#include "LinuxUDPSocketImpl.hpp"
-#elif defined WINDOWS
+#if defined WINDOWS
 #include "WindowsTCPSocketImpl.hpp"
 #include "WindowsUDPSocketImpl.hpp"
+#else
+#include "PosixTCPSocketImpl.hpp"
+#include "PosixUDPSocketImpl.hpp"
 #endif
 
 //=============================================================================
@@ -13,12 +13,10 @@
 //=============================================================================
 TCPSocketImpl* SocketFactory::createTCPSocket()
 {
-#if defined LINUX
-    return new LinuxTCPSocketImpl();
-#elif defined WINDOWS
+#if defined WINDOWS
     return new WindowsTCPSocketImpl();
 #else
-    return 0;
+    return new PosixTCPSocketImpl();
 #endif
 }
 
@@ -27,12 +25,10 @@ TCPSocketImpl* SocketFactory::createTCPSocket()
 //=============================================================================
 UDPSocketImpl* SocketFactory::createUDPSocket()
 {
-#if defined LINUX
-    return new LinuxUDPSocketImpl();
-#elif defined WINDOWS
+#if defined WINDOWS
     return new WindowsUDPSocketImpl();
 #else
-    return 0;
+    return new PosixUDPSocketImpl();
 #endif
 }
 
