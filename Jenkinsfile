@@ -80,7 +80,10 @@ def stageUnitTestRelease =
 
     for file in *.ut; do ./$file; done
   '''
+}
 
+def stageDetectWarnings =
+{
   warnings canComputeNew: false,
            canResolveRelativePaths: false,
            categoriesPattern: '',
@@ -150,6 +153,7 @@ def stageClangStaticAnalysis =
 stages = [[name: 'Checkout',                   body: stageCheckout],
           [name: 'cppcheck',                   body: stageCppcheck],
           [name: 'Unit Tests - Release Build', body: stageUnitTestRelease],
+          [name: 'Detect Warnings',            body: stageDetectWarnings],
           [name: 'Unit Tests - Debug Build',   body: stageUnitTestDebug],
           [name: 'Valgrind',                   body: stageValgrind],
           [name: 'Clang Static Analyzer',      body: stageClangStaticAnalysis]]
