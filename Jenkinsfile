@@ -7,6 +7,21 @@ def setUnstableOnShellResult =
   }
 }
 
+def saveArtifacts =
+{
+  sh '''
+    ARTIFACTS_DIR=artifacts
+    ARTIFACTS_STAGE_DIR=$ARTIFACTS_DIR/$STAGE_NAME
+
+    mkdir -p "$ARTIFACTS_DIR"
+    rm -rf "$ARTIFACTS_STAGE_DIR"
+    mkdir -p "$ARTIFACTS_STAGE_DIR"
+    cd workdir
+    git ls-files -o --directory | xargs -n 1 -I{} cp -a --parents {} \
+      "../$ARTIFACTS_STAGE_DIR"
+  '''
+}
+
 def doStage =
 {
   stageName, stageBody ->
@@ -22,6 +37,14 @@ def doStage =
       updateGitlabCommitStatus(name: stageName, state: 'failed')
     }
   }
+}
+
+def cleanUp =
+{
+  sh '''
+    cd workdir
+    git clean -x -d -f
+  '''
 }
 
 def stageCheckout =
@@ -42,43 +65,75 @@ def stageCheckout =
                 parentCredentials: false,
                 recursiveSubmodules: false,
                 reference: '',
-                trackingSubmodules: false]],
+                trackingSubmodules: false],
+                [$class: 'RelativeTargetDirectory',
+                relativeTargetDir: 'workdir']],
     submoduleCfg: [],
     userRemoteConfigs: [[credentialsId: '',
                        url: gitlabUrlToolbox]]]
 
   sh """
-    git clone $gitlabUrlBin $TEMP_BIN
+    git clone $gitlabUrlBin
   """
 }
 
 def stageCppcheck =
 {
-  def shellReturnStatus = sh returnStatus: true, script: '''
-    $TEMP_BIN/run-cppcheck -J --suppress=unusedFunction .
-  '''
+  cleanUp()
 
-  setUnstableOnShellResult(shellReturnStatus, 1)
+  dir('workdir')
+  {
+    def shellReturnStatus = sh returnStatus: true, script: '''
+      ../bin/run-cppcheck -J --suppress=unusedFunction .
+    '''
 
-  publishCppcheck displayAllErrors: false,
-                  displayErrorSeverity: true,
-                  displayNoCategorySeverity: true,
-                  displayPerformanceSeverity: true,
-                  displayPortabilitySeverity: true,
-                  displayStyleSeverity: true,
-                  displayWarningSeverity: true,
-                  pattern: 'cppcheck-result.xml',
-                  severityNoCategory: false
+    setUnstableOnShellResult(shellReturnStatus, 1)
+
+    publishCppcheck displayAllErrors: false,
+                    displayErrorSeverity: true,
+                    displayNoCategorySeverity: true,
+                    displayPerformanceSeverity: true,
+                    displayPortabilitySeverity: true,
+                    displayStyleSeverity: true,
+                    displayWarningSeverity: true,
+                    pattern: 'cppcheck-result.xml',
+                    severityNoCategory: false
+  }
+
+  saveArtifacts()
 }
 
-def stageUnitTestRelease =
+def stageBuildDebug =
+{
+  cleanUp()
+
+  sh '''
+    cd workdir
+    ../bin/run-cmake --debug .
+    make -B unittests
+  '''
+
+  saveArtifacts()
+}
+
+def stageBuildRelease =
+{
+  cleanUp()
+
+  sh '''
+    cd workdir
+    ../bin/run-cmake --release .
+    make -B unittests
+  '''
+
+  saveArtifacts()
+}
+
+def stageUnitTests =
 {
   sh '''
-    $TEMP_BIN/run-cmake --release .
-    make unittests
-    cd unittests
-
-    for file in *.ut; do ./$file; done
+    cd workdir/unittests
+    ../../bin/run-unittests *.ut
   '''
 }
 
@@ -90,26 +145,15 @@ def stageDetectWarnings =
            consoleParsers: [[parserName: 'GNU Make + GNU C Compiler (gcc)']]
 }
 
-def stageUnitTestDebug =
-{
-  sh '''
-    $TEMP_BIN/run-cmake --debug .
-    make unittests
-    cd unittests
-
-    for file in *.ut; do ./$file; done
-  '''
-}
-
 def stageValgrind =
 {
   step([$class: 'ValgrindBuilder',
-    childSilentAfterFork: false,
+    childSilentAfterFork: true,
     excludePattern: '',
     generateSuppressions: false,
     ignoreExitCode: false,
-    includePattern: 'unittests/*.ut',
-    outputDirectory: '',
+    includePattern: 'workdir/unittests/*.ut',
+    outputDirectory: 'workdir/unittests',
     outputFileEnding: '.valgrind.xml',
     programOptions: '',
     removeOldReports: false,
@@ -122,7 +166,7 @@ def stageValgrind =
     traceChildren: false,
     valgrindExecutable: '',
     valgrindOptions: '',
-    workingDirectory: 'unittests'])
+    workingDirectory: 'workdir/unittests'])
 
   step([$class: 'ValgrindPublisher',
     failBuildOnInvalidReports: true,
@@ -130,33 +174,42 @@ def stageValgrind =
     failThresholdDefinitelyLost: '',
     failThresholdInvalidReadWrite: '',
     failThresholdTotal: '',
-    pattern: '*.valgrind.xml',
+    pattern: 'workdir/unittests/*.valgrind.xml',
     publishResultsForAbortedBuilds: false,
     publishResultsForFailedBuilds: false,
     sourceSubstitutionPaths: '',
     unstableThresholdDefinitelyLost: '0',
     unstableThresholdInvalidReadWrite: '0',
     unstableThresholdTotal: '0'])
+
+  saveArtifacts()
 }
 
 def stageClangStaticAnalysis =
 {
+  cleanUp()
+
   sh '''
-    rm CMakeCache.txt
-    rm -rf CMakeFiles
-    scan-build $TEMP_BIN/run-cmake --debug .
+    cd workdir
+    scan-build ../bin/run-cmake --debug .
     scan-build -o clangScanBuildReports -v -v --use-cc clang \
-      --use-analyzer=/usr/bin/clang make
+      --use-analyzer=/usr/bin/clang make -B
   '''
+
+  saveArtifacts()
 }
 
-stages = [[name: 'Checkout',                   body: stageCheckout],
-          [name: 'cppcheck',                   body: stageCppcheck],
-          [name: 'Unit Tests - Release Build', body: stageUnitTestRelease],
-          [name: 'Detect Warnings',            body: stageDetectWarnings],
-          [name: 'Unit Tests - Debug Build',   body: stageUnitTestDebug],
-          [name: 'Valgrind',                   body: stageValgrind],
-          [name: 'Clang Static Analyzer',      body: stageClangStaticAnalysis]]
+// If two stages have the same name the Jenkins pipeline GUI breaks a bit
+
+stages = [[name: 'Checkout',              body: stageCheckout],
+          [name: 'cppcheck',              body: stageCppcheck],
+          [name: 'Release Build',         body: stageBuildRelease],
+          [name: 'Detect Warnings',       body: stageDetectWarnings],
+          [name: 'Release Unit Tests',    body: stageUnitTests],
+          [name: 'Debug Build',           body: stageBuildDebug],
+          [name: 'Debug Unit Tests',      body: stageUnitTests],
+          [name: 'Valgrind',              body: stageValgrind],
+          [name: 'Clang Static Analyzer', body: stageClangStaticAnalysis]]
 
 stageNames = []
 for (i = 0; i < stages.size(); i++)

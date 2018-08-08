@@ -18,6 +18,10 @@ int main(int argc, char** argv)
     OnlineStatistics stats;
 
     std::ifstream resultstream("OnlineStatistics.ut.result.txt");
+    if (resultstream.fail())
+    {
+        return 1;
+    }
 
     double mean = 0.0;
     double stddev = 0.0;
@@ -28,6 +32,10 @@ int main(int argc, char** argv)
 
     // This file has the raw data in it, one datum per line
     std::ifstream datastream("OnlineStatistics.ut.data.txt");
+    if (datastream.fail())
+    {
+        return 1;
+    }
 
     // Suck in all the data
     double datum;
