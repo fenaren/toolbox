@@ -137,12 +137,27 @@ def stageUnitTests =
   '''
 }
 
-def stageDetectWarnings =
+def stageDetectGCCWarnings =
 {
   warnings canComputeNew: false,
            canResolveRelativePaths: false,
            categoriesPattern: '',
            consoleParsers: [[parserName: 'GNU Make + GNU C Compiler (gcc)']]
+}
+
+
+def stageDetectClangWarnings =
+{
+  warnings canComputeNew: false,
+           canResolveRelativePaths: false,
+           categoriesPattern: '',
+           consoleParsers: [[parserName: 'Clang (LLVM based)']],
+           defaultEncoding: '',
+           excludePattern: '',
+           healthy: '',
+           includePattern: '',
+           messagesPattern: '',
+           unHealthy: ''
 }
 
 def stageValgrind =
@@ -204,12 +219,13 @@ def stageClangStaticAnalysis =
 stages = [[name: 'Checkout',              body: stageCheckout],
           [name: 'cppcheck',              body: stageCppcheck],
           [name: 'Release Build',         body: stageBuildRelease],
-          [name: 'Detect Warnings',       body: stageDetectWarnings],
           [name: 'Release Unit Tests',    body: stageUnitTests],
           [name: 'Debug Build',           body: stageBuildDebug],
           [name: 'Debug Unit Tests',      body: stageUnitTests],
           [name: 'Valgrind',              body: stageValgrind],
-          [name: 'Clang Static Analyzer', body: stageClangStaticAnalysis]]
+          [name: 'Clang Static Analyzer', body: stageClangStaticAnalysis],
+          [name: 'Detect GCC Warnings',   body: stageDetectGCCWarnings],
+          [name: 'Detect Clang Warnings', body: stageDetectClangWarnings]]
 
 stageNames = []
 for (i = 0; i < stages.size(); i++)
