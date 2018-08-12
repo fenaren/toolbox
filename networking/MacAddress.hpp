@@ -2,9 +2,9 @@
 #define MAC_ADDRESS_HPP
 
 #include <istream>
+#include <list>
 #include <ostream>
 #include <string>
-#include <vector>
 
 #include "NetworkAddress.hpp"
 
@@ -29,6 +29,10 @@ class MacAddress : public NetworkAddress
     virtual ~MacAddress();
 
     MacAddress& operator=(const std::string& mac_address_str);
+
+    // Fills host_mac_addresses in with a list of all the MAC addresses
+    // associated with a NIC on the machine this code is running on
+    static bool getHostMacAddresses(std::list<MacAddress>& host_mac_addresses);
 
     // MAC addresses are this many bytes long
     static const unsigned short MAC_LENGTH_BYTES = 6;

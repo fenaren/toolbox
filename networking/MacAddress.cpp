@@ -63,6 +63,15 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 }
 
 //==============================================================================
+// Fills host_mac_addresses in with a list of all the MAC addresses associated
+// with a NIC on the machine this code is running on
+//==============================================================================
+bool MacAddress::getHostMacAddresses(std::list<MacAddress>& host_mac_addresses)
+{
+    return false;
+}
+
+//==============================================================================
 // Writes string representation of self to the ostream
 //==============================================================================
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address)
