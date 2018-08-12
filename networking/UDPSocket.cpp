@@ -1,5 +1,8 @@
-#include <iostream>
 #include <string>
+
+#if defined DEBUG
+#include <iostream>
+#endif
 
 #include "UDPSocket.hpp"
 
@@ -14,10 +17,12 @@ UDPSocket::UDPSocket() :
     // Get an platform-specific UDP socket
     socket_impl = SocketFactory::createUDPSocket();
 
+#if defined DEBUG
     if (!socket_impl)
     {
         std::cerr << "Platform-specific UDP socket could not be created\n";
     }
+#endif
 
     Socket::setImplementation(socket_impl);
 }
@@ -33,7 +38,7 @@ UDPSocket::~UDPSocket()
 //=============================================================================
 // Calls implementation-specific bind
 //=============================================================================
-bool UDPSocket::bind(unsigned int port)
+bool UDPSocket::bind(unsigned int& port)
 {
     if (socket_impl)
     {

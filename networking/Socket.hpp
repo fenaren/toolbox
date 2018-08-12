@@ -22,11 +22,11 @@ public:
     // Returns whether reads or writes to the socket can block or not.
     bool isBlockingEnabled();
 
-    // Enables a timeout of the given length (in seconds) on blocking
-    // operations.  A negative timeout value disables the blocking timeout.
-    void setBlockingTimeout(double timeout);
+    // Enables a timeout of the given length (seconds) on blocking operations.
+    // A non-positive timeout value disables the blocking timeout.
+    void setBlockingTimeout(double blocking_timeout);
 
-    // Returns the current blocking timeout.
+    // Returns the current blocking timeout (seconds).
     double getBlockingTimeout() const;
 
     // Reads the specified amount of data from this socket into the specified

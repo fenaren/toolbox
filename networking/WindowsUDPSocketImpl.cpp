@@ -103,7 +103,7 @@ double WindowsUDPSocketImpl::getBlockingTimeout() const
 //=============================================================================
 // Associates this socket with a name and a port
 //=============================================================================
-bool WindowsUDPSocketImpl::bind(unsigned int port)
+bool WindowsUDPSocketImpl::bind(unsigned int& port)
 {
     return WindowsSocketCommon::bind(socket_fd,
                                      port,

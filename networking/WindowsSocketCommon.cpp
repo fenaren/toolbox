@@ -2,7 +2,6 @@
 
 #include <WinSock2.h>
 #include <cmath>
-#include <iostream>
 #include <stdio.h>
 #include <sstream>
 #include <string>
@@ -297,6 +296,7 @@ void WindowsSocketCommon::shutdown(SOCKET socket_fd)
 //=============================================================================
 void WindowsSocketCommon::printErrorMessage(const std::string& location)
 {
+#if defined DEBUG
     // Will point to a wchar buffer containing the error string after the call
     // to FormatMessage
     LPWSTR error_string = 0;
@@ -318,4 +318,5 @@ void WindowsSocketCommon::printErrorMessage(const std::string& location)
 
     // Free the string created by FormatMessage
     LocalFree(error_string);
+#endif
 }

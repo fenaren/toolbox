@@ -1,5 +1,5 @@
-#if !defined LINUX_TCP_SOCKET_HPP
-#define LINUX_TCP_SOCKET_HPP
+#if !defined POSIX_TCP_SOCKET_IMPL_HPP
+#define POSIX_TCP_SOCKET_IMPL_HPP
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -8,16 +8,16 @@
 
 #include "TCPSocketImpl.hpp"
 
-// Defines a socket implementation specific to Linux.
-class LinuxTCPSocketImpl : public TCPSocketImpl
+// Defines a socket implementation specific to Posix.
+class PosixTCPSocketImpl : public TCPSocketImpl
 {
 public:
 
-    // Constructs a new Linux socket.
-    LinuxTCPSocketImpl();
+    // Constructs a new Posix TCP socket.
+    PosixTCPSocketImpl();
 
     // Closes the associated socket.
-    virtual ~LinuxTCPSocketImpl();
+    virtual ~PosixTCPSocketImpl();
 
     // Enables blocking on reads and writes.
     virtual bool enableBlocking();
@@ -28,15 +28,17 @@ public:
     // Returns whether or not this socket blocks.
     virtual bool isBlockingEnabled();
 
-    // Enables a timeout of the given length (in seconds) on blocking
-    // operations.  A negative timeout value disables the blocking timeout.
+    // Enables a timeout of the given length (seconds) on blocking operations.
+    // A non-positive timeout value disables the blocking timeout.
     virtual void setBlockingTimeout(double blocking_timeout);
 
-    // Returns the current blocking timeout.
+    // Returns the current blocking timeout (seconds).
     virtual double getBlockingTimeout() const;
 
-    // Associates a name and port with a newly-created socket.
-    virtual bool bind(unsigned int port);
+    // Associates a name and port with a newly-created socket.  Specify 0 to
+    // request any available port.  The chosen port is returned in place of the
+    // argument.
+    virtual bool bind(unsigned int& port);
 
     // Tells this socket to begin listening for incoming connection attempts.
     virtual bool listen();
@@ -48,7 +50,7 @@ public:
     // pointer to the socket handling the accepted connection is returned,
     // unless no connection was accepted, in which case 0 is returned.  Must
     // call 'listen' prior to this.
-    virtual LinuxTCPSocketImpl* accept(bool take_over = true);
+    virtual PosixTCPSocketImpl* accept(bool take_over = true);
 
     // Connects this socket to another socket.  Used only with
     // connection-oriented protocols.
@@ -78,9 +80,10 @@ private:
 
     // A special constructor used during accept; duplicates a socket and assumes
     // the new socket is open
-    LinuxTCPSocketImpl(int          socket_fd,
+    PosixTCPSocketImpl(int          socket_fd,
                        sockaddr_in& local_address,
-                       sockaddr_in& peer_address);
+                       sockaddr_in& peer_address,
+                       double       blocking_timeout);
 
     // Blocks on the socket descriptor, waiting for the specified events to
     // occur, or for the timeout to be reached.  See the ppoll man page for
@@ -96,15 +99,21 @@ private:
     // Address of last connected remote device
     sockaddr_in peer_address;
 
-    // The blocking timeout is stored in two forms.  The first is in the double
-    // form it was given in.  The second form is converted from the double form,
-    // and is given directly to ppoll.
-    double   blocking_timeout;
-    timespec ts_blocking_timeout;
+    double blocking_timeout;
 };
 
+inline void PosixTCPSocketImpl::setBlockingTimeout(double blocking_timeout)
+{
+    this->blocking_timeout = blocking_timeout;
+}
+
+inline double PosixTCPSocketImpl::getBlockingTimeout() const
+{
+    return this->blocking_timeout;
+}
+
 inline
-void LinuxTCPSocketImpl::getPeerAddress(std::string& peer_address_str) const
+void PosixTCPSocketImpl::getPeerAddress(std::string& peer_address_str) const
 {
     peer_address_str = inet_ntoa(peer_address.sin_addr);
 }

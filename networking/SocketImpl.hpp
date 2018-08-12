@@ -23,11 +23,11 @@ public:
     // Returns whether or not this socket blocks.
     virtual bool isBlockingEnabled() = 0;
 
-    // Enables a timeout of the given length (in seconds) on blocking
-    // operations.  A negative timeout value disables the blocking timeout.
-    virtual void setBlockingTimeout(double timeout) = 0;
+    // Enables a timeout of the given length (seconds) on blocking operations.
+    // A non-positive timeout value disables the blocking timeout.
+    virtual void setBlockingTimeout(double blocking_timeout) = 0;
 
-    // Returns the current blocking timeout.
+    // Returns the current blocking timeout (seconds)
     virtual double getBlockingTimeout() const = 0;
 
     // Reads the specified amount of data from this socket into the specified

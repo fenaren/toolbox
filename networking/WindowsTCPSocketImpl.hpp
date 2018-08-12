@@ -33,8 +33,10 @@ public:
     // Returns the current blocking timeout.
     virtual double getBlockingTimeout() const;
 
-    // Associates a name and port with a newly-created socket.
-    virtual bool bind(unsigned int port);
+    // Associates a name and port with a newly-created socket.  Specify 0 to
+    // request any available port.  The chosen port is returned in place of the
+    // argument.
+    virtual bool bind(unsigned int& port);
 
     // Sets the socket's blocking/non-blocking state.
     virtual bool listen();

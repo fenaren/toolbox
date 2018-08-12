@@ -2,11 +2,10 @@
 #include <cstring>
 #include <errno.h>
 #include <fcntl.h>
-#include <linux/if_ether.h>
+#include <linux/if_packet.h>
 #include <net/ethernet.h>
 #include <net/if.h>
 #include <netdb.h>
-#include <netpacket/packet.h>
 #include <poll.h>
 #include <sstream>
 #include <string>
@@ -16,12 +15,14 @@
 
 #include "LinuxRawSocket.hpp"
 
-#include "LinuxSocketCommon.hpp"
+#include "PosixSocketCommon.hpp"
+#include "PosixTimespec.hpp"
 
-//====================================================================
+//==============================================================================
 // Creates a Linux raw socket
-//====================================================================
-LinuxRawSocket::LinuxRawSocket()
+//==============================================================================
+LinuxRawSocket::LinuxRawSocket() :
+    blocking_timeout(0.0)
 {
     // Zero out input and output interface structures
     memset(&input_interface,  0, sizeof(sockaddr_ll));
@@ -37,75 +38,53 @@ LinuxRawSocket::LinuxRawSocket()
     output_interface.sll_ifindex  = 1;
     output_interface.sll_halen    = 6;
 
-    blocking_timeout = -1.0;
-
-    ts_blocking_timeout.tv_sec  = 0;
-    ts_blocking_timeout.tv_nsec = 0;
-
     // Create the socket; third argument specifies which Ethernet protocols are
     // received, current setting is all
     socket_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 
-    // Check for errors
+#if defined DEBUG
     if (socket_fd == -1)
     {
         perror("LinuxRawSocket::LinuxRawSocket");
     }
+#endif
 }
 
-//====================================================================
+//==============================================================================
 // Shuts this socket down
-//====================================================================
+//==============================================================================
 LinuxRawSocket::~LinuxRawSocket()
 {
-    LinuxSocketCommon::shutdown(socket_fd);
+    PosixSocketCommon::shutdown(socket_fd);
 }
 
-//====================================================================
+//==============================================================================
 // Enables blocking
-//====================================================================
+//==============================================================================
 bool LinuxRawSocket::enableBlocking()
 {
-    return LinuxSocketCommon::enableBlocking(socket_fd);
+    return PosixSocketCommon::enableBlocking(socket_fd);
 }
 
-//====================================================================
+//==============================================================================
 // Disables blocking
-//====================================================================
+//==============================================================================
 bool LinuxRawSocket::disableBlocking()
 {
-    return LinuxSocketCommon::disableBlocking(socket_fd);
+    return PosixSocketCommon::disableBlocking(socket_fd);
 }
 
-//====================================================================
+//==============================================================================
 // Returns blocking status
-//====================================================================
+//==============================================================================
 bool LinuxRawSocket::isBlockingEnabled()
 {
-    return LinuxSocketCommon::isBlockingEnabled(socket_fd);
+    return PosixSocketCommon::isBlockingEnabled(socket_fd);
 }
 
-//====================================================================
-// Sets the current blocking timeout
-//====================================================================
-void LinuxRawSocket::setBlockingTimeout(double blocking_timeout)
-{
-    LinuxSocketCommon::setBlockingTimeout(blocking_timeout,
-                                          this->blocking_timeout,
-                                          ts_blocking_timeout);
-}
-
-//====================================================================
-// Gets the current blocking timeout
-//====================================================================
-double LinuxRawSocket::getBlockingTimeout() const
-{
-    return blocking_timeout;
-}
-
-//====================================================================
+//==============================================================================
 // Sets the interface this socket will get data from
-//====================================================================
+//==============================================================================
 bool LinuxRawSocket::setInputInterface(const std::string& interface_name)
 {
     // Operation cannot complete successfully without an open socket
@@ -129,16 +108,18 @@ bool LinuxRawSocket::setInputInterface(const std::string& interface_name)
              (const sockaddr*)&input_interface,
              sizeof(sockaddr_ll)) == -1)
     {
+#if defined DEBUG
         perror("LinuxRawSocket::setInputInterface");
+#endif
         return false;
     }
 
     return true;
 }
 
-//====================================================================
+//==============================================================================
 // Set the interface this socket will send data to
-//====================================================================
+//==============================================================================
 bool LinuxRawSocket::setOutputInterface(const std::string& interface_name)
 {
     // Operation cannot complete successfully without an open socket
@@ -153,50 +134,48 @@ bool LinuxRawSocket::setOutputInterface(const std::string& interface_name)
     return true;
 }
 
-//====================================================================
+//==============================================================================
 // Reads data from socket into buffer
-//====================================================================
+//==============================================================================
 int LinuxRawSocket::read(char* buffer, unsigned int size)
 {
-    return LinuxSocketCommon::read(
+    return PosixSocketCommon::read(
         socket_fd,
         buffer,
         size,
         blocking_timeout,
-        ts_blocking_timeout,
         reinterpret_cast<sockaddr*>(&input_interface),
         sizeof(sockaddr_ll));
 }
 
-//====================================================================
+//==============================================================================
 // Writes data to socket
-//====================================================================
+//==============================================================================
 int LinuxRawSocket::write(const char* buffer, unsigned int size)
 {
-    return LinuxSocketCommon::write(
+    return PosixSocketCommon::write(
         socket_fd,
         buffer,
         size,
         blocking_timeout,
-        ts_blocking_timeout,
         reinterpret_cast<sockaddr*>(&output_interface),
         sizeof(sockaddr_ll));
 }
 
-//====================================================================
+//==============================================================================
 // Clears socket of any received data
-//====================================================================
+//==============================================================================
 void LinuxRawSocket::clearBuffer()
 {
-    LinuxSocketCommon::clearBuffer(
+    PosixSocketCommon::clearBuffer(
         socket_fd,
         reinterpret_cast<sockaddr*>(&input_interface),
         sizeof(sockaddr_ll));
 }
 
-//====================================================================
+//==============================================================================
 // Retrieves the interface index of a specified index
-//====================================================================
+//==============================================================================
 int LinuxRawSocket::getInterfaceIndex(const std::string& interface_name)
 {
     // Fill out an ifreq with name of desired interface

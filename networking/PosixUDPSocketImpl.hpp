@@ -1,5 +1,5 @@
-#if !defined LINUX_UDP_SOCKET_HPP
-#define LINUX_UDP_SOCKET_HPP
+#if !defined POSIX_UDP_SOCKET_IMPL_HPP
+#define POSIX_UDP_SOCKET_IMPL_HPP
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -8,16 +8,16 @@
 
 #include "UDPSocketImpl.hpp"
 
-// Defines a socket implementation specific to Windows.
-class LinuxUDPSocketImpl : public UDPSocketImpl
+// Defines a socket implementation specific to POSIX
+class PosixUDPSocketImpl : public UDPSocketImpl
 {
 public:
 
-    // Constructs a new socket that will use the given protocol.
-    LinuxUDPSocketImpl();
+    // Constructs a new POSIX UDP socket
+    PosixUDPSocketImpl();
 
     // Closes the associated socket.
-    virtual ~LinuxUDPSocketImpl();
+    virtual ~PosixUDPSocketImpl();
 
     // Enables blocking on reads and writes.
     virtual bool enableBlocking();
@@ -28,15 +28,17 @@ public:
     // Returns whether or not this socket blocks.
     virtual bool isBlockingEnabled();
 
-    // Enables a timeout of the given length (in seconds) on blocking
-    // operations.  A negative timeout value disables the blocking timeout.
+    // Enables a timeout of the given length (seconds) on blocking operations.
+    // A non-positive timeout value disables the blocking timeout.
     virtual void setBlockingTimeout(double blocking_timeout);
 
-    // Returns the current blocking timeout.
+    // Returns the current blocking timeout (seconds).
     virtual double getBlockingTimeout() const;
 
-    // Associates a name and port with a newly-created socket.
-    virtual bool bind(unsigned int port);
+    // Associates a name and port with a newly-created socket.  Specify 0 to
+    // request any available port.  The chosen port is returned in place of the
+    // argument.
+    virtual bool bind(unsigned int& port);
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
@@ -70,15 +72,21 @@ private:
     // Source address of the last read packet
     sockaddr_in peer_address;
 
-    // The blocking timeout is stored in two forms.  The first is in the double
-    // form it was given in.  The second form is converted from the double form,
-    // and is given directly to ppoll.
-    double   blocking_timeout;
-    timespec ts_blocking_timeout;
+    double blocking_timeout;
 };
 
+inline void PosixUDPSocketImpl::setBlockingTimeout(double blocking_timeout)
+{
+    this->blocking_timeout = blocking_timeout;
+}
+
+inline double PosixUDPSocketImpl::getBlockingTimeout() const
+{
+    return this->blocking_timeout;
+}
+
 inline
-void LinuxUDPSocketImpl::getPeerAddress(std::string& peer_address_str) const
+void PosixUDPSocketImpl::getPeerAddress(std::string& peer_address_str) const
 {
     peer_address_str = inet_ntoa(peer_address.sin_addr);
 }

@@ -111,7 +111,7 @@ double WindowsTCPSocketImpl::getBlockingTimeout() const
 //=============================================================================
 // Associates this socket with a name and a port
 //=============================================================================
-bool WindowsTCPSocketImpl::bind(unsigned int port)
+bool WindowsTCPSocketImpl::bind(unsigned int& port)
 {
     return WindowsSocketCommon::bind(socket_fd,
                                      port,
