@@ -1,12 +1,16 @@
 #include "SocketFactory.hpp"
 
 #if defined WINDOWS
+#include "WindowsRawSocketImpl.hpp"
 #include "WindowsTCPSocketImpl.hpp"
 #include "WindowsUDPSocketImpl.hpp"
 #else
 #include "PosixTCPSocketImpl.hpp"
 #include "PosixUDPSocketImpl.hpp"
-#endif
+#if defined LINUX
+#include "LinuxRawSocketImpl.hpp"
+#endif // LINUX
+#endif // WINDOWS
 
 //=============================================================================
 // Creates a platform-specific TCP socket
@@ -29,6 +33,20 @@ UDPSocketImpl* SocketFactory::createUDPSocket()
     return new WindowsUDPSocketImpl();
 #else
     return new PosixUDPSocketImpl();
+#endif
+}
+
+//=============================================================================
+// Creates a platform-specific raw socket
+//=============================================================================
+RawSocketImpl* SocketFactory::createRawSocket()
+{
+#if defined WINDOWS
+    return new WindowsUDPSocketImpl();
+#elif defined LINUX
+    return new LinuxRawSocketImpl();
+#else
+    return 0;  // MacosRawSocketImpl not yet implemented
 #endif
 }
 

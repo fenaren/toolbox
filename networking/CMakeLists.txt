@@ -7,6 +7,8 @@ target_sources(toolbox PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/Ipv4Address.cpp
   ${CMAKE_CURRENT_LIST_DIR}/MacAddress.cpp
   ${CMAKE_CURRENT_LIST_DIR}/NetworkAddress.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/RawSocket.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/RawSocketImpl.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Socket.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SocketFactory.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SocketImpl.cpp
@@ -18,7 +20,7 @@ target_sources(toolbox PRIVATE
 # Include platform-specific sources
 if(WIN32)
   target_sources(toolbox PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/WindowsRawSocket.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/WindowsRawSocketImpl.cpp
     ${CMAKE_CURRENT_LIST_DIR}/WindowsSocketCommon.cpp
     ${CMAKE_CURRENT_LIST_DIR}/WindowsTCPSocketImpl.cpp
     ${CMAKE_CURRENT_LIST_DIR}/WindowsUDPSocketImpl.cpp)
@@ -30,6 +32,6 @@ else(WIN32)
 
   if(LINUX)
     target_sources(toolbox PRIVATE
-      ${CMAKE_CURRENT_LIST_DIR}/LinuxRawSocket.cpp)
+      ${CMAKE_CURRENT_LIST_DIR}/LinuxRawSocketImpl.cpp)
   endif(LINUX)
 endif(WIN32)

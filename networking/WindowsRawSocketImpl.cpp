@@ -7,14 +7,14 @@
 #include <sstream>
 #include <string>
 
-#include "WindowsRawSocket.hpp"
+#include "WindowsRawSocketImpl.hpp"
 
 #include "WindowsSocketCommon.hpp"
 
 //=============================================================================
 // Creates a Windows raw socket
 //=============================================================================
-WindowsRawSocket::WindowsRawSocket(int protocol) :
+WindowsRawSocketImpl::WindowsRawSocketImpl(int protocol) :
     SocketImpl(),
     socket_fd(INVALID_SOCKET),
     is_blocking(true)
@@ -32,7 +32,7 @@ WindowsRawSocket::WindowsRawSocket(int protocol) :
     if (iResult != 0)
     {
         WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocket::WindowsRawSocket");
+            "WindowsRawSocketImpl::WindowsRawSocketImpl");
         return;
     }
 
@@ -43,7 +43,7 @@ WindowsRawSocket::WindowsRawSocket(int protocol) :
     if (socket_fd == INVALID_SOCKET)
     {
         WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocket::WindowsRawSocket");
+            "WindowsRawSocketImpl::WindowsRawSocketImpl");
         return;
     }
 
@@ -56,7 +56,7 @@ WindowsRawSocket::WindowsRawSocket(int protocol) :
                    sizeof(bool)) == SOCKET_ERROR)
     {
         WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocket::WindowsRawSocket");
+            "WindowsRawSocketImpl::WindowsRawSocketImpl");
         return;
     }
 }
@@ -64,7 +64,7 @@ WindowsRawSocket::WindowsRawSocket(int protocol) :
 //=============================================================================
 // Shuts this socket down
 //=============================================================================
-WindowsRawSocket::~WindowsRawSocket()
+WindowsRawSocketImpl::~WindowsRawSocketImpl()
 {
     WindowsSocketCommon::shutdown(socket_fd);
 }
@@ -72,7 +72,7 @@ WindowsRawSocket::~WindowsRawSocket()
 //=============================================================================
 // Sets blocking status
 //=============================================================================
-bool WindowsRawSocket::enableBlocking()
+bool WindowsRawSocketImpl::enableBlocking()
 {
     return WindowsSocketCommon::enableBlocking(socket_fd, is_blocking);
 }
@@ -80,7 +80,7 @@ bool WindowsRawSocket::enableBlocking()
 //=============================================================================
 // Sets blocking status
 //=============================================================================
-bool WindowsRawSocket::disableBlocking()
+bool WindowsRawSocketImpl::disableBlocking()
 {
     return WindowsSocketCommon::disableBlocking(socket_fd, is_blocking);
 }
@@ -88,7 +88,7 @@ bool WindowsRawSocket::disableBlocking()
 //=============================================================================
 // Returns if the socket can block
 //=============================================================================
-bool WindowsRawSocket::isBlockingEnabled()
+bool WindowsRawSocketImpl::isBlockingEnabled()
 {
     return is_blocking;
 }
@@ -96,7 +96,7 @@ bool WindowsRawSocket::isBlockingEnabled()
 //=============================================================================
 // Sets the blocking timeout
 //=============================================================================
-void WindowsRawSocket::setBlockingTimeout(double blocking_timeout)
+void WindowsRawSocketImpl::setBlockingTimeout(double blocking_timeout)
 {
     WindowsSocketCommon::setBlockingTimeout(blocking_timeout,
                                             this->blocking_timeout,
@@ -106,7 +106,7 @@ void WindowsRawSocket::setBlockingTimeout(double blocking_timeout)
 //=============================================================================
 // Gets the blocking timeout
 //=============================================================================
-double WindowsRawSocket::getBlockingTimeout() const
+double WindowsRawSocketImpl::getBlockingTimeout() const
 {
     return blocking_timeout;
 }
@@ -114,7 +114,7 @@ double WindowsRawSocket::getBlockingTimeout() const
 //=============================================================================
 // Sets whether or not the IP header is expected in calls to write
 //=============================================================================
-bool WindowsRawSocket::setIncludeIPHeader(bool include_ip_header)
+bool WindowsRawSocketImpl::setIncludeIPHeader(bool include_ip_header)
 {
     // Input to setsockopt has to be an integer
     int optval = static_cast<int>(include_ip_header);
@@ -126,7 +126,7 @@ bool WindowsRawSocket::setIncludeIPHeader(bool include_ip_header)
                    sizeof(int)) == SOCKET_ERROR)
     {
         WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocket::setIncludeIPHeader");
+            "WindowsRawSocketImpl::setIncludeIPHeader");
         return false;
     }
 
@@ -136,7 +136,7 @@ bool WindowsRawSocket::setIncludeIPHeader(bool include_ip_header)
 //=============================================================================
 // Gets whether or not the IP header is expected in calls to write
 //=============================================================================
-bool WindowsRawSocket::getIncludeIPHeader() const
+bool WindowsRawSocketImpl::getIncludeIPHeader() const
 {
     // Output from getsockopt will be an integer
     int include_ip_header = 0;
@@ -149,7 +149,7 @@ bool WindowsRawSocket::getIncludeIPHeader() const
                    &size) == SOCKET_ERROR)
     {
         WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocket::getIncludeIPHeader");
+            "WindowsRawSocketImpl::getIncludeIPHeader");
         return false;
     }
 
@@ -159,7 +159,7 @@ bool WindowsRawSocket::getIncludeIPHeader() const
 //=============================================================================
 // Sets the interface this socket will get data from
 //=============================================================================
-bool WindowsRawSocket::setInputInterface(const std::string& interface_ip)
+bool WindowsRawSocketImpl::setInputInterface(const std::string& interface_ip)
 {
     // Record the "input interface"; on Windows this is an IPv4 address
     recv_addr_str = interface_ip;
@@ -174,7 +174,7 @@ bool WindowsRawSocket::setInputInterface(const std::string& interface_ip)
              sizeof(sockaddr_in)) == SOCKET_ERROR)
     {
         WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocket::setInputInterface");
+            "WindowsRawSocketImpl::setInputInterface");
         return false;
     }
 
@@ -184,7 +184,7 @@ bool WindowsRawSocket::setInputInterface(const std::string& interface_ip)
 //=============================================================================
 // Set the interface this socket will send data to
 //=============================================================================
-void WindowsRawSocket::setDestinationIP(const std::string& interface_ip)
+void WindowsRawSocketImpl::setDestinationIP(const std::string& interface_ip)
 {
     // Record the "input interface"; on Windows this is an IPv4 address
     send_addr_str = interface_ip;
@@ -197,7 +197,7 @@ void WindowsRawSocket::setDestinationIP(const std::string& interface_ip)
 //=============================================================================
 // Reads data from socket into buffer
 //=============================================================================
-int WindowsRawSocket::read(char* buffer, unsigned int size)
+int WindowsRawSocketImpl::read(char* buffer, unsigned int size)
 {
     return WindowsSocketCommon::read(
         socket_fd,
@@ -213,7 +213,7 @@ int WindowsRawSocket::read(char* buffer, unsigned int size)
 //=============================================================================
 // Writes data to socket
 //=============================================================================
-int WindowsRawSocket::write(const char* buffer, unsigned int size)
+int WindowsRawSocketImpl::write(const char* buffer, unsigned int size)
 {
     return WindowsSocketCommon::write(socket_fd,
                                       buffer,
@@ -228,7 +228,7 @@ int WindowsRawSocket::write(const char* buffer, unsigned int size)
 //=============================================================================
 // Clears socket of any received data
 //=============================================================================
-void WindowsRawSocket::clearBuffer()
+void WindowsRawSocketImpl::clearBuffer()
 {
     WindowsSocketCommon::clearBuffer(
         socket_fd,

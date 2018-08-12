@@ -1,6 +1,7 @@
 #if !defined SOCKET_FACTORY_HPP
 #define SOCKET_FACTORY_HPP
 
+#include "RawSocketImpl.hpp"
 #include "TCPSocketImpl.hpp"
 #include "UDPSocketImpl.hpp"
 
@@ -9,6 +10,9 @@
 class SocketFactory
 {
 public:
+
+    // The interface through which platform-specific raw sockets are acquired.
+    static RawSocketImpl* createRawSocket();
 
     // The interface through which platform-specific TCP sockets are acquired.
     static TCPSocketImpl* createTCPSocket();

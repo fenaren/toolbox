@@ -1,21 +1,21 @@
-#if !defined LINUX_RAW_SOCKET_HPP
-#define LINUX_RAW_SOCKET_HPP
+#if !defined LINUX_RAW_SOCKET_IMPL_HPP
+#define LINUX_RAW_SOCKET_IMPL_HPP
 
 #include <linux/if_packet.h>
 
-#include "SocketImpl.hpp"
+#include "RawSocketImpl.hpp"
 
 // Defines a socket implementation specific to Linux.  Raw sockets on Linux
 // require root priviledges to create and use.
-class LinuxRawSocket : public SocketImpl
+class LinuxRawSocketImpl : public RawSocketImpl
 {
 public:
 
     // Constructs a new Linux raw socket.
-    LinuxRawSocket();
+    LinuxRawSocketImpl();
 
     // Closes the associated socket.
-    virtual ~LinuxRawSocket();
+    virtual ~LinuxRawSocketImpl();
 
     // Enables blocking on reads and writes.
     virtual bool enableBlocking();
@@ -77,22 +77,22 @@ private:
     double blocking_timeout;
 };
 
-inline void LinuxRawSocket::setBlockingTimeout(double blocking_timeout)
+inline void LinuxRawSocketImpl::setBlockingTimeout(double blocking_timeout)
 {
     this->blocking_timeout = blocking_timeout;
 }
 
-inline double LinuxRawSocket::getBlockingTimeout() const
+inline double LinuxRawSocketImpl::getBlockingTimeout() const
 {
     return this->blocking_timeout;
 }
 
-inline void LinuxRawSocket::getInputInterface(std::string& interface_name)
+inline void LinuxRawSocketImpl::getInputInterface(std::string& interface_name)
 {
     interface_name = input_interface_name;
 }
 
-inline void LinuxRawSocket::getOutputInterface(std::string& interface_name)
+inline void LinuxRawSocketImpl::getOutputInterface(std::string& interface_name)
 {
     interface_name = output_interface_name;
 }

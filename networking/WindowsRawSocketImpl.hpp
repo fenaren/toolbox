@@ -1,21 +1,21 @@
-#if !defined WINDOWS_RAW_SOCKET_HPP
-#define WINDOWS_RAW_SOCKET_HPP
+#if !defined WINDOWS_RAW_SOCKET_IMPL_HPP
+#define WINDOWS_RAW_SOCKET_IMPL_HPP
 
 #include <WinSock2.h>
 
-#include "SocketImpl.hpp"
+#include "RawSocketImpl.hpp"
 
 // Defines a socket implementation specific to Windows.
-class WindowsRawSocket : public SocketImpl
+class WindowsRawSocketImpl : public RawSocketImpl
 {
 public:
 
     // Constructs a new Windows socket.  The 'protocol' argument should be an
     // IPPROTO_* enumeration value (defined in ws2def.h)
-    explicit WindowsRawSocket(int protocol);
+    explicit WindowsRawSocketImpl(int protocol);
 
     // Closes the associated socket.
-    virtual ~WindowsRawSocket();
+    virtual ~WindowsRawSocketImpl();
 
     // Enables blocking on reads and writes.
     virtual bool enableBlocking();
@@ -93,17 +93,20 @@ private:
     INT ts_blocking_timeout;
 };
 
-inline void WindowsRawSocket::getInputInterface(std::string& interface_ip) const
+inline
+void WindowsRawSocketImpl::getInputInterface(std::string& interface_ip) const
 {
     interface_ip = recv_addr_str;
 }
 
-inline void WindowsRawSocket::getDestinationIP(std::string& interface_ip) const
+inline
+void WindowsRawSocketImpl::getDestinationIP(std::string& interface_ip) const
 {
     interface_ip = send_addr_str;
 }
 
-inline void WindowsRawSocket::getPeerAddress(std::string& peer_address) const
+inline
+void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
 {
     peer_address = inet_ntoa(last_source_addr.sin_addr);
 }
