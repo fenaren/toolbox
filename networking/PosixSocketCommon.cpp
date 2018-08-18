@@ -228,8 +228,7 @@ void PosixSocketCommon::clearBuffer(int       socket_fd,
         }
 
         // Read a byte, leave if error
-        if (read(socket_fd, &buf, 1, 0, class_rfa, class_rfa_size)
-            < 1)
+        if (read(socket_fd, &buf, 1, 0, class_rfa, class_rfa_size) < 1)
         {
             return;
         }

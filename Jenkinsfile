@@ -1,5 +1,7 @@
 #!groovy
 
+@Library(value="jenkins-sl@master")
+
 stages = [
 
   [name: 'Checkout',

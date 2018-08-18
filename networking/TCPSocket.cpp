@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <string>
 
 #if defined DEBUG
@@ -17,14 +18,15 @@ TCPSocket::TCPSocket() :
     // Get a platform-specific socket
     socket_impl = SocketFactory::createTCPSocket();
 
-#if defined DEBUG
-    if (!socket_impl)
+    if (socket_impl)
     {
-        std::cerr << "Platform-specific TCP socket could not be created\n";
+        Socket::setImplementation(socket_impl);
     }
-#endif
-
-    Socket::setImplementation(socket_impl);
+    else
+    {
+        throw std::runtime_error(
+            "Platform-specific TCP socket could not be created");
+    }
 }
 
 //=============================================================================

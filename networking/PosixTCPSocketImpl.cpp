@@ -1,10 +1,11 @@
+#include <cstdio>
 #include <errno.h>
 #include <cstring>
 #include <fcntl.h>
 #include <netdb.h>
 #include <poll.h>
 #include <sstream>
-#include <stdio.h>
+#include <stdexcept>
 #include <string>
 #include <sys/select.h>
 #include <sys/socket.h>
@@ -27,12 +28,10 @@ PosixTCPSocketImpl::PosixTCPSocketImpl() :
     // Create the socket
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
 
-#if defined DEBUG
     if (socket_fd == -1)
     {
-        perror("PosixTCPSocketImpl::PosixTCPSocketImpl");
+        throw std::runtime_error(strerror(errno));
     }
-#endif
 }
 
 //==============================================================================
@@ -115,11 +114,11 @@ PosixTCPSocketImpl* PosixTCPSocketImpl::accept(bool take_over)
     if (isBlockingEnabled() && blocking_timeout > 0.0)
     {
         // Perform the blocking timeout and check if the POLLIN event occurred
-        if (PosixSocketCommon::doBlockingTimeout(socket_fd,
-                                                 POLLIN,
-                                                 blocking_timeout) == 0)
+        if (PosixSocketCommon::doBlockingTimeout(
+                socket_fd, POLLIN, blocking_timeout) == 0)
         {
-            // Accepting now will block, so return
+            // Accepting now will block, but we've blocked long enough already,
+            // so return instead and let the user try again if they want
             return 0;
         }
     }
@@ -128,9 +127,8 @@ PosixTCPSocketImpl* PosixTCPSocketImpl::accept(bool take_over)
     socklen_t addrlen = sizeof(sockaddr_in);
 
     // Look for an incoming connection
-    int new_socket_fd = ::accept(socket_fd,
-                                 (sockaddr*)&peer_address,
-                                 &addrlen);
+    int new_socket_fd =
+        ::accept(socket_fd, (sockaddr*)&peer_address, &addrlen);
 
     // Check for errors
     if (new_socket_fd == -1)
@@ -141,7 +139,8 @@ PosixTCPSocketImpl* PosixTCPSocketImpl::accept(bool take_over)
             perror("PosixTCPSocketImpl::accept");
         }
 #endif
-
+        // A failure here seems like it wouldn't necessarily mean objects of
+        // this class become unusable, but I could be wrong
         return 0;
     }
 
@@ -150,11 +149,8 @@ PosixTCPSocketImpl* PosixTCPSocketImpl::accept(bool take_over)
     {
         // Copy the old file descriptor status
         int status = fcntl(socket_fd, F_GETFL);
-
-        // Copy socket file descriptor status
         if (status != -1)
         {
-            // Set status
             if (fcntl(new_socket_fd, F_SETFL, status) == -1)
             {
 #if defined DEBUG
@@ -162,18 +158,22 @@ PosixTCPSocketImpl* PosixTCPSocketImpl::accept(bool take_over)
 #endif
             }
         }
+#if defined DEBUG
         else
         {
             perror("PosixTCPSocketImpl::accept");
         }
+#endif
 
-        // Abandon the old descriptor and start using the new; THIS NEEDS WORK
+        // Start using the new descriptor
+        PosixSocketCommon::shutdown(socket_fd);
         socket_fd = new_socket_fd;
 
         return this;
     }
 
-    // Make a new socket and return that
+    // Make a new socket and return it; the user is responsible for getting rid
+    // of it
     return new PosixTCPSocketImpl(new_socket_fd,
                                   local_address,
                                   peer_address,
@@ -187,16 +187,16 @@ bool PosixTCPSocketImpl::connect(const std::string& hostname,
                                  unsigned int       port)
 {
     // Create some hints for getaddrinfo
-    addrinfo hints;
+    addrinfo hints = { 0 };
     hints.ai_family   = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = 0;
+    hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags    = 0;
 
     // Will point to the results list
     addrinfo* results = 0;
 
-    // Loop up the provided hostname
+    // Look up the provided hostname
     int ret = getaddrinfo(hostname.c_str(), 0, &hints, &results);
 
     // If there weren't any results just error and leave
@@ -211,6 +211,15 @@ bool PosixTCPSocketImpl::connect(const std::string& hostname,
 
     // If anything was found just choose the first one; if anything more
     // complicated is needed it'll be implemented later
+
+#if defined DEBUG
+    // Warn if we got more than one return
+    if (results->ai_next)
+    {
+        std::cerr << "PosixTCPSocketImpl::connect: Multiple addrinfo results "
+                  << "returned, arbitrarily choosing the first one\n";
+    }
+#endif
     memcpy(&peer_address, results->ai_addr, sizeof(sockaddr_in));
     peer_address.sin_port = htons(port);
 
@@ -219,10 +228,11 @@ bool PosixTCPSocketImpl::connect(const std::string& hostname,
                     reinterpret_cast<sockaddr*>(&peer_address),
                     sizeof(sockaddr_in));
 
-    // Get rid of all the address info in memory
+    // Release addrinfo memory back to the kernel; freeaddrinfo returns nothing
+    // so no need to check for errors here
     freeaddrinfo(results);
 
-    // Check for errors
+    // Check for errors from the connect earlier
     if (ret == -1)
     {
 #if defined DEBUG
@@ -239,7 +249,8 @@ bool PosixTCPSocketImpl::connect(const std::string& hostname,
 //==============================================================================
 bool PosixTCPSocketImpl::isConnected()
 {
-    // See what happens if a single byte is read
+    // See what happens if we look at a single byte but don't remove it from the
+    // buffer
     char buf;
     int ret = recv(socket_fd, &buf, 1, MSG_PEEK | MSG_DONTWAIT);
 
@@ -255,12 +266,8 @@ bool PosixTCPSocketImpl::isConnected()
 //==============================================================================
 int PosixTCPSocketImpl::read(char* buffer, unsigned int size)
 {
-    return PosixSocketCommon::read(socket_fd,
-                                   buffer,
-                                   size,
-                                   blocking_timeout,
-                                   0,
-                                   0);
+    return PosixSocketCommon::read(
+        socket_fd, buffer, size, blocking_timeout, 0, 0);
 }
 
 //==============================================================================
@@ -268,12 +275,8 @@ int PosixTCPSocketImpl::read(char* buffer, unsigned int size)
 //==============================================================================
 int PosixTCPSocketImpl::write(const char* buffer, unsigned int size)
 {
-    return PosixSocketCommon::write(socket_fd,
-                                    buffer,
-                                    size,
-                                    blocking_timeout,
-                                    0,
-                                    0);
+    return PosixSocketCommon::write(
+        socket_fd, buffer, size, blocking_timeout, 0, 0);
 }
 
 //==============================================================================

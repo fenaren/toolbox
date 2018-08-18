@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include "WindowsRawSocketImpl.hpp"
@@ -31,9 +32,8 @@ WindowsRawSocketImpl::WindowsRawSocketImpl(int protocol) :
     int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0)
     {
-        WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocketImpl::WindowsRawSocketImpl");
-        return;
+        // This socket will never work in this case
+        throw std::runtime_error("WSAStartup failed");
     }
 
     // Create the socket
@@ -42,9 +42,8 @@ WindowsRawSocketImpl::WindowsRawSocketImpl(int protocol) :
     // Check for socket creation errors
     if (socket_fd == INVALID_SOCKET)
     {
-        WindowsSocketCommon::printErrorMessage(
-            "WindowsRawSocketImpl::WindowsRawSocketImpl");
-        return;
+        // This socket will never work in this case
+        throw std::runtime_error("Cannot allocate socket");
     }
 
     // Enable broadcasting

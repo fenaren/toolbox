@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <string>
 
 #if defined DEBUG
@@ -17,14 +18,16 @@ RawSocket::RawSocket() :
     // Get a platform-specific socket
     socket_impl = SocketFactory::createRawSocket();
 
-#if defined DEBUG
-    if (!socket_impl)
+    if (socket_impl)
     {
-        std::cerr << "Platform-specific raw socket could not be created\n";
+        Socket::setImplementation(socket_impl);
     }
-#endif
-
-    Socket::setImplementation(socket_impl);
+    else
+    {
+        // This socket will never work in this case
+        throw std::runtime_error(
+            "Platform-specific raw socket could not be created");
+    }
 }
 
 //==============================================================================
