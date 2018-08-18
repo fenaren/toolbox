@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <string>
 
 #if defined DEBUG
@@ -17,14 +18,15 @@ UDPSocket::UDPSocket() :
     // Get an platform-specific UDP socket
     socket_impl = SocketFactory::createUDPSocket();
 
-#if defined DEBUG
-    if (!socket_impl)
+    if (socket_impl)
     {
-        std::cerr << "Platform-specific UDP socket could not be created\n";
+        Socket::setImplementation(socket_impl);
     }
-#endif
-
-    Socket::setImplementation(socket_impl);
+    else
+    {
+        throw std::runtime_error(
+            "Platform-specific UDP socket could not be created");
+    }
 }
 
 //=============================================================================

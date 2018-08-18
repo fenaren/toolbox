@@ -8,6 +8,7 @@
 #include <netdb.h>
 #include <poll.h>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
@@ -42,12 +43,10 @@ LinuxRawSocketImpl::LinuxRawSocketImpl() :
     // received, current setting is all
     socket_fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 
-#if defined DEBUG
     if (socket_fd == -1)
     {
-        perror("LinuxRawSocketImpl::LinuxRawSocketImpl");
+        throw std::runtime_error(strerror(errno));
     }
-#endif
 }
 
 //==============================================================================

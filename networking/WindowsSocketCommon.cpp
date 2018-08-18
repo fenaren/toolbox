@@ -163,8 +163,8 @@ int WindowsSocketCommon::read(SOCKET       socket_fd,
     {
         if (doBlockingTimeout(socket_fd, POLLRDNORM, class_ts_bt) == 0)
         {
-            // No data is available to read, so return before attempting to read for
-            // real
+            // No data is available to read, so return before attempting to read
+            // for real
             return 0;
         }
     }
@@ -183,8 +183,8 @@ int WindowsSocketCommon::read(SOCKET       socket_fd,
         // Retrieve the error code
         int last_error = WSAGetLastError();
 
-        // If the error was that this read would have blocked, don't call that an
-        // error, just return 0
+        // If the error was that this read would have blocked, don't call that
+        // an error, just return 0
         if (last_error == WSAEWOULDBLOCK)
         {
             return 0;
@@ -220,12 +220,8 @@ int WindowsSocketCommon::write(SOCKET       socket_fd,
     }
 
     // Perform the write
-    int bytes_written = sendto(socket_fd,
-                               buffer,
-                               size,
-                               0,
-                               class_sta,
-                               class_sta_size);
+    int bytes_written = sendto(
+        socket_fd, buffer, size, 0, class_sta, class_sta_size);
 
     // Check for errors
     if (bytes_written == SOCKET_ERROR)
@@ -249,8 +245,8 @@ void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
 
     disableBlocking(socket_fd, class_ba);
 
-    // Data will be discarded into here when copied out of the socket.  2000 bytes
-    // should be large enough to handle all possible packets
+    // Data will be discarded into here when copied out of the socket.  2000
+    // bytes should be large enough to handle all possible packets
     char buf[2000];
 
     // Create a temporary timeout to give to read

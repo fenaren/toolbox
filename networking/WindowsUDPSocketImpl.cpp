@@ -1,4 +1,5 @@
 #include <sstream>
+#include <stdexcept>
 #include <winsock2.h>
 
 #include "WindowsUDPSocketImpl.hpp"
@@ -25,9 +26,8 @@ WindowsUDPSocketImpl::WindowsUDPSocketImpl() :
     int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0)
     {
-        WindowsSocketCommon::printErrorMessage(
-            "WindowsUDPSocketImpl::WindowsUDPSocketImpl");
-        return;
+        // This socket will never work in this case
+        throw std::runtime_error("WSAStartup failed");
     }
 
     // Create the socket descriptor
@@ -44,9 +44,8 @@ WindowsUDPSocketImpl::WindowsUDPSocketImpl() :
     // Check for socket creation errors
     if (socket_fd == INVALID_SOCKET)
     {
-        WindowsSocketCommon::printErrorMessage(
-            "WindowsUDPSocketImpl::WindowsUDPSocketImpl");
-        return;
+        // This socket will never work in this case
+        throw std::runtime_error("Cannot allocate socket");
     }
 }
 

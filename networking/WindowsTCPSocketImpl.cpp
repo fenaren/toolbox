@@ -1,4 +1,5 @@
 #include <sstream>
+#include <stdexcept>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
@@ -25,9 +26,8 @@ WindowsTCPSocketImpl::WindowsTCPSocketImpl() :
     int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
     if (iResult != 0)
     {
-        WindowsSocketCommon::printErrorMessage(
-            "WindowsTCPSocketImpl::WindowsTCPSocketImpl");
-        return;
+        // This socket will never work in this case
+        throw std::runtime_error("WSAStartup failed");
     }
 
     // Create the socket
@@ -36,9 +36,8 @@ WindowsTCPSocketImpl::WindowsTCPSocketImpl() :
     // Check for socket creation errors
     if (socket_fd == INVALID_SOCKET)
     {
-        WindowsSocketCommon::printErrorMessage(
-            "WindowsTCPSocketImpl::WindowsTCPSocketImpl");
-        return;
+        // This socket will never work in this case
+        throw std::runtime_error("Cannot allocate socket");
     }
 }
 
@@ -147,8 +146,8 @@ WindowsTCPSocketImpl* WindowsTCPSocketImpl::accept(bool take_over)
                                                    POLLRDNORM,
                                                    ts_blocking_timeout) == 0)
         {
-            // No data is available to read, so return before attempting to read for
-            // real
+            // No data is available to read, so return before attempting to read
+            // for real
             return 0;
         }
     }
@@ -272,11 +271,13 @@ bool WindowsTCPSocketImpl::isConnected()
         enableBlocking();
     }
 
-    // If the previous read returned 0, the peer performed an orderly shutdown and
-    // the socket is therefore not connected.  Besides that case, if the read
-    // results in an WSAENOTCONN error, this also obviously means the socket is not
-    // connected.  Consider the socket connected in any other case.
-    return !(ret == 0 || (ret == SOCKET_ERROR && WSAGetLastError() == WSAENOTCONN));
+    // If the previous read returned 0, the peer performed an orderly shutdown
+    // and the socket is therefore not connected.  Besides that case, if the
+    // read results in an WSAENOTCONN error, this also obviously means the
+    // socket is not connected.  Consider the socket connected in any other
+    // case.
+    return !(ret == 0 ||
+             (ret == SOCKET_ERROR && WSAGetLastError() == WSAENOTCONN));
 }
 
 //=============================================================================

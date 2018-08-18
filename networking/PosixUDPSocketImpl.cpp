@@ -1,8 +1,9 @@
+#include <cstdio>
 #include <cstring>
 #include <errno.h>
 #include <netdb.h>
+#include <stdexcept>
 #include <sstream>
-#include <stdio.h>
 #include <string>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -28,20 +29,14 @@ PosixUDPSocketImpl::PosixUDPSocketImpl() :
     // Check for errors
     if (socket_fd == -1)
     {
-#if defined DEBUG
-        perror("PosixUDPSocketImpl::PosixUDPSocketImpl");
-#endif
-        return;
+        throw std::runtime_error(strerror(errno));
     }
 
     int bcast = 1;
 
     // Enable broadcasting by default
-    if (setsockopt(socket_fd,
-                   SOL_SOCKET,
-                   SO_BROADCAST,
-                   &bcast,
-                   sizeof(bcast)) == -1)
+    if (setsockopt(
+            socket_fd, SOL_SOCKET, SO_BROADCAST, &bcast, sizeof(bcast)) == -1)
     {
 #if defined DEBUG
         perror("PosixUDPSocketImpl::PosixUDPSocketImpl");
@@ -126,7 +121,7 @@ bool PosixUDPSocketImpl::sendTo(const std::string& address, unsigned int port)
     addrinfo hints;
     hints.ai_family   = AF_INET;
     hints.ai_socktype = SOCK_DGRAM;
-    hints.ai_protocol = 0;
+    hints.ai_protocol = IPPROTO_UDP;
     hints.ai_flags    = 0;
 
     // Will point to the results list
@@ -155,11 +150,20 @@ bool PosixUDPSocketImpl::sendTo(const std::string& address, unsigned int port)
 
     // If anything was found just choose the first one; if anything more
     // complicated is needed it'll be implemented later
-    memcpy(&sendto_address, results->ai_addr, sizeof(sockaddr_in));
 
-    // Set the target port
+#if defined DEBUG
+    // Warn if we got more than one return
+    if (results->ai_next)
+    {
+        std::cerr << "PosixUDPSocketImpl::connect: Multiple addrinfo results "
+                  << "returned, arbitrarily choosing the first one\n";
+    }
+#endif
+    memcpy(&sendto_address, results->ai_addr, sizeof(sockaddr_in));
     sendto_address.sin_port = htons(port);
 
+    // Release addrinfo memory back to the kernel; freeaddrinfo returns nothing
+    // so no need to check for errors here
     freeaddrinfo(results);
 
     return true;
