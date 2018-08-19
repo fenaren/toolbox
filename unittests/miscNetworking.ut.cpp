@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     std::string interface_name;
 #if defined MACOS
     interface_name = "en0";
-#elif defined LINUX
+#else
     interface_name = "p119p1";
 #endif
 
