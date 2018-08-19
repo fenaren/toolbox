@@ -16,6 +16,7 @@ target_sources(toolbox PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/TCPSocketImpl.cpp
   ${CMAKE_CURRENT_LIST_DIR}/UDPSocket.cpp
   ${CMAKE_CURRENT_LIST_DIR}/UDPSocketImpl.cpp)
+  ${CMAKE_CURRENT_LIST_DIR}/miscNetworking.cpp)
 
 # Include platform-specific sources
 if(WIN32)
