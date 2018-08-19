@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "OnlineStatistics.hpp"
 
 //==============================================================================
@@ -68,4 +70,31 @@ void OnlineStatistics::update(double sample)
             minimum = sample;
         }
     }
+}
+
+//==============================================================================
+// Prints internal state to the out string.  If units are known, units can be
+// provided in the units string to be included in the output
+//==============================================================================
+void
+OnlineStatistics::toString(std::string& out, const std::string& units) const
+{
+    std::ostringstream ostr;
+    ostr << "Samples " << sample_count           << "\n"
+         << "Mean    " << mean                   << " " << units << "\n"
+         << "Stddev  " << getStandardDeviation() << " " << units << "\n"
+         << "Min     " << minimum                << " " << units << "\n"
+         << "Max     " << maximum                << " " << units << "\n";
+
+    out = ostr.str();
+}
+
+//==============================================================================
+// Textual output of OnlineStatistics internal state
+//==============================================================================
+std::ostream& operator<<(std::ostream& os, const OnlineStatistics& obj)
+{
+    std::string out;
+    obj.toString(out);
+    return os << out;
 }

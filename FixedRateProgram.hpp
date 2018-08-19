@@ -3,6 +3,7 @@
 
 #include "Program.hpp"
 
+#include "OnlineStatistics.hpp"
 #include "PosixClock.hpp"
 #include "PosixTimespec.hpp"
 
@@ -58,6 +59,9 @@ private:
 
     // Iterative loop will exit if this is true
     bool terminate;
+
+    // Tracks frame time used statistics during runtime
+    OnlineStatistics statistics;
 };
 
 inline void FixedRateProgram::setClock(const PosixClock& clock)

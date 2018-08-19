@@ -2,6 +2,8 @@
 #define ONLINE_STATISTICS_HPP
 
 #include <cmath>
+#include <ostream>
+#include <string>
 
 // Maintains statistics which are kept up-to-date and available for reference
 // during the runtime of a system (this is where the "online" in
@@ -59,6 +61,10 @@ public:
     // all samples received using the update() function
     double getMinimumSample() const;
 
+    // Prints internal state to the out string.  If units are known, units can
+    // be provided in the units string to be included in the output
+    void toString(std::string& out, const std::string& units = "") const;
+
 private:
 
     // Incremented by one with each call to update(); represents the number of
@@ -79,6 +85,8 @@ private:
     // The smallest sample yet recorded
     double minimum;
 };
+
+std::ostream& operator<<(std::ostream& os, const OnlineStatistics& obj);
 
 inline unsigned long OnlineStatistics::getSampleCount() const
 {

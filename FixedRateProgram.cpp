@@ -1,4 +1,5 @@
-#include <time.h>
+#include <ctime>
+#include <iostream>
 
 #include "FixedRateProgram.hpp"
 
@@ -43,9 +44,21 @@ int FixedRateProgram::run()
         // code
         clock.getTime(frame_stop);
 
+        // How long was that frame
+        PosixTimespec frame_time = frame_stop - frame_start;
+
+        // Include frame time into running frame statistics
+        statistics.update(frame_time);
+
         // Sleep off the rest of the frame
-        clock.nanosleep(period - (frame_stop - frame_start));
+        clock.nanosleep(period - frame_time);
     }
+
+    // Retrieve and print frame time used statistics
+    std::string ftu_stats;
+    statistics.toString(ftu_stats, "s");
+
+    std::cout << "Frame time used statistics\n" << ftu_stats;
 
     return 0;
 }
