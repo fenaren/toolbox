@@ -56,7 +56,7 @@ int FixedRateProgram::run()
 
     // Retrieve and print frame time used statistics
     std::string ftu_stats;
-    statistics.toString(ftu_stats, "s");
+    statistics.toString(ftu_stats, "s");  // Units of seconds (s)
 
     std::cout << "Frame time used statistics\n" << ftu_stats;
 
