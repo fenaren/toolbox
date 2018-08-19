@@ -1,5 +1,6 @@
 #include "miscNetworking.hpp"
 
+#include <net/if.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 
