@@ -20,6 +20,7 @@ bool miscNetworking::getMacAddress(const std::string& interface_name,
     int sock_fd = socket(AF_INET, SOCK_DGRAM, IPPROTO_IP);
     if (sock_fd == -1)
     {
+        return false;
     }
 
     // Fill out an ifreq with name of the target interface
@@ -29,10 +30,13 @@ bool miscNetworking::getMacAddress(const std::string& interface_name,
     // Request our MAC address
     if (ioctl(sock_fd, SIOCGIFHWADDR, &iface) == -1)
     {
+        return false;
     }
 
-    // Initialize own_mac
-    memcpy(own_mac, iface.ifr_hwaddr.sa_data, 6);
+    close(sock_fd);
+
+    // Give the user their MAC address
+    mac_address.parse(iface.ifr_hwaddr.sa_data);
 
     return true;
 #else

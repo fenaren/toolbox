@@ -14,12 +14,12 @@ public:
     // dynamically allocate memory.
     virtual ~NetworkAddress();
 
-    // Reads a raw 4-byte IPv4 address from memory, "buf" is assumed to point to
-    // a valid IPv4 address
+    // Reads a raw network address from memory, "buf" is assumed to point to a
+    // valid network address of length this->size()
     void readRaw(const char* buf);
 
-    // Writes a raw 4-byte IPv4 address to memory, "buf" is assumed to point to
-    // 4 bytes of properly allocated and available memory
+    // Writes a raw network address to memory, "buf" is assumed to point to
+    // this->size() bytes of properly allocated and available memory
     void writeRaw(char* buf) const;
 };
 
