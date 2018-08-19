@@ -5,6 +5,7 @@
 #include <netinet/in.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 #include "Ipv4Address.hpp"
 #include "MacAddress.hpp"
@@ -36,7 +37,7 @@ bool miscNetworking::getMacAddress(const std::string& interface_name,
     close(sock_fd);
 
     // Give the user their MAC address
-    mac_address.parse(iface.ifr_hwaddr.sa_data);
+    mac_address.readRaw(iface.ifr_hwaddr.sa_data);
 
     return true;
 #else
