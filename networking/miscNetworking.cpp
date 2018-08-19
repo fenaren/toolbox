@@ -71,7 +71,7 @@ bool miscNetworking::getIpv4Address(const std::string& interface_name,
 
     // Initialize own IP address
     sockaddr_in* temp_addr = (sockaddr_in*)&iface.ifr_addr;
-    ipv4_address.readRaw(&temp_addr->sin_addr.s_addr);
+    ipv4_address.readRaw(reinterpret_cast<char*>(&temp_addr->sin_addr.s_addr));
 
     return true;
 #else
