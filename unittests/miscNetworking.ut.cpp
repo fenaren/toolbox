@@ -37,6 +37,14 @@ int main(int argc, char** argv)
 
     interface_name = "p119p1";
 
+    command = "ip addr | grep -A 1 ";
+    command += interface_name;
+    command += " | grep ether | cut -f 6 -d \" \"\n";
+    std::FILE* fd = popen(command.c_str(), "r");
+    std::fread(from_pipe, 1, MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1, fd);
+    fclose(fd);
+    mac_cmdline = from_pipe;
+
 #endif
 
     std::cout << mac_cmdline << " for \"" << interface_name << "\" from "
