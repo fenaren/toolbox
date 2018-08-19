@@ -10,15 +10,15 @@ int main(int argc, char** argv)
     std::string interface_name;
 #if defined MACOS
     interface_name = "en0";
-#else
+#elif defined LINUX
     interface_name = "p119p1";
 #endif
 
     MacAddress mac_address;
     if (!miscNetworking::getMacAddress(interface_name, mac_address))
     {
-        std::cerr << "Could not retrieve MAC address for " << interface_name
-                  << "\n";
+        std::cerr << "Could not retrieve MAC address for \"" << interface_name
+                  << "\"\n";
         return 1;
     }
 
