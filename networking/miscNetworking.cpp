@@ -29,12 +29,14 @@ bool miscNetworking::getMacAddress(const std::string& interface_name,
     strcpy(iface.ifr_name, interface_name.c_str());
 
     // Request our MAC address
-    if (ioctl(sock_fd, SIOCGIFHWADDR, &iface) == -1)
+    int ret = ioctl(sock_fd, SIOCGIFHWADDR, &iface);
+
+    close(sock_fd);
+
+    if (ret == -1)
     {
         return false;
     }
-
-    close(sock_fd);
 
     // Give the user their MAC address
     mac_address.readRaw(iface.ifr_hwaddr.sa_data);
@@ -64,7 +66,11 @@ bool miscNetworking::getIpv4Address(const std::string& interface_name,
     strcpy(iface.ifr_name, interface_name.c_str());
 
     // Request our IP address
-    if (ioctl(sock_fd, SIOCGIFADDR, &iface) == -1)
+    int ret = ioctl(sock_fd, SIOCGIFADDR, &iface);
+
+    close(sock_fd);
+
+    if (ret == -1)
     {
         return false;
     }
