@@ -23,4 +23,8 @@ add_unittest(PosixTimespec.ut)
 add_unittest(RawSocket.ut)
 add_unittest(TCPSocket.ut)
 add_unittest(UDPSocket.ut)
-add_unittest(miscNetworking.ut)
+
+# This test is only useful on Linux right now
+if(LINUX)
+  add_unittest(miscNetworking.ut)
+endif(LINUX)
