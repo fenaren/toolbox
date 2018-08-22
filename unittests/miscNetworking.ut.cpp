@@ -9,8 +9,13 @@
 #include "MacAddress.hpp"
 #include "miscNetworking.hpp"
 
-int main(int argc, char** argv)
+bool case1()
 {
+    // Only run case 1 if we're on Linux; case 1 tests getMacAddress, which at
+    // this moment will only work on Linux (getMacAddress isn't implemented for
+    // Windows and macOS
+
+#if defined LINUX
     std::string interface_name;
     std::string command;
 
@@ -21,8 +26,7 @@ int main(int argc, char** argv)
 
     MacAddress mac_cmdline;
 
-#if defined MACOS
-
+/*  This is a potential macOS unit test
     interface_name = "en0";
 
     command = "ifconfig | grep -A 1 ";
@@ -32,8 +36,7 @@ int main(int argc, char** argv)
     std::fread(from_pipe, 1, MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1, fd);
     fclose(fd);
     mac_cmdline = from_pipe;
-
-#elif defined LINUX
+*/
 
     interface_name = "p119p1";
 
@@ -45,8 +48,6 @@ int main(int argc, char** argv)
     fclose(fd);
     mac_cmdline = from_pipe;
 
-#endif
-
     std::cout << mac_cmdline << " for \"" << interface_name << "\" from "
               << "command line\n";
 
@@ -56,7 +57,7 @@ int main(int argc, char** argv)
     {
         std::cerr << "Could not use getMacAddress to retrieve MAC address "
                   << "for \"" << interface_name << "\"\n";
-        return 1;
+        return false;
     }
 
     std::cout << mac_getmacaddress << " for \"" << interface_name
@@ -64,4 +65,17 @@ int main(int argc, char** argv)
 
     // Do the two MAC addresses match?
     return !(mac_cmdline == mac_getmacaddress);
+#else
+    return true;
+#endif
+}
+
+int case2()
+{
+    return true;
+}
+
+int main(int argc, char** argv)
+{
+    return !(case1() && case2());
 }
