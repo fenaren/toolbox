@@ -6,13 +6,13 @@
 struct ethernet_ii_header
 {
     // MAC of destination device
-    unsigned char mac_destination[6];
+    char mac_destination[6];
 
     // MAC of source device
-    unsigned char mac_source[6];
+    char mac_source[6];
 
     // Ethertype
-    unsigned char ethertype[2];
+    char ethertype[2];
 };
 
 #endif
