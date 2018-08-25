@@ -91,7 +91,7 @@ int main(int argc, char** argv)
     }
 
     // Test the read function
-    char testcipv41[] = {97, 98, 99, 100};
+    unsigned char testcipv41[] = {97, 98, 99, 100};
     Ipv4Address testipv41;
     testipv41.readRaw(testcipv41);
     bool read_success = testipv41 == "97.98.99.100";
@@ -106,7 +106,7 @@ int main(int argc, char** argv)
     // Test the write function
     std::string testipv4str = "1.2.3.4";
     Ipv4Address testipv42(testipv4str);
-    char testcipv42[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    unsigned char testcipv42[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     char shouldbe[] = {1, 2, 3, 4};
     testipv42.writeRaw(testcipv42);
     bool write_success =

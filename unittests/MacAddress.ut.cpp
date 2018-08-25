@@ -89,7 +89,7 @@ int main(int argc, char** argv)
     }
 
     // Test the read function
-    char testcmac1[] = {0x61, 0x62, 0x63, 0x64, 0x65, 0x66};
+    unsigned char testcmac1[] = {0x61, 0x62, 0x63, 0x64, 0x65, 0x66};
     MacAddress testmac1;
     testmac1.readRaw(testcmac1);
     bool read_success = testmac1 == "61:62:63:64:65:66";
@@ -104,7 +104,7 @@ int main(int argc, char** argv)
     // Test the write function
     std::string testmacstr = "01:02:03:04:05:06";
     MacAddress testmac2(testmacstr);
-    char testcmac2[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    unsigned char testcmac2[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     char shouldbe[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
     testmac2.writeRaw(testcmac2);
     bool write_success =
