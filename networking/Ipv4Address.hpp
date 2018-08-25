@@ -12,8 +12,12 @@ class Ipv4Address : public NetworkAddress
 {
 public:
 
-    // Constructs a new Ipv4Address.
+    // Constructs a new Ipv4Address, initialized to "0.0.0.0".
     Ipv4Address();
+
+    // Constructs a new Ipv4Address, initialized to a copy of the raw address at
+    // the indicated location.
+    explicit Ipv4Address(const unsigned char* raw_address);
 
     // Constructs a new Ipv4Address matching the given string representation.
     explicit Ipv4Address(const std::string& ipv4_address_str);

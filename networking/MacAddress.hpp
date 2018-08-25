@@ -12,8 +12,12 @@ class MacAddress : public NetworkAddress
 {
   public:
 
-    // Constructs a new MacAddress.
+    // Constructs a new MacAddress, initialized to 00:00:00:00:00:00
     MacAddress();
+
+    // Constructs a new MacAddress, initialzed to a copy of the data at the
+    // indicated location
+    explicit MacAddress(const unsigned char* raw_address);
 
     // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);
