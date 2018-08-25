@@ -92,8 +92,7 @@ int main(int argc, char** argv)
 
     // Test the read function
     unsigned char testcipv41[] = {97, 98, 99, 100};
-    Ipv4Address testipv41;
-    testipv41.readRaw(testcipv41);
+    Ipv4Address testipv41(testcipv41);
     bool read_success = testipv41 == "97.98.99.100";
     if (!read_success)
     {

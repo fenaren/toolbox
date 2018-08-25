@@ -19,6 +19,8 @@ NetworkAddress::NetworkAddress(const unsigned char* address,
                                unsigned short       length_bytes)
 {
     reserve(length_bytes);
+    assign(length_bytes, 0); // Must be here to set the size
+
     readRaw(address);
 }
 
