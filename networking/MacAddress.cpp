@@ -17,6 +17,15 @@ MacAddress::MacAddress() :
 }
 
 //==============================================================================
+// MacAddress constructor; initializes to a copy of the data at the indicated
+// location
+//==============================================================================
+MacAddress::MacAddress(const unsigned char* raw_address) :
+    NetworkAddress(raw_address, MAC_LENGTH_BYTES)
+{
+}
+
+//==============================================================================
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str) :
