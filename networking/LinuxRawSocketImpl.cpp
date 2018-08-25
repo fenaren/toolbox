@@ -136,7 +136,7 @@ bool LinuxRawSocketImpl::setOutputInterface(const std::string& interface_name)
 //==============================================================================
 // Reads data from socket into buffer
 //==============================================================================
-int LinuxRawSocketImpl::read(char* buffer, unsigned int size)
+int LinuxRawSocketImpl::read(unsigned char* buffer, unsigned int size)
 {
     return PosixSocketCommon::read(
         socket_fd,
@@ -150,7 +150,7 @@ int LinuxRawSocketImpl::read(char* buffer, unsigned int size)
 //==============================================================================
 // Writes data to socket
 //==============================================================================
-int LinuxRawSocketImpl::write(const char* buffer, unsigned int size)
+int LinuxRawSocketImpl::write(const unsigned char* buffer, unsigned int size)
 {
     return PosixSocketCommon::write(
         socket_fd,

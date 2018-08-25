@@ -85,7 +85,7 @@ double Socket::getBlockingTimeout() const
 //=============================================================================
 // Calls implementation-specific read
 //=============================================================================
-int Socket::read(char* buffer, unsigned int size)
+int Socket::read(unsigned char* buffer, unsigned int size)
 {
     if (socket_impl)
     {
@@ -98,7 +98,7 @@ int Socket::read(char* buffer, unsigned int size)
 //=============================================================================
 // Calls implementation-specific write
 //=============================================================================
-int Socket::write(const char* buffer, unsigned int size)
+int Socket::write(const unsigned char* buffer, unsigned int size)
 {
     if (socket_impl)
     {

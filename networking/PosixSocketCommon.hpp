@@ -33,12 +33,12 @@ namespace PosixSocketCommon
     // When used with raw sockets, 'class_rfa' is a buffer containing
     // information about the interface to read from.  In both cases,
     // 'class_rfa_size' is the length of the 'class_rfa' buffer, in bytes.
-    int read(int          socket_fd,
-             char*        buffer,
-             unsigned int size,
-             double       class_ts_bt,
-             sockaddr*    class_rfa,
-             socklen_t    class_rfa_size);
+    int read(int            socket_fd,
+             unsigned char* buffer,
+             unsigned int   size,
+             double         class_ts_bt,
+             sockaddr*      class_rfa,
+             socklen_t      class_rfa_size);
 
     // Writes to the given file descriptor, being careful to conduct a blocking
     // timeout beforehand if instructed to.  A blocking timeout is performed if
@@ -49,12 +49,12 @@ namespace PosixSocketCommon
     // to be sent to.  When use with raw sockets, 'class_sta' is the interface
     // to output the data on.  In both cases, 'class_sta_size' represents the
     // size of the 'class_rfa' buffer, in bytes.
-    int write(int          socket_fd,
-              const char*  buffer,
-              unsigned int size,
-              double       class_ts_bt,
-              sockaddr*    class_sta,
-              socklen_t    class_sta_size);
+    int write(int                  socket_fd,
+              const unsigned char* buffer,
+              unsigned int         size,
+              double               class_ts_bt,
+              sockaddr*            class_sta,
+              socklen_t            class_sta_size);
 
     // Clears the receive buffer of the specified socket.  It does this by
     // iteratively reading single bytes of data from the socket until it would
