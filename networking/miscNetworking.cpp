@@ -39,8 +39,8 @@ bool miscNetworking::getMacAddress(const std::string& interface_name,
     }
 
     // Give the user their MAC address
-    mac_address.readRaw(
-        reinterpret_cast<unsigned char*>(iface.ifr_hwaddr.sa_data));
+    mac_address.readRaw(iface.ifr_hwaddr.sa_data);
+//        reinterpret_cast<unsigned char*>(iface.ifr_hwaddr.sa_data));
 
     return true;
 #else
