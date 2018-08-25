@@ -31,11 +31,11 @@ public:
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
-    int read(char* buffer, unsigned int size);
+    int read(unsigned char* buffer, unsigned int size);
 
     // Writes the specified amount of data to this socket from the specified
     // buffer.
-    int write(const char* buffer, unsigned int size);
+    int write(const unsigned char* buffer, unsigned int size);
 
     // Forces this socket to discard all received data.
     void clearBuffer();

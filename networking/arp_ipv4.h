@@ -6,31 +6,31 @@
 struct arp_ipv4
 {
     // Link layer protocol type
-    char htype[2];
+    unsigned char htype[2];
 
     // Network layer protocol type
-    char ptype[2];
+    unsigned char ptype[2];
 
     // Length of hardware addresses in bytes
-    char hlen[1];
+    unsigned char hlen[1];
 
     // Length of protocol addresses in bytes
-    char plen[1];
+    unsigned char plen[1];
 
     // ARP operation; 1 for request, 2 for reply
-    char oper[2];
+    unsigned char oper[2];
 
     // Sender hardware address
-    char sha[6];
+    unsigned char sha[6];
 
     // Sender protocol address
-    char spa[4];
+    unsigned char spa[4];
 
     // Target hardware address
-    char tha[6];
+    unsigned char tha[6];
 
     // Target protocol address
-    char tpa[4];
+    unsigned char tpa[4];
 };
 
 #endif

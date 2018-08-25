@@ -264,7 +264,7 @@ bool PosixTCPSocketImpl::isConnected()
 //==============================================================================
 // Reads data from socket into buffer
 //==============================================================================
-int PosixTCPSocketImpl::read(char* buffer, unsigned int size)
+int PosixTCPSocketImpl::read(unsigned char* buffer, unsigned int size)
 {
     return PosixSocketCommon::read(
         socket_fd, buffer, size, blocking_timeout, 0, 0);
@@ -273,7 +273,7 @@ int PosixTCPSocketImpl::read(char* buffer, unsigned int size)
 //==============================================================================
 // Writes data to socket
 //==============================================================================
-int PosixTCPSocketImpl::write(const char* buffer, unsigned int size)
+int PosixTCPSocketImpl::write(const unsigned char* buffer, unsigned int size)
 {
     return PosixSocketCommon::write(
         socket_fd, buffer, size, blocking_timeout, 0, 0);

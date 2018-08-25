@@ -32,11 +32,11 @@ public:
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
-    virtual int read(char* buffer, unsigned int size) = 0;
+    virtual int read(unsigned char* buffer, unsigned int size) = 0;
 
     // Writes the specified amount of data to this socket from the specified
     // buffer.
-    virtual int write(const char* buffer, unsigned int size) = 0;
+    virtual int write(const unsigned char* buffer, unsigned int size) = 0;
 
     // Forces this socket to discard all received data.
     virtual void clearBuffer() = 0;

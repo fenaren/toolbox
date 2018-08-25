@@ -131,12 +131,12 @@ bool PosixSocketCommon::bind(int           socket_fd,
 //==============================================================================
 // Reads socket data into buffer
 //==============================================================================
-int PosixSocketCommon::read(int          socket_fd,
-                            char*        buffer,
-                            unsigned int size,
-                            double       class_ts_bt,
-                            sockaddr*    class_rfa,
-                            socklen_t    class_rfa_size)
+int PosixSocketCommon::read(int            socket_fd,
+                            unsigned char* buffer,
+                            unsigned int   size,
+                            double         class_ts_bt,
+                            sockaddr*      class_rfa,
+                            socklen_t      class_rfa_size)
 {
     // Is a valid timeout set?
     if (isBlockingEnabled(socket_fd) && class_ts_bt > 0.0)
@@ -165,12 +165,12 @@ int PosixSocketCommon::read(int          socket_fd,
 //==============================================================================
 // Writes buffer data into socket
 //==============================================================================
-int PosixSocketCommon::write(int          socket_fd,
-                             const char*  buffer,
-                             unsigned int size,
-                             double       class_ts_bt,
-                             sockaddr*    class_sta,
-                             socklen_t    class_sta_size)
+int PosixSocketCommon::write(int                  socket_fd,
+                             const unsigned char* buffer,
+                             unsigned int         size,
+                             double               class_ts_bt,
+                             sockaddr*            class_sta,
+                             socklen_t            class_sta_size)
 {
     // Is a valid timeout set?
     if (isBlockingEnabled(socket_fd) && class_ts_bt > 0.0)
@@ -208,7 +208,7 @@ void PosixSocketCommon::clearBuffer(int       socket_fd,
     polldata.fd = socket_fd;
     polldata.events = POLLIN;
 
-    char buf;
+    unsigned char buf;
 
     while(true)
     {
