@@ -5,7 +5,7 @@ project(toolbox)
 cmake_minimum_required(VERSION 2.6)
 
 # Unit tests of the code in this project are located in the tests subdirectory
-add_subdirectory(unittests EXCLUDE_FROM_ALL)
+add_subdirectory(tests EXCLUDE_FROM_ALL)
 
 # Include common project setup
 include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
