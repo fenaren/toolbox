@@ -14,18 +14,18 @@ stages = [
 
   [name: 'Release Build',
    body: stageBuild,
-   args: ['release', 'unittests']],
+   args: ['release', 'tests']],
 
-  [name: 'Release Unit Tests',
-   body: stageUnitTests,
+  [name: 'Release Tests',
+   body: stageTests,
    args: []],
 
   [name: 'Debug Build',
    body: stageBuild,
-   args: ['debug', 'unittests']],
+   args: ['debug', 'tests']],
 
-  [name: 'Debug Unit Tests',
-   body: stageUnitTests,
+  [name: 'Debug Tests',
+   body: stageTests,
    args: []],
 
   [name: 'Valgrind',
