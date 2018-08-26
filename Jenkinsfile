@@ -1,6 +1,6 @@
 #!groovy
 
-@Library(value="jenkins-sl@master")
+@Library(value="jenkins-sl@ctest")
 
 stages = [
 
@@ -16,16 +16,16 @@ stages = [
    body: stageBuild,
    args: ['release', 'tests']],
 
-  [name: 'Release Unit Tests',
-   body: stageUnitTests,
+  [name: 'Release Tests',
+   body: stageTests,
    args: []],
 
   [name: 'Debug Build',
    body: stageBuild,
    args: ['debug', 'tests']],
 
-  [name: 'Debug Unit Tests',
-   body: stageUnitTests,
+  [name: 'Debug Tests',
+   body: stageTests,
    args: []],
 
   [name: 'Valgrind',
