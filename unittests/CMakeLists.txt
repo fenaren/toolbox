@@ -1,5 +1,4 @@
-add_custom_target(unittests-${PROJECT_NAME})
-#add_dependencies(unittests-${PROJECT_NAME} toolbox)
+add_custom_target(${PROJECT_NAME}-unittests)
 
 # Include common project setup
 include(${CMAKE_CURRENT_LIST_DIR}/../common/ProjectCommon.cmake)
@@ -8,7 +7,7 @@ set(INCLUDE_DIRS
   ${CMAKE_CURRENT_LIST_DIR}/..
   ${CMAKE_CURRENT_LIST_DIR}/../networking)
 
-set(LINK_LIBRARIES toolbox)
+set(LINK_LIBRARIES ${PROJECT_NAME})
 
 add_unittest(FixedRateProgram.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_unittest(Ipv4Address.ut      "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
