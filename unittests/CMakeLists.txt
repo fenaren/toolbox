@@ -1,26 +1,23 @@
-add_custom_target(unittests)
-add_dependencies(unittests toolbox)
+add_custom_target(unittests-${PROJECT_NAME})
+#add_dependencies(unittests-${PROJECT_NAME} toolbox)
 
 # Include common project setup
 include(${CMAKE_CURRENT_LIST_DIR}/../common/ProjectCommon.cmake)
 
-function(add_unittest UT_NAME)
-  add_executable(${UT_NAME} ${CMAKE_CURRENT_LIST_DIR}/${UT_NAME}.cpp)
-  add_dependencies(unittests ${UT_NAME})
-  target_include_directories(${UT_NAME} PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/..
-    ${CMAKE_CURRENT_LIST_DIR}/../networking)
-  target_link_libraries(${UT_NAME} toolbox)
-endfunction(add_unittest)
+set(INCLUDE_DIRS
+  ${CMAKE_CURRENT_LIST_DIR}/..
+  ${CMAKE_CURRENT_LIST_DIR}/../networking)
 
-add_unittest(FixedRateProgram.ut)
-add_unittest(Ipv4Address.ut)
-add_unittest(Log.ut)
-add_unittest(MacAddress.ut)
-add_unittest(Program.ut)
-add_unittest(OnlineStatistics.ut)
-add_unittest(PosixTimespec.ut)
-add_unittest(RawSocket.ut)
-add_unittest(TCPSocket.ut)
-add_unittest(UDPSocket.ut)
-add_unittest(miscNetworking.ut)
+set(LINK_LIBRARIES toolbox)
+
+add_unittest(FixedRateProgram.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(Ipv4Address.ut      "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(Log.ut              "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(MacAddress.ut       "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(Program.ut          "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(OnlineStatistics.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(PosixTimespec.ut    "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(RawSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(TCPSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(UDPSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_unittest(miscNetworking.ut   "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
