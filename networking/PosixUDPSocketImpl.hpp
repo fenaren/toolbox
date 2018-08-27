@@ -42,11 +42,11 @@ public:
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
-    virtual int read(char* buffer, unsigned int size);
+    virtual int read(unsigned char* buffer, unsigned int size);
 
     // Writes the specified amount of data to this socket from the specified
     // buffer.
-    virtual int write(const char* buffer, unsigned int size);
+    virtual int write(const unsigned char* buffer, unsigned int size);
 
     // Causes outgoing messages to be sent to the specified address and port.
     virtual bool sendTo(const std::string& address, unsigned int port);

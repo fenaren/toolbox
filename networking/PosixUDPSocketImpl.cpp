@@ -87,7 +87,7 @@ bool PosixUDPSocketImpl::bind(unsigned int& port)
 //==============================================================================
 // Reads data from socket into buffer
 //==============================================================================
-int PosixUDPSocketImpl::read(char* buffer, unsigned int size)
+int PosixUDPSocketImpl::read(unsigned char* buffer, unsigned int size)
 {
     return PosixSocketCommon::read(
         socket_fd,
@@ -101,7 +101,7 @@ int PosixUDPSocketImpl::read(char* buffer, unsigned int size)
 //==============================================================================
 // Writes data from buffer into socket
 //==============================================================================
-int PosixUDPSocketImpl::write(const char* buffer, unsigned int size)
+int PosixUDPSocketImpl::write(const unsigned char* buffer, unsigned int size)
 {
     return PosixSocketCommon::write(
         socket_fd,

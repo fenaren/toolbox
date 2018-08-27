@@ -6,16 +6,16 @@
 struct tcp_header
 {
     // Source port
-    char source_port[2];
+    unsigned char source_port[2];
 
     // Destination port
-    char destination_port[2];
+    unsigned char destination_port[2];
 
     // Sequence number
-    char sequence_num[4];
+    unsigned char sequence_num[4];
 
     // Acknowledgement number (if ACK set)
-    char ack_num[4];
+    unsigned char ack_num[4];
 
     // Bits 0-3: data offset; bits 4-6: reserved
     // bit 7:  NS
@@ -27,16 +27,16 @@ struct tcp_header
     // bit 13: RST
     // bit 14: SYN
     // bit 15: FIN
-    char fields[2];
+    unsigned char fields[2];
 
     // Window size
-    char window_size[2];
+    unsigned char window_size[2];
 
     // Packet checksum
-    char cksum[2];
+    unsigned char cksum[2];
 
     // Urgent pointer (if URG set)
-    char urgent[2];
+    unsigned char urgent[2];
 };
 
 #endif

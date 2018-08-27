@@ -17,6 +17,15 @@ Ipv4Address::Ipv4Address() :
 }
 
 //==============================================================================
+// Ipv4Address constructor; initializes to a copy of the raw address at the
+// indicated location
+//==============================================================================
+Ipv4Address::Ipv4Address(const unsigned char* raw_address) :
+    NetworkAddress(raw_address, IPV4_LENGTH_BYTES)
+{
+}
+
+//==============================================================================
 // Ipv4Address constructor; initializes to match the given string
 //==============================================================================
 Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :

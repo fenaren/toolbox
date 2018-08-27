@@ -14,18 +14,18 @@ stages = [
 
   [name: 'Release Build',
    body: stageBuild,
-   args: ['release', 'unittests']],
+   args: ['release', 'tests']],
 
-  [name: 'Release Unit Tests',
-   body: stageUnitTests,
+  [name: 'Release Tests',
+   body: stageTests,
    args: []],
 
   [name: 'Debug Build',
    body: stageBuild,
-   args: ['debug', 'unittests']],
+   args: ['debug', 'tests']],
 
-  [name: 'Debug Unit Tests',
-   body: stageUnitTests,
+  [name: 'Debug Tests',
+   body: stageTests,
    args: []],
 
   [name: 'Valgrind',
@@ -36,13 +36,9 @@ stages = [
    body: stageClangStaticAnalysis,
    args: []],
 
-  [name: 'Detect GCC Warnings',
+  [name: 'Detect Warnings',
    body: stageDetectWarnings,
-   args: ["GNU Make + GNU C Compiler (gcc)"]],
-
-  [name: 'Detect Clang Warnings',
-   body: stageDetectWarnings,
-   args: ["Clang (LLVM based)"]]
+   args: []]
 
 ]
 
