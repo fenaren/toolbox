@@ -19,4 +19,8 @@ add_test_executable(PosixTimespec.ut    "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(RawSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(TCPSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(UDPSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
-add_test_executable(miscNetworking.ut   "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
+# This test will only work on fs
+if(LINUX AND "${HOSTNAME}" STREQUAL "fs")
+  add_test_executable(miscNetworking.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+endif(LINUX AND "${HOSTNAME}" STREQUAL "fs")

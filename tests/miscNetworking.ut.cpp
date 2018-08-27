@@ -11,11 +11,6 @@
 
 bool case1()
 {
-    // Only run case 1 if we're on Linux; case 1 tests getMacAddress, which at
-    // this moment will only work on Linux (getMacAddress isn't implemented for
-    // Windows and macOS
-
-#if defined LINUX
     std::string interface_name;
     std::string command;
 
@@ -65,18 +60,10 @@ bool case1()
 
     // Do the two MAC addresses match?
     return mac_cmdline == mac_getmacaddress;
-#else
-    return true;
-#endif
 }
 
-int case2()
+bool case2()
 {
-    // Only run case 2 if we're on Linux; case 2 tests getIpv4Address, which at
-    // this moment will only work on Linux (getIpv4Address isn't implemented for
-    // Windows and macOS
-
-#if defined LINUX
     std::string interface_name;
     std::string command;
 
@@ -126,9 +113,6 @@ int case2()
 
     // Do the two MAC addresses match?
     return ipv4_cmdline == ipv4_getipv4address;
-#else
-    return true;
-#endif
 }
 
 int main(int argc, char** argv)
