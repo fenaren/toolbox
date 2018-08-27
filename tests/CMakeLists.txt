@@ -22,6 +22,6 @@ add_test_executable(UDPSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 
 # This test will only work on fs
-if(LINUX AND ($ENV{HOSTNAME} STREQUAL fs))
+if(LINUX AND ("$ENV{HOSTNAME}" STREQUAL fs))
   add_test_executable(miscNetworking.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
-endif(LINUX AND ($ENV{HOSTNAME} STREQUAL fs))
+endif(LINUX AND ("$ENV{HOSTNAME}" STREQUAL fs))
