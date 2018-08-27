@@ -1,6 +1,6 @@
 #!groovy
 
-@Library(value="jenkins-sl@warnings-onestage")
+@Library(value="jenkins-sl@master")
 
 stages = [
 
