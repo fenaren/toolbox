@@ -101,8 +101,17 @@ bool case2()
     command += interface_name;
     command += " | grep inet | cut -f 6 -d \" \"\n";
     std::FILE* fd = popen(command.c_str(), "r");
-    std::fread(from_pipe, 1, Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS - 1, fd);
+
+    std::size_t num_read =
+        std::fread(
+            from_pipe, 1, Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS - 1, fd);
     fclose(fd);
+
+    if (num_read != Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS - 1)
+    {
+        return false;
+    }
+
     ipv4_cmdline = from_pipe;
 
     std::cout << ipv4_cmdline << " for \"" << interface_name << "\" from "
