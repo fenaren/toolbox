@@ -11,7 +11,7 @@ bool case1()
     unsigned char send1_recv[] = {'\0', '\0', '\0', '\0'};
     unsigned char send2[]      = {'t',  'w',  'o',  '\0'};
     unsigned char send2_recv[] = {'\0', '\0', '\0', '\0'};
-    unsigned int send_size = 4;  // Must equal the length of all four arrays
+    int send_size = 4;  // Must equal the length of all four arrays
 
     TCPSocket socket1;
     TCPSocket socket2;
@@ -91,7 +91,7 @@ int case2()
     unsigned char send1_recv[] = {'\0', '\0', '\0', '\0'};
     unsigned char send2[]      = {'d',  'e',  'f',  '\0'};
     unsigned char send2_recv[] = {'\0', '\0', '\0', '\0'};
-    unsigned int send_size = 4;  // Must equal the length of all four arrays
+    int send_size = 4;  // Must equal the length of all four arrays
 
     TCPSocket socket1;
     TCPSocket socket2;
