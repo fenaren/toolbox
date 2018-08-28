@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     unsigned char send1_recv[] = {'\0', '\0', '\0', '\0'};
     unsigned char send2[]      = {'t',  'w',  'o',  '\0'};
     unsigned char send2_recv[] = {'\0', '\0', '\0', '\0'};
-    unsigned int send_size = 4;  // Must equal the length of all four arrays
+    int send_size = 4;  // Must equal the length of all four arrays
 
     UDPSocket socket1;
     UDPSocket socket2;

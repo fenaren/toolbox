@@ -216,16 +216,12 @@ int main(int argc, char** argv)
 
     timespec tp_10;
     timespec tp_01;
-    timespec tp_11;
 
     tp_10.tv_sec  = 1;
     tp_10.tv_nsec = 0;
 
     tp_01.tv_sec  = 0;
     tp_01.tv_nsec = 1;
-
-    tp_11.tv_sec  = 1;
-    tp_11.tv_nsec = 1;
 
     // GREATER THAN
     if (!(PosixTimespec(tp_10) > tp_01 &&
