@@ -39,8 +39,17 @@ bool case1()
     command += interface_name;
     command += " | grep ether | cut -f 6 -d \" \"\n";
     std::FILE* fd = popen(command.c_str(), "r");
-    std::fread(from_pipe, 1, MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1, fd);
+
+    std::size_t num_read =
+        std::fread(
+            from_pipe, 1, MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1, fd);
     fclose(fd);
+
+    if (num_read != MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1)
+    {
+        return false;
+    }
+
     mac_cmdline = from_pipe;
 
     std::cout << mac_cmdline << " for \"" << interface_name << "\" from "
