@@ -79,7 +79,7 @@ int case1()
               << "\" from getMacAddress\n";
 
     // Do the two MAC addresses match?
-    return mac_cmdline == mac_getmacaddress;
+    return !(mac_cmdline == mac_getmacaddress);
 
 #else
 
@@ -158,7 +158,7 @@ int case2()
               << "\" from getIpv4Address\n";
 
     // Do the two MAC addresses match?
-    return ipv4_cmdline == ipv4_getipv4address;
+    return !(ipv4_cmdline == ipv4_getipv4address);
 
 #else
 
