@@ -5,6 +5,8 @@
 
 int main(int argc, char** argv)
 {
+    int return_code = 0;
+
     try
     {
         // This won't work unless run as root, and I haven't figured out how to
@@ -13,11 +15,11 @@ int main(int argc, char** argv)
     }
     catch (std::runtime_error ex)
     {
-        // Ignore the exception if it happens, for now.  There isn't much power
-        // in this unit test ... it can only really check that RawSocket can
-        // compile into a program
-        std::cout << "Runtime error from RawSocket constructor caught\n";
+        // This will happen if this test is run in an environment where raw
+        // sockets are not permitted.  In this case return 2, which indicates
+        // this test is skipped.
+        return_code = 2;
     }
 
-    return 0;
+    return return_code;
 }

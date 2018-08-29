@@ -16,9 +16,13 @@ add_test_executable(MacAddress.ut       "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(Program.ut          "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(OnlineStatistics.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(PosixTimespec.ut    "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
-add_test_executable(RawSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(TCPSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(UDPSocket.ut        "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
+# This test must be run in a special environment, and when it isn't it will
+# return 2 indicating that it is skipped
+add_test_executable(RawSocket.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+set_property(TEST RawSocket.ut PROPERTY SKIP_RETURN_CODE 2)
 
 # This test will only work on fs
 cmake_host_system_information(RESULT HOSTNAME QUERY HOSTNAME)
