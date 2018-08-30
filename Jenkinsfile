@@ -1,7 +1,7 @@
 #!groovy
 
-@Library(value="jenkins-sl@cppcheck-args")
- 
+@Library(value="jenkins-sl@master")
+
 stages = [
 
   [name: 'Checkout',
