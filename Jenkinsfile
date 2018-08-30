@@ -1,6 +1,6 @@
 #!groovy
 
-@Library(value="jenkins-sl@master")
+@Library(value="jenkins-sl@cppcheck-args")
 
 stages = [
 
@@ -10,7 +10,7 @@ stages = [
 
   [name: 'cppcheck',
    body: stageCppcheck,
-   args: []],
+   args: ["--suppress=unusedFunction"]],
 
   [name: 'Release Build',
    body: stageBuild,
