@@ -1,12 +1,12 @@
 #!groovy
 
 @Library(value="jenkins-sl@cppcheck-args")
- 
+
 stages = [
 
   [name: 'Checkout',
    body: stageCheckout,
-   args:  ["http://gitlab.dmz/leighgarbs/toolbox.git"]],
+   args: ["http://gitlab.dmz/leighgarbs/toolbox.git"]],
 
   [name: 'cppcheck',
    body: stageCppcheck,
