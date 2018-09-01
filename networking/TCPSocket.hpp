@@ -49,7 +49,7 @@ public:
 protected:
 
     // Sets the platform-specific socket implementation to use
-    void setImplementation(TCPSocketImpl* socket_impl);
+    void setImplementation(TCPSocketImpl* socket_impl) noexcept;
 
 private:
 
@@ -67,7 +67,7 @@ private:
     TCPSocketImpl* socket_impl;
 };
 
-inline void TCPSocket::setImplementation(TCPSocketImpl* socket_impl)
+inline void TCPSocket::setImplementation(TCPSocketImpl* socket_impl) noexcept
 {
     this->socket_impl = socket_impl;
 }
