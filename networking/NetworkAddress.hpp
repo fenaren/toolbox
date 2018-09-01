@@ -21,13 +21,13 @@ public:
     // dynamically allocate memory.
     virtual ~NetworkAddress();
 
-    // Reads a raw network address from memory, "buf" is assumed to point to a
-    // valid network address of length this->size()
-    void readRaw(const unsigned char* buf);
+    // Reads a raw network address from memory, "raw_address" is assumed to
+    // point to a valid network address of length this->size()
+    void readRaw(const unsigned char* raw_address);
 
-    // Writes a raw network address to memory, "buf" is assumed to point to
-    // this->size() bytes of properly allocated and available memory
-    void writeRaw(unsigned char* buf) const;
+    // Writes a raw network address to memory, "raw_address" is assumed to point
+    // to this->size() bytes of properly allocated and available memory
+    void writeRaw(unsigned char* raw_address) const;
 };
 
 #endif

@@ -15,13 +15,13 @@ NetworkAddress::NetworkAddress(unsigned short length_bytes)
 //==============================================================================
 // Initializes to a copy of the data at the given location
 //==============================================================================
-NetworkAddress::NetworkAddress(const unsigned char* address,
+NetworkAddress::NetworkAddress(const unsigned char* raw_address,
                                unsigned short       length_bytes)
 {
     reserve(length_bytes);
     assign(length_bytes, 0); // Must be here to set the size
 
-    readRaw(address);
+    readRaw(raw_address);
 }
 
 //==============================================================================

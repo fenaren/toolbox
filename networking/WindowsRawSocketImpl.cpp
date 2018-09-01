@@ -183,14 +183,12 @@ bool WindowsRawSocketImpl::setInputInterface(const std::string& interface_ip)
 //=============================================================================
 // Set the interface this socket will send data to
 //=============================================================================
-void WindowsRawSocketImpl::setDestinationIP(const std::string& interface_ip)
+void WindowsRawSocketImpl::setDestinationIP(const std::string& destination_ip)
 {
-    // Record the "input interface"; on Windows this is an IPv4 address
-    send_addr_str = interface_ip;
+    send_addr_str = destination_ip;
 
-    // Fill in new input interface address info
     send_addr.sin_family      = AF_INET;
-    send_addr.sin_addr.s_addr = inet_addr(interface_ip.c_str());
+    send_addr.sin_addr.s_addr = inet_addr(destination_ip.c_str());
 }
 
 //=============================================================================

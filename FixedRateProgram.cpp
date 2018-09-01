@@ -11,10 +11,10 @@
 //==============================================================================
 FixedRateProgram::FixedRateProgram(int                  argc,
                                    char**               argv,
-                                   const PosixTimespec& tp) :
+                                   const PosixTimespec& period) :
     Program(argc, argv),
     clock(CLOCK_MONOTONIC_RAW),
-    period(tp),
+    period(period),
     terminate(false)
 {
 }
