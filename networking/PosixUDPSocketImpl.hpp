@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <poll.h>
+#include <stdexcept>
 #include <sys/socket.h>
 
 #include "UDPSocketImpl.hpp"
@@ -14,7 +15,7 @@ class PosixUDPSocketImpl : public UDPSocketImpl
 public:
 
     // Constructs a new POSIX UDP socket
-    PosixUDPSocketImpl();
+    PosixUDPSocketImpl() throw(std::runtime_error);
 
     // Closes the associated socket.
     virtual ~PosixUDPSocketImpl();

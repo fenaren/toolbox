@@ -20,7 +20,7 @@
 //==============================================================================
 // Initializes platform-specific UDP socket
 //==============================================================================
-PosixUDPSocketImpl::PosixUDPSocketImpl() :
+PosixUDPSocketImpl::PosixUDPSocketImpl() throw(std::runtime_error) :
     blocking_timeout(0.0)
 {
     // Create the socket

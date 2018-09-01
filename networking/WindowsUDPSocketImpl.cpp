@@ -9,7 +9,7 @@
 //=============================================================================
 // Creates the socket
 //=============================================================================
-WindowsUDPSocketImpl::WindowsUDPSocketImpl() :
+WindowsUDPSocketImpl::WindowsUDPSocketImpl() throw(std::runtime_error) :
     UDPSocketImpl(),
     is_blocking(false)
 {

@@ -10,7 +10,7 @@ class TCPSocket : public Socket
 public:
 
     // Does nothing but call parent constructor.
-    TCPSocket();
+    TCPSocket() throw(std::runtime_error);
 
     // Does nothing.
     virtual ~TCPSocket();

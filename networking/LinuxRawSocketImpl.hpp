@@ -2,6 +2,7 @@
 #define LINUX_RAW_SOCKET_IMPL_HPP
 
 #include <linux/if_packet.h>
+#include <stdexcept>
 
 #include "RawSocketImpl.hpp"
 
@@ -12,7 +13,7 @@ class LinuxRawSocketImpl : public RawSocketImpl
 public:
 
     // Constructs a new Linux raw socket.
-    LinuxRawSocketImpl();
+    LinuxRawSocketImpl() throw(std::runtime_error);
 
     // Closes the associated socket.
     virtual ~LinuxRawSocketImpl();

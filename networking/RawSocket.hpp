@@ -1,6 +1,7 @@
 #if !defined RAW_SOCKET_HPP
 #define RAW_SOCKET_HPP
 
+#include <stdexcept>
 #include <string>
 
 #include "Socket.hpp"
@@ -12,7 +13,7 @@ class RawSocket : public Socket
 public:
 
     // Does nothing but call parent constructor.
-    RawSocket();
+    RawSocket() throw(std::runtime_error);
 
     // Does nothing.
     virtual ~RawSocket();

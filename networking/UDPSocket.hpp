@@ -1,6 +1,9 @@
 #if !defined UDP_SOCKET_HPP
 #define UDP_SOCKET_HPP
 
+#include <stdexcept>
+#include <string>
+
 #include "Socket.hpp"
 
 class UDPSocketImpl;
@@ -10,7 +13,7 @@ class UDPSocket : public Socket
 public:
 
     // Does nothing but call parent constructor.
-    UDPSocket();
+    UDPSocket() throw(std::runtime_error);
 
     // Does nothing.
     virtual ~UDPSocket();

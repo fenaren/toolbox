@@ -22,7 +22,7 @@
 //==============================================================================
 // Creates a Linux raw socket
 //==============================================================================
-LinuxRawSocketImpl::LinuxRawSocketImpl() :
+LinuxRawSocketImpl::LinuxRawSocketImpl() throw(std::runtime_error) :
     blocking_timeout(0.0)
 {
     // Zero out input and output interface structures

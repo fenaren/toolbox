@@ -1,6 +1,7 @@
 #if !defined WINDOWS_RAW_SOCKET_IMPL_HPP
 #define WINDOWS_RAW_SOCKET_IMPL_HPP
 
+#include <stdexcept>
 #include <WinSock2.h>
 
 #include "RawSocketImpl.hpp"
@@ -12,7 +13,7 @@ public:
 
     // Constructs a new Windows socket.  The 'protocol' argument should be an
     // IPPROTO_* enumeration value (defined in ws2def.h)
-    explicit WindowsRawSocketImpl(int protocol);
+    explicit WindowsRawSocketImpl(int protocol) throw(std::runtime_error);
 
     // Closes the associated socket.
     virtual ~WindowsRawSocketImpl();

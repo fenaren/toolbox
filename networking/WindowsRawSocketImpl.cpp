@@ -15,7 +15,8 @@
 //=============================================================================
 // Creates a Windows raw socket
 //=============================================================================
-WindowsRawSocketImpl::WindowsRawSocketImpl(int protocol) :
+WindowsRawSocketImpl::
+WindowsRawSocketImpl(int protocol) throw (std::runtime_error) :
     SocketImpl(),
     socket_fd(INVALID_SOCKET),
     is_blocking(true)

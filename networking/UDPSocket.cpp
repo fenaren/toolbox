@@ -12,7 +12,7 @@
 //=============================================================================
 // Creates a platform-specific UDP socket
 //=============================================================================
-UDPSocket::UDPSocket() :
+UDPSocket::UDPSocket() throw (std::runtime_error) :
     Socket()
 {
     // Get an platform-specific UDP socket

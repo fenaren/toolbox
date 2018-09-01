@@ -2,6 +2,7 @@
 #define WINDOWS_UDP_SOCKET_IMPL_HPP
 
 #include <WinSock2.h>
+#include <stdexcept>
 
 #include "UDPSocketImpl.hpp"
 
@@ -11,7 +12,7 @@ class WindowsUDPSocketImpl : public UDPSocketImpl
 public:
 
     // Constructs a new socket that will use the given protocol.
-    WindowsUDPSocketImpl();
+    WindowsUDPSocketImpl() throw(std::runtime_error);
 
     // Closes the associated socket.
     virtual ~WindowsUDPSocketImpl();

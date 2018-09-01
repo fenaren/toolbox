@@ -12,7 +12,7 @@
 //=============================================================================
 // Creates a platform-specific TCP socket
 //=============================================================================
-TCPSocket::TCPSocket() :
+TCPSocket::TCPSocket() throw (std::runtime_error) :
     Socket()
 {
     // Get a platform-specific socket

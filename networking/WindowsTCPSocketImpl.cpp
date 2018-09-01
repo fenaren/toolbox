@@ -10,7 +10,7 @@
 //=============================================================================
 // Creates the socket
 //=============================================================================
-WindowsTCPSocketImpl::WindowsTCPSocketImpl() :
+WindowsTCPSocketImpl::WindowsTCPSocketImpl() throw(std::runtime_error) :
     TCPSocketImpl(),
     is_blocking(false)
 {

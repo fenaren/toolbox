@@ -22,7 +22,7 @@
 //==============================================================================
 // Creates a Posix TCP socket
 //==============================================================================
-PosixTCPSocketImpl::PosixTCPSocketImpl() :
+PosixTCPSocketImpl::PosixTCPSocketImpl() throw(std::runtime_error) :
     blocking_timeout(0.0)
 {
     // Create the socket

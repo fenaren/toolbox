@@ -1,6 +1,7 @@
 #if !defined WINDOWS_TCP_SOCKET_IMPL_HPP
 #define WINDOWS_TCP_SOCKET_IMPL_HPP
 
+#include <stdexcept>
 #include <winsock2.h>
 
 #include "TCPSocketImpl.hpp"
@@ -11,7 +12,7 @@ class WindowsTCPSocketImpl : public TCPSocketImpl
 public:
 
     // Constructs a new socket that will use the given protocol.
-    WindowsTCPSocketImpl();
+    WindowsTCPSocketImpl() throw(std::runtime_error);
 
     // Closes the associated socket.
     virtual ~WindowsTCPSocketImpl();

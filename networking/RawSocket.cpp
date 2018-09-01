@@ -12,7 +12,7 @@
 //==============================================================================
 // Creates a platform-specific raw socket
 //==============================================================================
-RawSocket::RawSocket() :
+RawSocket::RawSocket() throw(std::runtime_error) :
     Socket()
 {
     // Get a platform-specific socket

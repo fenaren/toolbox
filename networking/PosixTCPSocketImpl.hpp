@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <poll.h>
+#include <stdexcept>
 #include <sys/socket.h>
 
 #include "TCPSocketImpl.hpp"
@@ -14,7 +15,7 @@ class PosixTCPSocketImpl : public TCPSocketImpl
 public:
 
     // Constructs a new Posix TCP socket.
-    PosixTCPSocketImpl();
+    PosixTCPSocketImpl() throw(std::runtime_error);
 
     // Closes the associated socket.
     virtual ~PosixTCPSocketImpl();
