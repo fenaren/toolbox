@@ -78,3 +78,5 @@ branchStagesD = [
   //doStages(branchStagesD)
 //},
 //failFast: false
+
+echo something
