@@ -2,44 +2,90 @@
 
 @Library(value="jenkins-sl@master")
 
-stages = [
+repoUrl = "http://gitlab.dmz/leighgarbs/toolbox.git"
 
-  [name: 'Checkout',
+branchStagesA = [
+
+  [name: "Checkout",
    body: stageCheckout,
-   args:  ["http://gitlab.dmz/leighgarbs/toolbox.git"]],
+   args: [repoUrl]],
 
-  [name: 'cppcheck',
+  [name: "cppcheck",
    body: stageCppcheck,
-   args: ["--suppress=unusedFunction"]],
+   args: ["--suppress=unusedFunction"]]
 
-  [name: 'Release Build',
+]
+
+branchStagesB = [
+
+  [name: "Checkout",
+   body: stageCheckout,
+   args: [repoUrl]]
+
+  [name: "Release Build",
    body: stageBuild,
-   args: ['release', 'tests']],
+   args: ["release", "tests"]],
 
-  [name: 'Release Tests',
+  [name: "Release Tests",
    body: stageTests,
-   args: []],
-
-  [name: 'Debug Build',
-   body: stageBuild,
-   args: ['debug', 'tests']],
-
-  [name: 'Debug Tests',
-   body: stageTests,
-   args: []],
-
-  [name: 'Valgrind',
-   body: stageValgrind,
-   args: []],
-
-  [name: 'Clang Static Analyzer',
-   body: stageClangStaticAnalysis,
-   args: []],
-
-  [name: 'Detect Warnings',
-   body: stageDetectWarnings,
    args: []]
 
 ]
 
-doStages(stages)
+branchStagesC = [
+
+  [name: 'Checkout',
+   body: stageCheckout,
+   args: [repoUrl]]
+
+  [name: "Debug Build",
+   body: stageBuild,
+   args: ["debug", "tests"]],
+
+  [name: "Debug Tests",
+   body: stageTests,
+   args: []],
+
+  [name: "Valgrind",
+   body: stageValgrind,
+   args: []]
+
+]
+
+branchStagesD = [
+
+  [name: "Checkout",
+   body: stageCheckout,
+   args: []],
+
+  [name: "Clang Static Analyzer",
+   body: stageClangStaticAnalysis,
+   args: []],
+
+//  [name: "Detect Warnings",
+//   body: stageDetectWarnings,
+//   args: []]
+
+]
+
+branches["A"] =
+{
+  doStages(branchStagesA)
+}
+
+branches["B"] =
+{
+  doStages(branchStagesB)
+}
+
+branches["C"] =
+{
+  doStages(branchStagesC)
+}
+
+branches["D"] =
+{
+  doStages(branchStagesD)
+}
+
+parallel branches
