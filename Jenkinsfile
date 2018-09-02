@@ -68,19 +68,12 @@ branchStagesD = [
 
 ]
 
-parallel branchA:
-{
+parallel branchA: {
   //doStages(branchStagesA)
-},
-branchB:
-{
+}, branchB: {
   //doStages(branchStagesB)
-},
-branchC:
-{
+}, branchC: {
   //doStages(branchStagesC)
-},
-branchD:
-{
+}, branchD: {
   //doStages(branchStagesD)
 }
