@@ -76,4 +76,5 @@ parallel branchA: {
   //doStages(branchStagesC)
 }, branchD: {
   //doStages(branchStagesD)
-}
+},
+failFast: false
