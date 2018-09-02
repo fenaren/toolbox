@@ -70,22 +70,22 @@ branchStagesD = [
 
 branches["A"] =
 {
-  doStages(branchStagesA)
+  //doStages(branchStagesA)
 }
 
 branches["B"] =
 {
-  doStages(branchStagesB)
+  //doStages(branchStagesB)
 }
 
 branches["C"] =
 {
-  doStages(branchStagesC)
+  //doStages(branchStagesC)
 }
 
 branches["D"] =
 {
-  doStages(branchStagesD)
+  //doStages(branchStagesD)
 }
 
 parallel branches
