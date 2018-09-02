@@ -68,8 +68,7 @@ branchStagesD = [
 
 ]
 
-parallel
-branchA:
+parallel branchA:
 {
   //doStages(branchStagesA)
 },
