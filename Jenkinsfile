@@ -4,7 +4,7 @@
 
 repoUrl = "http://gitlab.dmz/leighgarbs/toolbox.git"
 
-branchStagesA = [
+def branchStagesA = [
 
   [name: "Checkout",
    body: stageCheckout,
@@ -16,7 +16,7 @@ branchStagesA = [
 
 ]
 
-branchStagesB = [
+def branchStagesB = [
 
   [name: "Checkout",
    body: stageCheckout,
@@ -32,7 +32,7 @@ branchStagesB = [
 
 ]
 
-branchStagesC = [
+def branchStagesC = [
 
   [name: 'Checkout',
    body: stageCheckout,
@@ -52,7 +52,7 @@ branchStagesC = [
 
 ]
 
-branchStagesD = [
+def branchStagesD = [
 
   [name: "Checkout",
    body: stageCheckout,
