@@ -11,6 +11,8 @@ public:
 
     virtual ~Test();
 
+    bool run() = 0;
+
 protected:
 
 private:
