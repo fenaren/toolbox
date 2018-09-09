@@ -107,9 +107,9 @@ int main(int argc, char** argv)
     Ipv4Address testipv42(testipv4str);
     unsigned char testcipv42[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     char shouldbe[] = {1, 2, 3, 4};
-    testipv42.writeRaw(testcipv42);
+    testipv42.write(testcipv42);
     bool write_success =
-        memcmp(testcipv42, shouldbe, Ipv4Address::IPV4_LENGTH_BYTES) == 0;
+        memcmp(testcipv42, shouldbe, Ipv4Address::LENGTH_BYTES) == 0;
     if (!write_success)
     {
         std::cout << "Write test failed\n";

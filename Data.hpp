@@ -6,7 +6,7 @@ class Data
 public:
 
     // Stores length internally, that's it
-    Data(unsigned int length);
+    Data();
 
     // Does nothing
     virtual ~Data();
@@ -16,17 +16,6 @@ public:
 
     // Writes raw data to memory based on internal state
     virtual void write(unsigned char* buffer) const = 0;
-
-    unsigned int getLength() const;
-
-private:
-
-    unsigned int length;
 };
-
-inline unsigned int Data::getLength() const
-{
-    return length;
-}
 
 #endif
