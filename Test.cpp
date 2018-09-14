@@ -1,8 +1,7 @@
 #include "Test.hpp"
 
 //==============================================================================
-Test::Test(int argc, char** argv) :
-    Program(argc, argv)
+Test::Test()
 {
 }
 

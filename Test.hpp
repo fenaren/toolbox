@@ -3,20 +3,24 @@
 
 #include "Program.hpp"
 
-class Test : public Program
+class Test
 {
 public:
 
-    Test(int argc, char** argv);
+    // Executed tests report one of these
+    enum Result
+    {
+        PASSED,
+        FAILED,
+        SKIPPED
+    };
+
+    Test();
 
     virtual ~Test();
 
-    bool run() = 0;
-
-protected:
-
-private:
-
+    // Derived classes should override this to implement the desired test
+    virtual Result run() = 0;
 };
 
 #endif
