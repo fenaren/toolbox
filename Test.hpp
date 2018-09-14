@@ -8,9 +8,9 @@ public:
     // Executed tests report one of these
     enum Result
     {
-        PASSED,
-        FAILED,
-        SKIPPED
+        PASSED  = 0,
+        FAILED  = 1,
+        SKIPPED = 2
     };
 
     Test();

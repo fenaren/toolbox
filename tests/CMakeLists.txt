@@ -11,7 +11,7 @@ set(LINK_LIBRARIES ${PROJECT_NAME})
 
 add_test_executable(FixedRateProgram.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(Ipv4Address.ut      "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
-add_test_executable(Log.ut              "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_test_executable(LogUT               "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(MacAddress.ut       "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(OnlineStatistics.ut "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(PosixTimespec.ut    "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
