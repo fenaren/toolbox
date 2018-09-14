@@ -13,19 +13,20 @@ public:
 
     virtual ~TestCases();
 
-    // Derived classes should override this to implement the desired test
-    virtual int run();
+    virtual Test::Result run();
 
 protected:
 
-    void addTest(Test* test);
+    virtual void addTestCases() = 0;
+
+    void addTestCase(Test* test);
 
 private:
 
     std::vector<Test*> test_cases;
 };
 
-inline void TestCases::addTest(Test* test)
+inline void TestCases::addTestCase(Test* test)
 {
     test_cases.push_back(test);
 }

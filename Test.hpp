@@ -8,9 +8,9 @@ public:
     // Executed tests report one of these
     enum Result
     {
-        PASSED  = 0,
-        FAILED  = 1,
-        SKIPPED = 2
+        PASSED,
+        FAILED,
+        SKIPPED
     };
 
     Test();
@@ -18,7 +18,7 @@ public:
     virtual ~Test();
 
     // Derived classes should override this to implement the desired test
-    virtual int run() = 0;
+    virtual Result run() = 0;
 };
 
 #endif

@@ -14,7 +14,7 @@ TestCases::~TestCases()
 }
 
 //==============================================================================
-int TestCases::run()
+Test::Result TestCases::run()
 {
     // Run all test cases, collecting information on their results as we go
     bool any_failed = false;
@@ -23,7 +23,7 @@ int TestCases::run()
          i != test_cases.end();
          ++i)
     {
-        Test::Result result = static_cast<Test::Result>((*i)->run());
+        Test::Result result = (*i)->run();
 
         if (result == Test::FAILED)
         {
