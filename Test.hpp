@@ -1,8 +1,6 @@
 #if !defined TEST_HPP
 #define TEST_HPP
 
-#include "Program.hpp"
-
 class Test
 {
 public:
