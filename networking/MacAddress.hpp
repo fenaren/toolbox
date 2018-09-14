@@ -35,10 +35,10 @@ class MacAddress : public NetworkAddress
     MacAddress& operator=(const std::string& mac_address_str);
 
     // MAC addresses are this many bytes long
-    static const unsigned short MAC_LENGTH_BYTES = 6;
+    static const unsigned short LENGTH_BYTES = 6;
 
     // MAC address strings are this many characters long
-    static const unsigned short MAC_MAX_STR_LENGTH_CHARS = 18;
+    static const unsigned short MAX_STR_LENGTH_CHARS = 18;
 };
 
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);

@@ -7,22 +7,30 @@
 #include <string>
 #include <vector>
 
-#include "Data.hpp"
 #include "Ipv4Address.hpp"
 
 //==============================================================================
 // Does nothing
 //==============================================================================
 Ipv4Address::Ipv4Address() :
-    Data()
+    Data(4, 16)
 {
+}
+
+//==============================================================================
+// A shortcut to read()
+//==============================================================================
+Ipv4Address::Ipv4Address(unsigned char* buf) :
+    Data(4, 16)
+{
+    read(buf);
 }
 
 //==============================================================================
 // Initializes to match the given string
 //==============================================================================
 Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
-    Data()
+    Data(4, 16)
 {
     *this = ipv4_address_str;
 }
@@ -31,7 +39,7 @@ Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
 // Copy constructor; copies the address of the given IPv4 address
 //==============================================================================
 Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
-    Data()
+    Data(4, 16)
 {
     *this = ipv4_address;
 }
@@ -44,13 +52,21 @@ Ipv4Address::~Ipv4Address()
 }
 
 //==============================================================================
-void Ipv4Address::read(const unsigned char* buffer)
+void Ipv4Address::read(unsigned char* buffer)
 {
+    for (unsigned int i = 0; i < LENGTH_BYTES; i++)
+    {
+        octets[i] = static_cast<unsigned int>(*buffer);
+    }
 }
 
 //==============================================================================
 void Ipv4Address::write(unsigned char* buffer) const
 {
+    for (unsigned int i = 0; i < LENGTH_BYTES; i++)
+    {
+        *buffer = static_cast<unsigned char>(octets[i]);
+    }
 }
 
 //==============================================================================
@@ -181,15 +197,10 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 bool
 operator==(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
 {
-    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; i++)
-    {
-        if (ipv4_address1.getOctet(i) != ipv4_address2.getOctet(i))
-        {
-            return false;
-        }
-    }
-
-    return true;
+    return ipv4_address1.getOctet(1) == ipv4_address2.getOctet(1) &&
+        ipv4_address1.getOctet(2) == ipv4_address2.getOctet(2) &&
+        ipv4_address1.getOctet(3) == ipv4_address2.getOctet(3) &&
+        ipv4_address1.getOctet(4) == ipv4_address2.getOctet(4);
 }
 
 //==============================================================================

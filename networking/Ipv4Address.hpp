@@ -22,7 +22,7 @@ public:
 
     // Constructs a new Ipv4Address, initialized to a copy of the raw address at
     // the indicated location.
-    explicit Ipv4Address(const unsigned char* raw_address);
+    explicit Ipv4Address(unsigned char* buf);
 
     // Constructs a new Ipv4Address matching the given string representation.
     explicit Ipv4Address(const std::string& ipv4_address_str);
@@ -34,9 +34,9 @@ public:
     // dynamically allocate memory.
     virtual ~Ipv4Address();
 
-    virtual void read(const unsigned char* buffer);
+    virtual void read(unsigned char* buf);
 
-    virtual void write(unsigned char* buffer) const;
+    virtual void write(unsigned char* buf) const;
 
     // Allows a user to set a particular octet, numbered 0-3
     void setOctet(unsigned int octet, unsigned int value);
