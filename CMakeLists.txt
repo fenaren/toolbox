@@ -19,7 +19,8 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Test.cpp)
+  ${CMAKE_CURRENT_LIST_DIR}/Test.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/TestCases.cpp)
 
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
