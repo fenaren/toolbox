@@ -3,22 +3,27 @@
 #include <string>
 #include <vector>
 
+#include "Ipv4AddressTest.hpp"
+
 #include "Ipv4Address.hpp"
+#include "Test.hpp"
+#include "TestProgram.hpp"
 
-int main(int argc, char** argv)
+TEST_PROGRAM_MAIN(Ipv4AddressTest);
+
+//==============================================================================
+Ipv4AddressTest::Ipv4AddressTest()
 {
-    // We can fail this test (return non-zero) on purpose if we explicitly ask
-    // for it, useful for testing the test harness
-    bool fail_on_purpose = false;
+}
 
-    for (int i = 1; i < argc; i++)
-    {
-        if (std::string(argv[i]) == "-F")
-        {
-            fail_on_purpose = true;
-        }
-    }
+//==============================================================================
+Ipv4AddressTest::~Ipv4AddressTest()
+{
+}
 
+//==============================================================================
+Test::Result Ipv4AddressTest::run()
+{
     // Initialize vector of test IPv4 addresses; THESE MUST ALL BE UNIQUE
     std::vector<std::string> unique_ipv4_addresses;
 
@@ -28,14 +33,6 @@ int main(int argc, char** argv)
     unique_ipv4_addresses.push_back("01.02.200.201");
     unique_ipv4_addresses.push_back("192.168.1.1");
     unique_ipv4_addresses.push_back("255.255.255.255");
-
-    if (fail_on_purpose)
-    {
-        // Add a duplicate IPv4 address; this will be detected below and the test
-        // should fail
-        std::cout << "FAILING ON PURPOSE, adding duplicate IPv4 address\n";
-        unique_ipv4_addresses.push_back(unique_ipv4_addresses[0]);
-    }
 
     // Failed cases are recorded here and output at the end of the test
     std::vector<std::pair<unsigned int, unsigned int> > failed_eqineq_cases;
@@ -118,7 +115,11 @@ int main(int argc, char** argv)
     std::string testipv42str = testipv42;
     std::cout << testipv42str << "\n";
 
-    // This unit test passes if no failed cases were recorded; remember that a
-    // zero return value means success
-    return !(failed_eqineq_cases.size() == 0 && read_success && write_success);
+    // This unit test passes if no failed cases were recorded
+    if (failed_eqineq_cases.size() == 0 && read_success && write_success)
+    {
+        return Test::PASSED;
+    }
+
+    return Test::FAILED;
 }

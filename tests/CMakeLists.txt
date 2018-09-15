@@ -19,8 +19,8 @@ add_test_executable(FixedRateProgramTest
                     "${INCLUDE_DIRS}"
                     "${LINK_LIBRARIES}")
 
-#add_test_executable_simple(
-#  Ipv4AddressTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_test_executable_simple(
+  Ipv4AddressTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 add_test_executable_simple(
   LogTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
