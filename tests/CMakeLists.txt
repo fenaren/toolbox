@@ -1,3 +1,5 @@
+add_custom_target(${PROJECT_NAME}-tests)
+
 # Include common project setup
 include(${CMAKE_CURRENT_LIST_DIR}/../common/ProjectCommon.cmake)
 
