@@ -11,7 +11,8 @@ set(INCLUDE_DIRS
 set(LINK_LIBRARIES ${PROJECT_NAME})
 
 set(FIXED_RATE_PROGRAM_TEST_SOURCE
-    ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgramTest.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgramTest.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/TestFRP.cpp)
 
 add_test_executable(FixedRateProgramTest
                     "${FIXED_RATE_PROGRAM_TEST_SOURCE}"
