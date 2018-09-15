@@ -28,8 +28,8 @@ add_test_executable_simple(
 add_test_executable_simple(
   MacAddressTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
-#add_test_executable_simple(
-#  OnlineStatisticsTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_test_executable_simple(
+  OnlineStatisticsTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 #add_test_executable_simple(
 #  PosixTimespecTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")

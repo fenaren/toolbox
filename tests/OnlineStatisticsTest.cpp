@@ -3,14 +3,26 @@
 #include <iostream>
 #include <string>
 
-#include "OnlineStatistics.hpp"
+#include "OnlineStatisticsTest.hpp"
 
-bool withinEpsilonOf(double a, double b, double epsilon)
+#include "OnlineStatistics.hpp"
+#include "Test.hpp"
+#include "TestProgram.hpp"
+
+TEST_PROGRAM_MAIN(OnlineStatisticsTest);
+
+//==============================================================================
+OnlineStatisticsTest::OnlineStatisticsTest()
 {
-    return a <= (b + epsilon) && a >= (b - epsilon);
 }
 
-int main(int argc, char** argv)
+//==============================================================================
+OnlineStatisticsTest::~OnlineStatisticsTest()
+{
+}
+
+//==============================================================================
+Test::Result OnlineStatisticsTest::run()
 {
     double epsilon = 0.00000001;
 
@@ -20,7 +32,7 @@ int main(int argc, char** argv)
     std::ifstream resultstream("OnlineStatisticsTest.result.txt");
     if (resultstream.fail())
     {
-        return 1;
+        return Test::FAILED;
     }
 
     double mean = 0.0;
@@ -34,7 +46,7 @@ int main(int argc, char** argv)
     std::ifstream datastream("OnlineStatisticsTest.data.txt");
     if (datastream.fail())
     {
-        return 1;
+        return Test::FAILED;
     }
 
     // Suck in all the data
@@ -56,8 +68,19 @@ int main(int argc, char** argv)
               << "Min "     << stats.getMinimumSample() << "\n"
               << "Max "     << stats.getMaximumSample() << "\n";
 
-    return !(withinEpsilonOf(mean, stats.getMean(), epsilon) &&
-             withinEpsilonOf(stddev, stats.getStandardDeviation(), epsilon) &&
-             withinEpsilonOf(min, stats.getMinimumSample(), epsilon) &&
-             withinEpsilonOf(max, stats.getMaximumSample(), epsilon));
+    if (withinEpsilonOf(mean,   stats.getMean(),              epsilon) &&
+        withinEpsilonOf(stddev, stats.getStandardDeviation(), epsilon) &&
+        withinEpsilonOf(min,    stats.getMinimumSample(),     epsilon) &&
+        withinEpsilonOf(max,    stats.getMaximumSample(),     epsilon))
+    {
+        return Test::PASSED;
+    }
+
+    return Test::FAILED;
+}
+
+//==============================================================================
+bool OnlineStatisticsTest::withinEpsilonOf(double a, double b, double epsilon)
+{
+    return a <= (b + epsilon) && a >= (b - epsilon);
 }
