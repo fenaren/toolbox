@@ -1,5 +1,5 @@
-#if !defined FIXED_RATE_PROGRAM
-#define FIXED_RATE_PROGRAM
+#if !defined FIXED_RATE_PROGRAM_HPP
+#define FIXED_RATE_PROGRAM_HPP
 
 #include "Program.hpp"
 
