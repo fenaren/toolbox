@@ -6,7 +6,7 @@
 #include "Test.hpp"
 #include "TestProgram.hpp"
 
-DEFINE_TEST_MAIN(LogTest);
+TEST_PROGRAM_MAIN(LogTest);
 
 //==============================================================================
 LogTest::LogTest()

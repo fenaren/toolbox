@@ -8,7 +8,7 @@ set(INCLUDE_DIRS
 
 set(LINK_LIBRARIES ${PROJECT_NAME})
 
-#add_test_executable(FixedRateProgramTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_test_executable(FixedRateProgramTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 #add_test_executable(Ipv4AddressTest      "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 add_test_executable(LogTest              "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 #add_test_executable(MacAddressTest       "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")

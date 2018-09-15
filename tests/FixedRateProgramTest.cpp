@@ -1,23 +1,22 @@
-#include <iostream>
+#include "FixedRateProgramTest.hpp"
 
-#include "FixedRateProgram.hpp"
+#include "Test.hpp"
+#include "TestProgram.hpp"
 
-#include "PosixTimespec.hpp"
+TEST_PROGRAM_MAIN(FixedRateProgramTest);
 
-class TestFRP : public FixedRateProgram
+//==============================================================================
+FixedRateProgramTest::FixedRateProgramTest()
 {
-public:
-    TestFRP(int argc, char** argv, const PosixTimespec& period) :
-        FixedRateProgram(argc, argv, period) {};
+}
 
-    virtual void step() { std::cout << "Step\n"; setTerminate(true); }
-};
-
-int main(int argc, char** argv)
+//==============================================================================
+FixedRateProgramTest::~FixedRateProgramTest()
 {
-    TestFRP test_frp(argc, argv, 1.0);
+}
 
-    test_frp.run();
-
-    return 0;
+//==============================================================================
+Test::Result FixedRateProgramTest::run()
+{
+    return Test::PASSED;
 }
