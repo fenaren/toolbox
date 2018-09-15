@@ -6,6 +6,8 @@
 #include "Test.hpp"
 #include "TestProgram.hpp"
 
+DEFINE_TEST_MAIN(LogTest);
+
 //==============================================================================
 LogTest::LogTest()
 {
@@ -30,12 +32,4 @@ Test::Result LogTest::run()
     log.writeError("message3");
 
     return Test::PASSED;
-}
-
-//==============================================================================
-int main(int argc, char** argv)
-{
-    LogTest test;
-    TestProgram testprogram(argc, argv, &test);
-    return testprogram.run();
 }

@@ -3,6 +3,14 @@
 
 #include "Program.hpp"
 
+#define DEFINE_TEST_MAIN(TestClass)                 \
+    int main(int argc, char** argv)                 \
+    {                                               \
+        TestClass test;                             \
+        TestProgram testprogram(argc, argv, &test); \
+        return testprogram.run();                   \
+    }
+
 class Test;
 
 class TestProgram : public Program

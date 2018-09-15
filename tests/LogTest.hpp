@@ -8,7 +8,6 @@ class LogTest : public Test
 public:
 
     LogTest();
-
     ~LogTest();
 
     // Implements the test
