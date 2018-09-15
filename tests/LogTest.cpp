@@ -4,6 +4,7 @@
 
 #include "Log.hpp"
 #include "Test.hpp"
+#include "TestProgram.hpp"
 
 //==============================================================================
 LogTest::LogTest()
@@ -29,4 +30,12 @@ Test::Result LogTest::run()
     log.writeError("message3");
 
     return Test::PASSED;
+}
+
+//==============================================================================
+int main(int argc, char** argv)
+{
+    LogTest test;
+    TestProgram testprogram(argc, argv, &test);
+    return testprogram.run();
 }
