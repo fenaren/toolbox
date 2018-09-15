@@ -22,7 +22,7 @@ Test::Result FixedRateProgramTest::run()
 {
     // Normally it would not be possible for a program to receive no arguments
     TestFRP test_frp(0, 0, period);
-    test_frp.step();
+    test_frp.run();
 
     return Test::PASSED;
 }
