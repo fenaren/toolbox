@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     // The test subject
     OnlineStatistics stats;
 
-    std::ifstream resultstream("OnlineStatistics.ut.result.txt");
+    std::ifstream resultstream("OnlineStatisticsTest.result.txt");
     if (resultstream.fail())
     {
         return 1;
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     resultstream >> mean >> stddev >> min >> max;
 
     // This file has the raw data in it, one datum per line
-    std::ifstream datastream("OnlineStatistics.ut.data.txt");
+    std::ifstream datastream("OnlineStatisticsTest.data.txt");
     if (datastream.fail())
     {
         return 1;
