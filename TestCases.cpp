@@ -16,6 +16,8 @@ TestCases::~TestCases()
 //==============================================================================
 Test::Result TestCases::run()
 {
+    addTestCases();
+
     // Run all test cases, collecting information on their results as we go
     bool any_failed = false;
     bool any_passed = false;

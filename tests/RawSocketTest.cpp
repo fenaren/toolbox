@@ -30,8 +30,7 @@ Test::Result RawSocketTest::run()
     catch (std::runtime_error ex)
     {
         // This will happen if this test is run in an environment where raw
-        // sockets are not permitted.  In this case return 2, which indicates
-        // this test is skipped.
+        // sockets are not permitted.
         return Test::SKIPPED;
     }
 

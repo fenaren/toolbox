@@ -40,8 +40,15 @@ add_test_executable_simple(
 add_test_executable_simple(
   RawSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
-#add_test_executable_simple(
-#  TCPSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+set(TCP_SOCKET_TEST_SOURCE
+    ${CMAKE_CURRENT_LIST_DIR}/TCPSocketTest.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/TCPSocketTest_case1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/TCPSocketTest_case2.cpp)
+
+add_test_executable(TCPSocketTest
+                    "${TCP_SOCKET_TEST_SOURCE}"
+                    "${INCLUDE_DIRS}"
+                    "${LINK_LIBRARIES}")
 
 #add_test_executable_simple(
 #  UDPSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")

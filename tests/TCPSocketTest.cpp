@@ -1,9 +1,31 @@
-#include <iostream>
-#include <string.h>
+#include "TCPSocketTest.hpp"
 
 #include "TCPSocket.hpp"
+#include "TCPSocketTest_case1.hpp"
+#include "TCPSocketTest_case2.hpp"
+#include "TestCases.hpp"
+#include "TestProgramMain.hpp"
 
-bool case1()
+TEST_PROGRAM_MAIN(TCPSocketTest);
+
+//==============================================================================
+TCPSocketTest::TCPSocketTest()
+{
+}
+
+//==============================================================================
+TCPSocketTest::~TCPSocketTest()
+{
+}
+
+//==============================================================================
+void TCPSocketTest::addTestCases()
+{
+    addTestCase(&case1);
+    addTestCase(&case2);
+}
+
+/*bool case1()
 {
     unsigned int port = 0;  // Use whatever port is available
 
@@ -223,9 +245,4 @@ int case2()
     delete socket5;
 
     return true;
-}
-
-int main(int argc, char** argv)
-{
-    return !(case1() && case2());
-}
+    }*/
