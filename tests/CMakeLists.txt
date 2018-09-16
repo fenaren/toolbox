@@ -50,8 +50,8 @@ add_test_executable(TCPSocketTest
                     "${INCLUDE_DIRS}"
                     "${LINK_LIBRARIES}")
 
-#add_test_executable_simple(
-#  UDPSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+add_test_executable_simple(
+  UDPSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 #add_test_executable_simple(
 #  miscNetworkingTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
