@@ -53,5 +53,12 @@ add_test_executable(TCPSocketTest
 add_test_executable_simple(
   UDPSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
-#add_test_executable_simple(
-#  miscNetworkingTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+set(MISC_NETWORKING_TEST_SOURCE
+    ${CMAKE_CURRENT_LIST_DIR}/miscNetworkingTest.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/miscNetworkingTest_case1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/miscNetworkingTest_case2.cpp)
+
+add_test_executable(miscNetworkingTest
+                    "${MISC_NETWORKING_TEST_SOURCE}"
+                    "${INCLUDE_DIRS}"
+                    "${LINK_LIBRARIES}")
