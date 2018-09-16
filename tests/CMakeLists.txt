@@ -34,11 +34,11 @@ add_test_executable_simple(
 add_test_executable_simple(
   PosixTimespecTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
-add_test_executable_simple(
-  ProgramTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
-
 #add_test_executable_simple(
-#  RawSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+#  ProgramTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
+add_test_executable_simple(
+  RawSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 #add_test_executable_simple(
 #  TCPSocketTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
