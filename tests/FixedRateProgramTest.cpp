@@ -2,7 +2,7 @@
 
 #include "Test.hpp"
 #include "TestFRP.hpp"
-#include "TestProgram.hpp"
+#include "TestProgramMain.hpp"
 
 TEST_PROGRAM_MAIN(FixedRateProgramTest);
 

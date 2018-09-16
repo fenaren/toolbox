@@ -7,7 +7,7 @@
 
 #include "Ipv4Address.hpp"
 #include "Test.hpp"
-#include "TestProgram.hpp"
+#include "TestProgramMain.hpp"
 
 TEST_PROGRAM_MAIN(Ipv4AddressTest);
 
