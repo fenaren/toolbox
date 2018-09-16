@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 
 #include "TCPSocketTest_case1.hpp"
