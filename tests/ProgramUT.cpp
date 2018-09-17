@@ -20,7 +20,14 @@ int ProgramUT::run()
 {
     processDeliveredSignals();
 
-    return !signal_handled;
+    if (signal_handled)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 //==============================================================================

@@ -1,10 +1,33 @@
+#include <csignal>
+#include <iostream>
+
 #include "ProgramTest.hpp"
 
 #include "Program.hpp"
+#include "ProgramUT.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestProgram.hpp"
 
-TEST_PROGRAM_MAIN(ProgramTest);
+// Can't use the TEST_PROGRAM_MAIN macro here, need a special main to test
+// signal handling
+
+Program* program_p = 0;
+
+extern "C" void handle_signal(int sig)
+{
+    if (program_p)
+    {
+        program_p->signal(sig);
+    }
+}
+
+int main(int argc, char** argv)
+{
+    ProgramTest test;
+    TestProgram testprogram(argc, argv, &test);
+
+    return testprogram.run();
+}
 
 //==============================================================================
 ProgramTest::ProgramTest()
@@ -19,8 +42,9 @@ ProgramTest::~ProgramTest()
 //==============================================================================
 Test::Result ProgramTest::run()
 {
-/*    ProgramUT program_ut(argc, argv);
-    program_utp = &program_ut;
+    // Normally a Program would get a proper set of arguments
+    ProgramUT program_ut(0, 0);
+    program_p = &program_ut;
 
     // This has to happen after the assignment above because handle_signal
     // dereferences program_utp
@@ -41,10 +65,13 @@ Test::Result ProgramTest::run()
 
     // Raise some signals to test Program signal handling
     raise(SIGINT);
-    raise(SIGCONT);
+    //raise(SIGCONT);
 
-    // run() returns 0 if successful
-    int signal_ok = program_ut.run();
-*/
-    return Test::PASSED;
+    // Returns 0 if successful
+    if (program_ut.run() == 0)
+    {
+        return Test::PASSED;
+    }
+
+    return Test::FAILED;
 }
