@@ -34,7 +34,7 @@ add_test_executable_simple(
 add_test_executable_simple(
   PosixTimespecTest "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
-set(PROGRAM_TEST_SOURCE ProgramTest.cpp)
+set(PROGRAM_TEST_SOURCE ProgramTest.cpp ProgramUT.cpp)
 
 add_test_executable(ProgramTest
                     "${PROGRAM_TEST_SOURCE}"
