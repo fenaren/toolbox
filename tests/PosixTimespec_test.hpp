@@ -28,6 +28,7 @@ public:
         timespec result;
     };
 
+    // Neither of these do anything
     PosixTimespec_test();
     ~PosixTimespec_test();
 

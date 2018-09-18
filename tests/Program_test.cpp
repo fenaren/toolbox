@@ -63,9 +63,8 @@ Test::Result Program_test::run()
         std::cout << *i << "\n";
     }
 
-    // Raise some signals to test Program signal handling
+    // SIGINT should be detected
     raise(SIGINT);
-    //raise(SIGCONT);
 
     // Returns 0 if successful
     if (program_ut.run() == 0)

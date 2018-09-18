@@ -9,7 +9,10 @@ class TestProgram : public Program
 {
 public:
 
+    // Constructs base class, initializes "test" class member
     TestProgram(int argc, char** argv, Test* test);
+
+    // Does nothing
     ~TestProgram();
 
     // Runs the provided test and maps the result to return codes

@@ -9,7 +9,10 @@ class FixedRateProgram_test : public Test
 {
 public:
 
+    // Constructs base class and initializes "period"
     FixedRateProgram_test();
+
+    // Does nothing
     ~FixedRateProgram_test();
 
     // Implements the test

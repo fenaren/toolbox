@@ -7,6 +7,7 @@ class OnlineStatistics_test : public Test
 {
 public:
 
+    // Neither of these do anything
     OnlineStatistics_test();
     ~OnlineStatistics_test();
 

@@ -7,6 +7,7 @@ class UDPSocket_test : public Test
 {
 public:
 
+    // Neither of these do anything
     UDPSocket_test();
     ~UDPSocket_test();
 

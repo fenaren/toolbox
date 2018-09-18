@@ -9,8 +9,8 @@ class TestCases : public Test
 {
 public:
 
+    // Neither of these does anything
     TestCases();
-
     virtual ~TestCases();
 
     // Runs all added test cases

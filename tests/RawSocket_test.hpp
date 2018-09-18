@@ -7,6 +7,7 @@ class RawSocket_test : public Test
 {
 public:
 
+    // Neither of these do anything
     RawSocket_test();
     ~RawSocket_test();
 

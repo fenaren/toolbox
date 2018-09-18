@@ -7,6 +7,7 @@ class MacAddress_test : public Test
 {
 public:
 
+    // Neither of these do anything
     MacAddress_test();
     ~MacAddress_test();
 

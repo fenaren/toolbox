@@ -7,6 +7,7 @@ class Log_test : public Test
 {
 public:
 
+    // Neither of these do anything
     Log_test();
     ~Log_test();
 

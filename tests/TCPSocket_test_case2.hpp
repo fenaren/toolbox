@@ -7,6 +7,7 @@ class TCPSocket_test_case2 : public Test
 {
 public:
 
+    // Neither of these do anything
     TCPSocket_test_case2();
     ~TCPSocket_test_case2();
 

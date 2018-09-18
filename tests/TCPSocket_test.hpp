@@ -11,6 +11,7 @@ class TCPSocket_test : public TestCases
 {
 public:
 
+    // Neither of these do anything
     TCPSocket_test();
     ~TCPSocket_test();
 

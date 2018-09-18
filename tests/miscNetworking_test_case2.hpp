@@ -7,6 +7,7 @@ class miscNetworking_test_case2 : public Test
 {
 public:
 
+    // Neither of these do anything
     miscNetworking_test_case2();
     ~miscNetworking_test_case2();
 

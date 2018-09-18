@@ -16,6 +16,8 @@ TestCases::~TestCases()
 //==============================================================================
 Test::Result TestCases::run()
 {
+    // Derived classes implement this pure virtual function to have their test
+    // cases added here
     addTestCases();
 
     // Run all test cases, collecting information on their results as we go

@@ -10,6 +10,7 @@ class miscNetworking_test : public TestCases
 {
 public:
 
+    // Neither of these do anything
     miscNetworking_test();
     ~miscNetworking_test();
 

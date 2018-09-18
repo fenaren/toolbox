@@ -7,6 +7,7 @@ class Ipv4Address_test : public Test
 {
 public:
 
+    // Neither of these does anything
     Ipv4Address_test();
     ~Ipv4Address_test();
 
