@@ -13,8 +13,8 @@ public:
         SKIPPED
     };
 
+    // Neither of these do anything
     Test();
-
     virtual ~Test();
 
     // Derived classes should override this to implement the desired test
