@@ -2,6 +2,12 @@
 
 #include "TestProgram.hpp"
 
+// Using this macro makes writing TestProgram tests which compile into
+// executables easier.  These kind of tests pretty much all share the same
+// main() definition and signal handling setup.  This macro writes all that
+// code.  This definition isn't in the TestProgram header because there's at
+// least one TestProgram use case that cannot use this macro.
+
 #define TEST_PROGRAM_MAIN(TestClass)                \
     TestProgram* testprogram_p = 0;                 \
                                                     \

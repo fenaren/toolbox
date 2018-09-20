@@ -13,7 +13,7 @@ public:
     TestCases();
     virtual ~TestCases();
 
-    // Runs all added test cases
+    // Adds all test cases by calling addTestCases(), then runs them all
     virtual Test::Result run();
 
 protected:
