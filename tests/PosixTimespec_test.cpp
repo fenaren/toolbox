@@ -1,30 +1,26 @@
 #include <iostream>
 #include <vector>
 
+#include "PosixTimespec_test.hpp"
+
 #include "PosixTimespec.hpp"
+#include "Test.hpp"
+#include "TestProgramMain.hpp"
 
-enum Greater
+TEST_PROGRAM_MAIN(PosixTimespec_test);
+
+//==============================================================================
+PosixTimespec_test::PosixTimespec_test()
 {
-    LHS,
-    RHS,
-    EQUAL
-};
+}
 
-struct TimespecGtlt
+//==============================================================================
+PosixTimespec_test::~PosixTimespec_test()
 {
-    timespec lhs;
-    timespec rhs;
-    Greater  greater;
-};
+}
 
-struct TimespecTuple
-{
-    timespec lhs;
-    timespec rhs;
-    timespec result;
-};
-
-int main(int argc, char** argv)
+//==============================================================================
+Test::Result PosixTimespec_test::run()
 {
     std::cout.precision(10);
 
@@ -372,10 +368,17 @@ int main(int argc, char** argv)
 
     std::cout << "Other failed cases: " << failed_cases.size() << "\n";
 
-    // This unit test passes if no failed cases were recorded; remember that a
-    // zero return value means success
-    return !(failed_cases.size() == 0 &&
-             addition_cases_failed.size() == 0 &&
-             subtraction_cases_failed.size() == 0 &&
-             pass_gt && pass_gteq && pass_lt && pass_lteq);
+    // This unit test passes if no failed cases were recorded
+    if (failed_cases.size() == 0 &&
+        addition_cases_failed.size() == 0 &&
+        subtraction_cases_failed.size() == 0 &&
+        pass_gt &&
+        pass_gteq &&
+        pass_lt &&
+        pass_lteq)
+    {
+        return Test::PASSED;
+    }
+
+    return Test::FAILED;
 }

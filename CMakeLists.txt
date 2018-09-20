@@ -15,10 +15,13 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
   ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgram.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp)
+  ${CMAKE_CURRENT_LIST_DIR}/Test.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/TestCases.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/TestProgram.cpp)
 
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
