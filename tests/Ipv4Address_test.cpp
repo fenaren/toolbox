@@ -51,10 +51,12 @@ Test::Result Ipv4Address_test::run()
 
             if (i == j)
             {
-                // cppcheck-suppress duplicateExpression
                 if (!(ipv4_address_i == ipv4_address_j &&
+                      // cppcheck-suppress duplicateExpression
                       ipv4_address_i == unique_ipv4_addresses[j] &&
+                      // cppcheck-suppress duplicateExpression
                       ipv4_address_j == unique_ipv4_addresses[i] &&
+                      // cppcheck-suppress duplicateExpression
                       unique_ipv4_addresses[i] == ipv4_address_j &&
                       unique_ipv4_addresses[j] == ipv4_address_i))
                 {
