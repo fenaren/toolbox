@@ -100,7 +100,7 @@ void WindowsRawSocketImpl::getInputInterface(std::string& interface_ip) const
 }
 
 inline
-void WindowsRawSocketImpl::getDestinationIP(std::string& interface_ip) const
+void WindowsRawSocketImpl::getDestinationIP(std::string& destination_ip) const
 {
     interface_ip = send_addr_str;
 }
