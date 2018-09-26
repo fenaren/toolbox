@@ -65,7 +65,7 @@ Test::Result miscNetworking_test_case2::run()
     std::size_t num_read =
         std::fread(
             from_pipe, 1, Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS - 1, fd);
-    fclose(fd);
+    pclose(fd);
 
     if (num_read != Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS - 1)
     {

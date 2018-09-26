@@ -65,7 +65,7 @@ Test::Result miscNetworking_test_case1::run()
     std::size_t num_read =
         std::fread(
             from_pipe, 1, MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1, fd);
-    fclose(fd);
+    pclose(fd);
 
     if (num_read != MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1)
     {
