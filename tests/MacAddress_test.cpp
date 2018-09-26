@@ -50,7 +50,9 @@ Test::Result MacAddress_test::run()
             if (i == j)
             {
                 if (!(mac_address_i == mac_address_j &&
+                      // cppcheck-suppress duplicateExpression
                       mac_address_i == unique_mac_addresses[j] &&
+                      // cppcheck-suppress duplicateExpression
                       mac_address_j == unique_mac_addresses[i] &&
                       unique_mac_addresses[i] == mac_address_j &&
                       unique_mac_addresses[j] == mac_address_i))
@@ -62,7 +64,9 @@ Test::Result MacAddress_test::run()
             else
             {
                 if (!(mac_address_i != mac_address_j &&
+                      // cppcheck-suppress duplicateExpression
                       mac_address_i != unique_mac_addresses[j] &&
+                      // cppcheck-suppress duplicateExpression
                       mac_address_j != unique_mac_addresses[i] &&
                       unique_mac_addresses[i] != mac_address_j &&
                       unique_mac_addresses[j] != mac_address_i))

@@ -27,7 +27,7 @@ Test::Result RawSocket_test::run()
         // make this work in an automated testing environment yet
         RawSocket raw_socket;
     }
-    catch (std::runtime_error ex)
+    catch (std::runtime_error& ex)
     {
         // This will happen if this test is run in an environment where raw
         // sockets are not permitted.

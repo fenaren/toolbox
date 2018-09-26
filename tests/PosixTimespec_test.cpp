@@ -346,7 +346,9 @@ Test::Result PosixTimespec_test::run()
             if (i == j)
             {
                 if (!(ts1 == ts2 && ts2 == ts1 &&
+                      // cppcheck-suppress duplicateExpression
                       timespecs[i] == ts2 && ts2 == timespecs[i] &&
+                      // cppcheck-suppress duplicateExpression
                       ts1 == timespecs[j] && timespecs[j] == ts1))
                 {
                     failed_cases.push_back(
@@ -356,7 +358,9 @@ Test::Result PosixTimespec_test::run()
             else
             {
                 if (!(ts1 != ts2 && ts2 != ts1 &&
+                      // cppcheck-suppress duplicateExpression
                       timespecs[i] != ts2 && ts2 != timespecs[i] &&
+                      // cppcheck-suppress duplicateExpression
                       ts1 != timespecs[j] && timespecs[j] != ts1))
                 {
                     failed_cases.push_back(
