@@ -9,7 +9,7 @@ public:
 
     // Constructs a new NetworkAddress of the specified length; data is
     // initialized to all 0s
-    NetworkAddress(unsigned short length_bytes);
+    explicit NetworkAddress(unsigned short length_bytes);
 
     // Constructs a new NetworkAddress of the specified length containing a copy
     // of the data at the specified location; only "length_bytes" amount of data
