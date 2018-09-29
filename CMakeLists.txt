@@ -21,6 +21,7 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/SimpleField.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Test.cpp
   ${CMAKE_CURRENT_LIST_DIR}/TestCases.cpp
   ${CMAKE_CURRENT_LIST_DIR}/TestProgram.cpp)
