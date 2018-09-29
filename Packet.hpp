@@ -10,8 +10,10 @@ class Packet : public Field
 {
 public:
 
-    // Neither of these does anything
-    Packet(const std::string& name = "");
+    // Sets packet name
+    explicit Packet(const std::string& name = "");
+
+    // Does nothing
     virtual ~Packet();
 
     // Reads the field from the "buffer" memory location.
@@ -33,9 +35,9 @@ private:
     std::vector<Field*> fields;
 };
 
-inline void Packet::addField(Field* test)
+inline void Packet::addField(Field* field)
 {
-    fields.push_back(test);
+    fields.push_back(field);
 }
 
 #endif

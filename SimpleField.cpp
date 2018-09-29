@@ -35,6 +35,8 @@ template <class T>
 unsigned int SimpleField<T>::readRaw(const unsigned char* buffer)
 {
     memcpy(&simple_field, buffer, sizeof(T));
+
+    return sizeof(T);
 }
 
 //==============================================================================
@@ -44,6 +46,8 @@ template <class T>
 unsigned int SimpleField<T>::writeRaw(unsigned char* buffer) const
 {
     memcpy(buffer, &simple_field, sizeof(T));
+
+    return sizeof(T);
 }
 
 //==============================================================================
