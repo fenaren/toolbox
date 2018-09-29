@@ -12,7 +12,7 @@
 // Ipv4Address constructor; initializes to all zeros
 //==============================================================================
 Ipv4Address::Ipv4Address() :
-    NetworkAddress(IPV4_LENGTH_BYTES)
+    Field()
 {
 }
 
@@ -21,15 +21,16 @@ Ipv4Address::Ipv4Address() :
 // indicated location
 //==============================================================================
 Ipv4Address::Ipv4Address(const unsigned char* raw_address) :
-    NetworkAddress(raw_address, IPV4_LENGTH_BYTES)
+    Field()
 {
+    readRaw(raw_address);
 }
 
 //==============================================================================
 // Ipv4Address constructor; initializes to match the given string
 //==============================================================================
 Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
-    NetworkAddress(IPV4_LENGTH_BYTES)
+    Field()
 {
     *this = ipv4_address_str;
 }
@@ -38,7 +39,7 @@ Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
 // Ipv4Address copy constructor; copies the address of the given IPv4 address
 //==============================================================================
 Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
-    NetworkAddress(IPV4_LENGTH_BYTES)
+    Field()
 {
     *this = ipv4_address;
 }
@@ -61,6 +62,35 @@ Ipv4Address::~Ipv4Address()
 }
 
 //==============================================================================
+// Reads the field from the "buffer" memory location.
+//==============================================================================
+unsigned int Ipv4Address::readRaw(const unsigned char* buffer)
+{
+    memcpy(ipv4_address_raw, buffer, LENGTH_BYTES);
+
+    return LENGTH_BYTES;
+}
+
+//==============================================================================
+// Writes the field to the "buffer" memory location.
+//==============================================================================
+unsigned int Ipv4Address::writeRaw(unsigned char* buffer) const
+{
+    memcpy(buffer, ipv4_address_raw, LENGTH_BYTES);
+
+    return LENGTH_BYTES;
+}
+
+//==============================================================================
+// Returns the size of this field in bytes.  This will equal the number of bytes
+// written by writeRaw() and read by readRaw().
+//==============================================================================
+unsigned int Ipv4Address::getSizeBytes() const
+{
+    return LENGTH_BYTES;
+}
+
+//==============================================================================
 // Assigns a string to a IPv4 address
 //==============================================================================
 Ipv4Address& Ipv4Address::operator=(const std::string& ipv4_address_str)
@@ -78,15 +108,15 @@ std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address)
 {
     // 16 characters for the whole representation; 12 for the actual numbers, 3
     // for the periods in-between, and 1 on the end for the null
-    char ipv4_cstr[Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS];
-    ipv4_cstr[Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS - 1] = 0;
+    char ipv4_cstr[Ipv4Address::MAX_STR_LENGTH_CHARS];
+    ipv4_cstr[Ipv4Address::MAX_STR_LENGTH_CHARS - 1] = 0;
     if (snprintf(ipv4_cstr,
-                 Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS,
+                 Ipv4Address::MAX_STR_LENGTH_CHARS,
                  "%hhu.%hhu.%hhu.%hhu",
-                 static_cast<unsigned char>(ipv4_address.at(0)),
-                 static_cast<unsigned char>(ipv4_address.at(1)),
-                 static_cast<unsigned char>(ipv4_address.at(2)),
-                 static_cast<unsigned char>(ipv4_address.at(3))) < 0)
+                 ipv4_address.getOctet(0),
+                 ipv4_address.getOctet(1),
+                 ipv4_address.getOctet(2),
+                 ipv4_address.getOctet(3)) < 0)
     {
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
@@ -102,17 +132,17 @@ std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address)
 std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 {
     // Grab characters from the stream and store temporarily
-    char tempstr[Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS];
-    is.get(tempstr, Ipv4Address::IPV4_MAX_STR_LENGTH_CHARS);
+    char tempstr[Ipv4Address::MAX_STR_LENGTH_CHARS];
+    is.get(tempstr, Ipv4Address::MAX_STR_LENGTH_CHARS);
 
-    unsigned int tempipv4[Ipv4Address::IPV4_LENGTH_BYTES];
+    unsigned int tempipv4[Ipv4Address::LENGTH_BYTES];
     // Scan the temporary string as a IPv4 address
     if (sscanf(tempstr,
                "%u.%u.%u.%u",
                &tempipv4[0],
                &tempipv4[1],
                &tempipv4[2],
-               &tempipv4[3]) != Ipv4Address::IPV4_LENGTH_BYTES)
+               &tempipv4[3]) != Ipv4Address::LENGTH_BYTES)
     {
         // We didn't convert all 4 bytes.  Leave our internal state as-is but
         // set the fail bit on the stream so the user has some way of knowing
@@ -121,9 +151,9 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
     }
 
     // Copy from temporary storage into permanent storage
-    for (unsigned int i = 0; i < Ipv4Address::IPV4_LENGTH_BYTES; i++)
+    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; i++)
     {
-        ipv4_address.at(i) = static_cast<unsigned char>(tempipv4[i]);
+        ipv4_address.setOctet(i, tempipv4[i]);
     }
 
     return is;
@@ -135,9 +165,15 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 bool
 operator==(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
 {
-    return !memcmp(&ipv4_address1.at(0),
-                   &ipv4_address2.at(0),
-                   Ipv4Address::IPV4_LENGTH_BYTES);
+    unsigned char ipv4_address_raw1[Ipv4Address::LENGTH_BYTES];
+    unsigned char ipv4_address_raw2[Ipv4Address::LENGTH_BYTES];
+
+    ipv4_address1.writeRaw(ipv4_address_raw1);
+    ipv4_address2.writeRaw(ipv4_address_raw2);
+
+    return !memcmp(&ipv4_address_raw1,
+                   &ipv4_address_raw2,
+                   Ipv4Address::LENGTH_BYTES);
 }
 
 //==============================================================================

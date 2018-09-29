@@ -7,8 +7,10 @@ class Field
 {
 public:
 
-    // Neither of these do anything
+    // Sets the name of the field
     Field(const std::string& name = "");
+
+    // Does nothing
     virtual ~Field();
 
     // Reads the field from the "buffer" memory location.
