@@ -13,9 +13,11 @@ include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
 # Add the library and all the source files in this directory
 add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/Field.cpp
   ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgram.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/Packet.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
