@@ -1,9 +1,26 @@
 #include <iostream>
 #include <string.h>
 
+#include "UDPSocket_test.hpp"
+
+#include "Test.hpp"
+#include "TestProgramMain.hpp"
 #include "UDPSocket.hpp"
 
-int main(int argc, char** argv)
+TEST_PROGRAM_MAIN(UDPSocket_test);
+
+//==============================================================================
+UDPSocket_test::UDPSocket_test()
+{
+}
+
+//==============================================================================
+UDPSocket_test::~UDPSocket_test()
+{
+}
+
+//==============================================================================
+Test::Result UDPSocket_test::run()
 {
     unsigned int port1 = 0;  // Use whatever port is available
     unsigned int port2 = 0;  // Use whatever port is available
@@ -19,12 +36,12 @@ int main(int argc, char** argv)
 
     if (!socket1.bind(port1))
     {
-        return 1;
+        return Test::FAILED;
     }
 
     if (!socket2.bind(port2))
     {
-        return 1;
+        return Test::FAILED;
     }
 
     std::cout << "Socket1 using port " << port1 << "\n";
@@ -34,49 +51,49 @@ int main(int argc, char** argv)
     // at least in human terms
     if (!socket1.sendTo("localhost", port2))
     {
-        return 1;
+        return Test::FAILED;
     }
 
     if (!socket2.sendTo("localhost", port1))
     {
-        return 1;
+        return Test::FAILED;
     }
 
     // SEND SOMETHING ONE WAY
 
     if (socket1.write(send1, send_size) != send_size)
     {
-        return 1;
+        return Test::FAILED;
     }
 
     if (socket2.read(send1_recv, send_size) != send_size)
     {
-        return 1;
+        return Test::FAILED;
     }
 
     std::cout << "Sent " << send1 << " received " << send1_recv << "\n";
     if (memcmp(send1, send1_recv, send_size))
     {
-        return 1;
+        return Test::FAILED;
     }
 
     // SEND SOMETHING BACK
 
     if (socket2.write(send2, send_size) != send_size)
     {
-        return 1;
+        return Test::FAILED;
     }
 
     if (socket1.read(send2_recv, send_size) != send_size)
     {
-        return 1;
+        return Test::FAILED;
     }
 
     std::cout << "Sent " << send2 << " received " << send2_recv << "\n";
     if (memcmp(send2, send2_recv, send_size))
     {
-        return 1;
+        return Test::FAILED;
     }
 
-    return 0;
+    return Test::PASSED;
 }
