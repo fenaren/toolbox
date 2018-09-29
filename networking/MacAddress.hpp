@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "NetworkAddress.hpp"
+#include "Field.hpp"
 
-class MacAddress : public NetworkAddress
+class MacAddress : public Field
 {
   public:
 
@@ -32,14 +32,53 @@ class MacAddress : public NetworkAddress
     // allocate memory.
     virtual ~MacAddress();
 
+    // Reads the field from the "buffer" memory location.
+    virtual unsigned int readRaw(const unsigned char* buffer);
+
+    // Writes the field to the "buffer" memory location.
+    virtual unsigned int writeRaw(unsigned char* buffer) const;
+
+    // Returns the size of this field in bytes.  This will equal the number of
+    // bytes written by writeRaw() and read by readRaw().
+    virtual unsigned int getSizeBytes() const;
+
+    // Octet access and mutation
+    unsigned char getOctet(unsigned int octet) const;
+    void setOctet(unsigned int octet, unsigned char value);
+
+    MacAddress& operator=(const MacAddress&  mac_address);
     MacAddress& operator=(const std::string& mac_address_str);
 
     // MAC addresses are this many bytes long
-    static const unsigned short MAC_LENGTH_BYTES = 6;
+    static const unsigned short LENGTH_BYTES = 6;
 
     // MAC address strings are this many characters long
-    static const unsigned short MAC_MAX_STR_LENGTH_CHARS = 18;
+    static const unsigned short MAX_STR_LENGTH_CHARS = 18;
+
+private:
+
+    unsigned char mac_address_raw[LENGTH_BYTES];
 };
+
+inline unsigned char MacAddress::getOctet(unsigned int octet) const
+{
+    if (octet >= LENGTH_BYTES)
+    {
+        throw std::out_of_range("Out-of-range octet specified");
+    }
+
+    return mac_address_raw[octet];
+}
+
+inline void MacAddress::setOctet(unsigned int octet, unsigned char value)
+{
+    if (octet >= LENGTH_BYTES)
+    {
+        throw std::out_of_range("Out-of-range octet specified");
+    }
+
+    mac_address_raw[octet] = value;
+}
 
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);
 

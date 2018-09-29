@@ -108,7 +108,7 @@ Test::Result MacAddress_test::run()
     char shouldbe[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
     testmac2.writeRaw(testcmac2);
     bool write_success =
-        memcmp(testcmac2, shouldbe, MacAddress::MAC_LENGTH_BYTES) == 0;
+        memcmp(testcmac2, shouldbe, MacAddress::LENGTH_BYTES) == 0;
     if (!write_success)
     {
         std::cout << "Write test failed\n";

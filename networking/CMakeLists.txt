@@ -6,7 +6,6 @@ target_include_directories(toolbox PUBLIC
 target_sources(toolbox PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/Ipv4Address.cpp
   ${CMAKE_CURRENT_LIST_DIR}/MacAddress.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/NetworkAddress.cpp
   ${CMAKE_CURRENT_LIST_DIR}/RawSocket.cpp
   ${CMAKE_CURRENT_LIST_DIR}/RawSocketImpl.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Socket.cpp

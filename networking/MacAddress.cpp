@@ -12,8 +12,9 @@
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
 MacAddress::MacAddress() :
-    NetworkAddress(MAC_LENGTH_BYTES)
+    Field()
 {
+    memset(mac_address_raw, 0, LENGTH_BYTES);
 }
 
 //==============================================================================
@@ -21,15 +22,16 @@ MacAddress::MacAddress() :
 // location
 //==============================================================================
 MacAddress::MacAddress(const unsigned char* raw_address) :
-    NetworkAddress(raw_address, MAC_LENGTH_BYTES)
+    Field()
 {
+    readRaw(raw_address);
 }
 
 //==============================================================================
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str) :
-    NetworkAddress(MAC_LENGTH_BYTES)
+    Field()
 {
     *this = mac_address_str;
 }
@@ -38,9 +40,16 @@ MacAddress::MacAddress(const std::string& mac_address_str) :
 // MacAddress copy constructor; copies the address of the given MAC address
 //==============================================================================
 MacAddress::MacAddress(const MacAddress& mac_address) :
-    NetworkAddress(MAC_LENGTH_BYTES)
+    Field()
 {
     *this = mac_address;
+}
+
+//==============================================================================
+// MacAddress destructor; does nothing since no dynamic memory is allocated
+//==============================================================================
+MacAddress::~MacAddress()
+{
 }
 
 //==============================================================================
@@ -54,10 +63,32 @@ MacAddress::operator std::string() const
 }
 
 //==============================================================================
-// MacAddress destructor; does nothing since no dynamic memory is allocated
+// Reads the field from the "buffer" memory location.
 //==============================================================================
-MacAddress::~MacAddress()
+unsigned int MacAddress::readRaw(const unsigned char* buffer)
 {
+    memcpy(mac_address_raw, buffer, LENGTH_BYTES);
+
+    return LENGTH_BYTES;
+}
+
+//==============================================================================
+// Writes the field to the "buffer" memory location.
+//==============================================================================
+unsigned int MacAddress::writeRaw(unsigned char* buffer) const
+{
+    memcpy(buffer, mac_address_raw, LENGTH_BYTES);
+
+    return LENGTH_BYTES;
+}
+
+//==============================================================================
+// Returns the size of this field in bytes.  This will equal the number of bytes
+// written by writeRaw() and read by readRaw().
+//==============================================================================
+unsigned int MacAddress::getSizeBytes() const
+{
+    return LENGTH_BYTES;
 }
 
 //==============================================================================
@@ -72,23 +103,33 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 }
 
 //==============================================================================
+// Assigns a MAC address to this MAC address
+//==============================================================================
+MacAddress& MacAddress::operator=(const MacAddress& mac_address)
+{
+    mac_address.writeRaw(mac_address_raw);
+
+    return *this;
+}
+
+//==============================================================================
 // Writes string representation of self to the ostream
 //==============================================================================
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address)
 {
     // 18 characters for the whole representation; 12 for the actual numbers, 5
     // for the colons in-between, and 1 on the end for the null
-    char mac_cstr[MacAddress::MAC_MAX_STR_LENGTH_CHARS];
-    mac_cstr[MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1] = 0;
+    char mac_cstr[MacAddress::MAX_STR_LENGTH_CHARS];
+    mac_cstr[MacAddress::MAX_STR_LENGTH_CHARS - 1] = 0;
     if (snprintf(mac_cstr,
-                 MacAddress::MAC_MAX_STR_LENGTH_CHARS,
+                 MacAddress::MAX_STR_LENGTH_CHARS,
                  "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
-                 mac_address.at(0),
-                 mac_address.at(1),
-                 mac_address.at(2),
-                 mac_address.at(3),
-                 mac_address.at(4),
-                 mac_address.at(5)) < 0)
+                 mac_address.getOctet(0),
+                 mac_address.getOctet(1),
+                 mac_address.getOctet(2),
+                 mac_address.getOctet(3),
+                 mac_address.getOctet(4),
+                 mac_address.getOctet(5)) < 0)
     {
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
@@ -105,10 +146,10 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 {
     // Grab 17 characters from the stream and store temporarily; we use the
     // number 18 below because the istream get function reads the argument - 1
-    char tempstr[MacAddress::MAC_MAX_STR_LENGTH_CHARS];
-    is.get(tempstr, MacAddress::MAC_MAX_STR_LENGTH_CHARS);
+    char tempstr[MacAddress::MAX_STR_LENGTH_CHARS];
+    is.get(tempstr, MacAddress::MAX_STR_LENGTH_CHARS);
 
-    unsigned int tempmac[MacAddress::MAC_LENGTH_BYTES];
+    unsigned int tempmac[MacAddress::LENGTH_BYTES];
     // Scan the temporary string as a MAC address
     if (sscanf(tempstr,
                "%2x:%2x:%2x:%2x:%2x:%2x",
@@ -117,7 +158,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
                &tempmac[2],
                &tempmac[3],
                &tempmac[4],
-               &tempmac[5]) != MacAddress::MAC_LENGTH_BYTES)
+               &tempmac[5]) != MacAddress::LENGTH_BYTES)
     {
         // We didn't convert all 6 bytes.  Leave our internal state as-is but
         // set the fail bit on the stream so the user has some way of knowing
@@ -126,9 +167,9 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     }
 
     // Copy from temporary storage into permanent storage
-    for (unsigned int i = 0; i < MacAddress::MAC_LENGTH_BYTES; i++)
+    for (unsigned int i = 0; i < MacAddress::LENGTH_BYTES; i++)
     {
-        mac_address.at(i) = static_cast<unsigned char>(tempmac[i]);
+        mac_address.setOctet(i, tempmac[i]);
     }
 
     return is;
@@ -139,9 +180,15 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 //==============================================================================
 bool operator==(const MacAddress& mac_address1, const MacAddress& mac_address2)
 {
-    return !memcmp(&mac_address1.at(0),
-                   &mac_address2.at(0),
-                   MacAddress::MAC_LENGTH_BYTES);
+    unsigned char mac_address_raw1[MacAddress::LENGTH_BYTES];
+    unsigned char mac_address_raw2[MacAddress::LENGTH_BYTES];
+
+    mac_address1.writeRaw(mac_address_raw1);
+    mac_address2.writeRaw(mac_address_raw2);
+
+    return !memcmp(&mac_address_raw1,
+                   &mac_address_raw2,
+                   MacAddress::LENGTH_BYTES);
 }
 
 //==============================================================================
