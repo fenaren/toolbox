@@ -14,6 +14,7 @@
 Ipv4Address::Ipv4Address() :
     Field()
 {
+    memset(ipv4_address_raw, 0, LENGTH_BYTES);
 }
 
 //==============================================================================
@@ -97,6 +98,16 @@ Ipv4Address& Ipv4Address::operator=(const std::string& ipv4_address_str)
 {
     std::istringstream tempstream(ipv4_address_str);
     tempstream >> *this;
+
+    return *this;
+}
+
+//==============================================================================
+// Assigns an IPv4 address to this IPv4 address
+//==============================================================================
+Ipv4Address& Ipv4Address::operator=(const Ipv4Address& ipv4_address)
+{
+    ipv4_address.writeRaw(ipv4_address_raw);
 
     return *this;
 }
