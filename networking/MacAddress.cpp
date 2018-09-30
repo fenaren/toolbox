@@ -40,11 +40,11 @@ MacAddress::MacAddress(const std::string& mac_address_str) :
 //==============================================================================
 // MacAddress copy constructor; copies the address of the given MAC address
 //==============================================================================
-MacAddress::MacAddress(const MacAddress& mac_address) :
+/*MacAddress::MacAddress(const MacAddress& mac_address) :
     NetworkAddress(mac_address_raw, LENGTH_BYTES)
 {
     *this = mac_address;
-}
+    }*/
 
 //==============================================================================
 // MacAddress destructor; does nothing since no dynamic memory is allocated

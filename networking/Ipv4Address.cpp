@@ -40,11 +40,11 @@ Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
 //==============================================================================
 // Ipv4Address copy constructor; copies the address of the given IPv4 address
 //==============================================================================
-Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
+/*Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
     NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
 {
     *this = ipv4_address;
-}
+    }*/
 
 //==============================================================================
 // Defines how to convert a MacAddress to a std::string

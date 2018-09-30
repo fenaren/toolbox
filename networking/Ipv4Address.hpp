@@ -23,7 +23,7 @@ public:
     explicit Ipv4Address(const std::string& ipv4_address_str);
 
     // Copy constructor
-    explicit Ipv4Address(const Ipv4Address& ipv4_address);
+    //explicit Ipv4Address(const Ipv4Address& ipv4_address);
 
     // Defines how to convert a MacAddress to a std::string
     operator std::string() const;
