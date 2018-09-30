@@ -12,7 +12,7 @@
 // Ipv4Address constructor; initializes to all zeros
 //==============================================================================
 Ipv4Address::Ipv4Address() :
-    Field()
+    NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
 {
     memset(ipv4_address_raw, 0, LENGTH_BYTES);
 }
@@ -22,7 +22,7 @@ Ipv4Address::Ipv4Address() :
 // indicated location
 //==============================================================================
 Ipv4Address::Ipv4Address(const unsigned char* raw_address) :
-    Field()
+    NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
 {
     readRaw(raw_address);
 }
@@ -31,7 +31,7 @@ Ipv4Address::Ipv4Address(const unsigned char* raw_address) :
 // Ipv4Address constructor; initializes to match the given string
 //==============================================================================
 Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
-    Field()
+    NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
 {
     *this = ipv4_address_str;
 }
@@ -40,7 +40,7 @@ Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
 // Ipv4Address copy constructor; copies the address of the given IPv4 address
 //==============================================================================
 Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
-    Field()
+    NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
 {
     *this = ipv4_address;
 }
@@ -60,35 +60,6 @@ Ipv4Address::operator std::string() const
 //==============================================================================
 Ipv4Address::~Ipv4Address()
 {
-}
-
-//==============================================================================
-// Reads the field from the "buffer" memory location.
-//==============================================================================
-unsigned int Ipv4Address::readRaw(const unsigned char* buffer)
-{
-    memcpy(ipv4_address_raw, buffer, LENGTH_BYTES);
-
-    return LENGTH_BYTES;
-}
-
-//==============================================================================
-// Writes the field to the "buffer" memory location.
-//==============================================================================
-unsigned int Ipv4Address::writeRaw(unsigned char* buffer) const
-{
-    memcpy(buffer, ipv4_address_raw, LENGTH_BYTES);
-
-    return LENGTH_BYTES;
-}
-
-//==============================================================================
-// Returns the size of this field in bytes.  This will equal the number of bytes
-// written by writeRaw() and read by readRaw().
-//==============================================================================
-unsigned int Ipv4Address::getSizeBytes() const
-{
-    return LENGTH_BYTES;
 }
 
 //==============================================================================
@@ -171,29 +142,13 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 }
 
 //==============================================================================
-// Equality comparison, Ipv4Address == Ipv4Address
-//==============================================================================
-bool
-operator==(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
-{
-    unsigned char ipv4_address_raw1[Ipv4Address::LENGTH_BYTES];
-    unsigned char ipv4_address_raw2[Ipv4Address::LENGTH_BYTES];
-
-    ipv4_address1.writeRaw(ipv4_address_raw1);
-    ipv4_address2.writeRaw(ipv4_address_raw2);
-
-    return !memcmp(&ipv4_address_raw1,
-                   &ipv4_address_raw2,
-                   Ipv4Address::LENGTH_BYTES);
-}
-
-//==============================================================================
 // Equality comparison, Ipv4Address == std::string
 //==============================================================================
 bool
 operator==(const Ipv4Address& ipv4_address1, const std::string& ipv4_address2)
 {
-    return ipv4_address1 == Ipv4Address(ipv4_address2);
+    return static_cast<NetworkAddress>(ipv4_address1) ==
+        static_cast<NetworkAddress>(Ipv4Address(ipv4_address2));
 }
 
 //==============================================================================
@@ -202,16 +157,8 @@ operator==(const Ipv4Address& ipv4_address1, const std::string& ipv4_address2)
 bool
 operator==(const std::string& ipv4_address1, const Ipv4Address& ipv4_address2)
 {
-    return Ipv4Address(ipv4_address1) == ipv4_address2;
-}
-
-//==============================================================================
-// Inequality comparison, Ipv4Address != Ipv4Address
-//==============================================================================
-bool
-operator!=(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
-{
-    return !(ipv4_address1 == ipv4_address2);
+    return static_cast<NetworkAddress>(Ipv4Address(ipv4_address1)) ==
+        static_cast<NetworkAddress>(ipv4_address2);
 }
 
 //==============================================================================

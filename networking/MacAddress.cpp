@@ -12,7 +12,7 @@
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
 MacAddress::MacAddress() :
-    Field()
+    NetworkAddress(mac_address_raw, LENGTH_BYTES)
 {
     memset(mac_address_raw, 0, LENGTH_BYTES);
 }
@@ -22,7 +22,7 @@ MacAddress::MacAddress() :
 // location
 //==============================================================================
 MacAddress::MacAddress(const unsigned char* raw_address) :
-    Field()
+    NetworkAddress(mac_address_raw, LENGTH_BYTES)
 {
     readRaw(raw_address);
 }
@@ -31,7 +31,7 @@ MacAddress::MacAddress(const unsigned char* raw_address) :
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str) :
-    Field()
+    NetworkAddress(mac_address_raw, LENGTH_BYTES)
 {
     *this = mac_address_str;
 }
@@ -40,7 +40,7 @@ MacAddress::MacAddress(const std::string& mac_address_str) :
 // MacAddress copy constructor; copies the address of the given MAC address
 //==============================================================================
 MacAddress::MacAddress(const MacAddress& mac_address) :
-    Field()
+    NetworkAddress(mac_address_raw, LENGTH_BYTES)
 {
     *this = mac_address;
 }
@@ -60,35 +60,6 @@ MacAddress::operator std::string() const
     std::ostringstream tempstream;
     tempstream << *this;
     return tempstream.str();
-}
-
-//==============================================================================
-// Reads the field from the "buffer" memory location.
-//==============================================================================
-unsigned int MacAddress::readRaw(const unsigned char* buffer)
-{
-    memcpy(mac_address_raw, buffer, LENGTH_BYTES);
-
-    return LENGTH_BYTES;
-}
-
-//==============================================================================
-// Writes the field to the "buffer" memory location.
-//==============================================================================
-unsigned int MacAddress::writeRaw(unsigned char* buffer) const
-{
-    memcpy(buffer, mac_address_raw, LENGTH_BYTES);
-
-    return LENGTH_BYTES;
-}
-
-//==============================================================================
-// Returns the size of this field in bytes.  This will equal the number of bytes
-// written by writeRaw() and read by readRaw().
-//==============================================================================
-unsigned int MacAddress::getSizeBytes() const
-{
-    return LENGTH_BYTES;
 }
 
 //==============================================================================
@@ -176,27 +147,12 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 }
 
 //==============================================================================
-// Equality comparison, MacAddress == MacAddress
-//==============================================================================
-bool operator==(const MacAddress& mac_address1, const MacAddress& mac_address2)
-{
-    unsigned char mac_address_raw1[MacAddress::LENGTH_BYTES];
-    unsigned char mac_address_raw2[MacAddress::LENGTH_BYTES];
-
-    mac_address1.writeRaw(mac_address_raw1);
-    mac_address2.writeRaw(mac_address_raw2);
-
-    return !memcmp(&mac_address_raw1,
-                   &mac_address_raw2,
-                   MacAddress::LENGTH_BYTES);
-}
-
-//==============================================================================
 // Equality comparison, MacAddress == std::string
 //==============================================================================
 bool operator==(const MacAddress& mac_address1, const std::string& mac_address2)
 {
-    return mac_address1 == MacAddress(mac_address2);
+    return static_cast<NetworkAddress>(mac_address1) ==
+        static_cast<NetworkAddress>(MacAddress(mac_address2));
 }
 
 //==============================================================================
@@ -204,15 +160,8 @@ bool operator==(const MacAddress& mac_address1, const std::string& mac_address2)
 //==============================================================================
 bool operator==(const std::string& mac_address1, const MacAddress& mac_address2)
 {
-    return MacAddress(mac_address1) == mac_address2;
-}
-
-//==============================================================================
-// Inequality comparison, MacAddress != MacAddress
-//==============================================================================
-bool operator!=(const MacAddress& mac_address1, const MacAddress& mac_address2)
-{
-    return !(mac_address1 == mac_address2);
+    return static_cast<NetworkAddress>(MacAddress(mac_address1)) ==
+        static_cast<NetworkAddress>(mac_address2);
 }
 
 //==============================================================================

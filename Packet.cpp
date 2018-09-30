@@ -53,7 +53,7 @@ unsigned int Packet::writeRaw(unsigned char* buffer) const
 // Returns the size of this field in bytes.  This will equal the number of bytes
 // written by writeRaw() and read by readRaw().
 //==============================================================================
-unsigned int Packet::getSizeBytes() const
+unsigned int Packet::getLengthBytes() const
 {
     unsigned int size_bytes = 0;
 
@@ -61,7 +61,7 @@ unsigned int Packet::getSizeBytes() const
          i != fields.end();
          ++i)
     {
-        size_bytes += (*i)->getSizeBytes();
+        size_bytes += (*i)->getLengthBytes();
     }
 
     return size_bytes;
