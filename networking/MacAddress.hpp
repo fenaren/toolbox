@@ -17,7 +17,7 @@ class MacAddress : public NetworkAddress
 
     // Constructs a new MacAddress, initialzed to a copy of the data at the
     // indicated location
-    explicit MacAddress(const unsigned char* raw_address);
+    explicit MacAddress(const unsigned char* buffer);
 
     // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);

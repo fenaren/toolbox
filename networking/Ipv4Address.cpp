@@ -21,10 +21,10 @@ Ipv4Address::Ipv4Address() :
 // Ipv4Address constructor; initializes to a copy of the raw address at the
 // indicated location
 //==============================================================================
-Ipv4Address::Ipv4Address(const unsigned char* raw_address) :
+Ipv4Address::Ipv4Address(const unsigned char* buffer) :
     NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
 {
-    readRaw(raw_address);
+    readRaw(buffer);
 }
 
 //==============================================================================

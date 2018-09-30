@@ -21,10 +21,11 @@ MacAddress::MacAddress() :
 // MacAddress constructor; initializes to a copy of the data at the indicated
 // location
 //==============================================================================
-MacAddress::MacAddress(const unsigned char* raw_address) :
+// cppcheck-suppress uninitMemberVar
+MacAddress::MacAddress(const unsigned char* buffer) :
     NetworkAddress(mac_address_raw, LENGTH_BYTES)
 {
-    readRaw(raw_address);
+    readRaw(buffer);
 }
 
 //==============================================================================
