@@ -50,15 +50,15 @@ std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);
 
 std::istream& operator>>(std::istream& is, MacAddress& mac_address);
 
-//bool operator==(const MacAddress&  mac_address1,
-//                const MacAddress&  mac_address2);
+bool operator==(const MacAddress&  mac_address1,
+                const MacAddress&  mac_address2);
 bool operator==(const MacAddress&  mac_address1,
                 const std::string& mac_address2);
 bool operator==(const std::string& mac_address1,
                 const MacAddress&  mac_address2);
 
-//bool operator!=(const MacAddress&  mac_address1,
-//                const MacAddress&  mac_address2);
+bool operator!=(const MacAddress&  mac_address1,
+                const MacAddress&  mac_address2);
 bool operator!=(const MacAddress&  mac_address1,
                 const std::string& mac_address2);
 bool operator!=(const std::string& mac_address1,

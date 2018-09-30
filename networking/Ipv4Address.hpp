@@ -51,10 +51,14 @@ std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address);
 std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address);
 
 bool operator==(const Ipv4Address& ipv4_address1,
+                const Ipv4Address& ipv4_address2);
+bool operator==(const Ipv4Address& ipv4_address1,
                 const std::string& ipv4_address2);
 bool operator==(const std::string& ipv4_address1,
                 const Ipv4Address& ipv4_address2);
 
+bool operator!=(const Ipv4Address& ipv4_address1,
+                const Ipv4Address& ipv4_address2);
 bool operator!=(const Ipv4Address& ipv4_address1,
                 const std::string& ipv4_address2);
 bool operator!=(const std::string& ipv4_address1,

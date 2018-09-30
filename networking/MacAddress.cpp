@@ -147,7 +147,16 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 }
 
 //==============================================================================
-// Equality comparison, MacAddress == std::string
+// Equality comparison, MacAddress == MacAddress
+//==============================================================================
+bool operator==(const MacAddress& mac_address1, const MacAddress& mac_address2)
+{
+    return static_cast<NetworkAddress>(mac_address1) ==
+        static_cast<NetworkAddress>(mac_address2);
+}
+
+//==============================================================================
+// Equality comparison, MacAddress == MacAddress
 //==============================================================================
 bool operator==(const MacAddress& mac_address1, const std::string& mac_address2)
 {
@@ -162,6 +171,14 @@ bool operator==(const std::string& mac_address1, const MacAddress& mac_address2)
 {
     return static_cast<NetworkAddress>(MacAddress(mac_address1)) ==
         static_cast<NetworkAddress>(mac_address2);
+}
+
+//==============================================================================
+// Inequality comparison, MacAddress != MacAddress
+//==============================================================================
+bool operator!=(const MacAddress& mac_address1, const MacAddress& mac_address2)
+{
+    return !(mac_address1 == mac_address2);
 }
 
 //==============================================================================

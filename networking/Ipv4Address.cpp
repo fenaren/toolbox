@@ -142,6 +142,16 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 }
 
 //==============================================================================
+// Equality comparison, Ipv4Address == Ipv4Address
+//==============================================================================
+bool
+operator==(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
+{
+    return static_cast<NetworkAddress>(ipv4_address1) ==
+        static_cast<NetworkAddress>(ipv4_address2);
+}
+
+//==============================================================================
 // Equality comparison, Ipv4Address == std::string
 //==============================================================================
 bool
@@ -159,6 +169,15 @@ operator==(const std::string& ipv4_address1, const Ipv4Address& ipv4_address2)
 {
     return static_cast<NetworkAddress>(Ipv4Address(ipv4_address1)) ==
         static_cast<NetworkAddress>(ipv4_address2);
+}
+
+//==============================================================================
+// Inequality comparison, Ipv4Address != Ipv4Address
+//==============================================================================
+bool
+operator!=(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
+{
+    return !(ipv4_address1 == ipv4_address2);
 }
 
 //==============================================================================
