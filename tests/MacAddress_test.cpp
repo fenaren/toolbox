@@ -117,8 +117,18 @@ Test::Result MacAddress_test::run()
     std::string testmac2str = testmac2;
     std::cout << testmac2str << "\n";
 
+    MacAddress testmac3(testmac1);
+    bool copy_constructor_success = testmac1 == testmac3;
+    if (!copy_constructor_success)
+    {
+        std::cout << "Copy constructor test failed\n";
+    }
+
     // This unit test passes if no failed cases were recorded
-    if (failed_eqineq_cases.size() == 0 && read_success && write_success)
+    if (failed_eqineq_cases.size() == 0 &&
+        read_success &&
+        write_success &&
+        copy_constructor_success)
     {
         return Test::PASSED;
     }
