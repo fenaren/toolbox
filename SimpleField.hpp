@@ -10,15 +10,17 @@ class SimpleField : public Field
 {
 public:
 
-    // Neither of these do anything
+    // Saves the name
     SimpleField(const std::string& name = "");
+
+    // Does nothing
     virtual ~SimpleField();
 
     // Reads the field from the "buffer" memory location.
-    virtual unsigned int readRaw(const unsigned char* buffer) = 0;
+    virtual unsigned int readRaw(const unsigned char* buffer);
 
     // Writes the field to the "buffer" memory location.
-    virtual unsigned int writeRaw(unsigned char* buffer) const = 0;
+    virtual unsigned int writeRaw(unsigned char* buffer) const;
 
     // Returns the size of this field in bytes.  This will equal the number of
     // bytes written by writeRaw() and read by readRaw().
