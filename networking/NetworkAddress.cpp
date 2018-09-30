@@ -31,6 +31,20 @@ NetworkAddress::NetworkAddress(unsigned char* buffer,
 }
 
 //==============================================================================
+// Copy constructor
+//==============================================================================
+NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
+    Field(),
+    network_address_raw_owned(true)
+{
+    length_bytes = network_address.getLengthBytes();
+
+    network_address_raw = new unsigned char[length_bytes];
+
+    network_address.writeRaw(network_address_raw);
+}
+
+//==============================================================================
 // Frees the memory at "network_address_raw" if owned by this class
 //==============================================================================
 NetworkAddress::~NetworkAddress()

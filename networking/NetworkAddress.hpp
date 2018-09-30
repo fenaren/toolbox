@@ -18,6 +18,9 @@ public:
     NetworkAddress(unsigned char* buffer,
                    unsigned int   length_bytes);
 
+    // Copy constructor
+    NetworkAddress(const NetworkAddress& network_address);
+
     virtual ~NetworkAddress();
 
     // Reads the field from the "buffer" memory location.
