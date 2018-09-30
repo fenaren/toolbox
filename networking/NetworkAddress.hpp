@@ -31,6 +31,8 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    NetworkAddress& operator=(const NetworkAddress& network_address);
+
 private:
 
     // Raw network address is stored at this location

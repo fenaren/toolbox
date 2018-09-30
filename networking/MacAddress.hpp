@@ -32,7 +32,6 @@ class MacAddress : public NetworkAddress
     // allocate memory.
     virtual ~MacAddress();
 
-    MacAddress& operator=(const MacAddress&  mac_address);
     MacAddress& operator=(const std::string& mac_address_str);
 
     // MAC addresses are this many bytes long

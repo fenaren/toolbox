@@ -74,16 +74,6 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 }
 
 //==============================================================================
-// Assigns a MAC address to this MAC address
-//==============================================================================
-MacAddress& MacAddress::operator=(const MacAddress& mac_address)
-{
-    mac_address.writeRaw(mac_address_raw);
-
-    return *this;
-}
-
-//==============================================================================
 // Writes string representation of self to the ostream
 //==============================================================================
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address)

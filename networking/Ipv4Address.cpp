@@ -74,16 +74,6 @@ Ipv4Address& Ipv4Address::operator=(const std::string& ipv4_address_str)
 }
 
 //==============================================================================
-// Assigns an IPv4 address to this IPv4 address
-//==============================================================================
-Ipv4Address& Ipv4Address::operator=(const Ipv4Address& ipv4_address)
-{
-    ipv4_address.writeRaw(ipv4_address_raw);
-
-    return *this;
-}
-
-//==============================================================================
 // Writes string representation of self to the ostream
 //==============================================================================
 std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address)

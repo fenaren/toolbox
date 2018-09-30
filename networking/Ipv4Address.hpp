@@ -32,7 +32,6 @@ public:
     // dynamically allocate memory.
     virtual ~Ipv4Address();
 
-    Ipv4Address& operator=(const Ipv4Address& ipv4_address);
     Ipv4Address& operator=(const std::string& ipv4_address_str);
 
     // IPv4 addresses are this many bytes long

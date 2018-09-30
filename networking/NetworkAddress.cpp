@@ -60,6 +60,16 @@ unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 }
 
 //==============================================================================
+// Assigns an IPv4 address to this IPv4 address
+//==============================================================================
+NetworkAddress& NetworkAddress::operator=(const NetworkAddress& network_address)
+{
+    network_address.writeRaw(network_address_raw);
+
+    return *this;
+}
+
+//==============================================================================
 // Equality comparison, NetworkAddress == NetworkAddress
 //==============================================================================
 bool operator==(const NetworkAddress& network_address1,
