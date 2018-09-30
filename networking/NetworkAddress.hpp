@@ -18,9 +18,12 @@ public:
     NetworkAddress(unsigned char* buffer,
                    unsigned int   length_bytes);
 
-    // Copy constructor
+    // Copy constructor; will dynamically allocate memory for the
+    // "network_address_raw" stored in the new NetworkAddress
     NetworkAddress(const NetworkAddress& network_address);
 
+    // Will free the memory at "raw_network_address" if it is owned by this
+    // class
     virtual ~NetworkAddress();
 
     // Reads the field from the "buffer" memory location.

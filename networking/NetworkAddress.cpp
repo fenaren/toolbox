@@ -31,7 +31,8 @@ NetworkAddress::NetworkAddress(unsigned char* buffer,
 }
 
 //==============================================================================
-// Copy constructor
+// Copy constructor; will dynamically allocate memory for the
+// "network_address_raw" stored in the new NetworkAddress
 //==============================================================================
 NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
     Field(),
