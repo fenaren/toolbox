@@ -32,6 +32,10 @@ add_test_executable_simple(
 add_test_executable_simple(
   MacAddress_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
+# NetworkAddress_test
+add_test_executable_simple(
+  NetworkAddress_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
 # OnlineStatistics_test
 add_test_executable_simple(
   OnlineStatistics_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")

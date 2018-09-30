@@ -32,8 +32,10 @@ public:
     // Writes the field to the "buffer" memory location.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
-    // Octet access and mutation
+    // Octet access
     unsigned char getOctet(unsigned int octet) const;
+
+    // Octet mutation
     void setOctet(unsigned int octet, unsigned char value);
 
     // Returns the size of this field in bytes.  This will equal the number of

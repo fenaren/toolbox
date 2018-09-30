@@ -119,18 +119,10 @@ Test::Result Ipv4Address_test::run()
     std::string testipv42str = testipv42;
     std::cout << testipv42str << "\n";
 
-    Ipv4Address testipv43(testipv41);
-    bool copy_constructor_success = testipv41 == testipv43;
-    if (!copy_constructor_success)
-    {
-        std::cout << "Copy constructor test failed\n";
-    }
-
     // This unit test passes if no failed cases were recorded
     if (failed_eqineq_cases.size() == 0 &&
         read_success &&
-        write_success &&
-        copy_constructor_success)
+        write_success)
     {
         return Test::PASSED;
     }
