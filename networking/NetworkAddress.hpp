@@ -1,6 +1,8 @@
 #if !defined NETWORK_ADDRESS_HPP
 #define NETWORK_ADDRESS_HPP
 
+#include <stdexcept>
+
 #include "Field.hpp"
 
 class NetworkAddress : public Field
