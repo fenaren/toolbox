@@ -14,6 +14,12 @@ TEST_PROGRAM_MAIN(NetworkAddress_test);
         return Test::FAILED;     \
     }
 
+#define MUST_BE_FALSE(expression) \
+    if (expression)               \
+    {                             \
+        return Test::FAILED;      \
+    }
+
 //==============================================================================
 NetworkAddress_test::NetworkAddress_test()
 {
@@ -48,6 +54,11 @@ Test::Result NetworkAddress_test::run()
     unsigned char test_data2[test_data_len];
     test_na4.writeRaw(test_data2);
     MUST_BE_TRUE(memcmp(test_data, test_data2, test_data_len) == 0);
+
+    // Tests equality and inequality
+    NetworkAddress test_na5(test_data2, test_data_len);
+    MUST_BE_TRUE(test_na4 == test_na5);
+    MUST_BE_FALSE(test_na4 != test_na5);
 
     // Tests getOctet, setOctet
     for (unsigned int i = 0; i < test_data_len; i++)
