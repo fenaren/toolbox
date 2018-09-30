@@ -21,5 +21,6 @@ SimpleField_test::~SimpleField_test()
 //==============================================================================
 Test::Result SimpleField_test::run()
 {
+    SimpleField<double> test_sf("sf1");
     return Test::PASSED;
 }

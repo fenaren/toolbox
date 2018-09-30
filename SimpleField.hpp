@@ -11,7 +11,7 @@ class SimpleField : public Field
 public:
 
     // Saves the name
-    SimpleField(const std::string& name = "");
+    explicit SimpleField(const std::string& name = "");
 
     // Does nothing
     virtual ~SimpleField();
@@ -24,11 +24,26 @@ public:
 
     // Returns the size of this field in bytes.  This will equal the number of
     // bytes written by writeRaw() and read by readRaw().
-    virtual unsigned int getSizeBytes() const;
+    virtual unsigned int getLengthBytes() const;
 
 private:
 
     T simple_field;
 };
+
+// Explicitly instantiate some intrinsic types
+template class SimpleField<char>;
+template class SimpleField<double>;
+template class SimpleField<float>;
+template class SimpleField<int>;
+template class SimpleField<long>;
+template class SimpleField<long double>;
+template class SimpleField<long long>;
+template class SimpleField<short>;
+template class SimpleField<unsigned char>;
+template class SimpleField<unsigned int>;
+template class SimpleField<unsigned long>;
+template class SimpleField<unsigned long long>;
+template class SimpleField<unsigned short>;
 
 #endif
