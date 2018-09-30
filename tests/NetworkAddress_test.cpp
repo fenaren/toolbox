@@ -56,7 +56,8 @@ Test::Result NetworkAddress_test::run()
     MUST_BE_TRUE(memcmp(test_data, test_data2, test_data_len) == 0);
 
     // Tests equality and inequality
-    NetworkAddress test_na5(test_data2, test_data_len);
+    NetworkAddress test_na5(test_data_len);
+    test_na5.readRaw(test_data2);
     MUST_BE_TRUE(test_na4 == test_na5);
     MUST_BE_FALSE(test_na4 != test_na5);
 
