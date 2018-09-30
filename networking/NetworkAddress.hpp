@@ -10,6 +10,7 @@ class NetworkAddress : public Field
 public:
 
     // Will dynamically allocate an address that is "length_bytes" in size
+    // cppcheck-suppress noExplicitConstructor
     NetworkAddress(unsigned int length_bytes);
 
     // Will use the memory at "buffer" (of size "length_bytes") as the raw
