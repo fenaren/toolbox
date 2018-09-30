@@ -55,6 +55,10 @@ add_test_executable(Program_test
 add_test_executable_simple(
   RawSocket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
+# SimpleField_test
+add_test_executable_simple(
+  SimpleField_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
 # TCPSocket_test
 set(TCP_SOCKET_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/TCPSocket_test.cpp
