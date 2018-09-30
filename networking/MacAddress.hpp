@@ -22,9 +22,6 @@ class MacAddress : public NetworkAddress
     // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);
 
-    // Copy constructor
-    //explicit MacAddress(const MacAddress& mac_address);
-
     // Defines how to convert a MacAddress to a std::string
     operator std::string() const;
 
