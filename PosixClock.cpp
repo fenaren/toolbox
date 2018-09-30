@@ -35,7 +35,6 @@ int PosixClock::getTime(PosixTimespec& ts) const
 //==============================================================================
 // Calling process sleeps for specified length of time
 //==============================================================================
-// cppcheck-suppress functionStatic
 void PosixClock::nanosleep(const PosixTimespec& ts)
 {
     timespec tp;
