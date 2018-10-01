@@ -123,5 +123,61 @@ Test::Result SimpleField_test::run()
     MUST_BE_TRUE(test_ull    == test_ull2);
     MUST_BE_TRUE(test_us     == test_us2);
 
+    test_char++;
+    test_double++;
+    test_float++;
+    test_int++;
+    test_long++;
+    test_ld++;
+    test_ll++;
+    test_short++;
+    test_uc++;
+    test_ui++;
+    test_ul++;
+    test_ull++;
+    test_us++;
+
+    test_sf_char.readRaw(reinterpret_cast<unsigned char*>(&test_char));
+    test_sf_double.readRaw(reinterpret_cast<unsigned char*>(&test_double));
+    test_sf_float.readRaw(reinterpret_cast<unsigned char*>(&test_float));
+    test_sf_int.readRaw(reinterpret_cast<unsigned char*>(&test_int));
+    test_sf_long.readRaw(reinterpret_cast<unsigned char*>(&test_long));
+    test_sf_ld.readRaw(reinterpret_cast<unsigned char*>(&test_ld));
+    test_sf_ll.readRaw(reinterpret_cast<unsigned char*>(&test_ll));
+    test_sf_short.readRaw(reinterpret_cast<unsigned char*>(&test_short));
+    test_sf_uc.readRaw(reinterpret_cast<unsigned char*>(&test_uc));
+    test_sf_ui.readRaw(reinterpret_cast<unsigned char*>(&test_ui));
+    test_sf_ul.readRaw(reinterpret_cast<unsigned char*>(&test_ul));
+    test_sf_ull.readRaw(reinterpret_cast<unsigned char*>(&test_ull));
+    test_sf_us.readRaw(reinterpret_cast<unsigned char*>(&test_us));
+
+    test_sf_char.writeRaw(reinterpret_cast<unsigned char*>(&test_char2));
+    test_sf_double.writeRaw(reinterpret_cast<unsigned char*>(&test_double2));
+    test_sf_float.writeRaw(reinterpret_cast<unsigned char*>(&test_float2));
+    test_sf_int.writeRaw(reinterpret_cast<unsigned char*>(&test_int2));
+    test_sf_long.writeRaw(reinterpret_cast<unsigned char*>(&test_long2));
+    test_sf_ld.writeRaw(reinterpret_cast<unsigned char*>(&test_ld2));
+    test_sf_ll.writeRaw(reinterpret_cast<unsigned char*>(&test_ll2));
+    test_sf_short.writeRaw(reinterpret_cast<unsigned char*>(&test_short2));
+    test_sf_uc.writeRaw(reinterpret_cast<unsigned char*>(&test_uc2));
+    test_sf_ui.writeRaw(reinterpret_cast<unsigned char*>(&test_ui2));
+    test_sf_ul.writeRaw(reinterpret_cast<unsigned char*>(&test_ul2));
+    test_sf_ull.writeRaw(reinterpret_cast<unsigned char*>(&test_ull2));
+    test_sf_us.writeRaw(reinterpret_cast<unsigned char*>(&test_us2));
+
+    MUST_BE_TRUE(test_char   == test_char2);
+    MUST_BE_TRUE(test_double == test_double2);
+    MUST_BE_TRUE(test_float  == test_float2);
+    MUST_BE_TRUE(test_int    == test_int2);
+    MUST_BE_TRUE(test_long   == test_long2);
+    MUST_BE_TRUE(test_ld     == test_ld2);
+    MUST_BE_TRUE(test_ll     == test_ll2);
+    MUST_BE_TRUE(test_short  == test_short2);
+    MUST_BE_TRUE(test_uc     == test_uc2);
+    MUST_BE_TRUE(test_ui     == test_ui2);
+    MUST_BE_TRUE(test_ul     == test_ul2);
+    MUST_BE_TRUE(test_ull    == test_ull2);
+    MUST_BE_TRUE(test_us     == test_us2);
+
     return Test::PASSED;
 }
