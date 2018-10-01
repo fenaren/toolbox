@@ -4,7 +4,7 @@
 
 #include "Log.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(Log_test);
 

@@ -1,7 +1,7 @@
 #include "miscNetworking_test.hpp"
 
 #include "TestCases.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 #include "miscNetworking_test_case1.hpp"
 #include "miscNetworking_test_case2.hpp"
 

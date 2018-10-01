@@ -1,4 +1,4 @@
-#if !defined TEST_PROGRAM_MAIN
+#if !defined TEST_MACROS
 
 #include "TestProgram.hpp"
 
@@ -25,6 +25,22 @@
         TestProgram testprogram(argc, argv, &test); \
         testprogram_p = &testprogram;               \
         return testprogram.run();                   \
+    }
+
+// MUST_BE_TRUE and MUST_BE_FALSE are intended to be used within the Test::run()
+// method and work to immediately fail tests if their given expressions don't
+// evaluate to boolean true and false, respectively.
+
+#define MUST_BE_TRUE(expression) \
+    if (!(expression))           \
+    {                            \
+        return Test::FAILED;     \
+    }
+
+#define MUST_BE_FALSE(expression) \
+    if (expression)               \
+    {                             \
+        return Test::FAILED;      \
     }
 
 #endif

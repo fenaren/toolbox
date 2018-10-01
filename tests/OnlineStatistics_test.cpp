@@ -7,7 +7,7 @@
 
 #include "OnlineStatistics.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(OnlineStatistics_test);
 

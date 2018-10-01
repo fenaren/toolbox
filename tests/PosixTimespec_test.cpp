@@ -5,7 +5,7 @@
 
 #include "PosixTimespec.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(PosixTimespec_test);
 

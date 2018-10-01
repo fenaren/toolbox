@@ -4,21 +4,9 @@
 
 #include "NetworkAddress.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(NetworkAddress_test);
-
-#define MUST_BE_TRUE(expression) \
-    if (!(expression))           \
-    {                            \
-        return Test::FAILED;     \
-    }
-
-#define MUST_BE_FALSE(expression) \
-    if (expression)               \
-    {                             \
-        return Test::FAILED;      \
-    }
 
 //==============================================================================
 NetworkAddress_test::NetworkAddress_test()
