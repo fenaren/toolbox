@@ -1,28 +1,28 @@
 #include <cstring>
 #include <string>
 
-#include "SimpleField.hpp"
+#include "SimpleDataField.hpp"
 
-#include "Field.hpp"
+#include "DataField.hpp"
 
 //==============================================================================
 template <class T>
-SimpleField<T>::SimpleField(const std::string& name) :
-    Field(name)
+SimpleDataField<T>::SimpleDataField(const std::string& name) :
+    DataField(name)
 {
 }
 
 //==============================================================================
 template <class T>
-SimpleField<T>::SimpleField(const T& value, const std::string& name) :
-    Field(name),
-    simple_field(value)
+SimpleDataField<T>::SimpleDataField(const T& value, const std::string& name) :
+    DataField(name),
+    simple_data_field(value)
 {
 }
 
 //==============================================================================
 template <class T>
-SimpleField<T>::~SimpleField()
+SimpleDataField<T>::~SimpleDataField()
 {
 }
 
@@ -30,9 +30,9 @@ SimpleField<T>::~SimpleField()
 // Reads the field from the "buffer" memory location.
 //==============================================================================
 template <class T>
-unsigned int SimpleField<T>::readRaw(const unsigned char* buffer)
+unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
 {
-    memcpy(&simple_field, buffer, sizeof(T));
+    memcpy(&simple_data_field, buffer, sizeof(T));
 
     return sizeof(T);
 }
@@ -41,9 +41,9 @@ unsigned int SimpleField<T>::readRaw(const unsigned char* buffer)
 // Writes the field to the "buffer" memory location.
 //==============================================================================
 template <class T>
-unsigned int SimpleField<T>::writeRaw(unsigned char* buffer) const
+unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
 {
-    memcpy(buffer, &simple_field, sizeof(T));
+    memcpy(buffer, &simple_data_field, sizeof(T));
 
     return sizeof(T);
 }
@@ -53,39 +53,31 @@ unsigned int SimpleField<T>::writeRaw(unsigned char* buffer) const
 // written by writeRaw() and read by readRaw().
 //==============================================================================
 template <class T>
-unsigned int SimpleField<T>::getLengthBytes() const
+unsigned int SimpleDataField<T>::getLengthBytes() const
 {
     return sizeof(T);
 }
 
 //==============================================================================
-/*template <class T>
-SimpleField<T>& SimpleField<T>::operator=(T simple_type)
-{
-    this->simple_field = simple_type;
-    return *this;
-    }*/
-
-//==============================================================================
 template <class T>
-SimpleField<T>& SimpleField<T>::operator=(const T& simple_type)
+SimpleDataField<T>& SimpleDataField<T>::operator=(const T& simple_type)
 {
-    this->simple_field = simple_type;
+    this->simple_data_field = simple_type;
     return *this;
 }
 
 // Explicitly instantiate the intrinsic types; as far as I know this is the
 // best place for these instantiations to be located
-template class SimpleField<char>;
-template class SimpleField<double>;
-template class SimpleField<float>;
-template class SimpleField<int>;
-template class SimpleField<long>;
-template class SimpleField<long double>;
-template class SimpleField<long long>;
-template class SimpleField<short>;
-template class SimpleField<unsigned char>;
-template class SimpleField<unsigned int>;
-template class SimpleField<unsigned long>;
-template class SimpleField<unsigned long long>;
-template class SimpleField<unsigned short>;
+template class SimpleDataField<char>;
+template class SimpleDataField<double>;
+template class SimpleDataField<float>;
+template class SimpleDataField<int>;
+template class SimpleDataField<long>;
+template class SimpleDataField<long double>;
+template class SimpleDataField<long long>;
+template class SimpleDataField<short>;
+template class SimpleDataField<unsigned char>;
+template class SimpleDataField<unsigned int>;
+template class SimpleDataField<unsigned long>;
+template class SimpleDataField<unsigned long long>;
+template class SimpleDataField<unsigned short>;

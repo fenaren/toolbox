@@ -3,13 +3,13 @@
 
 #include "NetworkAddress.hpp"
 
-#include "Field.hpp"
+#include "DataField.hpp"
 
 //==============================================================================
 // Dynamically allocates an address that is "length_bytes" in size
 //==============================================================================
 NetworkAddress::NetworkAddress(unsigned int length_bytes) :
-    Field(),
+    DataField(),
     length_bytes(length_bytes),
     network_address_raw_owned(true)
 {
@@ -23,7 +23,7 @@ NetworkAddress::NetworkAddress(unsigned int length_bytes) :
 //==============================================================================
 NetworkAddress::NetworkAddress(unsigned char* buffer,
                                unsigned int   length_bytes) :
-    Field(),
+    DataField(),
     network_address_raw(buffer),
     length_bytes(length_bytes),
     network_address_raw_owned(false)
@@ -35,7 +35,7 @@ NetworkAddress::NetworkAddress(unsigned char* buffer,
 // "network_address_raw" stored in the new NetworkAddress
 //==============================================================================
 NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
-    Field(),
+    DataField(),
     network_address_raw_owned(true)
 {
     length_bytes = network_address.getLengthBytes();
@@ -57,7 +57,7 @@ NetworkAddress::~NetworkAddress()
 }
 
 //==============================================================================
-// Reads the field from the "buffer" memory location.
+// Reads the data field from the "buffer" memory location.
 //==============================================================================
 unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 {
@@ -66,7 +66,7 @@ unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 }
 
 //==============================================================================
-// Writes the field to the "buffer" memory location.
+// Writes the data field to the "buffer" memory location.
 //==============================================================================
 unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 {

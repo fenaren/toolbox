@@ -55,9 +55,9 @@ add_test_executable(Program_test
 add_test_executable_simple(
   RawSocket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
-# SimpleField_test
+# SimpleDataField_test
 add_test_executable_simple(
-  SimpleField_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+  SimpleDataField_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 # TCPSocket_test
 set(TCP_SOCKET_TEST_SOURCE

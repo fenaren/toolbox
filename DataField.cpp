@@ -1,12 +1,12 @@
-#include "Field.hpp"
+#include "DataField.hpp"
 
 //==============================================================================
-Field::Field(const std::string& name) :
+DataField::DataField(const std::string& name) :
     name(name)
 {
 }
 
 //==============================================================================
-Field::~Field()
+DataField::~DataField()
 {
 }

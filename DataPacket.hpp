@@ -1,22 +1,20 @@
-#if !defined SIMPLE_FIELD_HPP
-#define SIMPLE_FIELD_HPP
+#if !defined PACKET_HPP
+#define PACKET_HPP
 
 #include <string>
+#include <vector>
 
-#include "Field.hpp"
+#include "DataField.hpp"
 
-template <class T>
-class SimpleField : public Field
+class DataPacket : public DataField
 {
 public:
 
-    // Saves the name
-    explicit SimpleField(const std::string& name = "");
-
-    explicit SimpleField(const T& value, const std::string& name);
+    // Sets packet name
+    explicit DataPacket(const std::string& name = "");
 
     // Does nothing
-    virtual ~SimpleField();
+    virtual ~DataPacket();
 
     // Reads the field from the "buffer" memory location.
     virtual unsigned int readRaw(const unsigned char* buffer);
@@ -28,11 +26,18 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
-    SimpleField<T>& operator=(const T& simple_type);
+protected:
+
+    virtual void addDataField(DataField* field);
 
 private:
 
-    T simple_field;
+    std::vector<DataField*> data_fields;
 };
+
+inline void DataPacket::addDataField(DataField* data_field)
+{
+    data_fields.push_back(data_field);
+}
 
 #endif

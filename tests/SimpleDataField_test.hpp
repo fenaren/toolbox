@@ -3,13 +3,13 @@
 
 #include "Test.hpp"
 
-class SimpleField_test : public Test
+class SimpleDataField_test : public Test
 {
 public:
 
     // Neither of these do anything
-    SimpleField_test();
-    ~SimpleField_test();
+    SimpleDataField_test();
+    ~SimpleDataField_test();
 
     // Implements the test
     virtual Test::Result run();

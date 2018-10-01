@@ -3,9 +3,9 @@
 
 #include <stdexcept>
 
-#include "Field.hpp"
+#include "DataField.hpp"
 
-class NetworkAddress : public Field
+class NetworkAddress : public DataField
 {
 public:
 
@@ -26,10 +26,10 @@ public:
     // class
     virtual ~NetworkAddress();
 
-    // Reads the field from the "buffer" memory location.
+    // Reads the data field from the "buffer" memory location.
     virtual unsigned int readRaw(const unsigned char* buffer);
 
-    // Writes the field to the "buffer" memory location.
+    // Writes the data field to the "buffer" memory location.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
     // Octet access
@@ -38,8 +38,8 @@ public:
     // Octet mutation
     void setOctet(unsigned int octet, unsigned char value);
 
-    // Returns the size of this field in bytes.  This will equal the number of
-    // bytes written by writeRaw() and read by readRaw().
+    // Returns the size of this data field in bytes.  This will equal the number
+    // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
     NetworkAddress& operator=(const NetworkAddress& network_address);
