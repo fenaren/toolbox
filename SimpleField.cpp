@@ -14,6 +14,14 @@ SimpleField<T>::SimpleField(const std::string& name) :
 
 //==============================================================================
 template <class T>
+SimpleField<T>::SimpleField(const T& value, const std::string& name) :
+    Field(name),
+    simple_field(value)
+{
+}
+
+//==============================================================================
+template <class T>
 SimpleField<T>::~SimpleField()
 {
 }

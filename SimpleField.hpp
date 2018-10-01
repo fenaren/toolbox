@@ -13,6 +13,8 @@ public:
     // Saves the name
     explicit SimpleField(const std::string& name = "");
 
+    explicit SimpleField(const T& value, const std::string& name);
+
     // Does nothing
     virtual ~SimpleField();
 
