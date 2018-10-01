@@ -93,10 +93,13 @@ Test::Result SimpleField_test::run()
     unsigned short     test_us2;
 
     test_sf_char.writeRaw(reinterpret_cast<unsigned char*>(&test_char2));
+    // cppcheck-suppress invalidPointerCast
     test_sf_double.writeRaw(reinterpret_cast<unsigned char*>(&test_double2));
+    // cppcheck-suppress invalidPointerCast
     test_sf_float.writeRaw(reinterpret_cast<unsigned char*>(&test_float2));
     test_sf_int.writeRaw(reinterpret_cast<unsigned char*>(&test_int2));
     test_sf_long.writeRaw(reinterpret_cast<unsigned char*>(&test_long2));
+    // cppcheck-suppress invalidPointerCast
     test_sf_ld.writeRaw(reinterpret_cast<unsigned char*>(&test_ld2));
     test_sf_ll.writeRaw(reinterpret_cast<unsigned char*>(&test_ll2));
     test_sf_short.writeRaw(reinterpret_cast<unsigned char*>(&test_short2));
