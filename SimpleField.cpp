@@ -50,6 +50,22 @@ unsigned int SimpleField<T>::getLengthBytes() const
     return sizeof(T);
 }
 
+//==============================================================================
+/*template <class T>
+SimpleField<T>& SimpleField<T>::operator=(T simple_type)
+{
+    this->simple_field = simple_type;
+    return *this;
+    }*/
+
+//==============================================================================
+template <class T>
+SimpleField<T>& SimpleField<T>::operator=(const T& simple_type)
+{
+    this->simple_field = simple_type;
+    return *this;
+}
+
 // Explicitly instantiate the intrinsic types; as far as I know this is the
 // best place for these instantiations to be located
 template class SimpleField<char>;

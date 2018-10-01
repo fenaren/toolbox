@@ -26,6 +26,8 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    SimpleField<T>& operator=(const T& simple_type);
+
 private:
 
     T simple_field;
