@@ -10,6 +10,9 @@ set(INCLUDE_DIRS
 
 set(LINK_LIBRARIES ${PROJECT_NAME})
 
+# DataPacket_test
+add_test_executable_simple(
+  DataPacket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 # FixedRateProgram_test
 set(FIXED_RATE_PROGRAM_TEST_SOURCE
