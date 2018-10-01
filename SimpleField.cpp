@@ -49,3 +49,19 @@ unsigned int SimpleField<T>::getLengthBytes() const
 {
     return sizeof(T);
 }
+
+// Explicitly instantiate the intrinsic types; as far as I know this is the
+// best place for these instantiations to be located
+template class SimpleField<char>;
+template class SimpleField<double>;
+template class SimpleField<float>;
+template class SimpleField<int>;
+template class SimpleField<long>;
+template class SimpleField<long double>;
+template class SimpleField<long long>;
+template class SimpleField<short>;
+template class SimpleField<unsigned char>;
+template class SimpleField<unsigned int>;
+template class SimpleField<unsigned long>;
+template class SimpleField<unsigned long long>;
+template class SimpleField<unsigned short>;
