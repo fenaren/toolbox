@@ -1,35 +1,25 @@
 #include <iostream>
 
-#include "Log_test.hpp"
+#include "DataPacket_test.hpp"
 
-#include "Log.hpp"
+#include "DataPacket.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(Log_test);
+TEST_PROGRAM_MAIN(DataPacket_test);
 
 //==============================================================================
-Log_test::Log_test()
+DataPacket_test::DataPacket_test()
 {
 }
 
 //==============================================================================
-Log_test::~Log_test()
+DataPacket_test::~DataPacket_test()
 {
 }
 
 //==============================================================================
-Test::Result Log_test::run()
+Test::Result DataPacket_test::run()
 {
-    Log log;
-    log.write("message1");
-    log.writeWarning("message2");
-    log.writeError("message3");
-
-    log.useLocalTime();
-    log.write("message1");
-    log.writeWarning("message2");
-    log.writeError("message3");
-
     return Test::PASSED;
 }

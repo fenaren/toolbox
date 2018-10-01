@@ -1,15 +1,15 @@
-#ifndef LOG_TEST_HPP
-#define LOG_TEST_HPP
+#ifndef DATA_PACKET_TEST_HPP
+#define DATA_PACKET_TEST_HPP
 
 #include "Test.hpp"
 
-class Log_test : public Test
+class DataPacket_test : public Test
 {
 public:
 
     // Neither of these do anything
-    Log_test();
-    ~Log_test();
+    DataPacket_test();
+    ~DataPacket_test();
 
     // Implements the test
     virtual Test::Result run();
