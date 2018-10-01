@@ -1,5 +1,5 @@
-#if !defined PACKET_HPP
-#define PACKET_HPP
+#if !defined DATA_PACKET_HPP
+#define DATA_PACKET_HPP
 
 #include <string>
 #include <vector>
@@ -28,7 +28,7 @@ public:
 
 protected:
 
-    virtual void addDataField(DataField* field);
+    virtual void addDataField(DataField* data_field);
 
 private:
 

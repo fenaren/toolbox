@@ -138,10 +138,13 @@ Test::Result SimpleDataField_test::run()
     test_us++;
 
     test_sdf_char.readRaw(reinterpret_cast<unsigned char*>(&test_char));
+    // cppcheck-suppress invalidPointerCast
     test_sdf_double.readRaw(reinterpret_cast<unsigned char*>(&test_double));
+    // cppcheck-suppress invalidPointerCast
     test_sdf_float.readRaw(reinterpret_cast<unsigned char*>(&test_float));
     test_sdf_int.readRaw(reinterpret_cast<unsigned char*>(&test_int));
     test_sdf_long.readRaw(reinterpret_cast<unsigned char*>(&test_long));
+    // cppcheck-suppress invalidPointerCast
     test_sdf_ld.readRaw(reinterpret_cast<unsigned char*>(&test_ld));
     test_sdf_ll.readRaw(reinterpret_cast<unsigned char*>(&test_ll));
     test_sdf_short.readRaw(reinterpret_cast<unsigned char*>(&test_short));
@@ -152,10 +155,13 @@ Test::Result SimpleDataField_test::run()
     test_sdf_us.readRaw(reinterpret_cast<unsigned char*>(&test_us));
 
     test_sdf_char.writeRaw(reinterpret_cast<unsigned char*>(&test_char2));
+    // cppcheck-suppress invalidPointerCast
     test_sdf_double.writeRaw(reinterpret_cast<unsigned char*>(&test_double2));
+    // cppcheck-suppress invalidPointerCast
     test_sdf_float.writeRaw(reinterpret_cast<unsigned char*>(&test_float2));
     test_sdf_int.writeRaw(reinterpret_cast<unsigned char*>(&test_int2));
     test_sdf_long.writeRaw(reinterpret_cast<unsigned char*>(&test_long2));
+    // cppcheck-suppress invalidPointerCast
     test_sdf_ld.writeRaw(reinterpret_cast<unsigned char*>(&test_ld2));
     test_sdf_ll.writeRaw(reinterpret_cast<unsigned char*>(&test_ll2));
     test_sdf_short.writeRaw(reinterpret_cast<unsigned char*>(&test_short2));
