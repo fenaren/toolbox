@@ -3,6 +3,7 @@
 #include "DataPacket_test.hpp"
 
 #include "DataPacket.hpp"
+#include "DataPacket_test1.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
