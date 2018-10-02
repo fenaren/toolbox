@@ -5,6 +5,7 @@
 
 #include "DataPacket.hpp"
 
+#include "DataPacket_test2.hpp"
 #include "SimpleDataField.hpp"
 
 class DataPacket_test1 : public DataPacket
@@ -18,6 +19,7 @@ private:
 
     SimpleDataField<int>    sdf_int;
     SimpleDataField<double> sdf_double;
+    DataPacket_test2        nested_packet;
 };
 
 #endif
