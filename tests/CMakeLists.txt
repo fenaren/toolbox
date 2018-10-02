@@ -11,8 +11,13 @@ set(INCLUDE_DIRS
 set(LINK_LIBRARIES ${PROJECT_NAME})
 
 # DataPacket_test
-add_test_executable_simple(
-  DataPacket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+set(DATA_PACKET_TEST_SOURCE
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test_1.cpp)
+add_test_executable(DataPacket_test
+                    "${DATA_PACKET_TEST_SOURCE}"
+                    "${INCLUDE_DIRS}"
+                    "${LINK_LIBRARIES}")
 
 # FixedRateProgram_test
 set(FIXED_RATE_PROGRAM_TEST_SOURCE
