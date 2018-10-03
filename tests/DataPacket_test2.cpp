@@ -9,9 +9,9 @@ DataPacket_test2::DataPacket_test2(const std::string& name) :
     sdf_float2(3.0f, "sdf_float2"),
     sdf_float3(3.0f, "sdf_float3")
 {
-    addDataField(&sdf_float1);
-    addDataField(&sdf_float2);
-    addDataField(&sdf_float3);
+    registerDataField(&sdf_float1);
+    registerDataField(&sdf_float2);
+    registerDataField(&sdf_float3);
 }
 
 //==============================================================================

@@ -9,9 +9,9 @@ DataPacket_test1::DataPacket_test1(const std::string& name) :
     sdf_double(2.0, "sdf_double"),
     nested_packet("nested_packet")
 {
-    addDataField(&sdf_int);
-    addDataField(&sdf_double);
-    addDataField(&nested_packet);
+    registerDataField(&sdf_int);
+    registerDataField(&sdf_double);
+    registerDataField(&nested_packet);
 }
 
 //==============================================================================

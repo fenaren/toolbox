@@ -28,14 +28,14 @@ public:
 
 protected:
 
-    virtual void addDataField(DataField* data_field);
+    virtual void registerDataField(DataField* data_field);
 
 private:
 
     std::vector<DataField*> data_fields;
 };
 
-inline void DataPacket::addDataField(DataField* data_field)
+inline void DataPacket::registerDataField(DataField* data_field)
 {
     data_fields.push_back(data_field);
 }
