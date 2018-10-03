@@ -13,7 +13,7 @@ class DataPacket : public DataField
 public:
 
     // Sets packet name
-    explicit DataPacket(const std::string& name = "");
+    explicit DataPacket(const std::string& name);
 
     // Does nothing
     virtual ~DataPacket();
