@@ -2,6 +2,7 @@
 #define NETWORK_ADDRESS_HPP
 
 #include <stdexcept>
+#include <string>
 
 #include "DataField.hpp"
 
@@ -11,12 +12,13 @@ public:
 
     // Will dynamically allocate an address that is "length_bytes" in size
     // cppcheck-suppress noExplicitConstructor
-    NetworkAddress(unsigned int length_bytes);
+    NetworkAddress(unsigned int length_bytes, const std::string& name = "");
 
     // Will use the memory at "buffer" (of size "length_bytes") as the raw
     // network address; will not dynamically allocate memory
-    NetworkAddress(unsigned char* buffer,
-                   unsigned int   length_bytes);
+    NetworkAddress(unsigned char*     buffer,
+                   unsigned int       length_bytes,
+                   const std::string& name = "");
 
     // Copy constructor; will dynamically allocate memory for the
     // "network_address_raw" stored in the new NetworkAddress

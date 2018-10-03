@@ -8,7 +8,7 @@ class DataField
 public:
 
     // Sets the name of the data field
-    DataField(const std::string& name = "");
+    DataField(const std::string& name);
 
     // Does nothing
     virtual ~DataField();

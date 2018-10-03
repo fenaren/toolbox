@@ -8,8 +8,9 @@
 //==============================================================================
 // Dynamically allocates an address that is "length_bytes" in size
 //==============================================================================
-NetworkAddress::NetworkAddress(unsigned int length_bytes) :
-    DataField(),
+NetworkAddress::NetworkAddress(unsigned int       length_bytes,
+                               const std::string& name) :
+    DataField(name),
     length_bytes(length_bytes),
     network_address_raw_owned(true)
 {
@@ -21,9 +22,10 @@ NetworkAddress::NetworkAddress(unsigned int length_bytes) :
 // Uses the memory at "buffer" (of size "length_bytes") as the raw network
 // address; does not dynamically allocate memory
 //==============================================================================
-NetworkAddress::NetworkAddress(unsigned char* buffer,
-                               unsigned int   length_bytes) :
-    DataField(),
+NetworkAddress::NetworkAddress(unsigned char*     buffer,
+                               unsigned int       length_bytes,
+                               const std::string& name) :
+    DataField(name),
     network_address_raw(buffer),
     length_bytes(length_bytes),
     network_address_raw_owned(false)
@@ -35,9 +37,14 @@ NetworkAddress::NetworkAddress(unsigned char* buffer,
 // "network_address_raw" stored in the new NetworkAddress
 //==============================================================================
 NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
-    DataField(),
+    DataField(""), // Will be set below
     network_address_raw_owned(true)
 {
+    // Copy the name out and save
+    std::string name;
+    network_address.getName(name);
+    setName(name);
+
     length_bytes = network_address.getLengthBytes();
 
     network_address_raw = new unsigned char[length_bytes];

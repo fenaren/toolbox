@@ -11,8 +11,9 @@ class SimpleDataField : public DataField
 public:
 
     // Saves the name
-    explicit SimpleDataField(const std::string& name = "");
+    explicit SimpleDataField(const std::string& name);
 
+    // Saves the name and takes an initial value
     explicit SimpleDataField(const T& value, const std::string& name);
 
     // Does nothing
