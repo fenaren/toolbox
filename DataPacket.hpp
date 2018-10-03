@@ -1,6 +1,7 @@
 #if !defined DATA_PACKET_HPP
 #define DATA_PACKET_HPP
 
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -50,6 +51,13 @@ inline void DataPacket::registerDataField(DataField* data_field)
 
 inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
 {
+    if (byte_alignment == 0)
+    {
+        throw std::invalid_argument(
+            "Nonsensical byte alignment value of 0 specified (must be 1 or "
+            "greater)");
+    }
+
     this->byte_alignment = byte_alignment;
 }
 
