@@ -80,7 +80,7 @@ void DataPacket::registerDataField(DataField* data_field)
     if (data_fields_ibn.find(name) != data_fields_ibn.end())
     {
         throw std::invalid_argument(
-            "Data field with name '" + name + "' already registered");
+            "Data field with name \"" + name + "\" already registered");
     }
 
     data_fields_ibn[name] = data_field;
