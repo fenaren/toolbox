@@ -12,7 +12,7 @@ class DataPacket_test1 : public DataPacket
 {
 public:
 
-    explicit DataPacket_test1(const std::string& name = "");
+    explicit DataPacket_test1();
     virtual ~DataPacket_test1();
 
 private:

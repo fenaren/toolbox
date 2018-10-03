@@ -7,15 +7,15 @@
 
 //==============================================================================
 template <class T>
-SimpleDataField<T>::SimpleDataField(const std::string& name) :
-    DataField(name)
+SimpleDataField<T>::SimpleDataField() :
+    DataField()
 {
 }
 
 //==============================================================================
 template <class T>
-SimpleDataField<T>::SimpleDataField(const T& value, const std::string& name) :
-    DataField(name),
+SimpleDataField<T>::SimpleDataField(const T& value) :
+    DataField(),
     simple_data_field(value)
 {
 }

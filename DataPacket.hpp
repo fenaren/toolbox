@@ -12,8 +12,8 @@ class DataPacket : public DataField
 {
 public:
 
-    // Sets packet name
-    explicit DataPacket(const std::string& name);
+    // Initializes byte alignment
+    explicit DataPacket();
 
     // Does nothing
     virtual ~DataPacket();
@@ -28,6 +28,8 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    DataField* getDataField(const std::string& name) const;
+
     // Byte alignment mutator
     void setByteAlignment(unsigned int byte_alignment);
 
@@ -36,7 +38,8 @@ public:
 
 protected:
 
-    virtual void registerDataField(DataField* data_field);
+    virtual
+    void registerDataField(const std::string& name, DataField* data_field);
 
 private:
 
@@ -52,6 +55,11 @@ private:
 
     unsigned int byte_alignment;
 };
+
+inline DataField* DataPacket::getDataField(const std::string& name) const
+{
+    return data_fields_ibn.at(name);
+}
 
 inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
 {

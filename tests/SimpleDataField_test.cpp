@@ -22,19 +22,19 @@ SimpleDataField_test::~SimpleDataField_test()
 Test::Result SimpleDataField_test::run()
 {
     // Try to construct all the explicit instantiations
-    SimpleDataField<char> test_sdf_char("test_sdf_char");
-    SimpleDataField<double> test_sdf_double("test_sdf_double");
-    SimpleDataField<float> test_sdf_float("test_sdf_float");
-    SimpleDataField<int> test_sdf_int("test_sdf_int");
-    SimpleDataField<long> test_sdf_long("test_sdf_long");
-    SimpleDataField<long double> test_sdf_ld("test_sdf_ld");
-    SimpleDataField<long long> test_sdf_ll("test_sdf_ll");
-    SimpleDataField<short> test_sdf_short("test_sdf_short");
-    SimpleDataField<unsigned char> test_sdf_uc("test_sdf_uc");
-    SimpleDataField<unsigned int> test_sdf_ui("test_sdf_ui");
-    SimpleDataField<unsigned long> test_sdf_ul("test_sdf_ul");
-    SimpleDataField<unsigned long long> test_sdf_ull("test_sdf_ull");
-    SimpleDataField<unsigned short> test_sdf_us("test_sdf_us");
+    SimpleDataField<char> test_sdf_char;
+    SimpleDataField<double> test_sdf_double;
+    SimpleDataField<float> test_sdf_float;
+    SimpleDataField<int> test_sdf_int;
+    SimpleDataField<long> test_sdf_long;
+    SimpleDataField<long double> test_sdf_ld;
+    SimpleDataField<long long> test_sdf_ll;
+    SimpleDataField<short> test_sdf_short;
+    SimpleDataField<unsigned char> test_sdf_uc;
+    SimpleDataField<unsigned int> test_sdf_ui;
+    SimpleDataField<unsigned long> test_sdf_ul;
+    SimpleDataField<unsigned long long> test_sdf_ull;
+    SimpleDataField<unsigned short> test_sdf_us;
 
     MUST_BE_TRUE(test_sdf_char.getLengthBytes()   == sizeof(char));
     MUST_BE_TRUE(test_sdf_double.getLengthBytes() == sizeof(double));

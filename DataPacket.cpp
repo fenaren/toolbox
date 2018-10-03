@@ -5,8 +5,7 @@
 #include "DataPacket.hpp"
 
 //==============================================================================
-DataPacket::DataPacket(const std::string& name) :
-    DataField(name),
+DataPacket::DataPacket() :
     byte_alignment(1)
 {
 }
@@ -72,11 +71,9 @@ unsigned int DataPacket::getLengthBytes() const
 }
 
 //==============================================================================
-void DataPacket::registerDataField(DataField* data_field)
+void DataPacket::registerDataField(const std::string& name,
+                                   DataField*         data_field)
 {
-    std::string name;
-    data_field->getName(name);
-
     if (data_fields_ibn.find(name) != data_fields_ibn.end())
     {
         throw std::invalid_argument(
