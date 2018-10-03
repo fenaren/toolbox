@@ -28,7 +28,7 @@ unsigned int DataPacket::readRaw(const unsigned char* buffer)
          ++i)
     {
         unsigned int field_length = (*i)->readRaw(buffer + offset);
-        offset += field_length + (field_length % byte_alignment);
+        offset += field_length + computePadding(field_length);
     }
 
     return offset;
@@ -46,7 +46,7 @@ unsigned int DataPacket::writeRaw(unsigned char* buffer) const
          ++i)
     {
         unsigned int field_length = (*i)->writeRaw(buffer + offset);
-        offset += field_length + (field_length % byte_alignment);
+        offset += field_length + computePadding(field_length);
     }
 
     return offset;
@@ -65,8 +65,27 @@ unsigned int DataPacket::getLengthBytes() const
          ++i)
     {
         unsigned int field_length = (*i)->getLengthBytes();
-        offset += field_length + (field_length % byte_alignment);
+        offset += field_length + computePadding(field_length);
     }
 
     return offset;
+}
+
+//==============================================================================
+// Computes amount of padding needed after a field given the current byte
+// alignment setting
+//==============================================================================
+unsigned int DataPacket::computePadding(unsigned int field_length) const
+{
+    unsigned int extra_bytes = field_length % byte_alignment;
+    unsigned int padding     = 0;
+
+    if (extra_bytes > 0)
+    {
+        // extra_bytes must be less than byte_alignment by the definition of
+        // modulus so no need to worry about underflow
+        padding = byte_alignment - extra_bytes;
+    }
+
+    return padding;
 }

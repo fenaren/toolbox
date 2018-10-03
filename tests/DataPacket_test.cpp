@@ -47,6 +47,9 @@ Test::Result DataPacket_test::run()
         dptest1.getLengthBytes() ==
         sizeof(int) + sizeof(double) + (2 * sizeof(float)) + sizeof(char) + 1);
 
+    // For a byte alignment of four things are mostly the same as a byte
+    // alignment of two, but the nested packet needs 3 bytes of padding
+    // afterwards
     dptest1.setByteAlignment(4);
     std::cout << "Packet length (4-byte align): " << dptest1.getLengthBytes()
               << "\n";

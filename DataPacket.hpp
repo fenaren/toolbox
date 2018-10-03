@@ -39,6 +39,10 @@ protected:
 
 private:
 
+    // Computes amount of padding needed after a field given the current byte
+    // alignment setting
+    unsigned int computePadding(unsigned int field_length) const;
+
     std::vector<DataField*> data_fields;
 
     unsigned int byte_alignment;
