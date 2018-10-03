@@ -58,15 +58,15 @@ unsigned int DataPacket::writeRaw(unsigned char* buffer) const
 //==============================================================================
 unsigned int DataPacket::getLengthBytes() const
 {
-    unsigned int size_bytes = 0;
+    unsigned int offset = 0;
 
     for (std::vector<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
         unsigned int field_length = (*i)->getLengthBytes();
-        size_bytes += field_length + (field_length % byte_alignment);
+        offset += field_length + (field_length % byte_alignment);
     }
 
-    return size_bytes;
+    return offset;
 }
