@@ -18,7 +18,7 @@ private:
 
     SimpleDataField<float> sdf_float1;
     SimpleDataField<float> sdf_float2;
-    SimpleDataField<float> sdf_float3;
+    SimpleDataField<char>  sdf_char;
 };
 
 #endif
