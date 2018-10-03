@@ -26,6 +26,12 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    // Byte alignment mutator
+    void setByteAlignment(unsigned int byte_alignment);
+
+    // Byte alignment access
+    unsigned int getByteAlignment() const;
+
 protected:
 
     virtual void registerDataField(DataField* data_field);
@@ -33,11 +39,23 @@ protected:
 private:
 
     std::vector<DataField*> data_fields;
+
+    unsigned int byte_alignment;
 };
 
 inline void DataPacket::registerDataField(DataField* data_field)
 {
     data_fields.push_back(data_field);
+}
+
+inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
+{
+    this->byte_alignment = byte_alignment;
+}
+
+inline unsigned int DataPacket::getByteAlignment() const
+{
+    return byte_alignment;
 }
 
 #endif

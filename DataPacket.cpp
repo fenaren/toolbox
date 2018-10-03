@@ -6,7 +6,8 @@
 
 //==============================================================================
 DataPacket::DataPacket(const std::string& name) :
-    DataField(name)
+    DataField(name),
+    byte_alignment(1)
 {
 }
 
@@ -26,7 +27,8 @@ unsigned int DataPacket::readRaw(const unsigned char* buffer)
          i != data_fields.end();
          ++i)
     {
-        offset += (*i)->readRaw(buffer + offset);
+        unsigned int field_length = (*i)->readRaw(buffer + offset);
+        offset += field_length + (field_length % byte_alignment);
     }
 
     return offset;
@@ -43,7 +45,8 @@ unsigned int DataPacket::writeRaw(unsigned char* buffer) const
          i != data_fields.end();
          ++i)
     {
-        offset += (*i)->writeRaw(buffer + offset);
+        unsigned int field_length = (*i)->writeRaw(buffer + offset);
+        offset += field_length + (field_length % byte_alignment);
     }
 
     return offset;
@@ -61,7 +64,8 @@ unsigned int DataPacket::getLengthBytes() const
          i != data_fields.end();
          ++i)
     {
-        size_bytes += (*i)->getLengthBytes();
+        unsigned int field_length = (*i)->getLengthBytes();
+        size_bytes += field_length + (field_length % byte_alignment);
     }
 
     return size_bytes;
