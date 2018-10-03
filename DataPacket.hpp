@@ -1,6 +1,7 @@
 #if !defined DATA_PACKET_HPP
 #define DATA_PACKET_HPP
 
+#include <map>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -43,15 +44,14 @@ private:
     // alignment setting
     unsigned int computePadding(unsigned int field_length) const;
 
-    std::vector<DataField*> data_fields;
+    // All contained data fields, indexed by order (IBO)
+    std::vector<DataField*> data_fields_ibo;
+
+    // All contained data fields, indexed by name (IBN)
+    std::map<std::string, DataField*> data_fields_ibn;
 
     unsigned int byte_alignment;
 };
-
-inline void DataPacket::registerDataField(DataField* data_field)
-{
-    data_fields.push_back(data_field);
-}
 
 inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
 {
