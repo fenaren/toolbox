@@ -1,28 +1,24 @@
 #include <cstring>
-#include <string>
 
 #include "SimpleDataField.hpp"
 
 #include "DataField.hpp"
 
 //==============================================================================
-template <class T>
-SimpleDataField<T>::SimpleDataField() :
+template <class T> SimpleDataField<T>::SimpleDataField() :
     DataField()
 {
 }
 
 //==============================================================================
-template <class T>
-SimpleDataField<T>::SimpleDataField(const T& value) :
+template <class T> SimpleDataField<T>::SimpleDataField(const T& value) :
     DataField(),
     simple_data_field(value)
 {
 }
 
 //==============================================================================
-template <class T>
-SimpleDataField<T>::~SimpleDataField()
+template <class T> SimpleDataField<T>::~SimpleDataField()
 {
 }
 
@@ -33,7 +29,6 @@ template <class T>
 unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
 {
     memcpy(&simple_data_field, buffer, sizeof(T));
-
     return sizeof(T);
 }
 
@@ -44,7 +39,6 @@ template <class T>
 unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
 {
     memcpy(buffer, &simple_data_field, sizeof(T));
-
     return sizeof(T);
 }
 
@@ -52,8 +46,7 @@ unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
 // Returns the size of this field in bytes.  This will equal the number of bytes
 // written by writeRaw() and read by readRaw().
 //==============================================================================
-template <class T>
-unsigned int SimpleDataField<T>::getLengthBytes() const
+template <class T> unsigned int SimpleDataField<T>::getLengthBytes() const
 {
     return sizeof(T);
 }

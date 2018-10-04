@@ -1,9 +1,7 @@
 #if !defined DATA_PACKET_HPP
 #define DATA_PACKET_HPP
 
-#include <map>
 #include <stdexcept>
-#include <string>
 #include <vector>
 
 #include "DataField.hpp"
