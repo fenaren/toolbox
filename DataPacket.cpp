@@ -80,6 +80,12 @@ void DataPacket::registerDataField(const std::string& name,
             "Data field with name \"" + name + "\" already registered");
     }
 
+    if (!data_field)
+    {
+        throw std::invalid_argument("Attempted to register \"" + name +
+            "\" with a null DataField pointer");
+    }
+
     data_fields_ibn[name] = data_field;
     data_fields_ibo.push_back(data_field);
 }
