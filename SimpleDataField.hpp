@@ -27,8 +27,11 @@ public:
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
-    // Field value retrieval
+    // Field value retrieval for small T
     T getValue() const;
+
+    // Field value retrieval for large T
+    void getValue(T& value) const;
 
     // Field value mutator
     void setValue(const T& value);
@@ -43,6 +46,11 @@ private:
 template <class T> inline T SimpleDataField<T>::getValue() const
 {
     return simple_data_field;
+}
+
+template <class T> inline void SimpleDataField<T>::getValue(T& value) const
+{
+    value = simple_data_field;
 }
 
 template <class T> inline void SimpleDataField<T>::setValue(const T& value)

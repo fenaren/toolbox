@@ -1,8 +1,6 @@
 #if !defined DATA_PACKET_TEST1_HPP
 #define DATA_PACKET_TEST1_HPP
 
-#include <string>
-
 #include "DataPacket.hpp"
 
 #include "DataPacket_test2.hpp"
