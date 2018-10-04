@@ -10,6 +10,10 @@ set(INCLUDE_DIRS
 
 set(LINK_LIBRARIES ${PROJECT_NAME})
 
+# ArpPacket_test
+add_test_executable_simple(
+  ArpPacket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
 # DataPacket_test
 set(DATA_PACKET_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test.cpp
