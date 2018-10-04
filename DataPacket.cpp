@@ -22,8 +22,8 @@ unsigned int DataPacket::readRaw(const unsigned char* buffer)
 {
     unsigned int offset = 0;
 
-    for (std::vector<DataField*>::const_iterator i = data_fields_ibo.begin();
-         i != data_fields_ibo.end();
+    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
+         i != data_fields.end();
          ++i)
     {
         unsigned int field_length = (*i)->readRaw(buffer + offset);
@@ -40,8 +40,8 @@ unsigned int DataPacket::writeRaw(unsigned char* buffer) const
 {
     unsigned int offset = 0;
 
-    for (std::vector<DataField*>::const_iterator i = data_fields_ibo.begin();
-         i != data_fields_ibo.end();
+    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
+         i != data_fields.end();
          ++i)
     {
         unsigned int field_length = (*i)->writeRaw(buffer + offset);
@@ -59,8 +59,8 @@ unsigned int DataPacket::getLengthBytes() const
 {
     unsigned int offset = 0;
 
-    for (std::vector<DataField*>::const_iterator i = data_fields_ibo.begin();
-         i != data_fields_ibo.end();
+    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
+         i != data_fields.end();
          ++i)
     {
         unsigned int field_length = (*i)->getLengthBytes();
@@ -68,26 +68,6 @@ unsigned int DataPacket::getLengthBytes() const
     }
 
     return offset;
-}
-
-//==============================================================================
-void DataPacket::registerDataField(const std::string& name,
-                                   DataField*         data_field)
-{
-    if (data_fields_ibn.find(name) != data_fields_ibn.end())
-    {
-        throw std::invalid_argument(
-            "Data field with name \"" + name + "\" already registered");
-    }
-
-    if (!data_field)
-    {
-        throw std::invalid_argument("Attempted to register \"" + name +
-            "\" with a null DataField pointer");
-    }
-
-    data_fields_ibn[name] = data_field;
-    data_fields_ibo.push_back(data_field);
 }
 
 //==============================================================================

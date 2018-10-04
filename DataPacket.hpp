@@ -28,8 +28,6 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
-    DataField* getDataField(const std::string& name) const;
-
     // Byte alignment mutator
     void setByteAlignment(unsigned int byte_alignment);
 
@@ -38,8 +36,7 @@ public:
 
 protected:
 
-    virtual
-    void registerDataField(const std::string& name, DataField* data_field);
+    void addDataField(DataField* data_field);
 
 private:
 
@@ -47,19 +44,11 @@ private:
     // alignment setting
     unsigned int computePadding(unsigned int field_length) const;
 
-    // All contained data fields, indexed by order (IBO)
-    std::vector<DataField*> data_fields_ibo;
-
-    // All contained data fields, indexed by name (IBN)
-    std::map<std::string, DataField*> data_fields_ibn;
+    // All contained data fields ordered first to last
+    std::vector<DataField*> data_fields;
 
     unsigned int byte_alignment;
 };
-
-inline DataField* DataPacket::getDataField(const std::string& name) const
-{
-    return data_fields_ibn.at(name);
-}
 
 inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
 {
@@ -76,6 +65,11 @@ inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
 inline unsigned int DataPacket::getByteAlignment() const
 {
     return byte_alignment;
+}
+
+inline void DataPacket::addDataField(DataField* data_field)
+{
+    data_fields.push_back(data_field);
 }
 
 #endif
