@@ -21,5 +21,8 @@ ArpPacket_test::~ArpPacket_test()
 //==============================================================================
 Test::Result ArpPacket_test::run()
 {
+    ArpPacket arp_packet(6, 4);
+    std::cout << arp_packet.getLengthBytes() << "\n";
+
     return Test::PASSED;
 }
