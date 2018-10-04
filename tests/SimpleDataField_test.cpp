@@ -78,6 +78,8 @@ Test::Result SimpleDataField_test::run()
     test_sdf_ull    = test_ull;
     test_sdf_us     = test_us;
 
+    MUST_BE_TRUE(static_cast<int>(test_sdf_int) == 4);
+
     char               test_char2;
     double             test_double2;
     float              test_float2;

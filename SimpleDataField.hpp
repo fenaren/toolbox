@@ -14,6 +14,9 @@ public:
     // Takes an initial value
     explicit SimpleDataField(const T& value);
 
+    // Defines how to convert a SimpleDataField<T> to a T
+    operator T() const;
+
     // Does nothing
     virtual ~SimpleDataField();
 

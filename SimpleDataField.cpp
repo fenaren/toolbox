@@ -18,6 +18,12 @@ template <class T> SimpleDataField<T>::SimpleDataField(const T& value) :
 }
 
 //==============================================================================
+template <class T> SimpleDataField<T>::operator T() const
+{
+    return simple_data_field;
+}
+
+//==============================================================================
 template <class T> SimpleDataField<T>::~SimpleDataField()
 {
 }
