@@ -16,8 +16,7 @@ public:
 
     // Will use the memory at "buffer" (of size "length_bytes") as the raw
     // network address; will not dynamically allocate memory
-    NetworkAddress(unsigned char*     buffer,
-                   unsigned int       length_bytes);
+    NetworkAddress(unsigned char* buffer, unsigned int length_bytes);
 
     // Copy constructor; will dynamically allocate memory for the
     // "network_address_raw" stored in the new NetworkAddress
