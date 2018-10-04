@@ -5,9 +5,9 @@
 #include "DataPacket.hpp"
 
 //==============================================================================
-DataPacket::DataPacket() :
-    byte_alignment(1)
+DataPacket::DataPacket(unsigned int byte_alignment)
 {
+    setByteAlignment(byte_alignment);
 }
 
 //==============================================================================

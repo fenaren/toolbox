@@ -13,7 +13,7 @@ class DataPacket : public DataField
 public:
 
     // Initializes byte alignment
-    explicit DataPacket();
+    explicit DataPacket(unsigned int byte_alignment = 1);
 
     // Does nothing
     virtual ~DataPacket();
@@ -28,15 +28,15 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
-    // Byte alignment mutator
-    void setByteAlignment(unsigned int byte_alignment);
+    // Adds the field to the end of the packet.  The field is not maintained
+    // internally, only its order relative to other packets is.
+    void addDataField(DataField* data_field);
 
     // Byte alignment access
     unsigned int getByteAlignment() const;
 
-protected:
-
-    void addDataField(DataField* data_field);
+    // Byte alignment mutator
+    void setByteAlignment(unsigned int byte_alignment);
 
 private:
 
