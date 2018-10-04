@@ -1,8 +1,6 @@
 #if !defined DATA_FIELD_HPP
 #define DATA_FIELD_HPP
 
-#include <string>
-
 class DataField
 {
 public:
