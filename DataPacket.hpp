@@ -1,0 +1,73 @@
+#if !defined DATA_PACKET_HPP
+#define DATA_PACKET_HPP
+
+#include <stdexcept>
+#include <vector>
+
+#include "DataField.hpp"
+
+class DataPacket : public DataField
+{
+public:
+
+    // Initializes byte alignment
+    explicit DataPacket(unsigned int byte_alignment = 1);
+
+    // Does nothing
+    virtual ~DataPacket();
+
+    // Reads the field from the "buffer" memory location.
+    virtual unsigned int readRaw(const unsigned char* buffer);
+
+    // Writes the field to the "buffer" memory location.
+    virtual unsigned int writeRaw(unsigned char* buffer) const;
+
+    // Returns the size of this field in bytes.  This will equal the number of
+    // bytes written by writeRaw() and read by readRaw().
+    virtual unsigned int getLengthBytes() const;
+
+    // Adds the field to the end of the packet.  The field is not maintained
+    // internally, only its order relative to other packets is.
+    void addDataField(DataField* data_field);
+
+    // Byte alignment access
+    unsigned int getByteAlignment() const;
+
+    // Byte alignment mutator
+    void setByteAlignment(unsigned int byte_alignment);
+
+private:
+
+    // Computes amount of padding needed after a field given the current byte
+    // alignment setting
+    unsigned int computePadding(unsigned int field_length) const;
+
+    // All contained data fields ordered first to last
+    std::vector<DataField*> data_fields;
+
+    unsigned int byte_alignment;
+};
+
+inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
+{
+    if (byte_alignment == 0)
+    {
+        throw std::invalid_argument(
+            "Nonsensical byte alignment value of 0 specified (must be 1 or "
+            "greater)");
+    }
+
+    this->byte_alignment = byte_alignment;
+}
+
+inline unsigned int DataPacket::getByteAlignment() const
+{
+    return byte_alignment;
+}
+
+inline void DataPacket::addDataField(DataField* data_field)
+{
+    data_fields.push_back(data_field);
+}
+
+#endif

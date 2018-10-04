@@ -7,7 +7,7 @@
 
 #include "Ipv4Address.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(Ipv4Address_test);
 
@@ -110,7 +110,7 @@ Test::Result Ipv4Address_test::run()
     char shouldbe[] = {1, 2, 3, 4};
     testipv42.writeRaw(testcipv42);
     bool write_success =
-        memcmp(testcipv42, shouldbe, Ipv4Address::IPV4_LENGTH_BYTES) == 0;
+        memcmp(testcipv42, shouldbe, Ipv4Address::LENGTH_BYTES) == 0;
     if (!write_success)
     {
         std::cout << "Write test failed\n";
@@ -120,7 +120,9 @@ Test::Result Ipv4Address_test::run()
     std::cout << testipv42str << "\n";
 
     // This unit test passes if no failed cases were recorded
-    if (failed_eqineq_cases.size() == 0 && read_success && write_success)
+    if (failed_eqineq_cases.size() == 0 &&
+        read_success &&
+        write_success)
     {
         return Test::PASSED;
     }

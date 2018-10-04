@@ -2,7 +2,7 @@
 
 #include "FixedRateProgram_test_tc1.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(FixedRateProgram_test);
 

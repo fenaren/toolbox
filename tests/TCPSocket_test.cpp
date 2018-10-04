@@ -3,7 +3,7 @@
 #include "TCPSocket_test_case1.hpp"
 #include "TCPSocket_test_case2.hpp"
 #include "TestCases.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(TCPSocket_test);
 

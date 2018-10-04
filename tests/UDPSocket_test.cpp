@@ -4,7 +4,7 @@
 #include "UDPSocket_test.hpp"
 
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 #include "UDPSocket.hpp"
 
 TEST_PROGRAM_MAIN(UDPSocket_test);

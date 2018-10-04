@@ -17,13 +17,10 @@ class MacAddress : public NetworkAddress
 
     // Constructs a new MacAddress, initialzed to a copy of the data at the
     // indicated location
-    explicit MacAddress(const unsigned char* raw_address);
+    explicit MacAddress(const unsigned char* buffer);
 
     // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);
-
-    // Copy constructor
-    explicit MacAddress(const MacAddress& mac_address);
 
     // Defines how to convert a MacAddress to a std::string
     operator std::string() const;
@@ -35,10 +32,14 @@ class MacAddress : public NetworkAddress
     MacAddress& operator=(const std::string& mac_address_str);
 
     // MAC addresses are this many bytes long
-    static const unsigned short MAC_LENGTH_BYTES = 6;
+    static const unsigned short LENGTH_BYTES = 6;
 
     // MAC address strings are this many characters long
-    static const unsigned short MAC_MAX_STR_LENGTH_CHARS = 18;
+    static const unsigned short MAX_STR_LENGTH_CHARS = 18;
+
+private:
+
+    unsigned char mac_address_raw[LENGTH_BYTES];
 };
 
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);

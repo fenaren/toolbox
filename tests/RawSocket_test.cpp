@@ -4,7 +4,7 @@
 
 #include "RawSocket.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(RawSocket_test);
 

@@ -7,7 +7,7 @@
 
 #include "MacAddress.hpp"
 #include "Test.hpp"
-#include "TestProgramMain.hpp"
+#include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(MacAddress_test);
 
@@ -108,7 +108,7 @@ Test::Result MacAddress_test::run()
     char shouldbe[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
     testmac2.writeRaw(testcmac2);
     bool write_success =
-        memcmp(testcmac2, shouldbe, MacAddress::MAC_LENGTH_BYTES) == 0;
+        memcmp(testcmac2, shouldbe, MacAddress::LENGTH_BYTES) == 0;
     if (!write_success)
     {
         std::cout << "Write test failed\n";
@@ -117,8 +117,18 @@ Test::Result MacAddress_test::run()
     std::string testmac2str = testmac2;
     std::cout << testmac2str << "\n";
 
+    MacAddress testmac3(testmac1);
+    bool copy_constructor_success = testmac1 == testmac3;
+    if (!copy_constructor_success)
+    {
+        std::cout << "Copy constructor test failed\n";
+    }
+
     // This unit test passes if no failed cases were recorded
-    if (failed_eqineq_cases.size() == 0 && read_success && write_success)
+    if (failed_eqineq_cases.size() == 0 &&
+        read_success &&
+        write_success &&
+        copy_constructor_success)
     {
         return Test::PASSED;
     }

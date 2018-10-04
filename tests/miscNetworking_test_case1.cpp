@@ -29,8 +29,8 @@ Test::Result miscNetworking_test_case1::run()
     std::string interface_name;
     std::string command;
 
-    char from_pipe[MacAddress::MAC_MAX_STR_LENGTH_CHARS];
-    memset(from_pipe, 0, MacAddress::MAC_MAX_STR_LENGTH_CHARS);
+    char from_pipe[MacAddress::MAX_STR_LENGTH_CHARS];
+    memset(from_pipe, 0, MacAddress::MAX_STR_LENGTH_CHARS);
 
     // First get the MAC address using the command line
 
@@ -43,7 +43,7 @@ Test::Result miscNetworking_test_case1::run()
     command += interface_name;
     command += " | grep ether | cut -f 2 | cut -d \" \" -f 2\n";
     std::FILE* fd = popen(command.c_str(), "r");
-    std::fread(from_pipe, 1, MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1, fd);
+    std::fread(from_pipe, 1, MacAddress::MAX_STR_LENGTH_CHARS - 1, fd);
     fclose(fd);
     mac_cmdline = from_pipe;
 */
@@ -64,10 +64,10 @@ Test::Result miscNetworking_test_case1::run()
 
     std::size_t num_read =
         std::fread(
-            from_pipe, 1, MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1, fd);
+            from_pipe, 1, MacAddress::MAX_STR_LENGTH_CHARS - 1, fd);
     pclose(fd);
 
-    if (num_read != MacAddress::MAC_MAX_STR_LENGTH_CHARS - 1)
+    if (num_read != MacAddress::MAX_STR_LENGTH_CHARS - 1)
     {
         return Test::FAILED;
     }

@@ -10,6 +10,15 @@ set(INCLUDE_DIRS
 
 set(LINK_LIBRARIES ${PROJECT_NAME})
 
+# DataPacket_test
+set(DATA_PACKET_TEST_SOURCE
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test2.cpp)
+add_test_executable(DataPacket_test
+                    "${DATA_PACKET_TEST_SOURCE}"
+                    "${INCLUDE_DIRS}"
+                    "${LINK_LIBRARIES}")
 
 # FixedRateProgram_test
 set(FIXED_RATE_PROGRAM_TEST_SOURCE
@@ -32,6 +41,10 @@ add_test_executable_simple(
 add_test_executable_simple(
   MacAddress_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
+# NetworkAddress_test
+add_test_executable_simple(
+  NetworkAddress_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
 # OnlineStatistics_test
 add_test_executable_simple(
   OnlineStatistics_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
@@ -50,6 +63,10 @@ add_test_executable(Program_test
 # RawSocket_test
 add_test_executable_simple(
   RawSocket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
+# SimpleDataField_test
+add_test_executable_simple(
+  SimpleDataField_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 # TCPSocket_test
 set(TCP_SOCKET_TEST_SOURCE

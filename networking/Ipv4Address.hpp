@@ -17,13 +17,10 @@ public:
 
     // Constructs a new Ipv4Address, initialized to a copy of the raw address at
     // the indicated location.
-    explicit Ipv4Address(const unsigned char* raw_address);
+    explicit Ipv4Address(const unsigned char* buffer);
 
     // Constructs a new Ipv4Address matching the given string representation.
     explicit Ipv4Address(const std::string& ipv4_address_str);
-
-    // Copy constructor
-    explicit Ipv4Address(const Ipv4Address& ipv4_address);
 
     // Defines how to convert a MacAddress to a std::string
     operator std::string() const;
@@ -35,10 +32,14 @@ public:
     Ipv4Address& operator=(const std::string& ipv4_address_str);
 
     // IPv4 addresses are this many bytes long
-    static const unsigned short IPV4_LENGTH_BYTES = 4;
+    static const unsigned short LENGTH_BYTES = 4;
 
     // IPv4 address strings are this many characters long
-    static const unsigned short IPV4_MAX_STR_LENGTH_CHARS = 16;
+    static const unsigned short MAX_STR_LENGTH_CHARS = 16;
+
+private:
+
+    unsigned char ipv4_address_raw[LENGTH_BYTES];
 };
 
 std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address);
