@@ -86,3 +86,19 @@ bool miscNetworking::getIpv4Address(const std::string& interface_name,
     return false;
 #endif
 }
+
+//==============================================================================
+// Byteswaps the buffer of memory at "buffer" of length "len".  For example a
+// "len" value of 4 would be used for swapping a single 32-bit integer
+//==============================================================================
+void miscNetworking::byteswap(unsigned char* buffer, unsigned int len)
+{
+    // Work from both sides of "buffer" simultaneously
+    for (unsigned int i = 0; i < len / 2; i++)
+    {
+        // A standard 3-step swap
+        unsigned char temp = buffer[i];
+        buffer[i] = buffer[(len - i) - 1];
+        buffer[(len - i) - 1] = temp;
+    }
+}
