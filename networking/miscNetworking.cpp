@@ -93,14 +93,11 @@ bool miscNetworking::getIpv4Address(const std::string& interface_name,
 //==============================================================================
 void miscNetworking::byteswap(unsigned char* buffer, unsigned int len)
 {
-    // The third memory location for all byteswaps
-    unsigned char temp;
-
     // Work from both sides of "buffer" simultaneously
     for (unsigned int i = 0; i < len / 2; i++)
     {
         // A standard 3-step swap
-        temp = buffer[i];
+        unsigned char temp = buffer[i];
         buffer[i] = buffer[(len - i) - 1];
         buffer[(len - i) - 1] = temp;
     }
