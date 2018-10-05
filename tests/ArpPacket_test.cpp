@@ -22,7 +22,7 @@ ArpPacket_test::~ArpPacket_test()
 Test::Result ArpPacket_test::run()
 {
     ArpPacket arp_packet(6, 4);
-    std::cout << arp_packet.getLengthBytes() << "\n";
+    MUST_BE_TRUE(arp_packet.getLengthBytes() == 28);
 
     return Test::PASSED;
 }
