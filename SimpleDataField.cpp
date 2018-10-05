@@ -3,7 +3,7 @@
 #include "SimpleDataField.hpp"
 
 #include "DataField.hpp"
-#include "miscNetworking.hpp"
+#include "misc.hpp"
 
 //==============================================================================
 template <class T> SimpleDataField<T>::SimpleDataField() :
@@ -61,8 +61,8 @@ template <class T> unsigned int SimpleDataField<T>::getLengthBytes() const
 //==============================================================================
 template <class T> void SimpleDataField<T>::byteswap()
 {
-    miscNetworking::byteswap(
-        reinterpret_cast<unsigned char*>(&simple_data_field), sizeof(T));
+    misc::byteswap(reinterpret_cast<unsigned char*>(&simple_data_field),
+                   sizeof(T));
 }
 
 //==============================================================================

@@ -1,7 +1,6 @@
 #include "DataField.hpp"
 
 #include "misc.hpp"
-#include "miscNetworking.hpp"
 
 // All fields will share the byte order setting retrieved here
 const misc::ByteOrder DataField::byte_order = misc::getByteOrder();
@@ -46,7 +45,7 @@ unsigned int DataField::writeRaw(unsigned char*  buffer,
 
     if (destination_byte_order != byte_order)
     {
-        miscNetworking::byteswap(buffer, bytes_written);
+        misc::byteswap(buffer, bytes_written);
     }
 
     return bytes_written;

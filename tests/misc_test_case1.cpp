@@ -1,22 +1,22 @@
 #include <cstring>
 
-#include "miscNetworking_test_case3.hpp"
+#include "misc_test_case1.hpp"
 
 #include "TestMacros.hpp"
-#include "miscNetworking.hpp"
+#include "misc.hpp"
 
 //==============================================================================
-miscNetworking_test_case3::miscNetworking_test_case3()
+misc_test_case1::misc_test_case1()
 {
 }
 
 //==============================================================================
-miscNetworking_test_case3::~miscNetworking_test_case3()
+misc_test_case1::~misc_test_case1()
 {
 }
 
 //==============================================================================
-Test::Result miscNetworking_test_case3::run()
+Test::Result misc_test_case1::run()
 {
     unsigned char a1_before[] = {'a'};
     unsigned char a2_before[] = {'a', 'b'};
@@ -36,14 +36,14 @@ Test::Result miscNetworking_test_case3::run()
     unsigned char a7_after[] = {'g', 'f', 'e', 'd', 'c', 'b', 'a'};
     unsigned char a8_after[] = {'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'};
 
-    miscNetworking::byteswap(a1_before, 1);
-    miscNetworking::byteswap(a2_before, 2);
-    miscNetworking::byteswap(a3_before, 3);
-    miscNetworking::byteswap(a4_before, 4);
-    miscNetworking::byteswap(a5_before, 5);
-    miscNetworking::byteswap(a6_before, 6);
-    miscNetworking::byteswap(a7_before, 7);
-    miscNetworking::byteswap(a8_before, 8);
+    misc::byteswap(a1_before, 1);
+    misc::byteswap(a2_before, 2);
+    misc::byteswap(a3_before, 3);
+    misc::byteswap(a4_before, 4);
+    misc::byteswap(a5_before, 5);
+    misc::byteswap(a6_before, 6);
+    misc::byteswap(a7_before, 7);
+    misc::byteswap(a8_before, 8);
 
     MUST_BE_TRUE(memcmp(a1_before, a1_after, 1) == 0);
     MUST_BE_TRUE(memcmp(a2_before, a2_after, 2) == 0);

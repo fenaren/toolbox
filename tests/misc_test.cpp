@@ -1,25 +1,23 @@
-#include "miscNetworking_test.hpp"
+#include "misc_test.hpp"
 
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
-#include "miscNetworking_test_case1.hpp"
-#include "miscNetworking_test_case2.hpp"
+#include "misc_test_case1.hpp"
 
-TEST_PROGRAM_MAIN(miscNetworking_test);
+TEST_PROGRAM_MAIN(misc_test);
 
 //==============================================================================
-miscNetworking_test::miscNetworking_test()
+misc_test::misc_test()
 {
 }
 
 //==============================================================================
-miscNetworking_test::~miscNetworking_test()
+misc_test::~misc_test()
 {
 }
 
 //==============================================================================
-void miscNetworking_test::addTestCases()
+void misc_test::addTestCases()
 {
     addTestCase(&case1);
-    addTestCase(&case2);
 }

@@ -16,14 +16,18 @@
 
 namespace misc
 {
-  enum ByteOrder
-  {
-    BIG_ENDIAN,
-    LITTLE_ENDIAN
-  };
+    enum ByteOrder
+    {
+        BIG_ENDIAN,
+        LITTLE_ENDIAN
+    };
 
-  // Determines byte ordering (endianness) of the host
-  ByteOrder getByteOrder();
+    // Determines byte ordering (endianness) of the host
+    ByteOrder getByteOrder();
+
+    // Byteswaps the buffer of memory at "buffer" of length "len".  For example
+    // a "len" value of 4 would be used for swapping a single 32-bit integer
+    void byteswap(unsigned char* buffer, unsigned int len);
 };
 
 #endif
