@@ -26,8 +26,11 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    // Byteswaps every field in this packet
+    virtual void byteswap();
+
     // Adds the field to the end of the packet.  The field is not maintained
-    // internally, only its order relative to other packets is.
+    // internally, only its order relative to other fields in this packet is.
     void addDataField(DataField* data_field);
 
     // Byte alignment access

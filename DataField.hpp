@@ -18,6 +18,9 @@ public:
     // Returns the size of this data field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const = 0;
+
+    // Byteswaps the sequence of bytes making up this field
+    virtual void byteswap() = 0;
 };
 
 #endif

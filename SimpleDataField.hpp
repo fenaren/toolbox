@@ -30,6 +30,9 @@ public:
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    // Byteswaps the field
+    virtual void byteswap();
+
     // Field value retrieval for small T
     T getValue() const;
 

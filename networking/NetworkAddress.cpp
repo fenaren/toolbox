@@ -75,6 +75,14 @@ unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 }
 
 //==============================================================================
+// Does nothing; all DataFields are required to define a byteswap() operation
+// but byteswapping each octet would be pointless
+//==============================================================================
+void NetworkAddress::byteswap()
+{
+}
+
+//==============================================================================
 // Assigns an IPv4 address to this IPv4 address
 //==============================================================================
 NetworkAddress& NetworkAddress::operator=(const NetworkAddress& network_address)

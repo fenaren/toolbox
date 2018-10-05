@@ -32,6 +32,10 @@ public:
     // Writes the data field to the "buffer" memory location.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
+    // Does nothing; all DataFields are required to define a byteswap()
+    // operation but byteswapping each octet would be pointless
+    virtual void byteswap();
+
     // Octet access
     unsigned char getOctet(unsigned int octet) const;
 

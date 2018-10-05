@@ -70,6 +70,19 @@ unsigned int DataPacket::getLengthBytes() const
 }
 
 //==============================================================================
+// Byteswaps every field in this packet
+//==============================================================================
+void DataPacket::byteswap()
+{
+    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
+         i != data_fields.end();
+         ++i)
+    {
+        (*i)->byteswap();
+    }
+}
+
+//==============================================================================
 // Computes amount of padding needed after a field given the current byte
 // alignment setting
 //==============================================================================
