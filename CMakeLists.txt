@@ -12,7 +12,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
 
 # Add the library and all the source files in this directory
 add_library(${PROJECT_NAME}
-  ${CMAKE_CURRENT_LIST_DIR}/Endian.cpp
   ${CMAKE_CURRENT_LIST_DIR}/DataField.cpp
   ${CMAKE_CURRENT_LIST_DIR}/DataPacket.cpp
   ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgram.cpp
@@ -24,7 +23,8 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/SimpleDataField.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Test.cpp
   ${CMAKE_CURRENT_LIST_DIR}/TestCases.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/TestProgram.cpp)
+  ${CMAKE_CURRENT_LIST_DIR}/TestProgram.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/misc.cpp)
 
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
