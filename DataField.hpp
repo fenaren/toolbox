@@ -18,7 +18,7 @@ public:
     // internally if the source byte order does not match the byte ordering of
     // this field
     unsigned int readRaw(const unsigned char* buffer,
-                         misc::ByteOrder      byte_order);
+                         misc::ByteOrder      source_byte_order);
 
     // Writes the data field to the "buffer" memory location
     virtual unsigned int writeRaw(unsigned char* buffer) const = 0;
@@ -27,7 +27,7 @@ public:
     // destination if the destination byte order does not match the byte
     // ordering of this field
     unsigned int writeRaw(unsigned char*  buffer,
-                          misc::ByteOrder byte_order) const;
+                          misc::ByteOrder destination_byte_order) const;
 
     // Returns the size of this data field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().

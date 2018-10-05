@@ -22,11 +22,11 @@ DataField::~DataField()
 // field
 //==============================================================================
 unsigned int DataField::readRaw(const unsigned char* buffer,
-                                misc::ByteOrder      byte_order)
+                                misc::ByteOrder      source_byte_order)
 {
     unsigned int bytes_read = readRaw(buffer);
 
-    if (byte_order != this->byte_order)
+    if (source_byte_order != byte_order)
     {
         byteswap();
     }
@@ -40,11 +40,11 @@ unsigned int DataField::readRaw(const unsigned char* buffer,
 // this field
 //==============================================================================
 unsigned int DataField::writeRaw(unsigned char*  buffer,
-                                 misc::ByteOrder byte_order) const
+                                 misc::ByteOrder destination_byte_order) const
 {
     unsigned int bytes_written = writeRaw(buffer);
 
-    if (byte_order != this->byte_order)
+    if (destination_byte_order != byte_order)
     {
         miscNetworking::byteswap(buffer, bytes_written);
     }
