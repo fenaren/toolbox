@@ -86,7 +86,8 @@ add_test_executable_simple(
 set(MISC_NETWORKING_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case1.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case2.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case2.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case3.cpp)
 add_test_executable(miscNetworking_test
                     "${MISC_NETWORKING_TEST_SOURCE}"
                     "${INCLUDE_DIRS}"
