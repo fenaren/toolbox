@@ -40,7 +40,7 @@ protected:
 
     // Derived classes can use this to access the static const byte ordering
     // determination stored as a private data member
-    misc::ByteOrder getByteOrder() const;
+    static misc::ByteOrder getByteOrder();
 
 private:
 
@@ -49,7 +49,7 @@ private:
     static const misc::ByteOrder byte_order;
 };
 
-inline misc::ByteOrder DataField::getByteOrder() const
+inline misc::ByteOrder DataField::getByteOrder()
 {
     return byte_order;
 }
