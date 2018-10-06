@@ -35,10 +35,10 @@ public:
     virtual unsigned int readRaw(const unsigned char* buffer,
                                  misc::ByteOrder      source_byte_order);
 
-    // Writes a raw network address from the "buffer" memory location.
+    // Writes a raw network address to the "buffer" memory location.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
-    // Writes a raw network address from the "buffer" memory location.
+    // Writes a raw network address to the "buffer" memory location.
     virtual unsigned int writeRaw(unsigned char*  buffer,
                                   misc::ByteOrder destination_byte_order) const;
 
