@@ -34,15 +34,17 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
-    // Adds the field to the end of the packet.  The field is not maintained
-    // internally, only its order relative to other fields in this packet is.
-    void addDataField(DataField* data_field);
-
     // Byte alignment access
     unsigned int getByteAlignment() const;
 
     // Byte alignment mutator
     void setByteAlignment(unsigned int byte_alignment);
+
+protected:
+
+    // Adds the field to the end of the packet.  The field is not maintained
+    // internally, only its order relative to other fields in this packet is.
+    void addDataField(DataField* data_field);
 
 private:
 
@@ -60,6 +62,11 @@ private:
     DataPacket& operator=(const DataPacket& data_packet);
 };
 
+inline unsigned int DataPacket::getByteAlignment() const
+{
+    return byte_alignment;
+}
+
 inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
 {
     if (byte_alignment == 0)
@@ -70,11 +77,6 @@ inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
     }
 
     this->byte_alignment = byte_alignment;
-}
-
-inline unsigned int DataPacket::getByteAlignment() const
-{
-    return byte_alignment;
 }
 
 inline void DataPacket::addDataField(DataField* data_field)

@@ -10,6 +10,11 @@ class DataPacket_test2 : public DataPacket
 public:
 
     explicit DataPacket_test2();
+
+    // Copy constructor
+    explicit DataPacket_test2(const DataPacket_test2& dp_test2);
+
+    // Does nothing
     virtual ~DataPacket_test2();
 
     void setSdfFloat1(float sdf_float1);
@@ -22,6 +27,8 @@ public:
     char getSdfChar() const;
 
 private:
+
+    void addDataFields();
 
     SimpleDataField<float> sdf_float1;
     SimpleDataField<float> sdf_float2;

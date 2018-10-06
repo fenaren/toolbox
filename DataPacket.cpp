@@ -4,7 +4,8 @@
 #include "DataPacket.hpp"
 
 //==============================================================================
-DataPacket::DataPacket(unsigned int byte_alignment)
+DataPacket::DataPacket(unsigned int byte_alignment) :
+    DataField()
 {
     setByteAlignment(byte_alignment);
 }

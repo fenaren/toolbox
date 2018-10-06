@@ -21,6 +21,8 @@ public:
 
 private:
 
+    void addDataFields();
+
     SimpleDataField<int>    sdf_int;
     SimpleDataField<double> sdf_double;
     DataPacket_test2        nested_packet;
