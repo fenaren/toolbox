@@ -6,6 +6,8 @@
 
 #include "DataField.hpp"
 
+#include "misc.hpp"
+
 class NetworkAddress : public DataField
 {
 public:
@@ -29,12 +31,16 @@ public:
     // Reads the data field from the "buffer" memory location.
     virtual unsigned int readRaw(const unsigned char* buffer);
 
+    // Reads the data field from the "buffer" memory location.
+    virtual unsigned int readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order);
+
     // Writes the data field to the "buffer" memory location.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
-    // Does nothing; all DataFields are required to define a byteswap()
-    // operation but byteswapping each octet would be pointless
-    virtual void byteswap();
+        // Writes the data field to the "buffer" memory location.
+    virtual unsigned int writeRaw(unsigned char*  buffer,
+                                  misc::ByteOrder destination_byte_order) const;
 
     // Octet access
     unsigned char getOctet(unsigned int octet) const;

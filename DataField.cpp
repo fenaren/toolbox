@@ -20,17 +20,10 @@ DataField::~DataField()
 // internally if the source byte order does not match the byte ordering of this
 // field
 //==============================================================================
-unsigned int DataField::readRaw(const unsigned char* buffer,
-                                misc::ByteOrder      source_byte_order)
+unsigned int DataField::readRaw(const unsigned char* buffer)
 {
-    unsigned int bytes_read = readRaw(buffer);
-
-    if (source_byte_order != byte_order)
-    {
-        byteswap();
-    }
-
-    return bytes_read;
+    // Call the virtual method so it does not byte swap
+    return readRaw(buffer, byte_order);
 }
 
 //==============================================================================
@@ -38,15 +31,8 @@ unsigned int DataField::readRaw(const unsigned char* buffer,
 // destination if the destination byte order does not match the byte ordering of
 // this field
 //==============================================================================
-unsigned int DataField::writeRaw(unsigned char*  buffer,
-                                 misc::ByteOrder destination_byte_order) const
+unsigned int DataField::writeRaw(unsigned char* buffer) const
 {
-    unsigned int bytes_written = writeRaw(buffer);
-
-    if (destination_byte_order != byte_order)
-    {
-        misc::byteswap(buffer, bytes_written);
-    }
-
-    return bytes_written;
+    // Call the virtual method so it does not byte swap
+    return writeRaw(buffer, byte_order);
 }

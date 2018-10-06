@@ -12,29 +12,27 @@ public:
     virtual ~DataField();
 
     // Reads the data field from the "buffer" memory location.
-    virtual unsigned int readRaw(const unsigned char* buffer) = 0;
+    virtual unsigned int readRaw(const unsigned char* buffer);
 
     // Reads the data field from the "buffer" memory location, swapping it
     // internally if the source byte order does not match the byte ordering of
     // this field
-    unsigned int readRaw(const unsigned char* buffer,
-                         misc::ByteOrder      source_byte_order);
+    virtual unsigned int readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order) = 0;
 
     // Writes the data field to the "buffer" memory location
-    virtual unsigned int writeRaw(unsigned char* buffer) const = 0;
+    virtual unsigned int writeRaw(unsigned char* buffer) const;
 
     // Writes the data field to the "buffer" memory location, swapping at the
     // destination if the destination byte order does not match the byte
     // ordering of this field
-    unsigned int writeRaw(unsigned char*  buffer,
-                          misc::ByteOrder destination_byte_order) const;
+    virtual unsigned int writeRaw(
+        unsigned char*  buffer,
+        misc::ByteOrder destination_byte_order) const = 0;
 
     // Returns the size of this data field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const = 0;
-
-    // Byteswaps the sequence of bytes making up this field.
-    virtual void byteswap() = 0;
 
 protected:
 

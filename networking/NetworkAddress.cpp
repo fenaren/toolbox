@@ -4,6 +4,7 @@
 #include "NetworkAddress.hpp"
 
 #include "DataField.hpp"
+#include "misc.hpp"
 
 //==============================================================================
 // Dynamically allocates an address that is "length_bytes" in size
@@ -61,6 +62,15 @@ NetworkAddress::~NetworkAddress()
 //==============================================================================
 unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 {
+    return DataField::readRaw(buffer);
+}
+
+//==============================================================================
+// Reads the data field from the "buffer" memory location.
+//==============================================================================
+unsigned int NetworkAddress::readRaw(const unsigned char* buffer,
+                                     misc::ByteOrder      source_byte_order)
+{
     memcpy(network_address_raw, buffer, length_bytes);
     return length_bytes;
 }
@@ -70,16 +80,18 @@ unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 //==============================================================================
 unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 {
-    memcpy(buffer, network_address_raw, length_bytes);
-    return length_bytes;
+    return DataField::writeRaw(buffer);
 }
 
 //==============================================================================
-// Does nothing; all DataFields are required to define a byteswap() operation
-// but byteswapping each octet would be pointless
+// Writes the data field to the "buffer" memory location.
 //==============================================================================
-void NetworkAddress::byteswap()
+unsigned int
+NetworkAddress::writeRaw(unsigned char*  buffer,
+                         misc::ByteOrder destination_byte_order) const
 {
+    memcpy(buffer, network_address_raw, length_bytes);
+    return length_bytes;
 }
 
 //==============================================================================

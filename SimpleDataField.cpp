@@ -35,6 +35,16 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 template <class T>
 unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
 {
+    return DataField::readRaw(buffer);
+}
+
+//==============================================================================
+// Reads the field from the "buffer" memory location.
+//==============================================================================
+template <class T>
+unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
+                                         misc::ByteOrder      source_byte_order)
+{
     memcpy(&simple_data_field, buffer, sizeof(T));
     return sizeof(T);
 }
@@ -44,6 +54,16 @@ unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
 //==============================================================================
 template <class T>
 unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
+{
+    return DataField::writeRaw(buffer);
+}
+
+//==============================================================================
+// Writes the field to the "buffer" memory location.
+//==============================================================================
+template <class T> unsigned int
+SimpleDataField<T>::writeRaw(unsigned char*  buffer,
+                             misc::ByteOrder destination_byte_order) const
 {
     memcpy(buffer, &simple_data_field, sizeof(T));
     return sizeof(T);
@@ -56,13 +76,6 @@ unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
 template <class T> unsigned int SimpleDataField<T>::getLengthBytes() const
 {
     return sizeof(T);
-}
-
-//==============================================================================
-template <class T> void SimpleDataField<T>::byteswap()
-{
-    misc::byteswap(reinterpret_cast<unsigned char*>(&simple_data_field),
-                   sizeof(T));
 }
 
 //==============================================================================

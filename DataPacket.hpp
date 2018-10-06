@@ -6,6 +6,8 @@
 
 #include "DataField.hpp"
 
+#include "misc.hpp"
+
 class DataPacket : public DataField
 {
 public:
@@ -17,17 +19,16 @@ public:
     virtual ~DataPacket();
 
     // Reads the field from the "buffer" memory location.
-    virtual unsigned int readRaw(const unsigned char* buffer);
+    virtual unsigned int readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order);
 
     // Writes the field to the "buffer" memory location.
-    virtual unsigned int writeRaw(unsigned char* buffer) const;
+    virtual unsigned int writeRaw(unsigned char*  buffer,
+                                  misc::ByteOrder destination_byte_order) const;
 
     // Returns the size of this field in bytes.  This will equal the number of
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
-
-    // Byteswaps every field in this packet
-    virtual void byteswap();
 
     // Adds the field to the end of the packet.  The field is not maintained
     // internally, only its order relative to other fields in this packet is.

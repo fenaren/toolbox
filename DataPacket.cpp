@@ -17,7 +17,8 @@ DataPacket::~DataPacket()
 //==============================================================================
 // Reads the field from the "buffer" memory location.
 //==============================================================================
-unsigned int DataPacket::readRaw(const unsigned char* buffer)
+unsigned int DataPacket::readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order)
 {
     unsigned int offset = 0;
 
@@ -35,7 +36,8 @@ unsigned int DataPacket::readRaw(const unsigned char* buffer)
 //==============================================================================
 // Writes the field to the "buffer" memory location.
 //==============================================================================
-unsigned int DataPacket::writeRaw(unsigned char* buffer) const
+unsigned int DataPacket::writeRaw(unsigned char*  buffer,
+                                  misc::ByteOrder destination_byte_order) const
 {
     unsigned int offset = 0;
 
@@ -67,19 +69,6 @@ unsigned int DataPacket::getLengthBytes() const
     }
 
     return offset;
-}
-
-//==============================================================================
-// Byteswaps every field in this packet
-//==============================================================================
-void DataPacket::byteswap()
-{
-    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
-         i != data_fields.end();
-         ++i)
-    {
-        (*i)->byteswap();
-    }
 }
 
 //==============================================================================

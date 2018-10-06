@@ -3,6 +3,8 @@
 
 #include "DataField.hpp"
 
+#include "misc.hpp"
+
 template <class T>
 class SimpleDataField : public DataField
 {
@@ -23,15 +25,20 @@ public:
     // Reads the data field from the "buffer" memory location.
     virtual unsigned int readRaw(const unsigned char* buffer);
 
+    // Reads the data field from the "buffer" memory location.
+    virtual unsigned int readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order);
+
     // Writes the data field to the "buffer" memory location.
-    virtual unsigned int writeRaw(unsigned char* buffer) const;
+    virtual unsigned int writeRaw(unsigned char*  buffer) const;
+
+    // Writes the data field to the "buffer" memory location.
+    virtual unsigned int writeRaw(unsigned char*  buffer,
+                                  misc::ByteOrder destination_byte_order) const;
 
     // Returns the size of this data field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
-
-    // Byteswaps the field
-    virtual void byteswap();
 
     // Field value retrieval for small T
     T getValue() const;
