@@ -25,9 +25,18 @@ namespace misc
     // Determines byte ordering (endianness) of the host
     ByteOrder getByteOrder();
 
-    // Byteswaps the buffer of memory at "buffer" of length "len".  For example
-    // a "len" value of 4 would be used for swapping a single 32-bit integer
+    // Does an in-place byteswap of the data at "buffer" of length "len".  For
+    // example a "len" value of 4 would be used for swapping a single 32-bit
+    // integer.
     void byteswap(unsigned char* buffer, unsigned int len);
+
+    // Does an out-of-place byteswap.  The data at "source" is copied into
+    // "destination" byteswapped.  The data at "source" is not modified.  This
+    // is logically equivalent to a memcpy followed by a call to the
+    // two-argument byteswap function defined above but should be faster.
+    void byteswap(unsigned char*       destination,
+                  const unsigned char* source,
+                  unsigned int         len);
 };
 
 #endif

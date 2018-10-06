@@ -29,3 +29,20 @@ void misc::byteswap(unsigned char* buffer, unsigned int len)
         buffer[(len - i) - 1] = temp;
     }
 }
+
+//==============================================================================
+// Does an out-of-place byteswap.  The data at "source" is copied into
+// "destination" byteswapped.  The data at "source" is not modified.  This is
+// logically equivalent to a memcpy followed by a call to the two-argument
+// byteswap function defined above but should be faster.
+//==============================================================================
+void misc::byteswap(unsigned char*       destination,
+                    const unsigned char* source,
+                    unsigned int         len)
+{
+    // Work from opposite sides of "destination" and "source" simultaneously
+    for (unsigned int i = 0; i < len; i++)
+    {
+        destination[i] = source[(len - i) - 1];
+    }
+}

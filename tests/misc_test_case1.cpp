@@ -54,5 +54,32 @@ Test::Result misc_test_case1::run()
     MUST_BE_TRUE(memcmp(a7_before, a7_after, 7) == 0);
     MUST_BE_TRUE(memcmp(a8_before, a8_after, 8) == 0);
 
+    misc::byteswap(a1_after, a1_before, 1);
+    misc::byteswap(a2_after, a2_before, 2);
+    misc::byteswap(a3_after, a3_before, 3);
+    misc::byteswap(a4_after, a4_before, 4);
+    misc::byteswap(a5_after, a5_before, 5);
+    misc::byteswap(a6_after, a6_before, 6);
+    misc::byteswap(a7_after, a7_before, 7);
+    misc::byteswap(a8_after, a8_before, 8);
+
+    misc::byteswap(a1_before, 1);
+    misc::byteswap(a2_before, 2);
+    misc::byteswap(a3_before, 3);
+    misc::byteswap(a4_before, 4);
+    misc::byteswap(a5_before, 5);
+    misc::byteswap(a6_before, 6);
+    misc::byteswap(a7_before, 7);
+    misc::byteswap(a8_before, 8);
+
+    MUST_BE_TRUE(memcmp(a1_before, a1_after, 1) == 0);
+    MUST_BE_TRUE(memcmp(a2_before, a2_after, 2) == 0);
+    MUST_BE_TRUE(memcmp(a3_before, a3_after, 3) == 0);
+    MUST_BE_TRUE(memcmp(a4_before, a4_after, 4) == 0);
+    MUST_BE_TRUE(memcmp(a5_before, a5_after, 5) == 0);
+    MUST_BE_TRUE(memcmp(a6_before, a6_after, 6) == 0);
+    MUST_BE_TRUE(memcmp(a7_before, a7_after, 7) == 0);
+    MUST_BE_TRUE(memcmp(a8_before, a8_after, 8) == 0);
+
     return Test::PASSED;
 }
