@@ -49,7 +49,6 @@ private:
 
     // A meaningful deep copy can't be done here so disallow
     DataField(const DataField&);
-    DataField& operator=(const DataField& data_field);
 };
 
 inline misc::ByteOrder DataField::getByteOrder()

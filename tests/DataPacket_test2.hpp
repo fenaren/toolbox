@@ -26,6 +26,8 @@ public:
     void setSdfChar(char sdf_char);
     char getSdfChar() const;
 
+    DataPacket_test2& operator=(const DataPacket_test2& dp_test2);
+
 private:
 
     void addDataFields();

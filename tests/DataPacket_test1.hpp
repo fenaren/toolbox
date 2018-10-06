@@ -11,6 +11,8 @@ class DataPacket_test1 : public DataPacket
 public:
 
     explicit DataPacket_test1();
+    explicit DataPacket_test1(const DataPacket_test1& dp_test1);
+
     virtual ~DataPacket_test1();
 
     void setSdfInt(int sdf_int);
@@ -18,6 +20,11 @@ public:
 
     void setSdfDouble(double sdf_double);
     double getSdfDouble() const;
+
+    void setNestedPacket(const DataPacket_test2& dp_test2);
+    void getNestedPacket(DataPacket_test2& dp_test2) const;
+
+    DataPacket_test1& operator=(const DataPacket_test1& dp_test1);
 
 private:
 
@@ -46,6 +53,18 @@ inline void DataPacket_test1::setSdfDouble(double sdf_double)
 inline double DataPacket_test1::getSdfDouble() const
 {
     return sdf_double;
+}
+
+inline
+void DataPacket_test1::setNestedPacket(const DataPacket_test2& nested_packet)
+{
+    this->nested_packet = nested_packet;
+}
+
+inline
+void DataPacket_test1::getNestedPacket(DataPacket_test2& nested_packet) const
+{
+    nested_packet = this->nested_packet;
 }
 
 #endif

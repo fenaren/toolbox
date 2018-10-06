@@ -18,14 +18,26 @@ DataPacket_test2::DataPacket_test2(const DataPacket_test2& dp_test2) :
 {
     addDataFields();
 
-    sdf_float1 = dp_test2.getSdfFloat1();
-    sdf_float2 = dp_test2.getSdfFloat2();
-    sdf_char   = dp_test2.getSdfChar();
+    // Use operator=
+    *this = dp_test2;
 }
 
 //==============================================================================
 DataPacket_test2::~DataPacket_test2()
 {
+}
+
+//==============================================================================
+DataPacket_test2& DataPacket_test2::operator=(const DataPacket_test2& dp_test2)
+{
+    if (this != &dp_test2)
+    {
+        sdf_float1 = dp_test2.getSdfFloat1();
+        sdf_float2 = dp_test2.getSdfFloat2();
+        sdf_char   = dp_test2.getSdfChar();
+    }
+
+    return *this;
 }
 
 //==============================================================================
