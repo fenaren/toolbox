@@ -8,8 +8,6 @@
 
 #include "Ipv4Address.hpp"
 
-#include "DataField.hpp"
-
 //==============================================================================
 // Ipv4Address constructor; initializes to all zeros
 //==============================================================================

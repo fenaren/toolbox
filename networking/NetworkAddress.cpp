@@ -72,7 +72,8 @@ unsigned int NetworkAddress::readRaw(const unsigned char* buffer,
                                      misc::ByteOrder      source_byte_order)
 {
     // Byteswapping doesn't seem to be a relevant operation on network addresses
-    // in the general sense of the term
+    // (in the general sense of the term) so no byteswapping happens here
+    // regardless of the byte ordering of the source.
     memcpy(network_address_raw, buffer, length_bytes);
     return length_bytes;
 }
@@ -93,7 +94,8 @@ NetworkAddress::writeRaw(unsigned char*  buffer,
                          misc::ByteOrder destination_byte_order) const
 {
     // Byteswapping doesn't seem to be a relevant operation on network addresses
-    // in the general sense of the term
+    // (in the general sense of the term) so no byteswapping happens here
+    // regardless of the byte ordering of the destination
     memcpy(buffer, network_address_raw, length_bytes);
     return length_bytes;
 }

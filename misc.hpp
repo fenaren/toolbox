@@ -1,10 +1,10 @@
-// For functionality that has no obvious home elsewhere
-
 #if !defined MISC_HPP
 #define MISC_HPP
 
+// For functionality that has no obvious home elsewhere
+
 // BIG_ENDIAN and LITTLE_ENDIAN are defined on macOS for some reason or other.
-// Get rid of that definition and replace with this one.
+// Replace those definitions with the ones defined in here.
 
 #if defined BIG_ENDIAN
 #undef BIG_ENDIAN

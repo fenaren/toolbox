@@ -21,7 +21,8 @@ DataField::~DataField()
 //==============================================================================
 unsigned int DataField::readRaw(const unsigned char* buffer)
 {
-    // Call the virtual method so it does not byte swap
+    // Call the virtual method with the host byte ordering.  If the virtual
+    // method is implemented like it should be it won't do any byteswapping.
     return readRaw(buffer, byte_order);
 }
 
@@ -31,6 +32,7 @@ unsigned int DataField::readRaw(const unsigned char* buffer)
 //==============================================================================
 unsigned int DataField::writeRaw(unsigned char* buffer) const
 {
-    // Call the virtual method so it does not byte swap
+    // Call the virtual method with the host byte ordering.  If the virtual
+    // method is implemented like it should be it won't do any byteswapping.
     return writeRaw(buffer, byte_order);
 }

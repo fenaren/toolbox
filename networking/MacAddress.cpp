@@ -8,8 +8,6 @@
 
 #include "MacAddress.hpp"
 
-#include "DataField.hpp"
-
 //==============================================================================
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
