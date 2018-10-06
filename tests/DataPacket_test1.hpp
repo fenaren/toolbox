@@ -13,8 +13,11 @@ public:
     explicit DataPacket_test1();
     virtual ~DataPacket_test1();
 
-    void setSdfInt(int value);
+    void setSdfInt(int sdf_int);
     int getSdfInt() const;
+
+    void setSdfDouble(double sdf_double);
+    double getSdfDouble() const;
 
 private:
 
@@ -23,14 +26,24 @@ private:
     DataPacket_test2        nested_packet;
 };
 
-inline void DataPacket_test1::setSdfInt(int value)
+inline void DataPacket_test1::setSdfInt(int sdf_int)
 {
-    sdf_int = value;
+    this->sdf_int = sdf_int;
 }
 
 inline int DataPacket_test1::getSdfInt() const
 {
     return sdf_int;
+}
+
+inline void DataPacket_test1::setSdfDouble(double sdf_double)
+{
+    this->sdf_double = sdf_double;
+}
+
+inline double DataPacket_test1::getSdfDouble() const
+{
+    return sdf_double;
 }
 
 #endif
