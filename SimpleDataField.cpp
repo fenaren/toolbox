@@ -45,7 +45,17 @@ template <class T>
 unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
                                          misc::ByteOrder      source_byte_order)
 {
-    memcpy(&simple_data_field, buffer, sizeof(T));
+    if (source_byte_order == getByteOrder())
+    {
+        memcpy(&simple_data_field, buffer, sizeof(T));
+    }
+    else
+    {
+        misc::byteswap(reinterpret_cast<unsigned char*>(&simple_data_field),
+                       buffer,
+                       sizeof(T));
+    }
+
     return sizeof(T);
 }
 
@@ -65,7 +75,18 @@ template <class T> unsigned int
 SimpleDataField<T>::writeRaw(unsigned char*  buffer,
                              misc::ByteOrder destination_byte_order) const
 {
-    memcpy(buffer, &simple_data_field, sizeof(T));
+    if (destination_byte_order == getByteOrder())
+    {
+        memcpy(buffer, &simple_data_field, sizeof(T));
+    }
+    else
+    {
+        misc::byteswap(
+            buffer,
+            reinterpret_cast<const unsigned char*>(&simple_data_field),
+            sizeof(T));
+    }
+
     return sizeof(T);
 }
 

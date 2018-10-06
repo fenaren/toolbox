@@ -26,7 +26,8 @@ unsigned int DataPacket::readRaw(const unsigned char* buffer,
          i != data_fields.end();
          ++i)
     {
-        unsigned int field_length = (*i)->readRaw(buffer + offset);
+        unsigned int field_length = (*i)->readRaw(buffer + offset,
+                                                  source_byte_order);
         offset += field_length + computePadding(field_length);
     }
 
@@ -45,7 +46,8 @@ unsigned int DataPacket::writeRaw(unsigned char*  buffer,
          i != data_fields.end();
          ++i)
     {
-        unsigned int field_length = (*i)->writeRaw(buffer + offset);
+        unsigned int field_length = (*i)->writeRaw(buffer + offset,
+                                                   destination_byte_order);
         offset += field_length + computePadding(field_length);
     }
 
