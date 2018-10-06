@@ -54,6 +54,10 @@ private:
     std::vector<DataField*> data_fields;
 
     unsigned int byte_alignment;
+
+    // A meaningful deep copy can't be done here so disallow
+    DataPacket(const DataPacket&);
+    DataPacket& operator=(const DataPacket& data_packet);
 };
 
 inline void DataPacket::setByteAlignment(unsigned int byte_alignment)

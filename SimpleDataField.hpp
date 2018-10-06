@@ -16,6 +16,9 @@ public:
     // Takes an initial value
     explicit SimpleDataField(const T& value);
 
+    // Copy constructor
+    explicit SimpleDataField(const SimpleDataField<T>& simple_data_field);
+
     // Defines how to convert a SimpleDataField<T> to a T
     operator T() const;
 

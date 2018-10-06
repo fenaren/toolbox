@@ -46,6 +46,10 @@ private:
     // Used by the two argument versions of readRaw() and writeRaw() to
     // determine if byteswapping is needed
     static const misc::ByteOrder byte_order;
+
+    // A meaningful deep copy can't be done here so disallow
+    DataField(const DataField&);
+    DataField& operator=(const DataField& data_field);
 };
 
 inline misc::ByteOrder DataField::getByteOrder()

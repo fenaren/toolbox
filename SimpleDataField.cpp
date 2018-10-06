@@ -19,6 +19,15 @@ template <class T> SimpleDataField<T>::SimpleDataField(const T& value) :
 }
 
 //==============================================================================
+// Copy constructor
+//==============================================================================
+template <class T>
+SimpleDataField<T>::SimpleDataField(const SimpleDataField<T>& simple_data_field)
+{
+    this->simple_data_field = simple_data_field.getValue();
+}
+
+//==============================================================================
 template <class T> SimpleDataField<T>::operator T() const
 {
     return simple_data_field;
