@@ -18,11 +18,15 @@ public:
     // Does nothing
     virtual ~DataPacket();
 
-    // Reads the field from the "buffer" memory location.
+    // Reads this data packet from the "buffer" memory location.  Each field
+    // will be byteswapped if its source byte order does not match the byte
+    // ordering of the host.
     virtual unsigned int readRaw(const unsigned char* buffer,
                                  misc::ByteOrder      source_byte_order);
 
-    // Writes the field to the "buffer" memory location.
+    // Writes this data packet to the "buffer" memory location.  Each field will
+    // be byteswapped if its source byte order does not match the byte ordering
+    // of the host.
     virtual unsigned int writeRaw(unsigned char*  buffer,
                                   misc::ByteOrder destination_byte_order) const;
 

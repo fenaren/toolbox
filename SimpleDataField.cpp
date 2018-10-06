@@ -30,7 +30,8 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 }
 
 //==============================================================================
-// Reads the field from the "buffer" memory location.
+// Reads the data field from the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 template <class T>
 unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
@@ -39,7 +40,8 @@ unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
 }
 
 //==============================================================================
-// Reads the field from the "buffer" memory location.
+// Reads the data field from the "buffer" memory location, swapping if the
+// source byte order does not match the byte ordering of this field.
 //==============================================================================
 template <class T>
 unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
@@ -60,7 +62,8 @@ unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
 }
 
 //==============================================================================
-// Writes the field to the "buffer" memory location.
+// Writes the data field to the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 template <class T>
 unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
@@ -69,7 +72,9 @@ unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
 }
 
 //==============================================================================
-// Writes the field to the "buffer" memory location.
+// Writes the data field to the "buffer" memory location, swapping at the
+// destination if the destination byte order does not match the byte ordering of
+// this field.
 //==============================================================================
 template <class T> unsigned int
 SimpleDataField<T>::writeRaw(unsigned char*  buffer,

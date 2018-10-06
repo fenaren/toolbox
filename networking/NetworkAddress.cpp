@@ -58,7 +58,7 @@ NetworkAddress::~NetworkAddress()
 }
 
 //==============================================================================
-// Reads the data field from the "buffer" memory location.
+// Reads a raw network address from the "buffer" memory location.
 //==============================================================================
 unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 {
@@ -66,17 +66,19 @@ unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 }
 
 //==============================================================================
-// Reads the data field from the "buffer" memory location.
+// Reads a raw network address from the "buffer" memory location.
 //==============================================================================
 unsigned int NetworkAddress::readRaw(const unsigned char* buffer,
                                      misc::ByteOrder      source_byte_order)
 {
+    // Byteswapping doesn't seem to be a relevant operation on network addresses
+    // in the general sense of the term
     memcpy(network_address_raw, buffer, length_bytes);
     return length_bytes;
 }
 
 //==============================================================================
-// Writes the data field to the "buffer" memory location.
+// Writes a raw network address from the "buffer" memory location.
 //==============================================================================
 unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 {
@@ -84,18 +86,20 @@ unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 }
 
 //==============================================================================
-// Writes the data field to the "buffer" memory location.
+// Writes a raw network address from the "buffer" memory location.
 //==============================================================================
 unsigned int
 NetworkAddress::writeRaw(unsigned char*  buffer,
                          misc::ByteOrder destination_byte_order) const
 {
+    // Byteswapping doesn't seem to be a relevant operation on network addresses
+    // in the general sense of the term
     memcpy(buffer, network_address_raw, length_bytes);
     return length_bytes;
 }
 
 //==============================================================================
-// Assigns an IPv4 address to this IPv4 address
+// Assigns a NetworkAddress to this NetworkAddress
 //==============================================================================
 NetworkAddress& NetworkAddress::operator=(const NetworkAddress& network_address)
 {
@@ -117,15 +121,15 @@ bool operator==(const NetworkAddress& network_address1,
     // We know both addresses have equal length at this point
     unsigned int length_bytes = network_address1.getLengthBytes();
 
-    unsigned char network_address_raw1[length_bytes];
-    unsigned char network_address_raw2[length_bytes];
+    for (unsigned int i = 0; i < length_bytes; i++)
+    {
+        if (network_address1.getOctet(i) != network_address2.getOctet(i))
+        {
+            return false;
+        }
+    }
 
-    network_address1.writeRaw(network_address_raw1);
-    network_address2.writeRaw(network_address_raw2);
-
-    return !memcmp(&network_address_raw1,
-                   &network_address_raw2,
-                   length_bytes);
+    return true;
 }
 
 //==============================================================================

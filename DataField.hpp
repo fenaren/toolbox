@@ -11,16 +11,17 @@ public:
     DataField();
     virtual ~DataField();
 
-    // Reads the data field from the "buffer" memory location.
+    // Reads the data field from the "buffer" memory location without
+    // considering byte ordering.
     virtual unsigned int readRaw(const unsigned char* buffer);
 
-    // Reads the data field from the "buffer" memory location, swapping it
-    // internally if the source byte order does not match the byte ordering of
-    // this field
+    // Reads the data field from the "buffer" memory location, swapping if the
+    // source byte order does not match the byte ordering of this field
     virtual unsigned int readRaw(const unsigned char* buffer,
                                  misc::ByteOrder      source_byte_order) = 0;
 
-    // Writes the data field to the "buffer" memory location
+    // Writes the data field to the "buffer" memory location without considering
+    // byte ordering.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
     // Writes the data field to the "buffer" memory location, swapping at the

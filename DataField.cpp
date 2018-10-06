@@ -16,9 +16,8 @@ DataField::~DataField()
 }
 
 //==============================================================================
-// Reads the data field from the "buffer" memory location, swapping it
-// internally if the source byte order does not match the byte ordering of this
-// field
+// Reads the data field from the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 unsigned int DataField::readRaw(const unsigned char* buffer)
 {
@@ -27,9 +26,8 @@ unsigned int DataField::readRaw(const unsigned char* buffer)
 }
 
 //==============================================================================
-// Writes the data field to the "buffer" memory location, swapping at the
-// destination if the destination byte order does not match the byte ordering of
-// this field
+// Writes the data field to the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 unsigned int DataField::writeRaw(unsigned char* buffer) const
 {
