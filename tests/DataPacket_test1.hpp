@@ -21,8 +21,8 @@ public:
     void setSdfDouble(double sdf_double);
     double getSdfDouble() const;
 
-    void setNestedPacket(const DataPacket_test2& dp_test2);
-    void getNestedPacket(DataPacket_test2& dp_test2) const;
+    void setNestedPacket(const DataPacket_test2& nested_packet);
+    void getNestedPacket(DataPacket_test2& nested_packet) const;
 
     DataPacket_test1& operator=(const DataPacket_test1& dp_test1);
 
