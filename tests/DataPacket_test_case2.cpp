@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 
 #include "DataPacket_test_case2.hpp"
