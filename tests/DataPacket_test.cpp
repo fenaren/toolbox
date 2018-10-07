@@ -22,7 +22,9 @@ DataPacket_test::~DataPacket_test()
 //==============================================================================
 Test::Result DataPacket_test::run()
 {
-    DataPacket_test1 dptest1;
+    // Initialize with some dummy data; will check for proper byteswappng later
+    DataPacket_test2 dptest2(1.0f, 2.0f, 'A');
+    DataPacket_test1 dptest1(3, 4.0, dptest2);
 
     // The right side of the equality operator represents the known sum total of
     // all the sizes in the packet.  There are five total "leaf" fields of types
@@ -56,6 +58,14 @@ Test::Result DataPacket_test::run()
     MUST_BE_TRUE(
         dptest1.getLengthBytes() ==
         sizeof(int) + sizeof(double) + (2 * sizeof(float)) + sizeof(char) + 3);
+
+    // Write out dptest1 with a 4-byte alignment and make sure it looks alright
+    unsigned char* raw_dptest1 = new unsigned char(dptest1.getLengthBytes());
+    dptest1.writeRaw(raw_dptest1);
+
+    
+
+    delete raw_dptest1;
 
     return Test::PASSED;
 }
