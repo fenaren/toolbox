@@ -9,7 +9,7 @@ class DataPacket_test2 : public DataPacket
 {
 public:
 
-    explicit DataPacket_test2();
+    DataPacket_test2();
 
     // Copy constructor
     explicit DataPacket_test2(const DataPacket_test2& dp_test2);

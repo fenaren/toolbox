@@ -48,6 +48,9 @@ protected:
 
 private:
 
+    // Derived classes should use this to add all their data fields
+    virtual void addDataFields() = 0;
+
     // Computes amount of padding needed after a field given the current byte
     // alignment setting
     unsigned int computePadding(unsigned int field_length) const;

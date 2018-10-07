@@ -10,7 +10,9 @@ class DataPacket_test1 : public DataPacket
 {
 public:
 
-    explicit DataPacket_test1();
+    DataPacket_test1();
+
+    // Copy constructor
     explicit DataPacket_test1(const DataPacket_test1& dp_test1);
 
     virtual ~DataPacket_test1();
@@ -22,7 +24,7 @@ public:
     double getSdfDouble() const;
 
     // Allow direct access to the nested packet; breaks encapsulation but is
-    // necessary in general
+    // necessary for in general for packet use to be efficient
     DataPacket_test2* getNestedPacket();
     const DataPacket_test2* getNestedPacket() const;
 
