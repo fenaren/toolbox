@@ -11,6 +11,8 @@ class DataPacket_test1 : public DataPacket
 public:
 
     DataPacket_test1();
+    DataPacket_test1(
+        int sdf_int, double sdf_double, const DataPacket_test2& nested_packet);
 
     // Copy constructor
     explicit DataPacket_test1(const DataPacket_test1& dp_test1);

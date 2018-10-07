@@ -3,9 +3,20 @@
 //==============================================================================
 DataPacket_test2::DataPacket_test2() :
     DataPacket(),
-    sdf_float1(3.0f),
-    sdf_float2(3.0f),
-    sdf_char('A')
+    sdf_float1(0.0f),
+    sdf_float2(0.0f),
+    sdf_char(0)
+{
+    addDataFields();
+}
+
+//==============================================================================
+DataPacket_test2::DataPacket_test2(
+    float sdf_float1, float sdf_float2, char sdf_char) :
+    DataPacket(),
+    sdf_float1(sdf_float1),
+    sdf_float2(sdf_float2),
+    sdf_char(sdf_char)
 {
     addDataFields();
 }

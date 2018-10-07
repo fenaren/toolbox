@@ -10,6 +10,7 @@ class DataPacket_test2 : public DataPacket
 public:
 
     DataPacket_test2();
+    DataPacket_test2(float sdf_float1, float sdf_float2, char sdf_char);
 
     // Copy constructor
     explicit DataPacket_test2(const DataPacket_test2& dp_test2);

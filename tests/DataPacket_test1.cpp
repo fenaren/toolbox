@@ -3,9 +3,19 @@
 //==============================================================================
 DataPacket_test1::DataPacket_test1() :
     DataPacket(),
-    sdf_int(1),
-    sdf_double(2.0),
+    sdf_int(0),
+    sdf_double(0.0),
     nested_packet()
+{
+    addDataFields();
+}
+
+//==============================================================================
+DataPacket_test1::DataPacket_test1(
+    int sdf_int, double sdf_double, const DataPacket_test2& nested_packet) :
+    sdf_int(sdf_int),
+    sdf_double(sdf_double),
+    nested_packet(nested_packet)
 {
     addDataFields();
 }
