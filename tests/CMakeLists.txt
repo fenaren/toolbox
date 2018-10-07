@@ -15,6 +15,7 @@ set(DATA_PACKET_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test_case1.cpp
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test_case2.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test_case3.cpp
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test1.cpp
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test2.cpp)
 add_test_executable(DataPacket_test

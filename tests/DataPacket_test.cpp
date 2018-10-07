@@ -19,4 +19,5 @@ void DataPacket_test::addTestCases()
 {
     addTestCase(&dptc1);
     addTestCase(&dptc2);
+    addTestCase(&dptc3);
 }
