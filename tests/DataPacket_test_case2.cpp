@@ -95,9 +95,6 @@ Test::Result DataPacket_test_case2::run()
     memcpy(raw_dptest1 + offset, &dptest2_char_updated, sizeof(char));
     offset += sizeof(char);
 
-    // Should be 2 bytes of padding here
-    offset += 2;
-
     MUST_BE_TRUE(dptest1_int    == dptest1.getSdfInt());
     MUST_BE_TRUE(dptest1_double == dptest1.getSdfDouble());
     MUST_BE_TRUE(dptest2_float1 == dptest1.getNestedPacket()->getSdfFloat1());

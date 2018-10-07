@@ -8,6 +8,7 @@
 #include "DataPacket_test2.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
+#include "misc.hpp"
 
 //==============================================================================
 DataPacket_test_case3::DataPacket_test_case3()
@@ -22,6 +23,15 @@ DataPacket_test_case3::~DataPacket_test_case3()
 //==============================================================================
 Test::Result DataPacket_test_case3::run()
 {
+    // We want to know what endianness this host does not have so we can force
+    // byteswapping from the packet routines
+    misc::ByteOrder byteorder_host = misc::getByteOrder();
+    misc::ByteOrder byteorder_opposite = misc::BIG_ENDIAN;
+    if (byteorder_host == misc::BIG_ENDIAN)
+    {
+        byteorder_opposite = misc::LITTLE_ENDIAN;
+    }
+
     // Initialize with some dummy data; will check for proper byteswappng later
     DataPacket_test2 dptest2(1.0f, 2.0f, 'A');
     DataPacket_test1 dptest1(3, 4.0, dptest2);
@@ -34,7 +44,7 @@ Test::Result DataPacket_test_case3::run()
 
     // Write out dptest1 with a 3-byte alignment and make sure it looks alright
     unsigned char* raw_dptest1 = new unsigned char[dptest1.getLengthBytes()];
-    dptest1.writeRaw(raw_dptest1);
+    dptest1.writeRaw(raw_dptest1, byteorder_opposite);
 
     unsigned int offset = 0;
 
