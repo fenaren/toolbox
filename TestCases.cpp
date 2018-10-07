@@ -32,7 +32,7 @@ Test::Result TestCases::run()
         Test::Result result = (*i)->run();
 
         std::cout << "Test case "
-                  << std::distance(test_cases.begin(), i) << " ";
+                  << std::distance(test_cases.begin(), i) + 1 << " ";
 
         if (result == Test::FAILED)
         {
