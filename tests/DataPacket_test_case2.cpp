@@ -93,7 +93,6 @@ Test::Result DataPacket_test_case2::run()
     // Push an updated char into its place to read later
     char dptest2_char_updated = dptest2_char + 1;
     memcpy(raw_dptest1 + offset, &dptest2_char_updated, sizeof(char));
-    offset += sizeof(char);
 
     MUST_BE_TRUE(dptest1_int    == dptest1.getSdfInt());
     MUST_BE_TRUE(dptest1_double == dptest1.getSdfDouble());
