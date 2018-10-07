@@ -121,7 +121,6 @@ Test::Result DataPacket_test_case3::run()
     misc::byteswap(raw_dptest1 + offset,
                    reinterpret_cast<unsigned char*>(&dptest2_char_updated),
                    sizeof(char));
-    offset += sizeof(char);
 
     MUST_BE_TRUE(dptest1_int    == dptest1.getSdfInt());
     MUST_BE_TRUE(dptest1_double == dptest1.getSdfDouble());
