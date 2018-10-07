@@ -21,8 +21,10 @@ public:
     void setSdfDouble(double sdf_double);
     double getSdfDouble() const;
 
-    void setNestedPacket(const DataPacket_test2& nested_packet);
-    void getNestedPacket(DataPacket_test2& nested_packet) const;
+    // Allow direct access to the nested packet; breaks encapsulation but is
+    // necessary in general
+    DataPacket_test2* getNestedPacket();
+    const DataPacket_test2* getNestedPacket() const;
 
     DataPacket_test1& operator=(const DataPacket_test1& dp_test1);
 
@@ -55,16 +57,14 @@ inline double DataPacket_test1::getSdfDouble() const
     return sdf_double;
 }
 
-inline
-void DataPacket_test1::setNestedPacket(const DataPacket_test2& nested_packet)
+inline DataPacket_test2* DataPacket_test1::getNestedPacket()
 {
-    this->nested_packet = nested_packet;
+    return &nested_packet;
 }
 
-inline
-void DataPacket_test1::getNestedPacket(DataPacket_test2& nested_packet) const
+inline const DataPacket_test2* DataPacket_test1::getNestedPacket() const
 {
-    nested_packet = this->nested_packet;
+    return &nested_packet;
 }
 
 #endif

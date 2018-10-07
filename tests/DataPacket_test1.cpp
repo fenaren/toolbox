@@ -35,7 +35,7 @@ DataPacket_test1& DataPacket_test1::operator=(const DataPacket_test1& dp_test1)
         sdf_int    = dp_test1.getSdfInt();
         sdf_double = dp_test1.getSdfDouble();
 
-        dp_test1.getNestedPacket(nested_packet);
+        nested_packet = *dp_test1.getNestedPacket();
     }
 
     return *this;
