@@ -131,7 +131,7 @@ Test::Result DataPacket_test_case3::run()
     // Read the updated raw data and compare against the updated values
     dptest1.readRaw(raw_dptest1, byteorder_opposite);
 
-    MUST_BE_TRUE(dptest1_int_updated    == dptest1.getSdfInt());
+    MUST_BE_TRUE(dptest1_int_updated == dptest1.getSdfInt());
     MUST_BE_TRUE(dptest1_double_updated == dptest1.getSdfDouble());
     MUST_BE_TRUE(
         dptest2_float1_updated == dptest1.getNestedPacket()->getSdfFloat1());

@@ -103,14 +103,14 @@ Test::Result DataPacket_test_case2::run()
     // Read the updated raw data and compare against the updated values
     dptest1.readRaw(raw_dptest1);
 
-    MUST_BE_TRUE(dptest1_int_updated    == dptest1.getSdfInt());
+    MUST_BE_TRUE(dptest1_int_updated == dptest1.getSdfInt());
     MUST_BE_TRUE(dptest1_double_updated == dptest1.getSdfDouble());
     MUST_BE_TRUE(
         dptest2_float1_updated == dptest1.getNestedPacket()->getSdfFloat1());
     MUST_BE_TRUE(
         dptest2_float2_updated == dptest1.getNestedPacket()->getSdfFloat2());
     MUST_BE_TRUE(
-        dptest2_char_updated   == dptest1.getNestedPacket()->getSdfChar());
+        dptest2_char_updated == dptest1.getNestedPacket()->getSdfChar());
 
     delete [] raw_dptest1;
 
