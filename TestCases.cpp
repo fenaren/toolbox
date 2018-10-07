@@ -37,7 +37,7 @@ Test::Result TestCases::run()
         if (result == Test::FAILED)
         {
             any_failed = true;
-            std::cout << "FAILED";
+            std::cout << "failed";
         }
         else if (result == Test::PASSED)
         {
