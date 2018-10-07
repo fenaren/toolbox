@@ -23,7 +23,7 @@ DataPacket_test_case3::~DataPacket_test_case3()
 //==============================================================================
 Test::Result DataPacket_test_case3::run()
 {
-    // We want to know what endianness this host does not have so we can force
+    // We want to know what endianness this host does NOT have so we can force
     // byteswapping from the packet routines
     misc::ByteOrder byteorder_host = misc::getByteOrder();
     misc::ByteOrder byteorder_opposite = misc::BIG_ENDIAN;
@@ -105,9 +105,6 @@ Test::Result DataPacket_test_case3::run()
     memcpy(raw_dptest1 + offset, &dptest2_char_updated, sizeof(char));
     offset += sizeof(char);
 
-    // Should be 2 bytes of padding here
-    offset += 2;
-
     MUST_BE_TRUE(dptest1_int    == dptest1.getSdfInt());
     MUST_BE_TRUE(dptest1_double == dptest1.getSdfDouble());
     MUST_BE_TRUE(dptest2_float1 == dptest1.getNestedPacket()->getSdfFloat1());
@@ -115,7 +112,7 @@ Test::Result DataPacket_test_case3::run()
     MUST_BE_TRUE(dptest2_char   == dptest1.getNestedPacket()->getSdfChar());
 
     // Read the updated raw data and compare against the updated values
-    dptest1.readRaw(raw_dptest1);
+    dptest1.readRaw(raw_dptest1, byteorder_opposite);
 
     MUST_BE_TRUE(dptest1_int_updated    == dptest1.getSdfInt());
     MUST_BE_TRUE(dptest1_double_updated == dptest1.getSdfDouble());
