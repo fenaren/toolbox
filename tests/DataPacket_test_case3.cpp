@@ -51,9 +51,12 @@ Test::Result DataPacket_test_case3::run()
     // Grab sdf_int; it should be at the very beginning of the raw packet
     int dptest1_int;
     memcpy(&dptest1_int, raw_dptest1, sizeof(int));
+    misc::byteswap(reinterpret_cast<unsigned char*>(&dptest1_int), sizeof(int));
     // Push an updated int into its place to read later
     int dptest1_int_updated = dptest1_int + 1;
-    memcpy(raw_dptest1 + offset, &dptest1_int_updated, sizeof(int));
+    misc::byteswap(raw_dptest1 + offset,
+                   reinterpret_cast<unsigned char*>(&dptest1_int_updated),
+                   sizeof(int));
     offset += sizeof(int);
 
     // Should be 2 bytes of padding here
@@ -63,9 +66,13 @@ Test::Result DataPacket_test_case3::run()
     // of sizeof(int)
     double dptest1_double;
     memcpy(&dptest1_double, raw_dptest1 + offset, sizeof(double));
+    misc::byteswap(
+        reinterpret_cast<unsigned char*>(&dptest1_double), sizeof(double));
     // Push an updated double into its place to read later
     double dptest1_double_updated = dptest1_double + 1;
-    memcpy(raw_dptest1 + offset, &dptest1_double_updated, sizeof(double));
+    misc::byteswap(raw_dptest1 + offset,
+                   reinterpret_cast<unsigned char*>(&dptest1_double_updated),
+                   sizeof(double));
     offset += sizeof(double);
 
     // Should be 1 byte of padding here
@@ -75,9 +82,13 @@ Test::Result DataPacket_test_case3::run()
     // fields in the top-level packet, since we're still aligned on 4 bytes
     float dptest2_float1;
     memcpy(&dptest2_float1, raw_dptest1 + offset, sizeof(float));
+    misc::byteswap(
+        reinterpret_cast<unsigned char*>(&dptest2_float1), sizeof(float));
     // Push an updated float into its place to read later
     float dptest2_float1_updated = dptest2_float1 + 1;
-    memcpy(raw_dptest1 + offset, &dptest2_float1_updated, sizeof(float));
+    misc::byteswap(raw_dptest1 + offset,
+                   reinterpret_cast<unsigned char*>(&dptest2_float1_updated),
+                   sizeof(float));
     offset += sizeof(float);
 
     // Should be 2 bytes of padding here
@@ -87,10 +98,13 @@ Test::Result DataPacket_test_case3::run()
     // still immediately after the last thing
     float dptest2_float2;
     memcpy(&dptest2_float2, raw_dptest1 + offset, sizeof(float));
+    misc::byteswap(
+        reinterpret_cast<unsigned char*>(&dptest2_float2), sizeof(float));
     // Push an updated float into its place to read later
     float dptest2_float2_updated = dptest2_float2 + 1;
-    memcpy(raw_dptest1 + offset, &dptest2_float2_updated, sizeof(float));
-
+    misc::byteswap(raw_dptest1 + offset,
+                   reinterpret_cast<unsigned char*>(&dptest2_float2_updated),
+                   sizeof(float));
     offset += sizeof(float);
 
     // Should be 2 bytes of padding here
@@ -100,9 +114,13 @@ Test::Result DataPacket_test_case3::run()
     // still immediately after the last thing
     char dptest2_char;
     memcpy(&dptest2_char, raw_dptest1 + offset, sizeof(char));
+    misc::byteswap(
+        reinterpret_cast<unsigned char*>(&dptest2_char), sizeof(char));
     // Push an updated char into its place to read later
     char dptest2_char_updated = dptest2_char + 1;
-    memcpy(raw_dptest1 + offset, &dptest2_char_updated, sizeof(char));
+    misc::byteswap(raw_dptest1 + offset,
+                   reinterpret_cast<unsigned char*>(&dptest2_char_updated),
+                   sizeof(char));
     offset += sizeof(char);
 
     MUST_BE_TRUE(dptest1_int    == dptest1.getSdfInt());
@@ -121,7 +139,7 @@ Test::Result DataPacket_test_case3::run()
     MUST_BE_TRUE(
         dptest2_float2_updated == dptest1.getNestedPacket()->getSdfFloat2());
     MUST_BE_TRUE(
-        dptest2_char_updated   == dptest1.getNestedPacket()->getSdfChar());
+        dptest2_char_updated == dptest1.getNestedPacket()->getSdfChar());
 
     delete [] raw_dptest1;
 
