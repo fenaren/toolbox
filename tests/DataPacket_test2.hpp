@@ -30,7 +30,7 @@ public:
 
 private:
 
-    void addDataFields();
+    virtual void addDataFields();
 
     SimpleDataField<float> sdf_float1;
     SimpleDataField<float> sdf_float2;

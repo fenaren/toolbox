@@ -32,7 +32,7 @@ public:
 
 private:
 
-    void addDataFields();
+    virtual void addDataFields();
 
     SimpleDataField<int>    sdf_int;
     SimpleDataField<double> sdf_double;
