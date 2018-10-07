@@ -1,3 +1,5 @@
+#include <iostream>
+#include <iterator>
 #include <vector>
 
 #include "Test.hpp"
@@ -29,14 +31,25 @@ Test::Result TestCases::run()
     {
         Test::Result result = (*i)->run();
 
+        std::cout << "Test case "
+                  << std::distance(test_cases.begin(), i) << " ";
+
         if (result == Test::FAILED)
         {
             any_failed = true;
+            std::cout << "FAILED";
         }
         else if (result == Test::PASSED)
         {
             any_passed = true;
+            std::cout << "passed";
         }
+        else if (result == Test::SKIPPED)
+        {
+            std::cout << "skipped";
+        }
+
+        std::cout << "\n";
     }
 
     // This defines how test case results are evaluated to determine how the
