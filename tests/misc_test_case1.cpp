@@ -81,5 +81,9 @@ Test::Result misc_test_case1::run()
     MUST_BE_TRUE(memcmp(a7_before, a7_after, 7) == 0);
     MUST_BE_TRUE(memcmp(a8_before, a8_after, 8) == 0);
 
+    // Test operator! on values of the ByteOrder enumeration
+    MUST_BE_TRUE(misc::LITTLE_ENDIAN == !misc::BIG_ENDIAN);
+    MUST_BE_TRUE(misc::BIG_ENDIAN    == !misc::LITTLE_ENDIAN);
+
     return Test::PASSED;
 }

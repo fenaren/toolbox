@@ -39,4 +39,11 @@ namespace misc
                   unsigned int         len);
 };
 
+// Overloads operator! to take a misc::ByteOrder and return the "other" value.
+// If given misc::BIG_ENDIAN, return misc::LITTLE_ENDIAN.  If given
+// misc::LITTLE_ENDIAN, return misc::BIG_ENDIAN.  There are only two possible
+// endianness settings, and being able to invert one into the other is handy and
+// seemingly appropriate for operator!.
+misc::ByteOrder operator!(const misc::ByteOrder& byte_order);
+
 #endif
