@@ -3,6 +3,10 @@
 #include "ArpPacket.hpp"
 
 //==============================================================================
+// Constructs an ARP packet with the minimum amount of information provided
+// up-front; the hardware and protocol lengths have to be known to construct
+// their associated fields.  Memory for fields is dynamically allocated.
+//==============================================================================
 ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
     htype(0),
     ptype(0),
@@ -17,6 +21,9 @@ ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
     addDataFields();
 }
 
+//==============================================================================
+// Constructs an ARP packet in such a way that memory for the hardware and
+// protocol fields are dynamically allocated and maintained internally
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t htype,
                      std::uint16_t ptype,
@@ -36,6 +43,9 @@ ArpPacket::ArpPacket(std::uint16_t htype,
     addDataFields();
 }
 
+//==============================================================================
+// Constructs an ARP packet by dynamically allocating memory and copying
+// provided NetworkAddress data into them.
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t         htype,
                      std::uint16_t         ptype,
@@ -59,6 +69,11 @@ ArpPacket::ArpPacket(std::uint16_t         htype,
     addDataFields();
 }
 
+//==============================================================================
+// Constructs an ARP packet using hardware and protocol field memory that is
+// maintained externally.  This is useful for derived classes for specific
+// variants of the ARP packet (for example, Ethernet and IPv4-specific ARP
+// packets).
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t  htype,
                      std::uint16_t  ptype,
