@@ -6,6 +6,8 @@
 
 #include "DataField.hpp"
 
+#include "misc.hpp"
+
 class DataPacket : public DataField
 {
 public:
@@ -16,19 +18,29 @@ public:
     // Does nothing
     virtual ~DataPacket();
 
-    // Reads the field from the "buffer" memory location.
+    // Reads the data field from the "buffer" memory location without
+    // considering byte ordering.
     virtual unsigned int readRaw(const unsigned char* buffer);
 
-    // Writes the field to the "buffer" memory location.
+    // Reads this data packet from the "buffer" memory location.  Each field
+    // will be byteswapped if its source byte order does not match the byte
+    // ordering of the host.
+    virtual unsigned int readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order);
+
+    // Writes the data field to the "buffer" memory location without considering
+    // byte ordering.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
+
+    // Writes this data packet to the "buffer" memory location.  Each field will
+    // be byteswapped if its source byte order does not match the byte ordering
+    // of the host.
+    virtual unsigned int writeRaw(unsigned char*  buffer,
+                                  misc::ByteOrder destination_byte_order) const;
 
     // Returns the size of this field in bytes.  This will equal the number of
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
-
-    // Adds the field to the end of the packet.  The field is not maintained
-    // internally, only its order relative to other packets is.
-    void addDataField(DataField* data_field);
 
     // Byte alignment access
     unsigned int getByteAlignment() const;
@@ -36,7 +48,16 @@ public:
     // Byte alignment mutator
     void setByteAlignment(unsigned int byte_alignment);
 
+protected:
+
+    // Adds the field to the end of the packet.  The field is not maintained
+    // internally, only its order relative to other fields in this packet is.
+    void addDataField(DataField* data_field);
+
 private:
+
+    // Derived classes should use this to add all their data fields
+    virtual void addDataFields() = 0;
 
     // Computes amount of padding needed after a field given the current byte
     // alignment setting
@@ -46,7 +67,15 @@ private:
     std::vector<DataField*> data_fields;
 
     unsigned int byte_alignment;
+
+    // A meaningful deep copy can't be done here so disallow
+    DataPacket(const DataPacket&);
 };
+
+inline unsigned int DataPacket::getByteAlignment() const
+{
+    return byte_alignment;
+}
 
 inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
 {
@@ -58,11 +87,6 @@ inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
     }
 
     this->byte_alignment = byte_alignment;
-}
-
-inline unsigned int DataPacket::getByteAlignment() const
-{
-    return byte_alignment;
 }
 
 inline void DataPacket::addDataField(DataField* data_field)

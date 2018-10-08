@@ -4,7 +4,8 @@
 #include "DataPacket.hpp"
 
 //==============================================================================
-DataPacket::DataPacket(unsigned int byte_alignment)
+DataPacket::DataPacket(unsigned int byte_alignment) :
+    DataField()
 {
     setByteAlignment(byte_alignment);
 }
@@ -15,9 +16,21 @@ DataPacket::~DataPacket()
 }
 
 //==============================================================================
-// Reads the field from the "buffer" memory location.
+// Reads the data field from the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 unsigned int DataPacket::readRaw(const unsigned char* buffer)
+{
+    return DataField::readRaw(buffer);
+}
+
+//==============================================================================
+// Reads this data packet from the "buffer" memory location.  Each field will be
+// byteswapped if its source byte order does not match the byte ordering of the
+// host.
+//==============================================================================
+unsigned int DataPacket::readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order)
 {
     unsigned int offset = 0;
 
@@ -25,7 +38,8 @@ unsigned int DataPacket::readRaw(const unsigned char* buffer)
          i != data_fields.end();
          ++i)
     {
-        unsigned int field_length = (*i)->readRaw(buffer + offset);
+        unsigned int field_length = (*i)->readRaw(buffer + offset,
+                                                  source_byte_order);
         offset += field_length + computePadding(field_length);
     }
 
@@ -33,9 +47,21 @@ unsigned int DataPacket::readRaw(const unsigned char* buffer)
 }
 
 //==============================================================================
-// Writes the field to the "buffer" memory location.
+// Writes the data field to the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 unsigned int DataPacket::writeRaw(unsigned char* buffer) const
+{
+    return DataField::writeRaw(buffer);
+}
+
+//==============================================================================
+// Writes this data packet to the "buffer" memory location.  Each field will be
+// byteswapped if its source byte order does not match the byte ordering of the
+// host.
+//==============================================================================
+unsigned int DataPacket::writeRaw(unsigned char*  buffer,
+                                  misc::ByteOrder destination_byte_order) const
 {
     unsigned int offset = 0;
 
@@ -43,7 +69,8 @@ unsigned int DataPacket::writeRaw(unsigned char* buffer) const
          i != data_fields.end();
          ++i)
     {
-        unsigned int field_length = (*i)->writeRaw(buffer + offset);
+        unsigned int field_length = (*i)->writeRaw(buffer + offset,
+                                                   destination_byte_order);
         offset += field_length + computePadding(field_length);
     }
 

@@ -4,6 +4,7 @@
 #include "NetworkAddress.hpp"
 
 #include "DataField.hpp"
+#include "misc.hpp"
 
 //==============================================================================
 // Dynamically allocates an address that is "length_bytes" in size
@@ -57,25 +58,60 @@ NetworkAddress::~NetworkAddress()
 }
 
 //==============================================================================
-// Reads the data field from the "buffer" memory location.
+// Reads a raw network address from the "buffer" memory location without
+// considering byte ordering.  Byte ordering has seemingly no relevance to
+// network addresses (in the general sense of the term) anyway.
 //==============================================================================
 unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 {
+    return DataField::readRaw(buffer);
+}
+
+//==============================================================================
+// Reads a raw network address from the "buffer" memory location.  This function
+// is required by the framework to be implemented here, despite being
+// functionally identical to the single-argument version defined above.  If byte
+// ordering were relevant to network addresses (in the general sense of the
+// term) this function would be where that difference would be handled.
+//==============================================================================
+unsigned int NetworkAddress::readRaw(const unsigned char* buffer,
+                                     misc::ByteOrder      source_byte_order)
+{
+    // Byteswapping doesn't seem to be a relevant operation on network addresses
+    // (in the general sense of the term) so no byteswapping happens here
+    // regardless of the byte ordering of the source.
     memcpy(network_address_raw, buffer, length_bytes);
     return length_bytes;
 }
 
 //==============================================================================
-// Writes the data field to the "buffer" memory location.
+// Writes a raw network address to the "buffer" memory location without
+// considering byte ordering.  Byte ordering has seemingly no relevance to
+// network addresses (in the general sense of the term) anyway.
 //==============================================================================
 unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 {
+    return DataField::writeRaw(buffer);
+}
+
+//==============================================================================
+// Writes a raw network address to the "buffer" memory location.  This function
+// is required by the framework to be implemented here, despite being
+// functionally identical to the single-argument version defined above.  If byte
+// ordering were relevant to network addresses (in the general sense of the
+// term) this function would be where that difference would be handled.
+//==============================================================================
+unsigned int
+NetworkAddress::writeRaw(unsigned char*  buffer,
+                         misc::ByteOrder destination_byte_order) const
+{
+    // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, network_address_raw, length_bytes);
     return length_bytes;
 }
 
 //==============================================================================
-// Assigns an IPv4 address to this IPv4 address
+// Assigns a NetworkAddress to this NetworkAddress
 //==============================================================================
 NetworkAddress& NetworkAddress::operator=(const NetworkAddress& network_address)
 {
@@ -97,15 +133,15 @@ bool operator==(const NetworkAddress& network_address1,
     // We know both addresses have equal length at this point
     unsigned int length_bytes = network_address1.getLengthBytes();
 
-    unsigned char network_address_raw1[length_bytes];
-    unsigned char network_address_raw2[length_bytes];
+    for (unsigned int i = 0; i < length_bytes; i++)
+    {
+        if (network_address1.getOctet(i) != network_address2.getOctet(i))
+        {
+            return false;
+        }
+    }
 
-    network_address1.writeRaw(network_address_raw1);
-    network_address2.writeRaw(network_address_raw2);
-
-    return !memcmp(&network_address_raw1,
-                   &network_address_raw2,
-                   length_bytes);
+    return true;
 }
 
 //==============================================================================
