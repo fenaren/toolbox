@@ -58,7 +58,9 @@ NetworkAddress::~NetworkAddress()
 }
 
 //==============================================================================
-// Reads a raw network address from the "buffer" memory location.
+// Reads a raw network address from the "buffer" memory location without
+// considering byte ordering.  Byte ordering has seemingly no relevance to
+// network addresses (in the general sense of the term) anyway.
 //==============================================================================
 unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 {
@@ -66,7 +68,11 @@ unsigned int NetworkAddress::readRaw(const unsigned char* buffer)
 }
 
 //==============================================================================
-// Reads a raw network address from the "buffer" memory location.
+// Reads a raw network address from the "buffer" memory location.  This function
+// is required by the framework to be implemented here, despite being
+// functionally identical to the single-argument version defined above.  If byte
+// ordering were relevant to network addresses (in the general sense of the
+// term) this function would be where that difference would be handled.
 //==============================================================================
 unsigned int NetworkAddress::readRaw(const unsigned char* buffer,
                                      misc::ByteOrder      source_byte_order)
@@ -79,7 +85,9 @@ unsigned int NetworkAddress::readRaw(const unsigned char* buffer,
 }
 
 //==============================================================================
-// Writes a raw network address from the "buffer" memory location.
+// Writes a raw network address to the "buffer" memory location without
+// considering byte ordering.  Byte ordering has seemingly no relevance to
+// network addresses (in the general sense of the term) anyway.
 //==============================================================================
 unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 {
@@ -87,15 +95,17 @@ unsigned int NetworkAddress::writeRaw(unsigned char* buffer) const
 }
 
 //==============================================================================
-// Writes a raw network address from the "buffer" memory location.
+// Writes a raw network address to the "buffer" memory location.  This function
+// is required by the framework to be implemented here, despite being
+// functionally identical to the single-argument version defined above.  If byte
+// ordering were relevant to network addresses (in the general sense of the
+// term) this function would be where that difference would be handled.
 //==============================================================================
 unsigned int
 NetworkAddress::writeRaw(unsigned char*  buffer,
                          misc::ByteOrder destination_byte_order) const
 {
-    // Byteswapping doesn't seem to be a relevant operation on network addresses
-    // (in the general sense of the term) so no byteswapping happens here
-    // regardless of the byte ordering of the destination
+    // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, network_address_raw, length_bytes);
     return length_bytes;
 }
