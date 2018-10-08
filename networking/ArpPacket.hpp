@@ -33,10 +33,10 @@ public:
               std::uint8_t          hlen,
               std::uint8_t          plen,
               std::uint16_t         oper,
-              const NetworkAddress& buffer_sha,
-              const NetworkAddress& buffer_spa,
-              const NetworkAddress& buffer_tha,
-              const NetworkAddress& buffer_tpa);
+              const NetworkAddress& sha,
+              const NetworkAddress& spa,
+              const NetworkAddress& tha,
+              const NetworkAddress& tpa);
 
     // Constructs an ARP packet using hardware and protocol field memory that is
     // maintained externally.  This is useful for derived classes for specific
