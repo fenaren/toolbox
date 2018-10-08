@@ -13,9 +13,44 @@ class ArpPacket : public DataPacket
 {
 public:
 
-    // We must immediately know these values to be able to form a concrete ARP
-    // packet
+    // Constructs an ARP packet with the minimum amount of information provided
+    // up-front; the hardware and protocol lengths have to be known to construct
+    // their associated fields.  Memory for fields is dynamically allocated.
     ArpPacket(std::uint8_t hlen, std::uint8_t plen);
+
+    // Constructs an ARP packet in such a way that memory for the hardware and
+    // protocol fields are dynamically allocated and maintained internally
+    ArpPacket(std::uint16_t  htype,
+              std::uint16_t  ptype,
+              std::uint8_t   hlen,
+              std::uint8_t   plen,
+              std::uint16_t  oper);
+
+    // Constructs an ARP packet by dynamically allocating memory and copying
+    // NetworkAddresses into them.
+    ArpPacket(std::uint16_t         htype,
+              std::uint16_t         ptype,
+              std::uint8_t          hlen,
+              std::uint8_t          plen,
+              std::uint16_t         oper,
+              const NetworkAddress& buffer_sha,
+              const NetworkAddress& buffer_spa,
+              const NetworkAddress& buffer_tha,
+              const NetworkAddress& buffer_tpa);
+
+    // Constructs an ARP packet using hardware and protocol field memory that is
+    // maintained externally.  This is useful for derived classes for specific
+    // variants of the ARP packet (for example, Ethernet and IPv4-specific ARP
+    // packets).
+    ArpPacket(std::uint16_t  htype,
+              std::uint16_t  ptype,
+              std::uint8_t   hlen,
+              std::uint8_t   plen,
+              std::uint16_t  oper,
+              unsigned char* buffer_sha,
+              unsigned char* buffer_spa,
+              unsigned char* buffer_tha,
+              unsigned char* buffer_tpa);
 
     // Does nothing
     virtual ~ArpPacket();
@@ -23,20 +58,20 @@ public:
     // Field access
     std::uint16_t getHType() const;
     std::uint16_t getPType() const;
-    std::uint8_t getHLen() const;
-    std::uint8_t getPLen() const;
+    std::uint8_t  getHLen() const;
+    std::uint8_t  getPLen() const;
     std::uint16_t getOper() const;
-    void getSha(NetworkAddress& sha) const;
-    void getSpa(NetworkAddress& spa) const;
-    void getTha(NetworkAddress& tha) const;
-    void getTpa(NetworkAddress& tpa) const;
+    void          getSha(NetworkAddress& sha) const;
+    void          getSpa(NetworkAddress& spa) const;
+    void          getTha(NetworkAddress& tha) const;
+    void          getTpa(NetworkAddress& tpa) const;
 
     // Field mutation
-    void setHType(std::uint16_t htype);
-    void setPType(std::uint16_t ptype);
-    void setHLen(std::uint8_t hlen);
-    void setPLen(std::uint8_t plen);
-    void setOper(std::uint16_t oper);
+    void setHType(std::uint16_t       htype);
+    void setPType(std::uint16_t       ptype);
+    void setHLen(std::uint8_t         hlen);
+    void setPLen(std::uint8_t         plen);
+    void setOper(std::uint16_t        oper);
     void setSha(const NetworkAddress& sha);
     void setSpa(const NetworkAddress& spa);
     void setTha(const NetworkAddress& tha);
@@ -44,15 +79,17 @@ public:
 
 private:
 
+    virtual void addDataFields();
+
     SimpleDataField<std::uint16_t> htype;
     SimpleDataField<std::uint16_t> ptype;
-    SimpleDataField<std::uint8_t> hlen;
-    SimpleDataField<std::uint8_t> plen;
+    SimpleDataField<std::uint8_t>  hlen;
+    SimpleDataField<std::uint8_t>  plen;
     SimpleDataField<std::uint16_t> oper;
-    NetworkAddress sha;
-    NetworkAddress spa;
-    NetworkAddress tha;
-    NetworkAddress tpa;
+    NetworkAddress                 sha;
+    NetworkAddress                 spa;
+    NetworkAddress                 tha;
+    NetworkAddress                 tpa;
 };
 
 inline std::uint16_t ArpPacket::getHType() const
