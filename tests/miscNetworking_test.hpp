@@ -5,7 +5,6 @@
 
 #include "miscNetworking_test_case1.hpp"
 #include "miscNetworking_test_case2.hpp"
-#include "miscNetworking_test_case3.hpp"
 
 class miscNetworking_test : public TestCases
 {
@@ -22,7 +21,6 @@ private:
 
     miscNetworking_test_case1 case1;
     miscNetworking_test_case2 case2;
-    miscNetworking_test_case3 case3;
 };
 
 #endif

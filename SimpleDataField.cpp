@@ -3,6 +3,7 @@
 #include "SimpleDataField.hpp"
 
 #include "DataField.hpp"
+#include "misc.hpp"
 
 //==============================================================================
 template <class T> SimpleDataField<T>::SimpleDataField() :
@@ -18,6 +19,15 @@ template <class T> SimpleDataField<T>::SimpleDataField(const T& value) :
 }
 
 //==============================================================================
+// Copy constructor
+//==============================================================================
+template <class T>
+SimpleDataField<T>::SimpleDataField(const SimpleDataField<T>& simple_data_field)
+{
+    this->simple_data_field = simple_data_field.getValue();
+}
+
+//==============================================================================
 template <class T> SimpleDataField<T>::operator T() const
 {
     return simple_data_field;
@@ -29,22 +39,68 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 }
 
 //==============================================================================
-// Reads the field from the "buffer" memory location.
+// Reads the data field from the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 template <class T>
 unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
 {
-    memcpy(&simple_data_field, buffer, sizeof(T));
+    return DataField::readRaw(buffer);
+}
+
+//==============================================================================
+// Reads the data field from the "buffer" memory location, swapping if the
+// source byte order does not match the byte ordering of this field.
+//==============================================================================
+template <class T>
+unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
+                                         misc::ByteOrder      source_byte_order)
+{
+    if (source_byte_order == getByteOrder())
+    {
+        memcpy(&simple_data_field, buffer, sizeof(T));
+    }
+    else
+    {
+        misc::byteswap(reinterpret_cast<unsigned char*>(&simple_data_field),
+                       buffer,
+                       sizeof(T));
+    }
+
     return sizeof(T);
 }
 
 //==============================================================================
-// Writes the field to the "buffer" memory location.
+// Writes the data field to the "buffer" memory location without considering
+// byte ordering.
 //==============================================================================
 template <class T>
 unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
 {
-    memcpy(buffer, &simple_data_field, sizeof(T));
+    return DataField::writeRaw(buffer);
+}
+
+//==============================================================================
+// Writes the data field to the "buffer" memory location, swapping at the
+// destination if the destination byte order does not match the byte ordering of
+// this field.
+//==============================================================================
+template <class T> unsigned int
+SimpleDataField<T>::writeRaw(unsigned char*  buffer,
+                             misc::ByteOrder destination_byte_order) const
+{
+    if (destination_byte_order == getByteOrder())
+    {
+        memcpy(buffer, &simple_data_field, sizeof(T));
+    }
+    else
+    {
+        misc::byteswap(
+            buffer,
+            reinterpret_cast<const unsigned char*>(&simple_data_field),
+            sizeof(T));
+    }
+
     return sizeof(T);
 }
 

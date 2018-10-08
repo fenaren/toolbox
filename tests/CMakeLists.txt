@@ -17,6 +17,9 @@ add_test_executable_simple(
 # DataPacket_test
 set(DATA_PACKET_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test_case1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test_case2.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test_case3.cpp
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test1.cpp
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test2.cpp)
 add_test_executable(DataPacket_test
@@ -86,12 +89,20 @@ add_test_executable(TCPSocket_test
 add_test_executable_simple(
   UDPSocket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
+# misc
+set(MISC_TEST_SOURCE
+    ${CMAKE_CURRENT_LIST_DIR}/misc_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/misc_test_case1.cpp)
+add_test_executable(misc_test
+                    "${MISC_TEST_SOURCE}"
+                    "${INCLUDE_DIRS}"
+                    "${LINK_LIBRARIES}")
+
 # miscNetworking_test
 set(MISC_NETWORKING_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test.cpp
     ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case1.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case2.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case3.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/miscNetworking_test_case2.cpp)
 add_test_executable(miscNetworking_test
                     "${MISC_NETWORKING_TEST_SOURCE}"
                     "${INCLUDE_DIRS}"

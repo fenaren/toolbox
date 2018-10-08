@@ -6,6 +6,8 @@
 
 #include "DataField.hpp"
 
+#include "misc.hpp"
+
 class NetworkAddress : public DataField
 {
 public:
@@ -26,11 +28,32 @@ public:
     // class
     virtual ~NetworkAddress();
 
-    // Reads the data field from the "buffer" memory location.
+    // Reads a raw network address from the "buffer" memory location without
+    // considering byte ordering.  Byte ordering has seemingly no relevance to
+    // network addresses (in the general sense of the term) anyway.
     virtual unsigned int readRaw(const unsigned char* buffer);
 
-    // Writes the data field to the "buffer" memory location.
+    // Reads a raw network address from the "buffer" memory location.  This
+    // function is required by the framework to be implemented here, despite
+    // being functionally identical to the single-argument version defined
+    // above.  If byte ordering were relevant to network addresses (in the
+    // general sense of the term) this function would be where that difference
+    // would be handled.
+    virtual unsigned int readRaw(const unsigned char* buffer,
+                                 misc::ByteOrder      source_byte_order);
+
+    // Writes a raw network address from the "buffer" memory location without
+    // considering byte ordering.  Byte ordering has seemingly no relevance to
+    // network addresses (in the general sense of the term) anyway.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
+
+    // Writes a raw network address from the "buffer" memory location.  This
+    // function is required by the framework to be implemented here, despite being
+    // functionally identical to the single-argument version defined above.  If
+    // byte ordering were relevant to network addresses (in the general sense of
+    // the term) this function would be where that difference would be handled.
+    virtual unsigned int writeRaw(unsigned char*  buffer,
+                                  misc::ByteOrder destination_byte_order) const;
 
     // Octet access
     unsigned char getOctet(unsigned int octet) const;
