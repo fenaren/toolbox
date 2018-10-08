@@ -37,7 +37,8 @@ Test::Result DataPacket_test_case3::run()
     dptest1.setByteAlignment(3);
     dptest2p->setByteAlignment(3);
 
-    // Write out dptest1 with a 3-byte alignment and make sure it looks alright
+    // Write out dptest1 with a 3-byte alignment and make sure it looks
+    // alright.  Write is done in whatever byte order this host doesn't have.
     unsigned char* raw_dptest1 = new unsigned char[dptest1.getLengthBytes()];
     dptest1.writeRaw(raw_dptest1, byteorder_opposite);
 
