@@ -5,6 +5,7 @@ target_include_directories(toolbox PUBLIC
 #Include platform-independent sources
 target_sources(toolbox PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/ArpPacket.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/ArpPacketEthernetIpv4.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Ipv4Address.cpp
   ${CMAKE_CURRENT_LIST_DIR}/MacAddress.cpp
   ${CMAKE_CURRENT_LIST_DIR}/NetworkAddress.cpp
