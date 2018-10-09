@@ -28,6 +28,9 @@ public:
 
 private:
 
+    // Initializes the address memory below
+    void initializeAddresses();
+
     // Statically-allocated memory used for storing Ethernet and IPv4 addresses;
     // these are used by ArpPacket
     unsigned char sha[HLEN];
