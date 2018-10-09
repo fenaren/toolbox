@@ -23,8 +23,8 @@ public:
     // Constant field values for this specific ARP variant
     static const std::uint16_t HTYPE = 1;
     static const std::uint16_t PTYPE = 2048;
-    static const std::uint16_t HLEN  = 6;
-    static const std::uint16_t PLEN  = 4;
+    static const std::uint8_t  HLEN  = 6;
+    static const std::uint8_t  PLEN  = 4;
 
 private:
 
