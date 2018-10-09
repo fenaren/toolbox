@@ -55,27 +55,32 @@ public:
     // Does nothing
     virtual ~ArpPacket();
 
-    // Field access
     std::uint16_t getHType() const;
-    std::uint16_t getPType() const;
-    std::uint8_t  getHLen() const;
-    std::uint8_t  getPLen() const;
-    std::uint16_t getOper() const;
-    void          getSha(NetworkAddress& sha) const;
-    void          getSpa(NetworkAddress& spa) const;
-    void          getTha(NetworkAddress& tha) const;
-    void          getTpa(NetworkAddress& tpa) const;
+    void setHType(std::uint16_t htype);
 
-    // Field mutation
-    void setHType(std::uint16_t       htype);
-    void setPType(std::uint16_t       ptype);
-    void setHLen(std::uint8_t         hlen);
-    void setPLen(std::uint8_t         plen);
-    void setOper(std::uint16_t        oper);
-    void setSha(const NetworkAddress& sha);
-    void setSpa(const NetworkAddress& spa);
-    void setTha(const NetworkAddress& tha);
-    void setTpa(const NetworkAddress& tpa);
+    std::uint16_t getPType() const;
+    void setPType(std::uint16_t ptype);
+
+    std::uint8_t getHLen() const;
+    void setHLen(std::uint8_t hlen);
+
+    std::uint8_t getPLen() const;
+    void setPLen(std::uint8_t plen);
+
+    std::uint16_t getOper() const;
+    void setOper(std::uint16_t oper);
+
+    NetworkAddress* getSha();
+    const NetworkAddress* getSha() const;
+
+    NetworkAddress* getSpa();
+    const NetworkAddress* getSpa() const;
+
+    NetworkAddress* getTha();
+    const NetworkAddress* getTha() const;
+
+    NetworkAddress* getTpa();
+    const NetworkAddress* getTpa() const;
 
 private:
 
@@ -117,24 +122,44 @@ inline std::uint16_t ArpPacket::getOper() const
     return oper;
 }
 
-inline void ArpPacket::getSha(NetworkAddress& sha) const
+inline NetworkAddress* ArpPacket::getSha()
 {
-    sha = this->sha;
+    return &sha;
 }
 
-inline void ArpPacket::getSpa(NetworkAddress& spa) const
+inline const NetworkAddress* ArpPacket::getSha() const
 {
-    spa = this->spa;
+    return &sha;
 }
 
-inline void ArpPacket::getTha(NetworkAddress& tha) const
+inline NetworkAddress* ArpPacket::getSpa()
 {
-    tha = this->tha;
+    return &spa;
 }
 
-inline void ArpPacket::getTpa(NetworkAddress& tpa) const
+inline const NetworkAddress* ArpPacket::getSpa() const
 {
-    tpa = this->tpa;
+    return &spa;
+}
+
+inline NetworkAddress* ArpPacket::getTha()
+{
+    return &tha;
+}
+
+inline const NetworkAddress* ArpPacket::getTha() const
+{
+    return &tha;
+}
+
+inline NetworkAddress* ArpPacket::getTpa()
+{
+    return &tpa;
+}
+
+inline const NetworkAddress* ArpPacket::getTpa() const
+{
+    return &tpa;
 }
 
 inline void ArpPacket::setHType(std::uint16_t htype)
@@ -160,26 +185,6 @@ inline void ArpPacket::setPLen(std::uint8_t plen)
 inline void ArpPacket::setOper(std::uint16_t oper)
 {
     this->oper = oper;
-}
-
-inline void ArpPacket::setSha(const NetworkAddress& sha)
-{
-    this->sha = sha;
-}
-
-inline void ArpPacket::setSpa(const NetworkAddress& spa)
-{
-    this->spa = spa;
-}
-
-inline void ArpPacket::setTha(const NetworkAddress& tha)
-{
-    this->tha = tha;
-}
-
-inline void ArpPacket::setTpa(const NetworkAddress& tpa)
-{
-    this->tpa = tpa;
 }
 
 #endif
