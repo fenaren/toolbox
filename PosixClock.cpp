@@ -35,15 +35,15 @@ int PosixClock::getTime(PosixTimespec& ts) const
 //==============================================================================
 // Calling process sleeps for specified length of time
 //==============================================================================
-void PosixClock::nanosleep(const PosixTimespec& ts)
+int PosixClock::nanosleep(const PosixTimespec& ts)
 {
     timespec tp;
     ts.getTimespec(tp);
 
 #if defined MACOS
     // clock_nanosleep isn't implemented on macOS?
-    ::nanosleep(&tp, 0);
+    return ::nanosleep(&tp, 0);
 #else
-    clock_nanosleep(clk_id, 0, &tp, 0);
+    return clock_nanosleep(clk_id, 0, &tp, 0);
 #endif
 }
