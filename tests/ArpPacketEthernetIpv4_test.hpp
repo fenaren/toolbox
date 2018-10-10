@@ -13,6 +13,11 @@ public:
 
     // Implements the test
     virtual Test::Result run();
+
+private:
+
+    template <class T>
+    unsigned int fieldPull(unsigned char* buffer, T& destination);
 };
 
 #endif
