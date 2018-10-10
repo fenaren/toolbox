@@ -14,6 +14,10 @@ set(LINK_LIBRARIES ${PROJECT_NAME})
 add_test_executable_simple(
   ArpPacket_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
+# ArpPacketEthernetIpv4_test
+add_test_executable_simple(
+  ArpPacketEthernetIpv4_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
 # DataPacket_test
 set(DATA_PACKET_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test.cpp
