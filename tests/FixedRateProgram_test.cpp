@@ -28,7 +28,5 @@ Test::Result FixedRateProgram_test::run()
     FixedRateProgram_test_tc1 test_frp(0, 0, period);
     test_frp.run();
 
-    throw std::system_error(ENOENT, std::system_category());
-
     return Test::PASSED;
 }
