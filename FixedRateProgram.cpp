@@ -38,7 +38,7 @@ int FixedRateProgram::run()
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
-        if (!clock.getTime(frame_start))
+        if (clock.getTime(frame_start) != 0)
         {
             throw std::system_error(errno, std::system_category());
         }
@@ -48,7 +48,7 @@ int FixedRateProgram::run()
 
         // Used to determine the amount of time taken to execute the iterative
         // code
-        if (!clock.getTime(frame_stop))
+        if (clock.getTime(frame_stop) != 0)
         {
             throw std::system_error(errno, std::system_category());
         }
@@ -60,7 +60,7 @@ int FixedRateProgram::run()
         statistics.update(frame_time);
 
         // Sleep off the rest of the frame
-        if (!clock.nanosleep(period - frame_time))
+        if (clock.nanosleep(period - frame_time) != 0)
         {
             throw std::system_error(errno, std::system_category());
         }
