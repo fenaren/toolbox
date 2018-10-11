@@ -54,10 +54,13 @@ Test::Result FixedRateProgram_test::run()
     double time_taken = static_cast<double>(tend.tv_sec) +
         (static_cast<double>(tend.tv_nsec) / static_cast<double>(1e9));
 
-    std::cout << "Time taken " << time_taken << "s\n";
-
     double epsilon = 0.5;
-    MUST_BE_TRUE(period + epsilon > time_taken && period - epsilon < time_taken);
+    std::cout << "Time taken " << time_taken << "s\n"
+              << "Upper bound " << period.toDouble() + epsilon << "s\n"
+              << "Lower bound " << period.toDouble() - epsilon << "s\n";
+
+    MUST_BE_TRUE(period.toDouble() + epsilon > time_taken &&
+                 period.toDouble() - epsilon < time_taken);
 
     return Test::PASSED;
 }
