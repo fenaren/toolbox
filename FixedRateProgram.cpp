@@ -1,5 +1,8 @@
+#include <cerrno>
 #include <ctime>
 #include <iostream>
+#include <stdexcept>
+#include <system_error>
 
 #include "FixedRateProgram.hpp"
 
@@ -35,14 +38,20 @@ int FixedRateProgram::run()
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
-        clock.getTime(frame_start);
+        if (!clock.getTime(frame_start))
+        {
+            throw std::system_error(errno, std::system_category());
+        }
 
         // Run the iterative code
         step();
 
         // Used to determine the amount of time taken to execute the iterative
         // code
-        clock.getTime(frame_stop);
+        if (!clock.getTime(frame_stop))
+        {
+            throw std::system_error(errno, std::system_category());
+        }
 
         // How long was that frame
         PosixTimespec frame_time = frame_stop - frame_start;
@@ -51,7 +60,10 @@ int FixedRateProgram::run()
         statistics.update(frame_time);
 
         // Sleep off the rest of the frame
-        clock.nanosleep(period - frame_time);
+        if (!clock.nanosleep(period - frame_time))
+        {
+            throw std::system_error(errno, std::system_category());
+        }
     }
 
     // Retrieve and print frame time used statistics
