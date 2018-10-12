@@ -114,6 +114,8 @@ Test::Result PosixTimespec_test::run()
     std::cout << "Failed addition cases: " << addition_cases_failed.size()
               << "\n";
 
+    MUST_BE_TRUE(addition_cases_failed.size() == 0);
+
     // Let's do some conclusive subtraction tests
     std::vector<TimespecTuple> subtraction_cases;
     std::vector<TimespecTuple> subtraction_cases_failed;
@@ -205,10 +207,7 @@ Test::Result PosixTimespec_test::run()
     std::cout << "Failed subtraction cases: " << subtraction_cases_failed.size()
               << "\n";
 
-    bool pass_gt   = true;
-    bool pass_gteq = true;
-    bool pass_lt   = true;
-    bool pass_lteq = true;
+    MUST_BE_TRUE(subtraction_cases_failed.size() == 0);
 
     timespec tp_10;
     timespec tp_01;
@@ -220,68 +219,56 @@ Test::Result PosixTimespec_test::run()
     tp_01.tv_nsec = 1;
 
     // GREATER THAN
-    if (!(PosixTimespec(tp_10) > tp_01 &&
-          tp_10 > PosixTimespec(tp_01) &&
-          PosixTimespec(tp_10) > PosixTimespec(tp_01) &&
+    MUST_BE_TRUE(PosixTimespec(tp_10) > tp_01 &&
+                 tp_10 > PosixTimespec(tp_01) &&
+                 PosixTimespec(tp_10) > PosixTimespec(tp_01) &&
 
-          !(PosixTimespec(tp_10) > tp_10) &&
-          !(tp_10 > PosixTimespec(tp_10)) &&
-          !(PosixTimespec(tp_10) > PosixTimespec(tp_10)) &&
+                 !(PosixTimespec(tp_10) > tp_10) &&
+                 !(tp_10 > PosixTimespec(tp_10)) &&
+                 !(PosixTimespec(tp_10) > PosixTimespec(tp_10)) &&
 
-          !(PosixTimespec(tp_01) > tp_10) &&
-          !(tp_01 > PosixTimespec(tp_10)) &&
-          !(PosixTimespec(tp_01) > PosixTimespec(tp_10))))
-    {
-        pass_gt = false;
-    }
+                 !(PosixTimespec(tp_01) > tp_10) &&
+                 !(tp_01 > PosixTimespec(tp_10)) &&
+                 !(PosixTimespec(tp_01) > PosixTimespec(tp_10)));
 
     // GREATER OR EQUAL TO
-    if (!(PosixTimespec(tp_10) >= tp_01 &&
-          tp_10 >= PosixTimespec(tp_01) &&
-          PosixTimespec(tp_10) >= PosixTimespec(tp_01) &&
+    MUST_BE_TRUE(PosixTimespec(tp_10) >= tp_01 &&
+                 tp_10 >= PosixTimespec(tp_01) &&
+                 PosixTimespec(tp_10) >= PosixTimespec(tp_01) &&
 
-          PosixTimespec(tp_10) >= tp_10 &&
-          tp_10 >= PosixTimespec(tp_10) &&
-          PosixTimespec(tp_10) >= PosixTimespec(tp_10) &&
+                 PosixTimespec(tp_10) >= tp_10 &&
+                 tp_10 >= PosixTimespec(tp_10) &&
+                 PosixTimespec(tp_10) >= PosixTimespec(tp_10) &&
 
-          !(PosixTimespec(tp_01) >= tp_10) &&
-          !(tp_01 >= PosixTimespec(tp_10)) &&
-          !(PosixTimespec(tp_01) >= PosixTimespec(tp_10))))
-    {
-        pass_gteq = false;
-    }
+                 !(PosixTimespec(tp_01) >= tp_10) &&
+                 !(tp_01 >= PosixTimespec(tp_10)) &&
+                 !(PosixTimespec(tp_01) >= PosixTimespec(tp_10)));
 
     // LESS THAN
-    if (!(!(PosixTimespec(tp_10) < tp_01) &&
-          !(tp_10 < PosixTimespec(tp_01)) &&
-          !(PosixTimespec(tp_10) < PosixTimespec(tp_01)) &&
+    MUST_BE_TRUE(!(PosixTimespec(tp_10) < tp_01) &&
+                 !(tp_10 < PosixTimespec(tp_01)) &&
+                 !(PosixTimespec(tp_10) < PosixTimespec(tp_01)) &&
 
-          !(PosixTimespec(tp_10) < tp_10) &&
-          !(tp_10 < PosixTimespec(tp_10)) &&
-          !(PosixTimespec(tp_10) < PosixTimespec(tp_10)) &&
+                 !(PosixTimespec(tp_10) < tp_10) &&
+                 !(tp_10 < PosixTimespec(tp_10)) &&
+                 !(PosixTimespec(tp_10) < PosixTimespec(tp_10)) &&
 
-          PosixTimespec(tp_01) < tp_10 &&
-          tp_01 < PosixTimespec(tp_10) &&
-          PosixTimespec(tp_01) < PosixTimespec(tp_10)))
-    {
-        pass_lt = false;
-    }
+                 PosixTimespec(tp_01) < tp_10 &&
+                 tp_01 < PosixTimespec(tp_10) &&
+                 PosixTimespec(tp_01) < PosixTimespec(tp_10));
 
     // LESS THAN OR EQUAL TO
-    if (!(!(PosixTimespec(tp_10) <= tp_01) &&
-          !(tp_10 <= PosixTimespec(tp_01)) &&
-          !(PosixTimespec(tp_10) <= PosixTimespec(tp_01)) &&
+    MUST_BE_TRUE(!(PosixTimespec(tp_10) <= tp_01) &&
+                 !(tp_10 <= PosixTimespec(tp_01)) &&
+                 !(PosixTimespec(tp_10) <= PosixTimespec(tp_01)) &&
 
-          PosixTimespec(tp_10) <= tp_10 &&
-          tp_10 <= PosixTimespec(tp_10) &&
-          PosixTimespec(tp_10) <= PosixTimespec(tp_10) &&
+                 PosixTimespec(tp_10) <= tp_10 &&
+                 tp_10 <= PosixTimespec(tp_10) &&
+                 PosixTimespec(tp_10) <= PosixTimespec(tp_10) &&
 
-          PosixTimespec(tp_01) <= tp_10 &&
-          tp_01 <= PosixTimespec(tp_10) &&
-          PosixTimespec(tp_01) <= PosixTimespec(tp_10)))
-    {
-        pass_lteq = false;
-    }
+                 PosixTimespec(tp_01) <= tp_10 &&
+                 tp_01 <= PosixTimespec(tp_10) &&
+                 PosixTimespec(tp_01) <= PosixTimespec(tp_10));
 
     // OTHER CASES
     // These are all tested against each other
@@ -372,17 +359,7 @@ Test::Result PosixTimespec_test::run()
 
     std::cout << "Other failed cases: " << failed_cases.size() << "\n";
 
-    // This unit test passes if no failed cases were recorded
-    if (failed_cases.size() == 0 &&
-        addition_cases_failed.size() == 0 &&
-        subtraction_cases_failed.size() == 0 &&
-        pass_gt &&
-        pass_gteq &&
-        pass_lt &&
-        pass_lteq)
-    {
-        return Test::PASSED;
-    }
+    MUST_BE_TRUE(failed_cases.size() == 0);
 
-    return Test::FAILED;
+    return Test::PASSED;
 }

@@ -30,14 +30,14 @@ Test::Result FixedRateProgram_test::run()
 
     // Grab start time; if we can't do that we can't test, so skip
     timespec tstart;
-    SKIP_IF_TRUE(clock_gettime(CLOCK_MONOTONIC, &tstart));
+    clock_gettime(CLOCK_MONOTONIC, &tstart);
 
     // This should run for one step that is "period" in length
     test_frp.run();
 
     // Grab end time; if we can't do that we can't test, so skip
     timespec tend;
-    SKIP_IF_TRUE(clock_gettime(CLOCK_MONOTONIC, &tend));
+    clock_gettime(CLOCK_MONOTONIC, &tend);
 
     // How much time did that take?
     tend.tv_sec -= tstart.tv_sec;
@@ -56,11 +56,10 @@ Test::Result FixedRateProgram_test::run()
 
     double epsilon = 0.5;
     std::cout << "Time taken " << time_taken << "s\n"
-              << "Upper bound " << period.toDouble() + epsilon << "s\n"
-              << "Lower bound " << period.toDouble() - epsilon << "s\n";
+              << "Upper bound " << period + epsilon << "s\n"
+              << "Lower bound " << period - epsilon << "s\n";
 
-    MUST_BE_TRUE(period.toDouble() + epsilon > time_taken &&
-                 period.toDouble() - epsilon < time_taken);
+    MUST_BE_TRUE(period + epsilon > time_taken && period - epsilon < time_taken);
 
     return Test::PASSED;
 }
