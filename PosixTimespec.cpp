@@ -86,8 +86,10 @@ bool PosixTimespec::fromDouble(double tp_dbl)
         return false;
     }
 
-    double fractional_part = 0.0;
-    this->tp.tv_sec  = std::modf(tp_dbl, &fractional_part);
+    double integral_part = 0.0;
+    double fractional_part = std::modf(tp_dbl, &integral_part);
+
+    this->tp.tv_sec  = static_cast<time_t>(integral_part);
     this->tp.tv_nsec = fractional_part *
         static_cast<double>(nanoseconds_per_second);
 

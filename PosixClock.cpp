@@ -1,4 +1,7 @@
-#include <time.h>
+#include <cerrno>
+#include <ctime>
+#include <stdexcept>
+#include <system_error>
 
 #include "PosixClock.hpp"
 
@@ -22,28 +25,34 @@ PosixClock::~PosixClock()
 //==============================================================================
 // Returns time according to the users previously specified clock
 //==============================================================================
-int PosixClock::getTime(PosixTimespec& ts) const
+void PosixClock::getTime(PosixTimespec& ts) const
 {
     timespec tp;
-    int cg_ret = clock_gettime(clk_id, &tp);
+    if (clock_gettime(clk_id, &tp) != 0)
+    {
+        throw std::system_error(errno, std::system_category());
+    }
 
     ts = tp;
-
-    return cg_ret;
 }
 
 //==============================================================================
 // Calling process sleeps for specified length of time
 //==============================================================================
-int PosixClock::nanosleep(const PosixTimespec& ts)
+void PosixClock::nanosleep(const PosixTimespec& ts)
 {
     timespec tp;
     ts.getTimespec(tp);
 
 #if defined MACOS
     // clock_nanosleep isn't implemented on macOS?
-    return ::nanosleep(&tp, 0);
+    int sleep_ret = ::nanosleep(&tp, 0);
 #else
-    return clock_nanosleep(clk_id, 0, &tp, 0);
+    int sleep_ret = clock_nanosleep(clk_id, 0, &tp, 0);
 #endif
+
+    if (sleep_ret != 0)
+    {
+        throw std::system_error(errno, std::system_category());
+    }
 }

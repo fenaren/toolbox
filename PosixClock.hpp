@@ -17,7 +17,7 @@ public:
 
     // Returns time according to the users previously specified clock and the
     // POSIX clock_gettime function
-    int getTime(PosixTimespec& ts) const;
+    void getTime(PosixTimespec& ts) const;
 
     // Saves user specified POSIX clock
     void setClockId(clockid_t clk_id);
@@ -26,7 +26,7 @@ public:
     clockid_t getClockId() const;
 
     // Caling process nanosleeps for specified length of time
-    int nanosleep(const PosixTimespec& ts);
+    void nanosleep(const PosixTimespec& ts);
 
 private:
 
