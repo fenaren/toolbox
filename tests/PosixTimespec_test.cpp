@@ -361,5 +361,9 @@ Test::Result PosixTimespec_test::run()
 
     MUST_BE_TRUE(failed_cases.size() == 0);
 
+    PosixTimespec fromdblcheck(1.0);
+    MUST_BE_TRUE(fromdblcheck.getSeconds() == 1);
+    MUST_BE_TRUE(fromdblcheck.getNanoseconds() == 0);
+
     return Test::PASSED;
 }
