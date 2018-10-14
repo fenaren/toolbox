@@ -31,6 +31,10 @@
 // method and work to immediately fail tests if their given expressions don't
 // evaluate to boolean true and false, respectively.
 
+// SKIP_IF_TRUE and SKIP_IF_FALSE work the same as MUST_BE_TRUE and
+// MUST_BE_FALSE except they immediately skip the test instead of immediately
+// failing it.
+
 #define MUST_BE_TRUE(expression) \
     if (!(expression))           \
     {                            \
@@ -41,6 +45,18 @@
     if (expression)               \
     {                             \
         return Test::FAILED;      \
+    }
+
+#define SKIP_IF_TRUE(expression) \
+    if (expression)              \
+    {                            \
+        return Test::SKIPPED;    \
+    }
+
+#define SKIP_IF_FALSE(expression) \
+    if (!(expression))            \
+    {                             \
+        return Test::SKIPPED;     \
     }
 
 #endif
