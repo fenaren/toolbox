@@ -11,9 +11,10 @@ class FixedRateProgram : public Program
 {
 public:
 
-    // Argument period specifies the period between iterations
+    // Argument "period" specifies the period between iterations
     FixedRateProgram(int argc, char** argv, const PosixTimespec& period);
 
+    // Does nothing
     virtual ~FixedRateProgram();
 
     // Runs the step function every "period" length of time

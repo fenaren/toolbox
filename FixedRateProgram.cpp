@@ -7,13 +7,13 @@
 #include "PosixTimespec.hpp"
 
 //==============================================================================
-//
+// Argument "period" specifies the period between iterations
 //==============================================================================
 FixedRateProgram::FixedRateProgram(int                  argc,
                                    char**               argv,
                                    const PosixTimespec& period) :
     Program(argc, argv),
-    clock(CLOCK_MONOTONIC_RAW),
+    clock(CLOCK_MONOTONIC),
     period(period),
     terminate(false)
 {
