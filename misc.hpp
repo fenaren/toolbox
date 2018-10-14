@@ -39,8 +39,7 @@ namespace misc
                   unsigned int         len);
 
     // Convenience wrapper meant for swapping fundamental data types.  Removes
-    // the need for the user to deal with casting and sizing.  Explicit
-    // instantiations of this function for all the fundamental types is below.
+    // the need for the user to deal with casting and sizing.
     template <class T> void byteswap(T& swapme);
 };
 
