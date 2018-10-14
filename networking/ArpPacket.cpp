@@ -2,6 +2,7 @@
 
 #include "ArpPacket.hpp"
 
+#include "MemoryMode.hpp"
 #include "NetworkAddress.hpp"
 
 //==============================================================================
@@ -88,17 +89,18 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
                      unsigned char* buffer_sha,
                      unsigned char* buffer_spa,
                      unsigned char* buffer_tha,
-                     unsigned char* buffer_tpa) :
+                     unsigned char* buffer_tpa,
+                     MemoryMode     memory_mode) :
     DataPacket(1),
     htype(htype),
     ptype(ptype),
     hlen(hlen),
     plen(plen),
     oper(oper),
-    sha(buffer_sha, hlen),
-    spa(buffer_spa, plen),
-    tha(buffer_tha, hlen),
-    tpa(buffer_tpa, plen)
+    sha(buffer_sha, hlen, memory_mode),
+    spa(buffer_spa, plen, memory_mode),
+    tha(buffer_tha, hlen, memory_mode),
+    tpa(buffer_tpa, plen, memory_mode)
 {
     addDataFields();
 }

@@ -6,6 +6,7 @@
 #include "DataPacket.hpp"
 
 #include "DataField.hpp"
+#include "MemoryMode.hpp"
 #include "NetworkAddress.hpp"
 #include "SimpleDataField.hpp"
 
@@ -50,7 +51,8 @@ public:
               unsigned char* buffer_sha,
               unsigned char* buffer_spa,
               unsigned char* buffer_tha,
-              unsigned char* buffer_tpa);
+              unsigned char* buffer_tpa,
+              MemoryMode     memory_mode);
 
     // Does nothing
     virtual ~ArpPacket();

@@ -8,11 +8,13 @@
 
 #include "Ipv4Address.hpp"
 
+#include "MemoryMode.hpp"
+
 //==============================================================================
 // Ipv4Address constructor; initializes to all zeros
 //==============================================================================
 Ipv4Address::Ipv4Address() :
-    NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
+    NetworkAddress(ipv4_address_raw, LENGTH_BYTES, MEMORY_EXTERNAL)
 {
     memset(ipv4_address_raw, 0, LENGTH_BYTES);
 }
@@ -23,7 +25,7 @@ Ipv4Address::Ipv4Address() :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 Ipv4Address::Ipv4Address(const unsigned char* buffer) :
-    NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
+    NetworkAddress(ipv4_address_raw, LENGTH_BYTES, MEMORY_EXTERNAL)
 {
     readRaw(buffer);
 }
@@ -32,7 +34,7 @@ Ipv4Address::Ipv4Address(const unsigned char* buffer) :
 // Ipv4Address constructor; initializes to match the given string
 //==============================================================================
 Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
-    NetworkAddress(ipv4_address_raw, LENGTH_BYTES)
+    NetworkAddress(ipv4_address_raw, LENGTH_BYTES, MEMORY_EXTERNAL)
 {
     *this = ipv4_address_str;
 }

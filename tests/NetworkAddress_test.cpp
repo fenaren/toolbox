@@ -3,6 +3,7 @@
 #include "NetworkAddress_test.hpp"
 
 #include "NetworkAddress.hpp"
+#include "MemoryMode.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
@@ -36,7 +37,7 @@ Test::Result NetworkAddress_test::run()
     }
 
     // Tests getLengthBytes
-    NetworkAddress test_na4(test_data, test_data_len);
+    NetworkAddress test_na4(test_data, test_data_len, MEMORY_EXTERNAL);
     MUST_BE_TRUE(test_na4.getLengthBytes() == test_data_len);
 
     // Tests writeRaw
@@ -62,7 +63,7 @@ Test::Result NetworkAddress_test::run()
     // Tests assignment
     memset(test_data,  0, test_data_len);
     memset(test_data2, 1, test_data_len);
-    NetworkAddress test_na6(test_data2, test_data_len);
+    NetworkAddress test_na6(test_data2, test_data_len, MEMORY_EXTERNAL);
     test_na4 = test_na6;
     MUST_BE_TRUE(memcmp(test_data, test_data2, test_data_len) == 0);
 

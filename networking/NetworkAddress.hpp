@@ -5,6 +5,7 @@
 #include <string>
 
 #include "DataField.hpp"
+#include "MemoryMode.hpp"
 
 #include "misc.hpp"
 
@@ -12,13 +13,20 @@ class NetworkAddress : public DataField
 {
 public:
 
-    // Will dynamically allocate an address that is "length_bytes" in size
+    // Will dynamically allocate an address that is "length_bytes" in size.
+    // Implies MemoryMode::INTERNAL.
     // cppcheck-suppress noExplicitConstructor
     NetworkAddress(unsigned int length_bytes);
 
-    // Will use the memory at "buffer" (of size "length_bytes") as the raw
-    // network address; will not dynamically allocate memory
-    NetworkAddress(unsigned char* buffer, unsigned int length_bytes);
+    // Behavior depends on the value of "memory_mode".  If "memory_mode" is
+    // MemoryMode::INTERNAL, the data at "buffer" of length "length_bytes" will
+    // be copied into dynamically-allocated memory internal to this class.  If
+    // "memory_mode" is MemoryMode::EXTERNAL, the data at "buffer" of length
+    // "length_bytes" will be used by this class in-place and no dynamic memory
+    // allocation will occur.
+    NetworkAddress(unsigned char* buffer,
+                   unsigned int   length_bytes,
+                   MemoryMode     memory_mode);
 
     // Copy constructor; will dynamically allocate memory for the
     // "network_address_raw" stored in the new NetworkAddress
@@ -76,7 +84,7 @@ private:
     unsigned int length_bytes;
 
     // Does this class own the memory at "network_address_raw"?
-    bool network_address_raw_owned;
+    MemoryMode memory_mode;
 };
 
 inline unsigned char NetworkAddress::getOctet(unsigned int octet) const
