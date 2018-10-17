@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstring>
 
 #include "misc_test_case1.hpp"
@@ -84,6 +85,20 @@ Test::Result misc_test_case1::run()
     // Test operator! on values of the ByteOrder enumeration
     MUST_BE_TRUE(misc::LITTLE_ENDIAN == !misc::BIG_ENDIAN);
     MUST_BE_TRUE(misc::BIG_ENDIAN    == !misc::LITTLE_ENDIAN);
+
+    // At this point we're satisfied with he performance of the other two
+    // byteswap functions, so we should be okay to use those to test the
+    // template byteswap function
+    std::uint32_t a4_int;
+    memcpy(&a4_int, a4_before, sizeof(std::uint32_t));
+    misc::byteswap(a4_int);
+    misc::byteswap(a4_after, 4);
+
+    // a4_before and a4_after were the same before this test, and we should have
+    // applied the same operation to both of them, so they should be the same
+    // afterwards
+    MUST_BE_TRUE(
+        memcmp(a4_after, reinterpret_cast<unsigned char*>(&a4_int), 4) == 0);
 
     return Test::PASSED;
 }
