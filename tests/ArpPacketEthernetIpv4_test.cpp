@@ -40,7 +40,7 @@ Test::Result ArpPacketEthernetIpv4_test::run()
     offset += fieldPull(raw_apei1 + offset, ptype);
     offset += fieldPull(raw_apei1 + offset, hlen);
     offset += fieldPull(raw_apei1 + offset, plen);
-    offset += fieldPull(raw_apei1 + offset, oper);
+    fieldPull(raw_apei1 + offset, oper);
 
     MUST_BE_TRUE(htype == ArpPacketEthernetIpv4::HTYPE);
     MUST_BE_TRUE(ptype == ArpPacketEthernetIpv4::PTYPE);
