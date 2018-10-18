@@ -5,6 +5,8 @@
 
 #include "ArpPacket.hpp"
 
+#include "misc.hpp"
+
 class ArpPacketEthernetIpv4 : public ArpPacket
 {
 public:
@@ -16,6 +18,12 @@ public:
     // Allows up-front specification of the OPER field.  All memory is
     // statically allocated.
     ArpPacketEthernetIpv4(std::uint16_t oper);
+
+    // Constructs an ARP packet by calling readRaw() on the provided buffer.
+    ArpPacketEthernetIpv4(unsigned char* buffer);
+
+    // Constructs an ARP packet by calling readRaw() on the provided buffer.
+    ArpPacketEthernetIpv4(unsigned char* buffer, misc::ByteOrder byte_order);
 
     // Does nothing
     virtual ~ArpPacketEthernetIpv4();
