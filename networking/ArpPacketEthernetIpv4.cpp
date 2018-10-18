@@ -39,6 +39,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
 // Constructs an ARP packet by calling readRaw() on the provided buffer.  No
 // byteswapping is performed.
 //==============================================================================
+// cppcheck-suppress uninitMemberVar
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
     ArpPacket(HTYPE, PTYPE, HLEN, PLEN, 0, sha, spa, tha, tpa, MEMORY_EXTERNAL)
 {
@@ -49,6 +50,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
 // Constructs an ARP packet by calling readRaw() on the provided buffer.
 // Byteswapping is performed if needed.
 //==============================================================================
+// cppcheck-suppress uninitMemberVar
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
                                              misc::ByteOrder byte_order) :
     ArpPacket(HTYPE, PTYPE, HLEN, PLEN, 0, sha, spa, tha, tpa, MEMORY_EXTERNAL)
