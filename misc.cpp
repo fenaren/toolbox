@@ -48,6 +48,30 @@ void misc::byteswap(unsigned char*       destination,
 }
 
 //==============================================================================
+// Convenience wrapper meant for swapping fundamental data types.  Removes the
+// need for the user to deal with casting and sizing.  Explicit instantiations
+// of this function for all the fundamental types is below.
+//==============================================================================
+template <class T> void misc::byteswap(T& swapme)
+{
+    misc::byteswap(reinterpret_cast<unsigned char*>(&swapme), sizeof(T));
+}
+
+template void misc::byteswap(char&);
+template void misc::byteswap(double&);
+template void misc::byteswap(float&);
+template void misc::byteswap(int&);
+template void misc::byteswap(long&);
+template void misc::byteswap(long double&);
+template void misc::byteswap(long long&);
+template void misc::byteswap(short&);
+template void misc::byteswap(unsigned char&);
+template void misc::byteswap(unsigned int&);
+template void misc::byteswap(unsigned long&);
+template void misc::byteswap(unsigned long long&);
+template void misc::byteswap(unsigned short&);
+
+//==============================================================================
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.
 // If given misc::BIG_ENDIAN, return misc::LITTLE_ENDIAN.  If given
 // misc::LITTLE_ENDIAN, return misc::BIG_ENDIAN.  There are only two possible

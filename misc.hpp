@@ -37,6 +37,10 @@ namespace misc
     void byteswap(unsigned char*       destination,
                   const unsigned char* source,
                   unsigned int         len);
+
+    // Convenience wrapper meant for swapping fundamental data types.  Removes
+    // the need for the user to deal with casting and sizing.
+    template <class T> void byteswap(T& swapme);
 };
 
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.
