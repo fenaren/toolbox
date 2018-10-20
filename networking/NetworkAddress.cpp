@@ -7,7 +7,7 @@
 #include "misc.hpp"
 
 //==============================================================================
-// Dynamically allocates an address that is "length_bytes" in size, stores
+// Dynamically allocates and maintains an address that is "length_bytes" in size
 // internally
 //==============================================================================
 NetworkAddress::NetworkAddress(unsigned int length_bytes) :
@@ -46,8 +46,8 @@ NetworkAddress::NetworkAddress(unsigned char* buffer,
 }
 
 //==============================================================================
-// Copy constructor; will dynamically allocate memory for the
-// "network_address_raw" stored in the new NetworkAddress, stores internally.
+// Copy constructor; dynamically allocates and maintains an address that is
+// "length_bytes" in size, and then copies the given network address
 //==============================================================================
 NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
     DataField(),

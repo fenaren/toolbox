@@ -12,8 +12,8 @@ class NetworkAddress : public DataField
 {
 public:
 
-    // Will dynamically allocate an address that is "length_bytes" in size.
-    // cppcheck-suppress noExplicitConstructor
+    // Dynamically allocates and maintains an address that is "length_bytes" in
+    // size internally
     NetworkAddress(unsigned int length_bytes);
 
     // Behavior depends on the value of "network_address_raw_owned".  If
@@ -26,8 +26,8 @@ public:
                    unsigned int   length_bytes,
                    bool           network_address_raw_owned = true);
 
-    // Copy constructor; will dynamically allocate memory for the
-    // "network_address_raw" stored in the new NetworkAddress
+    // Copy constructor; dynamically allocates and maintains an address that is
+    // "length_bytes" in size, and then copies the given network address.
     NetworkAddress(const NetworkAddress& network_address);
 
     // Will free the memory at "raw_network_address" if it is owned by this
@@ -72,6 +72,7 @@ public:
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    // Simple accessor for network_address_raw_owned
     bool getNetworkAddressRawOwned() const;
 
     NetworkAddress& operator=(const NetworkAddress& network_address);
