@@ -17,10 +17,11 @@ public:
 
     // Allows up-front specification of the OPER field.  All memory is
     // statically allocated.
+    // cppcheck-suppress noExplicitConstructor
     ArpPacketEthernetIpv4(std::uint16_t oper);
 
     // Constructs an ARP packet by calling readRaw() on the provided buffer.
-    ArpPacketEthernetIpv4(unsigned char* buffer);
+    explicit ArpPacketEthernetIpv4(unsigned char* buffer);
 
     // Constructs an ARP packet by calling readRaw() on the provided buffer.
     ArpPacketEthernetIpv4(unsigned char* buffer, misc::ByteOrder byte_order);
