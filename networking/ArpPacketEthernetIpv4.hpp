@@ -40,7 +40,7 @@ private:
     void initializeAddresses();
 
     // Statically-allocated memory used for storing Ethernet and IPv4 addresses;
-    // these are used by ArpPacket
+    // ArpPacket stores its address memory here
     unsigned char sha[HLEN];
     unsigned char spa[PLEN];
     unsigned char tha[HLEN];
