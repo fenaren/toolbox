@@ -11,7 +11,7 @@
 // protocol fields is dynamically allocated.
 //==============================================================================
 ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
-    DataPacket(1),
+    DataPacket(1), // always aligned on 1 byte (not byte-aligned)
     htype(0),
     ptype(0),
     hlen(hlen),
@@ -34,7 +34,7 @@ ArpPacket::ArpPacket(std::uint16_t htype,
                      std::uint8_t  hlen,
                      std::uint8_t  plen,
                      std::uint16_t oper) :
-    DataPacket(1),
+    DataPacket(1), // always aligned on 1 byte (not byte-aligned)
     htype(htype),
     ptype(ptype),
     hlen(hlen),
@@ -61,7 +61,7 @@ ArpPacket::ArpPacket(std::uint16_t         htype,
                      const NetworkAddress& spa,
                      const NetworkAddress& tha,
                      const NetworkAddress& tpa) :
-    DataPacket(1),
+    DataPacket(1),  // always aligned on 1 byte (not byte-aligned)
     htype(htype),
     ptype(ptype),
     hlen(hlen),
@@ -92,7 +92,7 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
                      bool           network_address_raw_owned_spa,
                      bool           network_address_raw_owned_tha,
                      bool           network_address_raw_owned_tpa) :
-    DataPacket(1),
+    DataPacket(1),  // always aligned on 1 byte (not byte-aligned)
     htype(htype),
     ptype(ptype),
     hlen(hlen),
