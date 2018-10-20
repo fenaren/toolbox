@@ -7,54 +7,51 @@
 #include "misc.hpp"
 
 //==============================================================================
-// Dynamically allocates an address that is "length_bytes" in size.  Implies
-// MemoryMode::MEMORY_INTERNAL.
+// Dynamically allocates an address that is "length_bytes" in size, stores
+// internally
 //==============================================================================
 NetworkAddress::NetworkAddress(unsigned int length_bytes) :
     DataField(),
-    length_bytes(length_bytes),
-    memory_mode(MEMORY_INTERNAL)
+    network_address_raw_owned(true),
+    length_bytes(length_bytes)
 {
     network_address_raw = new unsigned char[length_bytes];
     memset(network_address_raw, 0, length_bytes);
 }
 
 //==============================================================================
-// Behavior depends on the value of "memory_mode".  If "memory_mode" is
-// MemoryMode::MEMORY_INTERNAL, the data at "buffer" of length "length_bytes"
-// will be copied into dynamically-allocated memory internal to this class.  If
-// "memory_mode" is MemoryMode::MEMORY_EXTERNAL, the data at "buffer" of length
-// "length_bytes" will be used by this class in-place and no dynamic memory
-// allocation will occur.  Uses the memory at "buffer" (of size "length_bytes")
-// as the raw network address; does not dynamically allocate memory
+// Behavior depends on the value of "network_address_raw_owned".  If
+// "network_address_raw_owned" is true, the data at "buffer" of length
+// "length_bytes" will be copied into dynamically-allocated memory internal to
+// this class.  If "network_address_raw_owned" is false, the data at "buffer" of
+// length "length_bytes" will be used by this class in-place and no dynamic
+// memory allocation will occur.
 //==============================================================================
 NetworkAddress::NetworkAddress(unsigned char* buffer,
                                unsigned int   length_bytes,
-                               MemoryMode     memory_mode) :
+                               bool           network_address_raw_owned) :
     DataField(),
-    length_bytes(length_bytes),
-    memory_mode(memory_mode)
+    network_address_raw_owned(network_address_raw_owned),
+    length_bytes(length_bytes)
 {
-    if (memory_mode == MEMORY_INTERNAL)
+    if (network_address_raw_owned)
     {
         network_address_raw = new unsigned char[length_bytes];
         readRaw(buffer);
     }
     else
     {
-        // "memory_mode" must equal EXTERNAL
         network_address_raw = buffer;
     }
 }
 
 //==============================================================================
 // Copy constructor; will dynamically allocate memory for the
-// "network_address_raw" stored in the new NetworkAddress.  Implies
-// MemoryMode::MEMORY_INTERNAL.
+// "network_address_raw" stored in the new NetworkAddress, stores internally.
 //==============================================================================
 NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
     DataField(),
-    memory_mode(MEMORY_INTERNAL)
+    network_address_raw_owned(true)
 {
     length_bytes = network_address.getLengthBytes();
 
@@ -68,7 +65,7 @@ NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
 //==============================================================================
 NetworkAddress::~NetworkAddress()
 {
-    if (memory_mode == MEMORY_INTERNAL)
+    if (network_address_raw_owned)
     {
         delete[] network_address_raw;
     }

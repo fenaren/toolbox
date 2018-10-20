@@ -6,7 +6,6 @@
 #include "DataPacket.hpp"
 
 #include "DataField.hpp"
-#include "MemoryMode.hpp"
 #include "NetworkAddress.hpp"
 #include "SimpleDataField.hpp"
 
@@ -15,20 +14,21 @@ class ArpPacket : public DataPacket
 public:
 
     // Constructs an ARP packet with the minimum amount of information provided
-    // up-front; the hardware and protocol lengths have to be known to construct
-    // their associated fields.  Memory for fields is dynamically allocated.
+    // up-front; the hardware and protocol lengths have to be known because they
+    // define the length of their associated fields.  Memory for address and
+    // protocol fields is dynamically allocated.
     ArpPacket(std::uint8_t hlen, std::uint8_t plen);
 
     // Constructs an ARP packet in such a way that memory for the hardware and
-    // protocol fields are dynamically allocated and maintained internally
-    ArpPacket(std::uint16_t  htype,
-              std::uint16_t  ptype,
-              std::uint8_t   hlen,
-              std::uint8_t   plen,
-              std::uint16_t  oper);
+    // protocol fields are dynamically allocated and maintained internally.
+    ArpPacket(std::uint16_t htype,
+              std::uint16_t ptype,
+              std::uint8_t  hlen,
+              std::uint8_t  plen,
+              std::uint16_t oper);
 
     // Constructs an ARP packet by dynamically allocating memory and copying
-    // NetworkAddresses into them.
+    // provided NetworkAddresses into them.
     ArpPacket(std::uint16_t         htype,
               std::uint16_t         ptype,
               std::uint8_t          hlen,
@@ -39,10 +39,8 @@ public:
               const NetworkAddress& tha,
               const NetworkAddress& tpa);
 
-    // Constructs an ARP packet using hardware and protocol field memory that is
-    // maintained externally.  This is useful for derived classes for specific
-    // variants of the ARP packet (for example, Ethernet and IPv4-specific ARP
-    // packets).
+    // Constructs an ARP packet using hardware and protocol field memory that
+    // can be maintained either internally or externally.
     ArpPacket(std::uint16_t  htype,
               std::uint16_t  ptype,
               std::uint8_t   hlen,
@@ -52,7 +50,10 @@ public:
               unsigned char* buffer_spa,
               unsigned char* buffer_tha,
               unsigned char* buffer_tpa,
-              MemoryMode     memory_mode);
+              bool           network_address_raw_owned_sha = true,
+              bool           network_address_raw_owned_spa = true,
+              bool           network_address_raw_owned_tha = true,
+              bool           network_address_raw_owned_tpa = true);
 
     // Does nothing
     virtual ~ArpPacket();

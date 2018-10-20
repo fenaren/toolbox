@@ -5,7 +5,6 @@
 #include <string>
 
 #include "DataField.hpp"
-#include "MemoryMode.hpp"
 
 #include "misc.hpp"
 
@@ -14,19 +13,18 @@ class NetworkAddress : public DataField
 public:
 
     // Will dynamically allocate an address that is "length_bytes" in size.
-    // Implies MemoryMode::INTERNAL.
     // cppcheck-suppress noExplicitConstructor
     NetworkAddress(unsigned int length_bytes);
 
-    // Behavior depends on the value of "memory_mode".  If "memory_mode" is
-    // MemoryMode::INTERNAL, the data at "buffer" of length "length_bytes" will
-    // be copied into dynamically-allocated memory internal to this class.  If
-    // "memory_mode" is MemoryMode::EXTERNAL, the data at "buffer" of length
-    // "length_bytes" will be used by this class in-place and no dynamic memory
-    // allocation will occur.
+    // Behavior depends on the value of "network_address_raw_owned".  If
+    // "network_address_raw_owned" is true, the data at "buffer" of length
+    // "length_bytes" will be copied into dynamically-allocated memory internal
+    // to this class.  If "network_address_raw_owned" is false, the data at
+    // "buffer" of length "length_bytes" will be used by this class in-place and
+    // no dynamic memory allocation will occur.
     NetworkAddress(unsigned char* buffer,
                    unsigned int   length_bytes,
-                   MemoryMode     memory_mode);
+                   bool           network_address_raw_owned = true);
 
     // Copy constructor; will dynamically allocate memory for the
     // "network_address_raw" stored in the new NetworkAddress
@@ -56,10 +54,11 @@ public:
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
     // Writes a raw network address from the "buffer" memory location.  This
-    // function is required by the framework to be implemented here, despite being
-    // functionally identical to the single-argument version defined above.  If
-    // byte ordering were relevant to network addresses (in the general sense of
-    // the term) this function would be where that difference would be handled.
+    // function is required by the framework to be implemented here, despite
+    // being functionally identical to the single-argument version defined
+    // above.  If byte ordering were relevant to network addresses (in the
+    // general sense of the term) this function would be where that difference
+    // would be handled.
     virtual unsigned int writeRaw(unsigned char*  buffer,
                                   misc::ByteOrder destination_byte_order) const;
 
@@ -73,6 +72,8 @@ public:
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
+    bool getNetworkAddressRawOwned() const;
+
     NetworkAddress& operator=(const NetworkAddress& network_address);
 
 private:
@@ -80,11 +81,11 @@ private:
     // Raw network address is stored at this location
     unsigned char* network_address_raw;
 
+    // Does this class own the memory at "network_address_raw"?
+    bool network_address_raw_owned;
+
     // Raw network address is this many bytes in length
     unsigned int length_bytes;
-
-    // Does this class own the memory at "network_address_raw"?
-    MemoryMode memory_mode;
 };
 
 inline unsigned char NetworkAddress::getOctet(unsigned int octet) const
@@ -110,6 +111,11 @@ inline void NetworkAddress::setOctet(unsigned int octet, unsigned char value)
 inline unsigned int NetworkAddress::getLengthBytes() const
 {
     return length_bytes;
+}
+
+inline bool NetworkAddress::getNetworkAddressRawOwned() const
+{
+    return network_address_raw_owned;
 }
 
 bool operator==(const NetworkAddress& network_address1,

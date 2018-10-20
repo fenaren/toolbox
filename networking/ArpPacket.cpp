@@ -2,13 +2,13 @@
 
 #include "ArpPacket.hpp"
 
-#include "MemoryMode.hpp"
 #include "NetworkAddress.hpp"
 
 //==============================================================================
 // Constructs an ARP packet with the minimum amount of information provided
-// up-front; the hardware and protocol lengths have to be known to construct
-// their associated fields.  Memory for fields is dynamically allocated.
+// up-front; the hardware and protocol lengths have to be known because they
+// define the length of their associated fields.  Memory for address and
+// protocol fields is dynamically allocated.
 //==============================================================================
 ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
     DataPacket(1),
@@ -27,7 +27,7 @@ ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
 
 //==============================================================================
 // Constructs an ARP packet in such a way that memory for the hardware and
-// protocol fields are dynamically allocated and maintained internally
+// protocol fields are dynamically allocated and maintained internally.
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t htype,
                      std::uint16_t ptype,
@@ -76,10 +76,8 @@ ArpPacket::ArpPacket(std::uint16_t         htype,
 }
 
 //==============================================================================
-// Constructs an ARP packet using hardware and protocol field memory that is
-// maintained externally.  This is useful for derived classes for specific
-// variants of the ARP packet (for example, Ethernet and IPv4-specific ARP
-// packets).
+// Constructs an ARP packet using hardware and protocol field memory that can be
+// maintained either internally or externally.
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t  htype,
                      std::uint16_t  ptype,
@@ -90,17 +88,20 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
                      unsigned char* buffer_spa,
                      unsigned char* buffer_tha,
                      unsigned char* buffer_tpa,
-                     MemoryMode     memory_mode) :
+                     bool           network_address_raw_owned_sha,
+                     bool           network_address_raw_owned_spa,
+                     bool           network_address_raw_owned_tha,
+                     bool           network_address_raw_owned_tpa) :
     DataPacket(1),
     htype(htype),
     ptype(ptype),
     hlen(hlen),
     plen(plen),
     oper(oper),
-    sha(buffer_sha, hlen, memory_mode),
-    spa(buffer_spa, plen, memory_mode),
-    tha(buffer_tha, hlen, memory_mode),
-    tpa(buffer_tpa, plen, memory_mode)
+    sha(buffer_sha, hlen, network_address_raw_owned_sha),
+    spa(buffer_spa, plen, network_address_raw_owned_spa),
+    tha(buffer_tha, hlen, network_address_raw_owned_tha),
+    tpa(buffer_tpa, plen, network_address_raw_owned_tpa)
 {
     addDataFields();
 }

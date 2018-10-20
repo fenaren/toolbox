@@ -8,13 +8,11 @@
 
 #include "MacAddress.hpp"
 
-#include "MemoryMode.hpp"
-
 //==============================================================================
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
 MacAddress::MacAddress() :
-    NetworkAddress(mac_address_raw, LENGTH_BYTES, MEMORY_EXTERNAL)
+    NetworkAddress(mac_address_raw, LENGTH_BYTES, false)
 {
     memset(mac_address_raw, 0, LENGTH_BYTES);
 }
@@ -25,7 +23,7 @@ MacAddress::MacAddress() :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 MacAddress::MacAddress(const unsigned char* buffer) :
-    NetworkAddress(mac_address_raw, LENGTH_BYTES, MEMORY_EXTERNAL)
+    NetworkAddress(mac_address_raw, LENGTH_BYTES, false)
 {
     readRaw(buffer);
 }
@@ -34,7 +32,7 @@ MacAddress::MacAddress(const unsigned char* buffer) :
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str) :
-    NetworkAddress(mac_address_raw, LENGTH_BYTES, MEMORY_EXTERNAL)
+    NetworkAddress(mac_address_raw, LENGTH_BYTES, false)
 {
     *this = mac_address_str;
 }

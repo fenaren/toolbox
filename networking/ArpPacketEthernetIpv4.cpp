@@ -3,7 +3,6 @@
 
 #include "ArpPacketEthernetIpv4.hpp"
 
-#include "MemoryMode.hpp"
 #include "misc.hpp"
 
 //==============================================================================
@@ -11,7 +10,19 @@
 // statically allocated.
 //==============================================================================
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4() :
-    ArpPacket(HTYPE, PTYPE, HLEN, PLEN, 0, sha, spa, tha, tpa, MEMORY_EXTERNAL)
+    ArpPacket(HTYPE,
+              PTYPE,
+              HLEN,
+              PLEN,
+              0,
+              sha,
+              spa,
+              tha,
+              tpa,
+              false,
+              false,
+              false,
+              false)
 {
     initializeAddresses();
 }
@@ -30,7 +41,10 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
               spa,
               tha,
               tpa,
-              MEMORY_EXTERNAL)
+              false,
+              false,
+              false,
+              false)
 {
     initializeAddresses();
 }
@@ -41,7 +55,19 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
-    ArpPacket(HTYPE, PTYPE, HLEN, PLEN, 0, sha, spa, tha, tpa, MEMORY_EXTERNAL)
+    ArpPacket(HTYPE,
+              PTYPE,
+              HLEN,
+              PLEN,
+              0,
+              sha,
+              spa,
+              tha,
+              tpa,
+              false,
+              false,
+              false,
+              false)
 {
     readRaw(buffer);
 }
@@ -53,7 +79,19 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
 // cppcheck-suppress uninitMemberVar
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
                                              misc::ByteOrder byte_order) :
-    ArpPacket(HTYPE, PTYPE, HLEN, PLEN, 0, sha, spa, tha, tpa, MEMORY_EXTERNAL)
+    ArpPacket(HTYPE,
+              PTYPE,
+              HLEN,
+              PLEN,
+              0,
+              sha,
+              spa,
+              tha,
+              tpa,
+              false,
+              false,
+              false,
+              false)
 {
     readRaw(buffer, byte_order);
 }
