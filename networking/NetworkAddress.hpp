@@ -14,6 +14,7 @@ public:
 
     // Dynamically allocates and maintains an address that is "length_bytes" in
     // size internally
+    // cppcheck-suppress noExplicitConstructor
     NetworkAddress(unsigned int length_bytes);
 
     // Behavior depends on the value of "network_address_raw_owned".  If
