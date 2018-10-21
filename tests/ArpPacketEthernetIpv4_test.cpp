@@ -22,7 +22,8 @@ ArpPacketEthernetIpv4_test::~ArpPacketEthernetIpv4_test()
 //==============================================================================
 Test::Result ArpPacketEthernetIpv4_test::run()
 {
-    ArpPacketEthernetIpv4 apei1(1);
+    ArpPacketEthernetIpv4 apei1;
+    apei1.setOper(1);
     MUST_BE_TRUE(apei1.getLengthBytes() == 28);
 
     unsigned char raw_apei1[28];

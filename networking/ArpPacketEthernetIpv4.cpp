@@ -3,6 +3,8 @@
 
 #include "ArpPacketEthernetIpv4.hpp"
 
+#include "Ipv4Address.hpp"
+#include "MacAddress.hpp"
 #include "misc.hpp"
 
 //==============================================================================
@@ -18,20 +20,19 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4() :
               sha,
               spa,
               tha,
-              tpa,
-              false,
-              false,
-              false,
-              false)
+              tpa)
 {
-    initializeAddresses();
 }
 
 //==============================================================================
-// Allows up-front specification of the OPER field.  All memory is statically
-// allocated.
+// Allows up-front specification of all the field in this ArpPacket variant
+// which should be specifiable.
 //==============================================================================
-ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
+                                             unsigned char* buffer_sha,
+                                             unsigned char* buffer_spa,
+                                             unsigned char* buffer_tha,
+                                             unsigned char* buffer_tpa):
     ArpPacket(HTYPE,
               PTYPE,
               HLEN,
@@ -40,20 +41,39 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
               sha,
               spa,
               tha,
-              tpa,
-              false,
-              false,
-              false,
-              false)
+              tpa)
 {
-    initializeAddresses();
+    sha.readRaw(buffer_sha);
+    spa.readRaw(buffer_spa);
+    tha.readRaw(buffer_tha);
+    tpa.readRaw(buffer_tpa);
+}
+
+//==============================================================================
+// Allows up-front specification of all the field in this ArpPacket variant
+// which should be specifiable.
+//==============================================================================
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
+                                             const MacAddress&  sha,
+                                             const Ipv4Address& spa,
+                                             const MacAddress&  tha,
+                                             const Ipv4Address& tpa) :
+    ArpPacket(HTYPE,
+              PTYPE,
+              HLEN,
+              PLEN,
+              0,
+              sha,
+              spa,
+              tha,
+              tpa)
+{
 }
 
 //==============================================================================
 // Constructs an ARP packet by calling readRaw() on the provided buffer.  No
 // byteswapping is performed.
 //==============================================================================
-// cppcheck-suppress uninitMemberVar
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
     ArpPacket(HTYPE,
               PTYPE,
@@ -63,11 +83,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
               sha,
               spa,
               tha,
-              tpa,
-              false,
-              false,
-              false,
-              false)
+              tpa)
 {
     readRaw(buffer);
 }
@@ -87,11 +103,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
               sha,
               spa,
               tha,
-              tpa,
-              false,
-              false,
-              false,
-              false)
+              tpa)
 {
     readRaw(buffer, byte_order);
 }
@@ -99,15 +111,4 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
 //==============================================================================
 ArpPacketEthernetIpv4::~ArpPacketEthernetIpv4()
 {
-}
-
-//==============================================================================
-// Initializes the four address memory blocks
-//==============================================================================
-void ArpPacketEthernetIpv4::initializeAddresses()
-{
-    memset(sha, 0, HLEN);
-    memset(spa, 0, PLEN);
-    memset(tha, 0, HLEN);
-    memset(tpa, 0, PLEN);
 }

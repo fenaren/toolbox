@@ -5,6 +5,8 @@
 
 #include "ArpPacket.hpp"
 
+#include "Ipv4Address.hpp"
+#include "MacAddress.hpp"
 #include "misc.hpp"
 
 class ArpPacketEthernetIpv4 : public ArpPacket
@@ -15,10 +17,21 @@ public:
     // statically allocated.
     ArpPacketEthernetIpv4();
 
-    // Allows up-front specification of the OPER field.  All memory is
-    // statically allocated.
-    // cppcheck-suppress noExplicitConstructor
-    ArpPacketEthernetIpv4(std::uint16_t oper);
+    // Allows up-front specification of all the field in this ArpPacket variant
+    // which should be specifiable.
+    ArpPacketEthernetIpv4(std::uint16_t  oper,
+                          unsigned char* buffer_sha,
+                          unsigned char* buffer_spa,
+                          unsigned char* buffer_tha,
+                          unsigned char* buffer_tpa);
+
+    // Allows up-front specification of all the field in this ArpPacket variant
+    // which should be specifiable.
+    ArpPacketEthernetIpv4(std::uint16_t      oper,
+                          const MacAddress&  sha,
+                          const Ipv4Address& spa,
+                          const MacAddress&  tha,
+                          const Ipv4Address& tpa);
 
     // Constructs an ARP packet by calling readRaw() on the provided buffer.
     explicit ArpPacketEthernetIpv4(unsigned char* buffer);
@@ -37,15 +50,12 @@ public:
 
 private:
 
-    // Initializes the address memory below
-    void initializeAddresses();
-
     // Statically-allocated memory used for storing Ethernet and IPv4 addresses;
     // ArpPacket stores its address memory here
-    unsigned char sha[HLEN];
-    unsigned char spa[PLEN];
-    unsigned char tha[HLEN];
-    unsigned char tpa[PLEN];
+    MacAddress  sha;
+    Ipv4Address spa;
+    MacAddress  tha;
+    Ipv4Address tpa;
 };
 
 #endif
