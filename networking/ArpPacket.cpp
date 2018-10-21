@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <stdexcept>
 
 #include "ArpPacket.hpp"
 
@@ -72,6 +73,25 @@ ArpPacket::ArpPacket(std::uint16_t         htype,
     tha(tha),
     tpa(tpa)
 {
+    // Ensure the length of the NetworkAddresses matches the hlen and plen
+    // sizes.  If they don't the user is doing it wrong.
+    if (sha.getLengthBytes() != hlen)
+    {
+        throw std::runtime_error("sha.getLengthBytes() and hlen must match");
+    }
+    else if (spa.getLengthBytes() != plen)
+    {
+        throw std::runtime_error("spa.getLengthBytes() and plen must match");
+    }
+    else if (tha.getLengthBytes() != hlen)
+    {
+        throw std::runtime_error("tha.getLengthBytes() and hlen must match");
+    }
+    else if (tpa.getLengthBytes() != plen)
+    {
+        throw std::runtime_error("tpa.getLengthBytes() and plen must match");
+    }
+
     addDataFields();
 }
 
