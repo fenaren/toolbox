@@ -17,11 +17,7 @@ ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
     ptype(0),
     hlen(hlen),
     plen(plen),
-    oper(0),
-    sha(hlen),
-    spa(plen),
-    tha(hlen),
-    tpa(plen)
+    oper(0)
 {
     addDataFields();
 }
@@ -40,11 +36,7 @@ ArpPacket::ArpPacket(std::uint16_t htype,
     ptype(ptype),
     hlen(hlen),
     plen(plen),
-    oper(oper),
-    sha(hlen),
-    spa(plen),
-    tha(hlen),
-    tpa(plen)
+    oper(oper)
 {
     addDataFields();
 }
@@ -53,43 +45,45 @@ ArpPacket::ArpPacket(std::uint16_t htype,
 // Constructs an ARP packet by dynamically allocating memory and copying
 // provided NetworkAddress data into them.
 //==============================================================================
-ArpPacket::ArpPacket(std::uint16_t         htype,
-                     std::uint16_t         ptype,
-                     std::uint8_t          hlen,
-                     std::uint8_t          plen,
-                     std::uint16_t         oper,
-                     const NetworkAddress& sha,
-                     const NetworkAddress& spa,
-                     const NetworkAddress& tha,
-                     const NetworkAddress& tpa) :
+ArpPacket::ArpPacket(std::uint16_t   htype,
+                     std::uint16_t   ptype,
+                     std::uint8_t    hlen,
+                     std::uint8_t    plen,
+                     std::uint16_t   oper,
+                     NetworkAddress* sha,
+                     NetworkAddress* spa,
+                     NetworkAddress* tha,
+                     NetworkAddress* tpa,
+                     bool            network_address_owned_sha,
+                     bool            network_address_owned_spa,
+                     bool            network_address_owned_tha,
+                     bool            network_address_owned_tpa) :
     DataPacket(1),  // always aligned on 1 byte (not byte-aligned)
     htype(htype),
     ptype(ptype),
     hlen(hlen),
     plen(plen),
-    oper(oper),
-    sha(sha),
-    spa(spa),
-    tha(tha),
-    tpa(tpa)
+    oper(oper)
 {
+    
+    
     // Ensure the length of the NetworkAddresses matches the hlen and plen
     // sizes.  If they don't the user is doing it wrong.
-    if (sha.getLengthBytes() != hlen)
+    if (sha->getLengthBytes() != hlen)
     {
-        throw std::runtime_error("sha.getLengthBytes() and hlen must match");
+        throw std::runtime_error("sha->getLengthBytes() and hlen must match");
     }
-    else if (spa.getLengthBytes() != plen)
+    else if (spa->getLengthBytes() != plen)
     {
-        throw std::runtime_error("spa.getLengthBytes() and plen must match");
+        throw std::runtime_error("spa->getLengthBytes() and plen must match");
     }
-    else if (tha.getLengthBytes() != hlen)
+    else if (tha->getLengthBytes() != hlen)
     {
-        throw std::runtime_error("tha.getLengthBytes() and hlen must match");
+        throw std::runtime_error("tha->getLengthBytes() and hlen must match");
     }
-    else if (tpa.getLengthBytes() != plen)
+    else if (tpa->getLengthBytes() != plen)
     {
-        throw std::runtime_error("tpa.getLengthBytes() and plen must match");
+        throw std::runtime_error("tpa->getLengthBytes() and plen must match");
     }
 
     addDataFields();
@@ -117,11 +111,7 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
     ptype(ptype),
     hlen(hlen),
     plen(plen),
-    oper(oper),
-    sha(buffer_sha, hlen, network_address_raw_owned_sha),
-    spa(buffer_spa, plen, network_address_raw_owned_spa),
-    tha(buffer_tha, hlen, network_address_raw_owned_tha),
-    tpa(buffer_tpa, plen, network_address_raw_owned_tpa)
+    oper(oper)
 {
     addDataFields();
 }
@@ -139,8 +129,8 @@ void ArpPacket::addDataFields()
     addDataField(&hlen);
     addDataField(&plen);
     addDataField(&oper);
-    addDataField(&sha);
-    addDataField(&spa);
-    addDataField(&tha);
-    addDataField(&tpa);
+    addDataField(sha);
+    addDataField(spa);
+    addDataField(tha);
+    addDataField(tpa);
 }

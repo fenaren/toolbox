@@ -17,10 +17,10 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4() :
               HLEN,
               PLEN,
               0,
-              sha,
-              spa,
-              tha,
-              tpa)
+              &sha,
+              &spa,
+              &tha,
+              &tpa)
 {
 }
 
@@ -38,10 +38,10 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
               HLEN,
               PLEN,
               oper,
-              sha,
-              spa,
-              tha,
-              tpa)
+              &sha,
+              &spa,
+              &tha,
+              &tpa)
 {
     sha.readRaw(buffer_sha);
     spa.readRaw(buffer_spa);
@@ -63,10 +63,14 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
               HLEN,
               PLEN,
               0,
-              sha,
-              spa,
-              tha,
-              tpa)
+              &this->sha,
+              &this->spa,
+              &this->tha,
+              &this->tpa,
+              false,
+              false,
+              false,
+              false)
 {
 }
 
@@ -80,10 +84,10 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
               HLEN,
               PLEN,
               0,
-              sha,
-              spa,
-              tha,
-              tpa)
+              &sha,
+              &spa,
+              &tha,
+              &tpa)
 {
     readRaw(buffer);
 }
@@ -100,10 +104,10 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
               HLEN,
               PLEN,
               0,
-              sha,
-              spa,
-              tha,
-              tpa)
+              &sha,
+              &spa,
+              &tha,
+              &tpa)
 {
     readRaw(buffer, byte_order);
 }

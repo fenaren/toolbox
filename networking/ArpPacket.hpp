@@ -29,15 +29,19 @@ public:
 
     // Constructs an ARP packet by dynamically allocating memory and copying
     // provided NetworkAddresses into them.
-    ArpPacket(std::uint16_t         htype,
-              std::uint16_t         ptype,
-              std::uint8_t          hlen,
-              std::uint8_t          plen,
-              std::uint16_t         oper,
-              const NetworkAddress& sha,
-              const NetworkAddress& spa,
-              const NetworkAddress& tha,
-              const NetworkAddress& tpa);
+    ArpPacket(std::uint16_t   htype,
+              std::uint16_t   ptype,
+              std::uint8_t    hlen,
+              std::uint8_t    plen,
+              std::uint16_t   oper,
+              NetworkAddress* sha,
+              NetworkAddress* spa,
+              NetworkAddress* tha,
+              NetworkAddress* tpa,
+              bool            network_address_owned_sha = true,
+              bool            network_address_owned_spa = true,
+              bool            network_address_owned_tha = true,
+              bool            network_address_owned_tpa = true);
 
     // Constructs an ARP packet using hardware and protocol field memory that
     // can be maintained either internally or externally.
@@ -94,10 +98,10 @@ private:
     SimpleDataField<std::uint8_t>  hlen;
     SimpleDataField<std::uint8_t>  plen;
     SimpleDataField<std::uint16_t> oper;
-    NetworkAddress                 sha;
-    NetworkAddress                 spa;
-    NetworkAddress                 tha;
-    NetworkAddress                 tpa;
+    NetworkAddress*                sha;
+    NetworkAddress*                spa;
+    NetworkAddress*                tha;
+    NetworkAddress*                tpa;
 };
 
 inline std::uint16_t ArpPacket::getHType() const
@@ -127,42 +131,42 @@ inline std::uint16_t ArpPacket::getOper() const
 
 inline NetworkAddress* ArpPacket::getSha()
 {
-    return &sha;
+    return sha;
 }
 
 inline const NetworkAddress* ArpPacket::getSha() const
 {
-    return &sha;
+    return sha;
 }
 
 inline NetworkAddress* ArpPacket::getSpa()
 {
-    return &spa;
+    return spa;
 }
 
 inline const NetworkAddress* ArpPacket::getSpa() const
 {
-    return &spa;
+    return spa;
 }
 
 inline NetworkAddress* ArpPacket::getTha()
 {
-    return &tha;
+    return tha;
 }
 
 inline const NetworkAddress* ArpPacket::getTha() const
 {
-    return &tha;
+    return tha;
 }
 
 inline NetworkAddress* ArpPacket::getTpa()
 {
-    return &tpa;
+    return tpa;
 }
 
 inline const NetworkAddress* ArpPacket::getTpa() const
 {
-    return &tpa;
+    return tpa;
 }
 
 inline void ArpPacket::setHType(std::uint16_t htype)
