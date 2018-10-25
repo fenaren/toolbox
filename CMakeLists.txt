@@ -18,6 +18,7 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/PosixSignalManager.cpp
   ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SimpleDataField.cpp
