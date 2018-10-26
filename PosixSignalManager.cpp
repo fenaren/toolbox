@@ -1,6 +1,11 @@
 #include <csignal>
 #include <initializer_list>
+#include <stdexcept>
 #include <unordered_map>
+
+#if defined DEBUG
+#include <iostream>
+#endif
 
 #include "PosixSignalManager.hpp"
 
@@ -8,7 +13,7 @@
 // Parses program arguments and stores in arguments
 //==============================================================================
 PosixSignalManager::PosixSignalManager() :
-    delivery_status(std::initializer_list<int, volatile sig_atomic_t>({SIGINT, 0}))
+    delivery_status{{1, 2}}
 {
 }
 
@@ -20,44 +25,9 @@ PosixSignalManager::~PosixSignalManager()
 }
 
 //==============================================================================
-// External sources can use this interface to signal this program; signals are
-// not handled immediately, they are placed on a list and handled within the
-// processSignals member function
-//==============================================================================
-void PosixSignalManager::signal(int sig)
-{
-    // Add this signal to our list of delivered signals
-    //pthread_mutex_lock(&delivered_signals_mutex);
-    //sigaddset(&delivered_signals, sig);
-    //pthread_mutex_unlock(&delivered_signals_mutex);
-}
-
-//==============================================================================
-// Returns a copy of the set of delivered signals
-//==============================================================================
-/*void PosixSignalManager::getDeliveredSignals(sigset_t& sigset)
-{
-    //pthread_mutex_lock(&delivered_signals_mutex);
-    //sigset = this->delivered_signals;
-    //pthread_mutex_unlock(&delivered_signals_mutex);
-    }*/
-
-//==============================================================================
-// Returns true if sig has been delivered
-//==============================================================================
-bool PosixSignalManager::isSignalDelivered(int sig)
-{
-    //pthread_mutex_lock(&delivered_signals_mutex);
-    //bool signal_delivered = sigismember(&delivered_signals, sig);
-    //pthread_mutex_unlock(&delivered_signals_mutex);
-
-    //return signal_delivered;
-}
-
-//==============================================================================
 // C function "cfun" is assigned to handle signals of type sig
 //==============================================================================
-bool PosixSignalManager::registerSignal(int sig, void cfun(int))
+bool PosixSignalManager::registerSignalHandler(int sig, void cfun(int))
 {
     struct sigaction act;
     act.sa_handler = cfun;
@@ -68,33 +38,67 @@ bool PosixSignalManager::registerSignal(int sig, void cfun(int))
 }
 
 //==============================================================================
-// Derived classes should implement this function with their signal handling
-// code; get the current set of delivered signals by calling
-// getDeliveredSignals() or check if a particular signal is delivered using
-// isSignalDelivered(); after signals are processed use unsignal() or
-// unsignalAll() to mark signals as processed
+// External sources can use this interface to signal this program; signals are
+// not handled immediately, they are placed on a list and handled within the
+// processSignals member function
 //==============================================================================
-void PosixSignalManager::processDeliveredSignals()
+void PosixSignalManager::signal(int sig)
 {
-    //unsignalAll();
+    try
+    {
+        // This is async-signal-safe, values of delivery_status are atomic
+        delivery_status.at(sig) = 1;
+    }
+    catch (std::out_of_range& ex)
+    {
+#if defined DEBUG
+        std::cerr << "Unknown signal " << sig << " received, ignoring\n";
+#endif
+    }
 }
 
 //==============================================================================
-// Removes a particular signal from the set of delivered signals
+// Returns true if sig has been delivered
 //==============================================================================
-void PosixSignalManager::unsignal(int sig)
+bool PosixSignalManager::isSignalDelivered(int sig)
 {
-    //pthread_mutex_lock(&delivered_signals_mutex);
-    //sigdelset(&delivered_signals, sig);
-    //pthread_mutex_unlock(&delivered_signals_mutex);
-}
+    bool sig_delivered = false;
 
-//==============================================================================
-// Removes all signals from the set of delivered signals
-//==============================================================================
-void PosixSignalManager::unsignalAll()
-{
-    //pthread_mutex_lock(&delivered_signals_mutex);
-    //sigemptyset(&delivered_signals);
-    //pthread_mutex_unlock(&delivered_signals_mutex);
+    bool out_of_range = false;
+    std::out_of_range out_of_range_ex("");
+
+    // Disable signals of type sig while we test and reset the current delivery
+    // status of sig
+    sigset_t block_sig;
+    sigemptyset(&block_sig);
+    sigaddset(&block_sig, sig);
+    sigprocmask(SIG_BLOCK, &block_sig, 0);
+
+    try
+    {
+        // This will toss an exception if sig is unknown to us.  We can't let it
+        // propagate up because we have to finish our work here and reset the
+        // signal mask before allowing anything else to happen.  We'll re-throw
+        // any exceptions that happen here later.
+        sig_delivered = delivery_status.at(sig) == 1;
+
+        // Reset the deliery flag for this signal
+        delivery_status.at(sig) = 0;
+    }
+    catch (std::out_of_range& ex)
+    {
+        out_of_range = true;
+        out_of_range_ex = ex;
+    }
+
+    // Start allowing signals of type sig again
+    sigprocmask(SIG_UNBLOCK, &block_sig, 0);
+
+    // If we got an out_of_range exception earlier re-throw it
+    if (out_of_range)
+    {
+        throw out_of_range_ex;
+    }
+
+    return sig_delivered;
 }
