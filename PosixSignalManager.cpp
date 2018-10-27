@@ -13,7 +13,36 @@
 // Parses program arguments and stores in arguments
 //==============================================================================
 PosixSignalManager::PosixSignalManager() :
-    delivery_status{{1, 2}}
+    delivery_status{{SIGABRT,   0},
+                    {SIGALRM,   0},
+                    {SIGBUS,    0},
+                    {SIGCHLD,   0},
+                    {SIGCONT,   0},
+                    {SIGFPE,    0},
+                    {SIGHUP,    0},
+                    {SIGILL,    0},
+                    {SIGINT,    0},
+                    {SIGKILL,   0},
+                    {SIGPIPE,   0},
+#if defined SIGPOLL // Not available on my macOS laptop
+                    {SIGPOLL,   0},
+#endif
+                    {SIGPROF,   0},
+                    {SIGQUIT,   0},
+                    {SIGSEGV,   0},
+                    {SIGSTOP,   0},
+                    {SIGSYS,    0},
+                    {SIGTERM,   0},
+                    {SIGTRAP,   0},
+                    {SIGTSTP,   0},
+                    {SIGTTIN,   0},
+                    {SIGTTOU,   0},
+                    {SIGURG,    0},
+                    {SIGUSR1,   0},
+                    {SIGUSR2,   0},
+                    {SIGVTALRM, 0},
+                    {SIGXCPU,   0},
+                    {SIGXFSZ,   0}}
 {
 }
 
