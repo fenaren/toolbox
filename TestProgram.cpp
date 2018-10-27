@@ -33,3 +33,8 @@ int TestProgram::run()
         return -1;
     };
 }
+
+//==============================================================================
+void TestProgram::processDeliveredSignals()
+{
+}

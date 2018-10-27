@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #if defined DEBUG
 #include <iostream>
 #endif
@@ -13,13 +15,11 @@ SignalManager::SignalManager() :
 {
     signal_manager_impl = SignalManagerFactory::createSignalManager();
 
-#if defined DEBUG
     if (!signal_manager_impl)
     {
-        std::cerr <<
-            "Signal handling not available on this platform, ignoring\n";
+        throw std::runtime_error(
+            "Platform-specific signal manager could not be created");
     }
-#endif
 }
 
 //==============================================================================
