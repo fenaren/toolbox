@@ -1,16 +1,16 @@
 #include "SignalManagerFactory.hpp"
 
 #if defined LINUX or MACOS
-#include "PosixSignalManager.hpp"
+#include "PosixSignalManagerImpl.hpp"
 #endif
 
 //=============================================================================
 // Creates a platform-specific signal manager
 //=============================================================================
-SignalManager* SignalManagerFactory::createSignalManager()
+SignalManagerImpl* SignalManagerFactory::createSignalManager()
 {
 #if defined LINUX or MACOS
-    return new PosixSignalManager();
+    return new PosixSignalManagerImpl();
 #else
     return 0;
 #endif

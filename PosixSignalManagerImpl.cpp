@@ -7,12 +7,12 @@
 #include <iostream>
 #endif
 
-#include "PosixSignalManager.hpp"
+#include "PosixSignalManagerImpl.hpp"
 
 //==============================================================================
 // Parses program arguments and stores in arguments
 //==============================================================================
-PosixSignalManager::PosixSignalManager() :
+PosixSignalManagerImpl::PosixSignalManagerImpl() :
     delivery_status{{SIGABRT,   0},
                     {SIGALRM,   0},
                     {SIGBUS,    0},
@@ -49,14 +49,14 @@ PosixSignalManager::PosixSignalManager() :
 //==============================================================================
 // Nothing to do on shutdown here
 //==============================================================================
-PosixSignalManager::~PosixSignalManager()
+PosixSignalManagerImpl::~PosixSignalManagerImpl()
 {
 }
 
 //==============================================================================
 // C function "cfun" is assigned to handle signals of type sig
 //==============================================================================
-bool PosixSignalManager::registerSignalHandler(int sig, void cfun(int))
+bool PosixSignalManagerImpl::registerSignalHandler(int sig, void cfun(int))
 {
     struct sigaction act;
     act.sa_handler = cfun;
@@ -71,7 +71,7 @@ bool PosixSignalManager::registerSignalHandler(int sig, void cfun(int))
 // not handled immediately, they are placed on a list and handled within the
 // processSignals member function
 //==============================================================================
-void PosixSignalManager::signal(int sig)
+void PosixSignalManagerImpl::signal(int sig)
 {
     try
     {
@@ -89,7 +89,7 @@ void PosixSignalManager::signal(int sig)
 //==============================================================================
 // Returns true if sig has been delivered
 //==============================================================================
-bool PosixSignalManager::isSignalDelivered(int sig)
+bool PosixSignalManagerImpl::isSignalDelivered(int sig)
 {
     bool sig_delivered = false;
 

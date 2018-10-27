@@ -5,16 +5,27 @@
 #include "SignalManager.hpp"
 
 #include "SignalManagerFactory.hpp"
+#include "SignalManagerImpl.hpp"
 
 //==============================================================================
 SignalManager::SignalManager() :
     signal_manager_impl(0)
 {
+    signal_manager_impl = SignalManagerFactory::createSignalManager();
+
+#if defined DEBUG
+    if (!signal_manager_impl)
+    {
+        std::cerr <<
+            "Signal handling not available on this platform, ignoring\n";
+    }
+#endif
 }
 
 //==============================================================================
 SignalManager::~SignalManager()
 {
+    delete signal_manager_impl;
 }
 
 //==============================================================================

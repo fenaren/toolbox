@@ -4,17 +4,17 @@
 #include <csignal>
 #include <unordered_map>
 
-#include "SignalManager.hpp"
+#include "SignalManagerImpl.hpp"
 
-class PosixSignalManager : public SignalManager
+class PosixSignalManagerImpl : public SignalManagerImpl
 {
 public:
 
     // Argument parsing and program initialization happens here
-    PosixSignalManager();
+    PosixSignalManagerImpl();
 
     // Nothing to do on shutdown here
-    virtual ~PosixSignalManager();
+    virtual ~PosixSignalManagerImpl();
 
     // C function "cfun" is assigned to handle signals of type sig
     virtual bool registerSignalHandler(int sig, void cfun(int));

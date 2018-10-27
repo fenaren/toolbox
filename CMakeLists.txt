@@ -19,6 +19,7 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SignalManager.cpp
+  ${CMAKE_CURRENT_LIST_DIR}/SignalManagerImpl.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SignalManagerFactory.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SimpleDataField.cpp
   ${CMAKE_CURRENT_LIST_DIR}/Test.cpp
@@ -30,7 +31,7 @@ add_library(${PROJECT_NAME}
 if(MACOS OR LINUX)
   target_sources(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/PosixSignalManager.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/PosixSignalManagerImpl.cpp
     ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp)
 endif(MACOS OR LINUX)
 
