@@ -8,7 +8,8 @@
 //==============================================================================
 // Parses program arguments and stores in arguments
 //==============================================================================
-Program::Program(int argc, char** argv)
+Program::Program(int argc, char** argv) :
+    SignalManager()
 {
     // Program name is always the first argument
     if (argc > 0)
