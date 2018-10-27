@@ -4,7 +4,9 @@
 #include <csignal>
 #include <unordered_map>
 
-class PosixSignalManager
+#include "SignalManager.hpp"
+
+class PosixSignalManager : public SignalManager
 {
 public:
 
@@ -15,24 +17,15 @@ public:
     virtual ~PosixSignalManager();
 
     // C function "cfun" is assigned to handle signals of type sig
-    static bool registerSignalHandler(int sig, void cfun(int));
+    virtual bool registerSignalHandler(int sig, void cfun(int));
 
     // External sources can use this interface to signal this program; signals
     // are not handled immediately, they are placed on a list and handled within
     // the processDeliveredSignals member function
-    void signal(int sig);
+    virtual void signal(int sig);
 
     // Returns true if sig has been delivered
-    bool isSignalDelivered(int sig);
-
-protected:
-
-    // Derived classes should implement this function with their signal handling
-    // code; get the current set of delivered signals by calling
-    // getDeliveredSignals() or check if a particular signal is delivered using
-    // isSignalDelivered(); after signals are processed use unsignal() or
-    // unsignalAll() to mark signals as processed
-    virtual void processDeliveredSignals() = 0;
+    virtual bool isSignalDelivered(int sig);
 
 private:
 

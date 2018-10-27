@@ -1,0 +1,23 @@
+#if !defined SIGNAL_MANAGER_FACTORY_HPP
+#define SIGNAL_MANAGER_FACTORY_HPP
+
+class SignalManager;
+
+// Provides a platform-independent way of acquiring platform-specific signal
+// managers.
+class SignalManagerFactory
+{
+public:
+
+    // The interface through which platform-specific signal managers are
+    // acquired.
+    static SignalManager* createSignalManager();
+
+private:
+
+    // Disallowed
+    SignalManagerFactory();
+    ~SignalManagerFactory();
+};
+
+#endif
