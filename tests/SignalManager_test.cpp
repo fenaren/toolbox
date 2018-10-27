@@ -1,5 +1,8 @@
-#include <iomanip>
+#include <chrono>
+#include <csignal>
 #include <iostream>
+#include <stdexcept>
+#include <thread>
 #include <unordered_set>
 
 #include "SignalManager_test.hpp"
@@ -43,7 +46,36 @@ Test::Result SignalManager_test::run()
     {
         std::string signal_name;
         signal_manager->getSignalName(*i, signal_name);
-        std::cout << std::setw(2) << *i << " " << signal_name << "\n";
+        std::cout << "Testing " << *i << " " << signal_name
+                  << " ... ";
+
+        // Register this signal
+        if (!signal_manager->registerSignalHandler(*i, handle_signal))
+        {
+            std::cout << "COULD NOT REGISTER\n";
+            break;
+        }
+
+        // Raise the signal then wait for it
+        bool signal_caught = false;
+        raise(*i);
+        for (unsigned int j = 0; j < 10; j++)
+        {
+            // Check for it every tenth of a second for up to a whole second
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            if (signal_manager->isSignalDelivered(*i))
+            {
+                signal_caught = true;
+            }
+        }
+
+        if (!signal_caught)
+        {
+            std::cout << "FAILED\n";
+            delete signal_manager;
+            return Test::FAILED;
+        }
     }
 
     delete signal_manager;
