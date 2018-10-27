@@ -131,3 +131,21 @@ bool PosixSignalManagerImpl::isSignalDelivered(int sig)
 
     return sig_delivered;
 }
+
+//==============================================================================
+// Fills in a user-provided set with the list of signals we know about
+//==============================================================================
+void PosixSignalManagerImpl::getSupportedSignals(
+    std::unordered_set<int>& supported_signals)
+{
+    // Get rid of whatever is in there first
+    supported_signals.clear();
+
+    for (std::unordered_map<int, volatile sig_atomic_t>::const_iterator i =
+             delivery_status.begin();
+         i != delivery_status.end();
+         ++i)
+    {
+        supported_signals.insert(i->first);
+    }
+}

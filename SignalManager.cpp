@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <unordered_set>
 
 #if defined DEBUG
 #include <iostream>
@@ -80,4 +81,13 @@ bool SignalManager::isSignalDelivered(int sig)
 #endif
 
     return false;
+}
+
+//==============================================================================
+// Fills in a user-provided set with the list of signals we know about
+//==============================================================================
+void
+SignalManager::getSupportedSignals(std::unordered_set<int>& supported_signals)
+{
+    signal_manager_impl->getSupportedSignals(supported_signals);
 }

@@ -27,6 +27,9 @@ public:
     // Returns true if sig has been delivered
     virtual bool isSignalDelivered(int sig);
 
+    // Fills in a user-provided set with the list of signals we know about
+    virtual void getSupportedSignals(std::unordered_set<int>& supported_signals);
+
 private:
 
     // Maintains a "delivered" status for all known signals.  Keys are POSIX

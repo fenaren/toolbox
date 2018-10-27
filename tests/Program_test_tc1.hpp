@@ -18,10 +18,6 @@ public:
 protected:
 
     virtual void processDeliveredSignals();
-
-private:
-
-    bool signal_handled;
 };
 
 #endif

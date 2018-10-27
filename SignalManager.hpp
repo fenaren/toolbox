@@ -1,6 +1,8 @@
 #if !defined SIGNAL_MANAGER_HPP
 #define SIGNAL_MANAGER_HPP
 
+#include <unordered_set>
+
 class SignalManagerImpl;
 
 class SignalManager
@@ -22,19 +24,12 @@ public:
     // Returns true if sig has been delivered
     virtual bool isSignalDelivered(int sig);
 
-protected:
-
-    void setImplementation(SignalManagerImpl* signal_manager_impl);
+    // Fills in a user-provided set with the list of signals we know about
+    virtual void getSupportedSignals(std::unordered_set<int>& suported_signals);
 
 private:
 
     SignalManagerImpl* signal_manager_impl;
 };
-
-inline
-void SignalManager::setImplementation(SignalManagerImpl* signal_manager_impl)
-{
-    this->signal_manager_impl = signal_manager_impl;
-}
 
 #endif
