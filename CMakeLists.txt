@@ -27,12 +27,12 @@ add_library(${PROJECT_NAME}
   ${CMAKE_CURRENT_LIST_DIR}/misc.cpp)
 
 # Only include POSIX code when building for platforms we know support it
-if(MACOS)
-  add_library(${PROJECT_NAME}
+if(MACOS OR LINUX)
+  target_sources(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
     ${CMAKE_CURRENT_LIST_DIR}/PosixSignalManager.cpp
     ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp)
-endif(MACOS)
+endif(MACOS OR LINUX)
 
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
