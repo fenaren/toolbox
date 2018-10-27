@@ -2,7 +2,9 @@
 #define POSIX_SIGNAL_MANAGER_HPP
 
 #include <csignal>
+#include <string>
 #include <unordered_map>
+#include <utility>
 
 #include "SignalManagerImpl.hpp"
 
@@ -28,9 +30,28 @@ public:
     virtual bool isSignalDelivered(int sig);
 
     // Fills in a user-provided set with the list of signals we know about
-    virtual void getSupportedSignals(std::unordered_set<int>& supported_signals);
+    virtual
+    void getSupportedSignals(std::unordered_set<int>& supported_signals);
+
+    virtual void getSignalName(int sig, std::string& signal_name);
 
 private:
+
+    // Stores information relevant to this class about a POSIX signal
+    struct PosixSignalInfo
+    {
+        PosixSignalInfo(const std::string& name, sig_atomic_t delivered) :
+            name(name),
+            delivered(delivered)
+            {
+            }
+
+        // Name of the signal (ex. "SIGINT")
+        const std::string name;
+
+        // Has the signal been delivered since the last time we checked
+        volatile sig_atomic_t delivered;
+    };
 
     // Maintains a "delivered" status for all known signals.  Keys are POSIX
     // signals, values are a flag of type sig_atomic_t which is set to 0 when
@@ -39,9 +60,14 @@ private:
     // being initialized because it must be async-signal-safe at all times
     // (adding or subtracting pairs is not async-signal-safe).  As a consequence
     // of this the set of signals that are trackable by this data structure has
-    // to be known at compile-time.  Calls to processDeliveredSignals() should
-    // clear all the signal flags.
-    std::unordered_map<int, volatile sig_atomic_t> delivery_status;
+    // to be known at compile-time.
+    std::unordered_map<int, PosixSignalInfo> signals;
 };
+
+inline
+void PosixSignalManagerImpl::getSignalName(int sig, std::string& signal_name)
+{
+    signal_name = signals.at(sig).name;
+}
 
 #endif

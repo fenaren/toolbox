@@ -89,5 +89,33 @@ bool SignalManager::isSignalDelivered(int sig)
 void
 SignalManager::getSupportedSignals(std::unordered_set<int>& supported_signals)
 {
-    signal_manager_impl->getSupportedSignals(supported_signals);
+    if (signal_manager_impl)
+    {
+        signal_manager_impl->getSupportedSignals(supported_signals);
+    }
+#if defined DEBUG
+    else
+    {
+        std::cerr <<
+            "Signal handling not available on this platform, ignoring\n";
+    }
+#endif
+}
+
+//==============================================================================
+// Returns the name of the given signal
+//==============================================================================
+void SignalManager::getSignalName(int sig, std::string& signal_name)
+{
+    if (signal_manager_impl)
+    {
+        signal_manager_impl->getSignalName(sig, signal_name);
+    }
+#if defined DEBUG
+    else
+    {
+        std::cerr <<
+            "Signal handling not available on this platform, ignoring\n";
+    }
+#endif
 }

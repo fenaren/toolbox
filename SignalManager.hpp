@@ -27,6 +27,9 @@ public:
     // Fills in a user-provided set with the list of signals we know about
     virtual void getSupportedSignals(std::unordered_set<int>& suported_signals);
 
+    // Returns the name of the given signal
+    virtual void getSignalName(int sig, std::string& signal_name);
+
 private:
 
     SignalManagerImpl* signal_manager_impl;

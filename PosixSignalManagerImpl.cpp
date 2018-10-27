@@ -13,36 +13,36 @@
 // Parses program arguments and stores in arguments
 //==============================================================================
 PosixSignalManagerImpl::PosixSignalManagerImpl() :
-    delivery_status{{SIGABRT,   0},
-                    {SIGALRM,   0},
-                    {SIGBUS,    0},
-                    {SIGCHLD,   0},
-                    {SIGCONT,   0},
-                    {SIGFPE,    0},
-                    {SIGHUP,    0},
-                    {SIGILL,    0},
-                    {SIGINT,    0},
-                    {SIGKILL,   0},
-                    {SIGPIPE,   0},
+    signals{{SIGABRT,   PosixSignalInfo("SIGABRT",   0)},
+            {SIGALRM,   PosixSignalInfo("SIGALRM",   0)},
+            {SIGBUS,    PosixSignalInfo("SIGBUS",    0)},
+            {SIGCHLD,   PosixSignalInfo("SIGCHLD",   0)},
+            {SIGCONT,   PosixSignalInfo("SIGCONT",   0)},
+            {SIGFPE,    PosixSignalInfo("SIGFPE",    0)},
+            {SIGHUP,    PosixSignalInfo("SIGHUP",    0)},
+            {SIGILL,    PosixSignalInfo("SIGILL",    0)},
+            {SIGINT,    PosixSignalInfo("SIGINT",    0)},
+            {SIGKILL,   PosixSignalInfo("SIGKILL",   0)},
+            {SIGPIPE,   PosixSignalInfo("SIGPIPE",   0)},
 #if defined SIGPOLL // Not available on my macOS laptop
-                    {SIGPOLL,   0},
+            {SIGPOLL,   PosixSignalInfo("SIGPOLL",   0)},
 #endif
-                    {SIGPROF,   0},
-                    {SIGQUIT,   0},
-                    {SIGSEGV,   0},
-                    {SIGSTOP,   0},
-                    {SIGSYS,    0},
-                    {SIGTERM,   0},
-                    {SIGTRAP,   0},
-                    {SIGTSTP,   0},
-                    {SIGTTIN,   0},
-                    {SIGTTOU,   0},
-                    {SIGURG,    0},
-                    {SIGUSR1,   0},
-                    {SIGUSR2,   0},
-                    {SIGVTALRM, 0},
-                    {SIGXCPU,   0},
-                    {SIGXFSZ,   0}}
+            {SIGPROF,   PosixSignalInfo("SIGPROF",   0)},
+            {SIGQUIT,   PosixSignalInfo("SIGQUIT",   0)},
+            {SIGSEGV,   PosixSignalInfo("SIGSEGV",   0)},
+            {SIGSTOP,   PosixSignalInfo("SIGSTOP",   0)},
+            {SIGSYS,    PosixSignalInfo("SIGSYS",    0)},
+            {SIGTERM,   PosixSignalInfo("SIGTERM",   0)},
+            {SIGTRAP,   PosixSignalInfo("SIGTRAP",   0)},
+            {SIGTSTP,   PosixSignalInfo("SIGTSTP",   0)},
+            {SIGTTIN,   PosixSignalInfo("SIGTTIN",   0)},
+            {SIGTTOU,   PosixSignalInfo("SIGTTOU",   0)},
+            {SIGURG,    PosixSignalInfo("SIGURG",    0)},
+            {SIGUSR1,   PosixSignalInfo("SIGUSR1",   0)},
+            {SIGUSR2,   PosixSignalInfo("SIGUSR2",   0)},
+            {SIGVTALRM, PosixSignalInfo("SIGVTALRM", 0)},
+            {SIGXCPU,   PosixSignalInfo("SIGXCPU",   0)},
+            {SIGXFSZ,   PosixSignalInfo("SIGXFSZ",   0)}}
 {
 }
 
@@ -76,7 +76,7 @@ void PosixSignalManagerImpl::signal(int sig)
     try
     {
         // This is async-signal-safe, values of delivery_status are atomic
-        delivery_status.at(sig) = 1;
+        signals.at(sig).delivered = 1;
     }
     catch (std::out_of_range& ex)
     {
@@ -109,10 +109,10 @@ bool PosixSignalManagerImpl::isSignalDelivered(int sig)
         // propagate up because we have to finish our work here and reset the
         // signal mask before allowing anything else to happen.  We'll re-throw
         // any exceptions that happen here later.
-        sig_delivered = delivery_status.at(sig) == 1;
+        sig_delivered = signals.at(sig).delivered == 1;
 
         // Reset the deliery flag for this signal
-        delivery_status.at(sig) = 0;
+        signals.at(sig).delivered = 0;
     }
     catch (std::out_of_range& ex)
     {
@@ -141,9 +141,9 @@ void PosixSignalManagerImpl::getSupportedSignals(
     // Get rid of whatever is in there first
     supported_signals.clear();
 
-    for (std::unordered_map<int, volatile sig_atomic_t>::const_iterator i =
-             delivery_status.begin();
-         i != delivery_status.end();
+    for (std::unordered_map<int, PosixSignalInfo>::const_iterator i =
+             signals.begin();
+         i != signals.end();
          ++i)
     {
         supported_signals.insert(i->first);

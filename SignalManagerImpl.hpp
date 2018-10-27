@@ -1,6 +1,7 @@
 #if !defined SIGNAL_MANAGER_IMPL_HPP
 #define SIGNAL_MANAGER_IMPL_HPP
 
+#include <string>
 #include <unordered_set>
 
 class SignalManagerImpl
@@ -27,6 +28,8 @@ public:
     // Fills in a user-provided set with the list of signals we know about
     virtual
     void getSupportedSignals(std::unordered_set<int>& supported_signals) = 0;
+
+    virtual void getSignalName(int sig, std::string& signal_name) = 0;
 };
 
 #endif
