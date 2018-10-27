@@ -46,5 +46,7 @@ Test::Result SignalManager_test::run()
         std::cout << std::setw(2) << *i << " " << signal_name << "\n";
     }
 
+    delete signal_manager;
+
     return Test::PASSED;
 }
