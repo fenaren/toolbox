@@ -16,8 +16,9 @@ public:
     PosixSignalManagerImpl();
     virtual ~PosixSignalManagerImpl();
 
-    // This will register a signal handler for this signal and make the signal's
-    // delivery status available via isSignalDelivered()
+    // Registers a special signal handler for this signal which will start
+    // recording the signal's delivery status to internal storage.  Use
+    // isSignalDelivered() to retrieve the signal's current delivery status.
     virtual bool registerSignal(int sig);
 
     // THIS FUNCTION IS ASYNC-SIGNAL-SAFE
