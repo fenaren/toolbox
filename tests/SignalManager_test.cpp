@@ -61,7 +61,7 @@ Test::Result SignalManager_test::run()
         MUST_BE_TRUE(raise(*i) == 0);
         for (unsigned int j = 0; j < 100; j++)
         {
-            // Check for it every tenth of a second for up to a whole second
+            // Check for it every hundredth of a second for up to a whole second
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
             if (signal_manager->isSignalDelivered(*i))
