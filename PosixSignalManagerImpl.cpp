@@ -59,7 +59,8 @@ PosixSignalManagerImpl::~PosixSignalManagerImpl()
 }
 
 //==============================================================================
-// C function "cfun" is assigned to handle signals of type sig
+// This will register a signal handler for this signal and make the signal's
+// delivery status available via isSignalDelivered()
 //==============================================================================
 bool PosixSignalManagerImpl::registerSignal(int sig)
 {

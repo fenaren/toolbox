@@ -9,11 +9,16 @@ class SignalManager
 {
 public:
 
-    // Nothing to do here
+    // Attempts to get a platform-specific signal manager from the signal
+    // manager factory.  If this works then we store the reference and use it
+    // going forward.
     SignalManager();
+
+    // Deletes the platform-specific signal manager acquired in the constructor
     virtual ~SignalManager();
 
-    // C function "cfun" is assigned to handle signals of type sig
+    // This will register a signal handler for this signal and make the signal's
+    // delivery status available via isSignalDelivered()
     virtual bool registerSignal(int sig);
 
     // External sources can use this interface to signal this program; signals

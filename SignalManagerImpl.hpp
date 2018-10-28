@@ -8,13 +8,12 @@ class SignalManagerImpl
 {
 public:
 
-    // Argument parsing and program initialization happens here
+    // These do nothing
     SignalManagerImpl();
-
-    // Nothing to do on shutdown here
     virtual ~SignalManagerImpl();
 
-    // C function "cfun" is assigned to handle signals of type sig
+    // This will register a signal handler for this signal and make the signal's
+    // delivery status available via isSignalDelivered()
     virtual bool registerSignal(int sig) = 0;
 
     // External sources can use this interface to signal this program; signals
@@ -29,6 +28,7 @@ public:
     virtual
     void getSupportedSignals(std::unordered_set<int>& supported_signals) = 0;
 
+    // Returns the name associated with the given signal
     virtual void getSignalName(int sig, std::string& signal_name) = 0;
 };
 

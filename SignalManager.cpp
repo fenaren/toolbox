@@ -25,6 +25,9 @@ extern "C" void handle_signal(int sig)
 }
 
 //==============================================================================
+// Attempts to get a platform-specific signal manager from the signal manager
+// factory.  If this works then we store the reference and use it going forward.
+//==============================================================================
 SignalManager::SignalManager() :
     signal_manager_impl(0)
 {
@@ -42,13 +45,16 @@ SignalManager::SignalManager() :
 }
 
 //==============================================================================
+// Deletes the platform-specific signal manager acquired in the constructor
+//==============================================================================
 SignalManager::~SignalManager()
 {
     delete signal_manager_impl;
 }
 
 //==============================================================================
-// C function "cfun" is assigned to handle signals of type sig
+// This will register a signal handler for this signal and make the signal's
+// delivery status available via isSignalDelivered()
 //==============================================================================
 bool SignalManager::registerSignal(int sig)
 {
