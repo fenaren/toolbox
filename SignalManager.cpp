@@ -92,7 +92,9 @@ void SignalManager::signal(int sig)
 }
 
 //==============================================================================
-// Returns true if sig has been delivered
+// Safely tests and resets the delivery status of a signal.  Delivery status of
+// the signal is returned and the delivery status itself is reset to indicate
+// that the signal is no longer delivered.
 //==============================================================================
 bool SignalManager::isSignalDelivered(int sig)
 {

@@ -29,7 +29,8 @@ public:
     virtual void signal(int sig);
 
     // Safely tests and resets the delivery status of a signal.  Delivery status
-    // of the signal is returned and the delivery status itself is reset to 0.
+    // of the signal is returned and the delivery status itself is reset to
+    // indicate that the signal is no longer delivered..
     virtual bool isSignalDelivered(int sig);
 
     // Fills in a user-provided unordered set with the list of signals we know

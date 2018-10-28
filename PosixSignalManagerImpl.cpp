@@ -100,8 +100,9 @@ void PosixSignalManagerImpl::signal(int sig)
 }
 
 //==============================================================================
-// Safely tests and resets the delivery status of a signal.  Delivery status
-// of the signal is returned and the delivery status itself is reset to 0.
+// Safely tests and resets the delivery status of a signal.  Delivery status of
+// the signal is returned and the delivery status itself is reset to indicate
+// that the signal is no longer delivered.
 //==============================================================================
 bool PosixSignalManagerImpl::isSignalDelivered(int sig)
 {
