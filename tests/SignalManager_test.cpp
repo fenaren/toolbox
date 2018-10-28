@@ -43,6 +43,19 @@ Test::Result SignalManager_test::run()
     // Give the signal manager a garbage signal and see what happens
     signal_manager->signal(999);
 
+    // Give the signal manager another garbage signal and see what happens
+    bool signal_caught = false;
+    try
+    {
+        signal_manager->isSignalDelivered(1234);
+    }
+    catch (std::out_of_range& ex)
+    {
+        signal_caught = true;
+    }
+    MUST_BE_TRUE(signal_caught);
+
+    // Test that we can signal and handle all the signals
     for (std::unordered_set<int>::const_iterator i = supported_signals.begin();
          i != supported_signals.end();
          ++i)
