@@ -9,48 +9,48 @@
 
 #include "PosixSignalManagerImpl.hpp"
 
+// This initializes our static signals map with all the required POSIX signals.
+// SIGPOLL isn't available on macOS so we deal with that here.  We could do
+// something similar for all the signals but there's no obvious need for that
+// now.
 std::unordered_map<int, PosixSignalManagerImpl::SignalInfo>
 PosixSignalManagerImpl::signals =
-{{SIGABRT,   SignalInfo("SIGABRT",   0)},
- {SIGALRM,   SignalInfo("SIGALRM",   0)},
- {SIGBUS,    SignalInfo("SIGBUS",    0)},
- {SIGCHLD,   SignalInfo("SIGCHLD",   0)},
- {SIGCONT,   SignalInfo("SIGCONT",   0)},
- {SIGFPE,    SignalInfo("SIGFPE",    0)},
- {SIGHUP,    SignalInfo("SIGHUP",    0)},
- {SIGILL,    SignalInfo("SIGILL",    0)},
- {SIGINT,    SignalInfo("SIGINT",    0)},
- {SIGKILL,   SignalInfo("SIGKILL",   0)},
- {SIGPIPE,   SignalInfo("SIGPIPE",   0)},
+{{SIGABRT,   SignalInfo("SIGABRT",   NOT_DELIVERED)},
+ {SIGALRM,   SignalInfo("SIGALRM",   NOT_DELIVERED)},
+ {SIGBUS,    SignalInfo("SIGBUS",    NOT_DELIVERED)},
+ {SIGCHLD,   SignalInfo("SIGCHLD",   NOT_DELIVERED)},
+ {SIGCONT,   SignalInfo("SIGCONT",   NOT_DELIVERED)},
+ {SIGFPE,    SignalInfo("SIGFPE",    NOT_DELIVERED)},
+ {SIGHUP,    SignalInfo("SIGHUP",    NOT_DELIVERED)},
+ {SIGILL,    SignalInfo("SIGILL",    NOT_DELIVERED)},
+ {SIGINT,    SignalInfo("SIGINT",    NOT_DELIVERED)},
+ {SIGKILL,   SignalInfo("SIGKILL",   NOT_DELIVERED)},
+ {SIGPIPE,   SignalInfo("SIGPIPE",   NOT_DELIVERED)},
 #if defined SIGPOLL // Not available on my macOS laptop
- {SIGPOLL,   SignalInfo("SIGPOLL",   0)},
+ {SIGPOLL,   SignalInfo("SIGPOLL",   NOT_DELIVERED)},
 #endif
- {SIGPROF,   SignalInfo("SIGPROF",   0)},
- {SIGQUIT,   SignalInfo("SIGQUIT",   0)},
- {SIGSEGV,   SignalInfo("SIGSEGV",   0)},
- {SIGSTOP,   SignalInfo("SIGSTOP",   0)},
- {SIGSYS,    SignalInfo("SIGSYS",    0)},
- {SIGTERM,   SignalInfo("SIGTERM",   0)},
- {SIGTRAP,   SignalInfo("SIGTRAP",   0)},
- {SIGTSTP,   SignalInfo("SIGTSTP",   0)},
- {SIGTTIN,   SignalInfo("SIGTTIN",   0)},
- {SIGTTOU,   SignalInfo("SIGTTOU",   0)},
- {SIGURG,    SignalInfo("SIGURG",    0)},
- {SIGUSR1,   SignalInfo("SIGUSR1",   0)},
- {SIGUSR2,   SignalInfo("SIGUSR2",   0)},
- {SIGVTALRM, SignalInfo("SIGVTALRM", 0)},
- {SIGXCPU,   SignalInfo("SIGXCPU",   0)},
- {SIGXFSZ,   SignalInfo("SIGXFSZ",   0)}};
+ {SIGPROF,   SignalInfo("SIGPROF",   NOT_DELIVERED)},
+ {SIGQUIT,   SignalInfo("SIGQUIT",   NOT_DELIVERED)},
+ {SIGSEGV,   SignalInfo("SIGSEGV",   NOT_DELIVERED)},
+ {SIGSTOP,   SignalInfo("SIGSTOP",   NOT_DELIVERED)},
+ {SIGSYS,    SignalInfo("SIGSYS",    NOT_DELIVERED)},
+ {SIGTERM,   SignalInfo("SIGTERM",   NOT_DELIVERED)},
+ {SIGTRAP,   SignalInfo("SIGTRAP",   NOT_DELIVERED)},
+ {SIGTSTP,   SignalInfo("SIGTSTP",   NOT_DELIVERED)},
+ {SIGTTIN,   SignalInfo("SIGTTIN",   NOT_DELIVERED)},
+ {SIGTTOU,   SignalInfo("SIGTTOU",   NOT_DELIVERED)},
+ {SIGURG,    SignalInfo("SIGURG",    NOT_DELIVERED)},
+ {SIGUSR1,   SignalInfo("SIGUSR1",   NOT_DELIVERED)},
+ {SIGUSR2,   SignalInfo("SIGUSR2",   NOT_DELIVERED)},
+ {SIGVTALRM, SignalInfo("SIGVTALRM", NOT_DELIVERED)},
+ {SIGXCPU,   SignalInfo("SIGXCPU",   NOT_DELIVERED)},
+ {SIGXFSZ,   SignalInfo("SIGXFSZ",   NOT_DELIVERED)}};
 
-//==============================================================================
-// Parses program arguments and stores in arguments
 //==============================================================================
 PosixSignalManagerImpl::PosixSignalManagerImpl()
 {
 }
 
-//==============================================================================
-// Nothing to do on shutdown here
 //==============================================================================
 PosixSignalManagerImpl::~PosixSignalManagerImpl()
 {
@@ -70,16 +70,17 @@ bool PosixSignalManagerImpl::registerSignalHandler(int sig, void cfun(int))
 }
 
 //==============================================================================
-// External sources can use this interface to signal this program; signals are
-// not handled immediately, they are placed on a list and handled within the
-// processSignals member function
+// THIS FUNCTION IS ASYNC-SIGNAL-SAFE
+// Intended to be called from a signal handler for the purpose of delivering a
+// signal.  Delivery of signals is recorded in the signals map.  Use the
+// isSignalDelivered() function to query the delivery status of a particular
+// signal.
 //==============================================================================
 void PosixSignalManagerImpl::signal(int sig)
 {
     try
     {
-        // This is async-signal-safe, values of delivery_status are atomic
-        signals.at(sig).delivered = 1;
+        signals.at(sig).delivery_status = DELIVERED;
     }
     catch (std::out_of_range& ex)
     {
@@ -90,7 +91,8 @@ void PosixSignalManagerImpl::signal(int sig)
 }
 
 //==============================================================================
-// Returns true if sig has been delivered
+// Safely tests and resets the delivery status of a signal.  Delivery status
+// of the signal is returned and the delivery status itself is reset to 0.
 //==============================================================================
 bool PosixSignalManagerImpl::isSignalDelivered(int sig)
 {
@@ -112,10 +114,10 @@ bool PosixSignalManagerImpl::isSignalDelivered(int sig)
         // propagate up because we have to finish our work here and reset the
         // signal mask before allowing anything else to happen.  We'll re-throw
         // any exceptions that happen here later.
-        sig_delivered = signals.at(sig).delivered == 1;
+        sig_delivered = signals.at(sig).delivery_status == DELIVERED;
 
         // Reset the deliery flag for this signal
-        signals.at(sig).delivered = 0;
+        signals.at(sig).delivery_status = NOT_DELIVERED;
     }
     catch (std::out_of_range& ex)
     {
