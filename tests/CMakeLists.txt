@@ -79,6 +79,10 @@ add_test_executable_simple(
 add_test_executable_simple(
   SimpleDataField_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
+# SignalManager_test
+add_test_executable_simple(
+  SignalManager_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
 # TCPSocket_test
 set(TCP_SOCKET_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/TCPSocket_test.cpp
