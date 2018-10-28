@@ -63,6 +63,8 @@ bool PosixSignalManagerImpl::registerSignalHandler(int sig, void cfun(int))
 {
     struct sigaction act;
     act.sa_handler = cfun;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
 
     return sigaction(sig, &act, 0) == 0;
 }
