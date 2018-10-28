@@ -14,14 +14,6 @@ public:
     virtual ~Program_test_tc1();
 
     virtual int run();
-
-protected:
-
-    virtual void processDeliveredSignals();
-
-private:
-
-    bool signal_handled;
 };
 
 #endif
