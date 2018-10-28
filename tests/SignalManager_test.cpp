@@ -40,6 +40,9 @@ Test::Result SignalManager_test::run()
     signal_manager->getSupportedSignals(supported_signals);
     std::cout << supported_signals.size() << " supported signal(s)\n";
 
+    // Give the signal manager a garbage signal and see what happens
+    signal_manager->signal(999);
+
     for (std::unordered_set<int>::const_iterator i = supported_signals.begin();
          i != supported_signals.end();
          ++i)
