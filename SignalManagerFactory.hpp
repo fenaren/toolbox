@@ -15,7 +15,7 @@ public:
 
 private:
 
-    // Disallowed
+    // Disallowed, only static functions here
     SignalManagerFactory();
     ~SignalManagerFactory();
 };

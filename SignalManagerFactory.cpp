@@ -5,7 +5,7 @@
 #endif
 
 //=============================================================================
-// Creates a platform-specific signal manager
+// The interface through which platform-specific signal managers are acquired.
 //=============================================================================
 SignalManagerImpl* SignalManagerFactory::createSignalManager()
 {

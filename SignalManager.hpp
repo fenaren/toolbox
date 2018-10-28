@@ -22,9 +22,11 @@ public:
     // isSignalDelivered() to retrieve the signal's current delivery status.
     virtual bool registerSignal(int sig);
 
-    // External sources can use this interface to signal this program; signals
-    // are not handled immediately, they are placed on a list and handled within
-    // the processDeliveredSignals member function
+    // THIS FUNCTION IS ASYNC-SIGNAL-SAFE
+    // Intended to be called from a signal handler for the purpose of delivering
+    // a signal.  Delivery of signals is recorded in the signals map.  Use the
+    // isSignalDelivered() function to query the delivery status of a particular
+    // signal.
     virtual void signal(int sig);
 
     // Safely tests and resets the delivery status of a signal.  Delivery status
