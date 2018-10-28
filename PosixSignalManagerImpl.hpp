@@ -56,7 +56,7 @@ private:
     {
         SignalInfo(const std::string& name, DeliveryStatus delivery_status) :
             name(name),
-            delivery_status(static_cast<sig_atomic_t>(delivery_status))
+            delivery_status(delivery_status)
             {
             }
 
