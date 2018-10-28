@@ -9,40 +9,43 @@
 
 #include "PosixSignalManagerImpl.hpp"
 
+std::unordered_map<int, PosixSignalManagerImpl::SignalInfo>
+PosixSignalManagerImpl::signals =
+{{SIGABRT,   SignalInfo("SIGABRT",   0)},
+ {SIGALRM,   SignalInfo("SIGALRM",   0)},
+ {SIGBUS,    SignalInfo("SIGBUS",    0)},
+ {SIGCHLD,   SignalInfo("SIGCHLD",   0)},
+ {SIGCONT,   SignalInfo("SIGCONT",   0)},
+ {SIGFPE,    SignalInfo("SIGFPE",    0)},
+ {SIGHUP,    SignalInfo("SIGHUP",    0)},
+ {SIGILL,    SignalInfo("SIGILL",    0)},
+ {SIGINT,    SignalInfo("SIGINT",    0)},
+ {SIGKILL,   SignalInfo("SIGKILL",   0)},
+ {SIGPIPE,   SignalInfo("SIGPIPE",   0)},
+#if defined SIGPOLL // Not available on my macOS laptop
+ {SIGPOLL,   SignalInfo("SIGPOLL",   0)},
+#endif
+ {SIGPROF,   SignalInfo("SIGPROF",   0)},
+ {SIGQUIT,   SignalInfo("SIGQUIT",   0)},
+ {SIGSEGV,   SignalInfo("SIGSEGV",   0)},
+ {SIGSTOP,   SignalInfo("SIGSTOP",   0)},
+ {SIGSYS,    SignalInfo("SIGSYS",    0)},
+ {SIGTERM,   SignalInfo("SIGTERM",   0)},
+ {SIGTRAP,   SignalInfo("SIGTRAP",   0)},
+ {SIGTSTP,   SignalInfo("SIGTSTP",   0)},
+ {SIGTTIN,   SignalInfo("SIGTTIN",   0)},
+ {SIGTTOU,   SignalInfo("SIGTTOU",   0)},
+ {SIGURG,    SignalInfo("SIGURG",    0)},
+ {SIGUSR1,   SignalInfo("SIGUSR1",   0)},
+ {SIGUSR2,   SignalInfo("SIGUSR2",   0)},
+ {SIGVTALRM, SignalInfo("SIGVTALRM", 0)},
+ {SIGXCPU,   SignalInfo("SIGXCPU",   0)},
+ {SIGXFSZ,   SignalInfo("SIGXFSZ",   0)}};
+
 //==============================================================================
 // Parses program arguments and stores in arguments
 //==============================================================================
-PosixSignalManagerImpl::PosixSignalManagerImpl() :
-    signals{{SIGABRT,   PosixSignalInfo("SIGABRT",   0)},
-            {SIGALRM,   PosixSignalInfo("SIGALRM",   0)},
-            {SIGBUS,    PosixSignalInfo("SIGBUS",    0)},
-            {SIGCHLD,   PosixSignalInfo("SIGCHLD",   0)},
-            {SIGCONT,   PosixSignalInfo("SIGCONT",   0)},
-            {SIGFPE,    PosixSignalInfo("SIGFPE",    0)},
-            {SIGHUP,    PosixSignalInfo("SIGHUP",    0)},
-            {SIGILL,    PosixSignalInfo("SIGILL",    0)},
-            {SIGINT,    PosixSignalInfo("SIGINT",    0)},
-            {SIGKILL,   PosixSignalInfo("SIGKILL",   0)},
-            {SIGPIPE,   PosixSignalInfo("SIGPIPE",   0)},
-#if defined SIGPOLL // Not available on my macOS laptop
-            {SIGPOLL,   PosixSignalInfo("SIGPOLL",   0)},
-#endif
-            {SIGPROF,   PosixSignalInfo("SIGPROF",   0)},
-            {SIGQUIT,   PosixSignalInfo("SIGQUIT",   0)},
-            {SIGSEGV,   PosixSignalInfo("SIGSEGV",   0)},
-            {SIGSTOP,   PosixSignalInfo("SIGSTOP",   0)},
-            {SIGSYS,    PosixSignalInfo("SIGSYS",    0)},
-            {SIGTERM,   PosixSignalInfo("SIGTERM",   0)},
-            {SIGTRAP,   PosixSignalInfo("SIGTRAP",   0)},
-            {SIGTSTP,   PosixSignalInfo("SIGTSTP",   0)},
-            {SIGTTIN,   PosixSignalInfo("SIGTTIN",   0)},
-            {SIGTTOU,   PosixSignalInfo("SIGTTOU",   0)},
-            {SIGURG,    PosixSignalInfo("SIGURG",    0)},
-            {SIGUSR1,   PosixSignalInfo("SIGUSR1",   0)},
-            {SIGUSR2,   PosixSignalInfo("SIGUSR2",   0)},
-            {SIGVTALRM, PosixSignalInfo("SIGVTALRM", 0)},
-            {SIGXCPU,   PosixSignalInfo("SIGXCPU",   0)},
-            {SIGXFSZ,   PosixSignalInfo("SIGXFSZ",   0)}}
+PosixSignalManagerImpl::PosixSignalManagerImpl()
 {
 }
 
@@ -139,7 +142,7 @@ void PosixSignalManagerImpl::getSupportedSignals(
     // Get rid of whatever is in there first
     supported_signals.clear();
 
-    for (std::unordered_map<int, PosixSignalInfo>::const_iterator i =
+    for (std::unordered_map<int, SignalInfo>::const_iterator i =
              signals.begin();
          i != signals.end();
          ++i)

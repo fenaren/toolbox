@@ -53,16 +53,16 @@ Test::Result SignalManager_test::run()
         if (!signal_manager->registerSignalHandler(*i, handle_signal))
         {
             std::cout << "COULD NOT REGISTER\n";
-            break;
+            continue;
         }
 
         // Raise the signal then wait for it
         bool signal_caught = false;
         MUST_BE_TRUE(raise(*i) == 0);
-        for (unsigned int j = 0; j < 10; j++)
+        for (unsigned int j = 0; j < 100; j++)
         {
             // Check for it every tenth of a second for up to a whole second
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
             if (signal_manager->isSignalDelivered(*i))
             {
@@ -77,6 +77,8 @@ Test::Result SignalManager_test::run()
             delete signal_manager;
             return Test::FAILED;
         }
+
+        std::cout << "ok\n";
     }
 
     delete signal_manager;

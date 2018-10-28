@@ -38,9 +38,9 @@ public:
 private:
 
     // Stores information relevant to this class about a POSIX signal
-    struct PosixSignalInfo
+    struct SignalInfo
     {
-        PosixSignalInfo(const std::string& name, sig_atomic_t delivered) :
+        SignalInfo(const std::string& name, sig_atomic_t delivered) :
             name(name),
             delivered(delivered)
             {
@@ -61,7 +61,7 @@ private:
     // (adding or subtracting pairs is not async-signal-safe).  As a consequence
     // of this the set of signals that are trackable by this data structure has
     // to be known at compile-time.
-    std::unordered_map<int, PosixSignalInfo> signals;
+    static std::unordered_map<int, SignalInfo> signals;
 };
 
 inline
