@@ -50,7 +50,7 @@ Test::Result SignalManager_test::run()
                   << " ... " << std::flush;
 
         // Register this signal
-        if (!signal_manager->registerSignalHandler(*i, handle_signal))
+        if (!signal_manager->registerSignal(*i))
         {
             std::cout << "COULD NOT REGISTER\n";
             continue;

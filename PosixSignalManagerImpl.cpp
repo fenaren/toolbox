@@ -9,6 +9,8 @@
 
 #include "PosixSignalManagerImpl.hpp"
 
+extern "C" void handle_signal(int sig);
+
 // This initializes our static signals map with all the required POSIX signals.
 // SIGPOLL isn't available on macOS so we deal with that here.  We could do
 // something similar for all the signals but there's no obvious need for that
@@ -59,10 +61,10 @@ PosixSignalManagerImpl::~PosixSignalManagerImpl()
 //==============================================================================
 // C function "cfun" is assigned to handle signals of type sig
 //==============================================================================
-bool PosixSignalManagerImpl::registerSignalHandler(int sig, void cfun(int))
+bool PosixSignalManagerImpl::registerSignal(int sig)
 {
     struct sigaction act;
-    act.sa_handler = cfun;
+    act.sa_handler = handle_signal;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
 

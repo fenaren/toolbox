@@ -5,29 +5,12 @@
 
 #include "Program.hpp"
 
-Program* program_p = 0;
-
-// Used by the operating system to deliver signals to Programs, assuming
-// handle_signals has been assigned to a signal.  Does nothing but forward the
-// signal to a SignalManager where it can be dealt with appropriately.  Programs
-// are SignalManagers so we can signal the Program directly here.
-extern "C" void handle_signal(int sig)
-{
-    if (program_p)
-    {
-        program_p->signal(sig);
-    }
-}
-
 //==============================================================================
 // Parses program arguments and stores in arguments
 //==============================================================================
 Program::Program(int argc, char** argv) :
     SignalManager()
 {
-    // Set the global pointer used to forward signals to this program
-    program_p = this;
-
     // Program name is always the first argument
     if (argc > 0)
     {

@@ -8,8 +8,6 @@
 // code.  This definition isn't in the TestProgram header because there's at
 // least one TestProgram use case that cannot use this macro.
 
-extern "C" void handle_signal(int sig);
-
 #define TEST_PROGRAM_MAIN(TestClass)                \
     int main(int argc, char** argv)                 \
     {                                               \

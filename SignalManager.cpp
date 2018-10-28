@@ -10,10 +10,28 @@
 #include "SignalManagerFactory.hpp"
 #include "SignalManagerImpl.hpp"
 
+SignalManager* signalmanager_p = 0;
+
+// Used by the operating system to forward signals to the SignalManager,
+// assuming the SignalManager is handling a signal.  Use
+// SignalManager::registerSignal() to have the SignalManager start handling a
+// signal.
+extern "C" void handle_signal(int sig)
+{
+    if (signalmanager_p)
+    {
+        signalmanager_p->signal(sig);
+    }
+}
+
 //==============================================================================
 SignalManager::SignalManager() :
     signal_manager_impl(0)
 {
+    // Set the pointer used to forward signals to this SignalManager by
+    // handle_signal
+    signalmanager_p = this;
+
     signal_manager_impl = SignalManagerFactory::createSignalManager();
 
     if (!signal_manager_impl)
@@ -32,11 +50,11 @@ SignalManager::~SignalManager()
 //==============================================================================
 // C function "cfun" is assigned to handle signals of type sig
 //==============================================================================
-bool SignalManager::registerSignalHandler(int sig, void cfun(int))
+bool SignalManager::registerSignal(int sig)
 {
     if (signal_manager_impl)
     {
-        return signal_manager_impl->registerSignalHandler(sig, cfun);
+        return signal_manager_impl->registerSignal(sig);
     }
 
 #if defined DEBUG

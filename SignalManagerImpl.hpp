@@ -15,7 +15,7 @@ public:
     virtual ~SignalManagerImpl();
 
     // C function "cfun" is assigned to handle signals of type sig
-    virtual bool registerSignalHandler(int sig, void cfun(int)) = 0;
+    virtual bool registerSignal(int sig) = 0;
 
     // External sources can use this interface to signal this program; signals
     // are not handled immediately, they are placed on a list and handled within

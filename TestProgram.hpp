@@ -18,12 +18,6 @@ public:
     // Runs the provided test and maps the result to return codes
     virtual int run();
 
-protected:
-
-    // By default Do nothing in response to signals.  Individual tests can
-    // override this if they want
-    virtual void processDeliveredSignals();
-
 private:
 
     Test* test;

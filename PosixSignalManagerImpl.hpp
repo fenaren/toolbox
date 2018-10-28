@@ -17,7 +17,7 @@ public:
     virtual ~PosixSignalManagerImpl();
 
     // C function "cfun" is assigned to handle signals of type sig
-    virtual bool registerSignalHandler(int sig, void cfun(int));
+    virtual bool registerSignal(int sig);
 
     // THIS FUNCTION IS ASYNC-SIGNAL-SAFE
     // Intended to be called from a signal handler for the purpose of delivering
