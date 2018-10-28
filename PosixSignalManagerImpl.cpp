@@ -86,7 +86,7 @@ void PosixSignalManagerImpl::signal(int sig)
         // signal we don't recognize.  Let's not let an out_of_range exception
         // propagate out of here since we're probably running in a signal
         // handler.  I've seen strange behavior when exceptions propagate out of
-        // this this signal handler.
+        // this signal handler.
         signals.at(sig).delivery_status = DELIVERED;
     }
     catch (std::out_of_range& ex)
