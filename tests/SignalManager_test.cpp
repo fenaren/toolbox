@@ -81,6 +81,17 @@ Test::Result SignalManager_test::run()
             return Test::FAILED;
         }
 
+        for (std::unordered_set<int>::const_iterator j =
+                 supported_signals.begin();
+             j != supported_signals.end();
+             ++j)
+        {
+            // No signals should be delivered.  Ignore the possibility that some
+            // third-party issued us a legitimate signal while we're doing this
+            // test.
+            MUST_BE_FALSE(signal_manager->isSignalDelivered(*j));
+        }
+
         std::cout << "ok\n";
     }
 
