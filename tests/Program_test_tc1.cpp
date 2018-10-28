@@ -19,8 +19,3 @@ int Program_test_tc1::run()
 {
     return 0;
 }
-
-//==============================================================================
-void Program_test_tc1::processDeliveredSignals()
-{
-}

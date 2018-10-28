@@ -31,12 +31,6 @@ public:
     // sure
     static bool daemonize();
 
-protected:
-
-    // Derived classes must implement this function with their signal handling
-    // code
-    virtual void processDeliveredSignals() = 0;
-
 private:
 
     // String used to launch this program at the command line

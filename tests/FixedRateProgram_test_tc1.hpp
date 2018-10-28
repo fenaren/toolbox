@@ -17,10 +17,6 @@ public:
     ~FixedRateProgram_test_tc1();
 
     virtual void step();
-
-protected:
-
-    virtual void processDeliveredSignals();
 };
 
 #endif

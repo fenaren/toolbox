@@ -23,8 +23,3 @@ void FixedRateProgram_test_tc1::step()
     std::cout << "Step\n";
     setTerminate(true);
 }
-
-//==============================================================================
-void FixedRateProgram_test_tc1::processDeliveredSignals()
-{
-}
