@@ -63,10 +63,12 @@ ArpPacket::ArpPacket(std::uint16_t   htype,
     ptype(ptype),
     hlen(hlen),
     plen(plen),
-    oper(oper)
+    oper(oper),
+    sha_owned(network_address_owned_sha),
+    spa_owned(network_address_owned_spa),
+    tha_owned(network_address_owned_tha),
+    tpa_owned(network_address_owned_tpa)
 {
-    
-    
     // Ensure the length of the NetworkAddresses matches the hlen and plen
     // sizes.  If they don't the user is doing it wrong.
     if (sha->getLengthBytes() != hlen)
@@ -84,6 +86,46 @@ ArpPacket::ArpPacket(std::uint16_t   htype,
     else if (tpa->getLengthBytes() != plen)
     {
         throw std::runtime_error("tpa->getLengthBytes() and plen must match");
+    }
+
+    if (sha_owned)
+    {
+        this->sha = new NetworkAddress(hlen);
+        *this->sha = *sha;
+    }
+    else
+    {
+        this->sha = sha;
+    }
+
+    if (spa_owned)
+    {
+        this->spa = new NetworkAddress(plen);
+        *this->spa = *spa;
+    }
+    else
+    {
+        this->spa = spa;
+    }
+
+    if (tha_owned)
+    {
+        this->tha = new NetworkAddress(hlen);
+        *this->tha = *tha;
+    }
+    else
+    {
+        this->tha = tha;
+    }
+
+    if (tpa_owned)
+    {
+        this->tpa = new NetworkAddress(plen);
+        *this->tpa = *tpa;
+    }
+    else
+    {
+        this->tpa = tpa;
     }
 
     addDataFields();
@@ -111,14 +153,46 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
     ptype(ptype),
     hlen(hlen),
     plen(plen),
-    oper(oper)
+    oper(oper),
+    sha_owned(network_address_raw_owned_sha),
+    spa_owned(network_address_raw_owned_spa),
+    tha_owned(network_address_raw_owned_tha),
+    tpa_owned(network_address_raw_owned_tpa)
 {
+    sha = new NetworkAddress(buffer_sha, hlen, network_address_raw_owned_sha);
+    spa = new NetworkAddress(buffer_spa, plen, network_address_raw_owned_spa);
+    tha = new NetworkAddress(buffer_tha, hlen, network_address_raw_owned_tha);
+    tpa = new NetworkAddress(buffer_tpa, plen, network_address_raw_owned_tpa);
+
     addDataFields();
 }
 
 //==============================================================================
 ArpPacket::~ArpPacket()
 {
+    if (sha_owned)
+    {
+        delete sha;
+        sha = 0;
+    }
+
+    if (spa_owned)
+    {
+        delete spa;
+        spa = 0;
+    }
+
+    if (tha_owned)
+    {
+        delete tha;
+        tha = 0;
+    }
+
+    if (tpa_owned)
+    {
+        delete tpa;
+        tpa = 0;
+    }
 }
 
 //==============================================================================

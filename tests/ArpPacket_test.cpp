@@ -54,15 +54,15 @@ Test::Result ArpPacket_test::run()
     bool exception_caught = false;
     try
     {
-        ArpPacket arp_packet1(HTYPE,
+        ArpPacket arp_packet2(HTYPE,
                               PTYPE,
                               HLEN,
                               PLEN4,
                               OPER,
-                              namac_bad,
-                              na4_good,
-                              namac_good,
-                              na4_good);
+                              &namac_bad,
+                              &na4_good,
+                              &namac_good,
+                              &na4_good);
     }
     catch (std::runtime_error& ex)
     {
@@ -75,15 +75,15 @@ Test::Result ArpPacket_test::run()
     exception_caught = false;
     try
     {
-        ArpPacket arp_packet1(HTYPE,
+        ArpPacket arp_packet3(HTYPE,
                               PTYPE,
                               HLEN,
                               PLEN4,
                               OPER,
-                              namac_good,
-                              na4_bad,
-                              namac_good,
-                              na4_good);
+                              &namac_good,
+                              &na4_bad,
+                              &namac_good,
+                              &na4_good);
     }
     catch (std::runtime_error& ex)
     {
@@ -96,15 +96,15 @@ Test::Result ArpPacket_test::run()
     exception_caught = false;
     try
     {
-        ArpPacket arp_packet1(HTYPE,
+        ArpPacket arp_packet4(HTYPE,
                               PTYPE,
                               HLEN,
                               PLEN4,
                               OPER,
-                              namac_good,
-                              na4_good,
-                              namac_bad,
-                              na4_good);
+                              &namac_good,
+                              &na4_good,
+                              &namac_bad,
+                              &na4_good);
     }
     catch (std::runtime_error& ex)
     {
@@ -117,15 +117,15 @@ Test::Result ArpPacket_test::run()
     exception_caught = false;
     try
     {
-        ArpPacket arp_packet1(HTYPE,
+        ArpPacket arp_packet5(HTYPE,
                               PTYPE,
                               HLEN,
                               PLEN4,
                               OPER,
-                              namac_good,
-                              na4_good,
-                              namac_good,
-                              na4_bad);
+                              &namac_good,
+                              &na4_good,
+                              &namac_good,
+                              &na4_bad);
     }
     catch (std::runtime_error& ex)
     {
@@ -135,9 +135,9 @@ Test::Result ArpPacket_test::run()
     MUST_BE_TRUE(exception_caught);
 
     // Ethernet and IPv6
-    ArpPacket arp_packet2(
+    ArpPacket arp_packet6(
         HTYPE, PTYPE, HLEN, PLEN6, OPER, mac1, ip61, mac2, ip62);
-    MUST_BE_TRUE(arp_packet2.getLengthBytes() == 52);
+    MUST_BE_TRUE(arp_packet6.getLengthBytes() == 52);
 
     return Test::PASSED;
 }

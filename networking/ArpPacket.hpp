@@ -102,6 +102,11 @@ private:
     NetworkAddress*                spa;
     NetworkAddress*                tha;
     NetworkAddress*                tpa;
+
+    bool sha_owned;
+    bool spa_owned;
+    bool tha_owned;
+    bool tpa_owned;
 };
 
 inline std::uint16_t ArpPacket::getHType() const
