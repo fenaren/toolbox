@@ -1,4 +1,3 @@
-asdf
 #include <cstring>
 
 #include "SimpleDataField.hpp"
