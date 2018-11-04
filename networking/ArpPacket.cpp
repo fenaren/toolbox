@@ -58,6 +58,26 @@ ArpPacket::ArpPacket(std::uint16_t         htype,
     tha(tha),
     tpa(tpa)
 {
+    if (hlen != sha.getLengthBytes())
+    {
+        throw std::runtime_error("Length of provided sha does not match hlen");
+    }
+
+    if (hlen != tha.getLengthBytes())
+    {
+        throw std::runtime_error("Length of provided tha does not match hlen");
+    }
+
+    if (plen != spa.getLengthBytes())
+    {
+        throw std::runtime_error("Length of provided spa does not match plen");
+    }
+
+    if (plen != tpa.getLengthBytes())
+    {
+        throw std::runtime_error("Length of provided tpa does not match plen");
+    }
+
     addDataFields();
 }
 
