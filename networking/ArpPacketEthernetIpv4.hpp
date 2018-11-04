@@ -42,6 +42,18 @@ public:
     // Does nothing
     virtual ~ArpPacketEthernetIpv4();
 
+    // Accessors
+    MacAddress*  getSha();
+    Ipv4Address* getSpa();
+    MacAddress*  getTha();
+    Ipv4Address* getTpa();
+
+    // Const accessors
+    const MacAddress*  getSha() const;
+    const Ipv4Address* getSpa() const;
+    const MacAddress*  getTha() const;
+    const Ipv4Address* getTpa() const;
+
     // Constant field values for this specific ARP variant
     static const std::uint16_t HTYPE = 1;
     static const std::uint16_t PTYPE = 2048;
@@ -59,5 +71,45 @@ private:
     MacAddress  tha;
     Ipv4Address tpa;
 };
+
+inline MacAddress* ArpPacketEthernetIpv4::getSha()
+{
+    return &sha;
+}
+
+inline Ipv4Address* ArpPacketEthernetIpv4::getSpa()
+{
+    return &spa;
+}
+
+inline MacAddress* ArpPacketEthernetIpv4::getTha()
+{
+    return &tha;
+}
+
+inline Ipv4Address* ArpPacketEthernetIpv4::getTpa()
+{
+    return &tpa;
+}
+
+inline const MacAddress* ArpPacketEthernetIpv4::getSha() const
+{
+    return &sha;
+}
+
+inline const Ipv4Address* ArpPacketEthernetIpv4::getSpa() const
+{
+    return &spa;
+}
+
+inline const MacAddress* ArpPacketEthernetIpv4::getTha() const
+{
+    return &tha;
+}
+
+inline const Ipv4Address* ArpPacketEthernetIpv4::getTpa() const
+{
+    return &tpa;
+}
 
 #endif
