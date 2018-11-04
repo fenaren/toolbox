@@ -59,10 +59,10 @@ Test::Result ArpPacket_test::run()
                               HLEN,
                               PLEN4,
                               OPER,
-                              &namac_bad,
-                              &na4_good,
-                              &namac_good,
-                              &na4_good);
+                              namac_bad,
+                              na4_good,
+                              namac_good,
+                              na4_good);
     }
     catch (std::runtime_error& ex)
     {
@@ -80,10 +80,10 @@ Test::Result ArpPacket_test::run()
                               HLEN,
                               PLEN4,
                               OPER,
-                              &namac_good,
-                              &na4_bad,
-                              &namac_good,
-                              &na4_good);
+                              namac_good,
+                              na4_bad,
+                              namac_good,
+                              na4_good);
     }
     catch (std::runtime_error& ex)
     {
@@ -101,10 +101,10 @@ Test::Result ArpPacket_test::run()
                               HLEN,
                               PLEN4,
                               OPER,
-                              &namac_good,
-                              &na4_good,
-                              &namac_bad,
-                              &na4_good);
+                              namac_good,
+                              na4_good,
+                              namac_bad,
+                              na4_good);
     }
     catch (std::runtime_error& ex)
     {
@@ -122,10 +122,10 @@ Test::Result ArpPacket_test::run()
                               HLEN,
                               PLEN4,
                               OPER,
-                              &namac_good,
-                              &na4_good,
-                              &namac_good,
-                              &na4_bad);
+                              namac_good,
+                              na4_good,
+                              namac_good,
+                              na4_bad);
     }
     catch (std::runtime_error& ex)
     {

@@ -76,3 +76,17 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
 ArpPacketEthernetIpv4::~ArpPacketEthernetIpv4()
 {
 }
+
+//==============================================================================
+void ArpPacketEthernetIpv4::addDataFields()
+{
+    addDataField(&htype);
+    addDataField(&ptype);
+    addDataField(&hlen);
+    addDataField(&plen);
+    addDataField(&oper);
+    addDataField(&sha);
+    addDataField(&spa);
+    addDataField(&tha);
+    addDataField(&tpa);
+}
