@@ -14,6 +14,7 @@
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper)
 {
+    addDataFields();
 }
 
 //==============================================================================
@@ -31,6 +32,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
     tha(tha),
     tpa(tpa)
 {
+    addDataFields();
 }
 
 //==============================================================================
@@ -48,6 +50,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
     tha(buffer_tha),
     tpa(buffer_tpa)
 {
+    addDataFields();
 }
 
 //==============================================================================
@@ -57,6 +60,8 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
 {
+    addDataFields();
+
     readRaw(buffer);
 }
 
@@ -69,6 +74,8 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
                                              misc::ByteOrder byte_order) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
 {
+    addDataFields();
+
     readRaw(buffer, byte_order);
 }
 
