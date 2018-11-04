@@ -36,7 +36,7 @@ Test::Result NetworkAddress_test::run()
     }
 
     // Tests getLengthBytes
-    NetworkAddress test_na4(test_data, test_data_len);
+    NetworkAddress test_na4(test_data, test_data_len, false);
     MUST_BE_TRUE(test_na4.getLengthBytes() == test_data_len);
 
     // Tests writeRaw
@@ -62,7 +62,7 @@ Test::Result NetworkAddress_test::run()
     // Tests assignment
     memset(test_data,  0, test_data_len);
     memset(test_data2, 1, test_data_len);
-    NetworkAddress test_na6(test_data2, test_data_len);
+    NetworkAddress test_na6(test_data2, test_data_len, false);
     test_na4 = test_na6;
     MUST_BE_TRUE(memcmp(test_data, test_data2, test_data_len) == 0);
 
