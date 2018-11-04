@@ -8,7 +8,7 @@
 
 //==============================================================================
 // Dynamically allocates and maintains an address that is "length_bytes" in size
-// internally
+// internally.  Address is initialized to all 0.
 //==============================================================================
 NetworkAddress::NetworkAddress(unsigned int length_bytes) :
     DataField(),
@@ -47,7 +47,8 @@ NetworkAddress::NetworkAddress(unsigned char* buffer,
 
 //==============================================================================
 // Copy constructor; dynamically allocates and maintains an address that is
-// "length_bytes" in size, and then copies the given network address
+// "length_bytes" in size, and then copies the given network address into this
+// newly-allocated memory.
 //==============================================================================
 NetworkAddress::NetworkAddress(const NetworkAddress& network_address) :
     DataField(),
