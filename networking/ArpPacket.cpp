@@ -94,15 +94,15 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
                      unsigned char* buffer_spa,
                      unsigned char* buffer_tha,
                      unsigned char* buffer_tpa,
-                     bool           na_raw_owned_sha,
-                     bool           na_raw_owned_spa,
-                     bool           na_raw_owned_tha,
-                     bool           na_raw_owned_tpa) :
+                     bool           owned_sha,
+                     bool           owned_spa,
+                     bool           owned_tha,
+                     bool           owned_tpa) :
     ArpPacketBase(htype, ptype, hlen, plen, oper),
-    sha(buffer_sha, hlen, na_raw_owned_sha),
-    spa(buffer_spa, plen, na_raw_owned_spa),
-    tha(buffer_tha, hlen, na_raw_owned_tha),
-    tpa(buffer_tpa, plen, na_raw_owned_tpa)
+    sha(buffer_sha, hlen, owned_sha),
+    spa(buffer_spa, plen, owned_spa),
+    tha(buffer_tha, hlen, owned_tha),
+    tpa(buffer_tpa, plen, owned_tpa)
 {
     addDataFields();
 }

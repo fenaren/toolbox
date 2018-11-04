@@ -15,7 +15,7 @@ public:
 
     // Constructs an ARP packet (Ethernet and IPv4 variant).  All memory is
     // statically allocated.
-    ArpPacketEthernetIpv4(std::uint16_t oper = 0);
+    explicit ArpPacketEthernetIpv4(std::uint16_t oper = 0);
 
     // Allows up-front specification of all the field in this ArpPacket variant
     // which should be specifiable.
