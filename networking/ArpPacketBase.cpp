@@ -3,6 +3,8 @@
 #include "ArpPacketBase.hpp"
 
 //==============================================================================
+// Initializes everything to 0
+//==============================================================================
 ArpPacketBase::ArpPacketBase() :
     DataPacket(1), // Always aligned on 1 byte
     htype(0),
@@ -13,6 +15,8 @@ ArpPacketBase::ArpPacketBase() :
 {
 }
 
+//==============================================================================
+// Initializes everything to the given values
 //==============================================================================
 ArpPacketBase::ArpPacketBase(std::uint16_t htype,
                              std::uint16_t ptype,

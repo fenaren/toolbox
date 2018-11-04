@@ -22,8 +22,8 @@ ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
 }
 
 //==============================================================================
-// Constructs an ARP packet in such a way that memory for the hardware and
-// protocol fields are dynamically allocated and maintained internally.
+// Similar to the constructor defined above but allows the rest of the simple
+// fields to be specified
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t htype,
                      std::uint16_t ptype,
@@ -40,8 +40,9 @@ ArpPacket::ArpPacket(std::uint16_t htype,
 }
 
 //==============================================================================
-// Constructs an ARP packet by dynamically allocating memory and copying
-// provided NetworkAddress data into them.
+// Constructs an ARP packet by copying externally-provided ARP packet data.
+// This may involve dynamic memory allocation depending on how the
+// NetworkAddress copy constructor is defined.
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t         htype,
                      std::uint16_t         ptype,

@@ -19,14 +19,17 @@ public:
     // protocol fields is dynamically allocated.
     ArpPacket(std::uint8_t hlen, std::uint8_t plen);
 
+    // Similar to the constructor declared above but allows the rest of the
+    // simple fields to be specified
     ArpPacket(std::uint16_t htype,
               std::uint16_t ptype,
               std::uint8_t  hlen,
               std::uint8_t  plen,
               std::uint16_t oper);
 
-    // Constructs an ARP packet by dynamically allocating memory and copying
-    // provided NetworkAddresses into them.
+    // Constructs an ARP packet by copying externally-provided ARP packet data.
+    // This may involve dynamic memory allocation depending on how the
+    // NetworkAddress copy constructor is defined.
     ArpPacket(std::uint16_t         htype,
               std::uint16_t         ptype,
               std::uint8_t          hlen,
