@@ -3,21 +3,19 @@
 
 #include <cstdint>
 
-#include "DataPacket.hpp"
+#include "ArpPacketBase.hpp"
 
 #include "Ipv4Address.hpp"
 #include "MacAddress.hpp"
 #include "misc.hpp"
 
-class ArpPacketEthernetIpv4 : public DataPacket
+class ArpPacketEthernetIpv4 : public ArpPacketBase
 {
 public:
 
     // Constructs an ARP packet (Ethernet and IPv4 variant).  All memory is
     // statically allocated.
-    ArpPacketEthernetIpv4();
-
-    ArpPacketEthernetIpv4(std::uint16_t oper);
+    ArpPacketEthernetIpv4(std::uint16_t oper = 0);
 
     // Allows up-front specification of all the field in this ArpPacket variant
     // which should be specifiable.
@@ -33,11 +31,7 @@ public:
                           unsigned char* buffer_sha,
                           unsigned char* buffer_spa,
                           unsigned char* buffer_tha,
-                          unsigned char* buffer_tpa,
-                          bool           owned_sha = true,
-                          bool           owned_spa = true,
-                          bool           owned_tha = true,
-                          bool           owned_tpa = true);
+                          unsigned char* buffer_tpa);
 
     // Constructs an ARP packet by calling readRaw() on the provided buffer.
     explicit ArpPacketEthernetIpv4(unsigned char* buffer);

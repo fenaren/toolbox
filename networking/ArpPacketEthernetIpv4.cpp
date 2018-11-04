@@ -11,42 +11,9 @@
 // Constructs an ARP packet (Ethernet and IPv4 variant).  All memory is
 // statically allocated.
 //==============================================================================
-ArpPacketEthernetIpv4::ArpPacketEthernetIpv4() :
-    ArpPacket(HTYPE,
-              PTYPE,
-              HLEN,
-              PLEN,
-              0,
-              &sha,
-              &spa,
-              &tha,
-              &tpa)
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
+    ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper)
 {
-}
-
-//==============================================================================
-// Allows up-front specification of all the field in this ArpPacket variant
-// which should be specifiable.
-//==============================================================================
-ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
-                                             unsigned char* buffer_sha,
-                                             unsigned char* buffer_spa,
-                                             unsigned char* buffer_tha,
-                                             unsigned char* buffer_tpa):
-    ArpPacket(HTYPE,
-              PTYPE,
-              HLEN,
-              PLEN,
-              oper,
-              &sha,
-              &spa,
-              &tha,
-              &tpa)
-{
-    sha.readRaw(buffer_sha);
-    spa.readRaw(buffer_spa);
-    tha.readRaw(buffer_tha);
-    tpa.readRaw(buffer_tpa);
 }
 
 //==============================================================================
@@ -58,19 +25,28 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
                                              const Ipv4Address& spa,
                                              const MacAddress&  tha,
                                              const Ipv4Address& tpa) :
-    ArpPacket(HTYPE,
-              PTYPE,
-              HLEN,
-              PLEN,
-              0,
-              &this->sha,
-              &this->spa,
-              &this->tha,
-              &this->tpa,
-              false,
-              false,
-              false,
-              false)
+    ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper),
+    sha(sha),
+    spa(spa),
+    tha(tha),
+    tpa(tpa)
+{
+}
+
+//==============================================================================
+// Allows up-front specification of all the field in this ArpPacket variant
+// which should be specifiable.
+//==============================================================================
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
+                                             unsigned char* buffer_sha,
+                                             unsigned char* buffer_spa,
+                                             unsigned char* buffer_tha,
+                                             unsigned char* buffer_tpa) :
+    ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper),
+    sha(buffer_sha),
+    spa(buffer_spa),
+    tha(buffer_tha),
+    tpa(buffer_tpa)
 {
 }
 
@@ -79,15 +55,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
 // byteswapping is performed.
 //==============================================================================
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
-    ArpPacket(HTYPE,
-              PTYPE,
-              HLEN,
-              PLEN,
-              0,
-              &sha,
-              &spa,
-              &tha,
-              &tpa)
+    ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
 {
     readRaw(buffer);
 }
@@ -99,15 +67,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
 // cppcheck-suppress uninitMemberVar
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
                                              misc::ByteOrder byte_order) :
-    ArpPacket(HTYPE,
-              PTYPE,
-              HLEN,
-              PLEN,
-              0,
-              &sha,
-              &spa,
-              &tha,
-              &tpa)
+    ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
 {
     readRaw(buffer, byte_order);
 }
