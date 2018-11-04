@@ -98,11 +98,6 @@ inline NetworkAddress* ArpPacket::getTpa()
     return &tpa;
 }
 
-inline const NetworkAddress* ArpPacket::getTpa() const
-{
-    return &tpa;
-}
-
 inline const NetworkAddress* ArpPacket::getSha() const
 {
     return &sha;
@@ -116,6 +111,11 @@ inline const NetworkAddress* ArpPacket::getSpa() const
 inline const NetworkAddress* ArpPacket::getTha() const
 {
     return &tha;
+}
+
+inline const NetworkAddress* ArpPacket::getTpa() const
+{
+    return &tpa;
 }
 
 #endif
