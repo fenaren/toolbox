@@ -14,11 +14,14 @@ class ArpPacketEthernetIpv4 : public ArpPacketBase
 public:
 
     // Constructs an ARP packet (Ethernet and IPv4 variant).  All memory is
-    // statically allocated.
+    // statically allocated.  HTYPE, PTYPE, HLEN, and PLEN are set to what they
+    // should be set to for this variant of ARP packet.
     explicit ArpPacketEthernetIpv4(std::uint16_t oper = 0);
 
     // Allows up-front specification of all the field in this ArpPacket variant
-    // which should be specifiable.
+    // which should be specifiable.  HTYPE, PTYPE, HLEN, and PLEN are set to
+    // what they should be set to for this variant of ARP packet.  All memory is
+    // statically allocated.
     ArpPacketEthernetIpv4(std::uint16_t      oper,
                           const MacAddress&  sha,
                           const Ipv4Address& spa,
@@ -26,17 +29,22 @@ public:
                           const Ipv4Address& tpa);
 
     // Allows up-front specification of all the field in this ArpPacket variant
-    // which should be specifiable.
+    // which should be specifiable.  HTYPE, PTYPE, HLEN, and PLEN are set to
+    // what they should be set to for this variant of ARP packet.  All memory is
+    // statically allocated; data in buffer_* arguments is copied into internal
+    // storage.
     ArpPacketEthernetIpv4(std::uint16_t  oper,
                           unsigned char* buffer_sha,
                           unsigned char* buffer_spa,
                           unsigned char* buffer_tha,
                           unsigned char* buffer_tpa);
 
-    // Constructs an ARP packet by calling readRaw() on the provided buffer.
+    // Constructs an ARP packet by calling readRaw() on the provided buffer.  No
+    // byteswapping is performed.
     explicit ArpPacketEthernetIpv4(unsigned char* buffer);
 
     // Constructs an ARP packet by calling readRaw() on the provided buffer.
+    // Byteswapping is performed if needed.
     ArpPacketEthernetIpv4(unsigned char* buffer, misc::ByteOrder byte_order);
 
     // Does nothing

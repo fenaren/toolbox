@@ -9,8 +9,11 @@
 
 //==============================================================================
 // Constructs an ARP packet (Ethernet and IPv4 variant).  All memory is
-// statically allocated.
+// statically allocated.  HTYPE, PTYPE, HLEN, and PLEN are set to what they
+// should be set to for this variant of ARP
+// packet.
 //==============================================================================
+
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper)
 {
@@ -19,7 +22,9 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
 
 //==============================================================================
 // Allows up-front specification of all the field in this ArpPacket variant
-// which should be specifiable.
+// which should be specifiable.  HTYPE, PTYPE, HLEN, and PLEN are set to what
+// they should be set to for this variant of ARP packet.  All memory is
+// statically allocated.
 //==============================================================================
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
                                              const MacAddress&  sha,
@@ -37,7 +42,10 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
 
 //==============================================================================
 // Allows up-front specification of all the field in this ArpPacket variant
-// which should be specifiable.
+// which should be specifiable.  HTYPE, PTYPE, HLEN, and PLEN are set to what
+// they should be set to for this variant of ARP packet.  All memory is
+// statically allocated; data in buffer_* arguments is copied into internal
+// storage.
 //==============================================================================
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
                                              unsigned char* buffer_sha,
