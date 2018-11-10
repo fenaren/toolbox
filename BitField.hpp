@@ -86,7 +86,7 @@ public:
     bool getBitFieldRawOwned() const;
 
     // There are 8 bits in a byte
-    static const unsigned int BITS_IN_BYTE = 8;
+    static const unsigned int BITS_PER_BYTE = 8;
 
     BitField& operator=(const BitField& bit_field);
 
@@ -121,13 +121,13 @@ inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit)
 {
     throwIfOctetOutOfRange(octet);
 
-    std::bitset<BITS_IN_BYTE> working_octet(bit_field_raw[octet]);
+    std::bitset<BITS_PER_BYTE> working_octet(bit_field_raw[octet]);
     return working_octet.test(octet_bit);
 }
 
 inline bool BitField::getBit(unsigned int bit)
 {
-    return getBit(std::floor(bit / BITS_IN_BYTE), bit % BITS_IN_BYTE);
+    return getBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE);
 }
 
 inline
@@ -135,14 +135,14 @@ void BitField::setBit(unsigned int octet, unsigned int octet_bit, bool value)
 {
     throwIfOctetOutOfRange(octet);
 
-    std::bitset<BITS_IN_BYTE> working_octet(bit_field_raw[octet]);
+    std::bitset<BITS_PER_BYTE> working_octet(bit_field_raw[octet]);
     working_octet.set(octet_bit, value);
     bit_field_raw[octet] = static_cast<std::uint8_t>(working_octet.to_ulong());
 }
 
 inline void BitField::setBit(unsigned int bit, bool value)
 {
-    setBit(std::floor(bit / BITS_IN_BYTE), bit % BITS_IN_BYTE, value);
+    setBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE, value);
 }
 
 inline unsigned int BitField::getLengthBytes() const
