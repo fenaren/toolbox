@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "DataPacket.hpp"
+
 #include "MacAddress.hpp"
 #include "SimpleDataField.hpp"
 #include "misc.hpp"
