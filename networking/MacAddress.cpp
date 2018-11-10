@@ -12,7 +12,7 @@
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
 MacAddress::MacAddress() :
-    NetworkAddress(mac_address_raw, LENGTH_BYTES, false)
+    BitField(mac_address_raw, LENGTH_BYTES, false)
 {
     memset(mac_address_raw, 0, LENGTH_BYTES);
 }
@@ -23,7 +23,7 @@ MacAddress::MacAddress() :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 MacAddress::MacAddress(const unsigned char* buffer) :
-    NetworkAddress(mac_address_raw, LENGTH_BYTES, false)
+    BitField(mac_address_raw, LENGTH_BYTES, false)
 {
     readRaw(buffer);
 }
@@ -32,7 +32,7 @@ MacAddress::MacAddress(const unsigned char* buffer) :
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str) :
-    NetworkAddress(mac_address_raw, LENGTH_BYTES, false)
+    BitField(mac_address_raw, LENGTH_BYTES, false)
 {
     *this = mac_address_str;
 }
@@ -133,8 +133,8 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 //==============================================================================
 bool operator==(const MacAddress& mac_address1, const MacAddress& mac_address2)
 {
-    return static_cast<NetworkAddress>(mac_address1) ==
-        static_cast<NetworkAddress>(mac_address2);
+    return static_cast<BitField>(mac_address1) ==
+        static_cast<BitField>(mac_address2);
 }
 
 //==============================================================================
@@ -142,8 +142,8 @@ bool operator==(const MacAddress& mac_address1, const MacAddress& mac_address2)
 //==============================================================================
 bool operator==(const MacAddress& mac_address1, const std::string& mac_address2)
 {
-    return static_cast<NetworkAddress>(mac_address1) ==
-        static_cast<NetworkAddress>(MacAddress(mac_address2));
+    return static_cast<BitField>(mac_address1) ==
+        static_cast<BitField>(MacAddress(mac_address2));
 }
 
 //==============================================================================
@@ -151,8 +151,8 @@ bool operator==(const MacAddress& mac_address1, const std::string& mac_address2)
 //==============================================================================
 bool operator==(const std::string& mac_address1, const MacAddress& mac_address2)
 {
-    return static_cast<NetworkAddress>(MacAddress(mac_address1)) ==
-        static_cast<NetworkAddress>(mac_address2);
+    return static_cast<BitField>(MacAddress(mac_address1)) ==
+        static_cast<BitField>(mac_address2);
 }
 
 //==============================================================================
