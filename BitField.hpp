@@ -1,7 +1,9 @@
 #if !defined BIT_FIELD_HPP
 #define BIT_FIELD_HPP
 
+#include <bitset>
 #include <cstdint>
+#include <cmath>
 #include <stdexcept>
 #include <string>
 
@@ -14,7 +16,8 @@ class BitField : public DataField
 public:
 
     // Dynamically allocates and maintains a bit field that is "length_bytes" in
-    // size internally.  All bits are initially unset (set to 0).
+    // size.  All bits are initially unset (set to 0).  Storage is dynamically
+    // allocated.
     // cppcheck-suppress noExplicitConstructor
     BitField(unsigned int length_bytes);
 
@@ -67,6 +70,14 @@ public:
     // Octet mutation
     void setOctet(unsigned int octet, std::uint8_t value);
 
+    // Bit access
+    bool getBit(unsigned int octet, unsigned int octet_bit);
+    bool getBit(unsigned int bit);
+
+    // Bit mutation
+    void setBit(unsigned int octet, unsigned int octet_bit, bool value);
+    void setBit(unsigned int bit, bool value);
+
     // Returns the size of this bit field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
@@ -74,9 +85,15 @@ public:
     // Simple accessor for bit_field_raw_owned
     bool getBitFieldRawOwned() const;
 
+    // There are 8 bits in a byte
+    static const unsigned int BITS_IN_BYTE = 8;
+
     BitField& operator=(const BitField& bit_field);
 
 private:
+
+    // Tosses a std::out_of_range exception if octet >= length_bytes
+    void throwIfOctetOutOfRange(unsigned int octet) const;
 
     // Raw bit field is stored at this location
     std::uint8_t* bit_field_raw;
@@ -90,22 +107,42 @@ private:
 
 inline std::uint8_t BitField::getOctet(unsigned int octet) const
 {
-    if (octet >= length_bytes)
-    {
-        throw std::out_of_range("Out-of-range octet specified");
-    }
-
+    throwIfOctetOutOfRange(octet);
     return bit_field_raw[octet];
 }
 
 inline void BitField::setOctet(unsigned int octet, std::uint8_t value)
 {
-    if (octet >= length_bytes)
-    {
-        throw std::out_of_range("Out-of-range octet specified");
-    }
-
+    throwIfOctetOutOfRange(octet);
     bit_field_raw[octet] = value;
+}
+
+inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit)
+{
+    throwIfOctetOutOfRange(octet);
+
+    std::bitset<BITS_IN_BYTE> working_octet(bit_field_raw[octet]);
+    return working_octet.test(octet_bit);
+}
+
+inline bool BitField::getBit(unsigned int bit)
+{
+    return getBit(std::floor(bit / BITS_IN_BYTE), bit % BITS_IN_BYTE);
+}
+
+inline
+void BitField::setBit(unsigned int octet, unsigned int octet_bit, bool value)
+{
+    throwIfOctetOutOfRange(octet);
+
+    std::bitset<BITS_IN_BYTE> working_octet(bit_field_raw[octet]);
+    working_octet.set(octet_bit, value);
+    bit_field_raw[octet] = static_cast<std::uint8_t>(working_octet.to_ulong());
+}
+
+inline void BitField::setBit(unsigned int bit, bool value)
+{
+    setBit(std::floor(bit / BITS_IN_BYTE), bit % BITS_IN_BYTE, value);
 }
 
 inline unsigned int BitField::getLengthBytes() const
@@ -116,6 +153,14 @@ inline unsigned int BitField::getLengthBytes() const
 inline bool BitField::getBitFieldRawOwned() const
 {
     return bit_field_raw_owned;
+}
+
+inline void BitField::throwIfOctetOutOfRange(unsigned int octet) const
+{
+    if (octet >= length_bytes)
+    {
+        throw std::out_of_range("Out-of-range octet index");
+    }
 }
 
 bool operator==(const BitField& bit_field1, const BitField& bit_field2);

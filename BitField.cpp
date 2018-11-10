@@ -8,7 +8,8 @@
 
 //==============================================================================
 // Dynamically allocates and maintains a bit field that is "length_bytes" in
-// size internally.  All bits are initially unset (set to 0).
+// size.  All bits are initially unset (set to 0).  Storage is dynamically
+// allocated.
 //==============================================================================
 BitField::BitField(unsigned int length_bytes) :
     DataField(),
