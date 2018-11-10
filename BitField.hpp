@@ -1,5 +1,5 @@
-#if !defined NETWORK_ADDRESS_HPP
-#define NETWORK_ADDRESS_HPP
+#if !defined BIT_FIELD_HPP
+#define BIT_FIELD_HPP
 
 #include <cstdint>
 #include <stdexcept>
@@ -9,59 +9,55 @@
 
 #include "misc.hpp"
 
-class NetworkAddress : public DataField
+class BitField : public DataField
 {
 public:
 
-    // Dynamically allocates and maintains an address that is "length_bytes" in
-    // size internally.  Address is initialized to all 0.
+    // Dynamically allocates and maintains a bit field that is "length_bytes" in
+    // size internally.  All bits are initially unset (set to 0).
     // cppcheck-suppress noExplicitConstructor
-    NetworkAddress(unsigned int length_bytes);
+    BitField(unsigned int length_bytes);
 
-    // Behavior depends on the value of "network_address_raw_owned".  If
-    // "network_address_raw_owned" is true, the data at "buffer" of length
+    // Behavior depends on the value of "bit_field_raw_owned".  If
+    // "bit_field_raw_owned" is true, the data at "buffer" of length
     // "length_bytes" will be copied into dynamically-allocated memory internal
-    // to this class.  If "network_address_raw_owned" is false, the data at
-    // "buffer" of length "length_bytes" will be used by this class in-place and
-    // no dynamic memory allocation will occur.
-    NetworkAddress(unsigned char* buffer,
-                   unsigned int   length_bytes,
-                   bool           network_address_raw_owned = true);
+    // to this class.  If "bit_field_raw_owned" is false, the data at "buffer"
+    // of length "length_bytes" will be used by this class in-place and no
+    // dynamic memory allocation will occur.
+    BitField(unsigned char* buffer,
+             unsigned int   length_bytes,
+             bool           bit_field_raw_owned = true);
 
-    // Copy constructor; dynamically allocates and maintains an address that is
-    // "length_bytes" in size, and then copies the given network address into
-    // this newly-allocated memory.
-    NetworkAddress(const NetworkAddress& network_address);
+    // Copy constructor; dynamically allocates and maintains a bit field that is
+    // "length_bytes" in size, and then copies the given bit field into this
+    // newly-allocated memory.
+    BitField(const BitField& bit_field);
 
-    // Will free the memory at "raw_network_address" if it is owned by this
-    // class
-    virtual ~NetworkAddress();
+    // Will free the memory at "raw_bit_field" if it is owned by this class
+    virtual ~BitField();
 
-    // Reads a raw network address from the "buffer" memory location without
-    // considering byte ordering.  Byte ordering has seemingly no relevance to
-    // network addresses (in the general sense of the term) anyway.
+    // Reads a raw bit field from the "buffer" memory location.  Byte ordering
+    // has no relevance to bit fields so no byte swapping is performed.
     virtual unsigned int readRaw(const unsigned char* buffer);
 
-    // Reads a raw network address from the "buffer" memory location.  This
+    // Reads a raw bit field from the "buffer" memory location.  This
     // function is required by the framework to be implemented here, despite
     // being functionally identical to the single-argument version defined
-    // above.  If byte ordering were relevant to network addresses (in the
+    // above.  If byte ordering were relevant to bit fields (in the
     // general sense of the term) this function would be where that difference
     // would be handled.
     virtual unsigned int readRaw(const unsigned char* buffer,
                                  misc::ByteOrder      source_byte_order);
 
-    // Writes a raw network address from the "buffer" memory location without
-    // considering byte ordering.  Byte ordering has seemingly no relevance to
-    // network addresses (in the general sense of the term) anyway.
+    // Writes this bit field to the "buffer" memory location.  Byte ordering has
+    // no relevance to bit fields so no byte swapping is performed.
     virtual unsigned int writeRaw(unsigned char* buffer) const;
 
-    // Writes a raw network address from the "buffer" memory location.  This
-    // function is required by the framework to be implemented here, despite
-    // being functionally identical to the single-argument version defined
-    // above.  If byte ordering were relevant to network addresses (in the
-    // general sense of the term) this function would be where that difference
-    // would be handled.
+    // Writes this bit field to the "buffer" memory location.  This function is
+    // required by the framework to be implemented here, despite being
+    // functionally identical to the single-argument version defined above.  If
+    // byte ordering were relevant to bit fields (in the general sense of the
+    // term) this function would be where that difference would be handled.
     virtual unsigned int writeRaw(unsigned char*  buffer,
                                   misc::ByteOrder destination_byte_order) const;
 
@@ -71,61 +67,61 @@ public:
     // Octet mutation
     void setOctet(unsigned int octet, unsigned char value);
 
-    // Returns the size of this data field in bytes.  This will equal the number
+    // Returns the size of this bit field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
-    // Simple accessor for network_address_raw_owned
-    bool getNetworkAddressRawOwned() const;
+    // Simple accessor for bit_field_raw_owned
+    bool getBitFieldRawOwned() const;
 
-    NetworkAddress& operator=(const NetworkAddress& network_address);
+    BitField& operator=(const BitField& bit_field);
 
 private:
 
-    // Raw network address is stored at this location
-    unsigned char* network_address_raw;
+    // Raw bit field is stored at this location
+    unsigned char* bit_field_raw;
 
-    // Does this class own the memory at "network_address_raw"?
-    bool network_address_raw_owned;
+    // Does this class own the memory at "bit_field_raw"?
+    bool bit_field_raw_owned;
 
-    // Raw network address is this many bytes in length
+    // Raw bit field is this many bytes in length
     unsigned int length_bytes;
 };
 
-inline std::uint8_t NetworkAddress::getOctet(unsigned int octet) const
+inline std::uint8_t BitField::getOctet(unsigned int octet) const
 {
     if (octet >= length_bytes)
     {
         throw std::out_of_range("Out-of-range octet specified");
     }
 
-    return network_address_raw[octet];
+    return bit_field_raw[octet];
 }
 
-inline void NetworkAddress::setOctet(unsigned int octet, unsigned char value)
+inline void BitField::setOctet(unsigned int octet, unsigned char value)
 {
     if (octet >= length_bytes)
     {
         throw std::out_of_range("Out-of-range octet specified");
     }
 
-    network_address_raw[octet] = value;
+    bit_field_raw[octet] = value;
 }
 
-inline unsigned int NetworkAddress::getLengthBytes() const
+inline unsigned int BitField::getLengthBytes() const
 {
     return length_bytes;
 }
 
-inline bool NetworkAddress::getNetworkAddressRawOwned() const
+inline bool BitField::getBitFieldRawOwned() const
 {
-    return network_address_raw_owned;
+    return bit_field_raw_owned;
 }
 
-bool operator==(const NetworkAddress& network_address1,
-                const NetworkAddress& network_address2);
+bool operator==(const BitField& bit_field1,
+                const BitField& bit_field2);
 
-bool operator!=(const NetworkAddress& network_address1,
-                const NetworkAddress& network_address2);
+bool operator!=(const BitField& bit_field1,
+                const BitField& bit_field2);
 
 #endif
