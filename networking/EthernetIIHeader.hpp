@@ -1,16 +1,16 @@
-#if !defined ETHERNET_HEADER
-#define ETHERNET_HEADER
+#if !defined ETHERNET_II_HEADER
+#define ETHERNET_II_HEADER
 
 #include "DataPacket.hpp"
 #include "MacAddress.hpp"
 #include "SimpleDataField.hpp"
 
-class EthernetHeader : public DataPacket
+class EthernetIIHeader : public DataPacket
 {
 public:
 
-    EthernetHeader();
-    virtual ~EthernetHeader();
+    EthernetIIHeader();
+    virtual ~EthernetIIHeader();
 
 private:
 

@@ -1,16 +1,16 @@
-#include "EthernetHeader.hpp"
+#include "EthernetIIHeader.hpp"
 
 //==============================================================================
-EthernetHeader::EthernetHeader()
+EthernetIIHeader::EthernetIIHeader()
 {
 }
 
 //==============================================================================
-EthernetHeader::~EthernetHeader()
+EthernetIIHeader::~EthernetIIHeader()
 {
 }
 
 //==============================================================================
-void EthernetHeader::addDataFields()
+void EthernetIIHeader::addDataFields()
 {
 }
