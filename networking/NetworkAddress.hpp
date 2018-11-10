@@ -1,6 +1,7 @@
 #if !defined NETWORK_ADDRESS_HPP
 #define NETWORK_ADDRESS_HPP
 
+#include <cstdint>
 #include <stdexcept>
 #include <string>
 
@@ -91,7 +92,7 @@ private:
     unsigned int length_bytes;
 };
 
-inline unsigned char NetworkAddress::getOctet(unsigned int octet) const
+inline std::uint8_t NetworkAddress::getOctet(unsigned int octet) const
 {
     if (octet >= length_bytes)
     {
