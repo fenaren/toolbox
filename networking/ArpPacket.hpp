@@ -5,8 +5,8 @@
 
 #include "ArpPacketBase.hpp"
 
+#include "BitField.hpp"
 #include "DataField.hpp"
-#include "NetworkAddress.hpp"
 #include "SimpleDataField.hpp"
 
 class ArpPacket : public ArpPacketBase
@@ -29,16 +29,16 @@ public:
 
     // Constructs an ARP packet by copying externally-provided ARP packet data.
     // This may involve dynamic memory allocation depending on how the
-    // NetworkAddress copy constructor is defined.
-    ArpPacket(std::uint16_t         htype,
-              std::uint16_t         ptype,
-              std::uint8_t          hlen,
-              std::uint8_t          plen,
-              std::uint16_t         oper,
-              const NetworkAddress& sha,
-              const NetworkAddress& spa,
-              const NetworkAddress& tha,
-              const NetworkAddress& tpa);
+    // BitField copy constructor is defined.
+    ArpPacket(std::uint16_t   htype,
+              std::uint16_t   ptype,
+              std::uint8_t    hlen,
+              std::uint8_t    plen,
+              std::uint16_t   oper,
+              const BitField& sha,
+              const BitField& spa,
+              const BitField& tha,
+              const BitField& tpa);
 
     // Constructs an ARP packet using hardware and protocol field memory that
     // can be maintained either internally or externally.
@@ -60,63 +60,63 @@ public:
     virtual ~ArpPacket();
 
     // Accessors
-    NetworkAddress* getSha();
-    NetworkAddress* getSpa();
-    NetworkAddress* getTha();
-    NetworkAddress* getTpa();
+    BitField* getSha();
+    BitField* getSpa();
+    BitField* getTha();
+    BitField* getTpa();
 
     // Const accessors
-    const NetworkAddress* getSha() const;
-    const NetworkAddress* getSpa() const;
-    const NetworkAddress* getTha() const;
-    const NetworkAddress* getTpa() const;
+    const BitField* getSha() const;
+    const BitField* getSpa() const;
+    const BitField* getTha() const;
+    const BitField* getTpa() const;
 
 private:
 
     virtual void addDataFields();
 
-    NetworkAddress sha;
-    NetworkAddress spa;
-    NetworkAddress tha;
-    NetworkAddress tpa;
+    BitField sha;
+    BitField spa;
+    BitField tha;
+    BitField tpa;
 };
 
-inline NetworkAddress* ArpPacket::getSha()
+inline BitField* ArpPacket::getSha()
 {
     return &sha;
 }
 
-inline NetworkAddress* ArpPacket::getSpa()
+inline BitField* ArpPacket::getSpa()
 {
     return &spa;
 }
 
-inline NetworkAddress* ArpPacket::getTha()
+inline BitField* ArpPacket::getTha()
 {
     return &tha;
 }
 
-inline NetworkAddress* ArpPacket::getTpa()
+inline BitField* ArpPacket::getTpa()
 {
     return &tpa;
 }
 
-inline const NetworkAddress* ArpPacket::getSha() const
+inline const BitField* ArpPacket::getSha() const
 {
     return &sha;
 }
 
-inline const NetworkAddress* ArpPacket::getSpa() const
+inline const BitField* ArpPacket::getSpa() const
 {
     return &spa;
 }
 
-inline const NetworkAddress* ArpPacket::getTha() const
+inline const BitField* ArpPacket::getTha() const
 {
     return &tha;
 }
 
-inline const NetworkAddress* ArpPacket::getTpa() const
+inline const BitField* ArpPacket::getTpa() const
 {
     return &tpa;
 }
