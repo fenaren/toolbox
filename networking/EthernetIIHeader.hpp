@@ -13,6 +13,13 @@ class EthernetIIHeader : public DataPacket
 {
 public:
 
+    // Shorthand textual ways of referencing some Ethertypes
+    enum Ethertype
+    {
+        IPV4 = 0x0800,
+        ARP  = 0x0806
+    };
+
     // Initializes data members to defaults
     EthernetIIHeader();
 
@@ -36,6 +43,15 @@ public:
     // Does nothing
     virtual ~EthernetIIHeader();
 
+    MacAddress* getMacDestination();
+    const MacAddress* getMacDestination() const;
+
+    MacAddress* getMacSource();
+    const MacAddress* getMacSource() const;
+
+    std::uint16_t getEthertype() const;
+    void setEthertype(std::uint16_t ethertype);
+
 private:
 
     virtual void addDataFields();
@@ -44,5 +60,35 @@ private:
     MacAddress                     source;
     SimpleDataField<std::uint16_t> ethertype;
 };
+
+inline MacAddress* EthernetIIHeader::getMacDestination()
+{
+    return &destination;
+}
+
+inline const MacAddress* EthernetIIHeader::getMacDestination() const
+{
+    return &destination;
+}
+
+inline MacAddress* EthernetIIHeader::getMacSource()
+{
+    return &source;
+}
+
+inline const MacAddress* EthernetIIHeader::getMacSource() const
+{
+    return &source;
+}
+
+inline std::uint16_t EthernetIIHeader::getEthertype() const
+{
+    return ethertype;
+}
+
+inline void EthernetIIHeader::setEthertype(std::uint16_t ethertype)
+{
+    this->ethertype = ethertype;
+}
 
 #endif

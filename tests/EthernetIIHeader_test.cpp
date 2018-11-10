@@ -1,7 +1,6 @@
 #include "EthernetIIHeader_test.hpp"
 
 #include "EthernetIIHeader.hpp"
-#include "Ethertype.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
@@ -21,7 +20,7 @@ EthernetIIHeader_test::~EthernetIIHeader_test()
 //==============================================================================
 Test::Result EthernetIIHeader_test::run()
 {
-    EthernetIIHeader eth_header(Ethertype::IPV4);
+    EthernetIIHeader eth_header(EthernetIIHeader::IPV4);
     MUST_BE_TRUE(eth_header.getLengthBytes() == 14);
 
     unsigned char eth_header_raw[14];
