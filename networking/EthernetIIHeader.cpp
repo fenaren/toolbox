@@ -26,7 +26,9 @@ EthernetIIHeader::EthernetIIHeader(const MacAddress& destination,
                                    std::uint16_t     ethertype) :
     EthernetIIHeader()
 {
+    // cppcheck-suppress useInitializationList
     this->destination = destination;
+    // cppcheck-suppress useInitializationList
     this->source      = source;
     this->ethertype   = ethertype;
 }

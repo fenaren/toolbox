@@ -16,6 +16,7 @@ public:
     EthernetIIHeader();
 
     // Initializes ethertype, defaults for the rest
+    // cppcheck-suppress noExplicitConstructor
     EthernetIIHeader(std::uint16_t ethertype);
 
     // Initializes all fields
@@ -25,7 +26,7 @@ public:
 
     // Constructs an EthernetIIHeader by calling readRaw() on the provided
     // buffer.  No byteswapping is performed.
-    EthernetIIHeader(const unsigned char* buffer);
+    explicit EthernetIIHeader(const unsigned char* buffer);
 
     // Constructs an EthernetIIHeader by calling readRaw() on the provided
     // buffer.  Byteswapping is performed if needed.
