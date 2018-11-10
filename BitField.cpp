@@ -15,7 +15,7 @@ BitField::BitField(unsigned int length_bytes) :
     bit_field_raw_owned(true),
     length_bytes(length_bytes)
 {
-    bit_field_raw = new unsigned char[length_bytes];
+    bit_field_raw = new std::uint8_t[length_bytes];
     memset(bit_field_raw, 0, length_bytes);
 }
 
@@ -27,16 +27,16 @@ BitField::BitField(unsigned int length_bytes) :
 // will be used by this class in-place and no dynamic memory allocation will
 // occur.
 //==============================================================================
-BitField::BitField(unsigned char* buffer,
-                   unsigned int   length_bytes,
-                   bool           bit_field_raw_owned) :
+BitField::BitField(std::uint8_t* buffer,
+                   unsigned int  length_bytes,
+                   bool          bit_field_raw_owned) :
     DataField(),
     bit_field_raw_owned(bit_field_raw_owned),
     length_bytes(length_bytes)
 {
     if (bit_field_raw_owned)
     {
-        bit_field_raw = new unsigned char[length_bytes];
+        bit_field_raw = new std::uint8_t[length_bytes];
         readRaw(buffer);
     }
     else
@@ -56,7 +56,7 @@ BitField::BitField(const BitField& bit_field) :
 {
     length_bytes = bit_field.getLengthBytes();
 
-    bit_field_raw = new unsigned char[length_bytes];
+    bit_field_raw = new std::uint8_t[length_bytes];
 
     bit_field.writeRaw(bit_field_raw);
 }
@@ -76,7 +76,7 @@ BitField::~BitField()
 // Reads a raw bit field from the "buffer" memory location.  Byte ordering has
 // no relevance to bit fields so no byte swapping is performed.
 //==============================================================================
-unsigned int BitField::readRaw(const unsigned char* buffer)
+unsigned int BitField::readRaw(const std::uint8_t* buffer)
 {
     return DataField::readRaw(buffer);
 }
@@ -88,8 +88,8 @@ unsigned int BitField::readRaw(const unsigned char* buffer)
 // were relevant to bit fields (in the general sense of the term) this function
 // would be where that difference would be handled.
 //==============================================================================
-unsigned int BitField::readRaw(const unsigned char* buffer,
-                               misc::ByteOrder      source_byte_order)
+unsigned int BitField::readRaw(const std::uint8_t* buffer,
+                               misc::ByteOrder     source_byte_order)
 {
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(bit_field_raw, buffer, length_bytes);
@@ -100,7 +100,7 @@ unsigned int BitField::readRaw(const unsigned char* buffer,
 // Writes this bit field to the "buffer" memory location.  Byte ordering has no
 // relevance to bit fields so no byte swapping is performed.
 //==============================================================================
-unsigned int BitField::writeRaw(unsigned char* buffer) const
+unsigned int BitField::writeRaw(std::uint8_t* buffer) const
 {
     return DataField::writeRaw(buffer);
 }
@@ -113,7 +113,7 @@ unsigned int BitField::writeRaw(unsigned char* buffer) const
 // would be where that difference would be handled.
 //==============================================================================
 unsigned int
-BitField::writeRaw(unsigned char*  buffer,
+BitField::writeRaw(std::uint8_t*   buffer,
                    misc::ByteOrder destination_byte_order) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
@@ -133,8 +133,7 @@ BitField& BitField::operator=(const BitField& bit_field)
 //==============================================================================
 // Equality comparison, BitField == BitField
 //==============================================================================
-bool operator==(const BitField& bit_field1,
-                const BitField& bit_field2)
+bool operator==(const BitField& bit_field1, const BitField& bit_field2)
 {
     if (bit_field1.getLengthBytes() != bit_field2.getLengthBytes())
     {
@@ -158,8 +157,7 @@ bool operator==(const BitField& bit_field1,
 //==============================================================================
 // Inequality comparison, BitField != BitField
 //==============================================================================
-bool operator!=(const BitField& bit_field1,
-                const BitField& bit_field2)
+bool operator!=(const BitField& bit_field1, const BitField& bit_field2)
 {
     return !(bit_field1 == bit_field2);
 }

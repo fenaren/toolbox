@@ -118,10 +118,7 @@ inline bool BitField::getBitFieldRawOwned() const
     return bit_field_raw_owned;
 }
 
-bool operator==(const BitField& bit_field1,
-                const BitField& bit_field2);
-
-bool operator!=(const BitField& bit_field1,
-                const BitField& bit_field2);
+bool operator==(const BitField& bit_field1, const BitField& bit_field2);
+bool operator!=(const BitField& bit_field1, const BitField& bit_field2);
 
 #endif
