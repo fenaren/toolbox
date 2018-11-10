@@ -31,6 +31,10 @@ add_test_executable(DataPacket_test
                     "${INCLUDE_DIRS}"
                     "${LINK_LIBRARIES}")
 
+# EthernetIIHeader_test
+add_test_executable_simple(
+  EthernetIIHeader_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+
 # FixedRateProgram_test
 set(FIXED_RATE_PROGRAM_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgram_test.cpp
