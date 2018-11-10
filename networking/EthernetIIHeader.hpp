@@ -9,6 +9,8 @@
 #include "SimpleDataField.hpp"
 #include "misc.hpp"
 
+// Represents a simple Ethernet II header, including destination MAC, source
+// MAC, and Ethertype.  Does not support 802.1Q VLAN tags.
 class EthernetIIHeader : public DataPacket
 {
 public:
@@ -51,6 +53,9 @@ public:
 
     std::uint16_t getEthertype() const;
     void setEthertype(std::uint16_t ethertype);
+
+    // Ethernet II headers without 802.1Q VLAN tags are always exactly this size
+    static const unsigned short LENGTH_BYTES = 14;
 
 private:
 

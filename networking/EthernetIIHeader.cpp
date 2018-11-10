@@ -6,6 +6,8 @@
 #include "MacAddress.hpp"
 
 //==============================================================================
+// Initializes data members to defaults
+//==============================================================================
 EthernetIIHeader::EthernetIIHeader() :
     DataPacket(1), // always aligned on 1 byte (no alignment)
     ethertype(0)
@@ -14,12 +16,16 @@ EthernetIIHeader::EthernetIIHeader() :
 }
 
 //==============================================================================
+// Initializes ethertype, defaults for the rest
+//==============================================================================
 EthernetIIHeader::EthernetIIHeader(std::uint16_t ethertype) :
     EthernetIIHeader()
 {
     this->ethertype = ethertype;
 }
 
+//==============================================================================
+// Initializes all fields
 //==============================================================================
 EthernetIIHeader::EthernetIIHeader(const MacAddress& destination,
                                    const MacAddress& source,
@@ -34,12 +40,18 @@ EthernetIIHeader::EthernetIIHeader(const MacAddress& destination,
 }
 
 //==============================================================================
+// Constructs an EthernetIIHeader by calling readRaw() on the provided buffer.
+// No byteswapping is performed.
+//==============================================================================
 EthernetIIHeader::EthernetIIHeader(const unsigned char* buffer) :
     EthernetIIHeader()
 {
     readRaw(buffer);
 }
 
+//==============================================================================
+// Constructs an EthernetIIHeader by calling readRaw() on the provided buffer.
+// Byteswapping is performed if needed.
 //==============================================================================
 EthernetIIHeader::EthernetIIHeader(const unsigned char* buffer,
                                    misc::ByteOrder      byte_order) :
