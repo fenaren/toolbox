@@ -36,5 +36,4 @@ inline void TestCases::addTestCase(Test* test)
     test_cases.push_back(test);
 }
 
-
 #endif
