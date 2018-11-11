@@ -19,8 +19,13 @@ add_test_executable_simple(
   ArpPacketEthernetIpv4_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 # BitField_test
-add_test_executable_simple(
-  BitField_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
+set(DATA_PACKET_TEST_SOURCE
+    ${CMAKE_CURRENT_LIST_DIR}/BitField_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/BitField_test_case1.cpp)
+add_test_executable(BitField_test
+                    "${DATA_PACKET_TEST_SOURCE}"
+                    "${INCLUDE_DIRS}"
+                    "${LINK_LIBRARIES}")
 
 # DataPacket_test
 set(DATA_PACKET_TEST_SOURCE
