@@ -8,15 +8,8 @@
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-//==============================================================================
-DataPacket_test_case1::DataPacket_test_case1()
-{
-}
-
-//==============================================================================
-DataPacket_test_case1::~DataPacket_test_case1()
-{
-}
+TEST_HEADER(DataPacket_test_case1);
+TEST_CONSTRUCTOR_DESTRUCTOR(DataPacket_test_case1);
 
 //==============================================================================
 Test::Result DataPacket_test_case1::run()
