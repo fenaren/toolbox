@@ -1,22 +1,10 @@
 #include <cstring>
 
-#include "BitField_test.hpp"
-
 #include "BitField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(BitField_test);
-
-//==============================================================================
-BitField_test::BitField_test()
-{
-}
-
-//==============================================================================
-BitField_test::~BitField_test()
-{
-}
+TRIVIAL_TEST(BitField_test);
 
 //==============================================================================
 Test::Result BitField_test::run()

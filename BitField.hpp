@@ -121,6 +121,7 @@ inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit)
 {
     throwIfOctetOutOfRange(octet);
 
+    // Use std::bitset to do the bitshifting nonsense for us
     std::bitset<BITS_PER_BYTE> working_octet(bit_field_raw[octet]);
     return working_octet.test(octet_bit);
 }
@@ -135,6 +136,7 @@ void BitField::setBit(unsigned int octet, unsigned int octet_bit, bool value)
 {
     throwIfOctetOutOfRange(octet);
 
+    // Use std::bitset to do the bitshifting nonsense for us
     std::bitset<BITS_PER_BYTE> working_octet(bit_field_raw[octet]);
     working_octet.set(octet_bit, value);
     bit_field_raw[octet] = static_cast<std::uint8_t>(working_octet.to_ulong());
