@@ -67,5 +67,3 @@ Test::Result OnlineStatistics_test::run()
 
     return Test::FAILED;
 }
-
-//==============================================================================
