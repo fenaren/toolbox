@@ -41,6 +41,9 @@ namespace misc
     // Convenience wrapper meant for swapping fundamental data types.  Removes
     // the need for the user to deal with casting and sizing.
     template <class T> void byteswap(T& swapme);
+
+    // Returns true if a and b are within epsilon of each other, false otherwise
+    bool withinEpsilonOf(double a, double b, double epsilon);
 };
 
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.

@@ -1,22 +1,10 @@
 #include <stdexcept>
 
-#include "RawSocket_test.hpp"
-
 #include "RawSocket.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(RawSocket_test);
-
-//==============================================================================
-RawSocket_test::RawSocket_test()
-{
-}
-
-//==============================================================================
-RawSocket_test::~RawSocket_test()
-{
-}
+TRIVIAL_TEST(RawSocket_test);
 
 //==============================================================================
 Test::Result RawSocket_test::run()

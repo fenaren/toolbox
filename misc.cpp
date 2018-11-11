@@ -72,6 +72,14 @@ template void misc::byteswap(unsigned long long&);
 template void misc::byteswap(unsigned short&);
 
 //==============================================================================
+// Returns true if a and b are within epsilon of each other, false otherwise
+//==============================================================================
+bool misc::withinEpsilonOf(double a, double b, double epsilon)
+{
+    return a <= (b + epsilon) && a >= (b - epsilon);
+}
+
+//==============================================================================
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.
 // If given misc::BIG_ENDIAN, return misc::LITTLE_ENDIAN.  If given
 // misc::LITTLE_ENDIAN, return misc::BIG_ENDIAN.  There are only two possible

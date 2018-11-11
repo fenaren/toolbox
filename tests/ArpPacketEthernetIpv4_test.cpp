@@ -9,16 +9,7 @@
 #include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(ArpPacketEthernetIpv4_test);
-
-//==============================================================================
-ArpPacketEthernetIpv4_test::ArpPacketEthernetIpv4_test()
-{
-}
-
-//==============================================================================
-ArpPacketEthernetIpv4_test::~ArpPacketEthernetIpv4_test()
-{
-}
+TEST_CONSTRUCTOR_DESTRUCTOR(ArpPacketEthernetIpv4_test);
 
 //==============================================================================
 Test::Result ArpPacketEthernetIpv4_test::run()

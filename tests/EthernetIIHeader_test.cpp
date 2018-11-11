@@ -1,21 +1,9 @@
-#include "EthernetIIHeader_test.hpp"
-
 #include "EthernetIIHeader.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-TEST_PROGRAM_MAIN(EthernetIIHeader_test);
-
-//==============================================================================
-EthernetIIHeader_test::EthernetIIHeader_test()
-{
-}
-
-//==============================================================================
-EthernetIIHeader_test::~EthernetIIHeader_test()
-{
-}
+TRIVIAL_TEST(EthernetIIHeader_test);
 
 //==============================================================================
 Test::Result EthernetIIHeader_test::run()

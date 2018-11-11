@@ -3,23 +3,11 @@
 #include <string>
 #include <vector>
 
-#include "MacAddress_test.hpp"
-
 #include "MacAddress.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(MacAddress_test);
-
-//==============================================================================
-MacAddress_test::MacAddress_test()
-{
-}
-
-//==============================================================================
-MacAddress_test::~MacAddress_test()
-{
-}
+TRIVIAL_TEST(MacAddress_test);
 
 //==============================================================================
 Test::Result MacAddress_test::run()

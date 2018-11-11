@@ -3,23 +3,11 @@
 #include <string>
 #include <vector>
 
-#include "Ipv4Address_test.hpp"
-
 #include "Ipv4Address.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(Ipv4Address_test);
-
-//==============================================================================
-Ipv4Address_test::Ipv4Address_test()
-{
-}
-
-//==============================================================================
-Ipv4Address_test::~Ipv4Address_test()
-{
-}
+TRIVIAL_TEST(Ipv4Address_test);
 
 //==============================================================================
 Test::Result Ipv4Address_test::run()
