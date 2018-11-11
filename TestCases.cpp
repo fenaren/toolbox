@@ -9,7 +9,7 @@ TestCases::TestCases()
 }
 
 //==============================================================================
-// Delete all the test cases
+// Delete all the added test cases
 //==============================================================================
 TestCases::~TestCases()
 {
