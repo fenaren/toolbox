@@ -1,22 +1,10 @@
 #include <iostream>
 
-#include "Log_test.hpp"
-
 #include "Log.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(Log_test);
-
-//==============================================================================
-Log_test::Log_test()
-{
-}
-
-//==============================================================================
-Log_test::~Log_test()
-{
-}
+TRIVIAL_TEST(Log_test);
 
 //==============================================================================
 Test::Result Log_test::run()

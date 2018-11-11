@@ -9,8 +9,10 @@ class TestCases : public Test
 {
 public:
 
-    // Neither of these does anything
+    // Does nothing
     TestCases();
+
+    // Deletes all the added test cases
     virtual ~TestCases();
 
     // Adds all test cases by calling addTestCases(), then runs them all
@@ -18,13 +20,13 @@ public:
 
 protected:
 
-    // Derived classes should implement this to add their desired test cases
-    // using addTestCase()
-    virtual void addTestCases() = 0;
-
     // Adds a test case to the end of the list of test cases that will be run
     // when run() is called
     void addTestCase(Test* test);
+
+    // Derived classes must implement this to add their desired test cases using
+    // addTestCase()
+    virtual void addTestCases() = 0;
 
 private:
 

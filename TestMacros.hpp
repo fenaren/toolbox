@@ -16,6 +16,15 @@
         virtual Test::Result run(); \
     };
 
+#define TEST_CASES_HEADER(TestClass)   \
+    class TestClass : public TestCases \
+    {                                  \
+    public:                            \
+        TestClass();                   \
+        ~TestClass();                  \
+        virtual void addTestCases();   \
+    };
+
 #define TEST_CONSTRUCTOR_DESTRUCTOR(TestClass) \
     TestClass::TestClass() {}                  \
     TestClass::~TestClass() {}
@@ -30,6 +39,11 @@
 
 #define TRIVIAL_TEST(TestClass)             \
     TEST_HEADER(TestClass);                 \
+    TEST_PROGRAM_MAIN(TestClass);           \
+    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
+
+#define TRIVIAL_TEST_CASES(TestClass)       \
+    TEST_CASES_HEADER(TestClass);           \
     TEST_PROGRAM_MAIN(TestClass);           \
     TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
 

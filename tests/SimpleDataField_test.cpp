@@ -1,22 +1,10 @@
 #include <iostream>
 
-#include "SimpleDataField_test.hpp"
-
 #include "SimpleDataField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(SimpleDataField_test);
-
-//==============================================================================
-SimpleDataField_test::SimpleDataField_test()
-{
-}
-
-//==============================================================================
-SimpleDataField_test::~SimpleDataField_test()
-{
-}
+TRIVIAL_TEST(SimpleDataField_test);
 
 //==============================================================================
 Test::Result SimpleDataField_test::run()

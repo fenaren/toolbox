@@ -1,24 +1,12 @@
 #include <iostream>
 
-#include "Program_test.hpp"
-
 #include "Program.hpp"
 #include "Program_test_tc1.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 #include "TestProgram.hpp"
 
-TEST_PROGRAM_MAIN(Program_test);
-
-//==============================================================================
-Program_test::Program_test()
-{
-}
-
-//==============================================================================
-Program_test::~Program_test()
-{
-}
+TRIVIAL_TEST(Program_test);
 
 //==============================================================================
 Test::Result Program_test::run()

@@ -1,20 +1,12 @@
 #include <cstdint>
 #include <cstring>
 
-#include "misc_test_case1.hpp"
-
+#include "Test.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-//==============================================================================
-misc_test_case1::misc_test_case1()
-{
-}
-
-//==============================================================================
-misc_test_case1::~misc_test_case1()
-{
-}
+TEST_HEADER(misc_test_case1);
+TEST_CONSTRUCTOR_DESTRUCTOR(misc_test_case1);
 
 //==============================================================================
 Test::Result misc_test_case1::run()

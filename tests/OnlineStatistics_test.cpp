@@ -3,28 +3,17 @@
 #include <iostream>
 #include <string>
 
-#include "OnlineStatistics_test.hpp"
-
 #include "OnlineStatistics.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
+#include "misc.hpp"
 
-TEST_PROGRAM_MAIN(OnlineStatistics_test);
-
-//==============================================================================
-OnlineStatistics_test::OnlineStatistics_test()
-{
-}
-
-//==============================================================================
-OnlineStatistics_test::~OnlineStatistics_test()
-{
-}
+TRIVIAL_TEST(OnlineStatistics_test);
 
 //==============================================================================
 Test::Result OnlineStatistics_test::run()
 {
-    double epsilon = 0.00000001;
+    const double EPSILON = 0.00000001;
 
     // The test subject
     OnlineStatistics stats;
@@ -68,19 +57,13 @@ Test::Result OnlineStatistics_test::run()
               << "Min "     << stats.getMinimumSample() << "\n"
               << "Max "     << stats.getMaximumSample() << "\n";
 
-    if (withinEpsilonOf(mean,   stats.getMean(),              epsilon) &&
-        withinEpsilonOf(stddev, stats.getStandardDeviation(), epsilon) &&
-        withinEpsilonOf(min,    stats.getMinimumSample(),     epsilon) &&
-        withinEpsilonOf(max,    stats.getMaximumSample(),     epsilon))
+    if (misc::withinEpsilonOf(mean,   stats.getMean(),              EPSILON) &&
+        misc::withinEpsilonOf(stddev, stats.getStandardDeviation(), EPSILON) &&
+        misc::withinEpsilonOf(min,    stats.getMinimumSample(),     EPSILON) &&
+        misc::withinEpsilonOf(max,    stats.getMaximumSample(),     EPSILON))
     {
         return Test::PASSED;
     }
 
     return Test::FAILED;
-}
-
-//==============================================================================
-bool OnlineStatistics_test::withinEpsilonOf(double a, double b, double epsilon)
-{
-    return a <= (b + epsilon) && a >= (b - epsilon);
 }

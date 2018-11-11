@@ -1,23 +1,13 @@
-#include "misc_test.hpp"
-
+#include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
-#include "misc_test_case1.hpp"
 
-TEST_PROGRAM_MAIN(misc_test);
+TEST_HEADER(misc_test_case1);
 
-//==============================================================================
-misc_test::misc_test()
-{
-}
-
-//==============================================================================
-misc_test::~misc_test()
-{
-}
+TRIVIAL_TEST_CASES(misc_test);
 
 //==============================================================================
 void misc_test::addTestCases()
 {
-    addTestCase(&case1);
+    addTestCase(new misc_test_case1());
 }

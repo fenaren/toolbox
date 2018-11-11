@@ -5,20 +5,13 @@
 #include <iostream>
 #include <string>
 
-#include "miscNetworking_test_case1.hpp"
-
 #include "MacAddress.hpp"
+#include "Test.hpp"
+#include "TestMacros.hpp"
 #include "miscNetworking.hpp"
 
-//==============================================================================
-miscNetworking_test_case1::miscNetworking_test_case1()
-{
-}
-
-//==============================================================================
-miscNetworking_test_case1::~miscNetworking_test_case1()
-{
-}
+TEST_HEADER(miscNetworking_test_case1);
+TEST_CONSTRUCTOR_DESTRUCTOR(miscNetworking_test_case1);
 
 //==============================================================================
 Test::Result miscNetworking_test_case1::run()

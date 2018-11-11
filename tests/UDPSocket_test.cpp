@@ -1,23 +1,11 @@
 #include <iostream>
 #include <string.h>
 
-#include "UDPSocket_test.hpp"
-
 #include "Test.hpp"
 #include "TestMacros.hpp"
 #include "UDPSocket.hpp"
 
-TEST_PROGRAM_MAIN(UDPSocket_test);
-
-//==============================================================================
-UDPSocket_test::UDPSocket_test()
-{
-}
-
-//==============================================================================
-UDPSocket_test::~UDPSocket_test()
-{
-}
+TRIVIAL_TEST(UDPSocket_test);
 
 //==============================================================================
 Test::Result UDPSocket_test::run()
