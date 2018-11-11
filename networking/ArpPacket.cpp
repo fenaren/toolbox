@@ -3,7 +3,7 @@
 
 #include "ArpPacket.hpp"
 
-#include "NetworkAddress.hpp"
+#include "BitField.hpp"
 
 //==============================================================================
 // Constructs an ARP packet with the minimum amount of information provided
@@ -41,18 +41,18 @@ ArpPacket::ArpPacket(std::uint16_t htype,
 
 //==============================================================================
 // Constructs an ARP packet by copying externally-provided ARP packet data.
-// This may involve dynamic memory allocation depending on how the
-// NetworkAddress copy constructor is defined.
+// This may involve dynamic memory allocation depending on how the BitField copy
+// constructor is defined.
 //==============================================================================
-ArpPacket::ArpPacket(std::uint16_t         htype,
-                     std::uint16_t         ptype,
-                     std::uint8_t          hlen,
-                     std::uint8_t          plen,
-                     std::uint16_t         oper,
-                     const NetworkAddress& sha,
-                     const NetworkAddress& spa,
-                     const NetworkAddress& tha,
-                     const NetworkAddress& tpa) :
+ArpPacket::ArpPacket(std::uint16_t   htype,
+                     std::uint16_t   ptype,
+                     std::uint8_t    hlen,
+                     std::uint8_t    plen,
+                     std::uint16_t   oper,
+                     const BitField& sha,
+                     const BitField& spa,
+                     const BitField& tha,
+                     const BitField& tpa) :
     ArpPacketBase(htype, ptype, hlen, plen, oper),
     sha(sha),
     spa(spa),

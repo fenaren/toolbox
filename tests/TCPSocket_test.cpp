@@ -6,16 +6,7 @@
 #include "TestMacros.hpp"
 
 TEST_PROGRAM_MAIN(TCPSocket_test);
-
-//==============================================================================
-TCPSocket_test::TCPSocket_test()
-{
-}
-
-//==============================================================================
-TCPSocket_test::~TCPSocket_test()
-{
-}
+TEST_CONSTRUCTOR_DESTRUCTOR(TCPSocket_test);
 
 //==============================================================================
 void TCPSocket_test::addTestCases()

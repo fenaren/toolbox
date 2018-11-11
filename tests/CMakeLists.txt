@@ -18,6 +18,16 @@ add_test_executable_simple(
 add_test_executable_simple(
   ArpPacketEthernetIpv4_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
+# BitField_test
+set(DATA_PACKET_TEST_SOURCE
+    ${CMAKE_CURRENT_LIST_DIR}/BitField_test.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/BitField_test_case1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/BitField_test_case2.cpp)
+add_test_executable(BitField_test
+                    "${DATA_PACKET_TEST_SOURCE}"
+                    "${INCLUDE_DIRS}"
+                    "${LINK_LIBRARIES}")
+
 # DataPacket_test
 set(DATA_PACKET_TEST_SOURCE
     ${CMAKE_CURRENT_LIST_DIR}/DataPacket_test.cpp
@@ -55,10 +65,6 @@ add_test_executable_simple(
 # MacAddress_test
 add_test_executable_simple(
   MacAddress_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
-
-# NetworkAddress_test
-add_test_executable_simple(
-  NetworkAddress_test "${INCLUDE_DIRS}" "${LINK_LIBRARIES}")
 
 # OnlineStatistics_test
 add_test_executable_simple(

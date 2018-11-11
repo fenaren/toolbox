@@ -12,6 +12,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
 
 # Add the library and all the source files in this directory
 add_library(${PROJECT_NAME}
+  ${CMAKE_CURRENT_LIST_DIR}/BitField.cpp
   ${CMAKE_CURRENT_LIST_DIR}/DataField.cpp
   ${CMAKE_CURRENT_LIST_DIR}/DataPacket.cpp
   ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgram.cpp

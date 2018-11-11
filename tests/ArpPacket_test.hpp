@@ -3,7 +3,7 @@
 
 #include "Test.hpp"
 
-#include "NetworkAddress.hpp"
+#include "BitField.hpp"
 
 class ArpPacket_test : public Test
 {
@@ -18,10 +18,10 @@ public:
 
 private:
 
-    bool isLengthBad(const NetworkAddress& na1,
-                     const NetworkAddress& na2,
-                     const NetworkAddress& na3,
-                     const NetworkAddress& na4);
+    bool isLengthBad(const BitField& bf1,
+                     const BitField& bf2,
+                     const BitField& bf3,
+                     const BitField& bf4);
 
     static const unsigned int HLEN  = 6;
     static const unsigned int PLEN4 = 4;
@@ -30,10 +30,10 @@ private:
     static const unsigned int PTYPE = 2048;
     static const unsigned int OPER  = 42;
 
-    NetworkAddress namac_good;
-    NetworkAddress namac_bad;
-    NetworkAddress na4_good;
-    NetworkAddress na4_bad;
+    BitField bfmac_good;
+    BitField bfmac_bad;
+    BitField bf4_good;
+    BitField bf4_bad;
 };
 
 #endif

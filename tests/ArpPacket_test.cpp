@@ -4,7 +4,7 @@
 #include "ArpPacket_test.hpp"
 
 #include "ArpPacket.hpp"
-#include "NetworkAddress.hpp"
+#include "BitField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
@@ -12,10 +12,10 @@ TEST_PROGRAM_MAIN(ArpPacket_test);
 
 //==============================================================================
 ArpPacket_test::ArpPacket_test() :
-    namac_good(6),
-    namac_bad(8),
-    na4_good(4),
-    na4_bad(5)
+    bfmac_good(6),
+    bfmac_bad(8),
+    bf4_good(4),
+    bf4_bad(5)
 {
 }
 
@@ -47,32 +47,32 @@ Test::Result ArpPacket_test::run()
     MUST_BE_TRUE(arp_packet6.getLengthBytes() == 52);
 
     // Bad length sha
-    MUST_BE_TRUE(isLengthBad(namac_bad, na4_good, namac_good, na4_good));
+    MUST_BE_TRUE(isLengthBad(bfmac_bad, bf4_good, bfmac_good, bf4_good));
 
     // Bad length spa
-    MUST_BE_TRUE(isLengthBad(namac_good, na4_bad, namac_good, na4_good));
+    MUST_BE_TRUE(isLengthBad(bfmac_good, bf4_bad, bfmac_good, bf4_good));
 
     // Bad length tha
-    MUST_BE_TRUE(isLengthBad(namac_good, na4_good, namac_bad, na4_good));
+    MUST_BE_TRUE(isLengthBad(bfmac_good, bf4_good, bfmac_bad, bf4_good));
 
     // Bad length tpa
-    MUST_BE_TRUE(isLengthBad(namac_good, na4_good, namac_good, na4_bad));
+    MUST_BE_TRUE(isLengthBad(bfmac_good, bf4_good, bfmac_good, bf4_bad));
 
     return Test::PASSED;
 }
 
 //==============================================================================
-bool ArpPacket_test::isLengthBad(const NetworkAddress& na1,
-                                 const NetworkAddress& na2,
-                                 const NetworkAddress& na3,
-                                 const NetworkAddress& na4)
+bool ArpPacket_test::isLengthBad(const BitField& bf1,
+                                 const BitField& bf2,
+                                 const BitField& bf3,
+                                 const BitField& bf4)
 {
     bool exception_caught = false;
 
     try
     {
         ArpPacket arp_packet(
-            HTYPE, PTYPE, HLEN, PLEN4, OPER, na1, na2, na3, na4);
+            HTYPE, PTYPE, HLEN, PLEN4, OPER, bf1, bf2, bf3, bf4);
     }
     catch (std::runtime_error& ex)
     {

@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "NetworkAddress.hpp"
+#include "BitField.hpp"
 
-class MacAddress : public NetworkAddress
+class MacAddress : public BitField
 {
   public:
 
