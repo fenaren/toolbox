@@ -16,7 +16,6 @@ TEST_CONSTRUCTOR_DESTRUCTOR(miscNetworking_test_case2);
 //==============================================================================
 Test::Result miscNetworking_test_case2::run()
 {
-    return Test::FAILED;
 // This will only work on a POSIX-compatible system
 #if defined LINUX or MACOS
 
