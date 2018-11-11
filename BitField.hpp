@@ -21,15 +21,15 @@ public:
     // cppcheck-suppress noExplicitConstructor
     BitField(unsigned int length_bytes);
 
-    // Behavior depends on the value of "bit_field_raw_owned".  If
-    // "bit_field_raw_owned" is true, the data at "buffer" of length
-    // "length_bytes" will be copied into dynamically-allocated memory internal
-    // to this class.  If "bit_field_raw_owned" is false, the data at "buffer"
-    // of length "length_bytes" will be used by this class in-place and no
-    // dynamic memory allocation will occur.
+    // Behavior depends on the value of "memory_internal".  If "memory_internal"
+    // is true, the data at "buffer" of length "length_bytes" will be copied
+    // into dynamically-allocated memory internal to this class.  If
+    // "memory_internal" is false, the data at "buffer" of length "length_bytes"
+    // will be used by this class in-place and no dynamic memory allocation will
+    // occur.
     BitField(std::uint8_t* buffer,
              unsigned int  length_bytes,
-             bool          bit_field_raw_owned = true);
+             bool          memory_internal = true);
 
     // Copy constructor; dynamically allocates and maintains a bit field that is
     // "length_bytes" in size, and then copies the given bit field into this
@@ -67,14 +67,17 @@ public:
     // Octet access
     std::uint8_t getOctet(unsigned int octet) const;
 
-    // Octet mutation
+    // Octet mutation; octets are indexed starting from 0 for the byte at the
+    // lowest memory address and increasing to the highest memory address
     void setOctet(unsigned int octet, std::uint8_t value);
 
-    // Bit access
+    // Bit access; bits are indexed starting with 0 for the least significant
+    // bit and increasing to the most significant bit
     bool getBit(unsigned int octet, unsigned int octet_bit);
     bool getBit(unsigned int bit);
 
-    // Bit mutation
+    // Bit mutation; bits are indexed starting with 0 for the least significant
+    // bit and increasing to the most significant bit
     void setBit(unsigned int octet, unsigned int octet_bit, bool value);
     void setBit(unsigned int bit, bool value);
 
@@ -82,8 +85,8 @@ public:
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned int getLengthBytes() const;
 
-    // Simple accessor for bit_field_raw_owned
-    bool getBitFieldRawOwned() const;
+    // Simple accessor for memory_internal
+    bool getMemoryInternal() const;
 
     // There are 8 bits in a byte
     static const unsigned int BITS_PER_BYTE = 8;
@@ -99,7 +102,7 @@ private:
     std::uint8_t* bit_field_raw;
 
     // Does this class own the memory at "bit_field_raw"?
-    bool bit_field_raw_owned;
+    bool memory_internal;
 
     // Raw bit field is this many bytes in length
     unsigned int length_bytes;
@@ -152,9 +155,9 @@ inline unsigned int BitField::getLengthBytes() const
     return length_bytes;
 }
 
-inline bool BitField::getBitFieldRawOwned() const
+inline bool BitField::getMemoryInternal() const
 {
-    return bit_field_raw_owned;
+    return memory_internal;
 }
 
 inline void BitField::throwIfOctetOutOfRange(unsigned int octet) const

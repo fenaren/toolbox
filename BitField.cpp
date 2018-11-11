@@ -13,7 +13,7 @@
 //==============================================================================
 BitField::BitField(unsigned int length_bytes) :
     DataField(),
-    bit_field_raw_owned(true),
+    memory_internal(true),
     length_bytes(length_bytes)
 {
     bit_field_raw = new std::uint8_t[length_bytes];
@@ -21,21 +21,20 @@ BitField::BitField(unsigned int length_bytes) :
 }
 
 //==============================================================================
-// Behavior depends on the value of "bit_field_raw_owned".  If
-// "bit_field_raw_owned" is true, the data at "buffer" of length "length_bytes"
-// will be copied into dynamically-allocated memory internal to this class.  If
-// "bit_field_raw_owned" is false, the data at "buffer" of length "length_bytes"
-// will be used by this class in-place and no dynamic memory allocation will
-// occur.
+// Behavior depends on the value of "memory_internal".  If "memory_internal" is
+// true, the data at "buffer" of length "length_bytes" will be copied into
+// dynamically-allocated memory internal to this class.  If "memory_internal" is
+// false, the data at "buffer" of length "length_bytes" will be used by this
+// class in-place and no dynamic memory allocation will occur.
 //==============================================================================
 BitField::BitField(std::uint8_t* buffer,
                    unsigned int  length_bytes,
-                   bool          bit_field_raw_owned) :
+                   bool          memory_internal) :
     DataField(),
-    bit_field_raw_owned(bit_field_raw_owned),
+    memory_internal(memory_internal),
     length_bytes(length_bytes)
 {
-    if (bit_field_raw_owned)
+    if (memory_internal)
     {
         bit_field_raw = new std::uint8_t[length_bytes];
         readRaw(buffer);
@@ -53,7 +52,7 @@ BitField::BitField(std::uint8_t* buffer,
 //==============================================================================
 BitField::BitField(const BitField& bit_field) :
     DataField(),
-    bit_field_raw_owned(true)
+    memory_internal(true)
 {
     length_bytes = bit_field.getLengthBytes();
 
@@ -67,7 +66,7 @@ BitField::BitField(const BitField& bit_field) :
 //==============================================================================
 BitField::~BitField()
 {
-    if (bit_field_raw_owned)
+    if (memory_internal)
     {
         delete[] bit_field_raw;
     }
@@ -113,9 +112,8 @@ unsigned int BitField::writeRaw(std::uint8_t* buffer) const
 // were relevant to bit fields (in the general sense of the term) this function
 // would be where that difference would be handled.
 //==============================================================================
-unsigned int
-BitField::writeRaw(std::uint8_t*   buffer,
-                   misc::ByteOrder destination_byte_order) const
+unsigned int BitField::writeRaw(std::uint8_t*   buffer,
+                                misc::ByteOrder destination_byte_order) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, bit_field_raw, length_bytes);
