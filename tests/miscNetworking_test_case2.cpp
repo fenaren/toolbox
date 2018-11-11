@@ -5,20 +5,13 @@
 #include <iostream>
 #include <string>
 
-#include "miscNetworking_test_case2.hpp"
-
 #include "Ipv4Address.hpp"
+#include "Test.hpp"
+#include "TestMacros.hpp"
 #include "miscNetworking.hpp"
 
-//==============================================================================
-miscNetworking_test_case2::miscNetworking_test_case2()
-{
-}
-
-//==============================================================================
-miscNetworking_test_case2::~miscNetworking_test_case2()
-{
-}
+TEST_HEADER(miscNetworking_test_case2);
+TEST_CONSTRUCTOR_DESTRUCTOR(miscNetworking_test_case2);
 
 //==============================================================================
 Test::Result miscNetworking_test_case2::run()
