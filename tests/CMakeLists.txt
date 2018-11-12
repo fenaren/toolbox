@@ -22,9 +22,7 @@ test_simple(PosixTimespec_test)
 test_simple(RawSocket_test)
 test_simple(SimpleDataField_test)
 test_simple(SignalManager_test)
-
-# UDPSocket_test
-add_test_executable_simple(UDPSocket_test "${INC}" "${LIB}")
+test_simple(UDPSocket_test)
 
 # BitField_test
 set(SRC BitField_test.cpp
