@@ -10,31 +10,34 @@ add_subdirectory(tests EXCLUDE_FROM_ALL)
 # Include common project setup
 include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
 
-# Add the library and all the source files in this directory
-add_library(${PROJECT_NAME}
-  ${CMAKE_CURRENT_LIST_DIR}/BitField.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/DataField.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/DataPacket.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/FixedRateProgram.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Log.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/OnlineStatistics.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Program.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/SignalManager.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/SignalManagerImpl.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/SignalManagerFactory.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/SimpleDataField.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Test.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/TestCases.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/TestProgram.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/misc.cpp)
+# All the source files in this directory
+set(SOURCE_FILES BitField.cpp
+                 DataField.cpp
+                 DataPacket.cpp
+                 FixedRateProgram.cpp
+                 Log.cpp
+                 OnlineStatistics.cpp
+                 Program.cpp
+                 SignalManager.cpp
+                 SignalManagerImpl.cpp
+                 SignalManagerFactory.cpp
+                 SimpleDataField.cpp
+                 Test.cpp
+                 TestCases.cpp
+                 TestProgram.cpp
+                 misc.cpp)
 
 # Only include POSIX code when building for platforms we know support it
 if(MACOS OR LINUX)
-  target_sources(${PROJECT_NAME} PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/PosixClock.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/PosixSignalManagerImpl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/PosixTimespec.cpp)
+  list(APPEND SOURCE_FILES PosixClock.cpp
+                           PosixSignalManagerImpl.cpp
+                           PosixTimespec.cpp)
 endif(MACOS OR LINUX)
+
+# Add the library and all the source files we're going to build (with full
+# pathname prepended) in this directory
+list_prepend_to_each(SOURCE_FILES ${CMAKE_CURRENT_LIST_DIR}/)
+add_library(${PROJECT_NAME} ${SOURCE_FILES})
 
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
