@@ -10,7 +10,8 @@ list_prepend_to_each(INC ${CMAKE_CURRENT_LIST_DIR}/)
 # All the tests link against the project library and that's it
 set(LIB ${PROJECT_NAME})
 
-# Add all the "simple" tests that consist of only a single source file
+# Add all the "simple" tests that consist of only a single source file.  The
+# test_simple macro passes the INC and LIB lists in for us
 test_simple(ArpPacket_test)
 test_simple(ArpPacketEthernetIpv4_test)
 test_simple(EthernetIIHeader_test)
@@ -24,46 +25,48 @@ test_simple(SimpleDataField_test)
 test_simple(SignalManager_test)
 test_simple(UDPSocket_test)
 
-# Below here are all the more complicated tests with more than one source file
+# Below here are all the more complicated tests with more than one source file.
+# Source file lists are all defined first, then their corresponding tests.
 
-# BitField_test
-set(SRC BitField_test.cpp
-        BitField_test_case1.cpp
-        BitField_test_case2.cpp)
-test_complex(BitField_test)
+set(SRC_BIT_FIELD_TEST
+    BitField_test.cpp
+    BitField_test_case1.cpp
+    BitField_test_case2.cpp)
 
-# DataPacket_test
-set(SRC DataPacket_test.cpp
-        DataPacket_test_case1.cpp
-        DataPacket_test_case2.cpp
-        DataPacket_test_case3.cpp
-        DataPacket_test1.cpp
-        DataPacket_test2.cpp)
-test_complex(DataPacket_test)
+set(SRC_DATA_PACKET_TEST
+    DataPacket_test.cpp
+    DataPacket_test_case1.cpp
+    DataPacket_test_case2.cpp
+    DataPacket_test_case3.cpp
+    DataPacket_test1.cpp
+    DataPacket_test2.cpp)
 
-# FixedRateProgram_test
-set(SRC FixedRateProgram_test.cpp
-        FixedRateProgram_test_tc1.cpp)
-test_complex(FixedRateProgram_test)
+set(SRC_FIXED_RATE_PROGRAM_TEST
+    FixedRateProgram_test.cpp
+    FixedRateProgram_test_tc1.cpp)
 
-# Program_test
-set(SRC Program_test.cpp
-        Program_test_tc1.cpp)
-test_complex(Program_test)
+set(SRC_PROGRAM_TEST
+    Program_test.cpp
+    Program_test_tc1.cpp)
 
-# TCPSocket_test
-set(SRC TCPSocket_test.cpp
-        TCPSocket_test_case1.cpp
-        TCPSocket_test_case2.cpp)
-test_complex(TCPSocket_test)
+set(SRC_TCP_SOCKET_TEST
+    TCPSocket_test.cpp
+    TCPSocket_test_case1.cpp
+    TCPSocket_test_case2.cpp)
 
-# misc
-set(SRC misc_test.cpp
-        misc_test_case1.cpp)
-test_complex(misc_test)
+set(SRC_MISC_TEST
+    misc_test.cpp
+    misc_test_case1.cpp)
 
-# miscNetworking_test
-set(SRC miscNetworking_test.cpp
-        miscNetworking_test_case1.cpp
-        miscNetworking_test_case2.cpp)
-test_complex(miscNetworking_test)
+set(SRC_MISC_NETWORKING_TEST
+    miscNetworking_test.cpp
+    miscNetworking_test_case1.cpp
+    miscNetworking_test_case2.cpp)
+
+test_complex(BitField_test         "${SRC_BIT_FIELD_TEST}")
+test_complex(DataPacket_test       "${SRC_DATA_PACKET_TEST}")
+test_complex(FixedRateProgram_test "${SRC_FIXED_RATE_PROGRAM_TEST}")
+test_complex(Program_test          "${SRC_PROGRAM_TEST}")
+test_complex(TCPSocket_test        "${SRC_TCP_SOCKET_TEST}")
+test_complex(misc_test             "${SRC_MISC_TEST}")
+test_complex(miscNetworking_test   "${SRC_MISC_NETWORKING_TEST}")
