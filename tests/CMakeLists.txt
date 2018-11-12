@@ -37,7 +37,8 @@ add_test_executable(DataPacket_test "${SRC}" "${INC}" "${LIB}")
 add_test_executable_simple(EthernetIIHeader_test "${INC}" "${LIB}")
 
 # FixedRateProgram_test
-set(SRC FixedRateProgram_test.cpp FixedRateProgram_test_tc1.cpp)
+set(SRC FixedRateProgram_test.cpp
+        FixedRateProgram_test_tc1.cpp)
 list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
 add_test_executable(FixedRateProgram_test "${SRC}" "${INC}" "${LIB}")
 
@@ -57,7 +58,8 @@ add_test_executable_simple(OnlineStatistics_test "${INC}" "${LIB}")
 add_test_executable_simple(PosixTimespec_test "${INC}" "${LIB}")
 
 # Program_test
-set(SRC Program_test.cpp Program_test_tc1.cpp)
+set(SRC Program_test.cpp
+        Program_test_tc1.cpp)
 list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
 add_test_executable(Program_test "${SRC}" "${INC}" "${LIB}")
 
@@ -81,7 +83,8 @@ add_test_executable(TCPSocket_test "${SRC}" "${INC}" "${LIB}")
 add_test_executable_simple(UDPSocket_test "${INC}" "${LIB}")
 
 # misc
-set(SRC misc_test.cpp misc_test_case1.cpp)
+set(SRC misc_test.cpp
+        misc_test_case1.cpp)
 list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
 add_test_executable(misc_test "${SRC}" "${INC}" "${LIB}")
 
