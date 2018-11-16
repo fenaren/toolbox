@@ -46,7 +46,7 @@ if(LINUX)
 endif(LINUX)
 
 # Add standard subdirectories (these build unconditionally)
-#add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/networking)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/networking)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/testing)
 
 # Add test subdirectories (these don't build unconditionally)
