@@ -38,8 +38,8 @@ else(WIN32)
 endif(WIN32)
 
 # Add source files to the project sources
-list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
+list_prepend_to_each(SRC networking/)
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 
 # Add this directory to the project includes
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC .)

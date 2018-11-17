@@ -7,9 +7,10 @@ set(SRC
   TestCases.cpp
   TestProgram.cpp)
 
-# Add source files to the project sources
-list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
+# Add source files to the project sources; have to prepend the relative path to
+# the project root for this to work
+list_prepend_to_each(SRC testing/)
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 
 # Add this directory to the project includes
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC .)
