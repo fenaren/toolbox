@@ -43,3 +43,6 @@ target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 
 # Add this directory to the project includes
 target_include_directories(${PROJECT_NAME} PUBLIC .)
+
+# Add test subdirectories (these don't build unconditionally)
+add_subdirectory(ArpPacket_test EXCLUDE_FROM_ALL)
