@@ -1,6 +1,7 @@
 # Include common project setup
 include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
+# All the source files
 set(SRC
   Program_test.cpp
   Program_test_tc1.cpp)
@@ -12,4 +13,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-test_complex(Program_test "${SRC}")
+add_test_executable(Program_test "${SRC}" "${INC}" "${LIB}")

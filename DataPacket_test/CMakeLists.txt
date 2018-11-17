@@ -1,7 +1,7 @@
 # Include common project setup
 include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
-# All the platform-independent source files in this directory
+# All the source files
 set(SRC
   DataPacket_test.cpp
   DataPacket_test1.cpp
@@ -17,4 +17,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-test_complex(DataPacket_test "${SRC}")
+add_test_executable(DataPacket_test "${SRC}" "${INC}" "${LIB}")

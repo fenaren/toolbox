@@ -1,6 +1,9 @@
 # Include common project setup
 include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
+# All the source files
+set(SRC Log_test.cpp)
+
 # We need these include directories
 set(INC . ..)
 
@@ -8,4 +11,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-test_simple(Log_test)
+add_test_executable(Log_test "${SRC}" "${INC}" "${LIB}")

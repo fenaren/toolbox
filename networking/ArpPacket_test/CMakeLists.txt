@@ -1,11 +1,14 @@
 # Include common project setup
 include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
+# All the source files
+set(SRC ArpPacket_test.cpp)
+
 # We need these include directories
 set(INC . ..)
 
-# Link to the project library
+# Libraries to link to
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-test_simple(ArpPacket_test)
+add_test_executable(ArpPacket_test "${SRC}" "${INC}" "${LIB}")

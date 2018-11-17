@@ -1,7 +1,7 @@
 # Include common project setup
 include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
-# All the platform-independent source files in this directory
+# All the source files
 set(SRC
   FixedRateProgram_test.cpp
   FixedRateProgram_test_tc1.cpp)
@@ -13,4 +13,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-test_complex(FixedRateProgram_test "${SRC}")
+add_test_executable(FixedRateProgram_test "${SRC}" "${INC}" "${LIB}")

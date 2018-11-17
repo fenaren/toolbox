@@ -1,6 +1,9 @@
 # Include common project setup
 include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
+# All the source files
+set(SRC Ipv4Address_test.cpp)
+
 # We need these include directories
 set(INC . ..)
 
@@ -8,4 +11,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-test_simple(Ipv4Address_test)
+add_test_executable(Ipv4Address_test "${SRC}" "${INC}" "${LIB}")

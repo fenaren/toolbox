@@ -1,6 +1,9 @@
 # Include common project setup
 include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
+# All the source files
+set(SRC RawSocket_test.cpp)
+
 # We need these include directories
 set(INC . ..)
 
@@ -8,4 +11,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-test_simple(RawSocket_test)
+add_test_executable(RawSocket_test "${SRC}" "${INC}" "${LIB}")
