@@ -5,7 +5,7 @@ project(toolbox)
 cmake_minimum_required(VERSION 2.6)
 
 # Include common project setup
-include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
+include(common/ProjectCommon.cmake)
 
 # All the source files in this directory
 set(SRC
@@ -31,11 +31,10 @@ if(MACOS OR LINUX)
 endif(MACOS OR LINUX)
 
 # Add source files to the project sources
-list_prepend_to_each(SRC ${CMAKE_CURRENT_LIST_DIR}/)
 add_library(${PROJECT_NAME} ${SRC})
 
 # Add this directory to the project includes
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
@@ -46,8 +45,8 @@ if(LINUX)
 endif(LINUX)
 
 # Add standard subdirectories (these build unconditionally)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/networking)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/testing)
+add_subdirectory(networking)
+add_subdirectory(testing)
 
 # Add test subdirectories (these don't build unconditionally)
 add_subdirectory(BitField_test         EXCLUDE_FROM_ALL)
