@@ -5,3 +5,7 @@ CTestTestfile.cmake
 Makefile
 Temporary
 cmake_install.cmake
+
+# Build output
+libtoolbox.a
+libtoolbox.so
