@@ -3,8 +3,8 @@ include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
 # All the source files
 set(SRC
-  Program_test.cpp
-  Program_test_tc1.cpp)
+  HelloWorld.cpp
+  Program_test.cpp)
 
 # We need these include directories
 set(INC . ..)

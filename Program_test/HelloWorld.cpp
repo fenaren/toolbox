@@ -1,21 +1,23 @@
-#include <csignal>
 #include <iostream>
 
-#include "Program_test_tc1.hpp"
+#include "HelloWorld.hpp"
+
+#include "Program.hpp"
 
 //==============================================================================
-Program_test_tc1::Program_test_tc1(int argc, char** argv) :
+HelloWorld::HelloWorld(int argc, char** argv) :
     Program(argc, argv)
 {
 }
 
 //==============================================================================
-Program_test_tc1::~Program_test_tc1()
+HelloWorld::~HelloWorld()
 {
 }
 
 //==============================================================================
-int Program_test_tc1::run()
+int HelloWorld::run()
 {
+    std::cout << "Hello world\n";
     return 0;
 }
