@@ -28,6 +28,7 @@ Test::Result Program_test::run()
     argv[0] = zero;
     argv[1] = one;
     argv[2] = two;
+    argv[3] = two;
 
     // Normally a Program would get a proper set of arguments
     HelloWorld hello_world(ARGC, argv);
