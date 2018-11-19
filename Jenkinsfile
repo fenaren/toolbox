@@ -1,6 +1,6 @@
 #!groovy
 
-@Library(value="jenkins-sl@jcppplug-fix")
+@Library(value="jenkins-sl@master")
 
 stages = [
 
