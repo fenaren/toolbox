@@ -1,6 +1,6 @@
 #!groovy
 
-@Library(value="jenkins-sl@valgrind-ctest")
+@Library(value="jenkins-sl@master")
 
 stages = [
 
