@@ -17,8 +17,6 @@ Test::Result Program_test::run()
     // We're going to construct some fake arguments to push into our HelloWorld
     // test program
 
-    new char[5];
-
     // Three arguments total
     const int ARGC = 3;
 
