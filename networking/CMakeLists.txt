@@ -7,6 +7,7 @@ set(SRC
   ArpPacketEthernetIpv4.cpp
   EthernetIIHeader.cpp
   Ipv4Address.cpp
+  Ipv4Header.cpp
   MacAddress.cpp
   RawSocket.cpp
   RawSocketImpl.cpp
