@@ -1,0 +1,12 @@
+# CMake files and directories
+CMakeCache.txt
+CMakeFiles
+CTestTestfile.cmake
+Makefile
+Temporary
+Testing
+cmake_install.cmake
+
+# Build output
+libtoolbox.a
+libtoolbox.so

@@ -4,49 +4,58 @@ project(toolbox)
 # available online
 cmake_minimum_required(VERSION 2.6)
 
-# Unit tests of the code in this project are located in the tests subdirectory
-add_subdirectory(tests EXCLUDE_FROM_ALL)
-
 # Include common project setup
-include(${CMAKE_CURRENT_LIST_DIR}/common/ProjectCommon.cmake)
+include(common/ProjectCommon.cmake)
 
 # All the source files in this directory
-set(SOURCE_FILES BitField.cpp
-                 DataField.cpp
-                 DataPacket.cpp
-                 FixedRateProgram.cpp
-                 Log.cpp
-                 OnlineStatistics.cpp
-                 Program.cpp
-                 SignalManager.cpp
-                 SignalManagerImpl.cpp
-                 SignalManagerFactory.cpp
-                 SimpleDataField.cpp
-                 Test.cpp
-                 TestCases.cpp
-                 TestProgram.cpp
-                 misc.cpp)
+set(SRC
+  BitField.cpp
+  DataField.cpp
+  DataPacket.cpp
+  FixedRateProgram.cpp
+  Log.cpp
+  OnlineStatistics.cpp
+  Program.cpp
+  SignalManager.cpp
+  SignalManagerImpl.cpp
+  SignalManagerFactory.cpp
+  SimpleDataField.cpp
+  misc.cpp)
 
 # Only include POSIX code when building for platforms we know support it
 if(MACOS OR LINUX)
-  list(APPEND SOURCE_FILES PosixClock.cpp
-                           PosixSignalManagerImpl.cpp
-                           PosixTimespec.cpp)
+  list(APPEND SRC
+    PosixClock.cpp
+    PosixSignalManagerImpl.cpp
+    PosixTimespec.cpp)
 endif(MACOS OR LINUX)
 
-# Add the library and all the source files we're going to build (with full
-# pathname prepended) in this directory
-list_prepend_to_each(SOURCE_FILES ${CMAKE_CURRENT_LIST_DIR}/)
-add_library(${PROJECT_NAME} ${SOURCE_FILES})
+# Add source files to the project sources
+add_library(${PROJECT_NAME} ${SRC})
+
+# Add this directory to the project includes
+target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
 
-  # Not sure where else to put this so put it here for now;
-  # scheduler-toy is for Linux only
+  # Not sure where else to put this so put it here for now; scheduler-toy is for
+  # Linux only
   add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
 endif(LINUX)
 
-# Other toolbox source files are in the networking directory, the CMakeLists.txt
-# file in there will pick those up
-include(${CMAKE_CURRENT_LIST_DIR}/networking/CMakeLists.txt)
+# Add standard subdirectories (these build unconditionally)
+add_subdirectory(networking)
+add_subdirectory(testing)
+
+# Add test subdirectories (these don't build unconditionally)
+add_subdirectory(BitField_test         EXCLUDE_FROM_ALL)
+add_subdirectory(DataPacket_test       EXCLUDE_FROM_ALL)
+add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
+add_subdirectory(Log_test              EXCLUDE_FROM_ALL)
+add_subdirectory(OnlineStatistics_test EXCLUDE_FROM_ALL)
+add_subdirectory(PosixTimespec_test    EXCLUDE_FROM_ALL)
+add_subdirectory(Program_test          EXCLUDE_FROM_ALL)
+add_subdirectory(SignalManager_test    EXCLUDE_FROM_ALL)
+add_subdirectory(SimpleDataField_test  EXCLUDE_FROM_ALL)
+add_subdirectory(misc_test             EXCLUDE_FROM_ALL)

@@ -1,41 +1,56 @@
-target_include_directories(toolbox PUBLIC
-  ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_CURRENT_LIST_DIR}/..)
+# Include common project setup
+include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
 
-#Include platform-independent sources
-target_sources(toolbox PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}/ArpPacket.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/ArpPacketBase.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/ArpPacketEthernetIpv4.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/EthernetIIHeader.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Ipv4Address.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/MacAddress.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/RawSocket.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/RawSocketImpl.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/Socket.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/SocketFactory.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/SocketImpl.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/TCPSocket.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/TCPSocketImpl.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/UDPSocket.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/UDPSocketImpl.cpp
-  ${CMAKE_CURRENT_LIST_DIR}/miscNetworking.cpp)
+# All the platform-independent source files in this directory
+set(SRC
+  ArpPacket.cpp
+  ArpPacketBase.cpp
+  ArpPacketEthernetIpv4.cpp
+  EthernetIIHeader.cpp
+  Ipv4Address.cpp
+  MacAddress.cpp
+  RawSocket.cpp
+  RawSocketImpl.cpp
+  Socket.cpp
+  SocketFactory.cpp
+  SocketImpl.cpp
+  TCPSocket.cpp
+  TCPSocketImpl.cpp
+  UDPSocket.cpp
+  UDPSocketImpl.cpp
+  miscNetworking.cpp)
 
-# Include platform-specific sources
+# All the platform-dependent source files in this directory
 if(WIN32)
-  target_sources(toolbox PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/WindowsRawSocketImpl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/WindowsSocketCommon.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/WindowsTCPSocketImpl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/WindowsUDPSocketImpl.cpp)
+  list(APPEND SRC
+    WindowsRawSocketImpl.cpp
+    WindowsSocketCommon.cpp
+    WindowsTCPSocketImpl.cpp
+    WindowsUDPSocketImpl.cpp)
 else(WIN32)
-  target_sources(toolbox PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/PosixSocketCommon.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/PosixTCPSocketImpl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/PosixUDPSocketImpl.cpp)
-
+  list(APPEND SRC
+    PosixSocketCommon.cpp
+    PosixTCPSocketImpl.cpp
+    PosixUDPSocketImpl.cpp)
   if(LINUX)
-    target_sources(toolbox PRIVATE
-      ${CMAKE_CURRENT_LIST_DIR}/LinuxRawSocketImpl.cpp)
+    list(APPEND SRC LinuxRawSocketImpl.cpp)
   endif(LINUX)
 endif(WIN32)
+
+# Add source files to the project sources
+list_prepend_to_each(SRC networking/)
+target_sources(${PROJECT_NAME} PRIVATE ${SRC})
+
+# Add this directory to the project includes
+target_include_directories(${PROJECT_NAME} PUBLIC .)
+
+# Add test subdirectories (these don't build unconditionally)
+add_subdirectory(ArpPacket_test             EXCLUDE_FROM_ALL)
+add_subdirectory(ArpPacketEthernetIpv4_test EXCLUDE_FROM_ALL)
+add_subdirectory(EthernetIIHeader_test      EXCLUDE_FROM_ALL)
+add_subdirectory(Ipv4Address_test           EXCLUDE_FROM_ALL)
+add_subdirectory(MacAddress_test            EXCLUDE_FROM_ALL)
+add_subdirectory(RawSocket_test             EXCLUDE_FROM_ALL)
+add_subdirectory(TCPSocket_test             EXCLUDE_FROM_ALL)
+add_subdirectory(UDPSocket_test             EXCLUDE_FROM_ALL)
+add_subdirectory(miscNetworking_test        EXCLUDE_FROM_ALL)

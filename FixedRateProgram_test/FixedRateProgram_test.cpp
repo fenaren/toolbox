@@ -3,7 +3,7 @@
 
 #include "FixedRateProgram_test.hpp"
 
-#include "FixedRateProgram_test_tc1.hpp"
+#include "HelloWorld.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
@@ -24,7 +24,7 @@ FixedRateProgram_test::~FixedRateProgram_test()
 Test::Result FixedRateProgram_test::run()
 {
     // Normally it would not be possible for a program to receive no arguments
-    FixedRateProgram_test_tc1 test_frp(0, 0, period);
+    HelloWorld test_frp(0, 0, period);
 
     std::cout << "Period " << period << "s\n";
 
