@@ -1,11 +1,11 @@
-project(toolbox)
+project(tools-cpp)
 
 # CMake 2.6 is the oldest version of CMake that still has documentation
 # available online
 cmake_minimum_required(VERSION 2.6)
 
-# Include common project setup
-include(common/ProjectCommon.cmake)
+# Use cmake tools to help with this project
+include(tools-cmake/ProjectCommon.cmake)
 
 # All the source files in this directory
 set(SRC

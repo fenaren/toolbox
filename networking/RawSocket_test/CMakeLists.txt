@@ -1,5 +1,4 @@
-# Include common project setup
-include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
+include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
 set(SRC RawSocket_test.cpp)

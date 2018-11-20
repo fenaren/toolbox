@@ -1,5 +1,4 @@
-# Include common project setup
-include(${PROJECT_SOURCE_DIR}/common/ProjectCommon.cmake)
+include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the platform-independent source files in this directory
 set(SRC
