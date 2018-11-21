@@ -18,6 +18,8 @@ private:
     // Disallowed, only static functions here
     SignalManagerFactory();
     ~SignalManagerFactory();
+    SignalManagerFactory(const SignalManagerFactory&);
+    SignalManagerFactory& operator=(const SignalManagerFactory&);
 };
 
 #endif

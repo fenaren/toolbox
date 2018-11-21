@@ -64,6 +64,11 @@ private:
     MacAddress                     destination;
     MacAddress                     source;
     SimpleDataField<std::uint16_t> ethertype;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    EthernetIIHeader(const EthernetIIHeader&);
+    EthernetIIHeader& operator=(const EthernetIIHeader&);
 };
 
 inline MacAddress* EthernetIIHeader::getMacDestination()

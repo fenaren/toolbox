@@ -26,6 +26,13 @@ public:
 
     // Retrieves the name of the interface data will be sent from
     virtual void getOutputInterface(std::string& interface_name) = 0;
+
+private:
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    RawSocketImpl(const RawSocketImpl&);
+    RawSocketImpl& operator=(const RawSocketImpl&);
 };
 
 #endif

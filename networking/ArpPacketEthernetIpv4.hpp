@@ -78,6 +78,11 @@ private:
     Ipv4Address spa;
     MacAddress  tha;
     Ipv4Address tpa;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    ArpPacketEthernetIpv4(const ArpPacketEthernetIpv4&);
+    ArpPacketEthernetIpv4& operator=(const ArpPacketEthernetIpv4&);
 };
 
 inline MacAddress* ArpPacketEthernetIpv4::getSha()

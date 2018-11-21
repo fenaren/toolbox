@@ -33,14 +33,13 @@ protected:
 
 private:
 
-    // Copy construction not allowed
-    UDPSocket(const UDPSocket&);
-
-    // Assignment not allowed
-    UDPSocket& operator=(const UDPSocket&);
-
     // Platform-specific socket implementation
     UDPSocketImpl* socket_impl;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    UDPSocket(const UDPSocket&);
+    UDPSocket& operator=(const UDPSocket&);
 };
 
 inline void UDPSocket::setImplementation(UDPSocketImpl* socket_impl)

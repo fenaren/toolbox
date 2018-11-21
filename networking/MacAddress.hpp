@@ -22,6 +22,9 @@ class MacAddress : public BitField
     // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);
 
+    // Copy constructor
+    MacAddress(const MacAddress& mac_address);
+
     // Defines how to convert a MacAddress to a std::string
     operator std::string() const;
 
@@ -30,6 +33,7 @@ class MacAddress : public BitField
     virtual ~MacAddress();
 
     MacAddress& operator=(const std::string& mac_address_str);
+    MacAddress& operator=(const MacAddress& mac_address);
 
     // MAC addresses are this many bytes long
     static const unsigned short LENGTH_BYTES = 6;

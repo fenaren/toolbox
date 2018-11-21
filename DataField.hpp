@@ -47,8 +47,9 @@ private:
     // determine if byteswapping is needed
     static const misc::ByteOrder byte_order;
 
-    // A meaningful deep copy can't be done here so disallow
+    // A meaningful deep copy can't be done here so disallow that and operator=
     DataField(const DataField&);
+    DataField& operator=(const DataField&);
 };
 
 inline misc::ByteOrder DataField::getByteOrder()

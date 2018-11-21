@@ -35,6 +35,13 @@ public:
 
     // Returns the name associated with the given signal
     virtual void getSignalName(int sig, std::string& signal_name) = 0;
+
+private:
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    SignalManagerImpl(const SignalManagerImpl&);
+    SignalManagerImpl& operator=(const SignalManagerImpl&);
 };
 
 #endif

@@ -22,7 +22,10 @@ public:
     // Constructs a new Ipv4Address matching the given string representation.
     explicit Ipv4Address(const std::string& ipv4_address_str);
 
-    // Defines how to convert a MacAddress to a std::string
+    // Copy constructor
+    Ipv4Address(const Ipv4Address&);
+
+    // Defines how to convert a Ipv4Address to a std::string
     operator std::string() const;
 
     // Destroys a Ipv4Address; does nothing, since this class doesn't
@@ -30,6 +33,7 @@ public:
     virtual ~Ipv4Address();
 
     Ipv4Address& operator=(const std::string& ipv4_address_str);
+    Ipv4Address& operator=(const Ipv4Address&);
 
     // IPv4 addresses are this many bytes long
     static const unsigned short LENGTH_BYTES = 4;

@@ -12,6 +12,9 @@ public:
     // Saves user specified clock
     explicit PosixClock(clockid_t clk_id);
 
+    // Copy constructor
+    PosixClock(const PosixClock&);
+
     // Does nothing
     ~PosixClock();
 
@@ -27,6 +30,8 @@ public:
 
     // Caling process nanosleeps for specified length of time
     void nanosleep(const PosixTimespec& ts);
+
+    PosixClock& operator=(const PosixClock&);
 
 private:
 

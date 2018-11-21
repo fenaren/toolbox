@@ -100,6 +100,11 @@ private:
     sockaddr_in peer_address;
 
     double blocking_timeout;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    PosixTCPSocketImpl(const PosixTCPSocketImpl&);
+    PosixTCPSocketImpl& operator=(const PosixTCPSocketImpl&);
 };
 
 inline void PosixTCPSocketImpl::setBlockingTimeout(double blocking_timeout)

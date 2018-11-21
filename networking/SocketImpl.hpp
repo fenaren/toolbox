@@ -40,6 +40,13 @@ public:
 
     // Forces this socket to discard all received data.
     virtual void clearBuffer() = 0;
+
+private:
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    SocketImpl(const SocketImpl&);
+    SocketImpl& operator=(const SocketImpl&);
 };
 
 #endif
