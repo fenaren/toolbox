@@ -2,7 +2,8 @@
 #include "misc.hpp"
 
 //==============================================================================
-Ipv4Header::Ipv4Header()
+Ipv4Header::Ipv4Header() :
+    version(0)
 {
 }
 
