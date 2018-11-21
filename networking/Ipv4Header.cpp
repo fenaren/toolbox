@@ -3,7 +3,14 @@
 
 //==============================================================================
 Ipv4Header::Ipv4Header() :
-    version(0)
+    version(0),
+    ihl(0),
+    dscp(0),
+    ecn(0),
+    flags_reserved(false),
+    flags_dont_fragment(false),
+    flags_more_fragments(false),
+    fragment_offset(0)
 {
 }
 
