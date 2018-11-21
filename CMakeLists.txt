@@ -20,6 +20,7 @@ set(SRC
   SignalManagerImpl.cpp
   SignalManagerFactory.cpp
   SimpleDataField.cpp
+  TemplateClass.cpp
   misc.cpp)
 
 # Only include POSIX code when building for platforms we know support it
@@ -58,4 +59,5 @@ add_subdirectory(PosixTimespec_test    EXCLUDE_FROM_ALL)
 add_subdirectory(Program_test          EXCLUDE_FROM_ALL)
 add_subdirectory(SignalManager_test    EXCLUDE_FROM_ALL)
 add_subdirectory(SimpleDataField_test  EXCLUDE_FROM_ALL)
+add_subdirectory(TemplateClass_test    EXCLUDE_FROM_ALL)
 add_subdirectory(misc_test             EXCLUDE_FROM_ALL)
