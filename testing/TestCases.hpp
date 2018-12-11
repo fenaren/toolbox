@@ -1,6 +1,7 @@
 #if !defined TEST_CASES_HPP
 #define TEST_CASES_HPP
 
+#include <string>
 #include <vector>
 
 #include "Test.hpp"
@@ -9,14 +10,15 @@ class TestCases : public Test
 {
 public:
 
-    // Does nothing
-    TestCases();
+    // Sets the name
+    TestCases(const std::string& name);
 
     // Deletes all the added test cases
     virtual ~TestCases();
 
-    // Adds all test cases by calling addTestCases(), then runs them all
-    virtual Test::Result run();
+    // Adds all test cases by calling addTestCases(), then runs them all in the
+    // order they were added
+    virtual Test::Result body();
 
 protected:
 

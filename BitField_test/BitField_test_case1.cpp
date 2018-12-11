@@ -8,7 +8,7 @@ TEST_HEADER(BitField_test_case1);
 TEST_CONSTRUCTOR_DESTRUCTOR(BitField_test_case1);
 
 //==============================================================================
-Test::Result BitField_test_case1::run()
+Test::Result BitField_test_case1::body()
 {
     // Makes no sense to create an bit field of 0 bytes but we should test
     // it here

@@ -26,7 +26,7 @@ TRIVIAL_TEST(TemplateClass_test);
 //TEST_CONSTRUCTOR_DESTRUCTOR(TemplateClass_test);
 
 //==============================================================================
-Test::Result TemplateClass_test::run()
+Test::Result TemplateClass_test::body()
 {
     return Test::PASSED;
 }

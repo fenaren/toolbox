@@ -8,7 +8,7 @@
 TRIVIAL_TEST(UDPSocket_test);
 
 //==============================================================================
-Test::Result UDPSocket_test::run()
+Test::Result UDPSocket_test::body()
 {
     unsigned int port1 = 0;  // Use whatever port is available
     unsigned int port2 = 0;  // Use whatever port is available

@@ -10,7 +10,7 @@
 TRIVIAL_TEST(MacAddress_test);
 
 //==============================================================================
-Test::Result MacAddress_test::run()
+Test::Result MacAddress_test::body()
 {
     // Initialize vector of test MAC addresses; THESE MUST ALL BE UNIQUE
     std::vector<std::string> unique_mac_addresses;

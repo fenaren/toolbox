@@ -1,18 +1,18 @@
 #include <cstring>
 #include <iostream>
 
-#include "DataPacket_test_case2.hpp"
-
 #include "DataPacket.hpp"
 #include "DataPacket_test1.hpp"
 #include "DataPacket_test2.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
+#include "pullUpdatePush.hpp"
 
+TEST_HEADER(DataPacket_test_case2);
 TEST_CONSTRUCTOR_DESTRUCTOR(DataPacket_test_case2);
 
 //==============================================================================
-Test::Result DataPacket_test_case2::run()
+Test::Result DataPacket_test_case2::body()
 {
     // Initialize with some dummy data; will check for proper byteswappng later
     DataPacket_test2 dptest2(1.0f, 2.0f, 'A');
@@ -34,7 +34,11 @@ Test::Result DataPacket_test_case2::run()
     // Grab sdf_int; it should be at the very beginning of the raw packet
     int dptest1_int;
     int dptest1_int_updated;
-    pullUpdatePush(raw_dptest1, dptest1_int, dptest1_int_updated, offset);
+    pullUpdatePush(raw_dptest1,
+                   dptest1_int,
+                   dptest1_int_updated,
+                   offset,
+                   false);
 
     // Should be 2 bytes of padding here
     offset += 2;
@@ -43,7 +47,11 @@ Test::Result DataPacket_test_case2::run()
     // of sizeof(int)
     double dptest1_double;
     double dptest1_double_updated;
-    pullUpdatePush(raw_dptest1, dptest1_double, dptest1_double_updated, offset);
+    pullUpdatePush(raw_dptest1,
+                   dptest1_double,
+                   dptest1_double_updated,
+                   offset,
+                   false);
 
     // Should be 1 byte of padding here
     offset += 1;
@@ -52,7 +60,11 @@ Test::Result DataPacket_test_case2::run()
     // fields in the top-level packet, since we're still aligned on 4 bytes
     float dptest2_float1;
     float dptest2_float1_updated;
-    pullUpdatePush(raw_dptest1, dptest2_float1, dptest2_float1_updated, offset);
+    pullUpdatePush(raw_dptest1,
+                   dptest2_float1,
+                   dptest2_float1_updated,
+                   offset,
+                   false);
 
     // Should be 2 bytes of padding here
     offset += 2;
@@ -62,7 +74,11 @@ Test::Result DataPacket_test_case2::run()
     // later, hopefully correctly.
     float dptest2_float2;
     float dptest2_float2_updated;
-    pullUpdatePush(raw_dptest1, dptest2_float2, dptest2_float2_updated, offset);
+    pullUpdatePush(raw_dptest1,
+                   dptest2_float2,
+                   dptest2_float2_updated,
+                   offset,
+                   false);
 
     // Should be 2 bytes of padding here
     offset += 2;
@@ -72,7 +88,11 @@ Test::Result DataPacket_test_case2::run()
     // later, hopefully correctly.
     char dptest2_char;
     char dptest2_char_updated;
-    pullUpdatePush(raw_dptest1, dptest2_char, dptest2_char_updated, offset);
+    pullUpdatePush(raw_dptest1,
+                   dptest2_char,
+                   dptest2_char_updated,
+                   offset,
+                   false);
 
     // All the values we copied out of the raw packet have to match the values
     // we originally set them to
@@ -96,41 +116,4 @@ Test::Result DataPacket_test_case2::run()
     delete [] raw_dptest1;
 
     return Test::PASSED;
-}
-
-//==============================================================================
-// Does a couple things for hard-to-understand reasons.
-//
-// First we pull what we pull a T out of the memory starting at raw_dptest +
-// offset (this function is used multiple times in succession and, as can be
-// seen on the last line, offset is bumped each time, meaning a new section of
-// memory is read each time).  This value is then left alone to be
-// returned in the "dptest_var" argument.
-//
-// Second, we save a copy of an incremented "dptest_var" into
-// "dptest_var_updated", meaning the memory location is now incremented but
-// otherwise unchanged.  Later, readRaw() will read this, and we can test for
-// presence of the incremented value.
-//
-// Lastly, offset is bumped past the memory location we read with it to prepare
-// for its next usage.
-//==============================================================================
-template <class T>
-void DataPacket_test_case2::pullUpdatePush(unsigned char* raw_dptest,
-                                           T&             dptest_var,
-                                           T&             dptest_var_updated,
-                                           unsigned int&  offset)
-{
-    // Pull a field from the raw packet and swap to make it legible
-    memcpy(&dptest_var, raw_dptest + offset, sizeof(T));
-
-    // Increment the retrieved field but store it in a different place
-    dptest_var_updated = dptest_var + 1;
-
-    memcpy(raw_dptest + offset,
-           reinterpret_cast<unsigned char*>(&dptest_var_updated),
-           sizeof(T));
-
-    // Bump this for successive calls
-    offset += sizeof(T);
 }
