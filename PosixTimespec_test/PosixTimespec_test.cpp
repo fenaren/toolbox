@@ -1,26 +1,35 @@
 #include <iostream>
 #include <vector>
 
-#include "PosixTimespec_test.hpp"
-
 #include "PosixTimespec.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(PosixTimespec_test);
+TRIVIAL_TEST(PosixTimespec_test);
 
-//==============================================================================
-PosixTimespec_test::PosixTimespec_test()
+enum Greater
 {
-}
+    LHS,
+    RHS,
+    EQUAL
+};
 
-//==============================================================================
-PosixTimespec_test::~PosixTimespec_test()
+struct TimespecGtlt
 {
-}
+    timespec lhs;
+    timespec rhs;
+    Greater  greater;
+};
+
+struct TimespecTuple
+{
+    timespec lhs;
+    timespec rhs;
+    timespec result;
+};
 
 //==============================================================================
-Test::Result PosixTimespec_test::run()
+Test::Result PosixTimespec_test::body()
 {
     std::cout.precision(10);
 

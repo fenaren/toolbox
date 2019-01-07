@@ -23,6 +23,13 @@ public:
 
     // Gets the source IP address of the last received packet
     virtual void getPeerAddress(std::string& peer_address_str) const = 0;
+
+private:
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    UDPSocketImpl(const UDPSocketImpl&);
+    UDPSocketImpl& operator=(const UDPSocketImpl&);
 };
 
 #endif

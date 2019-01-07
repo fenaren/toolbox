@@ -73,6 +73,11 @@ private:
     sockaddr_in peer_address;
 
     double blocking_timeout;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    PosixUDPSocketImpl(const PosixUDPSocketImpl&);
+    PosixUDPSocketImpl& operator=(const PosixUDPSocketImpl&);
 };
 
 inline void PosixUDPSocketImpl::setBlockingTimeout(double blocking_timeout)

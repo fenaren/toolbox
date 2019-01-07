@@ -86,6 +86,11 @@ private:
     // Use the isSignalDelivered() function to query the delivery status of a
     // signal.
     static std::unordered_map<int, SignalInfo> signals;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    PosixSignalManagerImpl(const PosixSignalManagerImpl&);
+    PosixSignalManagerImpl& operator=(const PosixSignalManagerImpl&);
 };
 
 inline

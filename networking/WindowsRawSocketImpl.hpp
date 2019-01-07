@@ -91,6 +91,11 @@ private:
 
     // The length of blocking timeouts, in milliseconds
     INT ts_blocking_timeout;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    WindowsRawSocketImpl(const WindowsRawSocketImpl&);
+    WindowsRawSocketImpl& operator=(const WindowsRawSocketImpl&);
 };
 
 inline

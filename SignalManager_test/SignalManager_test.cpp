@@ -12,7 +12,7 @@
 TRIVIAL_TEST(SignalManager_test);
 
 //==============================================================================
-Test::Result SignalManager_test::run()
+Test::Result SignalManager_test::body()
 {
     SignalManager* signal_manager = 0;
     try

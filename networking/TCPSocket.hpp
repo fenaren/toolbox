@@ -57,14 +57,13 @@ private:
     // existing platform-specific TCP socket in an instance of this class.
     explicit TCPSocket(TCPSocketImpl* socket_impl);
 
-    // Copy construction not allowed
-    TCPSocket(const TCPSocket&);
-
-    // Assignment not allowed
-    TCPSocket& operator=(const TCPSocket&);
-
     // Platform-specific socket implementation to use
     TCPSocketImpl* socket_impl;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    TCPSocket(const TCPSocket&);
+    TCPSocket& operator=(const TCPSocket&);
 };
 
 inline void TCPSocket::setImplementation(TCPSocketImpl* socket_impl)

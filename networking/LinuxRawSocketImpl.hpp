@@ -75,6 +75,11 @@ private:
     std::string output_interface_name;
 
     double blocking_timeout;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    LinuxRawSocketImpl(const LinuxRawSocketImpl&);
+    LinuxRawSocketImpl& operator=(const LinuxRawSocketImpl&);
 };
 
 inline void LinuxRawSocketImpl::setBlockingTimeout(double blocking_timeout)

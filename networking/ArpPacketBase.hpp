@@ -44,6 +44,13 @@ protected:
     SimpleDataField<std::uint8_t>  hlen;
     SimpleDataField<std::uint8_t>  plen;
     SimpleDataField<std::uint16_t> oper;
+
+private:
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    ArpPacketBase(const ArpPacketBase&);
+    ArpPacketBase& operator=(const ArpPacketBase&);
 };
 
 inline std::uint16_t ArpPacketBase::getHType() const

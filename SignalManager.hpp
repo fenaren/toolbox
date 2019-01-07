@@ -44,6 +44,11 @@ public:
 private:
 
     SignalManagerImpl* signal_manager_impl;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    SignalManager(const SignalManager&);
+    SignalManager& operator=(const SignalManager&);
 };
 
 #endif

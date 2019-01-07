@@ -68,8 +68,9 @@ private:
 
     unsigned int byte_alignment;
 
-    // A meaningful deep copy can't be done here so disallow
+    // A meaningful deep copy can't be done here so disallow that and operator=
     DataPacket(const DataPacket&);
+    DataPacket& operator=(const DataPacket&);
 };
 
 inline unsigned int DataPacket::getByteAlignment() const

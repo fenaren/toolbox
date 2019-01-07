@@ -7,7 +7,7 @@
 TRIVIAL_TEST(SimpleDataField_test);
 
 //==============================================================================
-Test::Result SimpleDataField_test::run()
+Test::Result SimpleDataField_test::body()
 {
     // Try to construct all the explicit instantiations
     SimpleDataField<char> test_sdf_char;

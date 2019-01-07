@@ -4,16 +4,17 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "BitField_test_case2.hpp"
-
 #include "BitField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
+TEST_HEADER(BitField_test_case2);
 TEST_CONSTRUCTOR_DESTRUCTOR(BitField_test_case2);
 
+template<class T> bool tryAllBits(BitField& bitfield, T& raw_bitfield);
+
 //==============================================================================
-Test::Result BitField_test_case2::run()
+Test::Result BitField_test_case2::body()
 {
     std::uint8_t  raw_bitfield1 = 0;
     std::uint16_t raw_bitfield2 = 0;
@@ -48,9 +49,7 @@ Test::Result BitField_test_case2::run()
 }
 
 //==============================================================================
-template<class T>
-bool BitField_test_case2::tryAllBits(BitField& bitfield,
-                                     T&        raw_bitfield)
+template<class T> bool tryAllBits(BitField& bitfield, T& raw_bitfield)
 {
     bool all_good = true;
 

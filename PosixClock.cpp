@@ -16,6 +16,12 @@ PosixClock::PosixClock(clockid_t clk_id) :
 }
 
 //==============================================================================
+PosixClock::PosixClock(const PosixClock& posix_clock)
+{
+    *this = posix_clock;
+}
+
+//==============================================================================
 // Does nothing
 //==============================================================================
 PosixClock::~PosixClock()
@@ -55,4 +61,16 @@ void PosixClock::nanosleep(const PosixTimespec& ts)
     {
         throw std::system_error(errno, std::system_category());
     }
+}
+
+//==============================================================================
+PosixClock& PosixClock::operator=(const PosixClock& posix_clock)
+{
+    // Don't do anything if we're assigning to ourselves
+    if (this != &posix_clock)
+    {
+        clk_id = posix_clock.getClockId();
+    }
+
+    return *this;
 }

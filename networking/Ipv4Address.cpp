@@ -38,7 +38,14 @@ Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
 }
 
 //==============================================================================
-// Defines how to convert a MacAddress to a std::string
+// cppcheck-suppress uninitMemberVar
+Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
+    BitField(ipv4_address)
+{
+}
+
+//==============================================================================
+// Defines how to convert a Ipv4Address to a std::string
 //==============================================================================
 Ipv4Address::operator std::string() const
 {
@@ -61,6 +68,19 @@ Ipv4Address& Ipv4Address::operator=(const std::string& ipv4_address_str)
 {
     std::istringstream tempstream(ipv4_address_str);
     tempstream >> *this;
+
+    return *this;
+}
+
+//==============================================================================
+Ipv4Address& Ipv4Address::operator=(const Ipv4Address& ipv4_address)
+{
+    // Don't do anything if we're assigning to ourselves
+    if (this != &ipv4_address)
+    {
+        // Use the parent class operator=
+        BitField::operator=(ipv4_address);
+    }
 
     return *this;
 }

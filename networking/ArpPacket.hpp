@@ -79,6 +79,11 @@ private:
     BitField spa;
     BitField tha;
     BitField tpa;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    ArpPacket(const ArpPacket&);
+    ArpPacket& operator=(const ArpPacket&);
 };
 
 inline BitField* ArpPacket::getSha()

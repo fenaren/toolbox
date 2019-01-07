@@ -11,7 +11,7 @@
 TRIVIAL_TEST(OnlineStatistics_test);
 
 //==============================================================================
-Test::Result OnlineStatistics_test::run()
+Test::Result OnlineStatistics_test::body()
 {
     const double EPSILON = 0.00000001;
 

@@ -1,10 +1,13 @@
+#include <iostream>
+#include <string>
 #include <vector>
 
 #include "Test.hpp"
 #include "TestCases.hpp"
 
 //==============================================================================
-TestCases::TestCases()
+TestCases::TestCases(const std::string& name) :
+    Test(name)
 {
 }
 
@@ -22,7 +25,10 @@ TestCases::~TestCases()
 }
 
 //==============================================================================
-Test::Result TestCases::run()
+// Adds all test cases by calling addTestCases(), then runs them all in the
+// order they were added
+//==============================================================================
+Test::Result TestCases::body()
 {
     // Derived classes implement this pure virtual function to have their test
     // cases added here
@@ -35,6 +41,7 @@ Test::Result TestCases::run()
          i != test_cases.end();
          ++i)
     {
+        // Run the test case
         Test::Result result = (*i)->run();
 
         if (result == Test::FAILED)

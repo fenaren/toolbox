@@ -1,23 +1,15 @@
 #include <cstring>
 #include <iostream>
 
-#include "TCPSocket_test_case2.hpp"
-
 #include "TCPSocket.hpp"
 #include "Test.hpp"
+#include "TestMacros.hpp"
+
+TEST_HEADER(TCPSocket_test_case2);
+TEST_CONSTRUCTOR_DESTRUCTOR(TCPSocket_test_case2);
 
 //==============================================================================
-TCPSocket_test_case2::TCPSocket_test_case2()
-{
-}
-
-//==============================================================================
-TCPSocket_test_case2::~TCPSocket_test_case2()
-{
-}
-
-//==============================================================================
-Test::Result TCPSocket_test_case2::run()
+Test::Result TCPSocket_test_case2::body()
 {
     unsigned int port = 0;  // Use whatever port is available
 

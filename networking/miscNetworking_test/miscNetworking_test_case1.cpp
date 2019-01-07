@@ -14,7 +14,7 @@ TEST_HEADER(miscNetworking_test_case1);
 TEST_CONSTRUCTOR_DESTRUCTOR(miscNetworking_test_case1);
 
 //==============================================================================
-Test::Result miscNetworking_test_case1::run()
+Test::Result miscNetworking_test_case1::body()
 {
 // This will work only on POSIX-compatible systems
 #if defined LINUX or MACOS

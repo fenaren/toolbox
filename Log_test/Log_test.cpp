@@ -7,7 +7,7 @@
 TRIVIAL_TEST(Log_test);
 
 //==============================================================================
-Test::Result Log_test::run()
+Test::Result Log_test::body()
 {
     Log log;
     log.write("message1");

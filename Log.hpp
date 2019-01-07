@@ -63,6 +63,11 @@ class Log
 
     // Whether or not the log flushes the output stream after every write
     bool flush_after_write;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    Log(const Log&);
+    Log& operator=(const Log&);
 };
 
 inline void Log::setOutputStream(std::ostream& output_stream)

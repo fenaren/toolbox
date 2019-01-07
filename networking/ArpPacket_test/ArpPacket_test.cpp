@@ -1,40 +1,41 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "ArpPacket_test.hpp"
-
 #include "ArpPacket.hpp"
 #include "BitField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(ArpPacket_test);
+TRIVIAL_TEST(ArpPacket_test);
+
+const unsigned int HLEN  = 6;
+const unsigned int PLEN4 = 4;
+const unsigned int PLEN6 = 16;
+const unsigned int HTYPE = 1;
+const unsigned int PTYPE = 2048;
+const unsigned int OPER  = 42;
+
+bool isLengthBad(const BitField& bf1,
+                 const BitField& bf2,
+                 const BitField& bf3,
+                 const BitField& bf4);
 
 //==============================================================================
-ArpPacket_test::ArpPacket_test() :
-    bfmac_good(6),
-    bfmac_bad(8),
-    bf4_good(4),
-    bf4_bad(5)
+Test::Result ArpPacket_test::body()
 {
-}
+    BitField bfmac_good(6);
+    BitField bfmac_bad(8);
+    BitField bf4_good(4);
+    BitField bf4_bad(5);
 
-//==============================================================================
-ArpPacket_test::~ArpPacket_test()
-{
-}
-
-//==============================================================================
-Test::Result ArpPacket_test::run()
-{
     unsigned char mac1[] = {6, 5, 4, 3, 2, 1};
     unsigned char mac2[] = {9, 8, 7, 6, 5, 4};
     unsigned char ip41[] = {1, 2, 3, 4};
     unsigned char ip42[] = {5, 6, 7, 8};
     unsigned char ip61[] =
-    {1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16};
+        {1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16};
     unsigned char ip62[] =
-    {17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
+        {17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
 
     // Ethernet and IPv4
     ArpPacket arp_packet1(
@@ -62,10 +63,10 @@ Test::Result ArpPacket_test::run()
 }
 
 //==============================================================================
-bool ArpPacket_test::isLengthBad(const BitField& bf1,
-                                 const BitField& bf2,
-                                 const BitField& bf3,
-                                 const BitField& bf4)
+bool isLengthBad(const BitField& bf1,
+                 const BitField& bf2,
+                 const BitField& bf3,
+                 const BitField& bf4)
 {
     bool exception_caught = false;
 

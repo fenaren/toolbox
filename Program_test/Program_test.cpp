@@ -12,7 +12,7 @@
 TRIVIAL_TEST(Program_test);
 
 //==============================================================================
-Test::Result Program_test::run()
+Test::Result Program_test::body()
 {
     // We're going to construct some fake arguments to push into our HelloWorld
     // test program

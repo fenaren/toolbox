@@ -1,28 +1,18 @@
 #include <ctime>
 #include <iostream>
 
-#include "FixedRateProgram_test.hpp"
-
 #include "HelloWorld.hpp"
+#include "PosixTimespec.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(FixedRateProgram_test);
+TRIVIAL_TEST(FixedRateProgram_test);
 
 //==============================================================================
-FixedRateProgram_test::FixedRateProgram_test() :
-    period(1.0)
+Test::Result FixedRateProgram_test::body()
 {
-}
+    PosixTimespec period(1.0);
 
-//==============================================================================
-FixedRateProgram_test::~FixedRateProgram_test()
-{
-}
-
-//==============================================================================
-Test::Result FixedRateProgram_test::run()
-{
     // Normally it would not be possible for a program to receive no arguments
     HelloWorld test_frp(0, 0, period);
 

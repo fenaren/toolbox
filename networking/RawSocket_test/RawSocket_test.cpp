@@ -7,7 +7,7 @@
 TRIVIAL_TEST(RawSocket_test);
 
 //==============================================================================
-Test::Result RawSocket_test::run()
+Test::Result RawSocket_test::body()
 {
     try
     {

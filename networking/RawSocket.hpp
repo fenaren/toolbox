@@ -38,14 +38,13 @@ protected:
 
 private:
 
-    // Copy construction not allowed
-    RawSocket(const RawSocket&);
-
-    // Assignment not allowed
-    RawSocket& operator=(const RawSocket&);
-
     // Platform-specific socket implementation to use
     RawSocketImpl* socket_impl;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    RawSocket(const RawSocket&);
+    RawSocket& operator=(const RawSocket&);
 };
 
 inline void RawSocket::setImplementation(RawSocketImpl* socket_impl)

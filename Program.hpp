@@ -38,6 +38,11 @@ private:
 
     // Arguments given to the program at runtime
     std::vector<std::string> arguments;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    Program(const Program&);
+    Program& operator=(const Program&);
 };
 
 #endif

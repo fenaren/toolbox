@@ -27,6 +27,11 @@ private:
 
     // Destroying objects of this class should not be allowed.
     ~SocketFactory();
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    SocketFactory(const SocketFactory&);
+    SocketFactory& operator=(const SocketFactory&);
 };
 
 #endif

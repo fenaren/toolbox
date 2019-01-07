@@ -53,6 +53,11 @@ private:
 
     // A concrete socket implementation created by derived classes
     SocketImpl* socket_impl;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    Socket(const Socket&);
+    Socket& operator=(const Socket&);
 };
 
 inline void Socket::setImplementation(SocketImpl* socket_impl)

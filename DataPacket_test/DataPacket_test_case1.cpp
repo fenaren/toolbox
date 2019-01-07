@@ -10,7 +10,7 @@ TEST_HEADER(DataPacket_test_case1);
 TEST_CONSTRUCTOR_DESTRUCTOR(DataPacket_test_case1);
 
 //==============================================================================
-Test::Result DataPacket_test_case1::run()
+Test::Result DataPacket_test_case1::body()
 {
     // Initialize with some dummy data; will check for proper byteswappng later
     DataPacket_test2 dptest2(1.0f, 2.0f, 'A');

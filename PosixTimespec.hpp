@@ -19,6 +19,9 @@ public:
     // Converts to timespec before saving
     explicit PosixTimespec(double tp_sec);
 
+    // Copy constructor
+    PosixTimespec(const PosixTimespec&);
+
     // Initializes to tv_sec tv_nsec
     PosixTimespec(time_t tv_sec, long tv_nsec);
 
@@ -57,6 +60,7 @@ public:
 
     PosixTimespec& operator=(double tp_dbl);
     PosixTimespec& operator=(const timespec& tp);
+    PosixTimespec& operator=(const PosixTimespec&);
 
     // Performs integer addition so no data loss occurs during the addition
     // operation itself; tv_nsec overflows and adds to tv_sec as one would

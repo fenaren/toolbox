@@ -38,6 +38,13 @@ MacAddress::MacAddress(const std::string& mac_address_str) :
 }
 
 //==============================================================================
+// cppcheck-suppress uninitMemberVar
+MacAddress::MacAddress(const MacAddress& mac_address) :
+    BitField(mac_address)
+{
+}
+
+//==============================================================================
 // MacAddress destructor; does nothing since no dynamic memory is allocated
 //==============================================================================
 MacAddress::~MacAddress()
@@ -61,6 +68,18 @@ MacAddress& MacAddress::operator=(const std::string& mac_address_str)
 {
     std::istringstream tempstream(mac_address_str);
     tempstream >> *this;
+
+    return *this;
+}
+
+//==============================================================================
+MacAddress& MacAddress::operator=(const MacAddress& mac_address)
+{
+    // Don't do anything if we're assigning to ourselves
+    if (this != &mac_address)
+    {
+        BitField::operator=(mac_address);
+    }
 
     return *this;
 }

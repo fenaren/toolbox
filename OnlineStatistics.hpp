@@ -84,6 +84,11 @@ private:
 
     // The smallest sample yet recorded
     double minimum;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    OnlineStatistics(const OnlineStatistics&);
+    OnlineStatistics& operator=(const OnlineStatistics&);
 };
 
 std::ostream& operator<<(std::ostream& os, const OnlineStatistics& obj);

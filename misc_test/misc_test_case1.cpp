@@ -9,7 +9,7 @@ TEST_HEADER(misc_test_case1);
 TEST_CONSTRUCTOR_DESTRUCTOR(misc_test_case1);
 
 //==============================================================================
-Test::Result misc_test_case1::run()
+Test::Result misc_test_case1::body()
 {
     unsigned char a1_before[] = {'a'};
     unsigned char a2_before[] = {'a', 'b'};

@@ -10,7 +10,7 @@
 TRIVIAL_TEST(Ipv4Address_test);
 
 //==============================================================================
-Test::Result Ipv4Address_test::run()
+Test::Result Ipv4Address_test::body()
 {
     // Initialize vector of test IPv4 addresses; THESE MUST ALL BE UNIQUE
     std::vector<std::string> unique_ipv4_addresses;

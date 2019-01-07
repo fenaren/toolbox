@@ -63,6 +63,11 @@ private:
 
     // Tracks frame time used statistics during runtime
     OnlineStatistics statistics;
+
+    // Disallow these for now; maybe these could be meaningfully implemented but
+    // we'll save that for later
+    FixedRateProgram(const FixedRateProgram&);
+    FixedRateProgram& operator=(const FixedRateProgram&);
 };
 
 inline void FixedRateProgram::setClock(const PosixClock& clock)
