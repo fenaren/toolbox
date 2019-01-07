@@ -64,22 +64,53 @@ public:
     virtual unsigned int writeRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder destination_byte_order) const;
 
-    // Octet access
-    std::uint8_t getOctet(unsigned int octet) const;
+    // Octets are indexed starting from 0 for the byte at the lowest memory
+    // address and increasing to the highest memory address
 
-    // Octet mutation; octets are indexed starting from 0 for the byte at the
-    // lowest memory address and increasing to the highest memory address
+    // Bits are indexed starting with 0 for the least significant bit and
+    // increasing to the most significant bit
+
+    // Octet access or mutation, indexed by (obviously) octet
+    std::uint8_t getOctet(unsigned int octet) const;
     void setOctet(unsigned int octet, std::uint8_t value);
 
-    // Bit access; bits are indexed starting with 0 for the least significant
-    // bit and increasing to the most significant bit
-    bool getBit(unsigned int octet, unsigned int octet_bit);
-    bool getBit(unsigned int bit);
-
-    // Bit mutation; bits are indexed starting with 0 for the least significant
-    // bit and increasing to the most significant bit
+    // Bit access or mutation, indexed by octet and the bit within that octet
+    bool getBit(unsigned int octet, unsigned int octet_bit) const;
     void setBit(unsigned int octet, unsigned int octet_bit, bool value);
+
+    // Bit access or mutation, indexed by bit
+    bool getBit(unsigned int bit) const;
     void setBit(unsigned int bit, bool value);
+
+    // Copies a range of bits into the given typed numeric variable.  Useful for
+    // pulling things like integers and floating-point numbers out of bitfields.
+    // Bit numbering follows the convention used by getBit().  Operation starts
+    // by copying the least significant bit in the specified range into the
+    // least significant bit in "type_var", and proceeds to successively more
+    // significant bits until "count" bits are copied.
+    template <class T> void getBitsAsNumericType(
+        T&           type_var,
+        unsigned int start_bit = 0,
+        unsigned int count     = sizeof(T) * BITS_PER_BYTE) const;
+
+    // Copies a range of bits from the given typed numeric variable.  Useful for
+    // pushing things like integers and floating-point numbers into bitfields.
+    // Bit numbering follows the convention used by getBit().  Operation starts
+    // by copying the least significant bit in the typed numeric variable into
+    // the least significant bit in the specified range, and proceeds to
+    // successively more significant bits until "count" bits are copied.
+    template <class T> void setBitsAsNumericType(
+        T            type_var,
+        unsigned int start_bit = 0,
+        unsigned int count     = sizeof(T) * BITS_PER_BYTE);
+
+    // Bits shift toward the most significant bit, if this bitfield were
+    // interpreted as one big integer
+    void shiftLeft(unsigned int shift_bits);
+
+    // Bits shift toward the least significant bit, if this bitfield were
+    // interpreted as one big integer
+    void shiftRight(unsigned int shift_bits);
 
     // Returns the size of this bit field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
@@ -92,6 +123,12 @@ public:
     static const unsigned int BITS_PER_BYTE = 8;
 
     BitField& operator=(const BitField& bit_field);
+
+    // Uses leftShift()
+    BitField& operator<<=(unsigned int shift_bits);
+
+    // Uses rightShift()
+    BitField& operator>>=(unsigned int shift_bits);
 
 private:
 
@@ -120,7 +157,7 @@ inline void BitField::setOctet(unsigned int octet, std::uint8_t value)
     bit_field_raw[octet] = value;
 }
 
-inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit)
+inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit) const
 {
     throwIfOctetOutOfRange(octet);
 
@@ -129,7 +166,7 @@ inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit)
     return working_octet.test(octet_bit);
 }
 
-inline bool BitField::getBit(unsigned int bit)
+inline bool BitField::getBit(unsigned int bit) const
 {
     return getBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE);
 }
@@ -170,5 +207,8 @@ inline void BitField::throwIfOctetOutOfRange(unsigned int octet) const
 
 bool operator==(const BitField& bit_field1, const BitField& bit_field2);
 bool operator!=(const BitField& bit_field1, const BitField& bit_field2);
+
+BitField operator>>(const BitField& bit_field, unsigned int shift_bits);
+BitField operator<<(const BitField& bit_field, unsigned int shift_bits);
 
 #endif

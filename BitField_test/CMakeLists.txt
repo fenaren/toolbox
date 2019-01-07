@@ -4,7 +4,8 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 set(SRC
   BitField_test.cpp
   BitField_test_case1.cpp
-  BitField_test_case2.cpp)
+  BitField_test_case2.cpp
+  BitField_test_case3.cpp)
 
 # We need these include directories
 set(INC . ..)
