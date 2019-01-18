@@ -2,6 +2,7 @@
 #define DATA_PACKET_HPP
 
 #include <stdexcept>
+#include <stdint>
 #include <vector>
 
 #include "DataField.hpp"
@@ -13,40 +14,44 @@ class DataPacket : public DataField
 public:
 
     // Initializes byte alignment
-    explicit DataPacket(unsigned int byte_alignment = 1);
+    explicit DataPacket(unsigned int bit_alignment = 8);
 
     // Does nothing
     virtual ~DataPacket();
 
     // Reads the data field from the "buffer" memory location without
     // considering byte ordering.
-    virtual unsigned int readRaw(const unsigned char* buffer);
+    virtual unsigned int readRaw(const std::uint8_t* buffer,
+                                 unsigned int        bit_offset = 0);
 
     // Reads this data packet from the "buffer" memory location.  Each field
     // will be byteswapped if its source byte order does not match the byte
     // ordering of the host.
-    virtual unsigned int readRaw(const unsigned char* buffer,
-                                 misc::ByteOrder      source_byte_order);
+    virtual unsigned int readRaw(const std::uint8_t* buffer,
+                                 misc::ByteOrder     source_byte_order,
+                                 unsigned int        bit_offset = 0);
 
     // Writes the data field to the "buffer" memory location without considering
     // byte ordering.
-    virtual unsigned int writeRaw(unsigned char* buffer) const;
+    virtual unsigned int writeRaw(std::uint8_t* buffer,
+                                  unsigned int  bit_offset = 0) const;
 
     // Writes this data packet to the "buffer" memory location.  Each field will
     // be byteswapped if its source byte order does not match the byte ordering
     // of the host.
-    virtual unsigned int writeRaw(unsigned char*  buffer,
-                                  misc::ByteOrder destination_byte_order) const;
+    virtual unsigned int writeRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder destination_byte_order,
+                                  unsigned int    bit_offset = 0) const;
 
     // Returns the size of this field in bytes.  This will equal the number of
     // bytes written by writeRaw() and read by readRaw().
-    virtual unsigned int getLengthBytes() const;
+    virtual unsigned int getLengthBits() const;
 
     // Byte alignment access
-    unsigned int getByteAlignment() const;
+    unsigned int getBitAlignment() const;
 
     // Byte alignment mutator
-    void setByteAlignment(unsigned int byte_alignment);
+    void setBitAlignment(unsigned int bit_alignment);
 
 protected:
 
@@ -66,28 +71,28 @@ private:
     // All contained data fields ordered first to last
     std::vector<DataField*> data_fields;
 
-    unsigned int byte_alignment;
+    unsigned int bit_alignment;
 
     // A meaningful deep copy can't be done here so disallow that and operator=
     DataPacket(const DataPacket&);
     DataPacket& operator=(const DataPacket&);
 };
 
-inline unsigned int DataPacket::getByteAlignment() const
+inline unsigned int DataPacket::getBitAlignment() const
 {
-    return byte_alignment;
+    return bit_alignment;
 }
 
-inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
+inline void DataPacket::setBitAlignment(unsigned int bit_alignment)
 {
-    if (byte_alignment == 0)
+    if (bit_alignment == 0)
     {
         throw std::invalid_argument(
             "Nonsensical byte alignment value of 0 specified (must be 1 or "
             "greater)");
     }
 
-    this->byte_alignment = byte_alignment;
+    this->bit_alignment = bit_alignment;
 }
 
 inline void DataPacket::addDataField(DataField* data_field)
