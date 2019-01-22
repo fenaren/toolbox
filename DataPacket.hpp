@@ -66,8 +66,8 @@ private:
 
     // Computes amount of padding needed after a field given the current byte
     // alignment setting
-    unsigned int computePadding(unsigned int offset_bits,
-                                unsigned int field_length_bits) const;
+    unsigned int computePaddingBits(unsigned int offset_bits,
+                                    unsigned int field_length_bits) const;
 
     // All contained data fields ordered first to last
     std::vector<DataField*> data_fields;

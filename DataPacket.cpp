@@ -42,7 +42,7 @@ unsigned int DataPacket::readRaw(const std::uint8_t* buffer,
         offset_bits += (*i)->readRaw(
             buffer,
             source_byte_order,
-            offset_bits + computePadding((*i)->getLengthBits()));
+            offset_bits + computePaddingBits((*i)->getLengthBits()));
     }
 
     return offset_bits;
@@ -74,7 +74,7 @@ unsigned int DataPacket::writeRaw(std::uint8_t*   buffer,
         offset_bits += (*i)->writeRaw(
             buffer,
             destination_byte_order,
-            offset_bits + computePadding((*i)->getLengthBits()));
+            offset_bits + computePaddingBits((*i)->getLengthBits()));
     }
 
     return offset_bits;
@@ -93,7 +93,7 @@ unsigned int DataPacket::getLengthBits() const
          ++i)
     {
         unsigned int field_length_bits = (*i)->getLengthBits();
-        length_bits += field_length_bits + computePadding(field_length_bits);
+        length_bits += field_length_bits + computePaddingBits(field_length_bits);
     }
 
     return length_bits;
@@ -103,8 +103,8 @@ unsigned int DataPacket::getLengthBits() const
 // Computes amount of padding needed after a field given the current byte
 // alignment setting
 //==============================================================================
-unsigned int DataPacket::computePadding(unsigned int offset_bits,
-                                        unsigned int field_length_bits) const
+unsigned int DataPacket::computePaddingBits(
+    unsigned int offset_bits, unsigned int field_length_bits) const
 {
     unsigned int padding_bits = 0;
 
