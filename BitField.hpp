@@ -41,7 +41,8 @@ public:
 
     // Reads a raw bit field from the "buffer" memory location.  Byte ordering
     // has no relevance to bit fields so no byte swapping is performed.
-    virtual unsigned int readRaw(const std::uint8_t* buffer);
+    virtual unsigned int readRaw(const std::uint8_t* buffer,
+                                 unsigned int        bit_offset = 0);
 
     // Reads a raw bit field from the "buffer" memory location.  This
     // function is required by the framework to be implemented here, despite
@@ -50,11 +51,13 @@ public:
     // general sense of the term) this function would be where that difference
     // would be handled.
     virtual unsigned int readRaw(const std::uint8_t* buffer,
-                                 misc::ByteOrder     source_byte_order);
+                                 misc::ByteOrder     source_byte_order,
+                                 unsigned int        bit_offset = 0);
 
     // Writes this bit field to the "buffer" memory location.  Byte ordering has
     // no relevance to bit fields so no byte swapping is performed.
-    virtual unsigned int writeRaw(std::uint8_t* buffer) const;
+    virtual unsigned int writeRaw(std::uint8_t* buffer,
+                                  unsigned int  bit_offset = 0) const;
 
     // Writes this bit field to the "buffer" memory location.  This function is
     // required by the framework to be implemented here, despite being
@@ -62,7 +65,8 @@ public:
     // byte ordering were relevant to bit fields (in the general sense of the
     // term) this function would be where that difference would be handled.
     virtual unsigned int writeRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder destination_byte_order) const;
+                                  misc::ByteOrder destination_byte_order,
+                                  unsigned int bit_offset = 0) const;
 
     // Octets are indexed starting from 0 for the byte at the lowest memory
     // address and increasing to the highest memory address
@@ -114,7 +118,7 @@ public:
 
     // Returns the size of this bit field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
-    virtual unsigned int getLengthBytes() const;
+    virtual unsigned int getLengthBits() const;
 
     // Simple accessor for memory_internal
     bool getMemoryInternal() const;
@@ -187,7 +191,7 @@ inline void BitField::setBit(unsigned int bit, bool value)
     setBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE, value);
 }
 
-inline unsigned int BitField::getLengthBytes() const
+inline unsigned int BitField::getLengthBits() const
 {
     return length_bytes;
 }

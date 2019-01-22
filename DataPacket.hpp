@@ -2,7 +2,7 @@
 #define DATA_PACKET_HPP
 
 #include <stdexcept>
-#include <stdint>
+#include <cstdint>
 #include <vector>
 
 #include "DataField.hpp"
@@ -66,7 +66,8 @@ private:
 
     // Computes amount of padding needed after a field given the current byte
     // alignment setting
-    unsigned int computePadding(unsigned int field_length) const;
+    unsigned int computePadding(unsigned int offset_bits,
+                                unsigned int field_length_bits) const;
 
     // All contained data fields ordered first to last
     std::vector<DataField*> data_fields;

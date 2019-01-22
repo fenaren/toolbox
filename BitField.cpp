@@ -55,7 +55,7 @@ BitField::BitField(const BitField& bit_field) :
     DataField(),
     memory_internal(true)
 {
-    length_bytes = bit_field.getLengthBytes();
+    length_bytes = bit_field.getLengthBits();
 
     bit_field_raw = new std::uint8_t[length_bytes];
 
@@ -77,9 +77,10 @@ BitField::~BitField()
 // Reads a raw bit field from the "buffer" memory location.  Byte ordering has
 // no relevance to bit fields so no byte swapping is performed.
 //==============================================================================
-unsigned int BitField::readRaw(const std::uint8_t* buffer)
+unsigned int BitField::readRaw(const std::uint8_t* buffer,
+                               unsigned int        offset_bits)
 {
-    return DataField::readRaw(buffer);
+    return DataField::readRaw(buffer, offset_bits);
 }
 
 //==============================================================================
@@ -90,7 +91,8 @@ unsigned int BitField::readRaw(const std::uint8_t* buffer)
 // would be where that difference would be handled.
 //==============================================================================
 unsigned int BitField::readRaw(const std::uint8_t* buffer,
-                               misc::ByteOrder     source_byte_order)
+                               misc::ByteOrder     source_byte_order,
+                               unsigned int        offset_bits)
 {
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(bit_field_raw, buffer, length_bytes);
@@ -101,9 +103,10 @@ unsigned int BitField::readRaw(const std::uint8_t* buffer,
 // Writes this bit field to the "buffer" memory location.  Byte ordering has no
 // relevance to bit fields so no byte swapping is performed.
 //==============================================================================
-unsigned int BitField::writeRaw(std::uint8_t* buffer) const
+unsigned int BitField::writeRaw(std::uint8_t* buffer,
+                                unsigned int  offset_bits) const
 {
-    return DataField::writeRaw(buffer);
+    return DataField::writeRaw(buffer, offset_bits);
 }
 
 //==============================================================================
@@ -114,7 +117,8 @@ unsigned int BitField::writeRaw(std::uint8_t* buffer) const
 // would be where that difference would be handled.
 //==============================================================================
 unsigned int BitField::writeRaw(std::uint8_t*   buffer,
-                                misc::ByteOrder destination_byte_order) const
+                                misc::ByteOrder destination_byte_order,
+                                unsigned int    offset_bits) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, bit_field_raw, length_bytes);
@@ -249,7 +253,7 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 //==============================================================================
 void BitField::shiftLeft(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBytes() * BitField::BITS_PER_BYTE;
+    unsigned int bit_field_bits = getLengthBits() * BitField::BITS_PER_BYTE;
 
     if (shift_bits >= bit_field_bits)
     {
@@ -284,7 +288,7 @@ void BitField::shiftLeft(unsigned int shift_bits)
 //==============================================================================
 void BitField::shiftRight(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBytes() * BitField::BITS_PER_BYTE;
+    unsigned int bit_field_bits = getLengthBits() * BitField::BITS_PER_BYTE;
 
     if (shift_bits >= bit_field_bits)
     {
@@ -347,13 +351,13 @@ BitField& BitField::operator>>=(unsigned int shift_bits)
 //==============================================================================
 bool operator==(const BitField& bit_field1, const BitField& bit_field2)
 {
-    if (bit_field1.getLengthBytes() != bit_field2.getLengthBytes())
+    if (bit_field1.getLengthBits() != bit_field2.getLengthBits())
     {
         return false;
     }
 
     // We know both bit fields have equal length at this point
-    unsigned int length_bytes = bit_field1.getLengthBytes();
+    unsigned int length_bytes = bit_field1.getLengthBits();
 
     for (unsigned int i = 0; i < length_bytes; i++)
     {

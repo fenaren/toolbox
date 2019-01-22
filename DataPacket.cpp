@@ -1,4 +1,4 @@
-#include <stdint>
+#include <cstdint>
 #include <vector>
 
 #include "DataField.hpp"
@@ -42,7 +42,7 @@ unsigned int DataPacket::readRaw(const std::uint8_t* buffer,
         offset_bits += (*i)->readRaw(
             buffer,
             source_byte_order,
-            offset_bits + computePadding((*i)->getLengthBits());
+            offset_bits + computePadding((*i)->getLengthBits()));
     }
 
     return offset_bits;
@@ -74,7 +74,7 @@ unsigned int DataPacket::writeRaw(std::uint8_t*   buffer,
         offset_bits += (*i)->writeRaw(
             buffer,
             destination_byte_order,
-            offset_bits + computePadding((*i)->getLengthBits());
+            offset_bits + computePadding((*i)->getLengthBits()));
     }
 
     return offset_bits;
@@ -106,8 +106,10 @@ unsigned int DataPacket::getLengthBits() const
 unsigned int DataPacket::computePadding(unsigned int offset_bits,
                                         unsigned int field_length_bits) const
 {
-    unsigned int extra_bits   = (offset_bits + field_length_bits) % bit_alignment;
     unsigned int padding_bits = 0;
+
+    unsigned int extra_bits =
+        (offset_bits + field_length_bits) % bit_alignment;
 
     if (extra_bits > 0)
     {

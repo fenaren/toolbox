@@ -1,6 +1,8 @@
 #if !defined DATA_FIELD_HPP
 #define DATA_FIELD_HPP
 
+#include <cstdint>
+
 #include "misc.hpp"
 
 class DataField
