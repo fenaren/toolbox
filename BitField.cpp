@@ -77,8 +77,8 @@ BitField::~BitField()
 // Reads a raw bit field from the "buffer" memory location.  Byte ordering has
 // no relevance to bit fields so no byte swapping is performed.
 //==============================================================================
-unsigned int BitField::readRaw(const std::uint8_t* buffer,
-                               unsigned int        offset_bits)
+unsigned long BitField::readRaw(const std::uint8_t* buffer,
+                                unsigned int        offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
@@ -90,9 +90,9 @@ unsigned int BitField::readRaw(const std::uint8_t* buffer,
 // were relevant to bit fields (in the general sense of the term) this function
 // would be where that difference would be handled.
 //==============================================================================
-unsigned int BitField::readRaw(const std::uint8_t* buffer,
-                               misc::ByteOrder     source_byte_order,
-                               unsigned int        offset_bits)
+unsigned long BitField::readRaw(const std::uint8_t* buffer,
+                                misc::ByteOrder     source_byte_order,
+                                unsigned int        offset_bits)
 {
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(bit_field_raw, buffer, length_bytes);
@@ -103,8 +103,8 @@ unsigned int BitField::readRaw(const std::uint8_t* buffer,
 // Writes this bit field to the "buffer" memory location.  Byte ordering has no
 // relevance to bit fields so no byte swapping is performed.
 //==============================================================================
-unsigned int BitField::writeRaw(std::uint8_t* buffer,
-                                unsigned int  offset_bits) const
+unsigned long BitField::writeRaw(std::uint8_t* buffer,
+                                 unsigned int  offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
@@ -116,9 +116,9 @@ unsigned int BitField::writeRaw(std::uint8_t* buffer,
 // were relevant to bit fields (in the general sense of the term) this function
 // would be where that difference would be handled.
 //==============================================================================
-unsigned int BitField::writeRaw(std::uint8_t*   buffer,
-                                misc::ByteOrder destination_byte_order,
-                                unsigned int    offset_bits) const
+unsigned long BitField::writeRaw(std::uint8_t*   buffer,
+                                 misc::ByteOrder destination_byte_order,
+                                 unsigned int    offset_bits) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, bit_field_raw, length_bytes);

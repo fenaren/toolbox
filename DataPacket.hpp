@@ -21,31 +21,31 @@ public:
 
     // Reads the data field from the "buffer" memory location without
     // considering byte ordering.
-    virtual unsigned int readRaw(const std::uint8_t* buffer,
-                                 unsigned int        bit_offset = 0);
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                 unsigned int         bit_offset = 0);
 
     // Reads this data packet from the "buffer" memory location.  Each field
     // will be byteswapped if its source byte order does not match the byte
     // ordering of the host.
-    virtual unsigned int readRaw(const std::uint8_t* buffer,
-                                 misc::ByteOrder     source_byte_order,
-                                 unsigned int        bit_offset = 0);
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                 misc::ByteOrder      source_byte_order,
+                                 unsigned int         bit_offset = 0);
 
     // Writes the data field to the "buffer" memory location without considering
     // byte ordering.
-    virtual unsigned int writeRaw(std::uint8_t* buffer,
-                                  unsigned int  bit_offset = 0) const;
+    virtual unsigned long writeRaw(std::uint8_t* buffer,
+                                  unsigned int   bit_offset = 0) const;
 
     // Writes this data packet to the "buffer" memory location.  Each field will
     // be byteswapped if its source byte order does not match the byte ordering
     // of the host.
-    virtual unsigned int writeRaw(std::uint8_t*   buffer,
+    virtual unsigned long writeRaw(std::uint8_t*  buffer,
                                   misc::ByteOrder destination_byte_order,
                                   unsigned int    bit_offset = 0) const;
 
     // Returns the size of this field in bytes.  This will equal the number of
     // bytes written by writeRaw() and read by readRaw().
-    virtual unsigned int getLengthBits() const;
+    virtual unsigned long getLengthBits() const;
 
     // Byte alignment access
     unsigned int getBitAlignment() const;
@@ -64,10 +64,9 @@ private:
     // Derived classes should use this to add all their data fields
     virtual void addDataFields() = 0;
 
-    // Computes amount of padding needed after a field given the current byte
+    // Computes amount of padding needed after a field given the current bit
     // alignment setting
-    unsigned int computePaddingBits(unsigned int offset_bits,
-                                    unsigned int field_length_bits) const;
+    unsigned int computePaddingBits(unsigned int field_length_bits) const;
 
     // All contained data fields ordered first to last
     std::vector<DataField*> data_fields;

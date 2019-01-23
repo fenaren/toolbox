@@ -20,7 +20,7 @@ DataPacket::~DataPacket()
 // Reads the data field from the "buffer" memory location without considering
 // byte ordering.
 //==============================================================================
-unsigned int DataPacket::readRaw(const std::uint8_t* buffer,
+unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
                                  unsigned int        offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
@@ -31,29 +31,30 @@ unsigned int DataPacket::readRaw(const std::uint8_t* buffer,
 // byteswapped if its source byte order does not match the byte ordering of the
 // host.
 //==============================================================================
-unsigned int DataPacket::readRaw(const std::uint8_t* buffer,
-                                 misc::ByteOrder     source_byte_order,
-                                 unsigned int        offset_bits)
+unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
+                                  misc::ByteOrder     source_byte_order,
+                                  unsigned int        offset_bits)
 {
     for (std::vector<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
-        offset_bits += (*i)->readRaw(
+/*        offset_bits += (*i)->readRaw(
             buffer,
             source_byte_order,
-            offset_bits + computePaddingBits((*i)->getLengthBits()));
+            offset_bits + computePaddingBits((*i)->getLengthBits()));*/
     }
 
-    return offset_bits;
+//    return offset_bits;
+    return 0;
 }
 
 //==============================================================================
 // Writes the data field to the "buffer" memory location without considering
 // byte ordering.
 //==============================================================================
-unsigned int DataPacket::writeRaw(std::uint8_t* buffer,
-                                  unsigned int  offset_bits) const
+unsigned long DataPacket::writeRaw(std::uint8_t* buffer,
+                                   unsigned int  offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
@@ -63,36 +64,37 @@ unsigned int DataPacket::writeRaw(std::uint8_t* buffer,
 // byteswapped if its source byte order does not match the byte ordering of the
 // host.
 //==============================================================================
-unsigned int DataPacket::writeRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder destination_byte_order,
-                                  unsigned int    offset_bits) const
+unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
+                                   misc::ByteOrder destination_byte_order,
+                                   unsigned int    offset_bits) const
 {
     for (std::vector<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
-        offset_bits += (*i)->writeRaw(
+/*        offset_bits += (*i)->writeRaw(
             buffer,
             destination_byte_order,
-            offset_bits + computePaddingBits((*i)->getLengthBits()));
+            offset_bits + computePaddingBits((*i)->getLengthBits()));*/
     }
 
-    return offset_bits;
+//    return offset_bits;
+    return 0;
 }
 
 //==============================================================================
 // Returns the size of this field in bytes.  This will equal the number of bytes
 // written by writeRaw() and read by readRaw().
 //==============================================================================
-unsigned int DataPacket::getLengthBits() const
+unsigned long DataPacket::getLengthBits() const
 {
-    unsigned int length_bits = 0;
+    unsigned long length_bits = 0;
 
     for (std::vector<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
-        unsigned int field_length_bits = (*i)->getLengthBits();
+        unsigned long field_length_bits = (*i)->getLengthBits();
         length_bits += field_length_bits + computePaddingBits(field_length_bits);
     }
 
@@ -103,13 +105,11 @@ unsigned int DataPacket::getLengthBits() const
 // Computes amount of padding needed after a field given the current byte
 // alignment setting
 //==============================================================================
-unsigned int DataPacket::computePaddingBits(
-    unsigned int offset_bits, unsigned int field_length_bits) const
+unsigned int
+DataPacket::computePaddingBits(unsigned int field_length_bits) const
 {
+    unsigned int extra_bits   = field_length_bits % bit_alignment;
     unsigned int padding_bits = 0;
-
-    unsigned int extra_bits =
-        (offset_bits + field_length_bits) % bit_alignment;
 
     if (extra_bits > 0)
     {
