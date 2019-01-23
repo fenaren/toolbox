@@ -253,7 +253,7 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 //==============================================================================
 void BitField::shiftLeft(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBits() * BitField::BITS_PER_BYTE;
+    unsigned int bit_field_bits = getLengthBits() * BITS_PER_BYTE;
 
     if (shift_bits >= bit_field_bits)
     {
@@ -288,7 +288,7 @@ void BitField::shiftLeft(unsigned int shift_bits)
 //==============================================================================
 void BitField::shiftRight(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBits() * BitField::BITS_PER_BYTE;
+    unsigned int bit_field_bits = getLengthBits() * BITS_PER_BYTE;
 
     if (shift_bits >= bit_field_bits)
     {

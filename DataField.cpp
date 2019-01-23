@@ -19,8 +19,8 @@ DataField::~DataField()
 // Reads the data field from the "buffer" memory location without considering
 // byte ordering.
 //==============================================================================
-unsigned int DataField::readRaw(const std::uint8_t* buffer,
-                                unsigned int        bit_offset)
+unsigned long DataField::readRaw(const std::uint8_t* buffer,
+                                 unsigned int        bit_offset)
 {
     // Call the virtual method with the host byte ordering.  If the virtual
     // method is implemented like it should be it won't do any byteswapping.
@@ -31,8 +31,8 @@ unsigned int DataField::readRaw(const std::uint8_t* buffer,
 // Writes the data field to the "buffer" memory location without considering
 // byte ordering.
 //==============================================================================
-unsigned int DataField::writeRaw(std::uint8_t* buffer,
-                                 unsigned int  bit_offset) const
+unsigned long DataField::writeRaw(std::uint8_t* buffer,
+                                  unsigned int  bit_offset) const
 {
     // Call the virtual method with the host byte ordering.  If the virtual
     // method is implemented like it should be it won't do any byteswapping.

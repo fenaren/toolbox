@@ -123,9 +123,6 @@ public:
     // Simple accessor for memory_internal
     bool getMemoryInternal() const;
 
-    // There are 8 bits in a byte
-    static const unsigned int BITS_PER_BYTE = 8;
-
     BitField& operator=(const BitField& bit_field);
 
     // Uses leftShift()

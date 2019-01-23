@@ -14,6 +14,8 @@
 #undef LITTLE_ENDIAN
 #endif
 
+#define BITS_PER_BYTE 8
+
 namespace misc
 {
     enum ByteOrder

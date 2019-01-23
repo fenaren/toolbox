@@ -2,6 +2,7 @@
 #define DATA_FIELD_HPP
 
 #include <cstdint>
+#include <cmath>
 
 #include "misc.hpp"
 
@@ -15,31 +16,36 @@ public:
 
     // Reads the data field from the "buffer" memory location without
     // considering byte ordering.
-    virtual unsigned int readRaw(const std::uint8_t* buffer,
-                                 unsigned int        bit_offset = 0);
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                  unsigned int        bit_offset = 0);
 
     // Reads the data field from the "buffer" memory location, swapping if the
     // source byte order does not match the byte ordering of this field
-    virtual unsigned int readRaw(const std::uint8_t* buffer,
-                                 misc::ByteOrder     source_byte_order,
-                                 unsigned int        bit_offset = 0) = 0;
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                  misc::ByteOrder     source_byte_order,
+                                  unsigned int        bit_offset = 0) = 0;
 
     // Writes the data field to the "buffer" memory location without considering
     // byte ordering.
-    virtual unsigned int writeRaw(std::uint8_t* buffer,
-                                  unsigned int  bit_offset = 0) const;
+    virtual unsigned long writeRaw(std::uint8_t* buffer,
+                                   unsigned int  bit_offset = 0) const;
 
     // Writes the data field to the "buffer" memory location, swapping at the
     // destination if the destination byte order does not match the byte
     // ordering of this field
-    virtual unsigned int writeRaw(
+    virtual unsigned long writeRaw(
         std::uint8_t*   buffer,
         misc::ByteOrder destination_byte_order,
         unsigned int    bit_offset = 0) const = 0;
 
     // Returns the size of this data field in bits.  This will equal the number
-    // of bytes written by writeRaw() and read by readRaw().
-    virtual unsigned int getLengthBits() const = 0;
+    // of bits written by writeRaw() and read by readRaw().
+    virtual unsigned long getLengthBits() const = 0;
+
+    // Helper function for things that work in integer multiples of bytes.  If
+    // the actual length of this field isn't an integer number of bytes then the
+    // returned length is rounded up to the nearest integer multiple.
+    unsigned int getLengthBytes() const;
 
 protected:
 
@@ -57,6 +63,12 @@ private:
     DataField(const DataField&);
     DataField& operator=(const DataField&);
 };
+
+inline unsigned int DataField::getLengthBytes() const
+{
+    return std::ceil(static_cast<double>(getLengthBits()) /
+                     static_cast<double>(BITS_PER_BYTE));
+}
 
 inline misc::ByteOrder DataField::getByteOrder()
 {
