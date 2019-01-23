@@ -43,18 +43,20 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 // byte ordering.
 //==============================================================================
 template <class T>
-unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
+unsigned long SimpleDataField<T>::readRaw(const unsigned char* buffer,
+                                          unsigned int         offset_bits)
 {
-    return DataField::readRaw(buffer);
+    return DataField::readRaw(buffer, offset_bits);
 }
 
 //==============================================================================
 // Reads the data field from the "buffer" memory location, swapping if the
 // source byte order does not match the byte ordering of this field.
 //==============================================================================
-template <class T>
-unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
-                                         misc::ByteOrder      source_byte_order)
+template <class T> unsigned long SimpleDataField<T>::readRaw(
+    const unsigned char* buffer,
+    misc::ByteOrder      source_byte_order,
+    unsigned int         offset_bits)
 {
     if (source_byte_order == getByteOrder())
     {
@@ -75,9 +77,10 @@ unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
 // byte ordering.
 //==============================================================================
 template <class T>
-unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
+unsigned long SimpleDataField<T>::writeRaw(unsigned char* buffer,
+                                           unsigned int   offset_bits) const
 {
-    return DataField::writeRaw(buffer);
+    return DataField::writeRaw(buffer, offset_bits);
 }
 
 //==============================================================================
@@ -85,9 +88,10 @@ unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
 // destination if the destination byte order does not match the byte ordering of
 // this field.
 //==============================================================================
-template <class T> unsigned int
-SimpleDataField<T>::writeRaw(unsigned char*  buffer,
-                             misc::ByteOrder destination_byte_order) const
+template <class T> unsigned long SimpleDataField<T>::writeRaw(
+    unsigned char*  buffer,
+    misc::ByteOrder destination_byte_order,
+    unsigned int    offset_bits) const
 {
     if (destination_byte_order == getByteOrder())
     {
@@ -108,9 +112,9 @@ SimpleDataField<T>::writeRaw(unsigned char*  buffer,
 // Returns the size of this field in bytes.  This will equal the number of bytes
 // written by writeRaw() and read by readRaw().
 //==============================================================================
-template <class T> unsigned int SimpleDataField<T>::getLengthBytes() const
+template <class T> unsigned long SimpleDataField<T>::getLengthBits() const
 {
-    return sizeof(T);
+    return sizeof(T) * BITS_PER_BYTE;
 }
 
 //==============================================================================
