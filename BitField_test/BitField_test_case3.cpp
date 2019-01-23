@@ -42,7 +42,7 @@ Test::Result BitField_test_case3::body()
 
     // Shift all the way up
     for (unsigned int i = 1;
-         i < sizeof(std::uint32_t) * BitField::BITS_PER_BYTE;
+         i < sizeof(std::uint32_t) * BITS_PER_BYTE;
          ++i)
     {
         bitfield1 <<= 1; // operation under test

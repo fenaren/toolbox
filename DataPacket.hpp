@@ -13,8 +13,15 @@ class DataPacket : public DataField
 {
 public:
 
+    enum AlignmentUnits
+    {
+        BITS,
+        BYTES
+    };
+
     // Initializes byte alignment
-    explicit DataPacket(unsigned int bit_alignment = 8);
+    DataPacket(unsigned int   alignment = 1,
+               AlignmentUnits alignment_units = BYTES);
 
     // Does nothing
     virtual ~DataPacket();
@@ -47,11 +54,12 @@ public:
     // bytes written by writeRaw() and read by readRaw().
     virtual unsigned long getLengthBits() const;
 
-    // Byte alignment access
-    unsigned int getBitAlignment() const;
+    // Alignment access
+    unsigned int getAlignment(AlignmentUnits alignment_units = BYTES) const;
 
-    // Byte alignment mutator
-    void setBitAlignment(unsigned int bit_alignment);
+    // Alignment mutator
+    void setAlignment(unsigned int   alignment,
+                      AlignmentUnits alignment_units = BYTES);
 
 protected:
 
@@ -71,28 +79,44 @@ private:
     // All contained data fields ordered first to last
     std::vector<DataField*> data_fields;
 
-    unsigned int bit_alignment;
+    unsigned int alignment_bits;
 
     // A meaningful deep copy can't be done here so disallow that and operator=
     DataPacket(const DataPacket&);
     DataPacket& operator=(const DataPacket&);
 };
 
-inline unsigned int DataPacket::getBitAlignment() const
+inline
+unsigned int DataPacket::getAlignment(AlignmentUnits alignment_units) const
 {
-    return bit_alignment;
-}
-
-inline void DataPacket::setBitAlignment(unsigned int bit_alignment)
-{
-    if (bit_alignment == 0)
+    if (alignment_units == BYTES)
     {
-        throw std::invalid_argument(
-            "Nonsensical byte alignment value of 0 specified (must be 1 or "
-            "greater)");
+        if (alignment_bits % BITS_PER_BYTE != 0)
+        {
+            throw std::runtime_error(
+                "Alignment cannot be represented in bytes as an integer");
+        }
+
+        return alignment_bits / BITS_PER_BYTE;
     }
 
-    this->bit_alignment = bit_alignment;
+    return alignment_bits;
+}
+
+inline void DataPacket::setAlignment(unsigned int   alignment,
+                                     AlignmentUnits alignment_units)
+{
+    if (alignment == 0)
+    {
+        throw std::invalid_argument("Alignment must be greater than 0");
+    }
+
+    if (alignment_units == BYTES)
+    {
+        alignment *= BITS_PER_BYTE;
+    }
+
+    alignment_bits = alignment;
 }
 
 inline void DataPacket::addDataField(DataField* data_field)

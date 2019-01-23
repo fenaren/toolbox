@@ -5,10 +5,11 @@
 #include "DataPacket.hpp"
 
 //==============================================================================
-DataPacket::DataPacket(unsigned int bit_alignment) :
+DataPacket::DataPacket(unsigned int   alignment,
+                       AlignmentUnits alignment_units) :
     DataField()
 {
-    setBitAlignment(bit_alignment);
+    setAlignment(alignment, alignment_units);
 }
 
 //==============================================================================
@@ -108,14 +109,14 @@ unsigned long DataPacket::getLengthBits() const
 unsigned int
 DataPacket::computePaddingBits(unsigned int field_length_bits) const
 {
-    unsigned int extra_bits   = field_length_bits % bit_alignment;
+    unsigned int extra_bits   = field_length_bits % alignment_bits;
     unsigned int padding_bits = 0;
 
     if (extra_bits > 0)
     {
         // extra_bytes must be less than byte_alignment by the definition of
         // modulus so no need to worry about underflow
-        padding_bits = bit_alignment - extra_bits;
+        padding_bits = alignment_bits - extra_bits;
     }
 
     return padding_bits;

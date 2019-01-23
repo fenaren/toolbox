@@ -32,7 +32,7 @@ Test::Result BitField_test_case2::body()
     bool exception_caught = false;
     try
     {
-        bitfield1.getBit(BitField::BITS_PER_BYTE);
+        bitfield1.getBit(BITS_PER_BYTE);
     }
     catch (std::out_of_range& ex)
     {
@@ -53,7 +53,7 @@ template<class T> bool tryAllBits(BitField& bitfield, T& raw_bitfield)
 {
     bool all_good = true;
 
-    for (unsigned int i = 0; i < sizeof(T) * BitField::BITS_PER_BYTE; i++)
+    for (unsigned int i = 0; i < sizeof(T) * BITS_PER_BYTE; i++)
     {
         bitfield.setBit(i, true);
         all_good = raw_bitfield == std::round(std::pow(2, i));
