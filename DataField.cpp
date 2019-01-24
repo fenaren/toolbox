@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "DataField.hpp"
 
 #include "misc.hpp"
@@ -37,4 +39,15 @@ unsigned long DataField::writeRaw(std::uint8_t* buffer,
     // Call the virtual method with the host byte ordering.  If the virtual
     // method is implemented like it should be it won't do any byteswapping.
     return writeRaw(buffer, byte_order, bit_offset);
+}
+
+//==============================================================================
+void DataField::normalizeMemoryLocation(std::uint8_t*& buffer,
+                                        unsigned long& offset_bits) const
+{
+    std::ldiv_t div_result = std::ldiv(offset_bits, BITS_PER_BYTE);
+
+    // Take all the bytes out of offset_bits
+    buffer += div_result.quot;
+    offset_bits = div_result.rem;
 }

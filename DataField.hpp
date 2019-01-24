@@ -53,6 +53,11 @@ protected:
     // determination stored as a private data member
     static misc::ByteOrder getByteOrder();
 
+protected:
+
+    void normalizeMemoryLocation(std::uint8_t*& buffer,
+                                 unsigned long& offset_bits) const;
+
 private:
 
     // Used by the two argument versions of readRaw() and writeRaw() to

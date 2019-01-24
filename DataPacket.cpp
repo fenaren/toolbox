@@ -46,7 +46,7 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
     {
         // This will take all the bytes out of offset_bits and bump buffer
         // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.
-        normalizeBufferAndOffsetBits(buffer, offset_bits);
+        normalizeMemoryLocation(buffer, offset_bits);
 
         unsigned long offset_bits_initial = offset_bits;
 
@@ -91,7 +91,7 @@ unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
     {
         // This will take all the bytes out of offset_bits and bump buffer
         // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.
-        normalizeBufferAndOffsetBits(buffer, offset_bits);
+        normalizeMemoryLocation(buffer, offset_bits);
 
         unsigned long offset_bits_initial = offset_bits;
 
@@ -129,15 +129,4 @@ unsigned long DataPacket::getLengthBits() const
     }
 
     return length_bits;
-}
-
-//==============================================================================
-void DataPacket::normalizeBufferAndOffsetBits(std::uint8_t*& buffer,
-                                              unsigned long& offset_bits) const
-{
-    std::ldiv_t div_result = std::ldiv(offset_bits, BITS_PER_BYTE);
-
-    // Take all the bytes out of offset_bits
-    buffer += div_result.quot;
-    offset_bits = div_result.rem;
 }

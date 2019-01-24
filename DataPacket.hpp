@@ -72,9 +72,6 @@ private:
     // Derived classes should use this to add all their data fields
     virtual void addDataFields() = 0;
 
-    void normalizeBufferAndOffsetBits(std::uint8_t*& buffer,
-                                      unsigned long& offset_bits) const;
-
     // All contained data fields ordered first to last
     std::vector<DataField*> data_fields;
 
