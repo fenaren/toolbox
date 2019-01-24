@@ -67,6 +67,9 @@ public:
 
 private:
 
+    void copyOptionalSwap(std::uint8_t*   buffer,
+                          misc::ByteOrder destination_byte_order) const;
+
     T simple_data_field;
 };
 

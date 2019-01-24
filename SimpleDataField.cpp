@@ -98,16 +98,15 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
 {
     normalizeMemoryLocation(buffer, offset_bits);
 
-    if (destination_byte_order == getByteOrder())
+    // Unaligned types are expected to be uncommon
+    if (offset_bits == 0)
     {
-        memcpy(buffer, &simple_data_field, sizeof(T));
+        copyOptionalSwap(buffer, destination_byte_order);
     }
     else
     {
-        misc::byteswap(
-            buffer,
-            reinterpret_cast<const std::uint8_t*>(&simple_data_field),
-            sizeof(T));
+        // 0 < offset_bytes < 8 due to normalizeMemoryLocation()
+        //std::uint8_t working_buffer[sizeof(T) + 1];
     }
 
     return sizeof(T) * BITS_PER_BYTE;
@@ -145,3 +144,21 @@ template class SimpleDataField<unsigned int>;
 template class SimpleDataField<unsigned long>;
 template class SimpleDataField<unsigned long long>;
 template class SimpleDataField<unsigned short>;
+
+//==============================================================================
+template <class T> void SimpleDataField<T>::copyOptionalSwap(
+    std::uint8_t*   buffer,
+    misc::ByteOrder destination_byte_order) const
+{
+    if (destination_byte_order == getByteOrder())
+    {
+        memcpy(buffer, &simple_data_field, sizeof(T));
+    }
+    else
+    {
+        misc::byteswap(
+            buffer,
+            reinterpret_cast<const std::uint8_t*>(&simple_data_field),
+            sizeof(T));
+    }
+}
