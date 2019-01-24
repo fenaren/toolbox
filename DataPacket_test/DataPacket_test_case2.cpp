@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstring>
 #include <iostream>
 
@@ -26,7 +27,7 @@ Test::Result DataPacket_test_case2::body()
 
     // Write out dptest1 with a 3-byte alignment and make sure it looks
     // alright.  Write is done in host byte order.
-    unsigned char* raw_dptest1 = new unsigned char[dptest1.getLengthBytes()];
+    std::uint8_t* raw_dptest1 = new std::uint8_t[dptest1.getLengthBytes()];
     dptest1.writeRaw(raw_dptest1);
 
     unsigned int offset = 0;

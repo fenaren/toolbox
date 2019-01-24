@@ -70,7 +70,7 @@ template <class T> unsigned long SimpleDataField<T>::readRaw(
                        sizeof(T));
     }
 
-    return sizeof(T);
+    return sizeof(T) * BITS_PER_BYTE;
 }
 
 //==============================================================================
@@ -106,7 +106,7 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
             sizeof(T));
     }
 
-    return sizeof(T);
+    return sizeof(T) * BITS_PER_BYTE;
 }
 
 //==============================================================================
