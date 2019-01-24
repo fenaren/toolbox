@@ -48,19 +48,17 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
         // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.
         normalizeBufferAndOffsetBits(buffer, offset_bits);
 
+        unsigned long offset_bits_initial = offset_bits;
+
         // Tell the current field to read and record the number of bits it read
-        unsigned long field_width_bits =
-            (*i)->readRaw(buffer, source_byte_order, offset_bits);
-
-        // Add the number of bits we just read to the running total
-        bits_read += field_width_bits;
-
-        // Bump the offset by the length of the field we just read
-        offset_bits += field_width_bits;
+        offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits);
 
         // Bump the offset to the next alignment point
         offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
                                                                  offset_bits);
+
+        // This field plus the padding after it
+        bits_read += offset_bits - offset_bits_initial;
     }
 
     return bits_read;
@@ -85,24 +83,32 @@ unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
                                    unsigned int    offset_bits) const
 {
-    // We did not write these bits so they come out at the end
-    unsigned int offset_bits_initial = offset_bits;
+    unsigned long bits_written = 0;
 
     for (std::vector<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
-        // Bump the offset past the field we just read
+        // This will take all the bytes out of offset_bits and bump buffer
+        // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.
+        normalizeBufferAndOffsetBits(buffer, offset_bits);
+
+        unsigned long offset_bits_initial = offset_bits;
+
+        // Tell the current field to read and record the number of bits it read
         offset_bits +=
             (*i)->writeRaw(buffer, destination_byte_order, offset_bits);
 
         // Bump the offset to the next alignment point
         offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
                                                                  offset_bits);
+
+        // This field plus the padding after it
+        bits_written += offset_bits - offset_bits_initial;
     }
 
     // The number of bits we actually wrote
-    return offset_bits - offset_bits_initial;
+    return bits_written;
 }
 
 //==============================================================================
@@ -117,8 +123,9 @@ unsigned long DataPacket::getLengthBits() const
          i != data_fields.end();
          ++i)
     {
-        unsigned long field_length_bits = (*i)->getLengthBits();
-        //length_bits += field_length_bits + computePaddingBits(field_length_bits);
+        length_bits += (*i)->getLengthBits();
+        length_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
+                                                                 length_bits);
     }
 
     return length_bits;
