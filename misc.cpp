@@ -84,8 +84,14 @@ bool misc::withinEpsilonOf(double a, double b, double epsilon)
 //==============================================================================
 template <class T> T misc::smallestMultipleOfXGreaterOrEqualToY(T x, T y)
 {
-    return static_cast<T>(std::ceil(static_cast<double>(y) /
-                                    static_cast<double>(x)));
+    T simple_div = y / x;
+
+    if (std::fmod(static_cast<double>(y), static_cast<double>(x)) != 0.0)
+    {
+        simple_div += 1;
+    }
+
+    return static_cast<T>(simple_div * x);
 }
 
 #define INSTANTIATE_SMALLESTMULTIPLE(Type)                              \
