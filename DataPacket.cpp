@@ -41,8 +41,8 @@ unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
          i != data_fields.end();
          ++i)
     {
-        offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits) +
-            computePaddingBits();
+//        offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits) +
+//            computePaddingBits();
     }
 
     return offset_bits;
@@ -94,18 +94,10 @@ unsigned long DataPacket::getLengthBits() const
          ++i)
     {
         unsigned long field_length_bits = (*i)->getLengthBits();
-        length_bits += field_length_bits + computePaddingBits(field_length_bits);
+        //length_bits += field_length_bits + computePaddingBits(field_length_bits);
     }
 
     return length_bits;
-}
-
-//==============================================================================
-template <class T>
-T DataPacket::smallestMultipleOfXGreaterThanY(T x, T y) const
-{
-    return static_cast<T>(std::ceil(static_cast<double>(y) /
-                                    static_cast<double>(x)));
 }
 
 //==============================================================================
@@ -116,5 +108,5 @@ void DataPacket::normalizeBufferAndOffsetBits(std::uint8_t*& buffer,
     buffer += offset_bits / BITS_PER_BYTE;
 
     // Keep whatever bits are left
-    offset_bits = computePaddingBits(offset_bits);
+    //offset_bits = computePaddingBits(offset_bits);
 }
