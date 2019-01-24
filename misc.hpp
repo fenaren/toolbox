@@ -47,6 +47,8 @@ namespace misc
     // Returns true if a and b are within epsilon of each other, false otherwise
     bool withinEpsilonOf(double a, double b, double epsilon);
 
+    // Does what it says on the tin; returns the smallest multiple of x that is
+    // greater than or equal to y.
     int smallestMultipleOfXGreaterOrEqualToY(int x, int y);
 };
 
