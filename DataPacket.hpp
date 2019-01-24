@@ -74,7 +74,11 @@ private:
 
     // Computes amount of padding needed after a field given the current bit
     // alignment setting
-    unsigned int computePaddingBits(unsigned int field_length_bits) const;
+    unsigned int
+    smallestMultipleOfXGreaterThanY(unsigned int x, unsigned int y) const;
+
+    void normalizeBufferAndOffsetBits(std::uint8_t*& buffer,
+                                      unsigned int&  offset_bits) const;
 
     // All contained data fields ordered first to last
     std::vector<DataField*> data_fields;

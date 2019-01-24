@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "misc.hpp"
 
 // Determines byte ordering (endianness) of the host
@@ -77,6 +79,13 @@ template void misc::byteswap(unsigned short&);
 bool misc::withinEpsilonOf(double a, double b, double epsilon)
 {
     return a <= (b + epsilon) && a >= (b - epsilon);
+}
+
+//==============================================================================
+template <class T> T misc::smallestMultipleOfXGreaterOrEqualToY(T x, T y)
+{
+    return static_cast<T>(std::ceil(static_cast<double>(y) /
+                                    static_cast<double>(x)));
 }
 
 //==============================================================================

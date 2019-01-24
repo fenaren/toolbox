@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdint>
 #include <vector>
 
@@ -40,14 +41,11 @@ unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
          i != data_fields.end();
          ++i)
     {
-/*        offset_bits += (*i)->readRaw(
-            buffer,
-            source_byte_order,
-            offset_bits + computePaddingBits((*i)->getLengthBits()));*/
+        offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits) +
+            computePaddingBits();
     }
 
-//    return offset_bits;
-    return 0;
+    return offset_bits;
 }
 
 //==============================================================================
@@ -103,21 +101,20 @@ unsigned long DataPacket::getLengthBits() const
 }
 
 //==============================================================================
-// Computes amount of padding needed after a field given the current byte
-// alignment setting
-//==============================================================================
-unsigned int
-DataPacket::computePaddingBits(unsigned int field_length_bits) const
+template <class T>
+T DataPacket::smallestMultipleOfXGreaterThanY(T x, T y) const
 {
-    unsigned int extra_bits   = field_length_bits % alignment_bits;
-    unsigned int padding_bits = 0;
+    return static_cast<T>(std::ceil(static_cast<double>(y) /
+                                    static_cast<double>(x)));
+}
 
-    if (extra_bits > 0)
-    {
-        // extra_bytes must be less than byte_alignment by the definition of
-        // modulus so no need to worry about underflow
-        padding_bits = alignment_bits - extra_bits;
-    }
+//==============================================================================
+void DataPacket::normalizeBufferAndOffsetBits(std::uint8_t*& buffer,
+                                              unsigned int&  offset_bits) const
+{
+    // Take all the bytes out of offset_bits
+    buffer += offset_bits / BITS_PER_BYTE;
 
-    return padding_bits;
+    // Keep whatever bits are left
+    offset_bits = computePaddingBits(offset_bits);
 }
