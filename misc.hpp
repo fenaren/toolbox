@@ -47,7 +47,7 @@ namespace misc
     // Returns true if a and b are within epsilon of each other, false otherwise
     bool withinEpsilonOf(double a, double b, double epsilon);
 
-    template <class T> T smallestMultipleOfXGreaterOrEqualToY(T x, T y);
+    int smallestMultipleOfXGreaterOrEqualToY(int x, int y);
 };
 
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.

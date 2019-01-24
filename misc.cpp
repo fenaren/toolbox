@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstdlib>
 
 #include "misc.hpp"
 
@@ -82,34 +83,17 @@ bool misc::withinEpsilonOf(double a, double b, double epsilon)
 }
 
 //==============================================================================
-template <class T> T misc::smallestMultipleOfXGreaterOrEqualToY(T x, T y)
+int misc::smallestMultipleOfXGreaterOrEqualToY(int x, int y)
 {
-    T simple_div = y / x;
+    std::div_t div_result = std::div(y, x);
 
-    if (std::fmod(static_cast<double>(y), static_cast<double>(x)) != 0.0)
+    if (div_result.rem != 0)
     {
-        simple_div += 1;
+        div_result.quot += 1;
     }
 
-    return static_cast<T>(simple_div * x);
+    return div_result.quot * x;
 }
-
-#define INSTANTIATE_SMALLESTMULTIPLE(Type)                              \
-    template Type misc::smallestMultipleOfXGreaterOrEqualToY(Type, Type);
-
-INSTANTIATE_SMALLESTMULTIPLE(char);
-INSTANTIATE_SMALLESTMULTIPLE(double);
-INSTANTIATE_SMALLESTMULTIPLE(float);
-INSTANTIATE_SMALLESTMULTIPLE(int);
-INSTANTIATE_SMALLESTMULTIPLE(long);
-INSTANTIATE_SMALLESTMULTIPLE(long double);
-INSTANTIATE_SMALLESTMULTIPLE(long long);
-INSTANTIATE_SMALLESTMULTIPLE(short);
-INSTANTIATE_SMALLESTMULTIPLE(unsigned char);
-INSTANTIATE_SMALLESTMULTIPLE(unsigned int);
-INSTANTIATE_SMALLESTMULTIPLE(unsigned long);
-INSTANTIATE_SMALLESTMULTIPLE(unsigned long long);
-INSTANTIATE_SMALLESTMULTIPLE(unsigned short);
 
 //==============================================================================
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.
