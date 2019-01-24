@@ -88,6 +88,23 @@ template <class T> T misc::smallestMultipleOfXGreaterOrEqualToY(T x, T y)
                                     static_cast<double>(x)));
 }
 
+#define INSTANTIATE_SMALLESTMULTIPLE(Type)                              \
+    template Type misc::smallestMultipleOfXGreaterOrEqualToY(Type, Type);
+
+INSTANTIATE_SMALLESTMULTIPLE(char);
+INSTANTIATE_SMALLESTMULTIPLE(double);
+INSTANTIATE_SMALLESTMULTIPLE(float);
+INSTANTIATE_SMALLESTMULTIPLE(int);
+INSTANTIATE_SMALLESTMULTIPLE(long);
+INSTANTIATE_SMALLESTMULTIPLE(long double);
+INSTANTIATE_SMALLESTMULTIPLE(long long);
+INSTANTIATE_SMALLESTMULTIPLE(short);
+INSTANTIATE_SMALLESTMULTIPLE(unsigned char);
+INSTANTIATE_SMALLESTMULTIPLE(unsigned int);
+INSTANTIATE_SMALLESTMULTIPLE(unsigned long);
+INSTANTIATE_SMALLESTMULTIPLE(unsigned long long);
+INSTANTIATE_SMALLESTMULTIPLE(unsigned short);
+
 //==============================================================================
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.
 // If given misc::BIG_ENDIAN, return misc::LITTLE_ENDIAN.  If given
