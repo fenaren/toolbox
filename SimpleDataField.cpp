@@ -59,6 +59,8 @@ template <class T> unsigned long SimpleDataField<T>::readRaw(
     misc::ByteOrder source_byte_order,
     unsigned long   offset_bits)
 {
+    normalizeMemoryLocation(buffer, offset_bits);
+
     if (source_byte_order == getByteOrder())
     {
         memcpy(&simple_data_field, buffer, sizeof(T));
@@ -94,6 +96,8 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
     misc::ByteOrder destination_byte_order,
     unsigned long   offset_bits) const
 {
+    normalizeMemoryLocation(buffer, offset_bits);
+
     if (destination_byte_order == getByteOrder())
     {
         memcpy(buffer, &simple_data_field, sizeof(T));
