@@ -17,7 +17,7 @@ public:
 
     // Constructs a new Ipv4Address, initialized to a copy of the raw address at
     // the indicated location.
-    explicit Ipv4Address(const unsigned char* buffer);
+    explicit Ipv4Address(std::uint8_t* buffer);
 
     // Constructs a new Ipv4Address matching the given string representation.
     explicit Ipv4Address(const std::string& ipv4_address_str);
@@ -43,7 +43,7 @@ public:
 
 private:
 
-    unsigned char ipv4_address_raw[LENGTH_BYTES];
+    std::uint8_t ipv4_address_raw[LENGTH_BYTES];
 };
 
 std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address);

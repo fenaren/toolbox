@@ -17,7 +17,7 @@ class MacAddress : public BitField
 
     // Constructs a new MacAddress, initialzed to a copy of the data at the
     // indicated location
-    explicit MacAddress(const unsigned char* buffer);
+    explicit MacAddress(std::uint8_t* buffer);
 
     // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);
@@ -43,7 +43,7 @@ class MacAddress : public BitField
 
 private:
 
-    unsigned char mac_address_raw[LENGTH_BYTES];
+    std::uint8_t mac_address_raw[LENGTH_BYTES];
 };
 
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);

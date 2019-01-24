@@ -43,7 +43,7 @@ EthernetIIHeader::EthernetIIHeader(const MacAddress& destination,
 // Constructs an EthernetIIHeader by calling readRaw() on the provided buffer.
 // No byteswapping is performed.
 //==============================================================================
-EthernetIIHeader::EthernetIIHeader(const unsigned char* buffer) :
+EthernetIIHeader::EthernetIIHeader(std::uint8_t* buffer) :
     EthernetIIHeader()
 {
     readRaw(buffer);
@@ -53,8 +53,8 @@ EthernetIIHeader::EthernetIIHeader(const unsigned char* buffer) :
 // Constructs an EthernetIIHeader by calling readRaw() on the provided buffer.
 // Byteswapping is performed if needed.
 //==============================================================================
-EthernetIIHeader::EthernetIIHeader(const unsigned char* buffer,
-                                   misc::ByteOrder      byte_order) :
+EthernetIIHeader::EthernetIIHeader(std::uint8_t*   buffer,
+                                   misc::ByteOrder byte_order) :
     EthernetIIHeader()
 {
     // Ethernet II frames store big endian data by definition

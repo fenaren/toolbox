@@ -29,14 +29,14 @@ public:
 
     // Reads the data field from the "buffer" memory location without
     // considering byte ordering.
-    virtual unsigned long readRaw(const std::uint8_t* buffer,
-                                  unsigned int        offset_bits = 0);
+    virtual unsigned long readRaw(std::uint8_t* buffer,
+                                  unsigned int  offset_bits = 0);
 
     // Reads the data field from the "buffer" memory location, swapping if the
     // source byte order does not match the byte ordering of this field.
-    virtual unsigned long readRaw(const std::uint8_t* buffer,
-                                  misc::ByteOrder     source_byte_order,
-                                  unsigned int        offset_bits = 0);
+    virtual unsigned long readRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder source_byte_order,
+                                  unsigned int    offset_bits = 0);
 
     // Writes the data field to the "buffer" memory location without considering
     // byte ordering.

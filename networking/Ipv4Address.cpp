@@ -22,7 +22,7 @@ Ipv4Address::Ipv4Address() :
 // indicated location
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
-Ipv4Address::Ipv4Address(const unsigned char* buffer) :
+Ipv4Address::Ipv4Address(std::uint8_t* buffer) :
     BitField(ipv4_address_raw, LENGTH_BYTES, false)
 {
     readRaw(buffer);

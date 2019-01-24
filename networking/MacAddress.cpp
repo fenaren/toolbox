@@ -22,7 +22,7 @@ MacAddress::MacAddress() :
 // location
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
-MacAddress::MacAddress(const unsigned char* buffer) :
+MacAddress::MacAddress(std::uint8_t* buffer) :
     BitField(mac_address_raw, LENGTH_BYTES, false)
 {
     readRaw(buffer);

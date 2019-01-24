@@ -36,11 +36,11 @@ public:
 
     // Constructs an EthernetIIHeader by calling readRaw() on the provided
     // buffer.  No byteswapping is performed.
-    explicit EthernetIIHeader(const unsigned char* buffer);
+    explicit EthernetIIHeader(std::uint8_t* buffer);
 
     // Constructs an EthernetIIHeader by calling readRaw() on the provided
     // buffer.  Byteswapping is performed if needed.
-    EthernetIIHeader(const unsigned char* buffer, misc::ByteOrder byte_order);
+    EthernetIIHeader(std::uint8_t* buffer, misc::ByteOrder byte_order);
 
     // Does nothing
     virtual ~EthernetIIHeader();

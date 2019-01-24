@@ -41,8 +41,8 @@ public:
 
     // Reads a raw bit field from the "buffer" memory location.  Byte ordering
     // has no relevance to bit fields so no byte swapping is performed.
-    virtual unsigned long readRaw(const std::uint8_t* buffer,
-                                  unsigned int        bit_offset = 0);
+    virtual unsigned long readRaw(std::uint8_t* buffer,
+                                  unsigned int  bit_offset = 0);
 
     // Reads a raw bit field from the "buffer" memory location.  This
     // function is required by the framework to be implemented here, despite
@@ -50,9 +50,9 @@ public:
     // above.  If byte ordering were relevant to bit fields (in the
     // general sense of the term) this function would be where that difference
     // would be handled.
-    virtual unsigned long readRaw(const std::uint8_t* buffer,
-                                  misc::ByteOrder     source_byte_order,
-                                  unsigned int        bit_offset = 0);
+    virtual unsigned long readRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder source_byte_order,
+                                  unsigned int    bit_offset = 0);
 
     // Writes this bit field to the "buffer" memory location.  Byte ordering has
     // no relevance to bit fields so no byte swapping is performed.

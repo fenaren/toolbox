@@ -77,8 +77,8 @@ BitField::~BitField()
 // Reads a raw bit field from the "buffer" memory location.  Byte ordering has
 // no relevance to bit fields so no byte swapping is performed.
 //==============================================================================
-unsigned long BitField::readRaw(const std::uint8_t* buffer,
-                                unsigned int        offset_bits)
+unsigned long BitField::readRaw(std::uint8_t* buffer,
+                                unsigned int  offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
@@ -90,9 +90,9 @@ unsigned long BitField::readRaw(const std::uint8_t* buffer,
 // were relevant to bit fields (in the general sense of the term) this function
 // would be where that difference would be handled.
 //==============================================================================
-unsigned long BitField::readRaw(const std::uint8_t* buffer,
-                                misc::ByteOrder     source_byte_order,
-                                unsigned int        offset_bits)
+unsigned long BitField::readRaw(std::uint8_t*   buffer,
+                                misc::ByteOrder source_byte_order,
+                                unsigned int    offset_bits)
 {
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(bit_field_raw, buffer, length_bytes);

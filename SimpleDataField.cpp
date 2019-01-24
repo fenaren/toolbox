@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstring>
 
 #include "SimpleDataField.hpp"
@@ -43,8 +44,8 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 // byte ordering.
 //==============================================================================
 template <class T>
-unsigned long SimpleDataField<T>::readRaw(const unsigned char* buffer,
-                                          unsigned int         offset_bits)
+unsigned long SimpleDataField<T>::readRaw(std::uint8_t* buffer,
+                                          unsigned int  offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
@@ -54,9 +55,9 @@ unsigned long SimpleDataField<T>::readRaw(const unsigned char* buffer,
 // source byte order does not match the byte ordering of this field.
 //==============================================================================
 template <class T> unsigned long SimpleDataField<T>::readRaw(
-    const unsigned char* buffer,
-    misc::ByteOrder      source_byte_order,
-    unsigned int         offset_bits)
+    std::uint8_t*   buffer,
+    misc::ByteOrder source_byte_order,
+    unsigned int    offset_bits)
 {
     if (source_byte_order == getByteOrder())
     {
@@ -64,7 +65,7 @@ template <class T> unsigned long SimpleDataField<T>::readRaw(
     }
     else
     {
-        misc::byteswap(reinterpret_cast<unsigned char*>(&simple_data_field),
+        misc::byteswap(reinterpret_cast<std::uint8_t*>(&simple_data_field),
                        buffer,
                        sizeof(T));
     }
@@ -77,8 +78,8 @@ template <class T> unsigned long SimpleDataField<T>::readRaw(
 // byte ordering.
 //==============================================================================
 template <class T>
-unsigned long SimpleDataField<T>::writeRaw(unsigned char* buffer,
-                                           unsigned int   offset_bits) const
+unsigned long SimpleDataField<T>::writeRaw(std::uint8_t* buffer,
+                                           unsigned int  offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
@@ -89,7 +90,7 @@ unsigned long SimpleDataField<T>::writeRaw(unsigned char* buffer,
 // this field.
 //==============================================================================
 template <class T> unsigned long SimpleDataField<T>::writeRaw(
-    unsigned char*  buffer,
+    std::uint8_t*   buffer,
     misc::ByteOrder destination_byte_order,
     unsigned int    offset_bits) const
 {
@@ -101,7 +102,7 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
     {
         misc::byteswap(
             buffer,
-            reinterpret_cast<const unsigned char*>(&simple_data_field),
+            reinterpret_cast<const std::uint8_t*>(&simple_data_field),
             sizeof(T));
     }
 
