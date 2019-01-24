@@ -55,7 +55,7 @@ BitField::BitField(const BitField& bit_field) :
     DataField(),
     memory_internal(true)
 {
-    length_bytes = bit_field.getLengthBits();
+    length_bytes = bit_field.getLengthBytes();
 
     bit_field_raw = new std::uint8_t[length_bytes];
 
@@ -78,7 +78,7 @@ BitField::~BitField()
 // no relevance to bit fields so no byte swapping is performed.
 //==============================================================================
 unsigned long BitField::readRaw(std::uint8_t* buffer,
-                                unsigned int  offset_bits)
+                                unsigned long offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
@@ -92,11 +92,11 @@ unsigned long BitField::readRaw(std::uint8_t* buffer,
 //==============================================================================
 unsigned long BitField::readRaw(std::uint8_t*   buffer,
                                 misc::ByteOrder source_byte_order,
-                                unsigned int    offset_bits)
+                                unsigned long   offset_bits)
 {
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(bit_field_raw, buffer, length_bytes);
-    return length_bytes;
+    return length_bytes * BITS_PER_BYTE;
 }
 
 //==============================================================================
@@ -104,7 +104,7 @@ unsigned long BitField::readRaw(std::uint8_t*   buffer,
 // relevance to bit fields so no byte swapping is performed.
 //==============================================================================
 unsigned long BitField::writeRaw(std::uint8_t* buffer,
-                                 unsigned int  offset_bits) const
+                                 unsigned long offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
@@ -118,11 +118,11 @@ unsigned long BitField::writeRaw(std::uint8_t* buffer,
 //==============================================================================
 unsigned long BitField::writeRaw(std::uint8_t*   buffer,
                                  misc::ByteOrder destination_byte_order,
-                                 unsigned int    offset_bits) const
+                                 unsigned long   offset_bits) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, bit_field_raw, length_bytes);
-    return length_bytes;
+    return length_bytes * BITS_PER_BYTE;
 }
 
 //==============================================================================
@@ -253,7 +253,7 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 //==============================================================================
 void BitField::shiftLeft(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBits() * BITS_PER_BYTE;
+    unsigned int bit_field_bits = getLengthBits();
 
     if (shift_bits >= bit_field_bits)
     {
@@ -288,7 +288,7 @@ void BitField::shiftLeft(unsigned int shift_bits)
 //==============================================================================
 void BitField::shiftRight(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBits() * BITS_PER_BYTE;
+    unsigned int bit_field_bits = getLengthBits();
 
     if (shift_bits >= bit_field_bits)
     {
@@ -357,7 +357,7 @@ bool operator==(const BitField& bit_field1, const BitField& bit_field2)
     }
 
     // We know both bit fields have equal length at this point
-    unsigned int length_bytes = bit_field1.getLengthBits();
+    unsigned int length_bytes = bit_field1.getLengthBytes();
 
     for (unsigned int i = 0; i < length_bytes; i++)
     {

@@ -24,7 +24,7 @@ DataPacket::~DataPacket()
 // byte ordering.
 //==============================================================================
 unsigned long DataPacket::readRaw(std::uint8_t* buffer,
-                                 unsigned int   offset_bits)
+                                 unsigned long  offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
@@ -36,7 +36,7 @@ unsigned long DataPacket::readRaw(std::uint8_t* buffer,
 //==============================================================================
 unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
-                                  unsigned int    offset_bits)
+                                  unsigned long   offset_bits)
 {
     unsigned long bits_read = 0;
 
@@ -69,7 +69,7 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
 // byte ordering.
 //==============================================================================
 unsigned long DataPacket::writeRaw(std::uint8_t* buffer,
-                                   unsigned int  offset_bits) const
+                                   unsigned long offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
@@ -81,7 +81,7 @@ unsigned long DataPacket::writeRaw(std::uint8_t* buffer,
 //==============================================================================
 unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
-                                   unsigned int    offset_bits) const
+                                   unsigned long   offset_bits) const
 {
     unsigned long bits_written = 0;
 
@@ -133,9 +133,9 @@ unsigned long DataPacket::getLengthBits() const
 
 //==============================================================================
 void DataPacket::normalizeBufferAndOffsetBits(std::uint8_t*& buffer,
-                                              unsigned int&  offset_bits) const
+                                              unsigned long& offset_bits) const
 {
-    std::div_t div_result = std::div(offset_bits, BITS_PER_BYTE);
+    std::ldiv_t div_result = std::ldiv(offset_bits, BITS_PER_BYTE);
 
     // Take all the bytes out of offset_bits
     buffer += div_result.quot;

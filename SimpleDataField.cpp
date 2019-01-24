@@ -45,7 +45,7 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 //==============================================================================
 template <class T>
 unsigned long SimpleDataField<T>::readRaw(std::uint8_t* buffer,
-                                          unsigned int  offset_bits)
+                                          unsigned long offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
@@ -57,7 +57,7 @@ unsigned long SimpleDataField<T>::readRaw(std::uint8_t* buffer,
 template <class T> unsigned long SimpleDataField<T>::readRaw(
     std::uint8_t*   buffer,
     misc::ByteOrder source_byte_order,
-    unsigned int    offset_bits)
+    unsigned long   offset_bits)
 {
     if (source_byte_order == getByteOrder())
     {
@@ -79,7 +79,7 @@ template <class T> unsigned long SimpleDataField<T>::readRaw(
 //==============================================================================
 template <class T>
 unsigned long SimpleDataField<T>::writeRaw(std::uint8_t* buffer,
-                                           unsigned int  offset_bits) const
+                                           unsigned long offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
@@ -92,7 +92,7 @@ unsigned long SimpleDataField<T>::writeRaw(std::uint8_t* buffer,
 template <class T> unsigned long SimpleDataField<T>::writeRaw(
     std::uint8_t*   buffer,
     misc::ByteOrder destination_byte_order,
-    unsigned int    offset_bits) const
+    unsigned long   offset_bits) const
 {
     if (destination_byte_order == getByteOrder())
     {

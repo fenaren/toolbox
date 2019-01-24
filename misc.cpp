@@ -70,9 +70,9 @@ bool misc::withinEpsilonOf(double a, double b, double epsilon)
 }
 
 //==============================================================================
-int misc::smallestMultipleOfXGreaterOrEqualToY(int x, int y)
+long misc::smallestMultipleOfXGreaterOrEqualToY(long x, long y)
 {
-    std::div_t div_result = std::div(y, x);
+    std::ldiv_t div_result = std::ldiv(y, x);
 
     if (div_result.rem != 0)
     {

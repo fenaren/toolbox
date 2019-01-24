@@ -49,7 +49,7 @@ namespace misc
 
     // Does what it says on the tin; returns the smallest multiple of x that is
     // greater than or equal to y.
-    int smallestMultipleOfXGreaterOrEqualToY(int x, int y);
+    long smallestMultipleOfXGreaterOrEqualToY(long x, long y);
 };
 
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.
