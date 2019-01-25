@@ -3,10 +3,14 @@
 
 // For functionality that has no obvious home elsewhere
 
+#include <cstdint>
+
 #define BITS_PER_BYTE 8
 
 namespace misc
 {
+    // This would be BIG_ENDIAN and LITTLE_ENDIAN but those names collide with
+    // existing symbols on MacOS.
     enum ByteOrder
     {
         ENDIAN_BIG,
@@ -19,15 +23,15 @@ namespace misc
     // Does an in-place byteswap of the data at "buffer" of length "len".  For
     // example a "len" value of 4 would be used for swapping a single 32-bit
     // integer.
-    void byteswap(unsigned char* buffer, unsigned int len);
+    void byteswap(std::uint8_t* buffer, unsigned int len);
 
     // Does an out-of-place byteswap.  The data at "source" is copied into
     // "destination" byteswapped.  The data at "source" is not modified.  This
     // is logically equivalent to a memcpy followed by a call to the
     // two-argument byteswap function defined above but should be faster.
-    void byteswap(unsigned char*       destination,
-                  const unsigned char* source,
-                  unsigned int         len);
+    void byteswap(std::uint8_t*       destination,
+                  const std::uint8_t* source,
+                  unsigned int        len);
 
     // Convenience wrapper meant for swapping fundamental data types.  Removes
     // the need for the user to deal with casting and sizing.
