@@ -116,19 +116,35 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
         working_buffer[working_size - 1] = 0;
         copyOptionalSwap(working_buffer, destination_byte_order);
 
-        // Use a BitField to shift the whole thing over into the extra byte on
-        // the end.  Counts on BitField shift behavior of shifting in zeros.
-        // BitField shifts treat the whole bitfield as if it were a single large
-        // integer for shifting purposes so we may need shiftLeft or shiftRight
-        // depending on the endianness of the host.
+        // Create a mask for the bits we want
+        std::uint8_t mask[working_size];
+        memset(mask, 0xFF, sizeof(T));
+        mask[working_size - 1] = 0;
+
+        // Use a BitField to shift both the data we want and the corrsponding
+        // mask over into the extra byte.  Counts on BitField shift behavior of
+        // shifting in zeros.  BitField shifts treat the whole bitfield as if it
+        // were a single large integer for shifting purposes so we may need
+        // shiftLeft or shiftRight depending on the endianness of the host.
         BitField working_bitfield(working_buffer, working_size, false);
+        BitField mask_bitfield(mask, working_size, false);
         if (getByteOrder() == misc::ENDIAN_BIG)
         {
             working_bitfield.shiftRight(offset_bits);
+            mask_bitfield.shiftRight(offset_bits);
         }
         else
         {
             working_bitfield.shiftLeft(offset_bits);
+            mask_bitfield.shiftLeft(offset_bits);
+        }
+
+        // Mask in the bits we want to set, preserving the setting of the bits
+        // we don't want to set
+        for (unsigned int i = 0; i < working_size; ++i)
+        {
+            buffer[i] &= ~mask[i];
+            buffer[i] |= working_buffer[i];
         }
     }
 
