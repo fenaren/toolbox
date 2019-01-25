@@ -96,7 +96,7 @@ unsigned long BitField::readRaw(std::uint8_t*   buffer,
 {
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(bit_field_raw, buffer, length_bytes);
-    return length_bytes * BITS_PER_BYTE;
+    return static_cast<unsigned long>(length_bytes) * BITS_PER_BYTE;
 }
 
 //==============================================================================
@@ -122,7 +122,7 @@ unsigned long BitField::writeRaw(std::uint8_t*   buffer,
 {
     // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, bit_field_raw, length_bytes);
-    return length_bytes * BITS_PER_BYTE;
+    return static_cast<unsigned long>(length_bytes) * BITS_PER_BYTE;
 }
 
 //==============================================================================
