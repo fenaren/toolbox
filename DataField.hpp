@@ -55,8 +55,8 @@ protected:
 
 protected:
 
-    void normalizeMemoryLocation(std::uint8_t*& buffer,
-                                 unsigned long& offset_bits) const;
+    static void normalizeMemoryLocation(std::uint8_t*& buffer,
+                                        unsigned long& offset_bits);
 
 private:
 

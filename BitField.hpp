@@ -190,7 +190,7 @@ inline void BitField::setBit(unsigned int bit, bool value)
 
 inline unsigned long BitField::getLengthBits() const
 {
-    return length_bytes * BITS_PER_BYTE;
+    return static_cast<unsigned long>(length_bytes) * BITS_PER_BYTE;
 }
 
 inline bool BitField::getMemoryInternal() const
