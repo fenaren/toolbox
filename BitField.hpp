@@ -42,7 +42,7 @@ public:
     // Reads a raw bit field from the "buffer" memory location.  Byte ordering
     // has no relevance to bit fields so no byte swapping is performed.
     virtual unsigned long readRaw(std::uint8_t* buffer,
-                                  unsigned long bit_offset = 0);
+                                  unsigned long offset_bits = 0);
 
     // Reads a raw bit field from the "buffer" memory location.  This
     // function is required by the framework to be implemented here, despite
@@ -52,12 +52,12 @@ public:
     // would be handled.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
-                                  unsigned long   bit_offset = 0);
+                                  unsigned long   offset_bits = 0);
 
     // Writes this bit field to the "buffer" memory location.  Byte ordering has
     // no relevance to bit fields so no byte swapping is performed.
     virtual unsigned long writeRaw(std::uint8_t* buffer,
-                                   unsigned long bit_offset = 0) const;
+                                   unsigned long offset_bits = 0) const;
 
     // Writes this bit field to the "buffer" memory location.  This function is
     // required by the framework to be implemented here, despite being
@@ -66,7 +66,7 @@ public:
     // term) this function would be where that difference would be handled.
     virtual unsigned long writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
-                                   unsigned long   bit_offset = 0) const;
+                                   unsigned long   offset_bits = 0) const;
 
     // Octets are indexed starting from 0 for the byte at the lowest memory
     // address and increasing to the highest memory address
