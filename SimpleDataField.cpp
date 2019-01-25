@@ -3,6 +3,7 @@
 
 #include "SimpleDataField.hpp"
 
+#include "BitField.hpp"
 #include "DataField.hpp"
 #include "misc.hpp"
 
@@ -106,7 +107,29 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
     else
     {
         // 0 < offset_bytes < 8 due to normalizeMemoryLocation()
-        //std::uint8_t working_buffer[sizeof(T) + 1];
+
+        unsigned int working_size = sizeof(T) + 1;
+
+        // Copy the field data to a temporary location.  We'll handle the bit
+        // shifting nonsense in there.
+        std::uint8_t working_buffer[working_size];
+        working_buffer[working_size - 1] = 0;
+        copyOptionalSwap(working_buffer, destination_byte_order);
+
+        // Use a BitField to shift the whole thing over into the extra byte on
+        // the end.  Counts on BitField shift behavior of shifting in zeros.
+        // BitField shifts treat the whole bitfield as if it were a single large
+        // integer for shifting purposes so we may need shiftLeft or shiftRight
+        // depending on the endianness of the host.
+        BitField working_bitfield(working_buffer, working_size, false);
+        if (getByteOrder() == misc::ENDIAN_BIG)
+        {
+            working_bitfield.shiftRight(offset_bits);
+        }
+        else
+        {
+            working_bitfield.shiftLeft(offset_bits);
+        }
     }
 
     return sizeof(T) * BITS_PER_BYTE;

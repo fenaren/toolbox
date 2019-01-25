@@ -12,7 +12,7 @@ Test::Result EthernetIIHeader_test::body()
     MUST_BE_TRUE(eth_header.getLengthBytes() == EthernetIIHeader::LENGTH_BYTES);
 
     unsigned char eth_header_raw[EthernetIIHeader::LENGTH_BYTES];
-    eth_header.writeRaw(eth_header_raw, misc::BIG_ENDIAN);
+    eth_header.writeRaw(eth_header_raw, misc::ENDIAN_BIG);
 
     // Make sure the Ethertype is always written big endian; 0x0800 is the
     // Ethertype for IPv4

@@ -9,11 +9,11 @@ misc::ByteOrder misc::getByteOrder()
     unsigned short test_var = 0xff00;
     if (*(unsigned char*)&test_var > 0)
     {
-        return BIG_ENDIAN;
+        return ENDIAN_BIG;
     }
     else
     {
-        return LITTLE_ENDIAN;
+        return ENDIAN_LITTLE;
     }
 }
 
@@ -85,10 +85,10 @@ long misc::smallestMultipleOfXGreaterOrEqualToY(long x, long y)
 //==============================================================================
 misc::ByteOrder operator!(const misc::ByteOrder& byte_order)
 {
-    if (byte_order == misc::BIG_ENDIAN)
+    if (byte_order == misc::ENDIAN_BIG)
     {
-        return misc::LITTLE_ENDIAN;
+        return misc::ENDIAN_LITTLE;
     }
 
-    return misc::BIG_ENDIAN;
+    return misc::ENDIAN_BIG;
 }

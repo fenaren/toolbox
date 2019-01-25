@@ -3,25 +3,14 @@
 
 // For functionality that has no obvious home elsewhere
 
-// BIG_ENDIAN and LITTLE_ENDIAN are defined on macOS for some reason or other.
-// Replace those definitions with the ones defined in here.
-
-#if defined BIG_ENDIAN
-#undef BIG_ENDIAN
-#endif
-
-#if defined LITTLE_ENDIAN
-#undef LITTLE_ENDIAN
-#endif
-
 #define BITS_PER_BYTE 8
 
 namespace misc
 {
     enum ByteOrder
     {
-        BIG_ENDIAN,
-        LITTLE_ENDIAN
+        ENDIAN_BIG,
+        ENDIAN_LITTLE
     };
 
     // Determines byte ordering (endianness) of the host

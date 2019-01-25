@@ -36,7 +36,7 @@ public:
     virtual unsigned long writeRaw(
         std::uint8_t*   buffer,
         misc::ByteOrder destination_byte_order,
-        unsigned long    bit_offset = 0) const = 0;
+        unsigned long   bit_offset = 0) const = 0;
 
     // Returns the size of this data field in bits.  This will equal the number
     // of bits written by writeRaw() and read by readRaw().

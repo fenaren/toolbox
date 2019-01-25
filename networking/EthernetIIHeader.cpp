@@ -58,7 +58,7 @@ EthernetIIHeader::EthernetIIHeader(std::uint8_t*   buffer,
     EthernetIIHeader()
 {
     // Ethernet II frames store big endian data by definition
-    readRaw(buffer, misc::BIG_ENDIAN);
+    readRaw(buffer, misc::ENDIAN_BIG);
 }
 
 //==============================================================================
