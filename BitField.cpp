@@ -1,16 +1,12 @@
-#include <stdexcept>
 #include <cstring>
 #include <new>
+#include <stdexcept>
 
 #include "BitField.hpp"
 
 #include "DataField.hpp"
 #include "misc.hpp"
 
-//==============================================================================
-// Dynamically allocates and maintains a bit field that is "length_bytes" in
-// size.  All bits are initially unset (set to 0).  Storage is dynamically
-// allocated.
 //==============================================================================
 BitField::BitField(unsigned int length_bytes) :
     DataField(),
@@ -21,12 +17,6 @@ BitField::BitField(unsigned int length_bytes) :
     memset(bit_field_raw, 0, length_bytes);
 }
 
-//==============================================================================
-// Behavior depends on the value of "memory_internal".  If "memory_internal" is
-// true, the data at "buffer" of length "length_bytes" will be copied into
-// dynamically-allocated memory internal to this class.  If "memory_internal" is
-// false, the data at "buffer" of length "length_bytes" will be used by this
-// class in-place and no dynamic memory allocation will occur.
 //==============================================================================
 BitField::BitField(std::uint8_t* buffer,
                    unsigned int  length_bytes,
@@ -47,10 +37,6 @@ BitField::BitField(std::uint8_t* buffer,
 }
 
 //==============================================================================
-// Copy constructor; dynamically allocates and maintains a bit field that is
-// "length_bytes" in size, and then copies the given bit field into this
-// newly-allocated memory.
-//==============================================================================
 BitField::BitField(const BitField& bit_field) :
     DataField(),
     memory_internal(true)
@@ -63,8 +49,6 @@ BitField::BitField(const BitField& bit_field) :
 }
 
 //==============================================================================
-// Frees the memory at "bit_field_raw" if owned by this class
-//==============================================================================
 BitField::~BitField()
 {
     if (memory_internal)
@@ -74,21 +58,12 @@ BitField::~BitField()
 }
 
 //==============================================================================
-// Reads a raw bit field from the "buffer" memory location.  Byte ordering has
-// no relevance to bit fields so no byte swapping is performed.
-//==============================================================================
 unsigned long BitField::readRaw(std::uint8_t* buffer,
                                 unsigned long offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
 
-//==============================================================================
-// Reads a raw bit field from the "buffer" memory location.  This function is
-// required by the framework to be implemented here, despite being functionally
-// identical to the single-argument version defined above.  If byte ordering
-// were relevant to bit fields (in the general sense of the term) this function
-// would be where that difference would be handled.
 //==============================================================================
 unsigned long BitField::readRaw(std::uint8_t*   buffer,
                                 misc::ByteOrder source_byte_order,
@@ -100,21 +75,12 @@ unsigned long BitField::readRaw(std::uint8_t*   buffer,
 }
 
 //==============================================================================
-// Writes this bit field to the "buffer" memory location.  Byte ordering has no
-// relevance to bit fields so no byte swapping is performed.
-//==============================================================================
 unsigned long BitField::writeRaw(std::uint8_t* buffer,
                                  unsigned long offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
 
-//==============================================================================
-// Writes this bit field to the "buffer" memory location.  This function is
-// required by the framework to be implemented here, despite being functionally
-// identical to the single-argument version defined above.  If byte ordering
-// were relevant to bit fields (in the general sense of the term) this function
-// would be where that difference would be handled.
 //==============================================================================
 unsigned long BitField::writeRaw(std::uint8_t*   buffer,
                                  misc::ByteOrder destination_byte_order,
@@ -125,13 +91,6 @@ unsigned long BitField::writeRaw(std::uint8_t*   buffer,
     return static_cast<unsigned long>(length_bytes) * BITS_PER_BYTE;
 }
 
-//==============================================================================
-// Copies a range of bits into the given typed numeric variable.  Useful for
-// pulling things like integers and floating-point numbers out of bitfields.
-// Bit numbering follows the convention used by getBit().  Operation starts by
-// copying the least significant bit in the specified range into the least
-// significant bit in "type_var", and proceeds to successively more significant
-// bits until "count" bits are copied.
 //==============================================================================
 template <class T> void BitField::getBitsAsNumericType(T&           type_var,
                                                        unsigned int start_bit,
@@ -189,13 +148,6 @@ INSTANTIATE_GETBITSASNUMERICTYPE(unsigned long long);
 INSTANTIATE_GETBITSASNUMERICTYPE(unsigned short);
 
 //==============================================================================
-// Copies a range of bits from the given typed numeric variable.  Useful for
-// pushing things like integers and floating-point numbers into bitfields.  Bit
-// numbering follows the convention used by getBit().  Operation starts by
-// copying the least significant bit in the typed numeric variable into the
-// least significant bit in the specified range, and proceeds to successively
-// more significant bits until "count" bits are copied.
-//==============================================================================
 template <class T>
 void BitField::setBitsAsNumericType(T            type_var,
                                     unsigned int start_bit,
@@ -248,9 +200,6 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned long long);
 INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 
 //==============================================================================
-// Bits shift toward the most significant bit, if this bitfield were
-// interpreted as one big integer
-//==============================================================================
 void BitField::shiftLeft(unsigned int shift_bits)
 {
     unsigned int bit_field_bits = getLengthBits();
@@ -283,9 +232,6 @@ void BitField::shiftLeft(unsigned int shift_bits)
 }
 
 //==============================================================================
-// Bits shift toward the least significant bit, if this bitfield were
-// interpreted as one big integer
-//==============================================================================
 void BitField::shiftRight(unsigned int shift_bits)
 {
     unsigned int bit_field_bits = getLengthBits();
@@ -316,8 +262,6 @@ void BitField::shiftRight(unsigned int shift_bits)
 }
 
 //==============================================================================
-// Assigns a BitField to this BitField
-//==============================================================================
 BitField& BitField::operator=(const BitField& bit_field)
 {
     if (this != &bit_field)
@@ -329,8 +273,6 @@ BitField& BitField::operator=(const BitField& bit_field)
 }
 
 //==============================================================================
-// Uses leftShift()
-//==============================================================================
 BitField& BitField::operator<<=(unsigned int shift_bits)
 {
     shiftLeft(shift_bits);
@@ -338,16 +280,12 @@ BitField& BitField::operator<<=(unsigned int shift_bits)
 }
 
 //==============================================================================
-// Uses rightShift()
-//==============================================================================
 BitField& BitField::operator>>=(unsigned int shift_bits)
 {
     shiftRight(shift_bits);
     return *this;
 }
 
-//==============================================================================
-// Equality comparison, BitField == BitField
 //==============================================================================
 bool operator==(const BitField& bit_field1, const BitField& bit_field2)
 {
@@ -370,8 +308,6 @@ bool operator==(const BitField& bit_field1, const BitField& bit_field2)
     return true;
 }
 
-//==============================================================================
-// Inequality comparison, BitField != BitField
 //==============================================================================
 bool operator!=(const BitField& bit_field1, const BitField& bit_field2)
 {
