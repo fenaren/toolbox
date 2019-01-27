@@ -16,13 +16,13 @@ public:
 
     // Reads the data field from the "buffer" memory location without
     // considering byte ordering.
-    virtual unsigned long readRaw(std::uint8_t* buffer);
+    unsigned long readRaw(std::uint8_t* buffer);
 
-    virtual unsigned long readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order);
+    unsigned long readRaw(std::uint8_t*   buffer,
+                          misc::ByteOrder source_byte_order);
 
-    virtual unsigned long readRaw(std::uint8_t* buffer,
-                                  unsigned long bit_offset);
+    unsigned long readRaw(std::uint8_t* buffer,
+                          unsigned long bit_offset);
 
     // Reads the data field from the "buffer" memory location, swapping if the
     // source byte order does not match the byte ordering of this field
@@ -32,13 +32,13 @@ public:
 
     // Writes the data field to the "buffer" memory location without considering
     // byte ordering.
-    virtual unsigned long writeRaw(std::uint8_t* buffer) const;
+    unsigned long writeRaw(std::uint8_t* buffer) const;
 
-    virtual unsigned long writeRaw(std::uint8_t*   buffer,
-                                   misc::ByteOrder byte_order) const;
+    unsigned long writeRaw(std::uint8_t*   buffer,
+                           misc::ByteOrder byte_order) const;
 
-    virtual unsigned long writeRaw(std::uint8_t* buffer,
-                                   unsigned long bit_offset) const;
+    unsigned long writeRaw(std::uint8_t* buffer,
+                           unsigned long bit_offset) const;
 
     // Writes the data field to the "buffer" memory location, swapping at the
     // destination if the destination byte order does not match the byte

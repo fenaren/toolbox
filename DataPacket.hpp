@@ -26,29 +26,35 @@ public:
     // Does nothing
     virtual ~DataPacket();
 
-    // Reads the data field from the "buffer" memory location without
-    // considering byte ordering.
-    virtual unsigned long readRaw(std::uint8_t* buffer,
-                                  unsigned long offset_bits = 0);
+    unsigned long readRaw(std::uint8_t*   buffer);
+
+    unsigned long readRaw(std::uint8_t*   buffer,
+                          misc::ByteOrder source_byte_order);
+
+    unsigned long readRaw(std::uint8_t*   buffer,
+                          unsigned long   offset_bits);
 
     // Reads this data packet from the "buffer" memory location.  Each field
     // will be byteswapped if its source byte order does not match the byte
     // ordering of the host.
-    virtual unsigned long readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits = 0);
+    unsigned long readRaw(std::uint8_t*   buffer,
+                          misc::ByteOrder source_byte_order,
+                          unsigned long   offset_bits);
 
-    // Writes the data field to the "buffer" memory location without considering
-    // byte ordering.
-    virtual unsigned long writeRaw(std::uint8_t* buffer,
-                                  unsigned long  offset_bits = 0) const;
+    unsigned long writeRaw(std::uint8_t*  buffer) const;
+
+    unsigned long writeRaw(std::uint8_t*  buffer,
+                           misc::ByteOrder destination_byte_order) const;
+
+    virtual unsigned long writeRaw(std::uint8_t*  buffer,
+                                  unsigned long   offset_bits) const;
 
     // Writes this data packet to the "buffer" memory location.  Each field will
     // be byteswapped if its source byte order does not match the byte ordering
     // of the host.
     virtual unsigned long writeRaw(std::uint8_t*  buffer,
                                   misc::ByteOrder destination_byte_order,
-                                  unsigned long   offset_bits = 0) const;
+                                  unsigned long   offset_bits) const;
 
     // Returns the size of this field in bytes.  This will equal the number of
     // bytes written by writeRaw() and read by readRaw().
