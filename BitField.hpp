@@ -17,8 +17,8 @@ public:
 
     enum IndexingMode
     {
-        MS_FIRST,
-        LS_FIRST
+        MS_ZERO,
+        LS_ZERO
     };
 
     // Dynamically allocates and maintains a bit field that is "length_bits" in
@@ -162,7 +162,7 @@ inline bool BitField::getBit(unsigned long index) const
     // This is the byte we want but only if byte indexing mode is most
     // significant byte first
     std::uint8_t target_byte = bit_field_raw[div_result.quot];
-    if (im_bytes == LS_FIRST)
+    if (im_bytes == LS_ZERO)
     {
         target_byte = bit_field_raw[getUsedBytes() - div_result.quot - 1];
     }
@@ -170,11 +170,16 @@ inline bool BitField::getBit(unsigned long index) const
     // Now we have the right byte but we still need to find the right bit;
     // div_result.rem has the index
 
-    if (im_bits == LS_FIRST)
+    if (im_bits == LS_ZERO)
     {
+        target_byte >>= div_result.rem;
+    }
+    else
+    {
+        target_byte >>= BITS_PER_BYTE - div_result.rem - 1;
     }
 
-    return getBit(std::floor(index / BITS_PER_BYTE), index % BITS_PER_BYTE);
+    return (target_byte & 0x1) == 1;
 }
 
 //==============================================================================
