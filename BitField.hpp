@@ -146,83 +146,9 @@ private:
     bool memory_internal;
 
     // Defaults for indexing modes for bits and bytes
-    IndexingMode im_bits;
     IndexingMode im_bytes;
+    IndexingMode im_bits;
 };
-
-//==============================================================================
-inline bool BitField::getBit(unsigned long index) const
-{
-    throwIfIndexOutOfRange(index);
-
-    // This returns the index of the byte we want and the index of the bit
-    // within that byte
-    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
-
-    // This is the byte we want but only if byte indexing mode is most
-    // significant byte first
-    std::uint8_t target_byte = bit_field_raw[div_result.quot];
-    if (im_bytes == LS_ZERO)
-    {
-        target_byte = bit_field_raw[getUsedBytes() - div_result.quot - 1];
-    }
-
-    // Now we have the right byte but we still need to find the right bit;
-    // div_result.rem has the index
-
-    if (im_bits == LS_ZERO)
-    {
-        target_byte >>= div_result.rem;
-    }
-    else
-    {
-        target_byte >>= BITS_PER_BYTE - div_result.rem - 1;
-    }
-
-    return (target_byte & 0x1) == 1;
-}
-
-//==============================================================================
-inline void BitField::setBit(unsigned long index, bool value)
-{
-    throwIfIndexOutOfRange(index);
-
-    std::uint8_t mask = 1;
-
-    std::uint8_t target_byte = 0;
-    if (value)
-    {
-        target_byte = 1;
-    }
-
-    // This returns the index of the byte we want and the index of the bit
-    // within that byte
-    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
-
-    // This is the proper amount to shift if bit indexing mode is least
-    // significant zero
-    unsigned int shift_amount = div_result.rem;
-    if (im_bits == MS_ZERO)
-    {
-        shift_amount = BITS_PER_BYTE - div_result.rem - 1;
-    }
-
-    target_byte <<= shift_amount;
-    mask <<= shift_amount;
-
-    // We have the byte and mask shifted properly, now we just have to write the
-    // byte into the proper place in raw_bit_field
-
-    unsigned int byte_index = div_result.quot;
-    if (im_bytes == LS_ZERO)
-    {
-        byte_index = getUsedBytes() - div_result.quot - 1;
-    }
-
-    // Mask the bit setting in
-    bit_field_raw[byte_index] &= ~mask;
-    bit_field_raw[byte_index] |= target_byte;
-}
 
 //==============================================================================
 inline unsigned long BitField::getLengthBits() const
@@ -271,7 +197,7 @@ inline void BitField::throwIfIndexOutOfRange(unsigned long index) const
 {
     if (index >= length_bits)
     {
-        throw std::out_of_range("Out-of-range bits");
+        throw std::out_of_range("Bit index out of range");
     }
 }
 
