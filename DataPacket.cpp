@@ -29,11 +29,11 @@ unsigned long DataPacket::readRaw(std::uint8_t* buffer)
 
 //==============================================================================
 unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder byte_order)
+                                  misc::ByteOrder source_byte_order)
 {
     // Call the virtual method with the host byte ordering.  If the virtual
     // method is implemented like it should be it won't do any byteswapping.
-    return DataField::readRaw(buffer, byte_order);
+    return DataField::readRaw(buffer, source_byte_order);
 }
 
 //==============================================================================
@@ -90,11 +90,11 @@ unsigned long DataPacket::writeRaw(std::uint8_t* buffer) const
 
 //==============================================================================
 unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
-                                   misc::ByteOrder byte_order) const
+                                   misc::ByteOrder destination_byte_order) const
 {
     // Call the virtual method with the host byte ordering.  If the virtual
     // method is implemented like it should be it won't do any byteswapping.
-    return DataField::writeRaw(buffer, byte_order);
+    return DataField::writeRaw(buffer, destination_byte_order);
 }
 
 //==============================================================================

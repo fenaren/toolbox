@@ -35,7 +35,7 @@ public:
     unsigned long writeRaw(std::uint8_t* buffer) const;
 
     unsigned long writeRaw(std::uint8_t*   buffer,
-                           misc::ByteOrder byte_order) const;
+                           misc::ByteOrder destination_byte_order) const;
 
     unsigned long writeRaw(std::uint8_t* buffer,
                            unsigned long bit_offset) const;

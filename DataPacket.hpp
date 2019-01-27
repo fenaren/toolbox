@@ -26,28 +26,28 @@ public:
     // Does nothing
     virtual ~DataPacket();
 
-    unsigned long readRaw(std::uint8_t*   buffer);
+    unsigned long readRaw(std::uint8_t* buffer);
 
     unsigned long readRaw(std::uint8_t*   buffer,
                           misc::ByteOrder source_byte_order);
 
-    unsigned long readRaw(std::uint8_t*   buffer,
-                          unsigned long   offset_bits);
+    unsigned long readRaw(std::uint8_t* buffer,
+                          unsigned long offset_bits);
 
     // Reads this data packet from the "buffer" memory location.  Each field
     // will be byteswapped if its source byte order does not match the byte
     // ordering of the host.
-    unsigned long readRaw(std::uint8_t*   buffer,
-                          misc::ByteOrder source_byte_order,
-                          unsigned long   offset_bits);
+    virtual unsigned long readRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder source_byte_order,
+                                  unsigned long   offset_bits);
 
-    unsigned long writeRaw(std::uint8_t*  buffer) const;
+    unsigned long writeRaw(std::uint8_t* buffer) const;
 
-    unsigned long writeRaw(std::uint8_t*  buffer,
+    unsigned long writeRaw(std::uint8_t*   buffer,
                            misc::ByteOrder destination_byte_order) const;
 
-    virtual unsigned long writeRaw(std::uint8_t*  buffer,
-                                  unsigned long   offset_bits) const;
+    unsigned long writeRaw(std::uint8_t* buffer,
+                           unsigned long offset_bits) const;
 
     // Writes this data packet to the "buffer" memory location.  Each field will
     // be byteswapped if its source byte order does not match the byte ordering
