@@ -8,25 +8,29 @@
 #include "misc.hpp"
 
 //==============================================================================
-BitField::BitField(unsigned int length_bytes) :
+BitField::BitField(unsigned int length_bits) :
     DataField(),
-    memory_internal(true),
-    length_bytes(length_bytes)
+    length_bits(length_bits),
+    memory_internal(true)
 {
+    // How many bytes do we need to accomodate the requested number of bits?
+    unsigned int length_bytes = (length_bits / BITS_PER_BYTE) + 1;
     bit_field_raw = new std::uint8_t[length_bytes];
     memset(bit_field_raw, 0, length_bytes);
 }
 
 //==============================================================================
 BitField::BitField(std::uint8_t* buffer,
-                   unsigned int  length_bytes,
+                   unsigned int  length_bits,
                    bool          memory_internal) :
     DataField(),
-    memory_internal(memory_internal),
-    length_bytes(length_bytes)
+    length_bits(length_bits),
+    memory_internal(memory_internal)
 {
     if (memory_internal)
     {
+        // How many bytes do we need to accomodate the requested number of bits?
+        unsigned int length_bytes = (length_bits / BITS_PER_BYTE) + 1;
         bit_field_raw = new std::uint8_t[length_bytes];
         readRaw(buffer);
     }
@@ -41,8 +45,10 @@ BitField::BitField(const BitField& bit_field) :
     DataField(),
     memory_internal(true)
 {
-    length_bytes = bit_field.getLengthBytes();
+    length_bits = bit_field.getLengthBits();
 
+    // How many bytes do we need to accomodate the requested number of bits?
+    unsigned int length_bytes = (length_bits / BITS_PER_BYTE) + 1;
     bit_field_raw = new std::uint8_t[length_bytes];
 
     bit_field.writeRaw(bit_field_raw);
@@ -96,14 +102,10 @@ template <class T> void BitField::getBitsAsNumericType(T&           type_var,
                                                        unsigned int start_bit,
                                                        unsigned int count) const
 {
-    unsigned int length_bits = length_bytes * BITS_PER_BYTE;
+    throwIfIndexOutOfRange(start_bit);
+    throwIfIndexOutOfRange(start_bit + count - 1);
 
-    // Handle bad input
-    if (start_bit >= length_bits || start_bit + count > length_bits)
-    {
-        throw std::out_of_range("Out-of-range bit(s) specified");
-    }
-    else if (count > sizeof(T) * BITS_PER_BYTE)
+    if (count > sizeof(T) * BITS_PER_BYTE)
     {
         throw std::out_of_range("Not enough bits in the destination type");
     }
@@ -153,14 +155,10 @@ void BitField::setBitsAsNumericType(T            type_var,
                                     unsigned int start_bit,
                                     unsigned int count)
 {
-    unsigned int length_bits = length_bytes * BITS_PER_BYTE;
+    throwIfIndexOutOfRange(start_bit);
+    throwIfIndexOutOfRange(start_bit + count - 1);
 
-    // Handle bad input
-    if (start_bit >= length_bits || start_bit + count > length_bits)
-    {
-        throw std::out_of_range("Out-of-range bit(s) specified");
-    }
-    else if (count > sizeof(T) * BITS_PER_BYTE)
+    if (count > sizeof(T) * BITS_PER_BYTE)
     {
         throw std::out_of_range("Not enough bits in the source type");
     }
@@ -174,7 +172,7 @@ void BitField::setBitsAsNumericType(T            type_var,
     // relevant data over, shift down and then mask out the irrelevant bits
     for (unsigned int i = 0; i < count; ++i)
     {
-        setBit(start_bit + i, working_bitfield.getBit(i));
+       setBit(start_bit + i, working_bitfield.getBit(i));
     }
 }
 
@@ -295,11 +293,11 @@ bool operator==(const BitField& bit_field1, const BitField& bit_field2)
     }
 
     // We know both bit fields have equal length at this point
-    unsigned int length_bytes = bit_field1.getLengthBytes();
+    unsigned int length_bits = bit_field1.getLengthBits();
 
-    for (unsigned int i = 0; i < length_bytes; i++)
+    for (unsigned int i = 0; i < length_bits; i++)
     {
-        if (bit_field1.getOctet(i) != bit_field2.getOctet(i))
+        if (bit_field1.getBit(i) != bit_field2.getBit(i))
         {
             return false;
         }

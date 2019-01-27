@@ -1,8 +1,8 @@
 #if !defined BIT_FIELD_HPP
 #define BIT_FIELD_HPP
 
-#include <bitset>
 #include <cstdint>
+#include <cstdlib>
 #include <cmath>
 #include <stdexcept>
 #include <string>
@@ -15,24 +15,30 @@ class BitField : public DataField
 {
 public:
 
-    // Dynamically allocates and maintains a bit field that is "length_bytes" in
+    enum IndexingMode
+    {
+        MS_FIRST,
+        LS_FIRST
+    };
+
+    // Dynamically allocates and maintains a bit field that is "length_bits" in
     // size.  All bits are initially unset (set to 0).  Storage is dynamically
     // allocated.
     // cppcheck-suppress noExplicitConstructor
-    BitField(unsigned int length_bytes);
+    BitField(unsigned int length_bits);
 
     // Behavior depends on the value of "memory_internal".  If "memory_internal"
-    // is true, the data at "buffer" of length "length_bytes" will be copied
+    // is true, the data at "buffer" of length "length_bits" will be copied
     // into dynamically-allocated memory internal to this class.  If
-    // "memory_internal" is false, the data at "buffer" of length "length_bytes"
+    // "memory_internal" is false, the data at "buffer" of length "length_bits"
     // will be used by this class in-place and no dynamic memory allocation will
     // occur.
     BitField(std::uint8_t* buffer,
-             unsigned int  length_bytes,
+             unsigned int  length_bits,
              bool          memory_internal = true);
 
     // Copy constructor; dynamically allocates and maintains a bit field that is
-    // "length_bytes" in size, and then copies the given bit field into this
+    // "length_bits" in size, and then copies the given bit field into this
     // newly-allocated memory.
     BitField(const BitField& bit_field);
 
@@ -75,12 +81,12 @@ public:
     // increasing to the most significant bit
 
     // Octet access or mutation, indexed by (obviously) octet
-    std::uint8_t getOctet(unsigned int octet) const;
-    void setOctet(unsigned int octet, std::uint8_t value);
+    //std::uint8_t getOctet(unsigned int octet) const;
+    //void setOctet(unsigned int octet, std::uint8_t value);
 
     // Bit access or mutation, indexed by octet and the bit within that octet
-    bool getBit(unsigned int octet, unsigned int octet_bit) const;
-    void setBit(unsigned int octet, unsigned int octet_bit, bool value);
+    //bool getBit(unsigned int octet, unsigned int octet_bit) const;
+    //void setBit(unsigned int octet, unsigned int octet_bit, bool value);
 
     // Bit access or mutation, indexed by bit
     bool getBit(unsigned int bit) const;
@@ -123,6 +129,12 @@ public:
     // Simple accessor for memory_internal
     bool getMemoryInternal() const;
 
+    IndexingMode getBitIndexingMode() const;
+    void setBitIndexingMode(IndexingMode im);
+
+    IndexingMode getByteIndexingMode() const;
+    void setByteIndexingMode(IndexingMode im);
+
     BitField& operator=(const BitField& bit_field);
 
     // Uses leftShift()
@@ -133,76 +145,119 @@ public:
 
 private:
 
-    // Tosses a std::out_of_range exception if octet >= length_bytes
-    void throwIfOctetOutOfRange(unsigned int octet) const;
+    // Tosses a std::out_of_range exception if octet >= length_bits
+    void throwIfIndexOutOfRange(unsigned int octet) const;
 
     // Raw bit field is stored at this location
     std::uint8_t* bit_field_raw;
 
+    // Raw bit field is this many bytes in length
+    unsigned int length_bits;
+
     // Does this class own the memory at "bit_field_raw"?
     bool memory_internal;
 
-    // Raw bit field is this many bytes in length
-    unsigned int length_bytes;
+    // Defaults for indexing modes for bits and bytes
+    IndexingMode im_bits;
+    IndexingMode im_bytes;
 };
 
-inline std::uint8_t BitField::getOctet(unsigned int octet) const
+//==============================================================================
+/*inline std::uint8_t BitField::getOctet(unsigned int octet) const
 {
-    throwIfOctetOutOfRange(octet);
+    throwIfIndexOutOfRange(octet);
     return bit_field_raw[octet];
-}
+    }*/
 
-inline void BitField::setOctet(unsigned int octet, std::uint8_t value)
+//==============================================================================
+/*inline void BitField::setOctet(unsigned int octet, std::uint8_t value)
 {
-    throwIfOctetOutOfRange(octet);
+    throwIfIndexOutOfRange(octet);
     bit_field_raw[octet] = value;
-}
+    }*/
 
-inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit) const
+//==============================================================================
+/*inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit) const
 {
-    throwIfOctetOutOfRange(octet);
+    throwIfIndexOutOfRange(octet);
 
-    // Use std::bitset to do the bitshifting nonsense for us
-    std::bitset<BITS_PER_BYTE> working_octet(bit_field_raw[octet]);
     return working_octet.test(octet_bit);
-}
+    }*/
 
+//==============================================================================
 inline bool BitField::getBit(unsigned int bit) const
 {
+    throwIfIndexOutOfRange(bit);
+
+    // This returns the index of the byte we want and the index of the bit
+    // within that byte
+    std::ldiv_t div_result = std::ldiv(bit, BITS_PER_BYTE);
+
     return getBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE);
 }
 
-inline
+//==============================================================================
+/*inline
 void BitField::setBit(unsigned int octet, unsigned int octet_bit, bool value)
 {
-    throwIfOctetOutOfRange(octet);
+    throwIfIndexOutOfRange(octet);
 
     // Use std::bitset to do the bitshifting nonsense for us
     std::bitset<BITS_PER_BYTE> working_octet(bit_field_raw[octet]);
     working_octet.set(octet_bit, value);
     bit_field_raw[octet] = static_cast<std::uint8_t>(working_octet.to_ulong());
-}
+    }*/
 
+//==============================================================================
 inline void BitField::setBit(unsigned int bit, bool value)
 {
+    throwIfIndexOutOfRange(bit);
+    
     setBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE, value);
 }
 
+//==============================================================================
 inline unsigned long BitField::getLengthBits() const
 {
-    return static_cast<unsigned long>(length_bytes) * BITS_PER_BYTE;
+    return static_cast<unsigned long>(length_bits);
 }
 
+//==============================================================================
+BitField::IndexingMode BitField::getBitIndexingMode() const
+{
+    return im_bits;
+}
+
+//==============================================================================
+void BitField::setBitIndexingMode(BitField::IndexingMode im)
+{
+    im_bits = im;
+}
+
+//==============================================================================
+BitField::IndexingMode BitField::getByteIndexingMode() const
+{
+    return im_bytes;
+}
+
+//==============================================================================
+void BitField::setByteIndexingMode(BitField::IndexingMode im)
+{
+    im_bytes = im;
+}
+
+//==============================================================================
 inline bool BitField::getMemoryInternal() const
 {
     return memory_internal;
 }
 
-inline void BitField::throwIfOctetOutOfRange(unsigned int octet) const
+//==============================================================================
+inline void BitField::throwIfIndexOutOfRange(unsigned int index) const
 {
-    if (octet >= length_bytes)
+    if (index >= length_bits)
     {
-        throw std::out_of_range("Out-of-range octet index");
+        throw std::out_of_range("Out-of-range bits");
     }
 }
 
