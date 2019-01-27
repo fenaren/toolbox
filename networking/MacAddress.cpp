@@ -93,7 +93,7 @@ std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address)
     // for the colons in-between, and 1 on the end for the null
     char mac_cstr[MacAddress::MAX_STR_LENGTH_CHARS];
     mac_cstr[MacAddress::MAX_STR_LENGTH_CHARS - 1] = 0;
-    if (snprintf(mac_cstr,
+/*    if (snprintf(mac_cstr,
                  MacAddress::MAX_STR_LENGTH_CHARS,
                  "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
                  mac_address.getOctet(0),
@@ -106,7 +106,7 @@ std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address)
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
         return os;
-    }
+        }*/
 
     return os << std::string(mac_cstr);
 }
@@ -141,7 +141,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     // Copy from temporary storage into permanent storage
     for (unsigned int i = 0; i < MacAddress::LENGTH_BYTES; i++)
     {
-        mac_address.setOctet(i, tempmac[i]);
+//        mac_address.setOctet(i, tempmac[i]);
     }
 
     return is;

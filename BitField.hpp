@@ -121,8 +121,6 @@ public:
     IndexingMode getByteIndexingMode() const;
     void setByteIndexingMode(IndexingMode im);
 
-    unsigned int getUsedBytes() const;
-
     BitField& operator=(const BitField& bit_field);
 
     // Uses leftShift()
@@ -135,6 +133,8 @@ private:
 
     // Tosses a std::out_of_range exception if octet >= length_bits
     void throwIfIndexOutOfRange(unsigned long index) const;
+
+    unsigned int getUsedBytes() const;
 
     // Raw bit field is stored at this location
     std::uint8_t* bit_field_raw;
@@ -157,33 +157,27 @@ inline unsigned long BitField::getLengthBits() const
 }
 
 //==============================================================================
-BitField::IndexingMode BitField::getBitIndexingMode() const
+inline BitField::IndexingMode BitField::getBitIndexingMode() const
 {
     return im_bits;
 }
 
 //==============================================================================
-void BitField::setBitIndexingMode(BitField::IndexingMode im)
+inline void BitField::setBitIndexingMode(BitField::IndexingMode im)
 {
     im_bits = im;
 }
 
 //==============================================================================
-BitField::IndexingMode BitField::getByteIndexingMode() const
+inline BitField::IndexingMode BitField::getByteIndexingMode() const
 {
     return im_bytes;
 }
 
 //==============================================================================
-void BitField::setByteIndexingMode(BitField::IndexingMode im)
+inline void BitField::setByteIndexingMode(BitField::IndexingMode im)
 {
     im_bytes = im;
-}
-
-//==============================================================================
-unsigned int BitField::getUsedBytes() const
-{
-    return (length_bits / BITS_PER_BYTE) + 1;
 }
 
 //==============================================================================
@@ -199,6 +193,12 @@ inline void BitField::throwIfIndexOutOfRange(unsigned long index) const
     {
         throw std::out_of_range("Bit index out of range");
     }
+}
+
+//==============================================================================
+inline unsigned int BitField::getUsedBytes() const
+{
+    return (length_bits / BITS_PER_BYTE) + 1;
 }
 
 bool operator==(const BitField& bit_field1, const BitField& bit_field2);

@@ -94,7 +94,7 @@ std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address)
     // for the periods in-between, and 1 on the end for the null
     char ipv4_cstr[Ipv4Address::MAX_STR_LENGTH_CHARS];
     ipv4_cstr[Ipv4Address::MAX_STR_LENGTH_CHARS - 1] = 0;
-    if (snprintf(ipv4_cstr,
+/*    if (snprintf(ipv4_cstr,
                  Ipv4Address::MAX_STR_LENGTH_CHARS,
                  "%hhu.%hhu.%hhu.%hhu",
                  ipv4_address.getOctet(0),
@@ -105,7 +105,7 @@ std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address)
         // Something bad happened, so set the fail bit on the stream
         os.setstate(std::ios_base::failbit);
         return os;
-    }
+        }*/
 
     return os << std::string(ipv4_cstr);
 }
@@ -137,7 +137,7 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
     // Copy from temporary storage into permanent storage
     for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; i++)
     {
-        ipv4_address.setOctet(i, tempipv4[i]);
+//        ipv4_address.setOctet(i, tempipv4[i]);
     }
 
     return is;
