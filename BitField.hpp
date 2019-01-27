@@ -25,7 +25,7 @@ public:
     // size.  All bits are initially unset (set to 0).  Storage is dynamically
     // allocated.
     // cppcheck-suppress noExplicitConstructor
-    BitField(unsigned int length_bits);
+    BitField(unsigned long length_bits);
 
     // Behavior depends on the value of "memory_internal".  If "memory_internal"
     // is true, the data at "buffer" of length "length_bits" will be copied
@@ -34,7 +34,7 @@ public:
     // will be used by this class in-place and no dynamic memory allocation will
     // occur.
     BitField(std::uint8_t* buffer,
-             unsigned int  length_bits,
+             unsigned long length_bits,
              bool          memory_internal = true);
 
     // Copy constructor; dynamically allocates and maintains a bit field that is
@@ -74,23 +74,9 @@ public:
                                    misc::ByteOrder destination_byte_order,
                                    unsigned long   offset_bits = 0) const;
 
-    // Octets are indexed starting from 0 for the byte at the lowest memory
-    // address and increasing to the highest memory address
-
-    // Bits are indexed starting with 0 for the least significant bit and
-    // increasing to the most significant bit
-
-    // Octet access or mutation, indexed by (obviously) octet
-    //std::uint8_t getOctet(unsigned int octet) const;
-    //void setOctet(unsigned int octet, std::uint8_t value);
-
-    // Bit access or mutation, indexed by octet and the bit within that octet
-    //bool getBit(unsigned int octet, unsigned int octet_bit) const;
-    //void setBit(unsigned int octet, unsigned int octet_bit, bool value);
-
     // Bit access or mutation, indexed by bit
-    bool getBit(unsigned int bit) const;
-    void setBit(unsigned int bit, bool value);
+    bool getBit(unsigned long index) const;
+    void setBit(unsigned long index, bool value);
 
     // Copies a range of bits into the given typed numeric variable.  Useful for
     // pulling things like integers and floating-point numbers out of bitfields.
@@ -99,9 +85,9 @@ public:
     // least significant bit in "type_var", and proceeds to successively more
     // significant bits until "count" bits are copied.
     template <class T> void getBitsAsNumericType(
-        T&           type_var,
-        unsigned int start_bit = 0,
-        unsigned int count     = sizeof(T) * BITS_PER_BYTE) const;
+        T&            type_var,
+        unsigned long start_bit = 0,
+        unsigned long count     = sizeof(T) * BITS_PER_BYTE) const;
 
     // Copies a range of bits from the given typed numeric variable.  Useful for
     // pushing things like integers and floating-point numbers into bitfields.
@@ -110,17 +96,17 @@ public:
     // the least significant bit in the specified range, and proceeds to
     // successively more significant bits until "count" bits are copied.
     template <class T> void setBitsAsNumericType(
-        T            type_var,
-        unsigned int start_bit = 0,
-        unsigned int count     = sizeof(T) * BITS_PER_BYTE);
+        T             type_var,
+        unsigned long start_bit = 0,
+        unsigned long count     = sizeof(T) * BITS_PER_BYTE);
 
     // Bits shift toward the most significant bit, if this bitfield were
     // interpreted as one big integer
-    void shiftLeft(unsigned int shift_bits);
+    void shiftLeft(unsigned long shift_bits);
 
     // Bits shift toward the least significant bit, if this bitfield were
     // interpreted as one big integer
-    void shiftRight(unsigned int shift_bits);
+    void shiftRight(unsigned long shift_bits);
 
     // Returns the size of this bit field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
@@ -135,24 +121,26 @@ public:
     IndexingMode getByteIndexingMode() const;
     void setByteIndexingMode(IndexingMode im);
 
+    unsigned int getUsedBytes() const;
+
     BitField& operator=(const BitField& bit_field);
 
     // Uses leftShift()
-    BitField& operator<<=(unsigned int shift_bits);
+    BitField& operator<<=(unsigned long shift_bits);
 
     // Uses rightShift()
-    BitField& operator>>=(unsigned int shift_bits);
+    BitField& operator>>=(unsigned long shift_bits);
 
 private:
 
     // Tosses a std::out_of_range exception if octet >= length_bits
-    void throwIfIndexOutOfRange(unsigned int octet) const;
+    void throwIfIndexOutOfRange(unsigned long index) const;
 
     // Raw bit field is stored at this location
     std::uint8_t* bit_field_raw;
 
     // Raw bit field is this many bytes in length
-    unsigned int length_bits;
+    unsigned long length_bits;
 
     // Does this class own the memory at "bit_field_raw"?
     bool memory_internal;
@@ -163,57 +151,38 @@ private:
 };
 
 //==============================================================================
-/*inline std::uint8_t BitField::getOctet(unsigned int octet) const
+inline bool BitField::getBit(unsigned long index) const
 {
-    throwIfIndexOutOfRange(octet);
-    return bit_field_raw[octet];
-    }*/
-
-//==============================================================================
-/*inline void BitField::setOctet(unsigned int octet, std::uint8_t value)
-{
-    throwIfIndexOutOfRange(octet);
-    bit_field_raw[octet] = value;
-    }*/
-
-//==============================================================================
-/*inline bool BitField::getBit(unsigned int octet, unsigned int octet_bit) const
-{
-    throwIfIndexOutOfRange(octet);
-
-    return working_octet.test(octet_bit);
-    }*/
-
-//==============================================================================
-inline bool BitField::getBit(unsigned int bit) const
-{
-    throwIfIndexOutOfRange(bit);
+    throwIfIndexOutOfRange(index);
 
     // This returns the index of the byte we want and the index of the bit
     // within that byte
-    std::ldiv_t div_result = std::ldiv(bit, BITS_PER_BYTE);
+    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
 
-    return getBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE);
+    // This is the byte we want but only if byte indexing mode is most
+    // significant byte first
+    std::uint8_t target_byte = bit_field_raw[div_result.quot];
+    if (im_bytes == LS_FIRST)
+    {
+        target_byte = bit_field_raw[getUsedBytes() - div_result.quot - 1];
+    }
+
+    // Now we have the right byte but we still need to find the right bit;
+    // div_result.rem has the index
+
+    if (im_bits == LS_FIRST)
+    {
+    }
+
+    return getBit(std::floor(index / BITS_PER_BYTE), index % BITS_PER_BYTE);
 }
 
 //==============================================================================
-/*inline
-void BitField::setBit(unsigned int octet, unsigned int octet_bit, bool value)
+inline void BitField::setBit(unsigned long index, bool value)
 {
-    throwIfIndexOutOfRange(octet);
-
-    // Use std::bitset to do the bitshifting nonsense for us
-    std::bitset<BITS_PER_BYTE> working_octet(bit_field_raw[octet]);
-    working_octet.set(octet_bit, value);
-    bit_field_raw[octet] = static_cast<std::uint8_t>(working_octet.to_ulong());
-    }*/
-
-//==============================================================================
-inline void BitField::setBit(unsigned int bit, bool value)
-{
-    throwIfIndexOutOfRange(bit);
+    throwIfIndexOutOfRange(index);
     
-    setBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE, value);
+    setBit(std::floor(index / BITS_PER_BYTE), index % BITS_PER_BYTE, value);
 }
 
 //==============================================================================
@@ -247,13 +216,19 @@ void BitField::setByteIndexingMode(BitField::IndexingMode im)
 }
 
 //==============================================================================
+unsigned int BitField::getUsedBytes() const
+{
+    return (length_bits / BITS_PER_BYTE) + 1;
+}
+
+//==============================================================================
 inline bool BitField::getMemoryInternal() const
 {
     return memory_internal;
 }
 
 //==============================================================================
-inline void BitField::throwIfIndexOutOfRange(unsigned int index) const
+inline void BitField::throwIfIndexOutOfRange(unsigned long index) const
 {
     if (index >= length_bits)
     {
@@ -264,7 +239,7 @@ inline void BitField::throwIfIndexOutOfRange(unsigned int index) const
 bool operator==(const BitField& bit_field1, const BitField& bit_field2);
 bool operator!=(const BitField& bit_field1, const BitField& bit_field2);
 
-BitField operator>>(const BitField& bit_field, unsigned int shift_bits);
-BitField operator<<(const BitField& bit_field, unsigned int shift_bits);
+BitField operator>>(const BitField& bit_field, unsigned long shift_bits);
+BitField operator<<(const BitField& bit_field, unsigned long shift_bits);
 
 #endif
