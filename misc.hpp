@@ -17,6 +17,20 @@ namespace misc
         ENDIAN_LITTLE
     };
 
+    // As of this writing, this is used by BitField and ByteField to determine
+    // how their data is indexed.  "MS_ZERO" stands for "Most Significant Zero"
+    // and means the most significant unit of data, when data is interpreted as
+    // a number, is assigned index 0.  "LS_ZERO" stands for "Least Significant
+    // Zero" and means the least significant unit of data, when data is
+    // interpreted as a number, is assigned index 0.  The rest of the indices
+    // are assigned in order of increasing or decreasing significance as
+    // appropriate and expected.
+    enum DataIndexingMode
+    {
+        MS_ZERO,
+        LS_ZERO
+    };
+
     // Determines byte ordering (endianness) of the host
     ByteOrder getByteOrder();
 

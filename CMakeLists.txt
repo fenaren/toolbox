@@ -10,6 +10,7 @@ include(tools-cmake/ProjectCommon.cmake)
 # All the source files in this directory
 set(SRC
   BitField.cpp
+  ByteField.cpp
   DataField.cpp
   DataPacket.cpp
   FixedRateProgram.cpp

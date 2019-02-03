@@ -2,13 +2,13 @@
 #include <new>
 #include <stdexcept>
 
-#include "BitField.hpp"
+#include "ByteField.hpp"
 
 #include "DataField.hpp"
 #include "misc.hpp"
 
 //==============================================================================
-BitField::BitField(unsigned long length_bits) :
+ByteField::ByteField(unsigned long length_bits) :
     DataField(),
     length_bits(length_bits),
     memory_internal(true),
@@ -20,7 +20,7 @@ BitField::BitField(unsigned long length_bits) :
 }
 
 //==============================================================================
-BitField::BitField(std::uint8_t* buffer,
+ByteField::ByteField(std::uint8_t* buffer,
                    unsigned long length_bits,
                    bool          memory_internal) :
     DataField(),
@@ -41,7 +41,7 @@ BitField::BitField(std::uint8_t* buffer,
 }
 
 //==============================================================================
-BitField::BitField(const BitField& bit_field) :
+ByteField::ByteField(const ByteField& bit_field) :
     DataField(),
     memory_internal(true)
 {
@@ -55,7 +55,7 @@ BitField::BitField(const BitField& bit_field) :
 }
 
 //==============================================================================
-BitField::~BitField()
+ByteField::~ByteField()
 {
     if (memory_internal)
     {
@@ -64,14 +64,14 @@ BitField::~BitField()
 }
 
 //==============================================================================
-unsigned long BitField::readRaw(std::uint8_t* buffer,
+unsigned long ByteField::readRaw(std::uint8_t* buffer,
                                 unsigned long offset_bits)
 {
     return DataField::readRaw(buffer, offset_bits);
 }
 
 //==============================================================================
-unsigned long BitField::readRaw(std::uint8_t*   buffer,
+unsigned long ByteField::readRaw(std::uint8_t*   buffer,
                                 misc::ByteOrder source_byte_order,
                                 unsigned long   offset_bits)
 {
@@ -81,14 +81,14 @@ unsigned long BitField::readRaw(std::uint8_t*   buffer,
 }
 
 //==============================================================================
-unsigned long BitField::writeRaw(std::uint8_t* buffer,
+unsigned long ByteField::writeRaw(std::uint8_t* buffer,
                                  unsigned long offset_bits) const
 {
     return DataField::writeRaw(buffer, offset_bits);
 }
 
 //==============================================================================
-unsigned long BitField::writeRaw(std::uint8_t*   buffer,
+unsigned long ByteField::writeRaw(std::uint8_t*   buffer,
                                  misc::ByteOrder destination_byte_order,
                                  unsigned long   offset_bits) const
 {
@@ -98,7 +98,7 @@ unsigned long BitField::writeRaw(std::uint8_t*   buffer,
 }
 
 //==============================================================================
-bool BitField::getBit(unsigned long index) const
+bool ByteField::getBit(unsigned long index) const
 {
     throwIfIndexOutOfRange(index);
 
@@ -130,7 +130,7 @@ bool BitField::getBit(unsigned long index) const
 }
 
 //==============================================================================
-void BitField::setBit(unsigned long index, bool value)
+void ByteField::setBit(unsigned long index, bool value)
 {
     throwIfIndexOutOfRange(index);
 
@@ -172,7 +172,7 @@ void BitField::setBit(unsigned long index, bool value)
 }
 
 //==============================================================================
-template <class T> void BitField::getBitsAsNumericType(
+template <class T> void ByteField::getBitsAsNumericType(
     T&            type_var,
     unsigned long start_bit,
     unsigned long count) const
@@ -190,7 +190,7 @@ template <class T> void BitField::getBitsAsNumericType(
     type_var = 0;
 
     // Use the given variable as if it were a bitfield, and set bits inside it
-    BitField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
+    ByteField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
                               sizeof(T),
                               false);
 
@@ -207,7 +207,7 @@ template <class T> void BitField::getBitsAsNumericType(
 // since it's sometimes useful to use it as if it were a numeric type
 #define INSTANTIATE_GETBITSASNUMERICTYPE(Type)                          \
     template void                                                       \
-    BitField::getBitsAsNumericType(Type&, unsigned long, unsigned long) const;
+    ByteField::getBitsAsNumericType(Type&, unsigned long, unsigned long) const;
 
 INSTANTIATE_GETBITSASNUMERICTYPE(char);
 INSTANTIATE_GETBITSASNUMERICTYPE(double);
@@ -224,7 +224,7 @@ INSTANTIATE_GETBITSASNUMERICTYPE(unsigned long long);
 INSTANTIATE_GETBITSASNUMERICTYPE(unsigned short);
 
 //==============================================================================
-template <class T> void BitField::setBitsAsNumericType(
+template <class T> void ByteField::setBitsAsNumericType(
     T             type_var,
     unsigned long start_bit,
     unsigned long count)
@@ -237,7 +237,7 @@ template <class T> void BitField::setBitsAsNumericType(
     }
 
     // Use the given variable as if it were a bitfield, and set bits inside it
-    BitField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
+    ByteField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
                               sizeof(T),
                               false);
 
@@ -254,7 +254,7 @@ template <class T> void BitField::setBitsAsNumericType(
 // since it's sometimes useful to use it as if it were a numeric type
 #define INSTANTIATE_SETBITSASNUMERICTYPE(Type)                          \
     template void                                                       \
-    BitField::setBitsAsNumericType(Type, unsigned long, unsigned long);
+    ByteField::setBitsAsNumericType(Type, unsigned long, unsigned long);
 
 INSTANTIATE_SETBITSASNUMERICTYPE(char);
 INSTANTIATE_SETBITSASNUMERICTYPE(double);
@@ -271,7 +271,7 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned long long);
 INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 
 //==============================================================================
-void BitField::shiftLeft(unsigned long shift_bits)
+void ByteField::shiftLeft(unsigned long shift_bits)
 {
     if (shift_bits >= length_bits)
     {
@@ -301,7 +301,7 @@ void BitField::shiftLeft(unsigned long shift_bits)
 }
 
 //==============================================================================
-void BitField::shiftRight(unsigned long shift_bits)
+void ByteField::shiftRight(unsigned long shift_bits)
 {
     if (shift_bits >= length_bits)
     {
@@ -329,7 +329,7 @@ void BitField::shiftRight(unsigned long shift_bits)
 }
 
 //==============================================================================
-BitField& BitField::operator=(const BitField& bit_field)
+ByteField& ByteField::operator=(const ByteField& bit_field)
 {
     if (this != &bit_field)
     {
@@ -340,21 +340,21 @@ BitField& BitField::operator=(const BitField& bit_field)
 }
 
 //==============================================================================
-BitField& BitField::operator<<=(unsigned long shift_bits)
+ByteField& ByteField::operator<<=(unsigned long shift_bits)
 {
     shiftLeft(shift_bits);
     return *this;
 }
 
 //==============================================================================
-BitField& BitField::operator>>=(unsigned long shift_bits)
+ByteField& ByteField::operator>>=(unsigned long shift_bits)
 {
     shiftRight(shift_bits);
     return *this;
 }
 
 //==============================================================================
-bool operator==(const BitField& bit_field1, const BitField& bit_field2)
+bool operator==(const ByteField& bit_field1, const ByteField& bit_field2)
 {
     if (bit_field1.getLengthBits() != bit_field2.getLengthBits())
     {
@@ -376,25 +376,25 @@ bool operator==(const BitField& bit_field1, const BitField& bit_field2)
 }
 
 //==============================================================================
-bool operator!=(const BitField& bit_field1, const BitField& bit_field2)
+bool operator!=(const ByteField& bit_field1, const ByteField& bit_field2)
 {
     return !(bit_field1 == bit_field2);
 }
 
 //==============================================================================
-BitField operator<<(const BitField& bit_field, unsigned long shift_bits)
+ByteField operator<<(const ByteField& bit_field, unsigned long shift_bits)
 {
     // Copy the bitfield then return a shifted copy
-    BitField new_bit_field(bit_field);
+    ByteField new_bit_field(bit_field);
     new_bit_field.shiftLeft(shift_bits);
     return new_bit_field;
 }
 
 //==============================================================================
-BitField operator>>(const BitField& bit_field, unsigned long shift_bits)
+ByteField operator>>(const ByteField& bit_field, unsigned long shift_bits)
 {
     // Copy the bitfield then return a shifted copy
-    BitField new_bit_field(bit_field);
+    ByteField new_bit_field(bit_field);
     new_bit_field.shiftRight(shift_bits);
     return new_bit_field;
 }
