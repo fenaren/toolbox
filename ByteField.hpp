@@ -7,171 +7,146 @@
 #include <stdexcept>
 #include <string>
 
-#include "BitField.hpp"
+#include "DataField.hpp"
 
 #include "misc.hpp"
 
-class ByteField : public BitField
+class ByteField : public DataField
 {
 public:
 
-    // Dynamically allocates and maintains a bit field that is "length_bits" in
-    // size.  All bits are initially unset (set to 0).  Storage is dynamically
-    // allocated.
+    // Dynamically allocates and maintains a byte field that is "length_bytes"
+    // in size.  All bits are initially unset (set to 0).  Storage is
+    // dynamically allocated.
     // cppcheck-suppress noExplicitConstructor
-    ByteField(unsigned long length_bits);
+    ByteField(unsigned long length_bytes);
 
     // Behavior depends on the value of "memory_internal".  If "memory_internal"
-    // is true, the data at "buffer" of length "length_bits" will be copied
+    // is true, the data at "buffer" of length "length_bytes" will be copied
     // into dynamically-allocated memory internal to this class.  If
-    // "memory_internal" is false, the data at "buffer" of length "length_bits"
+    // "memory_internal" is false, the data at "buffer" of length "length_bytes"
     // will be used by this class in-place and no dynamic memory allocation will
     // occur.
     ByteField(std::uint8_t* buffer,
-             unsigned long length_bits,
-             bool          memory_internal = true);
+              unsigned long length_bytes,
+              bool          memory_internal = true);
 
-    // Copy constructor; dynamically allocates and maintains a bit field that is
-    // "length_bits" in size, and then copies the given bit field into this
+    // Copy constructor; dynamically allocates and maintains a byte field that
+    // is "length_bytes" in size, and then copies the given byte field into this
     // newly-allocated memory.
-    ByteField(const ByteField& bit_field);
+    ByteField(const ByteField& byte_field);
 
-    // Will free the memory at "raw_bit_field" if it is owned by this class
+    // Will free the memory at "byte_field_raw" if it is owned by this class
     virtual ~ByteField();
 
-    // Reads a raw bit field from the "buffer" memory location.  Byte ordering
-    // has no relevance to bit fields so no byte swapping is performed.
+    // Reads a raw byte field from the "buffer" memory location.  Byte ordering
+    // has no relevance to byte fields so no byte swapping is performed.
     virtual unsigned long readRaw(std::uint8_t* buffer,
                                   unsigned long offset_bits = 0);
 
-    // Reads a raw bit field from the "buffer" memory location.  This
+    // Reads a raw byte field from the "buffer" memory location.  This
     // function is required by the framework to be implemented here, despite
     // being functionally identical to the single-argument version defined
-    // above.  If byte ordering were relevant to bit fields (in the
+    // above.  If byte ordering were relevant to byte fields (in the
     // general sense of the term) this function would be where that difference
     // would be handled.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
                                   unsigned long   offset_bits = 0);
 
-    // Writes this bit field to the "buffer" memory location.  Byte ordering has
-    // no relevance to bit fields so no byte swapping is performed.
+    // Writes this byte field to the "buffer" memory location.  Byte ordering has
+    // no relevance to byte fields so no byte swapping is performed.
     virtual unsigned long writeRaw(std::uint8_t* buffer,
                                    unsigned long offset_bits = 0) const;
 
-    // Writes this bit field to the "buffer" memory location.  This function is
+    // Writes this byte field to the "buffer" memory location.  This function is
     // required by the framework to be implemented here, despite being
     // functionally identical to the single-argument version defined above.  If
-    // byte ordering were relevant to bit fields (in the general sense of the
+    // byte ordering were relevant to byte fields (in the general sense of the
     // term) this function would be where that difference would be handled.
     virtual unsigned long writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
                                    unsigned long   offset_bits = 0) const;
 
-    // Bit access or mutation, indexed by bit
-    bool getBit(unsigned long index) const;
-    void setBit(unsigned long index, bool value);
-
-    // Copies a range of bits into the given typed numeric variable.  Useful for
-    // pulling things like integers and floating-point numbers out of bitfields.
-    // Bit numbering follows the convention used by getBit().  Operation starts
-    // by copying the least significant bit in the specified range into the
-    // least significant bit in "type_var", and proceeds to successively more
-    // significant bits until "count" bits are copied.
-    template <class T> void getBitsAsNumericType(
-        T&            type_var,
-        unsigned long start_bit = 0,
-        unsigned long count     = sizeof(T) * BITS_PER_BYTE) const;
-
-    // Copies a range of bits from the given typed numeric variable.  Useful for
-    // pushing things like integers and floating-point numbers into bitfields.
-    // Bit numbering follows the convention used by getBit().  Operation starts
-    // by copying the least significant bit in the typed numeric variable into
-    // the least significant bit in the specified range, and proceeds to
-    // successively more significant bits until "count" bits are copied.
-    template <class T> void setBitsAsNumericType(
-        T             type_var,
-        unsigned long start_bit = 0,
-        unsigned long count     = sizeof(T) * BITS_PER_BYTE);
-
-    // Bits shift toward the most significant bit, if this bitfield were
-    // interpreted as one big integer
-    void shiftLeft(unsigned long shift_bits);
-
-    // Bits shift toward the least significant bit, if this bitfield were
-    // interpreted as one big integer
-    void shiftRight(unsigned long shift_bits);
-
-    // Returns the size of this bit field in bytes.  This will equal the number
+    // Returns the size of this byte field in bytes.  This will equal the number
     // of bytes written by writeRaw() and read by readRaw().
-    virtual unsigned long getLengthBits() const;
+    virtual unsigned long getLengthBytes() const;
 
     // Simple accessor for memory_internal
     bool getMemoryInternal() const;
 
-    misc::DataIndexingMode getBitDataIndexingMode() const;
-    void setBitDataIndexingMode(misc::DataIndexingMode im);
+    std::uint8_t getByte(unsigned long index) const;
+    void setByte(unsigned long index, std::uint8_t byte);
 
-    misc::DataIndexingMode getByteDataIndexingMode() const;
-    void setByteDataIndexingMode(misc::DataIndexingMode im);
+    misc::DataIndexingMode getIndexingMode() const;
+    void setIndexingMode(misc::DataIndexingMode indexing_mode);
 
-    ByteField& operator=(const ByteField& bit_field);
-
-    // Uses leftShift()
-    ByteField& operator<<=(unsigned long shift_bits);
-
-    // Uses rightShift()
-    ByteField& operator>>=(unsigned long shift_bits);
+    ByteField& operator=(const ByteField& byte_field);
 
 private:
 
-    // Tosses a std::out_of_range exception if octet >= length_bits
+    // Tosses a std::out_of_range exception if octet >= length_bytes
     void throwIfIndexOutOfRange(unsigned long index) const;
 
-    unsigned int getUsedBytes() const;
+    // Raw byte field is stored at this location
+    std::uint8_t* byte_field_raw;
 
-    // Raw bit field is stored at this location
-    std::uint8_t* bit_field_raw;
+    // Raw byte field is this many bytes in length
+    unsigned long length_bytes;
 
-    // Raw bit field is this many bytes in length
-    unsigned long length_bits;
-
-    // Does this class own the memory at "bit_field_raw"?
+    // Does this class own the memory at "byte_field_raw"?
     bool memory_internal;
 
     // Defaults for indexing modes for bits and bytes
-    misc::DataIndexingMode im_bytes;
-    misc::DataIndexingMode im_bits;
+    misc::DataIndexingMode indexing_mode;
 };
 
 //==============================================================================
-inline unsigned long ByteField::getLengthBits() const
+inline unsigned long ByteField::getLengthBytes() const
 {
-    return static_cast<unsigned long>(length_bits);
+    return length_bytes;
 }
 
 //==============================================================================
-inline misc::DataIndexingMode ByteField::getBitIndexingMode() const
+inline misc::DataIndexingMode ByteField::getIndexingMode() const
 {
-    return im_bits;
+    return indexing_mode;
 }
 
 //==============================================================================
-inline void ByteField::setBitIndexingMode(misc::DataIndexingMode im)
+inline std::uint8_t ByteField::getByte(unsigned long index) const
 {
-    im_bits = im;
+    throwIfIndexOutOfRange(index);
+
+    unsigned long real_index = index;
+
+    if (indexing_mode == misc::LS_ZERO)
+    {
+        real_index = length_bytes - index - 1;
+    }
+
+    return byte_field_raw[real_index];
 }
 
 //==============================================================================
-inline misc::DataIndexingMode ByteField::getByteIndexingMode() const
+inline void ByteField::setByte(unsigned long index, std::uint8_t byte)
 {
-    return im_bytes;
+    throwIfIndexOutOfRange(index);
+
+    unsigned long real_index = index;
+
+    if (indexing_mode == misc::LS_ZERO)
+    {
+        real_index = length_bytes - index - 1;
+    }
+
+    byte_field_raw[real_index] = byte;
 }
 
 //==============================================================================
-inline void ByteField::setByteIndexingMode(misc::DataIndexingMode im)
+inline void ByteField::setIndexingMode(misc::DataIndexingMode indexing_mode)
 {
-    im_bytes = im;
+    this->indexing_mode = indexing_mode;
 }
 
 //==============================================================================
@@ -183,22 +158,13 @@ inline bool ByteField::getMemoryInternal() const
 //==============================================================================
 inline void ByteField::throwIfIndexOutOfRange(unsigned long index) const
 {
-    if (index >= length_bits)
+    if (index >= length_bytes)
     {
         throw std::out_of_range("Bit index out of range");
     }
 }
 
-//==============================================================================
-inline unsigned int ByteField::getUsedBytes() const
-{
-    return (length_bits / BITS_PER_BYTE) + 1;
-}
-
-bool operator==(const ByteField& bit_field1, const ByteField& bit_field2);
-bool operator!=(const ByteField& bit_field1, const ByteField& bit_field2);
-
-ByteField operator>>(const ByteField& bit_field, unsigned long shift_bits);
-ByteField operator<<(const ByteField& bit_field, unsigned long shift_bits);
+bool operator==(const ByteField& byte_field1, const ByteField& byte_field2);
+bool operator!=(const ByteField& byte_field1, const ByteField& byte_field2);
 
 #endif
