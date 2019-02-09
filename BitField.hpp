@@ -7,11 +7,11 @@
 #include <stdexcept>
 #include <string>
 
-#include "DataField.hpp"
+#include "RawDataField.hpp"
 
 #include "misc.hpp"
 
-class BitField : public DataField
+class BitField : public RawDataField
 {
 public:
 
@@ -106,15 +106,6 @@ public:
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned long getLengthBits() const;
 
-    // Simple accessor for memory_internal
-    bool getMemoryInternal() const;
-
-    misc::DataIndexingMode getBitIndexingMode() const;
-    void setBitIndexingMode(misc::DataIndexingMode im);
-
-    misc::DataIndexingMode getByteIndexingMode() const;
-    void setByteIndexingMode(misc::DataIndexingMode im);
-
     BitField& operator=(const BitField& bit_field);
 
     // Uses leftShift()
@@ -125,9 +116,6 @@ public:
 
 private:
 
-    // Tosses a std::out_of_range exception if octet >= length_bits
-    void throwIfIndexOutOfRange(unsigned long index) const;
-
     unsigned int getUsedBytes() const;
 
     // Raw bit field is stored at this location
@@ -135,13 +123,6 @@ private:
 
     // Raw bit field is this many bytes in length
     unsigned long length_bits;
-
-    // Does this class own the memory at "bit_field_raw"?
-    bool memory_internal;
-
-    // Defaults for indexing modes for bits and bytes
-    misc::DataIndexingMode im_bytes;
-    misc::DataIndexingMode im_bits;
 };
 
 //==============================================================================
@@ -151,52 +132,13 @@ inline unsigned long BitField::getLengthBits() const
 }
 
 //==============================================================================
-inline misc::DataIndexingMode BitField::getBitIndexingMode() const
-{
-    return im_bits;
-}
-
-//==============================================================================
-inline void BitField::setBitIndexingMode(misc::DataIndexingMode im)
-{
-    im_bits = im;
-}
-
-//==============================================================================
-inline misc::DataIndexingMode BitField::getByteIndexingMode() const
-{
-    return im_bytes;
-}
-
-//==============================================================================
-inline void BitField::setByteIndexingMode(misc::DataIndexingMode im)
-{
-    im_bytes = im;
-}
-
-//==============================================================================
-inline bool BitField::getMemoryInternal() const
-{
-    return memory_internal;
-}
-
-//==============================================================================
-inline void BitField::throwIfIndexOutOfRange(unsigned long index) const
-{
-    if (index >= length_bits)
-    {
-        throw std::out_of_range("Bit index out of range");
-    }
-}
-
-//==============================================================================
 inline unsigned int BitField::getUsedBytes() const
 {
     return (length_bits / BITS_PER_BYTE) + 1;
 }
 
-bool operator==(const BitField& bit_field1, const BitField& bit_field2);
-bool operator!=(const BitField& bit_field1, const BitField& bit_field2);
+bool operator==(const BitField& lhs, const BitField& rhs);
+bool operator!=(const BitField& lhs, const BitField& rhs);
 
 BitField operator>>(const BitField& bit_field, unsigned long shift_bits);
 BitField operator<<(const BitField& bit_field, unsigned long shift_bits);

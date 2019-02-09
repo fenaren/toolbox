@@ -4,16 +4,13 @@
 
 #include "BitField.hpp"
 
-#include "DataField.hpp"
+#include "RawDataField.hpp"
 #include "misc.hpp"
 
 //==============================================================================
 BitField::BitField(unsigned long length_bits) :
-    DataField(),
-    length_bits(length_bits),
-    memory_internal(true),
-    im_bytes(misc::MS_ZERO),
-    im_bits(misc::LS_ZERO)
+    RawDataField(true, misc::MS_ZERO),
+    length_bits(length_bits)
 {
     bit_field_raw = new std::uint8_t[getUsedBytes()];
     memset(bit_field_raw, 0, getUsedBytes());
@@ -23,11 +20,8 @@ BitField::BitField(unsigned long length_bits) :
 BitField::BitField(std::uint8_t* buffer,
                    unsigned long length_bits,
                    bool          memory_internal) :
-    DataField(),
-    length_bits(length_bits),
-    memory_internal(memory_internal),
-    im_bytes(misc::MS_ZERO),
-    im_bits(misc::LS_ZERO)
+    RawDataField(memory_internal, misc::LS_ZERO),
+    length_bits(length_bits)
 {
     if (memory_internal)
     {
@@ -42,12 +36,9 @@ BitField::BitField(std::uint8_t* buffer,
 
 //==============================================================================
 BitField::BitField(const BitField& bit_field) :
-    DataField(),
-    memory_internal(true)
+    RawDataField(true, bit_field.getIndexingMode())
 {
     length_bits = bit_field.getLengthBits();
-    im_bytes = bit_field.getByteIndexingMode();
-    im_bits = bit_field.getBitIndexingMode();
 
     bit_field_raw = new std::uint8_t[getUsedBytes()];
 
@@ -57,7 +48,7 @@ BitField::BitField(const BitField& bit_field) :
 //==============================================================================
 BitField::~BitField()
 {
-    if (memory_internal)
+    if (getMemoryInternal())
     {
         delete[] bit_field_raw;
     }
@@ -100,7 +91,7 @@ unsigned long BitField::writeRaw(std::uint8_t*   buffer,
 //==============================================================================
 bool BitField::getBit(unsigned long index) const
 {
-    throwIfIndexOutOfRange(index);
+    throwIfIndexOutOfRange(index, length_bits);
 
     // This returns the index of the byte we want and the index of the bit
     // within that byte
@@ -109,15 +100,11 @@ bool BitField::getBit(unsigned long index) const
     // This is the byte we want but only if byte indexing mode is most
     // significant byte first
     std::uint8_t target_byte = bit_field_raw[div_result.quot];
-    if (im_bytes == misc::LS_ZERO)
-    {
-        target_byte = bit_field_raw[getUsedBytes() - div_result.quot - 1];
-    }
 
     // Now we have the right byte but we still need to find the right bit;
     // div_result.rem has the index
 
-    if (im_bits == misc::LS_ZERO)
+    if (getIndexingMode() == misc::LS_ZERO)
     {
         target_byte >>= div_result.rem;
     }
@@ -132,7 +119,7 @@ bool BitField::getBit(unsigned long index) const
 //==============================================================================
 void BitField::setBit(unsigned long index, bool value)
 {
-    throwIfIndexOutOfRange(index);
+    throwIfIndexOutOfRange(index, length_bits);
 
     std::uint8_t mask = 1;
 
@@ -149,7 +136,7 @@ void BitField::setBit(unsigned long index, bool value)
     // This is the proper amount to shift if bit indexing mode is least
     // significant zero
     unsigned int shift_amount = div_result.rem;
-    if (im_bits == misc::MS_ZERO)
+    if (getIndexingMode() == misc::MS_ZERO)
     {
         shift_amount = BITS_PER_BYTE - div_result.rem - 1;
     }
@@ -161,10 +148,6 @@ void BitField::setBit(unsigned long index, bool value)
     // byte into the proper place in raw_bit_field
 
     unsigned int byte_index = div_result.quot;
-    if (im_bytes == misc::LS_ZERO)
-    {
-        byte_index = getUsedBytes() - div_result.quot - 1;
-    }
 
     // Mask the bit setting in
     bit_field_raw[byte_index] &= ~mask;
@@ -177,7 +160,7 @@ template <class T> void BitField::getBitsAsNumericType(
     unsigned long start_bit,
     unsigned long count) const
 {
-    throwIfIndexOutOfRange(start_bit + count - 1);
+    throwIfIndexOutOfRange(start_bit + count - 1, length_bits);
 
     if (count > sizeof(T) * BITS_PER_BYTE)
     {
@@ -229,7 +212,7 @@ template <class T> void BitField::setBitsAsNumericType(
     unsigned long start_bit,
     unsigned long count)
 {
-    throwIfIndexOutOfRange(start_bit + count - 1);
+    throwIfIndexOutOfRange(start_bit + count - 1, length_bits);
 
     if (count > sizeof(T) * BITS_PER_BYTE)
     {
@@ -354,19 +337,19 @@ BitField& BitField::operator>>=(unsigned long shift_bits)
 }
 
 //==============================================================================
-bool operator==(const BitField& bit_field1, const BitField& bit_field2)
+bool operator==(const BitField& lhs, const BitField& rhs)
 {
-    if (bit_field1.getLengthBits() != bit_field2.getLengthBits())
+    if (lhs.getLengthBits() != rhs.getLengthBits())
     {
         return false;
     }
 
     // We know both bit fields have equal length at this point
-    unsigned long length_bits = bit_field1.getLengthBits();
+    unsigned long length_bits = lhs.getLengthBits();
 
     for (unsigned long i = 0; i < length_bits; i++)
     {
-        if (bit_field1.getBit(i) != bit_field2.getBit(i))
+        if (lhs.getBit(i) != rhs.getBit(i))
         {
             return false;
         }
@@ -376,9 +359,9 @@ bool operator==(const BitField& bit_field1, const BitField& bit_field2)
 }
 
 //==============================================================================
-bool operator!=(const BitField& bit_field1, const BitField& bit_field2)
+bool operator!=(const BitField& lhs, const BitField& rhs)
 {
-    return !(bit_field1 == bit_field2);
+    return !(lhs == rhs);
 }
 
 //==============================================================================
