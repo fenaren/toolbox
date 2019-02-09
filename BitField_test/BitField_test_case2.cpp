@@ -20,12 +20,12 @@ Test::Result BitField_test_case2::body()
     std::uint16_t raw_bitfield2 = 0;
     std::uint32_t raw_bitfield4 = 0;
 
-    BitField bitfield1(&raw_bitfield1, 1, false);
+    BitField bitfield1(&raw_bitfield1, BITS_PER_BYTE, false);
     BitField bitfield2(reinterpret_cast<std::uint8_t*>(&raw_bitfield2),
-                       sizeof(std::uint16_t),
+                       sizeof(std::uint16_t) * BITS_PER_BYTE,
                        false);
     BitField bitfield4(reinterpret_cast<std::uint8_t*>(&raw_bitfield4),
-                       sizeof(std::uint32_t),
+                       sizeof(std::uint32_t) * BITS_PER_BYTE,
                        false);
 
     // Make sure trying to get out-of-range bits properly throws an exception
