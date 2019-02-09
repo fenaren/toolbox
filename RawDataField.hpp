@@ -23,6 +23,11 @@ public:
 
     bool getMemoryInternal() const;
 
+protected:
+
+    // Tosses a std::out_of_range exception if index >= size
+    void throwIfIndexOutOfRange(unsigned long index, unsigned long size) const;
+
 private:
 
     // Does this class own the memory at "byte_field_raw"?
@@ -48,6 +53,17 @@ inline void RawDataField::setIndexingMode(misc::DataIndexingMode indexing_mode)
 inline bool RawDataField::getMemoryInternal() const
 {
     return memory_internal;
+}
+
+
+//==============================================================================
+inline void RawDataField::throwIfIndexOutOfRange(unsigned long index,
+                                                 unsigned long size) const
+{
+    if (index >= size)
+    {
+        throw std::out_of_range("Index out of range");
+    }
 }
 
 #endif

@@ -7,11 +7,11 @@
 #include <stdexcept>
 #include <string>
 
-#include "DataField.hpp"
+#include "RawDataField.hpp"
 
 #include "misc.hpp"
 
-class ByteField : public DataField
+class ByteField : public RawDataField
 {
 public:
 
@@ -72,33 +72,18 @@ public:
     // of bytes written by writeRaw() and read by readRaw().
     virtual unsigned long getLengthBytes() const;
 
-    // Simple accessor for memory_internal
-    bool getMemoryInternal() const;
-
     std::uint8_t getByte(unsigned long index) const;
     void setByte(unsigned long index, std::uint8_t byte);
-
-    misc::DataIndexingMode getIndexingMode() const;
-    void setIndexingMode(misc::DataIndexingMode indexing_mode);
 
     ByteField& operator=(const ByteField& byte_field);
 
 private:
-
-    // Tosses a std::out_of_range exception if octet >= length_bytes
-    void throwIfIndexOutOfRange(unsigned long index) const;
 
     // Raw byte field is stored at this location
     std::uint8_t* byte_field_raw;
 
     // Raw byte field is this many bytes in length
     unsigned long length_bytes;
-
-    // Does this class own the memory at "byte_field_raw"?
-    bool memory_internal;
-
-    // Defaults for indexing modes for bits and bytes
-    misc::DataIndexingMode indexing_mode;
 };
 
 //==============================================================================
@@ -108,19 +93,13 @@ inline unsigned long ByteField::getLengthBytes() const
 }
 
 //==============================================================================
-inline misc::DataIndexingMode ByteField::getIndexingMode() const
-{
-    return indexing_mode;
-}
-
-//==============================================================================
 inline std::uint8_t ByteField::getByte(unsigned long index) const
 {
-    throwIfIndexOutOfRange(index);
+    throwIfIndexOutOfRange(index, getLengthBytes());
 
     unsigned long real_index = index;
 
-    if (indexing_mode == misc::LS_ZERO)
+    if (getIndexingMode() == misc::LS_ZERO)
     {
         real_index = length_bytes - index - 1;
     }
@@ -131,11 +110,11 @@ inline std::uint8_t ByteField::getByte(unsigned long index) const
 //==============================================================================
 inline void ByteField::setByte(unsigned long index, std::uint8_t byte)
 {
-    throwIfIndexOutOfRange(index);
+    throwIfIndexOutOfRange(index, getLengthBytes());
 
     unsigned long real_index = index;
 
-    if (indexing_mode == misc::LS_ZERO)
+    if (getIndexingMode() == misc::LS_ZERO)
     {
         real_index = length_bytes - index - 1;
     }
@@ -143,28 +122,7 @@ inline void ByteField::setByte(unsigned long index, std::uint8_t byte)
     byte_field_raw[real_index] = byte;
 }
 
-//==============================================================================
-inline void ByteField::setIndexingMode(misc::DataIndexingMode indexing_mode)
-{
-    this->indexing_mode = indexing_mode;
-}
-
-//==============================================================================
-inline bool ByteField::getMemoryInternal() const
-{
-    return memory_internal;
-}
-
-//==============================================================================
-inline void ByteField::throwIfIndexOutOfRange(unsigned long index) const
-{
-    if (index >= length_bytes)
-    {
-        throw std::out_of_range("Bit index out of range");
-    }
-}
-
-bool operator==(const ByteField& byte_field1, const ByteField& byte_field2);
-bool operator!=(const ByteField& byte_field1, const ByteField& byte_field2);
+bool operator==(const ByteField& lhs, const ByteField& rhs);
+bool operator!=(const ByteField& lhs, const ByteField& rhs);
 
 #endif

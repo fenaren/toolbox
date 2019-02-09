@@ -9,10 +9,8 @@
 
 //==============================================================================
 ByteField::ByteField(unsigned long length_bytes) :
-    DataField(),
-    length_bytes(length_bytes),
-    memory_internal(true),
-    indexing_mode(misc::MS_ZERO)
+    RawDataField(true, misc::MS_ZERO),
+    length_bytes(length_bytes)
 {
     byte_field_raw = new std::uint8_t[length_bytes];
     memset(byte_field_raw, 0, length_bytes);
@@ -22,10 +20,8 @@ ByteField::ByteField(unsigned long length_bytes) :
 ByteField::ByteField(std::uint8_t* buffer,
                      unsigned long length_bytes,
                      bool          memory_internal) :
-    DataField(),
-    length_bytes(length_bytes),
-    memory_internal(memory_internal),
-    indexing_mode(misc::MS_ZERO)
+    RawDataField(memory_internal, misc::MS_ZERO),
+    length_bytes(length_bytes)
 {
     if (memory_internal)
     {
@@ -40,11 +36,10 @@ ByteField::ByteField(std::uint8_t* buffer,
 
 //==============================================================================
 ByteField::ByteField(const ByteField& byte_field) :
-    DataField(),
-    memory_internal(true)
+    RawDataField(true, byte_field.getIndexingMode())
 {
     length_bytes = byte_field.getLengthBytes();
-    indexing_mode = byte_field.getIndexingMode();
+    setIndexingMode(byte_field.getIndexingMode());
 
     byte_field_raw = new std::uint8_t[length_bytes];
 
@@ -54,7 +49,7 @@ ByteField::ByteField(const ByteField& byte_field) :
 //==============================================================================
 ByteField::~ByteField()
 {
-    if (memory_internal)
+    if (getMemoryInternal())
     {
         delete[] byte_field_raw;
     }
