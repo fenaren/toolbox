@@ -37,7 +37,7 @@ Test::Result BitField_test_case3::body()
 {
     std::uint32_t test_uint32 = 1;
     BitField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
-                       sizeof(std::uint32_t),
+                       sizeof(std::uint32_t) * BITS_PER_BYTE,
                        false);
 
     // Shift all the way up
