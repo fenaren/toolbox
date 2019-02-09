@@ -17,6 +17,7 @@ set(SRC
   Log.cpp
   OnlineStatistics.cpp
   Program.cpp
+  RawDataField.cpp
   SignalManager.cpp
   SignalManagerImpl.cpp
   SignalManagerFactory.cpp
