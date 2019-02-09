@@ -4,6 +4,8 @@
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
+#include "misc.hpp"
+
 TEST_HEADER(BitField_test_case1);
 TEST_CONSTRUCTOR_DESTRUCTOR(BitField_test_case1);
 
@@ -25,7 +27,7 @@ Test::Result BitField_test_case1::body()
     }
 
     // Tests getLengthBytes
-    BitField test_bf4(test_data, test_data_len, false);
+    BitField test_bf4(test_data, test_data_len * BITS_PER_BYTE, false);
     MUST_BE_TRUE(test_bf4.getLengthBytes() == test_data_len);
 
     // Tests writeRaw
@@ -34,10 +36,12 @@ Test::Result BitField_test_case1::body()
     MUST_BE_TRUE(memcmp(test_data, test_data2, test_data_len) == 0);
 
     // Tests readRaw, equality, inequality
-    BitField test_bf5(test_data_len);
+    BitField test_bf5(test_data_len * BITS_PER_BYTE);
     test_bf5.readRaw(test_data2);
     MUST_BE_TRUE(test_bf4 == test_bf5);
     MUST_BE_FALSE(test_bf4 != test_bf5);
+
+    memset(test_data, 0, test_data_len);
 
     // Tests assignment
     memset(test_data,  0, test_data_len);
