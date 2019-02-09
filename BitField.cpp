@@ -9,7 +9,7 @@
 
 //==============================================================================
 BitField::BitField(unsigned long length_bits) :
-    RawDataField(true, misc::MS_ZERO),
+    RawDataField(true, misc::LS_ZERO),
     length_bits(length_bits)
 {
     bit_field_raw = new std::uint8_t[getUsedBytes()];

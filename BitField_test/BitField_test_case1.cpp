@@ -41,12 +41,10 @@ Test::Result BitField_test_case1::body()
     MUST_BE_TRUE(test_bf4 == test_bf5);
     MUST_BE_FALSE(test_bf4 != test_bf5);
 
-    memset(test_data, 0, test_data_len);
-
     // Tests assignment
     memset(test_data,  0, test_data_len);
     memset(test_data2, 1, test_data_len);
-    BitField test_bf6(test_data2, test_data_len, false);
+    BitField test_bf6(test_data2, test_data_len * BITS_PER_BYTE, false);
     test_bf4 = test_bf6;
     MUST_BE_TRUE(memcmp(test_data, test_data2, test_data_len) == 0);
 
