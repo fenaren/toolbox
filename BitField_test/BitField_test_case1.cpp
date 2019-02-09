@@ -39,15 +39,6 @@ Test::Result BitField_test_case1::body()
     MUST_BE_TRUE(test_bf4 == test_bf5);
     MUST_BE_FALSE(test_bf4 != test_bf5);
 
-    // Tests getOctet, setOctet
-    for (unsigned int i = 0; i < test_data_len; i++)
-    {
-        MUST_BE_TRUE(test_data[i] == test_bf4.getOctet(i));
-
-        test_bf4.setOctet(i, 0);
-        MUST_BE_TRUE(test_data[i] == 0);
-    }
-
     // Tests assignment
     memset(test_data,  0, test_data_len);
     memset(test_data2, 1, test_data_len);
