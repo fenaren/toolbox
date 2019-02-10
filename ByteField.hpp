@@ -68,9 +68,9 @@ public:
                                    misc::ByteOrder destination_byte_order,
                                    unsigned long   offset_bits = 0) const;
 
-    // Returns the size of this byte field in bytes.  This will equal the number
-    // of bytes written by writeRaw() and read by readRaw().
-    virtual unsigned long getLengthBytes() const;
+    // Returns the size of this byte field in bits.  This will equal the number
+    // of bits written by writeRaw() and read by readRaw().
+    virtual unsigned long getLengthBits() const;
 
     std::uint8_t getByte(unsigned long index) const;
     void setByte(unsigned long index, std::uint8_t byte);
@@ -87,9 +87,9 @@ private:
 };
 
 //==============================================================================
-inline unsigned long ByteField::getLengthBytes() const
+inline unsigned long ByteField::getLengthBits() const
 {
-    return length_bytes;
+    return length_bytes * BITS_PER_BYTE;
 }
 
 //==============================================================================
