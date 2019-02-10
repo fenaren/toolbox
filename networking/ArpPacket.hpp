@@ -5,7 +5,7 @@
 
 #include "ArpPacketBase.hpp"
 
-#include "BitField.hpp"
+#include "ByteField.hpp"
 #include "DataField.hpp"
 #include "SimpleDataField.hpp"
 
@@ -29,16 +29,16 @@ public:
 
     // Constructs an ARP packet by copying externally-provided ARP packet data.
     // This may involve dynamic memory allocation depending on how the
-    // BitField copy constructor is defined.
+    // ByteField copy constructor is defined.
     ArpPacket(std::uint16_t   htype,
               std::uint16_t   ptype,
               std::uint8_t    hlen,
               std::uint8_t    plen,
               std::uint16_t   oper,
-              const BitField& sha,
-              const BitField& spa,
-              const BitField& tha,
-              const BitField& tpa);
+              const ByteField& sha,
+              const ByteField& spa,
+              const ByteField& tha,
+              const ByteField& tpa);
 
     // Constructs an ARP packet using hardware and protocol field memory that
     // can be maintained either internally or externally.
@@ -60,25 +60,25 @@ public:
     virtual ~ArpPacket();
 
     // Accessors
-    BitField* getSha();
-    BitField* getSpa();
-    BitField* getTha();
-    BitField* getTpa();
+    ByteField* getSha();
+    ByteField* getSpa();
+    ByteField* getTha();
+    ByteField* getTpa();
 
     // Const accessors
-    const BitField* getSha() const;
-    const BitField* getSpa() const;
-    const BitField* getTha() const;
-    const BitField* getTpa() const;
+    const ByteField* getSha() const;
+    const ByteField* getSpa() const;
+    const ByteField* getTha() const;
+    const ByteField* getTpa() const;
 
 private:
 
     virtual void addDataFields();
 
-    BitField sha;
-    BitField spa;
-    BitField tha;
-    BitField tpa;
+    ByteField sha;
+    ByteField spa;
+    ByteField tha;
+    ByteField tpa;
 
     // Disallow these for now; maybe these could be meaningfully implemented but
     // we'll save that for later
@@ -86,42 +86,42 @@ private:
     ArpPacket& operator=(const ArpPacket&);
 };
 
-inline BitField* ArpPacket::getSha()
+inline ByteField* ArpPacket::getSha()
 {
     return &sha;
 }
 
-inline BitField* ArpPacket::getSpa()
+inline ByteField* ArpPacket::getSpa()
 {
     return &spa;
 }
 
-inline BitField* ArpPacket::getTha()
+inline ByteField* ArpPacket::getTha()
 {
     return &tha;
 }
 
-inline BitField* ArpPacket::getTpa()
+inline ByteField* ArpPacket::getTpa()
 {
     return &tpa;
 }
 
-inline const BitField* ArpPacket::getSha() const
+inline const ByteField* ArpPacket::getSha() const
 {
     return &sha;
 }
 
-inline const BitField* ArpPacket::getSpa() const
+inline const ByteField* ArpPacket::getSpa() const
 {
     return &spa;
 }
 
-inline const BitField* ArpPacket::getTha() const
+inline const ByteField* ArpPacket::getTha() const
 {
     return &tha;
 }
 
-inline const BitField* ArpPacket::getTpa() const
+inline const ByteField* ArpPacket::getTpa() const
 {
     return &tpa;
 }

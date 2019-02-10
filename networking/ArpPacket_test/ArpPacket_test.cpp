@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 #include "ArpPacket.hpp"
-#include "BitField.hpp"
+#include "ByteField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
@@ -15,18 +15,18 @@ const unsigned int HTYPE = 1;
 const unsigned int PTYPE = 2048;
 const unsigned int OPER  = 42;
 
-bool isLengthBad(const BitField& bf1,
-                 const BitField& bf2,
-                 const BitField& bf3,
-                 const BitField& bf4);
+bool isLengthBad(const ByteField& bf1,
+                 const ByteField& bf2,
+                 const ByteField& bf3,
+                 const ByteField& bf4);
 
 //==============================================================================
 Test::Result ArpPacket_test::body()
 {
-    BitField bfmac_good(6);
-    BitField bfmac_bad(8);
-    BitField bf4_good(4);
-    BitField bf4_bad(5);
+    ByteField bfmac_good(6);
+    ByteField bfmac_bad(8);
+    ByteField bf4_good(4);
+    ByteField bf4_bad(5);
 
     unsigned char mac1[] = {6, 5, 4, 3, 2, 1};
     unsigned char mac2[] = {9, 8, 7, 6, 5, 4};
@@ -63,10 +63,10 @@ Test::Result ArpPacket_test::body()
 }
 
 //==============================================================================
-bool isLengthBad(const BitField& bf1,
-                 const BitField& bf2,
-                 const BitField& bf3,
-                 const BitField& bf4)
+bool isLengthBad(const ByteField& bf1,
+                 const ByteField& bf2,
+                 const ByteField& bf3,
+                 const ByteField& bf4)
 {
     bool exception_caught = false;
 
