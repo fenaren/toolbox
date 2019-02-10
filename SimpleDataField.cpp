@@ -126,8 +126,10 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
         // shifting in zeros.  BitField shifts treat the whole bitfield as if it
         // were a single large integer for shifting purposes so we may need
         // shiftLeft or shiftRight depending on the endianness of the host.
-        BitField working_bitfield(working_buffer, working_size, false);
-        BitField mask_bitfield(mask, working_size, false);
+        BitField working_bitfield(working_buffer,
+                                  working_size * BITS_PER_BYTE,
+                                  false);
+        BitField mask_bitfield(mask, working_size * BITS_PER_BYTE, false);
         if (getByteOrder() == misc::ENDIAN_BIG)
         {
             working_bitfield.shiftRight(offset_bits);
