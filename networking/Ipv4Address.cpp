@@ -12,7 +12,7 @@
 // Ipv4Address constructor; initializes to all zeros
 //==============================================================================
 Ipv4Address::Ipv4Address() :
-    BitField(ipv4_address_raw, LENGTH_BYTES, false)
+    ByteField(ipv4_address_raw, LENGTH_BYTES, false)
 {
     memset(ipv4_address_raw, 0, LENGTH_BYTES);
 }
@@ -23,7 +23,7 @@ Ipv4Address::Ipv4Address() :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 Ipv4Address::Ipv4Address(std::uint8_t* buffer) :
-    BitField(ipv4_address_raw, LENGTH_BYTES, false)
+    ByteField(ipv4_address_raw, LENGTH_BYTES, false)
 {
     readRaw(buffer);
 }
@@ -32,7 +32,7 @@ Ipv4Address::Ipv4Address(std::uint8_t* buffer) :
 // Ipv4Address constructor; initializes to match the given string
 //==============================================================================
 Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
-    BitField(ipv4_address_raw, LENGTH_BYTES, false)
+    ByteField(ipv4_address_raw, LENGTH_BYTES, false)
 {
     *this = ipv4_address_str;
 }
@@ -40,7 +40,7 @@ Ipv4Address::Ipv4Address(const std::string& ipv4_address_str) :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 Ipv4Address::Ipv4Address(const Ipv4Address& ipv4_address) :
-    BitField(ipv4_address)
+    ByteField(ipv4_address)
 {
 }
 
@@ -79,7 +79,7 @@ Ipv4Address& Ipv4Address::operator=(const Ipv4Address& ipv4_address)
     if (this != &ipv4_address)
     {
         // Use the parent class operator=
-        BitField::operator=(ipv4_address);
+        ByteField::operator=(ipv4_address);
     }
 
     return *this;
@@ -137,7 +137,7 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
     // Copy from temporary storage into permanent storage
     for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; i++)
     {
-//        ipv4_address.setOctet(i, tempipv4[i]);
+        ipv4_address.setByte(i, tempipv4[i]);
     }
 
     return is;
@@ -149,8 +149,8 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 bool
 operator==(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
 {
-    return static_cast<BitField>(ipv4_address1) ==
-        static_cast<BitField>(ipv4_address2);
+    return static_cast<ByteField>(ipv4_address1) ==
+        static_cast<ByteField>(ipv4_address2);
 }
 
 //==============================================================================
@@ -159,8 +159,8 @@ operator==(const Ipv4Address& ipv4_address1, const Ipv4Address& ipv4_address2)
 bool
 operator==(const Ipv4Address& ipv4_address1, const std::string& ipv4_address2)
 {
-    return static_cast<BitField>(ipv4_address1) ==
-        static_cast<BitField>(Ipv4Address(ipv4_address2));
+    return static_cast<ByteField>(ipv4_address1) ==
+        static_cast<ByteField>(Ipv4Address(ipv4_address2));
 }
 
 //==============================================================================
@@ -169,8 +169,8 @@ operator==(const Ipv4Address& ipv4_address1, const std::string& ipv4_address2)
 bool
 operator==(const std::string& ipv4_address1, const Ipv4Address& ipv4_address2)
 {
-    return static_cast<BitField>(Ipv4Address(ipv4_address1)) ==
-        static_cast<BitField>(ipv4_address2);
+    return static_cast<ByteField>(Ipv4Address(ipv4_address1)) ==
+        static_cast<ByteField>(ipv4_address2);
 }
 
 //==============================================================================

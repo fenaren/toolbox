@@ -8,11 +8,13 @@
 
 #include "MacAddress.hpp"
 
+#include "ByteField.hpp"
+
 //==============================================================================
 // MacAddress constructor; initializes to all zeros
 //==============================================================================
 MacAddress::MacAddress() :
-    BitField(mac_address_raw, LENGTH_BYTES, false)
+    ByteField(mac_address_raw, LENGTH_BYTES, false)
 {
     memset(mac_address_raw, 0, LENGTH_BYTES);
 }
@@ -23,7 +25,7 @@ MacAddress::MacAddress() :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 MacAddress::MacAddress(std::uint8_t* buffer) :
-    BitField(mac_address_raw, LENGTH_BYTES, false)
+    ByteField(mac_address_raw, LENGTH_BYTES, false)
 {
     readRaw(buffer);
 }
@@ -32,7 +34,7 @@ MacAddress::MacAddress(std::uint8_t* buffer) :
 // MacAddress constructor; initializes to match the given string
 //==============================================================================
 MacAddress::MacAddress(const std::string& mac_address_str) :
-    BitField(mac_address_raw, LENGTH_BYTES, false)
+    ByteField(mac_address_raw, LENGTH_BYTES, false)
 {
     *this = mac_address_str;
 }
@@ -40,7 +42,7 @@ MacAddress::MacAddress(const std::string& mac_address_str) :
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 MacAddress::MacAddress(const MacAddress& mac_address) :
-    BitField(mac_address)
+    ByteField(mac_address)
 {
 }
 
@@ -78,7 +80,7 @@ MacAddress& MacAddress::operator=(const MacAddress& mac_address)
     // Don't do anything if we're assigning to ourselves
     if (this != &mac_address)
     {
-        BitField::operator=(mac_address);
+        ByteField::operator=(mac_address);
     }
 
     return *this;
@@ -141,7 +143,7 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
     // Copy from temporary storage into permanent storage
     for (unsigned int i = 0; i < MacAddress::LENGTH_BYTES; i++)
     {
-//        mac_address.setOctet(i, tempmac[i]);
+        mac_address.setByte(i, tempmac[i]);
     }
 
     return is;
@@ -152,8 +154,8 @@ std::istream& operator>>(std::istream& is, MacAddress& mac_address)
 //==============================================================================
 bool operator==(const MacAddress& mac_address1, const MacAddress& mac_address2)
 {
-    return static_cast<BitField>(mac_address1) ==
-        static_cast<BitField>(mac_address2);
+    return static_cast<ByteField>(mac_address1) ==
+        static_cast<ByteField>(mac_address2);
 }
 
 //==============================================================================
@@ -161,8 +163,8 @@ bool operator==(const MacAddress& mac_address1, const MacAddress& mac_address2)
 //==============================================================================
 bool operator==(const MacAddress& mac_address1, const std::string& mac_address2)
 {
-    return static_cast<BitField>(mac_address1) ==
-        static_cast<BitField>(MacAddress(mac_address2));
+    return static_cast<ByteField>(mac_address1) ==
+        static_cast<ByteField>(MacAddress(mac_address2));
 }
 
 //==============================================================================
@@ -170,8 +172,8 @@ bool operator==(const MacAddress& mac_address1, const std::string& mac_address2)
 //==============================================================================
 bool operator==(const std::string& mac_address1, const MacAddress& mac_address2)
 {
-    return static_cast<BitField>(MacAddress(mac_address1)) ==
-        static_cast<BitField>(mac_address2);
+    return static_cast<ByteField>(MacAddress(mac_address1)) ==
+        static_cast<ByteField>(mac_address2);
 }
 
 //==============================================================================
