@@ -160,6 +160,11 @@ template <class T> void BitField::getBitsAsNumericType(
     unsigned long start_bit,
     unsigned long count) const
 {
+    if (count == 0)
+    {
+        return;
+    }
+
     throwIfIndexOutOfRange(start_bit + count - 1, length_bits);
 
     if (count > sizeof(T) * BITS_PER_BYTE)
@@ -212,6 +217,11 @@ template <class T> void BitField::setBitsAsNumericType(
     unsigned long start_bit,
     unsigned long count)
 {
+    if (count == 0)
+    {
+        return;
+    }
+
     throwIfIndexOutOfRange(start_bit + count - 1, length_bits);
 
     if (count > sizeof(T) * BITS_PER_BYTE)

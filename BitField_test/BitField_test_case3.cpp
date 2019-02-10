@@ -96,10 +96,12 @@ Test::Result BitField_test_case3::body()
     // std::pow(2, i) - 1 when interpreted as an integer
     for (unsigned int i = 0; i <= 32; ++i)
     {
-        unsigned int get1;
+        unsigned int get1 = 0;
         bitfield1.getBitsAsNumericType(get1, 0, i);
+        std::cout << get1 << " ";
         MUST_BE_TRUE(get1 == std::pow(2, i) - 1);
     }
+    std::cout << "\n";
 
     // Least significant bit of each byte is set
     memset(&test_uint32, 1, 4);
