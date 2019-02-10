@@ -231,7 +231,7 @@ template <class T> void BitField::setBitsAsNumericType(
 
     // Use the given variable as if it were a bitfield, and set bits inside it
     BitField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
-                              sizeof(T),
+                              sizeof(T) * BITS_PER_BYTE,
                               false);
 
     // Copy all the bits; an alternative implementation would be to memcpy the
