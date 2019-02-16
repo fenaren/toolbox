@@ -51,32 +51,6 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
 }
 
 //==============================================================================
-unsigned long DataPacket::readRaw(std::uint8_t* buffer)
-{
-    // Call the virtual method with the host byte ordering.  If the virtual
-    // method is implemented like it should be it won't do any byteswapping.
-    return DataField::readRaw(buffer);
-}
-
-//==============================================================================
-unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order)
-{
-    // Call the virtual method with the host byte ordering.  If the virtual
-    // method is implemented like it should be it won't do any byteswapping.
-    return DataField::readRaw(buffer, source_byte_order);
-}
-
-//==============================================================================
-unsigned long DataPacket::readRaw(std::uint8_t* buffer,
-                                  unsigned long bit_offset)
-{
-    // Call the virtual method with the host byte ordering.  If the virtual
-    // method is implemented like it should be it won't do any byteswapping.
-    return DataField::readRaw(buffer, bit_offset);
-}
-
-//==============================================================================
 unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
                                    unsigned long   offset_bits) const
@@ -107,32 +81,6 @@ unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
 
     // The number of bits we actually wrote
     return bits_written;
-}
-
-//==============================================================================
-unsigned long DataPacket::writeRaw(std::uint8_t* buffer) const
-{
-    // Call the virtual method with the host byte ordering.  If the virtual
-    // method is implemented like it should be it won't do any byteswapping.
-    return DataField::writeRaw(buffer);
-}
-
-//==============================================================================
-unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
-                                   misc::ByteOrder destination_byte_order) const
-{
-    // Call the virtual method with the host byte ordering.  If the virtual
-    // method is implemented like it should be it won't do any byteswapping.
-    return DataField::writeRaw(buffer, destination_byte_order);
-}
-
-//==============================================================================
-unsigned long DataPacket::writeRaw(std::uint8_t* buffer,
-                                   unsigned long bit_offset) const
-{
-    // Call the virtual method with the host byte ordering.  If the virtual
-    // method is implemented like it should be it won't do any byteswapping.
-    return DataField::writeRaw(buffer, bit_offset);
 }
 
 //==============================================================================

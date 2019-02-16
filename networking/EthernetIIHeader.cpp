@@ -46,7 +46,7 @@ EthernetIIHeader::EthernetIIHeader(const MacAddress& destination,
 EthernetIIHeader::EthernetIIHeader(std::uint8_t* buffer) :
     EthernetIIHeader()
 {
-    readRaw(buffer);
+    DataField::readRaw(buffer);
 }
 
 //==============================================================================
@@ -58,7 +58,7 @@ EthernetIIHeader::EthernetIIHeader(std::uint8_t*   buffer,
     EthernetIIHeader()
 {
     // Ethernet II frames store big endian data by definition
-    readRaw(buffer, misc::ENDIAN_BIG);
+    DataField::readRaw(buffer, misc::ENDIAN_BIG);
 }
 
 //==============================================================================

@@ -38,14 +38,6 @@ public:
                                   misc::ByteOrder source_byte_order,
                                   unsigned long   offset_bits);
 
-    unsigned long readRaw(std::uint8_t* buffer);
-
-    unsigned long readRaw(std::uint8_t*   buffer,
-                          misc::ByteOrder source_byte_order);
-
-    unsigned long readRaw(std::uint8_t* buffer,
-                          unsigned long offset_bits);
-
     // Writes all contained data packets in the order they were added to the
     // "buffer" memory location plus an offset of "bit_offset" bits.  Each field
     // is byteswapped if "destination_byte_order" doesn't match host byte
@@ -53,14 +45,6 @@ public:
     virtual unsigned long writeRaw(std::uint8_t*  buffer,
                                   misc::ByteOrder destination_byte_order,
                                   unsigned long   offset_bits) const;
-
-    unsigned long writeRaw(std::uint8_t* buffer) const;
-
-    unsigned long writeRaw(std::uint8_t*   buffer,
-                           misc::ByteOrder destination_byte_order) const;
-
-    unsigned long writeRaw(std::uint8_t* buffer,
-                           unsigned long offset_bits) const;
 
     // Returns the size of this field in bits.  This will equal the number of
     // bits written by writeRaw() and read by readRaw().

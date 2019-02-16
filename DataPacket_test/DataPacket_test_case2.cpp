@@ -28,7 +28,7 @@ Test::Result DataPacket_test_case2::body()
     // Write out dptest1 with a 3-byte alignment and make sure it looks
     // alright.  Write is done in host byte order.
     std::uint8_t* raw_dptest1 = new std::uint8_t[dptest1.getLengthBytes()];
-    dptest1.writeRaw(raw_dptest1);
+    dptest1.DataField::writeRaw(raw_dptest1);
 
     unsigned int offset = 0;
 
@@ -104,7 +104,7 @@ Test::Result DataPacket_test_case2::body()
     MUST_BE_TRUE(dptest2_char   == dptest2p->getSdfChar());
 
     // Read the updated raw data and compare against the updated values
-    dptest1.readRaw(raw_dptest1);
+    dptest1.DataField::readRaw(raw_dptest1);
 
     // All the values we wrote into the raw packet have to match the values we
     // retrieved after reading the raw packet
