@@ -39,11 +39,6 @@ public:
     // Will free the memory at "byte_field_raw" if it is owned by this class
     virtual ~ByteField();
 
-    // Reads a raw byte field from the "buffer" memory location.  Byte ordering
-    // has no relevance to byte fields so no byte swapping is performed.
-    virtual unsigned long readRaw(std::uint8_t* buffer,
-                                  unsigned long offset_bits = 0);
-
     // Reads a raw byte field from the "buffer" memory location.  This
     // function is required by the framework to be implemented here, despite
     // being functionally identical to the single-argument version defined
@@ -52,12 +47,7 @@ public:
     // would be handled.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits = 0);
-
-    // Writes this byte field to the "buffer" memory location.  Byte ordering has
-    // no relevance to byte fields so no byte swapping is performed.
-    virtual unsigned long writeRaw(std::uint8_t* buffer,
-                                   unsigned long offset_bits = 0) const;
+                                  unsigned long   offset_bits);
 
     // Writes this byte field to the "buffer" memory location.  This function is
     // required by the framework to be implemented here, despite being
@@ -66,7 +56,7 @@ public:
     // term) this function would be where that difference would be handled.
     virtual unsigned long writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
-                                   unsigned long   offset_bits = 0) const;
+                                   unsigned long   offset_bits) const;
 
     // Returns the size of this byte field in bits.  This will equal the number
     // of bits written by writeRaw() and read by readRaw().

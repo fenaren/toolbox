@@ -25,7 +25,7 @@ Ipv4Address::Ipv4Address() :
 Ipv4Address::Ipv4Address(std::uint8_t* buffer) :
     ByteField(ipv4_address_raw, LENGTH_BYTES, false)
 {
-    readRaw(buffer);
+    DataField::readRaw(buffer);
 }
 
 //==============================================================================

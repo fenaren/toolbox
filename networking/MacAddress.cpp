@@ -27,7 +27,7 @@ MacAddress::MacAddress() :
 MacAddress::MacAddress(std::uint8_t* buffer) :
     ByteField(mac_address_raw, LENGTH_BYTES, false)
 {
-    readRaw(buffer);
+    DataField::readRaw(buffer);
 }
 
 //==============================================================================
