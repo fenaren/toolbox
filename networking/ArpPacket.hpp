@@ -73,7 +73,7 @@ public:
 
 private:
 
-    virtual void addDataFields();
+    void addDataFields();
 
     ByteField sha;
     ByteField spa;

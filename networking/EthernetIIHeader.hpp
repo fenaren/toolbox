@@ -59,7 +59,7 @@ public:
 
 private:
 
-    virtual void addDataFields();
+    void addDataFields();
 
     MacAddress                     destination;
     MacAddress                     source;
