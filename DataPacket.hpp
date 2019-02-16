@@ -9,22 +9,34 @@
 
 #include "misc.hpp"
 
+// Represents a data field that contains other data fields.  Does not directly
+// represent any data itself.  Supports alignment of contained field in memory.
 class DataPacket : public DataField
 {
 public:
 
+    // Used to set the units of alignment specifications.  Alignment of
+    // contained fields on a user-specifiable number of bytes or bits is
+    // possible.
     enum AlignmentUnits
     {
         BITS,
         BYTES
     };
 
-    // Initializes byte alignment
+    // Initializes alignment; defaults align contained data fields on 1 byte
     DataPacket(unsigned int   alignment = 1,
                AlignmentUnits alignment_units = BYTES);
 
     // Does nothing
     virtual ~DataPacket();
+
+    // Reads all contained data packets in the order they were added from the
+    // "buffer" memory location plus an offset of "bit_offset" bits.  Each field
+    // is byteswapped if "source_byte_order" doesn't match host byte ordering.
+    virtual unsigned long readRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder source_byte_order,
+                                  unsigned long   offset_bits);
 
     unsigned long readRaw(std::uint8_t* buffer);
 
@@ -34,12 +46,13 @@ public:
     unsigned long readRaw(std::uint8_t* buffer,
                           unsigned long offset_bits);
 
-    // Reads this data packet from the "buffer" memory location.  Each field
-    // will be byteswapped if its source byte order does not match the byte
-    // ordering of the host.
-    virtual unsigned long readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits);
+    // Writes all contained data packets in the order they were added to the
+    // "buffer" memory location plus an offset of "bit_offset" bits.  Each field
+    // is byteswapped if "destination_byte_order" doesn't match host byte
+    // ordering.
+    virtual unsigned long writeRaw(std::uint8_t*  buffer,
+                                  misc::ByteOrder destination_byte_order,
+                                  unsigned long   offset_bits) const;
 
     unsigned long writeRaw(std::uint8_t* buffer) const;
 
@@ -49,15 +62,8 @@ public:
     unsigned long writeRaw(std::uint8_t* buffer,
                            unsigned long offset_bits) const;
 
-    // Writes this data packet to the "buffer" memory location.  Each field will
-    // be byteswapped if its source byte order does not match the byte ordering
-    // of the host.
-    virtual unsigned long writeRaw(std::uint8_t*  buffer,
-                                  misc::ByteOrder destination_byte_order,
-                                  unsigned long   offset_bits) const;
-
-    // Returns the size of this field in bytes.  This will equal the number of
-    // bytes written by writeRaw() and read by readRaw().
+    // Returns the size of this field in bits.  This will equal the number of
+    // bits written by writeRaw() and read by readRaw().
     virtual unsigned long getLengthBits() const;
 
     // Alignment access
@@ -69,8 +75,8 @@ public:
 
 protected:
 
-    // Adds the field to the end of the packet.  The field is not maintained
-    // internally, only its order relative to other fields in this packet is.
+    // Adds a data field to this packet.  Data packets do not take ownership of
+    // added data fields.  Data packets do not delete added data fields.
     void addDataField(DataField* data_field);
 
 private:
@@ -88,6 +94,7 @@ private:
     DataPacket& operator=(const DataPacket&);
 };
 
+//==============================================================================
 inline
 unsigned int DataPacket::getAlignment(AlignmentUnits alignment_units) const
 {
@@ -105,6 +112,7 @@ unsigned int DataPacket::getAlignment(AlignmentUnits alignment_units) const
     return alignment_bits;
 }
 
+//==============================================================================
 inline void DataPacket::setAlignment(unsigned int   alignment,
                                      AlignmentUnits alignment_units)
 {
@@ -121,6 +129,7 @@ inline void DataPacket::setAlignment(unsigned int   alignment,
     alignment_bits = alignment;
 }
 
+//==============================================================================
 inline void DataPacket::addDataField(DataField* data_field)
 {
     data_fields.push_back(data_field);

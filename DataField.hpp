@@ -6,6 +6,10 @@
 
 #include "misc.hpp"
 
+// Represents data that can be written and read from memory.  Member functions
+// for reading from and writing to memory are declared, but since we don't know
+// anything about the data we're representing at this level (don't even know how
+// much there is) meaningful content is left to be defined by derived classes.
 class DataField
 {
 public:
@@ -14,39 +18,54 @@ public:
     DataField();
     virtual ~DataField();
 
-    // Reads the data field from the "buffer" memory location without
-    // considering byte ordering.
-    unsigned long readRaw(std::uint8_t* buffer);
+    // The following four methods are all related.  Methods 2-4 are short-hand
+    // ways of calling the first method with sensical defaults used in place of
+    // the missing arguments.  The first method defines the meaningful content.
 
-    unsigned long readRaw(std::uint8_t*   buffer,
-                          misc::ByteOrder source_byte_order);
-
-    unsigned long readRaw(std::uint8_t* buffer,
-                          unsigned long bit_offset);
-
-    // Reads the data field from the "buffer" memory location, swapping if the
-    // source byte order does not match the byte ordering of this field
+    // Reads the data field from the "buffer" memory location plus an offset of
+    // "bit_offset" bits, swapping if the source byte order does not match the
+    // byte ordering of this field
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
                                   unsigned long   bit_offset) = 0;
 
-    // Writes the data field to the "buffer" memory location without considering
-    // byte ordering.
-    unsigned long writeRaw(std::uint8_t* buffer) const;
+    // Same as the full definition above with source_byte_order = getByteOrder()
+    // (this means no swapping) and bit_offset = 0
+    unsigned long readRaw(std::uint8_t* buffer);
 
-    unsigned long writeRaw(std::uint8_t*   buffer,
-                           misc::ByteOrder destination_byte_order) const;
+    // Same as the full definition above with bit_offset = 0
+    unsigned long readRaw(std::uint8_t*   buffer,
+                          misc::ByteOrder source_byte_order);
 
-    unsigned long writeRaw(std::uint8_t* buffer,
-                           unsigned long bit_offset) const;
+    // Same as the full definition above with source_byte_order = getByteOrder()
+    // (this means no swapping)
+    unsigned long readRaw(std::uint8_t* buffer,
+                          unsigned long bit_offset);
 
-    // Writes the data field to the "buffer" memory location, swapping at the
-    // destination if the destination byte order does not match the byte
-    // ordering of this field
+    // The following four methods are all related.  Methods 2-4 are short-hand
+    // ways of calling the first method with sensical defaults used in place of
+    // the missing arguments.  The first method defines the meaningful content.
+
+    // Writes the data field to the "buffer" memory location plus an offset of
+    // "bit_offset" bits, swapping at the destination if the destination byte
+    // order does not match the byte ordering of this field
     virtual unsigned long writeRaw(
         std::uint8_t*   buffer,
         misc::ByteOrder destination_byte_order,
         unsigned long   bit_offset) const = 0;
+
+    // Same as the full definition above with destination_byte_order =
+    // getByteOrder() (this means no swapping) and bit_offset = 0
+    unsigned long writeRaw(std::uint8_t* buffer) const;
+
+    // Same as the full definition above with bit_offset = 0
+    unsigned long writeRaw(std::uint8_t*   buffer,
+                           misc::ByteOrder destination_byte_order) const;
+
+    // Same as the full definition above with source_byte_order = getByteOrder()
+    // (this means no swapping)
+    unsigned long writeRaw(std::uint8_t* buffer,
+                           unsigned long bit_offset) const;
 
     // Returns the size of this data field in bits.  This will equal the number
     // of bits written by writeRaw() and read by readRaw().
@@ -65,6 +84,9 @@ protected:
 
 protected:
 
+    // Takes all the bytes out of "offset_bits" and adds them to buffer.  Said
+    // another way this keeps taking BITS_PER_BYTE out of "offset_bits" and
+    // adding 1 to buffer until "offset_bits" is less than 8.
     static void normalizeMemoryLocation(std::uint8_t*& buffer,
                                         unsigned long& offset_bits);
 
@@ -79,12 +101,14 @@ private:
     DataField& operator=(const DataField&);
 };
 
+//==============================================================================
 inline unsigned int DataField::getLengthBytes() const
 {
     return std::ceil(static_cast<double>(getLengthBits()) /
                      static_cast<double>(BITS_PER_BYTE));
 }
 
+//==============================================================================
 inline misc::ByteOrder DataField::getByteOrder()
 {
     return byte_order;
