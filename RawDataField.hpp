@@ -115,6 +115,11 @@ public:
     // Uses rightShift()
     RawDataField& operator>>=(unsigned int shift_bits);
 
+protected:
+
+    // Tosses a std::out_of_range exception if index >= size
+    void throwIfIndexOutOfRange(unsigned long index, unsigned long size) const;
+
 private:
 
     // Only for use as a delegating constructor.  Sets length_bits and indexing
@@ -123,9 +128,6 @@ private:
                  misc::DataUnits        length_units,
                  misc::DataIndexingMode indexing_mode,
                  bool                   memory_internal);
-
-    // Tosses a std::out_of_range exception if index >= size
-    void throwIfIndexOutOfRange(unsigned long index, unsigned long size) const;
 
     // Reference to the raw data represented by this class
     std::uint8_t* raw_data;
@@ -139,96 +141,6 @@ private:
     // How are we indexing into the raw data
     misc::DataIndexingMode indexing_mode;
 };
-
-//==============================================================================
-inline std::uint8_t RawDataField::getByte(unsigned int index) const
-{
-    unsigned int length_bytes = getLengthBytes();
-
-    throwIfIndexOutOfRange(index, length_bytes);
-
-    unsigned long real_index = index;
-
-    if (indexing_mode == misc::LS_ZERO)
-    {
-        real_index = length_bytes - index - 1;
-    }
-
-    return raw_data[real_index];
-}
-
-//==============================================================================
-inline void RawDataField::setByte(unsigned int index, std::uint8_t value)
-{
-    throwIfIndexOutOfRange(index, getLengthBytes());
-    raw_data[index] = value;
-}
-
-//==============================================================================
-inline bool RawDataField::getBit(unsigned long index) const
-{
-    throwIfIndexOutOfRange(index, length_bits);
-
-    // This returns the index of the byte we want and the index of the bit
-    // within that byte
-    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
-
-    // This is the byte we want but only if byte indexing mode is most
-    // significant byte first
-    std::uint8_t target_byte = raw_data[div_result.quot];
-
-    // Now we have the right byte but we still need to find the right bit;
-    // div_result.rem has the index
-
-    if (getIndexingMode() == misc::LS_ZERO)
-    {
-        target_byte >>= div_result.rem;
-    }
-    else
-    {
-        target_byte >>= BITS_PER_BYTE - div_result.rem - 1;
-    }
-
-    return (target_byte & 0x1) == 1;
-}
-
-//==============================================================================
-inline void RawDataField::setBit(unsigned long index, bool value)
-{
-    throwIfIndexOutOfRange(index, length_bits);
-
-    std::uint8_t mask = 1;
-
-    std::uint8_t target_byte = 0;
-    if (value)
-    {
-        target_byte = 1;
-    }
-
-    // This returns the index of the byte we want and the index of the bit
-    // within that byte
-    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
-
-    // This is the proper amount to shift if bit indexing mode is least
-    // significant zero
-    unsigned int shift_amount = div_result.rem;
-    if (getIndexingMode() == misc::MS_ZERO)
-    {
-        shift_amount = BITS_PER_BYTE - div_result.rem - 1;
-    }
-
-    target_byte <<= shift_amount;
-    mask <<= shift_amount;
-
-    // We have the byte and mask shifted properly, now we just have to write the
-    // byte into the proper place in raw_bit_field
-
-    unsigned int byte_index = div_result.quot;
-
-    // Mask the bit setting in
-    raw_data[byte_index] &= ~mask;
-    raw_data[byte_index] |= target_byte;
-}
 
 //==============================================================================
 inline bool RawDataField::getMemoryInternal() const
@@ -258,8 +170,8 @@ inline void RawDataField::throwIfIndexOutOfRange(unsigned long index,
     }
 }
 
-bool operator==(const RawDataField& bit_field1, const RawDataField& bit_field2);
-bool operator!=(const RawDataField& bit_field1, const RawDataField& bit_field2);
+bool operator==(const RawDataField& lhs, const RawDataField& rhs);
+bool operator!=(const RawDataField& lhs, const RawDataField& rhs);
 
 RawDataField operator>>(const RawDataField& bit_field, unsigned int shift_bits);
 RawDataField operator<<(const RawDataField& bit_field, unsigned int shift_bits);

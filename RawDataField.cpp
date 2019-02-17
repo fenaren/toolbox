@@ -111,6 +111,96 @@ unsigned long RawDataField::writeRaw(
 }
 
 //==============================================================================
+std::uint8_t RawDataField::getByte(unsigned int index) const
+{
+    unsigned int length_bytes = getLengthBytes();
+
+    throwIfIndexOutOfRange(index, length_bytes);
+
+    unsigned long real_index = index;
+
+    if (indexing_mode == misc::LS_ZERO)
+    {
+        real_index = length_bytes - index - 1;
+    }
+
+    return raw_data[real_index];
+}
+
+//==============================================================================
+void RawDataField::setByte(unsigned int index, std::uint8_t value)
+{
+    throwIfIndexOutOfRange(index, getLengthBytes());
+    raw_data[index] = value;
+}
+
+//==============================================================================
+bool RawDataField::getBit(unsigned long index) const
+{
+    throwIfIndexOutOfRange(index, length_bits);
+
+    // This returns the index of the byte we want and the index of the bit
+    // within that byte
+    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
+
+    // This is the byte we want but only if byte indexing mode is most
+    // significant byte first
+    std::uint8_t target_byte = raw_data[div_result.quot];
+
+    // Now we have the right byte but we still need to find the right bit;
+    // div_result.rem has the index
+
+    if (getIndexingMode() == misc::LS_ZERO)
+    {
+        target_byte >>= div_result.rem;
+    }
+    else
+    {
+        target_byte >>= BITS_PER_BYTE - div_result.rem - 1;
+    }
+
+    return (target_byte & 0x1) == 1;
+}
+
+//==============================================================================
+void RawDataField::setBit(unsigned long index, bool value)
+{
+    throwIfIndexOutOfRange(index, length_bits);
+
+    std::uint8_t mask = 1;
+
+    std::uint8_t target_byte = 0;
+    if (value)
+    {
+        target_byte = 1;
+    }
+
+    // This returns the index of the byte we want and the index of the bit
+    // within that byte
+    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
+
+    // This is the proper amount to shift if bit indexing mode is least
+    // significant zero
+    unsigned int shift_amount = div_result.rem;
+    if (getIndexingMode() == misc::MS_ZERO)
+    {
+        shift_amount = BITS_PER_BYTE - div_result.rem - 1;
+    }
+
+    target_byte <<= shift_amount;
+    mask <<= shift_amount;
+
+    // We have the byte and mask shifted properly, now we just have to write the
+    // byte into the proper place in raw_bit_field
+
+    unsigned int byte_index = div_result.quot;
+
+    // Mask the bit setting in
+    raw_data[byte_index] &= ~mask;
+    raw_data[byte_index] |= target_byte;
+}
+
+//==============================================================================
 template <class T>
 void RawDataField::getBitsAsNumericType(T&           type_var,
                                         unsigned int start_bit,
@@ -303,19 +393,19 @@ RawDataField& RawDataField::operator>>=(unsigned int shift_bits)
 }
 
 //==============================================================================
-bool operator==(const RawDataField& bit_field1, const RawDataField& bit_field2)
+bool operator==(const RawDataField& lhs, const RawDataField& rhs)
 {
-    if (bit_field1.getLengthBits() != bit_field2.getLengthBits())
+    if (lhs.getLengthBits() != rhs.getLengthBits())
     {
         return false;
     }
 
     // We know both bit fields have equal length at this point
-    unsigned int length_bytes = bit_field1.getLengthBytes();
+    unsigned int length_bytes = lhs.getLengthBytes();
 
     for (unsigned int i = 0; i < length_bytes; i++)
     {
-        if (bit_field1.getByte(i) != bit_field2.getByte(i))
+        if (lhs.getByte(i) != rhs.getByte(i))
         {
             return false;
         }
@@ -325,9 +415,9 @@ bool operator==(const RawDataField& bit_field1, const RawDataField& bit_field2)
 }
 
 //==============================================================================
-bool operator!=(const RawDataField& bit_field1, const RawDataField& bit_field2)
+bool operator!=(const RawDataField& lhs, const RawDataField& rhs)
 {
-    return !(bit_field1 == bit_field2);
+    return !(lhs == rhs);
 }
 
 //==============================================================================
