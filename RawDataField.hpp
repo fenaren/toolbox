@@ -11,16 +11,28 @@
 
 #include "misc.hpp"
 
+// Represents raw binary data.  Data is indexed in order of significance.
+// Significance is assigned as if the raw data represented by this class were a
+// single large integer.  Indexing can be done in order of increasing or
+// decreasing significance.  Not much of importance is implemented here, see
+// derived classes for more interesting stuff.
 class RawDataField : public DataField
 {
 public:
 
+    // Initializes arguments, does nothing else
     RawDataField(bool memory_internal, misc::DataIndexingMode indexing_mode);
+
+    // Does nothing
     virtual ~RawDataField();
 
+    // Indexing mode access
     misc::DataIndexingMode getIndexingMode() const;
+
+    // Indexing mode mutator
     void setIndexingMode(misc::DataIndexingMode indexing_mode);
 
+    // Memory internal accessor.  There is no corresponding mutator.
     bool getMemoryInternal() const;
 
 protected:
