@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "ByteField.hpp"
+#include "RawDataField.hpp"
 
-class MacAddress : public ByteField
+class MacAddress : public RawDataField
 {
   public:
 

@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "ByteField.hpp"
+#include "RawDataField.hpp"
 
-class Ipv4Address : public ByteField
+class Ipv4Address : public RawDataField
 {
 public:
 
@@ -50,18 +50,12 @@ std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address);
 
 std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address);
 
-bool operator==(const Ipv4Address& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
-bool operator==(const Ipv4Address& ipv4_address1,
-                const std::string& ipv4_address2);
-bool operator==(const std::string& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
+bool operator==(const Ipv4Address& lhs, const Ipv4Address& rhs);
+bool operator==(const Ipv4Address& lhs, const std::string& rhs);
+bool operator==(const std::string& lhs, const Ipv4Address& rhs);
 
-bool operator!=(const Ipv4Address& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
-bool operator!=(const Ipv4Address& ipv4_address1,
-                const std::string& ipv4_address2);
-bool operator!=(const std::string& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
+bool operator!=(const Ipv4Address& lhs, const Ipv4Address& rhs);
+bool operator!=(const Ipv4Address& lhs, const std::string& rhs);
+bool operator!=(const std::string& lhs, const Ipv4Address& rhs);
 
 #endif
