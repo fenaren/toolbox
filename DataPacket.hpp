@@ -15,18 +15,9 @@ class DataPacket : public DataField
 {
 public:
 
-    // Used to set the units of alignment specifications.  Alignment of
-    // contained fields on a user-specifiable number of bytes or bits is
-    // possible.
-    enum AlignmentUnits
-    {
-        BITS,
-        BYTES
-    };
-
     // Initializes alignment; defaults align contained data fields on 1 byte
-    DataPacket(unsigned int   alignment = 1,
-               AlignmentUnits alignment_units = BYTES);
+    DataPacket(unsigned int    alignment = 1,
+               misc::DataUnits alignment_units = misc::BYTES);
 
     // Does nothing
     virtual ~DataPacket();
@@ -51,11 +42,12 @@ public:
     virtual unsigned long getLengthBits() const;
 
     // Alignment access
-    unsigned int getAlignment(AlignmentUnits alignment_units = BYTES) const;
+    unsigned int
+    getAlignment(misc::DataUnits alignment_units = misc::BYTES) const;
 
     // Alignment mutator
-    void setAlignment(unsigned int   alignment,
-                      AlignmentUnits alignment_units = BYTES);
+    void setAlignment(unsigned int    alignment,
+                      misc::DataUnits alignment_units = misc::BYTES);
 
 protected:
 
@@ -77,9 +69,9 @@ private:
 
 //==============================================================================
 inline
-unsigned int DataPacket::getAlignment(AlignmentUnits alignment_units) const
+unsigned int DataPacket::getAlignment(misc::DataUnits alignment_units) const
 {
-    if (alignment_units == BYTES)
+    if (alignment_units == misc::BYTES)
     {
         if (alignment_bits % BITS_PER_BYTE != 0)
         {
@@ -94,15 +86,15 @@ unsigned int DataPacket::getAlignment(AlignmentUnits alignment_units) const
 }
 
 //==============================================================================
-inline void DataPacket::setAlignment(unsigned int   alignment,
-                                     AlignmentUnits alignment_units)
+inline void DataPacket::setAlignment(unsigned int    alignment,
+                                     misc::DataUnits alignment_units)
 {
     if (alignment == 0)
     {
         throw std::invalid_argument("Alignment must be greater than 0");
     }
 
-    if (alignment_units == BYTES)
+    if (alignment_units == misc::BYTES)
     {
         alignment *= BITS_PER_BYTE;
     }

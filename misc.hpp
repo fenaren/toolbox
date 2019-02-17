@@ -17,6 +17,12 @@ namespace misc
         ENDIAN_LITTLE
     };
 
+    enum DataUnits
+    {
+        BITS,
+        BYTES
+    };
+
     // As of this writing, this is used by BitField and ByteField to determine
     // how their data is indexed.  "MS_ZERO" stands for "Most Significant Zero"
     // and means the most significant unit of data, when data is interpreted as

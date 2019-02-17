@@ -7,8 +7,8 @@
 #include "misc.hpp"
 
 //==============================================================================
-DataPacket::DataPacket(unsigned int   alignment,
-                       AlignmentUnits alignment_units) :
+DataPacket::DataPacket(unsigned int    alignment,
+                       misc::DataUnits alignment_units) :
     DataField()
 {
     setAlignment(alignment, alignment_units);
