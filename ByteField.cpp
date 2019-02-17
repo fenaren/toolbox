@@ -12,6 +12,7 @@ ByteField::ByteField(unsigned long length_bytes) :
     RawDataField(true, misc::MS_ZERO),
     length_bytes(length_bytes)
 {
+    // We're internally managing memory, so get some and initialize it
     byte_field_raw = new std::uint8_t[length_bytes];
     memset(byte_field_raw, 0, length_bytes);
 }
@@ -25,11 +26,14 @@ ByteField::ByteField(std::uint8_t* buffer,
 {
     if (memory_internal)
     {
+        // We're internally managing memory, so get some and copy the user
+        // memory into it
         byte_field_raw = new std::uint8_t[length_bytes];
         DataField::readRaw(buffer);
     }
     else
     {
+        // Externally managed memory is easy
         byte_field_raw = buffer;
     }
 }
@@ -38,11 +42,14 @@ ByteField::ByteField(std::uint8_t* buffer,
 ByteField::ByteField(const ByteField& byte_field) :
     RawDataField(true, byte_field.getIndexingMode())
 {
+    // Copy the relevant class data over
     length_bytes = byte_field.getLengthBytes();
     setIndexingMode(byte_field.getIndexingMode());
 
+    // We're internally-managing memory, so get some to manage
     byte_field_raw = new std::uint8_t[length_bytes];
 
+    // Copy data over
     byte_field.DataField::writeRaw(byte_field_raw);
 }
 

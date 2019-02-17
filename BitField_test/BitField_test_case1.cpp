@@ -32,12 +32,12 @@ Test::Result BitField_test_case1::body()
 
     // Tests writeRaw
     unsigned char test_data2[test_data_len];
-    test_bf4.writeRaw(test_data2);
+    test_bf4.DataField::writeRaw(test_data2);
     MUST_BE_TRUE(memcmp(test_data, test_data2, test_data_len) == 0);
 
     // Tests readRaw, equality, inequality
     BitField test_bf5(test_data_len * BITS_PER_BYTE);
-    test_bf5.readRaw(test_data2);
+    test_bf5.DataField::readRaw(test_data2);
     MUST_BE_TRUE(test_bf4 == test_bf5);
     MUST_BE_FALSE(test_bf4 != test_bf5);
 

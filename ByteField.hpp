@@ -12,7 +12,7 @@
 #include "misc.hpp"
 
 // Raw binary data as a sequence of bytes.  Implements RawDataField increasing
-// or decreasing significance indexing.
+// or decreasing significance byte indexing.
 class ByteField : public RawDataField
 {
 public:
@@ -41,21 +41,16 @@ public:
     // Will free the memory at "byte_field_raw" if it is owned by this class
     virtual ~ByteField();
 
-    // Reads a raw byte field from the "buffer" memory location.  This
-    // function is required by the framework to be implemented here, despite
-    // being functionally identical to the single-argument version defined
-    // above.  If byte ordering were relevant to byte fields (in the
-    // general sense of the term) this function would be where that difference
-    // would be handled.
+    // Reads from the "buffer" memory location plus an offset of "bit_offset"
+    // bits.  No byteswapping is performed even when "source_byte_order" doesn't
+    // match host byte ordering, since this is just raw data.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
                                   unsigned long   offset_bits);
 
-    // Writes this byte field to the "buffer" memory location.  This function is
-    // required by the framework to be implemented here, despite being
-    // functionally identical to the single-argument version defined above.  If
-    // byte ordering were relevant to byte fields (in the general sense of the
-    // term) this function would be where that difference would be handled.
+    // Writes to the "buffer" memory location plus an offset of "bit_offset"
+    // bits.  No byteswapping is performed even when "source_byte_order" doesn't
+    // match host byte ordering, since this is just raw data.
     virtual unsigned long writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
                                    unsigned long   offset_bits) const;
@@ -64,7 +59,10 @@ public:
     // of bits written by writeRaw() and read by readRaw().
     virtual unsigned long getLengthBits() const;
 
+    // Accessor to individual bits, returns a copy
     std::uint8_t getByte(unsigned long index) const;
+
+    // Mutator of individual bits
     void setByte(unsigned long index, std::uint8_t byte);
 
     ByteField& operator=(const ByteField& byte_field);

@@ -26,7 +26,7 @@ BitField::BitField(std::uint8_t* buffer,
     if (memory_internal)
     {
         bit_field_raw = new std::uint8_t[getUsedBytes()];
-        readRaw(buffer);
+        DataField::readRaw(buffer);
     }
     else
     {
@@ -42,7 +42,7 @@ BitField::BitField(const BitField& bit_field) :
 
     bit_field_raw = new std::uint8_t[getUsedBytes()];
 
-    bit_field.writeRaw(bit_field_raw);
+    bit_field.DataField::writeRaw(bit_field_raw);
 }
 
 //==============================================================================
@@ -55,13 +55,6 @@ BitField::~BitField()
 }
 
 //==============================================================================
-unsigned long BitField::readRaw(std::uint8_t* buffer,
-                                unsigned long offset_bits)
-{
-    return DataField::readRaw(buffer, offset_bits);
-}
-
-//==============================================================================
 unsigned long BitField::readRaw(std::uint8_t*   buffer,
                                 misc::ByteOrder source_byte_order,
                                 unsigned long   offset_bits)
@@ -69,13 +62,6 @@ unsigned long BitField::readRaw(std::uint8_t*   buffer,
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(bit_field_raw, buffer, getUsedBytes());
     return static_cast<unsigned long>(getUsedBytes()) * BITS_PER_BYTE;
-}
-
-//==============================================================================
-unsigned long BitField::writeRaw(std::uint8_t* buffer,
-                                 unsigned long offset_bits) const
-{
-    return DataField::writeRaw(buffer, offset_bits);
 }
 
 //==============================================================================
@@ -326,7 +312,7 @@ BitField& BitField::operator=(const BitField& bit_field)
 {
     if (this != &bit_field)
     {
-        bit_field.writeRaw(bit_field_raw);
+        bit_field.DataField::writeRaw(bit_field_raw);
     }
 
     return *this;

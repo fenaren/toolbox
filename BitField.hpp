@@ -11,6 +11,8 @@
 
 #include "misc.hpp"
 
+// Raw binary data as a sequence of bits.  Implements RawDataField increasing
+// or decreasing significance bit indexing.
 class BitField : public RawDataField
 {
 public:
@@ -39,34 +41,19 @@ public:
     // Will free the memory at "raw_bit_field" if it is owned by this class
     virtual ~BitField();
 
-    // Reads a raw bit field from the "buffer" memory location.  Byte ordering
-    // has no relevance to bit fields so no byte swapping is performed.
-    virtual unsigned long readRaw(std::uint8_t* buffer,
-                                  unsigned long offset_bits = 0);
-
-    // Reads a raw bit field from the "buffer" memory location.  This
-    // function is required by the framework to be implemented here, despite
-    // being functionally identical to the single-argument version defined
-    // above.  If byte ordering were relevant to bit fields (in the
-    // general sense of the term) this function would be where that difference
-    // would be handled.
+    // Reads from the "buffer" memory location plus an offset of "bit_offset"
+    // bits.  No byteswapping is performed even when "source_byte_order" doesn't
+    // match host byte ordering, since this is just raw data.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits = 0);
+                                  unsigned long   offset_bits);
 
-    // Writes this bit field to the "buffer" memory location.  Byte ordering has
-    // no relevance to bit fields so no byte swapping is performed.
-    virtual unsigned long writeRaw(std::uint8_t* buffer,
-                                   unsigned long offset_bits = 0) const;
-
-    // Writes this bit field to the "buffer" memory location.  This function is
-    // required by the framework to be implemented here, despite being
-    // functionally identical to the single-argument version defined above.  If
-    // byte ordering were relevant to bit fields (in the general sense of the
-    // term) this function would be where that difference would be handled.
+    // Writes to the "buffer" memory location plus an offset of "bit_offset"
+    // bits.  No byteswapping is performed even when "source_byte_order" doesn't
+    // match host byte ordering, since this is just raw data.
     virtual unsigned long writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
-                                   unsigned long   offset_bits = 0) const;
+                                   unsigned long   offset_bits) const;
 
     // Bit access or mutation, indexed by bit
     bool getBit(unsigned long index) const;
