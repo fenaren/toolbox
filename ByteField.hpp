@@ -11,6 +11,8 @@
 
 #include "misc.hpp"
 
+// Raw binary data as a sequence of bytes.  Implements RawDataField increasing
+// or decreasing significance indexing.
 class ByteField : public RawDataField
 {
 public:

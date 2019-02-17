@@ -11,11 +11,17 @@
 
 #include "misc.hpp"
 
-// Represents raw binary data.  Data is indexed in order of significance.
-// Significance is assigned as if the raw data represented by this class were a
-// single large integer.  Indexing can be done in order of increasing or
-// decreasing significance.  Not much of importance is implemented here, see
+// Represents raw binary data.  Not much of importance is implemented here, see
 // derived classes for more interesting stuff.
+
+// Data is indexed in order of significance.  Significance is assigned as if the
+// raw data represented by this class were a single large integer.  Indexing can
+// be done in order of increasing or decreasing significance.
+
+// Data manipulated by this and derived classes can be owned and managed
+// internally or externally, as indicated by getMemoryInternal().
+// Internally-managed data isn't externally accessible, while externally-managed
+// memory is.
 class RawDataField : public DataField
 {
 public:
