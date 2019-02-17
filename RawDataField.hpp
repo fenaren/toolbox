@@ -39,7 +39,7 @@ public:
     // newly-allocated memory.
     RawDataField(const RawDataField& bit_field);
 
-    // Will free the memory at "raw_bit_field" if it is owned by this class
+    // Will free the memory at "raw_data" if it is owned by this class
     virtual ~RawDataField();
 
     // Reads from the "buffer" memory location plus an offset of "bit_offset"
@@ -47,32 +47,22 @@ public:
     // match host byte ordering, since this is just raw data.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits);
+                                  unsigned long   offset_bits = 0);
 
     // Writes to the "buffer" memory location plus an offset of "bit_offset"
     // bits.  No byteswapping is performed even when "source_byte_order" doesn't
     // match host byte ordering, since this is just raw data.
     virtual unsigned long writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
-                                   unsigned long   offset_bits) const;
-
-    // Octets are indexed starting from 0 for the byte at the lowest memory
-    // address and increasing to the highest memory address
-
-    // Bits are indexed starting with 0 for the least significant bit and
-    // increasing to the most significant bit
+                                   unsigned long   offset_bits = 0) const;
 
     // Octet access or mutation, indexed by (obviously) octet
-    std::uint8_t getByte(unsigned int octet) const;
-    void setByte(unsigned int octet, std::uint8_t value);
-
-    // Bit access or mutation, indexed by octet and the bit within that octet
-    bool getBit(unsigned int octet, unsigned int octet_bit) const;
-    void setBit(unsigned int octet, unsigned int octet_bit, bool value);
+    std::uint8_t getByte(unsigned int index) const;
+    void setByte(unsigned int index, std::uint8_t value);
 
     // Bit access or mutation, indexed by bit
-    bool getBit(unsigned long bit) const;
-    void setBit(unsigned long bit, bool value);
+    bool getBit(unsigned long index) const;
+    void setBit(unsigned long index, bool value);
 
     // Copies a range of bits into the given typed numeric variable.  Useful for
     // pulling things like integers and floating-point numbers out of bitfields.
@@ -127,25 +117,35 @@ public:
 
 private:
 
+    // Only for use as a delegating constructor.  Sets length_bits and indexing
+    // mode.
+    RawDataField(unsigned long          length,
+                 misc::DataUnits        length_units,
+                 misc::DataIndexingMode indexing_mode,
+                 bool                   memory_internal);
+
     // Tosses a std::out_of_range exception if index >= size
     void throwIfIndexOutOfRange(unsigned long index, unsigned long size) const;
 
-    // Raw bit field is stored at this location
+    // Reference to the raw data represented by this class
     std::uint8_t* raw_data;
 
-    // Raw bit field is this many bytes in length
-    unsigned int length_bytes;
+    // Field is this many bits in length
+    unsigned int length_bits;
 
     // Does this class own the memory at "raw_data"?
     bool memory_internal;
 
+    // How are we indexing into the raw data
     misc::DataIndexingMode indexing_mode;
 };
 
 //==============================================================================
 inline std::uint8_t RawDataField::getByte(unsigned int index) const
 {
-    throwIfIndexOutOfRange(index, getLengthBytes());
+    unsigned int length_bytes = getLengthBytes();
+
+    throwIfIndexOutOfRange(index, length_bytes);
 
     unsigned long real_index = index;
 
@@ -160,43 +160,74 @@ inline std::uint8_t RawDataField::getByte(unsigned int index) const
 //==============================================================================
 inline void RawDataField::setByte(unsigned int index, std::uint8_t value)
 {
-    throwIfIndexOutOfRange(index);
+    throwIfIndexOutOfRange(index, getLengthBytes());
     raw_data[index] = value;
 }
 
 //==============================================================================
-inline
-bool RawDataField::getBit(unsigned int index, unsigned int octet_bit) const
+inline bool RawDataField::getBit(unsigned long index) const
 {
-    throwIfIndexOutOfRange(index);
+    throwIfIndexOutOfRange(index, length_bits);
 
-    // Use std::bitset to do the bitshifting nonsense for us
-    std::bitset<BITS_PER_BYTE> working_octet(raw_data[index]);
-    return working_octet.test(octet_bit);
+    // This returns the index of the byte we want and the index of the bit
+    // within that byte
+    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
+
+    // This is the byte we want but only if byte indexing mode is most
+    // significant byte first
+    std::uint8_t target_byte = raw_data[div_result.quot];
+
+    // Now we have the right byte but we still need to find the right bit;
+    // div_result.rem has the index
+
+    if (getIndexingMode() == misc::LS_ZERO)
+    {
+        target_byte >>= div_result.rem;
+    }
+    else
+    {
+        target_byte >>= BITS_PER_BYTE - div_result.rem - 1;
+    }
+
+    return (target_byte & 0x1) == 1;
 }
 
 //==============================================================================
-inline bool RawDataField::getBit(unsigned int bit) const
+inline void RawDataField::setBit(unsigned long index, bool value)
 {
-    return getBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE);
-}
+    throwIfIndexOutOfRange(index, length_bits);
 
-//==============================================================================
-inline void
-RawDataField::setBit(unsigned int index, unsigned int octet_bit, bool value)
-{
-    throwIfIndexOutOfRange(index);
+    std::uint8_t mask = 1;
 
-    // Use std::bitset to do the bitshifting nonsense for us
-    std::bitset<BITS_PER_BYTE> working_octet(raw_data[index]);
-    working_octet.set(octet_bit, value);
-    raw_data[index] = static_cast<std::uint8_t>(working_octet.to_ulong());
-}
+    std::uint8_t target_byte = 0;
+    if (value)
+    {
+        target_byte = 1;
+    }
 
-//==============================================================================
-inline void RawDataField::setBit(unsigned int bit, bool value)
-{
-    setBit(std::floor(bit / BITS_PER_BYTE), bit % BITS_PER_BYTE, value);
+    // This returns the index of the byte we want and the index of the bit
+    // within that byte
+    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
+
+    // This is the proper amount to shift if bit indexing mode is least
+    // significant zero
+    unsigned int shift_amount = div_result.rem;
+    if (getIndexingMode() == misc::MS_ZERO)
+    {
+        shift_amount = BITS_PER_BYTE - div_result.rem - 1;
+    }
+
+    target_byte <<= shift_amount;
+    mask <<= shift_amount;
+
+    // We have the byte and mask shifted properly, now we just have to write the
+    // byte into the proper place in raw_bit_field
+
+    unsigned int byte_index = div_result.quot;
+
+    // Mask the bit setting in
+    raw_data[byte_index] &= ~mask;
+    raw_data[byte_index] |= target_byte;
 }
 
 //==============================================================================

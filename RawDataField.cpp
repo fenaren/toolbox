@@ -1,6 +1,7 @@
-#include <stdexcept>
+#include <cmath>
 #include <cstring>
 #include <new>
+#include <stdexcept>
 
 #include "RawDataField.hpp"
 
@@ -8,44 +9,75 @@
 #include "misc.hpp"
 
 //==============================================================================
-RawDataField::RawDataField(unsigned int length_bytes) :
-    DataField(),
-    memory_internal(true),
-    length_bytes(length_bytes)
+RawDataField::RawDataField(unsigned long          length,
+                           misc::DataUnits        length_units,
+                           misc::DataIndexingMode indexing_mode) :
+    RawDataField(length, length_units, indexing_mode, true)
 {
-    bit_field_raw = new std::uint8_t[length_bytes];
-    memset(bit_field_raw, 0, length_bytes);
 }
 
 //==============================================================================
-RawDataField::RawDataField(std::uint8_t* buffer,
-                   unsigned int  length_bytes,
-                   bool          memory_internal) :
-    DataField(),
-    memory_internal(memory_internal),
-    length_bytes(length_bytes)
+RawDataField::RawDataField(std::uint8_t*          buffer,
+                           unsigned long          length,
+                           misc::DataUnits        length_units,
+                           misc::DataIndexingMode indexing_mode,
+                           bool                   memory_internal) :
+    RawDataField(length, length_units, indexing_mode, memory_internal)
 {
     if (memory_internal)
     {
-        bit_field_raw = new std::uint8_t[length_bytes];
-        readRaw(buffer);
+        DataField::readRaw(buffer);
     }
     else
     {
-        bit_field_raw = buffer;
+        raw_data = buffer;
     }
 }
 
 //==============================================================================
-RawDataField::RawDataField(const RawDataField& bit_field) :
-    DataField(),
-    memory_internal(true)
+RawDataField::RawDataField(const RawDataField& raw_data_field) :
+    RawDataField(raw_data_field.getLengthBits(),
+                 misc::BITS,
+                 raw_data_field.getIndexingMode(),
+                 true)
 {
-    length_bytes = bit_field.getLengthBytes();
+    raw_data_field.DataField::writeRaw(raw_data);
+}
 
-    bit_field_raw = new std::uint8_t[length_bytes];
+//==============================================================================
+RawDataField::RawDataField(unsigned long          length,
+                           misc::DataUnits        length_units,
+                           misc::DataIndexingMode indexing_mode,
+                           bool                   memory_internal) :
+    DataField(),
+    memory_internal(memory_internal),
+    indexing_mode(indexing_mode)
+{
+    // Set length_bits appropriately
+    if (length_units == misc::BYTES)
+    {
+        length_bits = length * BITS_PER_BYTE;
+    }
+    else if (length_units == misc::BITS)
+    {
+        length_bits = length;
+    }
+    else
+    {
+        std::runtime_error("Unsupported units type specified");
+    }
 
-    bit_field.writeRaw(bit_field_raw);
+    if (memory_internal)
+    {
+        // We're managing memory internally so we need some memory.  Memory
+        // amount calculation is copied from the getLengthBytes definition in
+        // DataField.  We don't use that directly here since getLengthBytes will
+        // call getLengthBits on this class, and this class isn't fully
+        // instantiated yet.
+        raw_data = new std::uint8_t[static_cast<unsigned int>(
+                std::ceil(static_cast<double>(length_bits) /
+                          static_cast<double>(BITS_PER_BYTE)))];
+    }
 }
 
 //==============================================================================
@@ -53,47 +85,37 @@ RawDataField::~RawDataField()
 {
     if (memory_internal)
     {
-        delete[] bit_field_raw;
+        delete[] raw_data;
     }
 }
 
 //==============================================================================
-unsigned int RawDataField::readRaw(const std::uint8_t* buffer)
-{
-    return DataField::readRaw(buffer);
-}
-
-//==============================================================================
-unsigned int RawDataField::readRaw(const std::uint8_t* buffer,
-                               misc::ByteOrder     source_byte_order)
+unsigned long RawDataField::readRaw(std::uint8_t* buffer,
+                                    misc::ByteOrder     source_byte_order,
+                                    unsigned long       offset_bits)
 {
     // No byteswapping regardless of "source_byte_order" setting
-    memcpy(bit_field_raw, buffer, length_bytes);
-    return length_bytes;
+    memcpy(raw_data, buffer, getLengthBytes());
+    return length_bits;
 }
 
 //==============================================================================
-unsigned int RawDataField::writeRaw(std::uint8_t* buffer) const
-{
-    return DataField::writeRaw(buffer);
-}
-
-//==============================================================================
-unsigned int RawDataField::writeRaw(std::uint8_t*   buffer,
-                                misc::ByteOrder destination_byte_order) const
+unsigned long RawDataField::writeRaw(
+    std::uint8_t*   buffer,
+    misc::ByteOrder destination_byte_order,
+    unsigned long   offset_bits) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
-    memcpy(buffer, bit_field_raw, length_bytes);
-    return length_bytes;
+    memcpy(buffer, raw_data, getLengthBytes());
+    return length_bits;
 }
 
 //==============================================================================
-template <class T> void RawDataField::getBitsAsNumericType(T&           type_var,
-                                                       unsigned int start_bit,
-                                                       unsigned int count) const
+template <class T>
+void RawDataField::getBitsAsNumericType(T&           type_var,
+                                        unsigned int start_bit,
+                                        unsigned int count) const
 {
-    unsigned int length_bits = length_bytes * BITS_PER_BYTE;
-
     // Handle bad input
     if (start_bit >= length_bits || start_bit + count > length_bits)
     {
@@ -111,8 +133,10 @@ template <class T> void RawDataField::getBitsAsNumericType(T&           type_var
 
     // Use the given variable as if it were a bitfield, and set bits inside it
     RawDataField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
-                              sizeof(T),
-                              false);
+                                  sizeof(T),
+                                  misc::BYTES,
+                                  indexing_mode,
+                                  false);
 
     // Copy all the bits; an alternative implementation would be to memcpy the
     // relevant data over, shift down and then mask out the irrelevant bits
@@ -146,11 +170,9 @@ INSTANTIATE_GETBITSASNUMERICTYPE(unsigned short);
 //==============================================================================
 template <class T>
 void RawDataField::setBitsAsNumericType(T            type_var,
-                                    unsigned int start_bit,
-                                    unsigned int count)
+                                        unsigned int start_bit,
+                                        unsigned int count)
 {
-    unsigned int length_bits = length_bytes * BITS_PER_BYTE;
-
     // Handle bad input
     if (start_bit >= length_bits || start_bit + count > length_bits)
     {
@@ -163,8 +185,10 @@ void RawDataField::setBitsAsNumericType(T            type_var,
 
     // Use the given variable as if it were a bitfield, and set bits inside it
     RawDataField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
-                              sizeof(T),
-                              false);
+                                  sizeof(T),
+                                  misc::BYTES,
+                                  indexing_mode,
+                                  false);
 
     // Copy all the bits; an alternative implementation would be to memcpy the
     // relevant data over, shift down and then mask out the irrelevant bits
@@ -198,9 +222,7 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 //==============================================================================
 void RawDataField::shiftLeft(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBytes() * RawDataField::BITS_PER_BYTE;
-
-    if (shift_bits >= bit_field_bits)
+    if (shift_bits >= length_bits)
     {
         throw std::runtime_error(
             "Requested shift amount must be less than the width of the field");
@@ -212,7 +234,7 @@ void RawDataField::shiftLeft(unsigned int shift_bits)
         return;
     }
 
-    for (unsigned int i = bit_field_bits - 1; i != shift_bits - 1; --i)
+    for (unsigned int i = length_bits - 1; i != shift_bits - 1; --i)
     {
         setBit(i, getBit(i - shift_bits));
     }
@@ -230,9 +252,7 @@ void RawDataField::shiftLeft(unsigned int shift_bits)
 //==============================================================================
 void RawDataField::shiftRight(unsigned int shift_bits)
 {
-    unsigned int bit_field_bits = getLengthBytes() * RawDataField::BITS_PER_BYTE;
-
-    if (shift_bits >= bit_field_bits)
+    if (shift_bits >= length_bits)
     {
         throw std::runtime_error(
             "Requested shift amount must be less than the width of the field");
@@ -245,13 +265,13 @@ void RawDataField::shiftRight(unsigned int shift_bits)
     }
 
     // Copy over the shifted bits
-    for (unsigned int i = 0; i < bit_field_bits - shift_bits; i++)
+    for (unsigned int i = 0; i < length_bits - shift_bits; i++)
     {
         setBit(i, getBit(i + shift_bits));
     }
 
     // Shift in zeros
-    for (unsigned int i = bit_field_bits - shift_bits; i < bit_field_bits; i++)
+    for (unsigned int i = length_bits - shift_bits; i < length_bits; i++)
     {
         setBit(i, false);
     }
@@ -262,7 +282,7 @@ RawDataField& RawDataField::operator=(const RawDataField& bit_field)
 {
     if (this != &bit_field)
     {
-        bit_field.writeRaw(bit_field_raw);
+        bit_field.DataField::writeRaw(raw_data);
     }
 
     return *this;
@@ -285,7 +305,7 @@ RawDataField& RawDataField::operator>>=(unsigned int shift_bits)
 //==============================================================================
 bool operator==(const RawDataField& bit_field1, const RawDataField& bit_field2)
 {
-    if (bit_field1.getLengthBytes() != bit_field2.getLengthBytes())
+    if (bit_field1.getLengthBits() != bit_field2.getLengthBits())
     {
         return false;
     }
@@ -295,7 +315,7 @@ bool operator==(const RawDataField& bit_field1, const RawDataField& bit_field2)
 
     for (unsigned int i = 0; i < length_bytes; i++)
     {
-        if (bit_field1.getOctet(i) != bit_field2.getOctet(i))
+        if (bit_field1.getByte(i) != bit_field2.getByte(i))
         {
             return false;
         }
