@@ -37,7 +37,7 @@ public:
     // Copy constructor; dynamically allocates and maintains a bit field that is
     // "length_bytes" in size, and then copies the given bit field into this
     // newly-allocated memory.
-    RawDataField(const RawDataField& bit_field);
+    RawDataField(const RawDataField& raw_data_field);
 
     // Will free the memory at "raw_data" if it is owned by this class
     virtual ~RawDataField();
@@ -107,7 +107,7 @@ public:
     // Indexing mode mutator
     void setIndexingMode(misc::DataIndexingMode indexing_mode);
 
-    RawDataField& operator=(const RawDataField& bit_field);
+    RawDataField& operator=(const RawDataField& raw_data_field);
 
     // Uses leftShift()
     RawDataField& operator<<=(unsigned int shift_bits);

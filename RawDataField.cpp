@@ -421,19 +421,21 @@ bool operator!=(const RawDataField& lhs, const RawDataField& rhs)
 }
 
 //==============================================================================
-RawDataField operator<<(const RawDataField& bit_field, unsigned int shift_bits)
+RawDataField
+operator<<(const RawDataField& raw_data_field, unsigned int shift_bits)
 {
     // Copy the bitfield then return a shifted copy
-    RawDataField new_bit_field(bit_field);
-    new_bit_field.shiftLeft(shift_bits);
-    return new_bit_field;
+    RawDataField new_raw_data_field(raw_data_field);
+    new_raw_data_field.shiftLeft(shift_bits);
+    return new_raw_data_field;
 }
 
 //==============================================================================
-RawDataField operator>>(const RawDataField& bit_field, unsigned int shift_bits)
+RawDataField
+operator>>(const RawDataField& raw_data_field, unsigned int shift_bits)
 {
     // Copy the bitfield then return a shifted copy
-    RawDataField new_bit_field(bit_field);
-    new_bit_field.shiftRight(shift_bits);
-    return new_bit_field;
+    RawDataField new_raw_data_field(raw_data_field);
+    new_raw_data_field.shiftRight(shift_bits);
+    return new_raw_data_field;
 }
