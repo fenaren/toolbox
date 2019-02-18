@@ -327,7 +327,8 @@ void RawDataField::shiftLeft(unsigned int shift_bits)
         setBit(i, false);
     }
 
-    // Least significant bit will always be 0
+    // Bit 0 will always be unset.  Ideally this would be done in the loop above
+    // but because we're looping down we have to stop that loop one short
     setBit(0, false);
 }
 
@@ -392,12 +393,12 @@ bool operator==(const RawDataField& lhs, const RawDataField& rhs)
         return false;
     }
 
-    // We know both bit fields have equal length at this point
-    unsigned int length_bytes = lhs.getLengthBytes();
+    // We know both raw data fields have equal length at this point
+    unsigned int length_bits = lhs.getLengthBits();
 
-    for (unsigned int i = 0; i < length_bytes; i++)
+    for (unsigned int i = 0; i < length_bits; i++)
     {
-        if (lhs.getByte(i) != rhs.getByte(i))
+        if (lhs.getBit(i) != rhs.getBit(i))
         {
             return false;
         }
