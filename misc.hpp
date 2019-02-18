@@ -17,6 +17,7 @@ namespace misc
         ENDIAN_LITTLE
     };
 
+    // Used to associate units with data amounts
     enum DataUnits
     {
         BITS,
