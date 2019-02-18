@@ -22,8 +22,8 @@ Test::Result DataPacket_test_case2::body()
     // dptest2 data is copied to here; dptest2 is not referenced again
     DataPacket_test2* dptest2p = dptest1.getNestedPacket();
 
-    dptest1.setAlignment(3, DataPacket::BYTES);
-    dptest2p->setAlignment(3, DataPacket::BYTES);
+    dptest1.setAlignment(3);
+    dptest2p->setAlignment(3);
 
     // Write out dptest1 with a 3-byte alignment and make sure it looks
     // alright.  Write is done in host byte order.

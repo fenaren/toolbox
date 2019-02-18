@@ -73,16 +73,19 @@ private:
     T simple_data_field;
 };
 
+//==============================================================================
 template <class T> inline T SimpleDataField<T>::getValue() const
 {
     return simple_data_field;
 }
 
+//==============================================================================
 template <class T> inline void SimpleDataField<T>::getValue(T& value) const
 {
     value = simple_data_field;
 }
 
+//==============================================================================
 template <class T> inline void SimpleDataField<T>::setValue(const T& value)
 {
     simple_data_field = value;

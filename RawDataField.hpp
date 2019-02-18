@@ -133,7 +133,7 @@ private:
     std::uint8_t* raw_data;
 
     // Field is this many bits in length
-    unsigned int length_bits;
+    unsigned long length_bits;
 
     // Does this class own the memory at "raw_data"?
     bool memory_internal;
@@ -141,6 +141,12 @@ private:
     // How are we indexing into the raw data
     misc::DataIndexingMode indexing_mode;
 };
+
+//==============================================================================
+inline unsigned long RawDataField::getLengthBits() const
+{
+    return length_bits;
+}
 
 //==============================================================================
 inline bool RawDataField::getMemoryInternal() const

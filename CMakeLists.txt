@@ -50,7 +50,7 @@ add_subdirectory(networking)
 add_subdirectory(testing)
 
 # Add test subdirectories (these don't build unconditionally)
-add_subdirectory(BitField_test         EXCLUDE_FROM_ALL)
+#add_subdirectory(BitField_test         EXCLUDE_FROM_ALL)
 add_subdirectory(DataPacket_test       EXCLUDE_FROM_ALL)
 add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
 add_subdirectory(Log_test              EXCLUDE_FROM_ALL)

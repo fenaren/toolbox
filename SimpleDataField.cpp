@@ -3,8 +3,8 @@
 
 #include "SimpleDataField.hpp"
 
-#include "BitField.hpp"
 #include "DataField.hpp"
+#include "RawDataField.hpp"
 #include "misc.hpp"
 
 //==============================================================================
@@ -20,8 +20,6 @@ template <class T> SimpleDataField<T>::SimpleDataField(const T& value) :
 {
 }
 
-//==============================================================================
-// Copy constructor
 //==============================================================================
 template <class T>
 SimpleDataField<T>::SimpleDataField(const SimpleDataField<T>& simple_data_field)
@@ -41,9 +39,6 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 }
 
 //==============================================================================
-// Reads the data field from the "buffer" memory location without considering
-// byte ordering.
-//==============================================================================
 template <class T>
 unsigned long SimpleDataField<T>::readRaw(std::uint8_t* buffer,
                                           unsigned long offset_bits)
@@ -51,9 +46,6 @@ unsigned long SimpleDataField<T>::readRaw(std::uint8_t* buffer,
     return DataField::readRaw(buffer, offset_bits);
 }
 
-//==============================================================================
-// Reads the data field from the "buffer" memory location, swapping if the
-// source byte order does not match the byte ordering of this field.
 //==============================================================================
 template <class T> unsigned long SimpleDataField<T>::readRaw(
     std::uint8_t*   buffer,
@@ -77,9 +69,6 @@ template <class T> unsigned long SimpleDataField<T>::readRaw(
 }
 
 //==============================================================================
-// Writes the data field to the "buffer" memory location without considering
-// byte ordering.
-//==============================================================================
 template <class T>
 unsigned long SimpleDataField<T>::writeRaw(std::uint8_t* buffer,
                                            unsigned long offset_bits) const
@@ -87,10 +76,6 @@ unsigned long SimpleDataField<T>::writeRaw(std::uint8_t* buffer,
     return DataField::writeRaw(buffer, offset_bits);
 }
 
-//==============================================================================
-// Writes the data field to the "buffer" memory location, swapping at the
-// destination if the destination byte order does not match the byte ordering of
-// this field.
 //==============================================================================
 template <class T> unsigned long SimpleDataField<T>::writeRaw(
     std::uint8_t*   buffer,
@@ -121,15 +106,17 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
         memset(mask, 0xFF, sizeof(T));
         mask[working_size - 1] = 0;
 
-        // Use a BitField to shift both the data we want and the corrsponding
-        // mask over into the extra byte.  Counts on BitField shift behavior of
-        // shifting in zeros.  BitField shifts treat the whole bitfield as if it
-        // were a single large integer for shifting purposes so we may need
-        // shiftLeft or shiftRight depending on the endianness of the host.
-        BitField working_bitfield(working_buffer,
-                                  working_size * BITS_PER_BYTE,
-                                  false);
-        BitField mask_bitfield(mask, working_size * BITS_PER_BYTE, false);
+        // Use a RawDataField to shift both the data we want and the
+        // corrsponding mask over into the extra byte.  Counts on RawDataField
+        // shift behavior of shifting in zeros.  RawDataField shifts treat the
+        // whole bitfield as if it were a single large integer for shifting
+        // purposes so we may need shiftLeft or shiftRight depending on the
+        // endianness of the host.
+        RawDataField working_bitfield(
+            working_buffer, working_size, misc::BYTES, misc::MS_ZERO, false);
+        RawDataField mask_bitfield(
+            mask, working_size, misc::BYTES, misc::MS_ZERO, false);
+
         if (getByteOrder() == misc::ENDIAN_BIG)
         {
             working_bitfield.shiftRight(offset_bits);
@@ -153,9 +140,6 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
     return sizeof(T) * BITS_PER_BYTE;
 }
 
-//==============================================================================
-// Returns the size of this field in bytes.  This will equal the number of bytes
-// written by writeRaw() and read by readRaw().
 //==============================================================================
 template <class T> unsigned long SimpleDataField<T>::getLengthBits() const
 {

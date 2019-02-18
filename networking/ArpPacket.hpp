@@ -5,13 +5,21 @@
 
 #include "ArpPacketBase.hpp"
 
-#include "ByteField.hpp"
 #include "DataField.hpp"
+#include "RawDataField.hpp"
 #include "SimpleDataField.hpp"
 
 class ArpPacket : public ArpPacketBase
 {
 public:
+
+    // Similar to the constructor below but allows the rest of the simple fields
+    // to be specified.
+    ArpPacket(std::uint16_t htype,
+              std::uint16_t ptype,
+              std::uint8_t  hlen,
+              std::uint8_t  plen,
+              std::uint16_t oper);
 
     // Constructs an ARP packet with the minimum amount of information provided
     // up-front; the hardware and protocol lengths have to be known because they
@@ -19,26 +27,18 @@ public:
     // protocol fields is dynamically allocated.
     ArpPacket(std::uint8_t hlen, std::uint8_t plen);
 
-    // Similar to the constructor declared above but allows the rest of the
-    // simple fields to be specified
-    ArpPacket(std::uint16_t htype,
-              std::uint16_t ptype,
-              std::uint8_t  hlen,
-              std::uint8_t  plen,
-              std::uint16_t oper);
-
     // Constructs an ARP packet by copying externally-provided ARP packet data.
     // This may involve dynamic memory allocation depending on how the
-    // ByteField copy constructor is defined.
-    ArpPacket(std::uint16_t   htype,
-              std::uint16_t   ptype,
-              std::uint8_t    hlen,
-              std::uint8_t    plen,
-              std::uint16_t   oper,
-              const ByteField& sha,
-              const ByteField& spa,
-              const ByteField& tha,
-              const ByteField& tpa);
+    // RawDataField copy constructor is defined.
+    ArpPacket(std::uint16_t       htype,
+              std::uint16_t       ptype,
+              std::uint8_t        hlen,
+              std::uint8_t        plen,
+              std::uint16_t       oper,
+              const RawDataField& sha,
+              const RawDataField& spa,
+              const RawDataField& tha,
+              const RawDataField& tpa);
 
     // Constructs an ARP packet using hardware and protocol field memory that
     // can be maintained either internally or externally.
@@ -60,25 +60,25 @@ public:
     virtual ~ArpPacket();
 
     // Accessors
-    ByteField* getSha();
-    ByteField* getSpa();
-    ByteField* getTha();
-    ByteField* getTpa();
+    RawDataField* getSha();
+    RawDataField* getSpa();
+    RawDataField* getTha();
+    RawDataField* getTpa();
 
     // Const accessors
-    const ByteField* getSha() const;
-    const ByteField* getSpa() const;
-    const ByteField* getTha() const;
-    const ByteField* getTpa() const;
+    const RawDataField* getSha() const;
+    const RawDataField* getSpa() const;
+    const RawDataField* getTha() const;
+    const RawDataField* getTpa() const;
 
 private:
 
     void addDataFields();
 
-    ByteField sha;
-    ByteField spa;
-    ByteField tha;
-    ByteField tpa;
+    RawDataField sha;
+    RawDataField spa;
+    RawDataField tha;
+    RawDataField tpa;
 
     // Disallow these for now; maybe these could be meaningfully implemented but
     // we'll save that for later
@@ -86,42 +86,42 @@ private:
     ArpPacket& operator=(const ArpPacket&);
 };
 
-inline ByteField* ArpPacket::getSha()
+inline RawDataField* ArpPacket::getSha()
 {
     return &sha;
 }
 
-inline ByteField* ArpPacket::getSpa()
+inline RawDataField* ArpPacket::getSpa()
 {
     return &spa;
 }
 
-inline ByteField* ArpPacket::getTha()
+inline RawDataField* ArpPacket::getTha()
 {
     return &tha;
 }
 
-inline ByteField* ArpPacket::getTpa()
+inline RawDataField* ArpPacket::getTpa()
 {
     return &tpa;
 }
 
-inline const ByteField* ArpPacket::getSha() const
+inline const RawDataField* ArpPacket::getSha() const
 {
     return &sha;
 }
 
-inline const ByteField* ArpPacket::getSpa() const
+inline const RawDataField* ArpPacket::getSpa() const
 {
     return &spa;
 }
 
-inline const ByteField* ArpPacket::getTha() const
+inline const RawDataField* ArpPacket::getTha() const
 {
     return &tha;
 }
 
-inline const ByteField* ArpPacket::getTpa() const
+inline const RawDataField* ArpPacket::getTpa() const
 {
     return &tpa;
 }
