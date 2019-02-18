@@ -8,6 +8,7 @@
 #include "RawDataField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
+#include "misc.hpp"
 
 TEST_HEADER(RawDataField_test_case3);
 TEST_CONSTRUCTOR_DESTRUCTOR(RawDataField_test_case3);
@@ -39,7 +40,6 @@ Test::Result RawDataField_test_case3::body()
     RawDataField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
                            sizeof(std::uint32_t),
                            misc::BYTES,
-                           misc::LS_ZERO,
                            false);
 
     // Shift all the way up

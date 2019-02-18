@@ -15,24 +15,36 @@ class RawDataField : public DataField
 {
 public:
 
+    // Possible settings for data indexing.  "MS_ZERO" stands for "Most
+    // Significant Zero" and means the most significant data unit is assigned
+    // index 0.  "LS_ZERO" stands for "Least Significant Zero" and means the
+    // least significant data unit is assigned index 0.  The rest of the indices
+    // are assigned in order of increasing or decreasing significance as
+    // expected.
+    enum DataIndexingMode
+    {
+        MS_ZERO,
+        LS_ZERO
+    };
+
     // Dynamically allocates and maintains data field of size "length".  Units
     // of length are specified in "length_units".  Storage is dynamically
     // allocated.
     // cppcheck-suppress noExplicitConstructor
-    RawDataField(unsigned long          length,
-                 misc::DataUnits        length_units,
-                 misc::DataIndexingMode indexing_mode);
+    RawDataField(unsigned long    length,
+                 misc::DataUnits  length_units,
+                 DataIndexingMode bit_indexing_mode = LS_ZERO);
 
     // Behavior depends on the value of "memory_internal".  If "memory_internal"
     // is true, the data at "buffer" of will be copied into dynamically
     // allocated memory internal to this class.  If "memory_internal" is false,
     // the data at "buffer" will be used by this class in-place and no dynamic
     // memory allocation will occur.
-    RawDataField(std::uint8_t*          buffer,
-                 unsigned long          length,
-                 misc::DataUnits        length_units,
-                 misc::DataIndexingMode indexing_mode,
-                 bool                   memory_internal = true);
+    RawDataField(std::uint8_t*    buffer,
+                 unsigned long    length,
+                 misc::DataUnits  length_units,
+                 bool             memory_internal = true,
+                 DataIndexingMode bit_indexing_mode = LS_ZERO);
 
     // Copy constructor; dynamically allocates and maintains a bit field that is
     // "length_bytes" in size, and then copies the given bit field into this
@@ -102,10 +114,10 @@ public:
     bool getMemoryInternal() const;
 
     // Indexing mode access
-    misc::DataIndexingMode getIndexingMode() const;
+    DataIndexingMode getBitIndexingMode() const;
 
     // Indexing mode mutator
-    void setIndexingMode(misc::DataIndexingMode indexing_mode);
+    void setBitIndexingMode(DataIndexingMode bit_indexing_mode);
 
     RawDataField& operator=(const RawDataField& raw_data_field);
 
@@ -124,10 +136,10 @@ private:
 
     // Only for use as a delegating constructor.  Sets length_bits and indexing
     // mode.
-    RawDataField(unsigned long          length,
-                 misc::DataUnits        length_units,
-                 misc::DataIndexingMode indexing_mode,
-                 bool                   memory_internal);
+    RawDataField(unsigned long    length,
+                 misc::DataUnits  length_units,
+                 bool             memory_internal,
+                 DataIndexingMode bit_indexing_mode);
 
     // Reference to the raw data represented by this class
     std::uint8_t* raw_data;
@@ -139,7 +151,7 @@ private:
     bool memory_internal;
 
     // How are we indexing into the raw data
-    misc::DataIndexingMode indexing_mode;
+    DataIndexingMode bit_indexing_mode;
 };
 
 //==============================================================================
@@ -155,15 +167,16 @@ inline bool RawDataField::getMemoryInternal() const
 }
 
 //==============================================================================
-inline misc::DataIndexingMode RawDataField::getIndexingMode() const
+inline RawDataField::DataIndexingMode RawDataField::getBitIndexingMode() const
 {
-    return indexing_mode;
+    return bit_indexing_mode;
 }
 
 //==============================================================================
-inline void RawDataField::setIndexingMode(misc::DataIndexingMode indexing_mode)
+inline void RawDataField::setBitIndexingMode(
+    RawDataField::DataIndexingMode bit_indexing_mode)
 {
-    this->indexing_mode = indexing_mode;
+    this->bit_indexing_mode = bit_indexing_mode;
 }
 
 //==============================================================================

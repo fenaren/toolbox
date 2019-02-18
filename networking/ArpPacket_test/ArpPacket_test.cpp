@@ -23,10 +23,10 @@ bool isLengthBad(const RawDataField& bf1,
 //==============================================================================
 Test::Result ArpPacket_test::body()
 {
-    RawDataField bfmac_good(6, misc::BYTES, misc::MS_ZERO);
-    RawDataField bfmac_bad(8, misc::BYTES, misc::MS_ZERO);
-    RawDataField bf4_good(4, misc::BYTES, misc::MS_ZERO);
-    RawDataField bf4_bad(5, misc::BYTES, misc::MS_ZERO);
+    RawDataField bfmac_good(6, misc::BYTES);
+    RawDataField bfmac_bad(8, misc::BYTES);
+    RawDataField bf4_good(4, misc::BYTES);
+    RawDataField bf4_bad(5, misc::BYTES);
 
     unsigned char mac1[] = {6, 5, 4, 3, 2, 1};
     unsigned char mac2[] = {9, 8, 7, 6, 5, 4};

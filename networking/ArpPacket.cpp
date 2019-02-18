@@ -13,10 +13,10 @@ ArpPacket::ArpPacket(std::uint16_t htype,
                      std::uint8_t  plen,
                      std::uint16_t oper) :
     ArpPacketBase(htype, ptype, hlen, plen, oper),
-    sha(hlen, misc::BYTES, misc::MS_ZERO),
-    spa(plen, misc::BYTES, misc::MS_ZERO),
-    tha(hlen, misc::BYTES, misc::MS_ZERO),
-    tpa(plen, misc::BYTES, misc::MS_ZERO)
+    sha(hlen, misc::BYTES),
+    spa(plen, misc::BYTES),
+    tha(hlen, misc::BYTES),
+    tpa(plen, misc::BYTES)
 {
     addDataFields();
 }
@@ -81,10 +81,10 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
                      bool           owned_tha,
                      bool           owned_tpa) :
     ArpPacketBase(htype, ptype, hlen, plen, oper),
-    sha(buffer_sha, hlen, misc::BYTES, misc::MS_ZERO, owned_sha),
-    spa(buffer_spa, plen, misc::BYTES, misc::MS_ZERO, owned_spa),
-    tha(buffer_tha, hlen, misc::BYTES, misc::MS_ZERO, owned_tha),
-    tpa(buffer_tpa, plen, misc::BYTES, misc::MS_ZERO, owned_tpa)
+    sha(buffer_sha, hlen, misc::BYTES, owned_sha),
+    spa(buffer_spa, plen, misc::BYTES, owned_spa),
+    tha(buffer_tha, hlen, misc::BYTES, owned_tha),
+    tpa(buffer_tpa, plen, misc::BYTES, owned_tpa)
 {
     addDataFields();
 }

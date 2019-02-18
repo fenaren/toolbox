@@ -9,20 +9,20 @@
 #include "misc.hpp"
 
 //==============================================================================
-RawDataField::RawDataField(unsigned long          length,
-                           misc::DataUnits        length_units,
-                           misc::DataIndexingMode indexing_mode) :
-    RawDataField(length, length_units, indexing_mode, true)
+RawDataField::RawDataField(unsigned long    length,
+                           misc::DataUnits  length_units,
+                           DataIndexingMode bit_indexing_mode) :
+    RawDataField(length, length_units, true, bit_indexing_mode)
 {
 }
 
 //==============================================================================
-RawDataField::RawDataField(std::uint8_t*          buffer,
-                           unsigned long          length,
-                           misc::DataUnits        length_units,
-                           misc::DataIndexingMode indexing_mode,
-                           bool                   memory_internal) :
-    RawDataField(length, length_units, indexing_mode, memory_internal)
+RawDataField::RawDataField(std::uint8_t*    buffer,
+                           unsigned long    length,
+                           misc::DataUnits  length_units,
+                           bool             memory_internal,
+                           DataIndexingMode bit_indexing_mode) :
+    RawDataField(length, length_units, memory_internal, bit_indexing_mode)
 {
     if (memory_internal)
     {
@@ -38,20 +38,20 @@ RawDataField::RawDataField(std::uint8_t*          buffer,
 RawDataField::RawDataField(const RawDataField& raw_data_field) :
     RawDataField(raw_data_field.getLengthBits(),
                  misc::BITS,
-                 raw_data_field.getIndexingMode(),
-                 true)
+                 true,
+                 raw_data_field.getBitIndexingMode())
 {
     raw_data_field.DataField::writeRaw(raw_data);
 }
 
 //==============================================================================
-RawDataField::RawDataField(unsigned long          length,
-                           misc::DataUnits        length_units,
-                           misc::DataIndexingMode indexing_mode,
-                           bool                   memory_internal) :
+RawDataField::RawDataField(unsigned long    length,
+                           misc::DataUnits  length_units,
+                           bool             memory_internal,
+                           DataIndexingMode bit_indexing_mode) :
     DataField(),
     memory_internal(memory_internal),
-    indexing_mode(indexing_mode)
+    bit_indexing_mode(bit_indexing_mode)
 {
     // Set length_bits appropriately
     if (length_units == misc::BYTES)
@@ -113,18 +113,8 @@ unsigned long RawDataField::writeRaw(
 //==============================================================================
 std::uint8_t RawDataField::getByte(unsigned int index) const
 {
-    unsigned int length_bytes = getLengthBytes();
-
-    throwIfIndexOutOfRange(index, length_bytes);
-
-    unsigned long real_index = index;
-
-    if (indexing_mode == misc::LS_ZERO)
-    {
-        real_index = length_bytes - index - 1;
-    }
-
-    return raw_data[real_index];
+    throwIfIndexOutOfRange(index, getLengthBytes());
+    return raw_data[index];
 }
 
 //==============================================================================
@@ -150,7 +140,7 @@ bool RawDataField::getBit(unsigned long index) const
     // Now we have the right byte but we still need to find the right bit;
     // div_result.rem has the index
 
-    if (getIndexingMode() == misc::LS_ZERO)
+    if (getBitIndexingMode() == LS_ZERO)
     {
         target_byte >>= div_result.rem;
     }
@@ -182,7 +172,7 @@ void RawDataField::setBit(unsigned long index, bool value)
     // This is the proper amount to shift if bit indexing mode is least
     // significant zero
     unsigned int shift_amount = div_result.rem;
-    if (getIndexingMode() == misc::MS_ZERO)
+    if (getBitIndexingMode() == MS_ZERO)
     {
         shift_amount = BITS_PER_BYTE - div_result.rem - 1;
     }
@@ -225,8 +215,8 @@ void RawDataField::getBitsAsNumericType(T&           type_var,
     RawDataField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
                                   sizeof(T),
                                   misc::BYTES,
-                                  indexing_mode,
-                                  false);
+                                  false,
+                                  bit_indexing_mode);
 
     // Copy all the bits; an alternative implementation would be to memcpy the
     // relevant data over, shift down and then mask out the irrelevant bits
@@ -277,8 +267,8 @@ void RawDataField::setBitsAsNumericType(T            type_var,
     RawDataField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
                                   sizeof(T),
                                   misc::BYTES,
-                                  indexing_mode,
-                                  false);
+                                  false,
+                                  bit_indexing_mode);
 
     // Copy all the bits; an alternative implementation would be to memcpy the
     // relevant data over, shift down and then mask out the irrelevant bits

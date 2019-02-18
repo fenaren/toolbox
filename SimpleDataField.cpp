@@ -113,9 +113,8 @@ template <class T> unsigned long SimpleDataField<T>::writeRaw(
         // purposes so we may need shiftLeft or shiftRight depending on the
         // endianness of the host.
         RawDataField working_bitfield(
-            working_buffer, working_size, misc::BYTES, misc::LS_ZERO, false);
-        RawDataField mask_bitfield(
-            mask, working_size, misc::BYTES, misc::LS_ZERO, false);
+            working_buffer, working_size, misc::BYTES, false);
+        RawDataField mask_bitfield(mask, working_size, misc::BYTES, false);
 
         if (getByteOrder() == misc::ENDIAN_BIG)
         {
