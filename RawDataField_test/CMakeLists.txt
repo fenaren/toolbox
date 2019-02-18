@@ -2,10 +2,10 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
 set(SRC
-  BitField_test.cpp
-  BitField_test_case1.cpp
-  BitField_test_case2.cpp
-  BitField_test_case3.cpp)
+  RawDataField_test.cpp
+  RawDataField_test_case1.cpp
+  RawDataField_test_case2.cpp
+  RawDataField_test_case3.cpp)
 
 # We need these include directories
 set(INC . ..)
@@ -14,4 +14,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-add_test_executable(BitField_test "${SRC}" "${INC}" "${LIB}")
+add_test_executable(RawDataField_test "${SRC}" "${INC}" "${LIB}")

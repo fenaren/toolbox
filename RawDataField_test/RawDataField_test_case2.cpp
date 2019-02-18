@@ -4,29 +4,35 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "BitField.hpp"
+#include "RawDataField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
+#include "misc.hpp"
 
-TEST_HEADER(BitField_test_case2);
-TEST_CONSTRUCTOR_DESTRUCTOR(BitField_test_case2);
+TEST_HEADER(RawDataField_test_case2);
+TEST_CONSTRUCTOR_DESTRUCTOR(RawDataField_test_case2);
 
-template<class T> bool tryAllBits(BitField& bitfield, T& raw_bitfield);
+template<class T> bool tryAllBits(RawDataField& bitfield, T& raw_bitfield);
 
 //==============================================================================
-Test::Result BitField_test_case2::body()
+Test::Result RawDataField_test_case2::body()
 {
     std::uint8_t  raw_bitfield1 = 0;
     std::uint16_t raw_bitfield2 = 0;
     std::uint32_t raw_bitfield4 = 0;
 
-    BitField bitfield1(&raw_bitfield1, BITS_PER_BYTE, false);
-    BitField bitfield2(reinterpret_cast<std::uint8_t*>(&raw_bitfield2),
-                       sizeof(std::uint16_t) * BITS_PER_BYTE,
-                       false);
-    BitField bitfield4(reinterpret_cast<std::uint8_t*>(&raw_bitfield4),
-                       sizeof(std::uint32_t) * BITS_PER_BYTE,
-                       false);
+    RawDataField bitfield1(
+        &raw_bitfield1, 1, misc::BYTES, misc::MS_ZERO, false);
+    RawDataField bitfield2(reinterpret_cast<std::uint8_t*>(&raw_bitfield2),
+                           sizeof(std::uint16_t),
+                           misc::BYTES,
+                           misc::MS_ZERO,
+                           false);
+    RawDataField bitfield4(reinterpret_cast<std::uint8_t*>(&raw_bitfield4),
+                           sizeof(std::uint32_t),
+                           misc::BYTES,
+                           misc::MS_ZERO,
+                           false);
 
     // Make sure trying to get out-of-range bits properly throws an exception
     bool exception_caught = false;
@@ -49,7 +55,7 @@ Test::Result BitField_test_case2::body()
 }
 
 //==============================================================================
-template<class T> bool tryAllBits(BitField& bitfield, T& raw_bitfield)
+template<class T> bool tryAllBits(RawDataField& bitfield, T& raw_bitfield)
 {
     bool all_good = true;
 

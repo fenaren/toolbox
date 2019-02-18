@@ -5,18 +5,18 @@
 #include <limits>
 #include <stdexcept>
 
-#include "BitField.hpp"
+#include "RawDataField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 
-TEST_HEADER(BitField_test_case3);
-TEST_CONSTRUCTOR_DESTRUCTOR(BitField_test_case3);
+TEST_HEADER(RawDataField_test_case3);
+TEST_CONSTRUCTOR_DESTRUCTOR(RawDataField_test_case3);
 
 //==============================================================================
-template <class T> bool getBitsAsNumericTypeExCaught(BitField&    bitfield,
-                                                     unsigned int start_bit,
-                                                     unsigned int count,
-                                                     T&           dest_type)
+template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
+                                                     unsigned int  start_bit,
+                                                     unsigned int  count,
+                                                     T&            dest_type)
 {
     bool exception_caught = false;
 
@@ -33,12 +33,14 @@ template <class T> bool getBitsAsNumericTypeExCaught(BitField&    bitfield,
 }
 
 //==============================================================================
-Test::Result BitField_test_case3::body()
+Test::Result RawDataField_test_case3::body()
 {
     std::uint32_t test_uint32 = 1;
-    BitField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
-                       sizeof(std::uint32_t) * BITS_PER_BYTE,
-                       false);
+    RawDataField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                           sizeof(std::uint32_t),
+                           misc::BYTES,
+                           misc::MS_ZERO,
+                           false);
 
     // Shift all the way up
     for (unsigned int i = 1;
