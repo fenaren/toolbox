@@ -35,6 +35,7 @@ RawDataField::RawDataField(std::uint8_t*    buffer,
 }
 
 //==============================================================================
+// cppcheck-suppress uninitMemberVar
 RawDataField::RawDataField(const RawDataField& raw_data_field) :
     RawDataField(raw_data_field.getLengthBits(),
                  misc::BITS,
