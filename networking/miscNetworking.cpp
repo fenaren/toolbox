@@ -1,17 +1,16 @@
-#include "miscNetworking.hpp"
-
 #include <cstring>
+#include <cstdint>
 #include <net/if.h>
 #include <netinet/in.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include "miscNetworking.hpp"
+
 #include "Ipv4Address.hpp"
 #include "MacAddress.hpp"
 
-//==============================================================================
-// Retrieves the MAC address corresponding to the given interface name
 //==============================================================================
 bool miscNetworking::getMacAddress(const std::string& interface_name,
                                    MacAddress&        mac_address)
@@ -39,7 +38,7 @@ bool miscNetworking::getMacAddress(const std::string& interface_name,
     }
 
     // Give the user their MAC address
-    mac_address.readRaw(
+    mac_address.DataField::readRaw(
         reinterpret_cast<unsigned char*>(iface.ifr_hwaddr.sa_data));
 
     return true;
@@ -48,8 +47,6 @@ bool miscNetworking::getMacAddress(const std::string& interface_name,
 #endif
 }
 
-//==============================================================================
-// Retrieves an IPv4 address corresponding to the given interface name
 //==============================================================================
 bool miscNetworking::getIpv4Address(const std::string& interface_name,
                                     Ipv4Address&       ipv4_address)
@@ -78,7 +75,7 @@ bool miscNetworking::getIpv4Address(const std::string& interface_name,
 
     // Initialize own IP address
     sockaddr_in* temp_addr = (sockaddr_in*)&iface.ifr_addr;
-    ipv4_address.readRaw(
+    ipv4_address.DataField::readRaw(
         reinterpret_cast<unsigned char*>(&temp_addr->sin_addr.s_addr));
 
     return true;
