@@ -179,7 +179,7 @@ inline void RawDataField::throwIfIndexOutOfRange(unsigned long index,
 bool operator==(const RawDataField& lhs, const RawDataField& rhs);
 bool operator!=(const RawDataField& lhs, const RawDataField& rhs);
 
-RawDataField operator>>(const RawDataField& bit_field, unsigned int shift_bits);
-RawDataField operator<<(const RawDataField& bit_field, unsigned int shift_bits);
+RawDataField operator>>(const RawDataField& lhs, unsigned int rhs);
+RawDataField operator<<(const RawDataField& lhs, unsigned int rhs);
 
 #endif
