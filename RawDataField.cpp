@@ -134,14 +134,13 @@ bool RawDataField::getBit(unsigned long index) const
     // within that byte
     std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
 
-    // This is the byte we want but only if byte indexing mode is most
-    // significant byte first
+    // This is the byte containing the bit we want
     std::uint8_t target_byte = raw_data[div_result.quot];
 
-    // Now we have the right byte but we still need to find the right bit;
-    // div_result.rem has the index
-
-    if (getBitIndexingMode() == LS_ZERO)
+    // We still need to find the right bit, div_result.rem has the index.  Shift
+    // the bit we want down to the least significant bit and then mask out the
+    // other bits
+    if (bit_indexing_mode == LS_ZERO)
     {
         target_byte >>= div_result.rem;
     }
@@ -170,19 +169,21 @@ void RawDataField::setBit(unsigned long index, bool value)
     // within that byte
     std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
 
-    // This is the proper amount to shift if bit indexing mode is least
-    // significant zero
+    // Shift the bit we set above to the correct position depending on bit
+    // indexing setting
     unsigned int shift_amount = div_result.rem;
-    if (getBitIndexingMode() == MS_ZERO)
+    if (bit_indexing_mode == MS_ZERO)
     {
         shift_amount = BITS_PER_BYTE - div_result.rem - 1;
     }
-
     target_byte <<= shift_amount;
+
+    // Shift the mask into the right place as well
     mask <<= shift_amount;
 
     // We have the byte and mask shifted properly, now we just have to write the
-    // byte into the proper place in raw_bit_field
+    // byte into the proper place in raw_bit_field without disturbing the other
+    // bits
 
     unsigned int byte_index = div_result.quot;
 
