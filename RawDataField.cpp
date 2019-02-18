@@ -368,11 +368,11 @@ void RawDataField::shiftRight(unsigned int shift_bits)
 }
 
 //==============================================================================
-RawDataField& RawDataField::operator=(const RawDataField& bit_field)
+RawDataField& RawDataField::operator=(const RawDataField& raw_data_field)
 {
-    if (this != &bit_field)
+    if (this != &raw_data_field)
     {
-        bit_field.DataField::writeRaw(raw_data);
+        raw_data_field.DataField::writeRaw(raw_data);
     }
 
     return *this;

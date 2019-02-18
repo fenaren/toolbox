@@ -118,7 +118,7 @@ public:
 protected:
 
     // Tosses a std::out_of_range exception if index >= size
-    void throwIfIndexOutOfRange(unsigned long index, unsigned long size) const;
+    static void throwIfIndexOutOfRange(unsigned long index, unsigned long size);
 
 private:
 
@@ -168,7 +168,7 @@ inline void RawDataField::setIndexingMode(misc::DataIndexingMode indexing_mode)
 
 //==============================================================================
 inline void RawDataField::throwIfIndexOutOfRange(unsigned long index,
-                                                 unsigned long size) const
+                                                 unsigned long size)
 {
     if (index >= size)
     {
