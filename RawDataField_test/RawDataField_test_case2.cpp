@@ -22,16 +22,16 @@ Test::Result RawDataField_test_case2::body()
     std::uint32_t raw_bitfield4 = 0;
 
     RawDataField bitfield1(
-        &raw_bitfield1, 1, misc::BYTES, misc::MS_ZERO, false);
+        &raw_bitfield1, 1, misc::BYTES, misc::LS_ZERO, false);
     RawDataField bitfield2(reinterpret_cast<std::uint8_t*>(&raw_bitfield2),
                            sizeof(std::uint16_t),
                            misc::BYTES,
-                           misc::MS_ZERO,
+                           misc::LS_ZERO,
                            false);
     RawDataField bitfield4(reinterpret_cast<std::uint8_t*>(&raw_bitfield4),
                            sizeof(std::uint32_t),
                            misc::BYTES,
-                           misc::MS_ZERO,
+                           misc::LS_ZERO,
                            false);
 
     // Make sure trying to get out-of-range bits properly throws an exception

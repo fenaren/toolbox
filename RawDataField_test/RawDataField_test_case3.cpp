@@ -39,7 +39,7 @@ Test::Result RawDataField_test_case3::body()
     RawDataField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
                            sizeof(std::uint32_t),
                            misc::BYTES,
-                           misc::MS_ZERO,
+                           misc::LS_ZERO,
                            false);
 
     // Shift all the way up
