@@ -1,8 +1,9 @@
 #if !defined DATA_PACKET_HPP
 #define DATA_PACKET_HPP
 
-#include <stdexcept>
 #include <cstdint>
+#include <cstdlib>
+#include <stdexcept>
 #include <vector>
 
 #include "DataField.hpp"
@@ -71,18 +72,26 @@ private:
 inline
 unsigned int DataPacket::getAlignment(misc::DataUnits alignment_units) const
 {
-    if (alignment_units == misc::BYTES)
+    if (alignment_units == misc::BITS)
     {
-        if (alignment_bits % BITS_PER_BYTE != 0)
-        {
-            throw std::runtime_error(
-                "Alignment cannot be represented in bytes as an integer");
-        }
-
-        return alignment_bits / BITS_PER_BYTE;
+        // This is easy since we store alignment in bits already
+        return alignment_bits;
     }
-
-    return alignment_bits;
+    else if (alignment_units == misc::BYTES)
+    {
+        // Convert bits to bytes.  If it's not an even conversion then return
+        // the smallest number of bytes that can store all the bits.
+        std::ldiv_t div_result = std::ldiv(alignment_units, BITS_PER_BYTE);
+        if (div_result.rem > 0)
+        {
+            div_result.quot += 1;
+        }
+        return static_cast<unsigned int>(div_result.quot);
+    }
+    else
+    {
+        throw std::invalid_argument("Unsupported units type");
+    }
 }
 
 //==============================================================================
@@ -94,12 +103,18 @@ inline void DataPacket::setAlignment(unsigned int    alignment,
         throw std::invalid_argument("Alignment must be greater than 0");
     }
 
-    if (alignment_units == misc::BYTES)
+    if (alignment_units == misc::BITS)
     {
-        alignment *= BITS_PER_BYTE;
+        alignment_bits = alignment;
     }
-
-    alignment_bits = alignment;
+    else if (alignment_units == misc::BYTES)
+    {
+        alignment_bits = alignment * BITS_PER_BYTE;
+    }
+    else
+    {
+        throw std::invalid_argument("Unsupported units type");
+    }
 }
 
 //==============================================================================
