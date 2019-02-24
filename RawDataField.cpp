@@ -218,18 +218,21 @@ void RawDataField::getBitsAsNumericType(T&           type_var,
     // class member function ever
     type_var = 0;
 
-    // Use the given variable as if it were a bitfield, and set bits inside it
-    RawDataField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
-                                  sizeof(T),
-                                  misc::BYTES,
-                                  false,
-                                  bit_indexing_mode);
+    // Use the given variable as if it were just raw data, and set bits inside
+    // it
+    RawDataField working_rdf(reinterpret_cast<std::uint8_t*>(&type_var),
+                             sizeof(T),
+                             misc::BYTES,
+                             false,
+                             bit_indexing_mode);
 
     // Copy all the bits; an alternative implementation would be to memcpy the
-    // relevant data over, shift down and then mask out the irrelevant bits
+    // relevant data over, shift down and then mask out the irrelevant bits, but
+    // this uses the getBit() and setBit() functions which account for bit
+    // indexing mode us.
     for (unsigned int i = 0; i < count; ++i)
     {
-        working_bitfield.setBit(i, getBit(start_bit + i));
+        working_rdf.setBit(i, getBit(start_bit + i));
     }
 }
 
@@ -270,18 +273,18 @@ void RawDataField::setBitsAsNumericType(T            type_var,
         throw std::out_of_range("Not enough bits in the source type");
     }
 
-    // Use the given variable as if it were a bitfield, and set bits inside it
-    RawDataField working_bitfield(reinterpret_cast<std::uint8_t*>(&type_var),
-                                  sizeof(T),
-                                  misc::BYTES,
-                                  false,
-                                  bit_indexing_mode);
+    // Use the given variable as if it were raw data, and set bits inside it
+    RawDataField working_rdf(reinterpret_cast<std::uint8_t*>(&type_var),
+                             sizeof(T),
+                             misc::BYTES,
+                             false,
+                             bit_indexing_mode);
 
     // Copy all the bits; an alternative implementation would be to memcpy the
     // relevant data over, shift down and then mask out the irrelevant bits
     for (unsigned int i = 0; i < count; ++i)
     {
-        setBit(start_bit + i, working_bitfield.getBit(i));
+        setBit(start_bit + i, working_rdf.getBit(i));
     }
 }
 
@@ -421,7 +424,7 @@ bool operator!=(const RawDataField& lhs, const RawDataField& rhs)
 //==============================================================================
 RawDataField operator<<(const RawDataField& lhs, unsigned int rhs)
 {
-    // Copy the bitfield then return a shifted copy
+    // Copy then return a shifted copy
     RawDataField new_raw_data_field(lhs);
     new_raw_data_field.shiftLeft(rhs);
     return new_raw_data_field;
@@ -430,7 +433,7 @@ RawDataField operator<<(const RawDataField& lhs, unsigned int rhs)
 //==============================================================================
 RawDataField operator>>(const RawDataField& lhs, unsigned int rhs)
 {
-    // Copy the bitfield then return a shifted copy
+    // Copy then return a shifted copy
     RawDataField new_raw_data_field(lhs);
     new_raw_data_field.shiftRight(rhs);
     return new_raw_data_field;
