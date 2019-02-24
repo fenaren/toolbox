@@ -9,19 +9,19 @@
 #include "misc.hpp"
 
 //==============================================================================
-RawDataField::RawDataField(unsigned long    length,
-                           misc::DataUnits  length_units,
-                           DataIndexingMode bit_indexing_mode) :
+RawDataField::RawDataField(unsigned long   length,
+                           misc::DataUnits length_units,
+                           IndexingMode    bit_indexing_mode) :
     RawDataField(length, length_units, true, bit_indexing_mode)
 {
 }
 
 //==============================================================================
-RawDataField::RawDataField(std::uint8_t*    buffer,
-                           unsigned long    length,
-                           misc::DataUnits  length_units,
-                           bool             memory_internal,
-                           DataIndexingMode bit_indexing_mode) :
+RawDataField::RawDataField(std::uint8_t*   buffer,
+                           unsigned long   length,
+                           misc::DataUnits length_units,
+                           bool            memory_internal,
+                           IndexingMode    bit_indexing_mode) :
     RawDataField(length, length_units, memory_internal, bit_indexing_mode)
 {
     if (memory_internal)
@@ -46,10 +46,10 @@ RawDataField::RawDataField(const RawDataField& raw_data_field) :
 }
 
 //==============================================================================
-RawDataField::RawDataField(unsigned long    length,
-                           misc::DataUnits  length_units,
-                           bool             memory_internal,
-                           DataIndexingMode bit_indexing_mode) :
+RawDataField::RawDataField(unsigned long   length,
+                           misc::DataUnits length_units,
+                           bool            memory_internal,
+                           IndexingMode    bit_indexing_mode) :
     DataField(),
     memory_internal(memory_internal),
     bit_indexing_mode(bit_indexing_mode)
