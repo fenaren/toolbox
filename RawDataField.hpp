@@ -62,25 +62,28 @@ public:
                                   unsigned long   offset_bits = 0);
 
     // Writes to the "buffer" memory location plus an offset of "bit_offset"
-    // bits.  No byteswapping is performed even when "source_byte_order" doesn't
-    // match host byte ordering, since this is just raw data.
+    // bits.  No byteswapping is performed even when "destination_byte_order"
+    // doesn't match host byte ordering, since this is just raw data.
     virtual unsigned long writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order,
                                    unsigned long   offset_bits = 0) const;
 
-    // Octet access or mutation, indexed by (obviously) octet
+    // Byte access and mutation, indexed by (obviously)
     std::uint8_t getByte(unsigned int index) const;
     void setByte(unsigned int index, std::uint8_t value);
 
-    // Bit access or mutation, indexed by bit
+    // Bit access and mutation.  Affected by the current bit indexing mode (set
+    // and get bit indexing mode with setBitIndexingMode() and
+    // getBitIndexingMode()).
     bool getBit(unsigned long index) const;
     void setBit(unsigned long index, bool value);
 
     // Copies a range of bits into the given typed numeric variable.  Useful for
-    // pulling things like integers and floating-point numbers out of bitfields.
-    // Bit numbering follows the convention used by getBit().  Operation starts
-    // by copying the least significant bit in the specified range into the
-    // least significant bit in "type_var", and proceeds to successively more
+    // pulling things like oddly-sized integers out of raw data.  Affected by
+    // the current bit indexing mode (set and get bit indexing mode with
+    // setBitIndexingMode() and getBitIndexingMode().  Operation starts by
+    // copying the least significant bit in the specified range into the least
+    // significant bit in "type_var", and proceeds to successively more
     // significant bits until "count" bits are copied.
     template <class T> void getBitsAsNumericType(
         T&           type_var,
