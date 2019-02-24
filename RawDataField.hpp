@@ -1,7 +1,6 @@
 #if !defined RAW_DATA_FIELD_HPP
 #define RAW_DATA_FIELD_HPP
 
-#include <bitset>
 #include <cstdint>
 #include <cmath>
 #include <stdexcept>
@@ -15,16 +14,16 @@ class RawDataField : public DataField
 {
 public:
 
-    // Possible settings for data indexing.  "MS_ZERO" stands for "Most
-    // Significant Zero" and means the most significant data unit is assigned
-    // index 0.  "LS_ZERO" stands for "Least Significant Zero" and means the
-    // least significant data unit is assigned index 0.  The rest of the indices
-    // are assigned in order of increasing or decreasing significance as
-    // expected.
+    // Possible settings for data indexing.  "MS_LEAST" stands for "Most
+    // Significant Least" and means the most significant data unit is assigned
+    // the least index.  "LS_LEAST" stands for "Least Significant Least" and
+    // means the least significant data unit is assigned the least index.  The
+    // rest of the indices are assigned in order of increasing or decreasing
+    // significance as one would expect.
     enum IndexingMode
     {
-        MS_ZERO,
-        LS_ZERO
+        MS_LEAST,
+        LS_LEAST
     };
 
     // Dynamically allocates and maintains data field of size "length".  Units
@@ -33,7 +32,7 @@ public:
     // cppcheck-suppress noExplicitConstructor
     RawDataField(unsigned long   length,
                  misc::DataUnits length_units,
-                 IndexingMode    bit_indexing_mode = LS_ZERO);
+                 IndexingMode    bit_indexing_mode = LS_LEAST);
 
     // Behavior depends on the value of "memory_internal".  If "memory_internal"
     // is true, the data at "buffer" of will be copied into dynamically
@@ -44,7 +43,7 @@ public:
                  unsigned long   length,
                  misc::DataUnits length_units,
                  bool            memory_internal = true,
-                 IndexingMode    bit_indexing_mode = LS_ZERO);
+                 IndexingMode    bit_indexing_mode = LS_LEAST);
 
     // Copy constructor; dynamically allocates and maintains a bit field that is
     // "length_bytes" in size, and then copies the given bit field into this
@@ -117,10 +116,15 @@ public:
     // be set after construction time.
     bool getMemoryInternal() const;
 
-    // Bit indexing mode accessor
+    // Bit indexing mode accessor.  Bit indexing mode determines how bits within
+    // each byte are indexed.  Right now two modes are supported.  One assigns
+    // the least significant bit in each byte the least index (LS_LEAST), the
+    // other assigns the most significant bit in each byte the least index
+    // (MS_LEAST).
     IndexingMode getBitIndexingMode() const;
 
-    // Bit indexing mode mutator
+    // Bit indexing mode mutator.  See getBitIndexingMode() comment for more
+    // information.
     void setBitIndexingMode(IndexingMode bit_indexing_mode);
 
     // Assignment from other RawDataFields; copies all internal state including

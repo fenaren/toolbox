@@ -145,7 +145,7 @@ bool RawDataField::getBit(unsigned long index) const
     // We still need to find the right bit, div_result.rem has the index.  Shift
     // the bit we want down to the least significant bit and then mask out the
     // other bits
-    if (bit_indexing_mode == LS_ZERO)
+    if (bit_indexing_mode == LS_LEAST)
     {
         target_byte >>= div_result.rem;
     }
@@ -177,7 +177,7 @@ void RawDataField::setBit(unsigned long index, bool value)
     // Shift the bit we set above to the correct position depending on bit
     // indexing setting
     unsigned int shift_amount = div_result.rem;
-    if (bit_indexing_mode == MS_ZERO)
+    if (bit_indexing_mode == MS_LEAST)
     {
         shift_amount = BITS_PER_BYTE - div_result.rem - 1;
     }
