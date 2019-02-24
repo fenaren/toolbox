@@ -24,6 +24,9 @@ RawDataField::RawDataField(std::uint8_t*   buffer,
                            IndexingMode    bit_indexing_mode) :
     RawDataField(length, length_units, memory_internal, bit_indexing_mode)
 {
+    // Delegate RawDataField constructor has already set up our "raw_data"
+    // pointer.  At this point we can just start using it.
+
     if (memory_internal)
     {
         DataField::readRaw(buffer);
@@ -42,6 +45,8 @@ RawDataField::RawDataField(const RawDataField& raw_data_field) :
                  true,
                  raw_data_field.getBitIndexingMode())
 {
+    // Delegate RawDataField constructor has already set up our "raw_data"
+    // pointer.  At this point we can just start using it.
     raw_data_field.DataField::writeRaw(raw_data);
 }
 

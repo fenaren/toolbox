@@ -10,8 +10,8 @@
 
 #include "misc.hpp"
 
-// Represents a data field that contains other data fields.  Does not directly
-// represent any data itself.  Supports alignment of contained field in memory.
+// Represents a data field that contains other data fields.  Supports byte-wise
+// or bit-wise alignment of contained fields in memory.
 class DataPacket : public DataField
 {
 public:
@@ -52,7 +52,8 @@ public:
 
 protected:
 
-    // Adds a data field to this packet.  Data packets do not take ownership of
+    // Adds a data field to the end of this packet.  Contained data fields are
+    // read and written in added order.  Data packets do not take ownership of
     // added data fields.  Data packets do not delete added data fields.
     void addDataField(DataField* data_field);
 

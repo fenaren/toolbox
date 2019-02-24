@@ -1,8 +1,8 @@
 #if !defined DATA_FIELD_HPP
 #define DATA_FIELD_HPP
 
-#include <cstdint>
 #include <cmath>
+#include <cstdint>
 
 #include "misc.hpp"
 
@@ -71,9 +71,9 @@ public:
     // of bits written by writeRaw() and read by readRaw().
     virtual unsigned long getLengthBits() const = 0;
 
-    // Helper function for things that work in integer multiples of bytes.  If
-    // the actual length of this field isn't an integer number of bytes then the
-    // returned length is rounded up to the nearest integer multiple.
+    // Returns the length of this field in bytes.The actual length of this field
+    // isn't an integer number of bytes then the returned length is rounded up
+    // to the nearest integer multiple.
     unsigned int getLengthBytes() const;
 
 protected:
