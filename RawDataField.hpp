@@ -160,7 +160,8 @@ private:
     // Does this class own the memory at "raw_data"?
     bool memory_internal;
 
-    // How are we indexing into the raw data
+    // How are we indexing individual bits within bytes?  See the comment on
+    // IndexingMode for more information.  Has no relevance across bytes.
     IndexingMode bit_indexing_mode;
 };
 
