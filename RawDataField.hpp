@@ -82,20 +82,19 @@ public:
     // pulling things like oddly-sized integers out of raw data.  Affected by
     // the current bit indexing mode (set and get bit indexing mode with
     // setBitIndexingMode() and getBitIndexingMode().  Operation starts by
-    // copying the least significant bit in the specified range into the least
-    // significant bit in "type_var", and proceeds to successively more
-    // significant bits until "count" bits are copied.
+    // copying bit 0 in the specified range to bit 0 "type_var", and proceeds to
+    // higher indices until "count" bits are copied.
     template <class T> void getBitsAsNumericType(
         T&           type_var,
         unsigned int start_bit = 0,
         unsigned int count     = sizeof(T) * BITS_PER_BYTE) const;
 
     // Copies a range of bits from the given typed numeric variable.  Useful for
-    // pushing things like integers and floating-point numbers into bitfields.
-    // Bit numbering follows the convention used by getBit().  Operation starts
-    // by copying the least significant bit in the typed numeric variable into
-    // the least significant bit in the specified range, and proceeds to
-    // successively more significant bits until "count" bits are copied.
+    // pushing reduced-width things like oddly-sized integers into raw data.
+    // Affected by the current bit indexing mode (set and get bit indexing mode
+    // with setBitIndexingMode() and getBitIndexingMode().  Operation starts by
+    // copying bit 0 in "type_var" to bit 0 in the specified range, and proceeds
+    // to higher indices until "count" bits are copied.
     template <class T> void setBitsAsNumericType(
         T            type_var,
         unsigned int start_bit = 0,
@@ -113,15 +112,19 @@ public:
     // bits written by writeRaw() and read by readRaw().
     virtual unsigned long getLengthBits() const;
 
-    // Simple accessor for memory_internal
+    // Simple accessor for memory_internal; modifying this would require
+    // functionality that isn't implemented yet, so now "memory_internal" can't
+    // be set after construction time.
     bool getMemoryInternal() const;
 
-    // Indexing mode access
+    // Bit indexing mode accessor
     IndexingMode getBitIndexingMode() const;
 
-    // Indexing mode mutator
+    // Bit indexing mode mutator
     void setBitIndexingMode(IndexingMode bit_indexing_mode);
 
+    // Assignment from other RawDataFields; copies all internal state including
+    // what's at "raw_data"
     RawDataField& operator=(const RawDataField& raw_data_field);
 
     // Uses leftShift()
