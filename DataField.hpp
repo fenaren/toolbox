@@ -25,17 +25,17 @@ public:
     // Reads the data field from the "buffer" memory location plus an offset of
     // "bit_offset" bits, swapping if the source byte order does not match the
     // byte ordering of this field
-    virtual unsigned long readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order,
-                                  unsigned long   bit_offset) = 0;
+    unsigned long readRaw(std::uint8_t*   buffer,
+                          misc::ByteOrder source_byte_order,
+                          unsigned long   bit_offset);
 
     // Same as the full definition above with source_byte_order = getByteOrder()
     // (this means no swapping) and bit_offset = 0
     unsigned long readRaw(std::uint8_t* buffer);
 
     // Same as the full definition above with bit_offset = 0
-    unsigned long readRaw(std::uint8_t*   buffer,
-                          misc::ByteOrder source_byte_order);
+    virtual unsigned long readRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder source_byte_order) = 0;
 
     // Same as the full definition above with source_byte_order = getByteOrder()
     // (this means no swapping)
@@ -49,18 +49,18 @@ public:
     // Writes the data field to the "buffer" memory location plus an offset of
     // "bit_offset" bits, swapping at the destination if the destination byte
     // order does not match the byte ordering of this field
-    virtual unsigned long writeRaw(
-        std::uint8_t*   buffer,
-        misc::ByteOrder destination_byte_order,
-        unsigned long   bit_offset) const = 0;
+    unsigned long writeRaw(std::uint8_t*   buffer,
+                           misc::ByteOrder destination_byte_order,
+                           unsigned long   bit_offset) const;
 
     // Same as the full definition above with destination_byte_order =
     // getByteOrder() (this means no swapping) and bit_offset = 0
     unsigned long writeRaw(std::uint8_t* buffer) const;
 
     // Same as the full definition above with bit_offset = 0
-    unsigned long writeRaw(std::uint8_t*   buffer,
-                           misc::ByteOrder destination_byte_order) const;
+    virtual unsigned long writeRaw(
+        std::uint8_t*   buffer,
+        misc::ByteOrder destination_byte_order) const = 0;
 
     // Same as the full definition above with source_byte_order = getByteOrder()
     // (this means no swapping)

@@ -21,17 +21,22 @@ DataPacket::~DataPacket()
 
 //==============================================================================
 unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits)
+                                  misc::ByteOrder source_byte_order)
 {
     unsigned long bits_read = 0;
+
+    // When buffer is incremented this is adjusted so it's less than
+    // BITS_PER_BYTE
+    unsigned long offset_bits = 0;
 
     for (std::vector<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
         // This will take all the bytes out of offset_bits and bump buffer
-        // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.
+        // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.  Does
+        // nothing on the first iteration, since offset_bits always equals 0
+        // then.
         normalizeMemoryLocation(buffer, offset_bits);
 
         unsigned long offset_bits_initial = offset_bits;
@@ -52,10 +57,13 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
 
 //==============================================================================
 unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
-                                   misc::ByteOrder destination_byte_order,
-                                   unsigned long   offset_bits) const
+                                   misc::ByteOrder destination_byte_order) const
 {
     unsigned long bits_written = 0;
+
+    // When buffer is incremented this is adjusted so it's less than
+    // BITS_PER_BYTE
+    unsigned long offset_bits = 0;
 
     for (std::vector<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();

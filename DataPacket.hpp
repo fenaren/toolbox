@@ -27,16 +27,15 @@ public:
     // "buffer" memory location plus an offset of "bit_offset" bits.  Each field
     // is byteswapped if "source_byte_order" doesn't match host byte ordering.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits);
+                                  misc::ByteOrder source_byte_order);
 
     // Writes all contained data packets in the order they were added to the
     // "buffer" memory location plus an offset of "bit_offset" bits.  Each field
     // is byteswapped if "destination_byte_order" doesn't match host byte
     // ordering.
-    virtual unsigned long writeRaw(std::uint8_t*  buffer,
-                                  misc::ByteOrder destination_byte_order,
-                                  unsigned long   offset_bits) const;
+    virtual unsigned long writeRaw(
+        std::uint8_t*   buffer,
+        misc::ByteOrder destination_byte_order) const;
 
     // Returns the size of this field in bits.  This will equal the number of
     // bits written by writeRaw() and read by readRaw().
