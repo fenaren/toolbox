@@ -32,7 +32,7 @@ Test::Result DataPacket_test_case3::body()
     // Write out dptest1 with a 3-byte alignment and make sure it looks
     // alright.  Write is done in whatever byte order this host doesn't have.
     unsigned char* raw_dptest1 = new unsigned char[dptest1.getLengthBytes()];
-    dptest1.DataField::writeRaw(raw_dptest1, byteorder_opposite);
+    dptest1.writeRaw(raw_dptest1, byteorder_opposite);
 
     unsigned int offset = 0;
 
@@ -104,7 +104,7 @@ Test::Result DataPacket_test_case3::body()
     MUST_BE_TRUE(dptest2_char   == dptest2p->getSdfChar());
 
     // Read the updated raw data and compare against the updated values
-    dptest1.DataField::readRaw(raw_dptest1, byteorder_opposite);
+    dptest1.readRaw(raw_dptest1, byteorder_opposite);
 
     // All the values we wrote into the raw packet have to match the values we
     // retrieved after reading the raw packet

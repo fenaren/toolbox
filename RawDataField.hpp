@@ -57,15 +57,14 @@ public:
     // bits.  No byteswapping is performed even when "source_byte_order" doesn't
     // match host byte ordering, since this is just raw data.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits = 0);
+                                  misc::ByteOrder source_byte_order);
 
     // Writes to the "buffer" memory location plus an offset of "bit_offset"
     // bits.  No byteswapping is performed even when "destination_byte_order"
     // doesn't match host byte ordering, since this is just raw data.
-    virtual unsigned long writeRaw(std::uint8_t*   buffer,
-                                   misc::ByteOrder destination_byte_order,
-                                   unsigned long   offset_bits = 0) const;
+    virtual unsigned long writeRaw(
+        std::uint8_t*   buffer,
+        misc::ByteOrder destination_byte_order) const;
 
     // Byte access and mutation, indexed by (obviously)
     std::uint8_t getByte(unsigned int index) const;

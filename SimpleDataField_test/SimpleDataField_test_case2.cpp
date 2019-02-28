@@ -21,7 +21,7 @@ bool writeRawTest(unsigned int                     offset_bits,
 
     std::uint8_t test_sdf_uchar_buf[sizeof(T) + 1];
     memset(test_sdf_uchar_buf, 0xff, sizeof(T) + 1);
-    test_sdf_uchar.writeRaw(test_sdf_uchar_buf, offset_bits);
+    test_sdf_uchar.DataField::writeRaw(test_sdf_uchar_buf, offset_bits);
 
     bool all_match = true;
     for (unsigned int i = 0; i < sizeof(T) + 1; ++i)

@@ -84,22 +84,29 @@ Test::Result SimpleDataField_test_case1::body()
     unsigned long long test_ull2;
     unsigned short     test_us2;
 
-    test_sdf_char.writeRaw(reinterpret_cast<std::uint8_t*>(&test_char2));
+    test_sdf_char.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_char2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_double.writeRaw(reinterpret_cast<std::uint8_t*>(&test_double2));
+    test_sdf_double.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_double2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_float.writeRaw(reinterpret_cast<std::uint8_t*>(&test_float2));
-    test_sdf_int.writeRaw(reinterpret_cast<std::uint8_t*>(&test_int2));
-    test_sdf_long.writeRaw(reinterpret_cast<std::uint8_t*>(&test_long2));
+    test_sdf_float.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_float2));
+    test_sdf_int.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_int2));
+    test_sdf_long.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_long2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_ld.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ld2));
-    test_sdf_ll.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ll2));
-    test_sdf_short.writeRaw(reinterpret_cast<std::uint8_t*>(&test_short2));
-    test_sdf_uc.writeRaw(reinterpret_cast<std::uint8_t*>(&test_uc2));
-    test_sdf_ui.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ui2));
-    test_sdf_ul.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ul2));
-    test_sdf_ull.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ull2));
-    test_sdf_us.writeRaw(reinterpret_cast<std::uint8_t*>(&test_us2));
+    test_sdf_ld.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ld2));
+    test_sdf_ll.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ll2));
+    test_sdf_short.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_short2));
+    test_sdf_uc.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_uc2));
+    test_sdf_ui.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ui2));
+    test_sdf_ul.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ul2));
+    test_sdf_ull.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_ull2));
+    test_sdf_us.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_us2));
 
     MUST_BE_TRUE(test_char   == test_char2);
     MUST_BE_TRUE(test_double == test_double2);
@@ -129,39 +136,50 @@ Test::Result SimpleDataField_test_case1::body()
     test_ull++;
     test_us++;
 
-    test_sdf_char.readRaw(reinterpret_cast<std::uint8_t*>(&test_char));
+    test_sdf_char.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_char));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_double.readRaw(reinterpret_cast<std::uint8_t*>(&test_double));
+    test_sdf_double.DataField::readRaw(
+        reinterpret_cast<std::uint8_t*>(&test_double));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_float.readRaw(reinterpret_cast<std::uint8_t*>(&test_float));
-    test_sdf_int.readRaw(reinterpret_cast<std::uint8_t*>(&test_int));
-    test_sdf_long.readRaw(reinterpret_cast<std::uint8_t*>(&test_long));
+    test_sdf_float.DataField::readRaw(
+        reinterpret_cast<std::uint8_t*>(&test_float));
+    test_sdf_int.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_int));
+    test_sdf_long.DataField::readRaw(
+        reinterpret_cast<std::uint8_t*>(&test_long));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_ld.readRaw(reinterpret_cast<std::uint8_t*>(&test_ld));
-    test_sdf_ll.readRaw(reinterpret_cast<std::uint8_t*>(&test_ll));
-    test_sdf_short.readRaw(reinterpret_cast<std::uint8_t*>(&test_short));
-    test_sdf_uc.readRaw(reinterpret_cast<std::uint8_t*>(&test_uc));
-    test_sdf_ui.readRaw(reinterpret_cast<std::uint8_t*>(&test_ui));
-    test_sdf_ul.readRaw(reinterpret_cast<std::uint8_t*>(&test_ul));
-    test_sdf_ull.readRaw(reinterpret_cast<std::uint8_t*>(&test_ull));
-    test_sdf_us.readRaw(reinterpret_cast<std::uint8_t*>(&test_us));
+    test_sdf_ld.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_ld));
+    test_sdf_ll.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_ll));
+    test_sdf_short.DataField::readRaw(
+        reinterpret_cast<std::uint8_t*>(&test_short));
+    test_sdf_uc.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_uc));
+    test_sdf_ui.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_ui));
+    test_sdf_ul.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_ul));
+    test_sdf_ull.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_ull));
+    test_sdf_us.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_us));
 
-    test_sdf_char.writeRaw(reinterpret_cast<std::uint8_t*>(&test_char2));
+    test_sdf_char.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_char2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_double.writeRaw(reinterpret_cast<std::uint8_t*>(&test_double2));
+    test_sdf_double.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_double2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_float.writeRaw(reinterpret_cast<std::uint8_t*>(&test_float2));
-    test_sdf_int.writeRaw(reinterpret_cast<std::uint8_t*>(&test_int2));
-    test_sdf_long.writeRaw(reinterpret_cast<std::uint8_t*>(&test_long2));
+    test_sdf_float.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_float2));
+    test_sdf_int.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_int2));
+    test_sdf_long.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_long2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_ld.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ld2));
-    test_sdf_ll.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ll2));
-    test_sdf_short.writeRaw(reinterpret_cast<std::uint8_t*>(&test_short2));
-    test_sdf_uc.writeRaw(reinterpret_cast<std::uint8_t*>(&test_uc2));
-    test_sdf_ui.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ui2));
-    test_sdf_ul.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ul2));
-    test_sdf_ull.writeRaw(reinterpret_cast<std::uint8_t*>(&test_ull2));
-    test_sdf_us.writeRaw(reinterpret_cast<std::uint8_t*>(&test_us2));
+    test_sdf_ld.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ld2));
+    test_sdf_ll.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ll2));
+    test_sdf_short.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_short2));
+    test_sdf_uc.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_uc2));
+    test_sdf_ui.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ui2));
+    test_sdf_ul.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_ul2));
+    test_sdf_ull.DataField::writeRaw(
+        reinterpret_cast<std::uint8_t*>(&test_ull2));
+    test_sdf_us.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_us2));
 
     MUST_BE_TRUE(test_char   == test_char2);
     MUST_BE_TRUE(test_double == test_double2);

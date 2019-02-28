@@ -48,14 +48,14 @@ unsigned long DataField::readRaw(std::uint8_t*   buffer,
     std::uint8_t first_byte = buffer[0];
 
     // Use a RawDataField to shift the whole packet down so there's no offset
-    RawDataField shifter(buffer, getLengthBytes() + 1);
-    shifter >>= offset_bits;
+    RawDataField shifter(buffer, getLengthBytes() + 1, misc::BYTES, false);
+    shifter >>= bit_offset;
 
     // Data is no longer offset so a normal read will work
     unsigned long bits_read = readRaw(buffer, source_byte_order);
 
     // Put everything back the way it was
-    shifter <<= offset_bits;
+    shifter <<= bit_offset;
     buffer[0] = first_byte;
 
     return bits_read;
@@ -108,11 +108,11 @@ unsigned long DataField::writeRaw(std::uint8_t*   buffer,
     unsigned long bits_written = writeRaw(buffer, destination_byte_order);
 
     // Shift the field into the correct offset location
-    RawDataField shifter(buffer, getLengthBytes() + 1);
-    shifter <<= offset_bits;
+    RawDataField shifter(buffer, getLengthBytes() + 1, misc::BYTES, false);
+    shifter <<= bit_offset;
 
     // Mask the bits we shouldn't have touched back into the first byte
-    
+    // TODO
 
     return bits_written;
 }

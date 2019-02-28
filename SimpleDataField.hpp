@@ -27,28 +27,17 @@ public:
     // Does nothing
     virtual ~SimpleDataField();
 
-    // Reads the data field from the "buffer" memory location without
-    // considering byte ordering.
-    virtual unsigned long readRaw(std::uint8_t* buffer,
-                                  unsigned long offset_bits = 0);
-
     // Reads the data field from the "buffer" memory location, swapping if the
     // source byte order does not match the byte ordering of this field.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
-                                  misc::ByteOrder source_byte_order,
-                                  unsigned long   offset_bits = 0);
-
-    // Writes the data field to the "buffer" memory location without considering
-    // byte ordering.
-    virtual unsigned long writeRaw(std::uint8_t* buffer,
-                                   unsigned long offset_bits = 0) const;
+                                  misc::ByteOrder source_byte_order);
 
     // Writes the data field to the "buffer" memory location, swapping at the
     // destination if the destination byte order does not match the byte
     // ordering of this field.
-    virtual unsigned long writeRaw(std::uint8_t*   buffer,
-                                   misc::ByteOrder destination_byte_order,
-                                   unsigned long   offset_bits = 0) const;
+    virtual unsigned long writeRaw(
+        std::uint8_t*   buffer,
+        misc::ByteOrder destination_byte_order) const;
 
     // Returns the size of this data field in bits.  This will equal the number
     // of bits written by writeRaw() and read by readRaw().

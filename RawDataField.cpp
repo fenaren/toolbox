@@ -97,8 +97,7 @@ RawDataField::~RawDataField()
 
 //==============================================================================
 unsigned long RawDataField::readRaw(std::uint8_t*   buffer,
-                                    misc::ByteOrder source_byte_order,
-                                    unsigned long   offset_bits)
+                                    misc::ByteOrder source_byte_order)
 {
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(raw_data, buffer, getLengthBytes());
@@ -108,8 +107,7 @@ unsigned long RawDataField::readRaw(std::uint8_t*   buffer,
 //==============================================================================
 unsigned long RawDataField::writeRaw(
     std::uint8_t*   buffer,
-    misc::ByteOrder destination_byte_order,
-    unsigned long   offset_bits) const
+    misc::ByteOrder destination_byte_order) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
     memcpy(buffer, raw_data, getLengthBytes());

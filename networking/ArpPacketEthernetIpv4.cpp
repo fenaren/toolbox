@@ -84,7 +84,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
 {
     addDataFields();
 
-    DataField::readRaw(buffer, byte_order);
+    readRaw(buffer, byte_order);
 }
 
 //==============================================================================
