@@ -100,15 +100,19 @@ unsigned long DataField::writeRaw(std::uint8_t*   buffer,
     // probably be wasteful in general.  Offset packets are expected to be
     // uncommon.
 
-    // Save the first byte, we have to mask this back in later
+    unsigned int length_bytes = getLengthBytes();
+
+    // Save the first byte and the last byte, we have to mask these back in
+    // later
     std::uint8_t first_byte = buffer[0];
+    std::uint8_t last_byte  = buffer[length_bytes - 1];
 
     // Do the write like normal.  This destroys data in the first byte but it's
     // okay, we've saved that.
     unsigned long bits_written = writeRaw(buffer, destination_byte_order);
 
     // Shift the field into the correct offset location
-    RawDataField shifter(buffer, getLengthBytes() + 1, misc::BYTES, false);
+    RawDataField shifter(buffer, length_bytes + 1, misc::BYTES, false);
     shifter <<= bit_offset;
 
     // Mask the bits we shouldn't have touched back into the first byte
