@@ -17,17 +17,17 @@ template <class T>
 bool writeRawTest(unsigned int                     offset_bits,
                   const std::vector<std::uint8_t>& shouldbe)
 {
-    SimpleDataField<T> test_sdf_uchar(0);
+    SimpleDataField<T> test_sdf(0);
 
-    std::uint8_t test_sdf_uchar_buf[sizeof(T) + 1];
-    memset(test_sdf_uchar_buf, 0xff, sizeof(T) + 1);
-    test_sdf_uchar.DataField::writeRaw(test_sdf_uchar_buf, offset_bits);
+    std::uint8_t test_sdf_buf[sizeof(T) + 1];
+    memset(test_sdf_buf, 0xff, sizeof(T) + 1);
+    test_sdf.DataField::writeRaw(test_sdf_buf, offset_bits);
 
     bool all_match = true;
     for (unsigned int i = 0; i < sizeof(T) + 1; ++i)
     {
-        std::cout << static_cast<unsigned int>(test_sdf_uchar_buf[i]) << " ";
-        if (test_sdf_uchar_buf[i] != shouldbe[i])
+        std::cout << static_cast<unsigned int>(test_sdf_buf[i]) << " ";
+        if (test_sdf_buf[i] != shouldbe[i])
         {
             all_match = false;
             std::cout << "(WRONG should be "

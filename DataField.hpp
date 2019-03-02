@@ -22,7 +22,9 @@ public:
     // ordering of the field as it rests in memory, and if that ordering doesn't
     // match host ordering then it's byteswapped before being interpreted.  All
     // three of the overloaded readRaw() member functions defined below use this
-    // function.
+    // function.  IMPORTANT NOTE: During this operation the content of "buffer"
+    // will be modified.  When this operation is complete "buffer" content is
+    // restored to its original state.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order) = 0;
 
@@ -45,6 +47,9 @@ public:
     // Writes this field to memory.  "destination_byte_order" specifies the byte
     // ordering of the field as it should rest in memory.  Field data will be
     // byteswapped into memory if memory order doesn't match host order.
+    // IMPORTANT NOTE:  During this operation the content of "buffer" will be
+    // modified.  When this operation is complete "buffer" content is restored
+    // to its original state.
     virtual unsigned long writeRaw(
         std::uint8_t*   buffer,
         misc::ByteOrder destination_byte_order) const = 0;
