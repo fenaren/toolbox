@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "DataField.hpp"
+#include "SimpleDataField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
@@ -16,7 +17,7 @@ template <class T>
 bool writeRawTest(unsigned int                     offset_bits,
                   const std::vector<std::uint8_t>& shouldbe)
 {
-    DataField<T> test_sdf_uchar(0);
+    SimpleDataField<T> test_sdf_uchar(0);
 
     std::uint8_t test_sdf_uchar_buf[sizeof(T) + 1];
     memset(test_sdf_uchar_buf, 0xff, sizeof(T) + 1);
