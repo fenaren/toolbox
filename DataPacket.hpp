@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <cstdlib>
+#include <list>
 #include <stdexcept>
-#include <vector>
 
 #include "DataField.hpp"
 
@@ -24,15 +24,14 @@ public:
     virtual ~DataPacket();
 
     // Reads all contained data packets in the order they were added from the
-    // "buffer" memory location plus an offset of "bit_offset" bits.  Each field
-    // is byteswapped if "source_byte_order" doesn't match host byte ordering.
+    // "buffer" memory location.  Each field is byteswapped if
+    // "source_byte_order" doesn't match host byte ordering.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order);
 
     // Writes all contained data packets in the order they were added to the
-    // "buffer" memory location plus an offset of "bit_offset" bits.  Each field
-    // is byteswapped if "destination_byte_order" doesn't match host byte
-    // ordering.
+    // "buffer" memory location.  Each field is byteswapped if
+    // "destination_byte_order" doesn't match host byte ordering.
     virtual unsigned long writeRaw(
         std::uint8_t*   buffer,
         misc::ByteOrder destination_byte_order) const;
@@ -59,7 +58,7 @@ protected:
 private:
 
     // All contained data fields ordered first to last
-    std::vector<DataField*> data_fields;
+    std::list<DataField*> data_fields;
 
     unsigned int alignment_bits;
 

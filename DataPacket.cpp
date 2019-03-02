@@ -1,6 +1,6 @@
 #include <cmath>
 #include <cstdint>
-#include <vector>
+#include <list>
 
 #include "DataField.hpp"
 #include "DataPacket.hpp"
@@ -29,7 +29,7 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
     // BITS_PER_BYTE
     unsigned long offset_bits = 0;
 
-    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
+    for (std::list<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
@@ -65,7 +65,7 @@ unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
     // BITS_PER_BYTE
     unsigned long offset_bits = 0;
 
-    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
+    for (std::list<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
@@ -96,7 +96,7 @@ unsigned long DataPacket::getLengthBits() const
 {
     unsigned long length_bits = 0;
 
-    for (std::vector<DataField*>::const_iterator i = data_fields.begin();
+    for (std::list<DataField*>::const_iterator i = data_fields.begin();
          i != data_fields.end();
          ++i)
     {
