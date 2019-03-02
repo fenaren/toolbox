@@ -4,20 +4,19 @@
 #include <iostream>
 #include <vector>
 
-#include "SimpleDataField.hpp"
+#include "DataField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-TEST_HEADER(SimpleDataField_test_case2);
-TEST_CONSTRUCTOR_DESTRUCTOR(SimpleDataField_test_case2);
+TRIVIAL_TEST(DataField_test);
 
 //==============================================================================
 template <class T>
 bool writeRawTest(unsigned int                     offset_bits,
                   const std::vector<std::uint8_t>& shouldbe)
 {
-    SimpleDataField<T> test_sdf_uchar(0);
+    DataField<T> test_sdf_uchar(0);
 
     std::uint8_t test_sdf_uchar_buf[sizeof(T) + 1];
     memset(test_sdf_uchar_buf, 0xff, sizeof(T) + 1);
@@ -40,7 +39,7 @@ bool writeRawTest(unsigned int                     offset_bits,
 }
 
 //==============================================================================
-Test::Result SimpleDataField_test_case2::body()
+Test::Result DataField_test::body()
 {
     for (unsigned int i = 0; i <= BITS_PER_BYTE; ++i)
     {

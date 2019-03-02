@@ -1,9 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
-set(SRC
-  SimpleDataField_test.cpp
-  SimpleDataField_test_case1.cpp)
+set(SRC DataField_test.cpp)
 
 # We need these include directories
 set(INC . ..)
@@ -12,4 +10,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-add_test_executable(SimpleDataField_test "${SRC}" "${INC}" "${LIB}")
+add_test_executable(DataField_test "${SRC}" "${INC}" "${LIB}")
