@@ -106,10 +106,3 @@ template class SimpleDataField<unsigned int>;
 template class SimpleDataField<unsigned long>;
 template class SimpleDataField<unsigned long long>;
 template class SimpleDataField<unsigned short>;
-
-//==============================================================================
-template <class T> void SimpleDataField<T>::copyOptionalSwap(
-    std::uint8_t*   buffer,
-    misc::ByteOrder destination_byte_order) const
-{
-}
