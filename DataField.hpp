@@ -22,19 +22,19 @@ public:
     // ordering of the field as it rests in memory, and if that ordering doesn't
     // match host ordering then it's byteswapped before being interpreted.  All
     // three of the overloaded readRaw() member functions defined below use this
-    // function.  IMPORTANT NOTE: During this operation the content of "buffer"
-    // will be modified.  When this operation is complete "buffer" content is
-    // restored to its original state.
+    // function.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order) = 0;
 
-    // Same as the readRaw() declared immediately above but with byte swapping
-    // disabled.
+    // Same as the virtual readRaw() declared immediately above but with byte
+    // swapping disabled.
     unsigned long readRaw(std::uint8_t* buffer);
 
     // Same as the virtual readRaw() declared above, but this readRaw() supports
     // reading from a bit offset from the beginning of the buffer.  Intended to
-    // be used to read fields which do not begin on a byte boundary.
+    // be used to read fields which do not begin on a byte boundary.  IMPORTANT
+    // NOTE: Buffer content will be modified and then returned to its original
+    // state at the end of the operation.
     unsigned long readRaw(std::uint8_t*   buffer,
                           misc::ByteOrder source_byte_order,
                           unsigned long   bit_offset);
@@ -47,21 +47,19 @@ public:
     // Writes this field to memory.  "destination_byte_order" specifies the byte
     // ordering of the field as it should rest in memory.  Field data will be
     // byteswapped into memory if memory order doesn't match host order.
-    // IMPORTANT NOTE:  During this operation the content of "buffer" will be
-    // modified.  When this operation is complete "buffer" content is restored
-    // to its original state.
     virtual unsigned long writeRaw(
         std::uint8_t*   buffer,
         misc::ByteOrder destination_byte_order) const = 0;
 
-    // Same as the pure virtual writeRaw() declared above but with byteswapping
-    // disabled.
+    // Same as the virtual writeRaw() declared immediately above but with
+    // byteswapping disabled.
     unsigned long writeRaw(std::uint8_t* buffer) const;
 
-    // Same as the pure virtual writeRaw() declared above, but this writeRaw()
+    // Same as the virtual writeRaw() declared above, but this writeRaw()
     // supports writing to a bit offset from the beginning of the buffer.
     // Intended to be used to write fields which do not begin on a byte
-    // boundary.
+    // boundary.  IMPORTANT NOTE: Buffer content will be modified and then
+    // returned to its original state at the end of the operation.
     unsigned long writeRaw(std::uint8_t*   buffer,
                            misc::ByteOrder destination_byte_order,
                            unsigned long   bit_offset) const;
