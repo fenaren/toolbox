@@ -1,7 +1,5 @@
 #!groovy
 
-@Library(value="jenkins-sl@error-visibility")
-
 stages = [
 
     [name: 'Checkout',
