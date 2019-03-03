@@ -75,8 +75,8 @@ Test::Result misc_test_case1::body()
     MUST_BE_TRUE(memcmp(a8_before, a8_after, 8) == 0);
 
     // Test operator! on values of the ByteOrder enumeration
-    MUST_BE_TRUE(misc::LITTLE_ENDIAN == !misc::BIG_ENDIAN);
-    MUST_BE_TRUE(misc::BIG_ENDIAN    == !misc::LITTLE_ENDIAN);
+    MUST_BE_TRUE(misc::ENDIAN_LITTLE == !misc::ENDIAN_BIG);
+    MUST_BE_TRUE(misc::ENDIAN_BIG    == !misc::ENDIAN_LITTLE);
 
     // At this point we're satisfied with he performance of the other two
     // byteswap functions, so we should be okay to use those to test the
@@ -91,6 +91,15 @@ Test::Result misc_test_case1::body()
     // afterwards
     MUST_BE_TRUE(
         memcmp(a4_after, reinterpret_cast<unsigned char*>(&a4_int), 4) == 0);
+
+    // A bunch of smallestMultiple tests
+    MUST_BE_TRUE(misc::smallestMultipleOfXGreaterOrEqualToY(1,  2)  == 2);
+    MUST_BE_TRUE(misc::smallestMultipleOfXGreaterOrEqualToY(2,  2)  == 2);
+    MUST_BE_TRUE(misc::smallestMultipleOfXGreaterOrEqualToY(2,  5)  == 6);
+    MUST_BE_TRUE(misc::smallestMultipleOfXGreaterOrEqualToY(2,  6)  == 6);
+    MUST_BE_TRUE(misc::smallestMultipleOfXGreaterOrEqualToY(14, 0)  == 0);
+    MUST_BE_TRUE(misc::smallestMultipleOfXGreaterOrEqualToY(14, 2)  == 14);
+    MUST_BE_TRUE(misc::smallestMultipleOfXGreaterOrEqualToY(14, 20) == 28);
 
     return Test::PASSED;
 }

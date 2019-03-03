@@ -49,7 +49,7 @@ Test::Result ArpPacketEthernetIpv4_test::body()
     memset(&mac2,  99, MAC_LENGTH_BYTES);
 
     unsigned char raw_apei1[PACKET_LENGTH];
-    apei1.writeRaw(raw_apei1);
+    apei1.DataField::writeRaw(raw_apei1);
 
     std::uint16_t htype;
     std::uint16_t ptype;

@@ -9,13 +9,13 @@ include(tools-cmake/ProjectCommon.cmake)
 
 # All the source files in this directory
 set(SRC
-  BitField.cpp
   DataField.cpp
   DataPacket.cpp
   FixedRateProgram.cpp
   Log.cpp
   OnlineStatistics.cpp
   Program.cpp
+  RawDataField.cpp
   SignalManager.cpp
   SignalManagerImpl.cpp
   SignalManagerFactory.cpp
@@ -50,13 +50,14 @@ add_subdirectory(networking)
 add_subdirectory(testing)
 
 # Add test subdirectories (these don't build unconditionally)
-add_subdirectory(BitField_test         EXCLUDE_FROM_ALL)
+add_subdirectory(DataField_test        EXCLUDE_FROM_ALL)
 add_subdirectory(DataPacket_test       EXCLUDE_FROM_ALL)
 add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
 add_subdirectory(Log_test              EXCLUDE_FROM_ALL)
 add_subdirectory(OnlineStatistics_test EXCLUDE_FROM_ALL)
 add_subdirectory(PosixTimespec_test    EXCLUDE_FROM_ALL)
 add_subdirectory(Program_test          EXCLUDE_FROM_ALL)
+add_subdirectory(RawDataField_test     EXCLUDE_FROM_ALL)
 add_subdirectory(SignalManager_test    EXCLUDE_FROM_ALL)
 add_subdirectory(SimpleDataField_test  EXCLUDE_FROM_ALL)
 add_subdirectory(TemplateClass_test    EXCLUDE_FROM_ALL)

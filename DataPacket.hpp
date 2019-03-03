@@ -1,95 +1,123 @@
 #if !defined DATA_PACKET_HPP
 #define DATA_PACKET_HPP
 
+#include <cstdint>
+#include <cstdlib>
+#include <list>
 #include <stdexcept>
-#include <vector>
 
 #include "DataField.hpp"
 
 #include "misc.hpp"
 
+// Represents a data field that contains other data fields.  Supports byte-wise
+// or bit-wise alignment of contained fields in memory.
 class DataPacket : public DataField
 {
 public:
 
-    // Initializes byte alignment
-    explicit DataPacket(unsigned int byte_alignment = 1);
+    // Initializes alignment; defaults align contained data fields on 1 byte
+    DataPacket(unsigned int    alignment = 1,
+               misc::DataUnits alignment_units = misc::BYTES);
 
     // Does nothing
     virtual ~DataPacket();
 
-    // Reads the data field from the "buffer" memory location without
-    // considering byte ordering.
-    virtual unsigned int readRaw(const unsigned char* buffer);
+    // Reads all contained data packets in the order they were added from the
+    // "buffer" memory location.  Each field is byteswapped if
+    // "source_byte_order" doesn't match host byte ordering.
+    virtual unsigned long readRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder source_byte_order);
 
-    // Reads this data packet from the "buffer" memory location.  Each field
-    // will be byteswapped if its source byte order does not match the byte
-    // ordering of the host.
-    virtual unsigned int readRaw(const unsigned char* buffer,
-                                 misc::ByteOrder      source_byte_order);
+    // Writes all contained data packets in the order they were added to the
+    // "buffer" memory location.  Each field is byteswapped if
+    // "destination_byte_order" doesn't match host byte ordering.
+    virtual unsigned long writeRaw(
+        std::uint8_t*   buffer,
+        misc::ByteOrder destination_byte_order) const;
 
-    // Writes the data field to the "buffer" memory location without considering
-    // byte ordering.
-    virtual unsigned int writeRaw(unsigned char* buffer) const;
+    // Returns the size of this field in bits.  This will equal the number of
+    // bits written by writeRaw() and read by readRaw().
+    virtual unsigned long getLengthBits() const;
 
-    // Writes this data packet to the "buffer" memory location.  Each field will
-    // be byteswapped if its source byte order does not match the byte ordering
-    // of the host.
-    virtual unsigned int writeRaw(unsigned char*  buffer,
-                                  misc::ByteOrder destination_byte_order) const;
+    // Alignment access
+    unsigned int
+    getAlignment(misc::DataUnits alignment_units = misc::BYTES) const;
 
-    // Returns the size of this field in bytes.  This will equal the number of
-    // bytes written by writeRaw() and read by readRaw().
-    virtual unsigned int getLengthBytes() const;
-
-    // Byte alignment access
-    unsigned int getByteAlignment() const;
-
-    // Byte alignment mutator
-    void setByteAlignment(unsigned int byte_alignment);
+    // Alignment mutator
+    void setAlignment(unsigned int    alignment,
+                      misc::DataUnits alignment_units = misc::BYTES);
 
 protected:
 
-    // Adds the field to the end of the packet.  The field is not maintained
-    // internally, only its order relative to other fields in this packet is.
+    // Adds a data field to the end of this packet.  Contained data fields are
+    // read and written in added order.  Data packets do not take ownership of
+    // added data fields.  Data packets do not delete added data fields.
     void addDataField(DataField* data_field);
 
 private:
 
-    // Derived classes should use this to add all their data fields
-    virtual void addDataFields() = 0;
-
-    // Computes amount of padding needed after a field given the current byte
-    // alignment setting
-    unsigned int computePadding(unsigned int field_length) const;
-
     // All contained data fields ordered first to last
-    std::vector<DataField*> data_fields;
+    std::list<DataField*> data_fields;
 
-    unsigned int byte_alignment;
+    unsigned int alignment_bits;
 
     // A meaningful deep copy can't be done here so disallow that and operator=
     DataPacket(const DataPacket&);
     DataPacket& operator=(const DataPacket&);
 };
 
-inline unsigned int DataPacket::getByteAlignment() const
+//==============================================================================
+inline
+unsigned int DataPacket::getAlignment(misc::DataUnits alignment_units) const
 {
-    return byte_alignment;
+    if (alignment_units == misc::BITS)
+    {
+        // This is easy since we store alignment in bits already
+        return alignment_bits;
+    }
+    else if (alignment_units == misc::BYTES)
+    {
+        // Convert bits to bytes.  If it's not an even conversion then return
+        // the smallest number of bytes that can store all the bits.
+        std::ldiv_t div_result = std::ldiv(alignment_units, BITS_PER_BYTE);
+        if (div_result.rem > 0)
+        {
+            div_result.quot += 1;
+        }
+        return static_cast<unsigned int>(div_result.quot);
+    }
+    else
+    {
+        throw std::invalid_argument("Unsupported units type");
+    }
 }
 
-inline void DataPacket::setByteAlignment(unsigned int byte_alignment)
+//==============================================================================
+inline void DataPacket::setAlignment(unsigned int    alignment,
+                                     misc::DataUnits alignment_units)
 {
-    if (byte_alignment == 0)
+    if (alignment == 0)
     {
-        throw std::invalid_argument(
-            "Nonsensical byte alignment value of 0 specified (must be 1 or "
-            "greater)");
+        throw std::invalid_argument("Alignment must be greater than 0");
     }
 
-    this->byte_alignment = byte_alignment;
+    if (alignment_units == misc::BITS)
+    {
+        alignment_bits = alignment;
+    }
+    else if (alignment_units == misc::BYTES)
+    {
+        // Convert to bits
+        alignment_bits = alignment * BITS_PER_BYTE;
+    }
+    else
+    {
+        throw std::invalid_argument("Unsupported units type");
+    }
 }
 
+//==============================================================================
 inline void DataPacket::addDataField(DataField* data_field)
 {
     data_fields.push_back(data_field);

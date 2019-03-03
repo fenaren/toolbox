@@ -70,7 +70,7 @@ public:
 
 private:
 
-    virtual void addDataFields();
+    void addDataFields();
 
     // Statically-allocated memory used for storing Ethernet and IPv4 addresses;
     // ArpPacket stores its address memory here

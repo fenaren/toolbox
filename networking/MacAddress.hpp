@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "BitField.hpp"
+#include "RawDataField.hpp"
 
-class MacAddress : public BitField
+class MacAddress : public RawDataField
 {
   public:
 
@@ -17,7 +17,7 @@ class MacAddress : public BitField
 
     // Constructs a new MacAddress, initialzed to a copy of the data at the
     // indicated location
-    explicit MacAddress(const unsigned char* buffer);
+    explicit MacAddress(std::uint8_t* buffer);
 
     // Constructs a new MacAddress matching the given string representation.
     explicit MacAddress(const std::string& mac_address_str);
@@ -43,25 +43,19 @@ class MacAddress : public BitField
 
 private:
 
-    unsigned char mac_address_raw[LENGTH_BYTES];
+    std::uint8_t mac_address_raw[LENGTH_BYTES];
 };
 
 std::ostream& operator<<(std::ostream& os, const MacAddress& mac_address);
 
 std::istream& operator>>(std::istream& is, MacAddress& mac_address);
 
-bool operator==(const MacAddress&  mac_address1,
-                const MacAddress&  mac_address2);
-bool operator==(const MacAddress&  mac_address1,
-                const std::string& mac_address2);
-bool operator==(const std::string& mac_address1,
-                const MacAddress&  mac_address2);
+bool operator==(const MacAddress&  lhs, const MacAddress&  rhs);
+bool operator==(const MacAddress&  lhs, const std::string& rhs);
+bool operator==(const std::string& lhs, const MacAddress&  rhs);
 
-bool operator!=(const MacAddress&  mac_address1,
-                const MacAddress&  mac_address2);
-bool operator!=(const MacAddress&  mac_address1,
-                const std::string& mac_address2);
-bool operator!=(const std::string& mac_address1,
-                const MacAddress&  mac_address2);
+bool operator!=(const MacAddress&  lhs, const MacAddress&  rhs);
+bool operator!=(const MacAddress&  lhs, const std::string& rhs);
+bool operator!=(const std::string& lhs, const MacAddress&  rhs);
 
 #endif
