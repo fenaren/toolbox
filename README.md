@@ -1,5 +1,5 @@
-**[tools-cpp](https://github.com/leighgarbs/tools-cpp)**
-  - Generalized C++ tools useful across projects
+**[tools-cpp](https://github.com/leighgarbs/tools-cpp)** -
+  Generalized C++ tools useful across projects
 ============================================================
 
 
