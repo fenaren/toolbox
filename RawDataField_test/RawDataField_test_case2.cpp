@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 
 #include "RawDataField.hpp"
 #include "Test.hpp"
