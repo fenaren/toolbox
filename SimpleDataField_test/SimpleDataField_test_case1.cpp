@@ -87,11 +87,9 @@ Test::Result SimpleDataField_test_case1::body()
     test_sdf_char.DataField::writeRaw(
         reinterpret_cast<std::uint8_t*>(&test_char2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_double.DataField::writeRaw(
-        reinterpret_cast<std::uint8_t*>(&test_double2));
+    test_sdf_double.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_double2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_float.DataField::writeRaw(
-        reinterpret_cast<std::uint8_t*>(&test_float2));
+    test_sdf_float.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_float2));
     test_sdf_int.DataField::writeRaw(
         reinterpret_cast<std::uint8_t*>(&test_int2));
     test_sdf_long.DataField::writeRaw(
@@ -138,11 +136,9 @@ Test::Result SimpleDataField_test_case1::body()
 
     test_sdf_char.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_char));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_double.DataField::readRaw(
-        reinterpret_cast<std::uint8_t*>(&test_double));
+    test_sdf_double.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_double));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_float.DataField::readRaw(
-        reinterpret_cast<std::uint8_t*>(&test_float));
+    test_sdf_float.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_float));
     test_sdf_int.DataField::readRaw(reinterpret_cast<std::uint8_t*>(&test_int));
     test_sdf_long.DataField::readRaw(
         reinterpret_cast<std::uint8_t*>(&test_long));
@@ -160,11 +156,9 @@ Test::Result SimpleDataField_test_case1::body()
     test_sdf_char.DataField::writeRaw(
         reinterpret_cast<std::uint8_t*>(&test_char2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_double.DataField::writeRaw(
-        reinterpret_cast<std::uint8_t*>(&test_double2));
+    test_sdf_double.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_double2));
     // cppcheck-suppress invalidPointerCast
-    test_sdf_float.DataField::writeRaw(
-        reinterpret_cast<std::uint8_t*>(&test_float2));
+    test_sdf_float.DataField::writeRaw(reinterpret_cast<std::uint8_t*>(&test_float2));
     test_sdf_int.DataField::writeRaw(
         reinterpret_cast<std::uint8_t*>(&test_int2));
     test_sdf_long.DataField::writeRaw(
