@@ -1,10 +1,14 @@
-**tools-cpp** - C++ tools generally useful across projects
-==========================================================
+**tools-cpp** - Generalized C++ tools useful across projects
+============================================================
 
 ## Features ##
-* something
-* something else
+* C++11
+* CMake-based build and test system
 
 ## Goals ##
-* something
-* something else
+* Windows support
+
+## Priorities ##
+* Multi-platform support
+* POSIX compatibility
+* Test coverage
