@@ -7,10 +7,12 @@ Meant for personal project use.
 ## Features ##
 * C++11
 * [CMake](https://cmake.org/)-based build and test system
+* Most functionality has test coverage
 * Class wrappers for TCP, UDP, and raw sockets
 
 ## Goals ##
 * Windows support
+* Better test framework
 
 ## Priorities ##
 * Multi-platform support
