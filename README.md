@@ -3,7 +3,7 @@
 
 ## Features ##
 * C++11
-* CMake-based build and test system
+* [CMake](https://cmake.org/)-based build and test system
 
 ## Goals ##
 * Windows support
