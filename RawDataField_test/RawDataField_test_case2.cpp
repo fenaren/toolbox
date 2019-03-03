@@ -1,5 +1,6 @@
 #include <cmath>
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
@@ -56,7 +57,6 @@ Test::Result RawDataField_test_case2::body()
     MUST_BE_TRUE(tryAllBits(number_rdf2, number2));
     MUST_BE_TRUE(tryAllBits(number_rdf4, number4));
 
-
     return Test::PASSED;
 }
 
@@ -79,20 +79,25 @@ template<class T> bool tryAllBits(RawDataField& number_rdf, T& number)
         }
         else if (number_rdf.getBitIndexingMode() == RawDataField::MS_LEAST)
         {
-            all_good = number == std::round(std::pow(2, (bit_width - 1) - i));
+            std::ldiv_t div_result = std::ldiv(i, BITS_PER_BYTE);
+
+            all_good = number ==
+                static_cast<T>(
+                    std::pow(2, (BITS_PER_BYTE - div_result.rem) - 1)) <<
+                (div_result.quot * BITS_PER_BYTE);
         }
         else
         {
             all_good = false;
         }
 
+        std::cout << number << " ";
+
         if (!all_good) break;
 
         // Test that the right bit gets set by using getBit()
         all_good = number_rdf.getBit(i);
         if (!all_good) break;
-
-        std::cout << number << " ";
 
         number_rdf.setBit(i, false);
         all_good = number == 0;

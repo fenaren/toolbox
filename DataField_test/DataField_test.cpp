@@ -71,9 +71,22 @@ template <class T> bool writeAndReadRawTest()
         }
 
         // So the write seems to have worked, if we've reached this point.  Try
-        // to read back the field we just wrote and make sure it's zero
+        // to read back the field we just wrote and make sure it's zero.  Also
+        // make sure the readRaw operation doesn't change the contents of the
+        // workarea
+
+        T workarea_copy[2];
+        memcpy(workarea_copy, workarea, sizeof(T) * 2);
+
         test_sdf.DataField::readRaw(
             reinterpret_cast<std::uint8_t*>(workarea), i);
+
+        if (memcmp(workarea, workarea_copy, sizeof(T) * 2) != 0)
+        {
+            std::cout << "readRaw modified buffer contents, should not have\n";
+            passed = false;
+            break;
+        }
 
         if (test_sdf != 0)
         {
