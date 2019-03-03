@@ -1,9 +1,9 @@
 # tools-cpp - C++ tools generally useful across projects
 
-## Features
+### Features
 * something
 * something else
 
-## Goals
+### Goals
 * something
 * something else
