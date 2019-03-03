@@ -5,7 +5,7 @@
 TRIVIAL_TEST(Ipv4Header_test);
 
 //==============================================================================
-Test::Result Ipv4Header_test::run()
+Test::Result Ipv4Header_test::body()
 {
     Ipv4Header ipv4_header;
     return Test::PASSED;

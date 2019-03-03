@@ -16,29 +16,19 @@ public:
     Ipv4Header();
     virtual ~Ipv4Header();
 
-    // Reads the data field from the "buffer" memory location without
-    // considering byte ordering.  This function is modified from the base class
-    // to break out the bitfields.
-    virtual unsigned int readRaw(const unsigned char* buffer);
-
     // Reads this data packet from the "buffer" memory location.  Each field
     // will be byteswapped if its source byte order does not match the byte
     // ordering of the host.  This function is modified from the base class to
     // break out the bitfields.
-    virtual unsigned int readRaw(const unsigned char* buffer,
-                                 misc::ByteOrder      source_byte_order);
-
-    // Writes the data field to the "buffer" memory location without considering
-    // byte ordering.  This version is modified from the base class to break out
-    // the bitfields.
-    virtual unsigned int writeRaw(unsigned char* buffer) const;
+    virtual unsigned long readRaw(std::uint8_t*   buffer,
+                                  misc::ByteOrder source_byte_order);
 
     // Writes this data packet to the "buffer" memory location.  Each field will
     // be byteswapped if its source byte order does not match the byte ordering
     // of the host.  This version is modified from the base class to break out
     // the bitfields.
-    virtual unsigned int writeRaw(unsigned char*  buffer,
-                                  misc::ByteOrder destination_byte_order) const;
+    virtual unsigned long writeRaw(std::uint8_t*   buffer,
+                                   misc::ByteOrder destination_byte_order) const;
 
 private:
 
