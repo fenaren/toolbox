@@ -86,41 +86,49 @@ private:
     ArpPacket& operator=(const ArpPacket&);
 };
 
+//==============================================================================
 inline RawDataField* ArpPacket::getSha()
 {
     return &sha;
 }
 
+//==============================================================================
 inline RawDataField* ArpPacket::getSpa()
 {
     return &spa;
 }
 
+//==============================================================================
 inline RawDataField* ArpPacket::getTha()
 {
     return &tha;
 }
 
+//==============================================================================
 inline RawDataField* ArpPacket::getTpa()
 {
     return &tpa;
 }
 
+//==============================================================================
 inline const RawDataField* ArpPacket::getSha() const
 {
     return &sha;
 }
 
+//==============================================================================
 inline const RawDataField* ArpPacket::getSpa() const
 {
     return &spa;
 }
 
+//==============================================================================
 inline const RawDataField* ArpPacket::getTha() const
 {
     return &tha;
 }
 
+//==============================================================================
 inline const RawDataField* ArpPacket::getTpa() const
 {
     return &tpa;
