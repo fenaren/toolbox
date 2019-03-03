@@ -52,20 +52,20 @@ public:
     // Will free the memory at "raw_data" if it is owned by this class
     virtual ~RawDataField();
 
-    // Reads from the "buffer" memory location plus an offset of "bit_offset"
-    // bits.  No byteswapping is performed even when "source_byte_order" doesn't
-    // match host byte ordering, since this is just raw data.
+    // Reads from the "buffer" memory location.  No byteswapping is performed
+    // even when "source_byte_order" doesn't match host byte ordering, since
+    // this is just raw data.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order);
 
-    // Writes to the "buffer" memory location plus an offset of "bit_offset"
-    // bits.  No byteswapping is performed even when "destination_byte_order"
-    // doesn't match host byte ordering, since this is just raw data.
+    // Writes to the "buffer" memory location.  No byteswapping is performed
+    // even when "destination_byte_order" doesn't match host byte ordering,
+    // since this is just raw data.
     virtual unsigned long writeRaw(
         std::uint8_t*   buffer,
         misc::ByteOrder destination_byte_order) const;
 
-    // Byte access and mutation, indexed by (obviously)
+    // Byte access and mutation in array order
     std::uint8_t getByte(unsigned int index) const;
     void setByte(unsigned int index, std::uint8_t value);
 
@@ -97,13 +97,13 @@ public:
         unsigned int start_bit = 0,
         unsigned int count     = sizeof(T) * BITS_PER_BYTE);
 
-    // Bits shift toward the most significant bit, if this bitfield were
-    // interpreted as one big integer
-    void shiftLeft(unsigned int shift_bits);
+    // Bits shift toward the greatest index.  Behavior is affected by the
+    // current bit indexing mode.
+    void shiftUp(unsigned int shift_bits);
 
-    // Bits shift toward the least significant bit, if this bitfield were
-    // interpreted as one big integer
-    void shiftRight(unsigned int shift_bits);
+    // Bits shift toward the least index.  Behavior is affected by the current
+    // bit indexing mode.
+    void shiftDown(unsigned int shift_bits);
 
     // Returns the size of this field in bits.  This will equal the number of
     // bits written by writeRaw() and read by readRaw().
@@ -128,12 +128,6 @@ public:
     // Assignment from other RawDataFields; copies all internal state including
     // what's at "raw_data"
     RawDataField& operator=(const RawDataField& raw_data_field);
-
-    // Uses leftShift()
-    RawDataField& operator<<=(unsigned int shift_bits);
-
-    // Uses rightShift()
-    RawDataField& operator>>=(unsigned int shift_bits);
 
 protected:
 
@@ -200,8 +194,5 @@ inline void RawDataField::throwIfIndexOutOfRange(unsigned long index,
 
 bool operator==(const RawDataField& lhs, const RawDataField& rhs);
 bool operator!=(const RawDataField& lhs, const RawDataField& rhs);
-
-RawDataField operator>>(const RawDataField& lhs, unsigned int rhs);
-RawDataField operator<<(const RawDataField& lhs, unsigned int rhs);
 
 #endif

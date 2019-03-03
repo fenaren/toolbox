@@ -308,7 +308,7 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned long long);
 INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 
 //==============================================================================
-void RawDataField::shiftLeft(unsigned int shift_bits)
+void RawDataField::shiftUp(unsigned int shift_bits)
 {
     if (shift_bits >= length_bits)
     {
@@ -339,7 +339,7 @@ void RawDataField::shiftLeft(unsigned int shift_bits)
 }
 
 //==============================================================================
-void RawDataField::shiftRight(unsigned int shift_bits)
+void RawDataField::shiftDown(unsigned int shift_bits)
 {
     if (shift_bits >= length_bits)
     {
@@ -378,20 +378,6 @@ RawDataField& RawDataField::operator=(const RawDataField& raw_data_field)
 }
 
 //==============================================================================
-RawDataField& RawDataField::operator<<=(unsigned int shift_bits)
-{
-    shiftLeft(shift_bits);
-    return *this;
-}
-
-//==============================================================================
-RawDataField& RawDataField::operator>>=(unsigned int shift_bits)
-{
-    shiftRight(shift_bits);
-    return *this;
-}
-
-//==============================================================================
 bool operator==(const RawDataField& lhs, const RawDataField& rhs)
 {
     if (lhs.getLengthBits() != rhs.getLengthBits())
@@ -417,22 +403,4 @@ bool operator==(const RawDataField& lhs, const RawDataField& rhs)
 bool operator!=(const RawDataField& lhs, const RawDataField& rhs)
 {
     return !(lhs == rhs);
-}
-
-//==============================================================================
-RawDataField operator<<(const RawDataField& lhs, unsigned int rhs)
-{
-    // Copy then return a shifted copy
-    RawDataField new_raw_data_field(lhs);
-    new_raw_data_field.shiftLeft(rhs);
-    return new_raw_data_field;
-}
-
-//==============================================================================
-RawDataField operator>>(const RawDataField& lhs, unsigned int rhs)
-{
-    // Copy then return a shifted copy
-    RawDataField new_raw_data_field(lhs);
-    new_raw_data_field.shiftRight(rhs);
-    return new_raw_data_field;
 }

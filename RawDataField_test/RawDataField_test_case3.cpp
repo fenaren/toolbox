@@ -47,13 +47,13 @@ Test::Result RawDataField_test_case3::body()
          i < sizeof(std::uint32_t) * BITS_PER_BYTE;
          ++i)
     {
-        bitfield1 <<= 1; // operation under test
+        bitfield1.shiftUp(1); // operation under test
         std::cout << test_uint32 << " ";
         MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
     }
 
     // One more shift should get us 0
-    bitfield1 <<= 1;
+    bitfield1.shiftUp(1);
     std::cout << test_uint32 << "\n";
     MUST_BE_TRUE(test_uint32 == 0);
 
@@ -63,18 +63,18 @@ Test::Result RawDataField_test_case3::body()
     // Shift all the way back down
     for (unsigned int i = 30; i != 0; --i)
     {
-        bitfield1 >>= 1; // operation under test
+        bitfield1.shiftDown(1); // operation under test
         std::cout << test_uint32 << " ";
         MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
     }
 
     // One more shift should get us 1
-    bitfield1 >>= 1;
+    bitfield1.shiftDown(1);
     std::cout << test_uint32 << " ";
     MUST_BE_TRUE(test_uint32 == 1);
 
     // One more should get us 0
-    bitfield1 >>=1;
+    bitfield1.shiftDown(1);
     std::cout << test_uint32 << "\n";
     MUST_BE_TRUE(test_uint32 == 0);
 
