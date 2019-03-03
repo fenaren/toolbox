@@ -3,7 +3,6 @@
 #include <cstring>
 #include <iostream>
 #include <limits>
-#include <vector>
 
 #include "DataField.hpp"
 #include "SimpleDataField.hpp"
