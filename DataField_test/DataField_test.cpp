@@ -14,7 +14,7 @@
 TRIVIAL_TEST(DataField_test);
 
 //==============================================================================
-template <class T> bool writeRawTest()
+template <class T> bool writeAndReadRawTest()
 {
     // With this test we're going to write a simple integer data field set to 0
     // into a buffer of 1s that is double the integer's size at successively
@@ -77,9 +77,9 @@ template <class T> bool writeRawTest()
 //==============================================================================
 Test::Result DataField_test::body()
 {
-    MUST_BE_TRUE(writeRawTest<std::uint8_t>());
-    MUST_BE_TRUE(writeRawTest<std::uint16_t>());
-    MUST_BE_TRUE(writeRawTest<std::uint32_t>());
+    MUST_BE_TRUE(writeAndReadRawTest<std::uint8_t>());
+    MUST_BE_TRUE(writeAndReadRawTest<std::uint16_t>());
+    MUST_BE_TRUE(writeAndReadRawTest<std::uint32_t>());
 
     return Test::PASSED;
 }
