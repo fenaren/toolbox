@@ -1,8 +1,8 @@
 **[tools-cpp](https://github.com/leighgarbs/tools-cpp)** -
-  Generalized C++ tools useful across projects
+  Generalized cross-project C++ tools
 ============================================================
 
-Meant for personal project use.
+For personal project use.
 
 ## Features ##
 * C++11
