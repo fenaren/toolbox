@@ -3,3 +3,7 @@
 ## Features
 * something
 * something else
+
+## Goals
+* something
+* something else
