@@ -5,18 +5,19 @@
 #include <limits>
 #include <stdexcept>
 
-#include "BitField.hpp"
+#include "RawDataField.hpp"
 #include "Test.hpp"
 #include "TestMacros.hpp"
+#include "misc.hpp"
 
-TEST_HEADER(BitField_test_case3);
-TEST_CONSTRUCTOR_DESTRUCTOR(BitField_test_case3);
+TEST_HEADER(RawDataField_test_case3);
+TEST_CONSTRUCTOR_DESTRUCTOR(RawDataField_test_case3);
 
 //==============================================================================
-template <class T> bool getBitsAsNumericTypeExCaught(BitField&    bitfield,
-                                                     unsigned int start_bit,
-                                                     unsigned int count,
-                                                     T&           dest_type)
+template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
+                                                     unsigned int  start_bit,
+                                                     unsigned int  count,
+                                                     T&            dest_type)
 {
     bool exception_caught = false;
 
@@ -33,25 +34,26 @@ template <class T> bool getBitsAsNumericTypeExCaught(BitField&    bitfield,
 }
 
 //==============================================================================
-Test::Result BitField_test_case3::body()
+Test::Result RawDataField_test_case3::body()
 {
     std::uint32_t test_uint32 = 1;
-    BitField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
-                       sizeof(std::uint32_t),
-                       false);
+    RawDataField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                           sizeof(std::uint32_t),
+                           misc::BYTES,
+                           false);
 
     // Shift all the way up
     for (unsigned int i = 1;
-         i < sizeof(std::uint32_t) * BitField::BITS_PER_BYTE;
+         i < sizeof(std::uint32_t) * BITS_PER_BYTE;
          ++i)
     {
-        bitfield1 <<= 1; // operation under test
+        bitfield1.shiftUp(1); // operation under test
         std::cout << test_uint32 << " ";
         MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
     }
 
     // One more shift should get us 0
-    bitfield1 <<= 1;
+    bitfield1.shiftUp(1);
     std::cout << test_uint32 << "\n";
     MUST_BE_TRUE(test_uint32 == 0);
 
@@ -61,18 +63,18 @@ Test::Result BitField_test_case3::body()
     // Shift all the way back down
     for (unsigned int i = 30; i != 0; --i)
     {
-        bitfield1 >>= 1; // operation under test
+        bitfield1.shiftDown(1); // operation under test
         std::cout << test_uint32 << " ";
         MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
     }
 
     // One more shift should get us 1
-    bitfield1 >>= 1;
+    bitfield1.shiftDown(1);
     std::cout << test_uint32 << " ";
     MUST_BE_TRUE(test_uint32 == 1);
 
     // One more should get us 0
-    bitfield1 >>=1;
+    bitfield1.shiftDown(1);
     std::cout << test_uint32 << "\n";
     MUST_BE_TRUE(test_uint32 == 0);
 
@@ -96,10 +98,12 @@ Test::Result BitField_test_case3::body()
     // std::pow(2, i) - 1 when interpreted as an integer
     for (unsigned int i = 0; i <= 32; ++i)
     {
-        unsigned int get1;
+        unsigned int get1 = 0;
         bitfield1.getBitsAsNumericType(get1, 0, i);
+        std::cout << get1 << " ";
         MUST_BE_TRUE(get1 == std::pow(2, i) - 1);
     }
+    std::cout << "\n";
 
     // Least significant bit of each byte is set
     memset(&test_uint32, 1, 4);

@@ -3,27 +3,9 @@
 
 #include "ArpPacket.hpp"
 
-#include "BitField.hpp"
+#include "ArpPacketBase.hpp"
+#include "RawDataField.hpp"
 
-//==============================================================================
-// Constructs an ARP packet with the minimum amount of information provided
-// up-front; the hardware and protocol lengths have to be known because they
-// define the length of their associated fields.  Memory for address and
-// protocol fields is dynamically allocated.
-//==============================================================================
-ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
-    ArpPacketBase(0, 0, hlen, plen, 0),
-    sha(hlen),
-    spa(plen),
-    tha(hlen),
-    tpa(plen)
-{
-    addDataFields();
-}
-
-//==============================================================================
-// Similar to the constructor defined above but allows the rest of the simple
-// fields to be specified
 //==============================================================================
 ArpPacket::ArpPacket(std::uint16_t htype,
                      std::uint16_t ptype,
@@ -31,28 +13,30 @@ ArpPacket::ArpPacket(std::uint16_t htype,
                      std::uint8_t  plen,
                      std::uint16_t oper) :
     ArpPacketBase(htype, ptype, hlen, plen, oper),
-    sha(hlen),
-    spa(plen),
-    tha(hlen),
-    tpa(plen)
+    sha(hlen, misc::BYTES),
+    spa(plen, misc::BYTES),
+    tha(hlen, misc::BYTES),
+    tpa(plen, misc::BYTES)
 {
     addDataFields();
 }
 
 //==============================================================================
-// Constructs an ARP packet by copying externally-provided ARP packet data.
-// This may involve dynamic memory allocation depending on how the BitField copy
-// constructor is defined.
+ArpPacket::ArpPacket(std::uint8_t hlen, std::uint8_t plen) :
+    ArpPacket(0, 0, hlen, plen, 0)
+{
+}
+
 //==============================================================================
-ArpPacket::ArpPacket(std::uint16_t   htype,
-                     std::uint16_t   ptype,
-                     std::uint8_t    hlen,
-                     std::uint8_t    plen,
-                     std::uint16_t   oper,
-                     const BitField& sha,
-                     const BitField& spa,
-                     const BitField& tha,
-                     const BitField& tpa) :
+ArpPacket::ArpPacket(std::uint16_t       htype,
+                     std::uint16_t       ptype,
+                     std::uint8_t        hlen,
+                     std::uint8_t        plen,
+                     std::uint16_t       oper,
+                     const RawDataField& sha,
+                     const RawDataField& spa,
+                     const RawDataField& tha,
+                     const RawDataField& tpa) :
     ArpPacketBase(htype, ptype, hlen, plen, oper),
     sha(sha),
     spa(spa),
@@ -83,9 +67,6 @@ ArpPacket::ArpPacket(std::uint16_t   htype,
 }
 
 //==============================================================================
-// Constructs an ARP packet using hardware and protocol field memory that can be
-// maintained either internally or externally.
-//==============================================================================
 ArpPacket::ArpPacket(std::uint16_t  htype,
                      std::uint16_t  ptype,
                      std::uint8_t   hlen,
@@ -100,10 +81,10 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
                      bool           owned_tha,
                      bool           owned_tpa) :
     ArpPacketBase(htype, ptype, hlen, plen, oper),
-    sha(buffer_sha, hlen, owned_sha),
-    spa(buffer_spa, plen, owned_spa),
-    tha(buffer_tha, hlen, owned_tha),
-    tpa(buffer_tpa, plen, owned_tpa)
+    sha(buffer_sha, hlen, misc::BYTES, owned_sha),
+    spa(buffer_spa, plen, misc::BYTES, owned_spa),
+    tha(buffer_tha, hlen, misc::BYTES, owned_tha),
+    tpa(buffer_tpa, plen, misc::BYTES, owned_tpa)
 {
     addDataFields();
 }

@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstring>
 #include <iostream>
 
@@ -21,13 +22,13 @@ Test::Result DataPacket_test_case2::body()
     // dptest2 data is copied to here; dptest2 is not referenced again
     DataPacket_test2* dptest2p = dptest1.getNestedPacket();
 
-    dptest1.setByteAlignment(3);
-    dptest2p->setByteAlignment(3);
+    dptest1.setAlignment(3);
+    dptest2p->setAlignment(3);
 
     // Write out dptest1 with a 3-byte alignment and make sure it looks
     // alright.  Write is done in host byte order.
-    unsigned char* raw_dptest1 = new unsigned char[dptest1.getLengthBytes()];
-    dptest1.writeRaw(raw_dptest1);
+    std::uint8_t* raw_dptest1 = new std::uint8_t[dptest1.getLengthBytes()];
+    dptest1.DataField::writeRaw(raw_dptest1);
 
     unsigned int offset = 0;
 
@@ -103,7 +104,7 @@ Test::Result DataPacket_test_case2::body()
     MUST_BE_TRUE(dptest2_char   == dptest2p->getSdfChar());
 
     // Read the updated raw data and compare against the updated values
-    dptest1.readRaw(raw_dptest1);
+    dptest1.DataField::readRaw(raw_dptest1);
 
     // All the values we wrote into the raw packet have to match the values we
     // retrieved after reading the raw packet

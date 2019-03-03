@@ -1,8 +1,10 @@
+#include <cstdint>
 #include <cstring>
 
 #include "SimpleDataField.hpp"
 
 #include "DataField.hpp"
+#include "RawDataField.hpp"
 #include "misc.hpp"
 
 //==============================================================================
@@ -18,8 +20,6 @@ template <class T> SimpleDataField<T>::SimpleDataField(const T& value) :
 {
 }
 
-//==============================================================================
-// Copy constructor
 //==============================================================================
 template <class T>
 SimpleDataField<T>::SimpleDataField(const SimpleDataField<T>& simple_data_field)
@@ -39,22 +39,9 @@ template <class T> SimpleDataField<T>::~SimpleDataField()
 }
 
 //==============================================================================
-// Reads the data field from the "buffer" memory location without considering
-// byte ordering.
-//==============================================================================
-template <class T>
-unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer)
-{
-    return DataField::readRaw(buffer);
-}
-
-//==============================================================================
-// Reads the data field from the "buffer" memory location, swapping if the
-// source byte order does not match the byte ordering of this field.
-//==============================================================================
-template <class T>
-unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
-                                         misc::ByteOrder      source_byte_order)
+template <class T> unsigned long SimpleDataField<T>::readRaw(
+    std::uint8_t*   buffer,
+    misc::ByteOrder source_byte_order)
 {
     if (source_byte_order == getByteOrder())
     {
@@ -62,32 +49,18 @@ unsigned int SimpleDataField<T>::readRaw(const unsigned char* buffer,
     }
     else
     {
-        misc::byteswap(reinterpret_cast<unsigned char*>(&simple_data_field),
+        misc::byteswap(reinterpret_cast<std::uint8_t*>(&simple_data_field),
                        buffer,
                        sizeof(T));
     }
 
-    return sizeof(T);
+    return sizeof(T) * BITS_PER_BYTE;
 }
 
 //==============================================================================
-// Writes the data field to the "buffer" memory location without considering
-// byte ordering.
-//==============================================================================
-template <class T>
-unsigned int SimpleDataField<T>::writeRaw(unsigned char* buffer) const
-{
-    return DataField::writeRaw(buffer);
-}
-
-//==============================================================================
-// Writes the data field to the "buffer" memory location, swapping at the
-// destination if the destination byte order does not match the byte ordering of
-// this field.
-//==============================================================================
-template <class T> unsigned int
-SimpleDataField<T>::writeRaw(unsigned char*  buffer,
-                             misc::ByteOrder destination_byte_order) const
+template <class T> unsigned long SimpleDataField<T>::writeRaw(
+    std::uint8_t*   buffer,
+    misc::ByteOrder destination_byte_order) const
 {
     if (destination_byte_order == getByteOrder())
     {
@@ -97,20 +70,17 @@ SimpleDataField<T>::writeRaw(unsigned char*  buffer,
     {
         misc::byteswap(
             buffer,
-            reinterpret_cast<const unsigned char*>(&simple_data_field),
+            reinterpret_cast<const std::uint8_t*>(&simple_data_field),
             sizeof(T));
     }
 
-    return sizeof(T);
+    return sizeof(T) * BITS_PER_BYTE;
 }
 
 //==============================================================================
-// Returns the size of this field in bytes.  This will equal the number of bytes
-// written by writeRaw() and read by readRaw().
-//==============================================================================
-template <class T> unsigned int SimpleDataField<T>::getLengthBytes() const
+template <class T> unsigned long SimpleDataField<T>::getLengthBits() const
 {
-    return sizeof(T);
+    return sizeof(T) * BITS_PER_BYTE;
 }
 
 //==============================================================================

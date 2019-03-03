@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "BitField.hpp"
+#include "RawDataField.hpp"
 
-class Ipv4Address : public BitField
+class Ipv4Address : public RawDataField
 {
 public:
 
@@ -17,7 +17,7 @@ public:
 
     // Constructs a new Ipv4Address, initialized to a copy of the raw address at
     // the indicated location.
-    explicit Ipv4Address(const unsigned char* buffer);
+    explicit Ipv4Address(std::uint8_t* buffer);
 
     // Constructs a new Ipv4Address matching the given string representation.
     explicit Ipv4Address(const std::string& ipv4_address_str);
@@ -43,25 +43,19 @@ public:
 
 private:
 
-    unsigned char ipv4_address_raw[LENGTH_BYTES];
+    std::uint8_t ipv4_address_raw[LENGTH_BYTES];
 };
 
 std::ostream& operator<<(std::ostream& os, const Ipv4Address& ipv4_address);
 
 std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address);
 
-bool operator==(const Ipv4Address& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
-bool operator==(const Ipv4Address& ipv4_address1,
-                const std::string& ipv4_address2);
-bool operator==(const std::string& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
+bool operator==(const Ipv4Address& lhs, const Ipv4Address& rhs);
+bool operator==(const Ipv4Address& lhs, const std::string& rhs);
+bool operator==(const std::string& lhs, const Ipv4Address& rhs);
 
-bool operator!=(const Ipv4Address& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
-bool operator!=(const Ipv4Address& ipv4_address1,
-                const std::string& ipv4_address2);
-bool operator!=(const std::string& ipv4_address1,
-                const Ipv4Address& ipv4_address2);
+bool operator!=(const Ipv4Address& lhs, const Ipv4Address& rhs);
+bool operator!=(const Ipv4Address& lhs, const std::string& rhs);
+bool operator!=(const std::string& lhs, const Ipv4Address& rhs);
 
 #endif

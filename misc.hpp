@@ -3,23 +3,25 @@
 
 // For functionality that has no obvious home elsewhere
 
-// BIG_ENDIAN and LITTLE_ENDIAN are defined on macOS for some reason or other.
-// Replace those definitions with the ones defined in here.
+#include <cstdint>
 
-#if defined BIG_ENDIAN
-#undef BIG_ENDIAN
-#endif
-
-#if defined LITTLE_ENDIAN
-#undef LITTLE_ENDIAN
-#endif
+#define BITS_PER_BYTE 8
 
 namespace misc
 {
+    // This would be BIG_ENDIAN and LITTLE_ENDIAN but those names collide with
+    // existing symbols on MacOS.
     enum ByteOrder
     {
-        BIG_ENDIAN,
-        LITTLE_ENDIAN
+        ENDIAN_BIG,
+        ENDIAN_LITTLE
+    };
+
+    // Used to associate units with data amounts
+    enum DataUnits
+    {
+        BITS,
+        BYTES
     };
 
     // Determines byte ordering (endianness) of the host
@@ -28,15 +30,15 @@ namespace misc
     // Does an in-place byteswap of the data at "buffer" of length "len".  For
     // example a "len" value of 4 would be used for swapping a single 32-bit
     // integer.
-    void byteswap(unsigned char* buffer, unsigned int len);
+    void byteswap(std::uint8_t* buffer, unsigned int len);
 
     // Does an out-of-place byteswap.  The data at "source" is copied into
     // "destination" byteswapped.  The data at "source" is not modified.  This
     // is logically equivalent to a memcpy followed by a call to the
     // two-argument byteswap function defined above but should be faster.
-    void byteswap(unsigned char*       destination,
-                  const unsigned char* source,
-                  unsigned int         len);
+    void byteswap(std::uint8_t*       destination,
+                  const std::uint8_t* source,
+                  unsigned int        len);
 
     // Convenience wrapper meant for swapping fundamental data types.  Removes
     // the need for the user to deal with casting and sizing.
@@ -44,6 +46,10 @@ namespace misc
 
     // Returns true if a and b are within epsilon of each other, false otherwise
     bool withinEpsilonOf(double a, double b, double epsilon);
+
+    // Does what it says on the tin; returns the smallest multiple of x that is
+    // greater than or equal to y.
+    long smallestMultipleOfXGreaterOrEqualToY(long x, long y);
 };
 
 // Overloads operator! to take a misc::ByteOrder and return the "other" value.

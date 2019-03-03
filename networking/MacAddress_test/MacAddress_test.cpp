@@ -94,7 +94,7 @@ Test::Result MacAddress_test::body()
     MacAddress testmac2(testmacstr);
     unsigned char testcmac2[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     char shouldbe[] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06};
-    testmac2.writeRaw(testcmac2);
+    testmac2.DataField::writeRaw(testcmac2);
     bool write_success =
         memcmp(testcmac2, shouldbe, MacAddress::LENGTH_BYTES) == 0;
     if (!write_success)
