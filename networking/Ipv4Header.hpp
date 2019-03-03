@@ -27,12 +27,13 @@ public:
     // be byteswapped if its source byte order does not match the byte ordering
     // of the host.  This version is modified from the base class to break out
     // the bitfields.
-    virtual unsigned long writeRaw(std::uint8_t*   buffer,
-                                   misc::ByteOrder destination_byte_order) const;
+    virtual unsigned long writeRaw(
+        std::uint8_t*   buffer,
+        misc::ByteOrder destination_byte_order) const;
 
 private:
 
-    virtual void addDataFields();
+    void addDataFields();
 
     // Some header fields are not stored here in "raw" form because their raw
     // form has some non-standard size and isn't easily usable.  For example
