@@ -2,7 +2,7 @@
   Generalized C++ tools useful across projects
 ============================================================
 
-
+Meant for personal project use.
 
 ## Features ##
 * C++11
@@ -15,3 +15,8 @@
 * Multi-platform support
 * POSIX compatibility
 * Test coverage
+
+## Style ##
+* No tabs, only spaces
+* 4 space indents
+* Lines wrap to 80 characters
