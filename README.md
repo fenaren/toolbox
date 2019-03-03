@@ -1,5 +1,4 @@
-# tools-cpp
-## C++ tools generally useful across projects
+# *tools-cpp* - C++ tools generally useful across projects
 
 ### Features
 * something
