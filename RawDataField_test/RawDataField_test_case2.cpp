@@ -12,31 +12,30 @@
 TEST_HEADER(RawDataField_test_case2);
 TEST_CONSTRUCTOR_DESTRUCTOR(RawDataField_test_case2);
 
-template<class T> bool tryAllBits(RawDataField& bitfield, T& raw_bitfield);
+template<class T> bool tryAllBits(RawDataField& rdf, T& number);
 
 //==============================================================================
 Test::Result RawDataField_test_case2::body()
 {
-    std::uint8_t  raw_bitfield1 = 0;
-    std::uint16_t raw_bitfield2 = 0;
-    std::uint32_t raw_bitfield4 = 0;
+    std::uint8_t  number1 = 0;
+    std::uint16_t number2 = 0;
+    std::uint32_t number4 = 0;
 
-    RawDataField bitfield1(
-        &raw_bitfield1, 1, misc::BYTES, false);
-    RawDataField bitfield2(reinterpret_cast<std::uint8_t*>(&raw_bitfield2),
-                           sizeof(std::uint16_t),
-                           misc::BYTES,
-                           false);
-    RawDataField bitfield4(reinterpret_cast<std::uint8_t*>(&raw_bitfield4),
-                           sizeof(std::uint32_t),
-                           misc::BYTES,
-                           false);
+    RawDataField number_rdf1(&number1, 1, misc::BYTES, false);
+    RawDataField number_rdf2(reinterpret_cast<std::uint8_t*>(&number2),
+                             sizeof(std::uint16_t),
+                             misc::BYTES,
+                             false);
+    RawDataField number_rdf4(reinterpret_cast<std::uint8_t*>(&number4),
+                             sizeof(std::uint32_t),
+                             misc::BYTES,
+                             false);
 
     // Make sure trying to get out-of-range bits properly throws an exception
     bool exception_caught = false;
     try
     {
-        bitfield1.getBit(BITS_PER_BYTE);
+        number_rdf1.getBit(BITS_PER_BYTE);
     }
     catch (std::out_of_range& ex)
     {
@@ -44,29 +43,59 @@ Test::Result RawDataField_test_case2::body()
     }
     MUST_BE_TRUE(exception_caught);
 
-    // Test all the bits in a couple differnt size bitfields
-    MUST_BE_TRUE(tryAllBits(bitfield1, raw_bitfield1));
-    MUST_BE_TRUE(tryAllBits(bitfield2, raw_bitfield2));
-    MUST_BE_TRUE(tryAllBits(bitfield4, raw_bitfield4));
+    // Test all the bits in a couple differnt size integers
+    MUST_BE_TRUE(tryAllBits(number_rdf1, number1));
+    MUST_BE_TRUE(tryAllBits(number_rdf2, number2));
+    MUST_BE_TRUE(tryAllBits(number_rdf4, number4));
+
+    // Switch the bit indexing mode and try again
+    number_rdf1.setBitIndexingMode(RawDataField::MS_LEAST);
+    number_rdf2.setBitIndexingMode(RawDataField::MS_LEAST);
+    number_rdf4.setBitIndexingMode(RawDataField::MS_LEAST);
+    MUST_BE_TRUE(tryAllBits(number_rdf1, number1));
+    MUST_BE_TRUE(tryAllBits(number_rdf2, number2));
+    MUST_BE_TRUE(tryAllBits(number_rdf4, number4));
+
 
     return Test::PASSED;
 }
 
 //==============================================================================
-template<class T> bool tryAllBits(RawDataField& bitfield, T& raw_bitfield)
+template<class T> bool tryAllBits(RawDataField& number_rdf, T& number)
 {
     bool all_good = true;
 
-    for (unsigned int i = 0; i < sizeof(T) * BITS_PER_BYTE; i++)
+    unsigned int bit_width = sizeof(T) * BITS_PER_BYTE;
+
+    for (unsigned int i = 0; i < bit_width; i++)
     {
-        bitfield.setBit(i, true);
-        all_good = raw_bitfield == std::round(std::pow(2, i));
+        number_rdf.setBit(i, true);
+
+        // Test that the right bit gets set without using any RawDataField
+        // functionality
+        if (number_rdf.getBitIndexingMode() == RawDataField::LS_LEAST)
+        {
+            all_good = number == std::round(std::pow(2, i));
+        }
+        else if (number_rdf.getBitIndexingMode() == RawDataField::MS_LEAST)
+        {
+            all_good = number == std::round(std::pow(2, (bit_width - 1) - i));
+        }
+        else
+        {
+            all_good = false;
+        }
+
         if (!all_good) break;
 
-        std::cout << raw_bitfield << " ";
+        // Test that the right bit gets set by using getBit()
+        all_good = number_rdf.getBit(i);
+        if (!all_good) break;
 
-        bitfield.setBit(i, false);
-        all_good = raw_bitfield == 0;
+        std::cout << number << " ";
+
+        number_rdf.setBit(i, false);
+        all_good = number == 0;
         if (!all_good) break;
     }
 
