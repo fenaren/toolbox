@@ -29,7 +29,6 @@ public:
     // Dynamically allocates and maintains data field of size "length".  Units
     // of length are specified in "length_units".  Storage is dynamically
     // allocated.
-    // cppcheck-suppress noExplicitConstructor
     RawDataField(unsigned long   length,
                  misc::DataUnits length_units,
                  IndexingMode    bit_indexing_mode = LS_LEAST);
