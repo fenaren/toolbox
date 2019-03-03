@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <vector>
 
 #include "DataField.hpp"
@@ -13,44 +14,72 @@
 TRIVIAL_TEST(DataField_test);
 
 //==============================================================================
-template <class T>
-bool writeRawTest(unsigned int                     offset_bits,
-                  const std::vector<std::uint8_t>& shouldbe)
+template <class T> bool writeRawTest()
 {
-    SimpleDataField<T> test_sdf(0);
+    // With this test we're going to write a simple integer data field set to 0
+    // into a buffer of 1s that is double the integer's size at successively
+    // greater offsets.  As we go along the first half of the buffer will lose
+    // 0s and the second half will gain 0s.  We can predict exactly what both
+    // halves should be equal to as integers, so we check this with each offset
+    // write.
 
-    std::uint8_t test_sdf_buf[sizeof(T) + 1];
-    memset(test_sdf_buf, 0xff, sizeof(T) + 1);
-    test_sdf.DataField::writeRaw(test_sdf_buf, offset_bits);
+    // Will go false if the test fails
+    bool passed = true;
 
-    bool all_match = true;
-    for (unsigned int i = 0; i < sizeof(T) + 1; ++i)
+    const unsigned int workarea_size = sizeof(T) * 2;
+    T workarea[2];
+
+    for (unsigned int i = 0; i <= sizeof(T) * BITS_PER_BYTE; ++i)
     {
-        std::cout << static_cast<unsigned int>(test_sdf_buf[i]) << " ";
-        if (test_sdf_buf[i] != shouldbe[i])
+        // Set the entire work area to all ones
+        memset(workarea, 0xff, workarea_size);
+
+        // We'll shift this 0 across the whole work area one bit at a time,
+        // checking the value of both halves against math
+        SimpleDataField<T> test_sdf(0);
+
+        T something = std::pow(2, i) - 1;
+
+        // Work area halves should equal these two values after the write
+        T correct_firsthalf = something;
+        T correct_secondhalf = std::numeric_limits<T>::max() - something;
+
+        // Actually do the write
+        test_sdf.DataField::writeRaw(
+            reinterpret_cast<std::uint8_t*>(workarea), i);
+
+        // Now check both halves
+        std::cout << "Offset " << i << " " << workarea[0] << " ";
+        if (workarea[0] != correct_firsthalf)
         {
-            all_match = false;
-            std::cout << "(WRONG should be "
-                      << static_cast<unsigned int>(shouldbe[i]) << ") ";
+            std::cout << "(WRONG should be " << correct_firsthalf << ") ";
+            passed = false;
+        }
+
+        std::cout << workarea[1] << " ";
+        if (workarea[1] != correct_secondhalf)
+        {
+            std::cout << "(WRONG should be " << correct_secondhalf << ") ";
+            passed = false;
+        }
+
+        std::cout << "\n";
+
+        if (!passed)
+        {
+            break;
         }
     }
-    std::cout << "\n";
 
-    return all_match;
+    return passed;
 }
 
 //==============================================================================
 Test::Result DataField_test::body()
 {
-    for (unsigned int i = 0; i <= BITS_PER_BYTE; ++i)
-    {
-        MUST_BE_TRUE(
-            writeRawTest<unsigned char>(
-                i,
-                std::vector<std::uint8_t>(
-                    {static_cast<std::uint8_t>(std::pow(2, i) - 1),
-                     static_cast<std::uint8_t>(255 - (std::pow(2, i) - 1))})));
-    }
+    MUST_BE_TRUE(writeRawTest<std::uint8_t>());
+    MUST_BE_TRUE(writeRawTest<std::uint16_t>());
+    MUST_BE_TRUE(writeRawTest<std::uint32_t>());
 
     return Test::PASSED;
 }

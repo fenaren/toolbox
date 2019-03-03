@@ -95,6 +95,8 @@ unsigned long DataField::writeRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder destination_byte_order,
                                   unsigned long   bit_offset) const
 {
+    normalizeMemoryLocation(buffer, bit_offset);
+
     // Handle the simple no-offset case without going to all the trouble of the
     // offset case
     if (bit_offset == 0)
