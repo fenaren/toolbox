@@ -108,6 +108,7 @@ inline void DataPacket::setAlignment(unsigned int    alignment,
     }
     else if (alignment_units == misc::BYTES)
     {
+        // Convert to bits
         alignment_bits = alignment * BITS_PER_BYTE;
     }
     else
