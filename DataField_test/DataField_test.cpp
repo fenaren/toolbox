@@ -69,6 +69,18 @@ template <class T> bool writeAndReadRawTest()
         {
             break;
         }
+
+        // So the write seems to have worked, if we've reached this point.  Try
+        // to read back the field we just wrote and make sure it's zero
+        test_sdf.DataField::readRaw(
+            reinterpret_cast<std::uint8_t*>(workarea), i);
+
+        if (test_sdf != 0)
+        {
+            std::cout << "Readback failed, should have read 0\n";
+            passed = false;
+            break;
+        }
     }
 
     return passed;
