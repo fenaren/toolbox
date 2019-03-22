@@ -35,6 +35,7 @@ private:
     std::vector<Test*> test_cases;
 };
 
+//==============================================================================
 inline void TestCases::addTestCase(Test* test)
 {
     test_cases.push_back(test);
