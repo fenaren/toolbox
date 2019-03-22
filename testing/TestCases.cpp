@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -12,8 +13,6 @@ TestCases::TestCases(const std::string& name) :
 }
 
 //==============================================================================
-// Delete all the added test cases
-//==============================================================================
 TestCases::~TestCases()
 {
     for (std::vector<Test*>::iterator i = test_cases.begin();
@@ -25,14 +24,18 @@ TestCases::~TestCases()
 }
 
 //==============================================================================
-// Adds all test cases by calling addTestCases(), then runs them all in the
-// order they were added
-//==============================================================================
 Test::Result TestCases::body()
 {
     // Derived classes implement this pure virtual function to have their test
     // cases added here
     addTestCases();
+
+    // Something is wrong if there are no test cases after we tried to add them
+    if (test_cases.size() == 0)
+    {
+        throw std::runtime_error(
+            "No test cases to run, this test is probably misconfigured");
+    }
 
     // Run all test cases, collecting information on their results as we go
     bool any_failed = false;
