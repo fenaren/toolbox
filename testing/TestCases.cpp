@@ -1,7 +1,7 @@
 #include <iostream>
+#include <list>
 #include <stdexcept>
 #include <string>
-#include <vector>
 
 #include "Test.hpp"
 #include "TestCases.hpp"
@@ -15,7 +15,7 @@ TestCases::TestCases(const std::string& name) :
 //==============================================================================
 TestCases::~TestCases()
 {
-    for (std::vector<Test*>::iterator i = test_cases.begin();
+    for (std::list<Test*>::iterator i = test_cases.begin();
          i != test_cases.end();
          ++i)
     {
@@ -40,7 +40,7 @@ Test::Result TestCases::body()
     // Run all test cases, collecting information on their results as we go
     bool any_failed = false;
     bool any_passed = false;
-    for (std::vector<Test*>::iterator i = test_cases.begin();
+    for (std::list<Test*>::iterator i = test_cases.begin();
          i != test_cases.end();
          ++i)
     {

@@ -1,8 +1,8 @@
 #if !defined TEST_CASES_HPP
 #define TEST_CASES_HPP
 
+#include <list>
 #include <string>
-#include <vector>
 
 #include "Test.hpp"
 
@@ -32,7 +32,7 @@ protected:
 
 private:
 
-    std::vector<Test*> test_cases;
+    std::list<Test*> test_cases;
 };
 
 //==============================================================================

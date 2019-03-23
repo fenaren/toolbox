@@ -20,6 +20,48 @@
         virtual Test::Result body();                     \
     };
 
+#define TEST_CASES_HEADER_BEGIN(TestClass)               \
+    class TestClass : public TestCases                   \
+    {                                                    \
+    public:                                              \
+        TestClass(const std::string& name = #TestClass); \
+        ~TestClass();                                    \
+        virtual void addTestCases();                     \
+    private:
+
+#define TEST_CASES_HEADER_END(...) };
+
+#define TEST_DECLARE(Case) Case Case;
+
+#define TEST_CONSTRUCTOR_BEGIN(BaseClass, TestClass)                    \
+    TestClass::TestClass(const std::string& name) : BaseClass(name)
+
+#define TEST_CONSTRUCTOR_END(TestClass) {}
+#define TEST_CASES_DESTRUCTOR(TestClass) TestClass::~TestClass() {}
+
+#define TEST_CONSTRUCT(Test, ...) ,Test(__VA_ARGS__)
+
+// NEW STUFF END --------------------------------------------
+
+#define TEST_HEADER(TestClass)                           \
+    class TestClass : public Test                        \
+    {                                                    \
+    public:                                              \
+        TestClass(const std::string& name = #TestClass); \
+        ~TestClass();                                    \
+    protected:                                           \
+        virtual Test::Result body();                     \
+    };
+
+#define TEST_CASES_HEADER(TestClass)                     \
+    class TestClass : public TestCases                   \
+    {                                                    \
+    public:                                              \
+        TestClass(const std::string& name = #TestClass); \
+        ~TestClass();                                    \
+        virtual void addTestCases();                     \
+    }
+
 #define TEST_CASES_HEADER(TestClass)                     \
     class TestClass : public TestCases                   \
     {                                                    \
