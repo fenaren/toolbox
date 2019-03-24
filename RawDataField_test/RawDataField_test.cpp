@@ -1,30 +1,390 @@
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
+#include "misc.hpp"
 
-TEST_HEADER(RawDataField_test_case1)
-TEST_HEADER(RawDataField_test_case2)
-TEST_HEADER(RawDataField_test_case3)
+#include "RawDataField.hpp"
 
-TEST_CASES_HEADER_BEGIN(RawDataField_test)
-TEST_DECLARE(RawDataField_test_case1)
-TEST_DECLARE(RawDataField_test_case2)
-TEST_DECLARE(RawDataField_test_case3)
-TEST_CASES_HEADER_END(RawDataField_test)
+TEST_CASES_PROGRAM(RawDataField_test)
 
-TEST_CONSTRUCTOR_BEGIN(TestCases, RawDataField_test)
-TEST_CONSTRUCT(RawDataField_test_case1)
-TEST_CONSTRUCT(RawDataField_test_case2)
-TEST_CONSTRUCT(RawDataField_test_case3)
-TEST_CONSTRUCTOR_END(RawDataField_test)
+TEST(RawDataField_test_construct_zero_size)
+TEST(RawDataField_test_copy_constructor)
+TEST(RawDataField_test_getLengthBytes)
+TEST(RawDataField_test_writeRaw)
+TEST(RawDataField_test_readRaw)
+TEST(RawDataField_test_equality)
+TEST(RawDataField_test_inequality)
+TEST(RawDataField_test_case1)
+TEST(RawDataField_test_case2)
+TEST(RawDataField_test_case3)
 
-TEST_CASES_DESTRUCTOR(RawDataField_test)
+template<class T> bool tryAllBits(RawDataField& number_rdf, T& number);
+template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
+                                                     unsigned int  start_bit,
+                                                     unsigned int  count,
+                                                     T&            dest_type);
 
-TEST_PROGRAM_MAIN(RawDataField_test)
+const unsigned int workspace_length = 20;
+unsigned char workspace1[workspace_length];
+unsigned char workspace2[workspace_length];
 
 //==============================================================================
 void RawDataField_test::addTestCases()
 {
+    addTestCase(new RawDataField_test_construct_zero_size());
+    addTestCase(new RawDataField_test_copy_constructor());
+    addTestCase(new RawDataField_test_getLengthBytes());
+
+    // The following block of tests must be executed in this order
+    addTestCase(new RawDataField_test_writeRaw());
+    addTestCase(new RawDataField_test_readRaw());
+    addTestCase(new RawDataField_test_equality());
+    addTestCase(new RawDataField_test_inequality());
+
     //addTestCase(new RawDataField_test_case1());
     //addTestCase(new RawDataField_test_case2());
     //addTestCase(new RawDataField_test_case3());
+}
+
+//==============================================================================
+Test::Result RawDataField_test_construct_zero_size::body()
+{
+    // Makes no sense to create an bit field of 0 bytes but we should test
+    // it here
+    RawDataField rdf(0, misc::BYTES); // Dynamic allocation
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_copy_constructor::body()
+{
+    RawDataField rdf1(10, misc::BYTES);
+    RawDataField rdf2(rdf1);
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_getLengthBytes::body()
+{
+    RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
+    MUST_BE_TRUE(rdf.getLengthBytes() == workspace_length);
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_writeRaw::body()
+{
+    for (unsigned int i = 0; i < workspace_length; i++)
+    {
+        workspace1[i] = static_cast<unsigned char>(i);
+    }
+
+    RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
+
+    // Tests writeRaw
+    rdf.DataField::writeRaw(workspace2);
+    MUST_BE_TRUE(memcmp(workspace1, workspace2, workspace_length) == 0);
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_readRaw::body()
+{
+    RawDataField rdf(workspace_length, misc::BYTES);
+    rdf.DataField::readRaw(workspace2);
+
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_equality::body()
+{
+    RawDataField rdf1(workspace1, workspace_length, misc::BYTES);
+    RawDataField rdf2(workspace1, workspace_length, misc::BYTES);
+    MUST_BE_TRUE(rdf1 == rdf2);
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_inequality::body()
+{
+    RawDataField rdf1(workspace1, workspace_length, misc::BYTES);
+    RawDataField rdf2(workspace1, workspace_length, misc::BYTES);
+    MUST_BE_FALSE(rdf1 != rdf2);
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_case1::body()
+{
+    // Tests getByte, setByte
+    for (unsigned int i = 0; i < workspace_length; i++)
+    {
+        MUST_BE_TRUE(workspace1[i] == rdf4.getByte(i));
+
+        rdf4.setByte(i, 0);
+        MUST_BE_TRUE(workspace1[i] == 0);
+    }
+
+    // Tests assignment
+    memset(workspace1, 0, workspace_length);
+    memset(workspace2, 1, workspace_length);
+    RawDataField rdf6(
+        workspace2, workspace_length, misc::BYTES, false);
+    rdf4 = rdf6;
+    MUST_BE_TRUE(memcmp(workspace1, workspace2, workspace_length) == 0);
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_case2::body()
+{
+    std::uint8_t  number1 = 0;
+    std::uint16_t number2 = 0;
+    std::uint32_t number4 = 0;
+
+    RawDataField number_rdf1(&number1, 1, misc::BYTES, false);
+    RawDataField number_rdf2(reinterpret_cast<std::uint8_t*>(&number2),
+                             sizeof(std::uint16_t),
+                             misc::BYTES,
+                             false);
+    RawDataField number_rdf4(reinterpret_cast<std::uint8_t*>(&number4),
+                             sizeof(std::uint32_t),
+                             misc::BYTES,
+                             false);
+
+    // Make sure trying to get out-of-range bits properly throws an exception
+    bool exception_caught = false;
+    try
+    {
+        number_rdf1.getBit(BITS_PER_BYTE);
+    }
+    catch (std::out_of_range& ex)
+    {
+        exception_caught = true;
+    }
+    MUST_BE_TRUE(exception_caught);
+
+    // Test all the bits in a couple differnt size integers
+    MUST_BE_TRUE(tryAllBits(number_rdf1, number1));
+    MUST_BE_TRUE(tryAllBits(number_rdf2, number2));
+    MUST_BE_TRUE(tryAllBits(number_rdf4, number4));
+
+    // Switch the bit indexing mode and try again
+    number_rdf1.setBitIndexingMode(RawDataField::MS_LEAST);
+    number_rdf2.setBitIndexingMode(RawDataField::MS_LEAST);
+    number_rdf4.setBitIndexingMode(RawDataField::MS_LEAST);
+    MUST_BE_TRUE(tryAllBits(number_rdf1, number1));
+    MUST_BE_TRUE(tryAllBits(number_rdf2, number2));
+    MUST_BE_TRUE(tryAllBits(number_rdf4, number4));
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_case3::body()
+{
+    std::uint32_t test_uint32 = 1;
+    RawDataField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                           sizeof(std::uint32_t),
+                           misc::BYTES,
+                           false);
+
+    // Shift all the way up
+    for (unsigned int i = 1;
+         i < sizeof(std::uint32_t) * BITS_PER_BYTE;
+         ++i)
+    {
+        bitfield1.shiftUp(1); // operation under test
+        std::cout << test_uint32 << " ";
+        MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
+    }
+
+    // One more shift should get us 0
+    bitfield1.shiftUp(1);
+    std::cout << test_uint32 << "\n";
+    MUST_BE_TRUE(test_uint32 == 0);
+
+    // Put the bit back
+    bitfield1.setBit(31, true);
+
+    // Shift all the way back down
+    for (unsigned int i = 30; i != 0; --i)
+    {
+        bitfield1.shiftDown(1); // operation under test
+        std::cout << test_uint32 << " ";
+        MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
+    }
+
+    // One more shift should get us 1
+    bitfield1.shiftDown(1);
+    std::cout << test_uint32 << " ";
+    MUST_BE_TRUE(test_uint32 == 1);
+
+    // One more should get us 0
+    bitfield1.shiftDown(1);
+    std::cout << test_uint32 << "\n";
+    MUST_BE_TRUE(test_uint32 == 0);
+
+    std::uint8_t type1 = 255;
+
+    // Can't get more bits than are in the destination type
+    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(bitfield1, 0, 9,  type1));
+    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(bitfield1, 4, 22, type1));
+
+    // Can't get more bits than are in the bitfield
+    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(bitfield1, 0, 33, type1));
+
+    // GETBITSASNUMERICTYPE TESTED BELOW
+
+    // bitfield1 works out of test_uint32
+    test_uint32 = std::numeric_limits<std::uint32_t>::max();
+
+    unsigned int get1;
+
+    // All bits in bitfield1 are set so the first i bits should equal
+    // std::pow(2, i) - 1 when interpreted as an integer
+    for (unsigned int i = 0; i <= 32; ++i)
+    {
+        unsigned int get1 = 0;
+        bitfield1.getBitsAsNumericType(get1, 0, i);
+        std::cout << get1 << " ";
+        MUST_BE_TRUE(get1 == std::pow(2, i) - 1);
+    }
+    std::cout << "\n";
+
+    // Least significant bit of each byte is set
+    memset(&test_uint32, 1, 4);
+
+    // Grab the first of the set bits.
+    bitfield1.getBitsAsNumericType(get1, 0, 1);
+    MUST_BE_TRUE(get1 == 1); // 2^1
+
+    // Grab all the way up to the second of the set bits.
+    bitfield1.getBitsAsNumericType(get1, 0, 9);
+    MUST_BE_TRUE(get1 == 257); // 2^9 - 2^8 + previous answer
+
+    // This is purposefully grabbing more than the three set bits.  Extra
+    // grabbed bits should be zero and shouldn't affect the result.
+    bitfield1.getBitsAsNumericType(get1, 0, 18);
+    MUST_BE_TRUE(get1 == 65793); // 2^17 - 2^16 + previous answer
+
+    // Purposefully grabbing more than the four set bits.  Extra grabbed bits
+    // should be zero and shouldn't affect the result.
+    bitfield1.getBitsAsNumericType(get1, 0, 30);
+    MUST_BE_TRUE(get1 == 16843009); // 2^25 - 2^24 + previous answer
+
+    // SETBITSASNUMERICTYPE TESTED BELOW
+
+    // We're once again going to use bitfield1 to write to test_uint32 memory
+    test_uint32 = 0;
+
+    std::uint32_t set1 = 0;
+
+    for (unsigned int i = 0; i <= 32; ++i)
+    {
+        set1 = static_cast<std::uint32_t>(std::pow(2, i) - 1);
+        std::cout << set1 << " ";
+
+        bitfield1.setBitsAsNumericType(set1, 0, i);
+        MUST_BE_TRUE(test_uint32 == set1);
+    }
+    std::cout << "\n";
+
+    test_uint32 = 0;
+
+    // Set the first of the bits.
+    set1 = 0b1;
+    bitfield1.setBitsAsNumericType(set1, 0, 1);
+    MUST_BE_TRUE(test_uint32 == 1); // 2^1
+
+    // Set all the way up to the second of the set bits.
+    set1 = 0b100000001;
+    bitfield1.setBitsAsNumericType(set1, 0, 9);
+    MUST_BE_TRUE(test_uint32 == 257); // 2^9 - 2^8 + previous answer
+
+    // This is purposefully setting more than the three set bits.  Extra set
+    // bits should be zero and shouldn't affect the result.
+    set1 = 0b10000000100000001;
+    bitfield1.setBitsAsNumericType(set1, 0, 18);
+    MUST_BE_TRUE(test_uint32 == 65793); // 2^17 - 2^16 + previous answer
+
+    // Purposefully setting more than the four set bits.  Extra set bits should
+    // be zero and shouldn't affect the result.
+    set1 = 0b1000000010000000100000001;
+    bitfield1.setBitsAsNumericType(set1, 0, 30);
+    MUST_BE_TRUE(test_uint32 == 16843009); // 2^25 - 2^24 + previous answer
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+template<class T> bool tryAllBits(RawDataField& number_rdf, T& number)
+{
+    bool all_good = true;
+
+    unsigned int bit_width = sizeof(T) * BITS_PER_BYTE;
+
+    for (unsigned int i = 0; i < bit_width; i++)
+    {
+        number_rdf.setBit(i, true);
+
+        // Test that the right bit gets set without using any RawDataField
+        // functionality
+        if (number_rdf.getBitIndexingMode() == RawDataField::LS_LEAST)
+        {
+            all_good = number == std::round(std::pow(2, i));
+        }
+        else if (number_rdf.getBitIndexingMode() == RawDataField::MS_LEAST)
+        {
+            std::ldiv_t div_result = std::ldiv(i, BITS_PER_BYTE);
+
+            all_good = number ==
+                static_cast<T>(
+                    std::pow(2, (BITS_PER_BYTE - div_result.rem) - 1)) <<
+                (div_result.quot * BITS_PER_BYTE);
+        }
+        else
+        {
+            all_good = false;
+        }
+
+        std::cout << number << " ";
+
+        if (!all_good) break;
+
+        // Test that the right bit gets set by using getBit()
+        all_good = number_rdf.getBit(i);
+        if (!all_good) break;
+
+        number_rdf.setBit(i, false);
+        all_good = number == 0;
+        if (!all_good) break;
+    }
+
+    std::cout << "\n";
+
+    return all_good;
+}
+
+//==============================================================================
+template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
+                                                     unsigned int  start_bit,
+                                                     unsigned int  count,
+                                                     T&            dest_type)
+{
+    bool exception_caught = false;
+
+    try
+    {
+        bitfield.getBitsAsNumericType(start_bit, count, dest_type);
+    }
+    catch (std::out_of_range& ex)
+    {
+        exception_caught = true;
+    }
+
+    return exception_caught;
 }

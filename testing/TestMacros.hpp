@@ -20,56 +20,14 @@
         virtual Test::Result body();                     \
     };
 
-#define TEST_CASES_HEADER_BEGIN(TestClass)               \
+#define TEST_CASES_HEADER(TestClass)                     \
     class TestClass : public TestCases                   \
     {                                                    \
     public:                                              \
         TestClass(const std::string& name = #TestClass); \
         ~TestClass();                                    \
         virtual void addTestCases();                     \
-    private:
-
-#define TEST_CASES_HEADER_END(...) };
-
-#define TEST_DECLARE(Case) Case Case;
-
-#define TEST_CONSTRUCTOR_BEGIN(BaseClass, TestClass)                    \
-    TestClass::TestClass(const std::string& name) : BaseClass(name)
-
-#define TEST_CONSTRUCTOR_END(TestClass) {}
-#define TEST_CASES_DESTRUCTOR(TestClass) TestClass::~TestClass() {}
-
-#define TEST_CONSTRUCT(Test, ...) ,Test(__VA_ARGS__)
-
-// NEW STUFF END --------------------------------------------
-
-#define TEST_HEADER(TestClass)                           \
-    class TestClass : public Test                        \
-    {                                                    \
-    public:                                              \
-        TestClass(const std::string& name = #TestClass); \
-        ~TestClass();                                    \
-    protected:                                           \
-        virtual Test::Result body();                     \
     };
-
-#define TEST_CASES_HEADER(TestClass)                     \
-    class TestClass : public TestCases                   \
-    {                                                    \
-    public:                                              \
-        TestClass(const std::string& name = #TestClass); \
-        ~TestClass();                                    \
-        virtual void addTestCases();                     \
-    }
-
-#define TEST_CASES_HEADER(TestClass)                     \
-    class TestClass : public TestCases                   \
-    {                                                    \
-    public:                                              \
-        TestClass(const std::string& name = #TestClass); \
-        ~TestClass();                                    \
-        virtual void addTestCases();                     \
-    }
 
 #define TEST_PROGRAM_MAIN(TestClass)                \
     int main(int argc, char** argv)                 \
@@ -87,12 +45,33 @@
     TestClass::TestClass(const std::string& name) : TestCases(name) {} \
     TestClass::~TestClass() {}
 
+// DELETE ME
 #define TRIVIAL_TEST(TestClass)             \
     TEST_HEADER(TestClass);                 \
     TEST_PROGRAM_MAIN(TestClass);           \
     TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
 
-#define TRIVIAL_TEST_CASES(TestClass)             \
+// DELETE ME
+#define TRIVIAL_TEST_CASES(TestClass)              \
+    TEST_CASES_HEADER(TestClass);                  \
+    TEST_PROGRAM_MAIN(TestClass);                  \
+    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);
+
+#define TEST(TestClass)                     \
+    TEST_HEADER(TestClass);                 \
+    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
+
+#define TEST_PROGRAM(TestClass)             \
+    TEST_HEADER(TestClass);                 \
+    TEST_PROGRAM_MAIN(TestClass);           \
+    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
+
+#define TEST_CASES(TestClass)                     \
+    TEST_CASES_HEADER(TestClass);                 \
+    TEST_PROGRAM_MAIN(TestClass);                 \
+    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);
+
+#define TEST_CASES_PROGRAM(TestClass)             \
     TEST_CASES_HEADER(TestClass);                 \
     TEST_PROGRAM_MAIN(TestClass);                 \
     TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);
