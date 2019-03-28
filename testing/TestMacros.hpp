@@ -48,14 +48,14 @@
 // DELETE ME
 #define TRIVIAL_TEST(TestClass)             \
     TEST_HEADER(TestClass);                 \
-    TEST_PROGRAM_MAIN(TestClass);           \
-    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
+    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass); \
+    TEST_PROGRAM_MAIN(TestClass);
 
 // DELETE ME
 #define TRIVIAL_TEST_CASES(TestClass)              \
     TEST_CASES_HEADER(TestClass);                  \
-    TEST_PROGRAM_MAIN(TestClass);                  \
-    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);
+    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);  \
+    TEST_PROGRAM_MAIN(TestClass);
 
 #define TEST(TestClass)                     \
     TEST_HEADER(TestClass);                 \
@@ -63,18 +63,17 @@
 
 #define TEST_PROGRAM(TestClass)             \
     TEST_HEADER(TestClass);                 \
-    TEST_PROGRAM_MAIN(TestClass);           \
-    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
+    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass); \
+    TEST_PROGRAM_MAIN(TestClass);
 
 #define TEST_CASES(TestClass)                     \
     TEST_CASES_HEADER(TestClass);                 \
-    TEST_PROGRAM_MAIN(TestClass);                 \
     TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);
 
 #define TEST_CASES_PROGRAM(TestClass)             \
     TEST_CASES_HEADER(TestClass);                 \
-    TEST_PROGRAM_MAIN(TestClass);                 \
-    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);
+    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass); \
+    TEST_PROGRAM_MAIN(TestClass);
 
 // MUST_BE_TRUE and MUST_BE_FALSE are intended to be used within the Test::run()
 // method and work to immediately fail tests if their given expressions don't
