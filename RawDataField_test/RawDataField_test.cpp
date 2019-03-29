@@ -1,4 +1,5 @@
 #include <cstring>
+#include <limits>
 
 #include "Test.hpp"
 #include "TestCases.hpp"
