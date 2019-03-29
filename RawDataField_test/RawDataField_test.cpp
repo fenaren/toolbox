@@ -13,7 +13,10 @@ TEST(RawDataField_test_writeRaw)
 TEST(RawDataField_test_readRaw)
 TEST(RawDataField_test_equality)
 TEST(RawDataField_test_inequality)
-TEST(RawDataField_test_case1)
+TEST(RawDataField_test_getByte)
+TEST(RawDataField_test_setByte)
+TEST(RawDataField_test_assignment)
+//TEST(RawDataField_test_case1)
 TEST(RawDataField_test_case2)
 TEST(RawDataField_test_case3)
 
@@ -39,6 +42,9 @@ void RawDataField_test::addTestCases()
     addTestCase(new RawDataField_test_readRaw());
     addTestCase(new RawDataField_test_equality());
     addTestCase(new RawDataField_test_inequality());
+    addTestCase(new RawDataField_test_getByte());
+    addTestCase(new RawDataField_test_setByte());
+    addTestCase(new RawDataField_test_assignment());
 
     //addTestCase(new RawDataField_test_case1());
     //addTestCase(new RawDataField_test_case2());
@@ -93,7 +99,6 @@ Test::Result RawDataField_test_readRaw::body()
     RawDataField rdf(workspace_length, misc::BYTES);
     rdf.DataField::readRaw(workspace2);
 
-
     return Test::PASSED;
 }
 
@@ -116,23 +121,43 @@ Test::Result RawDataField_test_inequality::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_case1::body()
+Test::Result RawDataField_test_getByte::body()
 {
-    // Tests getByte, setByte
+    RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
+
     for (unsigned int i = 0; i < workspace_length; i++)
     {
-        MUST_BE_TRUE(workspace1[i] == rdf4.getByte(i));
+        MUST_BE_TRUE(workspace1[i] == rdf.getByte(i));
+    }
 
-        rdf4.setByte(i, 0);
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_setByte::body()
+{
+    RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
+
+    for (unsigned int i = 0; i < workspace_length; i++)
+    {
+        rdf.setByte(i, 0);
         MUST_BE_TRUE(workspace1[i] == 0);
     }
 
-    // Tests assignment
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_assignment::body()
+{
     memset(workspace1, 0, workspace_length);
     memset(workspace2, 1, workspace_length);
-    RawDataField rdf6(
-        workspace2, workspace_length, misc::BYTES, false);
-    rdf4 = rdf6;
+
+    RawDataField rdf1(workspace1, workspace_length, misc::BYTES, false);
+    RawDataField rdf2(workspace2, workspace_length, misc::BYTES, false);
+
+    rdf1 = rdf2;
+
     MUST_BE_TRUE(memcmp(workspace1, workspace2, workspace_length) == 0);
 
     return Test::PASSED;
