@@ -1,3 +1,4 @@
+#include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
@@ -5,7 +6,6 @@
 #include "RawDataField.hpp"
 
 TEST_CASES_PROGRAM(RawDataField_test)
-
 TEST(RawDataField_test_construct_zero_size)
 TEST(RawDataField_test_copy_constructor)
 TEST(RawDataField_test_getLengthBytes)
