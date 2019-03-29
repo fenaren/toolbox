@@ -204,7 +204,7 @@ Test::Result RawDataField_test_setBit::body()
                              misc::BYTES,
                              false);
 
-    // Test all the bits in a couple differnt size integers
+    // Test all the bits in a couple different size integers
     MUST_BE_TRUE(setBitAllBits(number_rdf1, number1));
     MUST_BE_TRUE(setBitAllBits(number_rdf2, number2));
     MUST_BE_TRUE(setBitAllBits(number_rdf4, number4));
