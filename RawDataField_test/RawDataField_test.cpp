@@ -18,17 +18,20 @@ TEST(RawDataField_test_setByte)
 TEST(RawDataField_test_assignment)
 TEST(RawDataField_test_getBit_outOfRange)
 TEST(RawDataField_test_setBit)
-TEST(RawDataField_test_case3)
+TEST(RawDataField_test_shiftUp)
+TEST(RawDataField_test_shiftDown)
 
-template<class T> bool setBitAllBits(RawDataField& number_rdf, T& number);
+// Some memory for all test cases to use
+const unsigned int workspace_length = 20;
+unsigned char workspace1[workspace_length];
+unsigned char workspace2[workspace_length];
+
+// Free utility functions
+template<class T>  bool setBitAllBits(RawDataField& number_rdf, T& number);
 template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
                                                      unsigned int  start_bit,
                                                      unsigned int  count,
                                                      T&            dest_type);
-
-const unsigned int workspace_length = 20;
-unsigned char workspace1[workspace_length];
-unsigned char workspace2[workspace_length];
 
 //==============================================================================
 void RawDataField_test::addTestCases()
@@ -37,17 +40,19 @@ void RawDataField_test::addTestCases()
     addTestCase(new RawDataField_test_copy_constructor());
     addTestCase(new RawDataField_test_getLengthBytes());
 
-    // The following block of tests must be executed in this order
+    // readRaw test must be executed immediately after the writeRaw test
     addTestCase(new RawDataField_test_writeRaw());
     addTestCase(new RawDataField_test_readRaw());
+
     addTestCase(new RawDataField_test_equality());
     addTestCase(new RawDataField_test_inequality());
-
     addTestCase(new RawDataField_test_getByte());
     addTestCase(new RawDataField_test_setByte());
     addTestCase(new RawDataField_test_assignment());
     addTestCase(new RawDataField_test_getBit_outOfRange());
     addTestCase(new RawDataField_test_setBit());
+    addTestCase(new RawDataField_test_shiftUp());
+    addTestCase(new RawDataField_test_shiftDown());
 }
 
 //==============================================================================
@@ -221,50 +226,65 @@ Test::Result RawDataField_test_setBit::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_case3::body()
+Test::Result RawDataField_test_shiftUp::body()
 {
     std::uint32_t test_uint32 = 1;
-    RawDataField bitfield1(reinterpret_cast<std::uint8_t*>(&test_uint32),
-                           sizeof(std::uint32_t),
-                           misc::BYTES,
-                           false);
+
+    RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                     sizeof(std::uint32_t),
+                     misc::BYTES,
+                     false);
 
     // Shift all the way up
-    for (unsigned int i = 1;
-         i < sizeof(std::uint32_t) * BITS_PER_BYTE;
-         ++i)
+    for (unsigned int i = 1; i < sizeof(std::uint32_t) * BITS_PER_BYTE; ++i)
     {
-        bitfield1.shiftUp(1); // operation under test
+        rdf.shiftUp(1); // operation under test
         std::cout << test_uint32 << " ";
         MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
     }
 
     // One more shift should get us 0
-    bitfield1.shiftUp(1);
+    rdf.shiftUp(1);
     std::cout << test_uint32 << "\n";
     MUST_BE_TRUE(test_uint32 == 0);
 
-    // Put the bit back
-    bitfield1.setBit(31, true);
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_shiftDown::body()
+{
+    std::uint32_t test_uint32 = std::pow(2, 31);
+
+    RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                     sizeof(std::uint32_t),
+                     misc::BYTES,
+                     false);
 
     // Shift all the way back down
     for (unsigned int i = 30; i != 0; --i)
     {
-        bitfield1.shiftDown(1); // operation under test
+        rdf.shiftDown(1); // operation under test
         std::cout << test_uint32 << " ";
         MUST_BE_TRUE(test_uint32 == std::round(std::pow(2, i)));
     }
 
     // One more shift should get us 1
-    bitfield1.shiftDown(1);
+    rdf.shiftDown(1);
     std::cout << test_uint32 << " ";
     MUST_BE_TRUE(test_uint32 == 1);
 
     // One more should get us 0
-    bitfield1.shiftDown(1);
+    rdf.shiftDown(1);
     std::cout << test_uint32 << "\n";
     MUST_BE_TRUE(test_uint32 == 0);
 
+    return Test::PASSED;
+}
+
+//==============================================================================
+/*Test::Result RawDataField_test_shiftDown::body()
+{
     std::uint8_t type1 = 255;
 
     // Can't get more bits than are in the destination type
@@ -356,6 +376,7 @@ Test::Result RawDataField_test_case3::body()
 
     return Test::PASSED;
 }
+*/
 
 //==============================================================================
 template<class T> bool setBitAllBits(RawDataField& number_rdf, T& number)
