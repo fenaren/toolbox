@@ -136,6 +136,8 @@ Test::Result RawDataField_test_getByte::body()
 //==============================================================================
 Test::Result RawDataField_test_setByte::body()
 {
+    memset(workspace1, 1, workspace_length);
+
     RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
 
     for (unsigned int i = 0; i < workspace_length; i++)
