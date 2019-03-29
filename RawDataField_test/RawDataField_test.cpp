@@ -21,7 +21,10 @@ TEST(RawDataField_test_setBit)
 TEST(RawDataField_test_shiftUp)
 TEST(RawDataField_test_shiftDown)
 TEST(RawDataField_test_getBitsAsNumericType_outOfRange)
-TEST(RawDataField_test_getBitsAsNumericType_getRangesAllSet)
+TEST(RawDataField_test_getBitsAsNumericType_incRangesAllSet)
+TEST(RawDataField_test_getBitsAsNumericType_chunks)
+TEST(RawDataField_test_setBitsAsNumericType_incRanges)
+TEST(RawDataField_test_setBitsAsNumericType_chunks)
 
 // Some memory for all test cases to use
 const unsigned int workspace_length = 20;
@@ -56,7 +59,10 @@ void RawDataField_test::addTestCases()
     addTestCase(new RawDataField_test_shiftUp());
     addTestCase(new RawDataField_test_shiftDown());
     addTestCase(new RawDataField_test_getBitsAsNumericType_outOfRange());
-    addTestCase(new RawDataField_test_getBitsAsNumericType_getRangesAllSet());
+    addTestCase(new RawDataField_test_getBitsAsNumericType_incRangesAllSet());
+    addTestCase(new RawDataField_test_getBitsAsNumericType_chunks());
+    addTestCase(new RawDataField_test_setBitsAsNumericType_incRanges());
+    addTestCase(new RawDataField_test_setBitsAsNumericType_chunks());
 }
 
 //==============================================================================
@@ -308,9 +314,8 @@ Test::Result RawDataField_test_getBitsAsNumericType_outOfRange::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_getBitsAsNumericType_getRangesAllSet::body()
+Test::Result RawDataField_test_getBitsAsNumericType_incRangesAllSet::body()
 {
-    // bitfield1 works out of test_uint32
     std::uint32_t test_uint32 = std::numeric_limits<std::uint32_t>::max();
 
     RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
@@ -333,35 +338,50 @@ Test::Result RawDataField_test_getBitsAsNumericType_getRangesAllSet::body()
 }
 
 //==============================================================================
-/*Test::Result RawDataField_test_shiftDown::body()
+Test::Result RawDataField_test_getBitsAsNumericType_chunks::body()
 {
+    std::uint32_t test_uint32 = std::numeric_limits<std::uint32_t>::max();
+
+    RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                     sizeof(std::uint32_t),
+                     misc::BYTES,
+                     false);
+
     unsigned int get1;
 
     // Least significant bit of each byte is set
     memset(&test_uint32, 1, 4);
 
     // Grab the first of the set bits.
-    bitfield1.getBitsAsNumericType(get1, 0, 1);
+    rdf.getBitsAsNumericType(get1, 0, 1);
     MUST_BE_TRUE(get1 == 1); // 2^1
 
     // Grab all the way up to the second of the set bits.
-    bitfield1.getBitsAsNumericType(get1, 0, 9);
+    rdf.getBitsAsNumericType(get1, 0, 9);
     MUST_BE_TRUE(get1 == 257); // 2^9 - 2^8 + previous answer
 
     // This is purposefully grabbing more than the three set bits.  Extra
     // grabbed bits should be zero and shouldn't affect the result.
-    bitfield1.getBitsAsNumericType(get1, 0, 18);
+    rdf.getBitsAsNumericType(get1, 0, 18);
     MUST_BE_TRUE(get1 == 65793); // 2^17 - 2^16 + previous answer
 
     // Purposefully grabbing more than the four set bits.  Extra grabbed bits
     // should be zero and shouldn't affect the result.
-    bitfield1.getBitsAsNumericType(get1, 0, 30);
+    rdf.getBitsAsNumericType(get1, 0, 30);
     MUST_BE_TRUE(get1 == 16843009); // 2^25 - 2^24 + previous answer
 
-    // SETBITSASNUMERICTYPE TESTED BELOW
+    return Test::PASSED;
+}
 
-    // We're once again going to use bitfield1 to write to test_uint32 memory
-    test_uint32 = 0;
+//==============================================================================
+Test::Result RawDataField_test_setBitsAsNumericType_incRanges::body()
+{
+    std::uint32_t test_uint32 = 0;
+
+    RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                     sizeof(std::uint32_t),
+                     misc::BYTES,
+                     false);
 
     std::uint32_t set1 = 0;
 
@@ -370,38 +390,49 @@ Test::Result RawDataField_test_getBitsAsNumericType_getRangesAllSet::body()
         set1 = static_cast<std::uint32_t>(std::pow(2, i) - 1);
         std::cout << set1 << " ";
 
-        bitfield1.setBitsAsNumericType(set1, 0, i);
+        rdf.setBitsAsNumericType(set1, 0, i);
         MUST_BE_TRUE(test_uint32 == set1);
     }
+
     std::cout << "\n";
 
-    test_uint32 = 0;
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_setBitsAsNumericType_chunks::body()
+{
+    std::uint32_t test_uint32 = 0;
+
+    RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                     sizeof(std::uint32_t),
+                     misc::BYTES,
+                     false);
 
     // Set the first of the bits.
-    set1 = 0b1;
-    bitfield1.setBitsAsNumericType(set1, 0, 1);
+    std::uint32_t set1 = 0b1;
+    rdf.setBitsAsNumericType(set1, 0, 1);
     MUST_BE_TRUE(test_uint32 == 1); // 2^1
 
     // Set all the way up to the second of the set bits.
     set1 = 0b100000001;
-    bitfield1.setBitsAsNumericType(set1, 0, 9);
+    rdf.setBitsAsNumericType(set1, 0, 9);
     MUST_BE_TRUE(test_uint32 == 257); // 2^9 - 2^8 + previous answer
 
     // This is purposefully setting more than the three set bits.  Extra set
     // bits should be zero and shouldn't affect the result.
     set1 = 0b10000000100000001;
-    bitfield1.setBitsAsNumericType(set1, 0, 18);
+    rdf.setBitsAsNumericType(set1, 0, 18);
     MUST_BE_TRUE(test_uint32 == 65793); // 2^17 - 2^16 + previous answer
 
     // Purposefully setting more than the four set bits.  Extra set bits should
     // be zero and shouldn't affect the result.
     set1 = 0b1000000010000000100000001;
-    bitfield1.setBitsAsNumericType(set1, 0, 30);
+    rdf.setBitsAsNumericType(set1, 0, 30);
     MUST_BE_TRUE(test_uint32 == 16843009); // 2^25 - 2^24 + previous answer
 
     return Test::PASSED;
 }
-*/
 
 //==============================================================================
 template<class T> bool setBitAllBits(RawDataField& number_rdf, T& number)
