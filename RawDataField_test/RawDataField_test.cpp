@@ -16,11 +16,11 @@ TEST(RawDataField_test_inequality)
 TEST(RawDataField_test_getByte)
 TEST(RawDataField_test_setByte)
 TEST(RawDataField_test_assignment)
-//TEST(RawDataField_test_case1)
-TEST(RawDataField_test_case2)
+TEST(RawDataField_test_getBit_outOfRange)
+TEST(RawDataField_test_setBit)
 TEST(RawDataField_test_case3)
 
-template<class T> bool tryAllBits(RawDataField& number_rdf, T& number);
+template<class T> bool setBitAllBits(RawDataField& number_rdf, T& number);
 template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
                                                      unsigned int  start_bit,
                                                      unsigned int  count,
@@ -42,13 +42,12 @@ void RawDataField_test::addTestCases()
     addTestCase(new RawDataField_test_readRaw());
     addTestCase(new RawDataField_test_equality());
     addTestCase(new RawDataField_test_inequality());
+
     addTestCase(new RawDataField_test_getByte());
     addTestCase(new RawDataField_test_setByte());
     addTestCase(new RawDataField_test_assignment());
-
-    //addTestCase(new RawDataField_test_case1());
-    //addTestCase(new RawDataField_test_case2());
-    //addTestCase(new RawDataField_test_case3());
+    addTestCase(new RawDataField_test_getBit_outOfRange());
+    addTestCase(new RawDataField_test_setBit());
 }
 
 //==============================================================================
@@ -166,7 +165,30 @@ Test::Result RawDataField_test_assignment::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_case2::body()
+// Make sure trying to get out-of-range bits properly throws an exception
+//==============================================================================
+Test::Result RawDataField_test_getBit_outOfRange::body()
+{
+    RawDataField rdf(1, misc::BYTES);
+
+    bool exception_caught = false;
+
+    try
+    {
+        rdf.getBit(BITS_PER_BYTE);
+    }
+    catch (std::out_of_range& ex)
+    {
+        exception_caught = true;
+    }
+
+    MUST_BE_TRUE(exception_caught);
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result RawDataField_test_setBit::body()
 {
     std::uint8_t  number1 = 0;
     std::uint16_t number2 = 0;
@@ -182,30 +204,18 @@ Test::Result RawDataField_test_case2::body()
                              misc::BYTES,
                              false);
 
-    // Make sure trying to get out-of-range bits properly throws an exception
-    bool exception_caught = false;
-    try
-    {
-        number_rdf1.getBit(BITS_PER_BYTE);
-    }
-    catch (std::out_of_range& ex)
-    {
-        exception_caught = true;
-    }
-    MUST_BE_TRUE(exception_caught);
-
     // Test all the bits in a couple differnt size integers
-    MUST_BE_TRUE(tryAllBits(number_rdf1, number1));
-    MUST_BE_TRUE(tryAllBits(number_rdf2, number2));
-    MUST_BE_TRUE(tryAllBits(number_rdf4, number4));
+    MUST_BE_TRUE(setBitAllBits(number_rdf1, number1));
+    MUST_BE_TRUE(setBitAllBits(number_rdf2, number2));
+    MUST_BE_TRUE(setBitAllBits(number_rdf4, number4));
 
     // Switch the bit indexing mode and try again
     number_rdf1.setBitIndexingMode(RawDataField::MS_LEAST);
     number_rdf2.setBitIndexingMode(RawDataField::MS_LEAST);
     number_rdf4.setBitIndexingMode(RawDataField::MS_LEAST);
-    MUST_BE_TRUE(tryAllBits(number_rdf1, number1));
-    MUST_BE_TRUE(tryAllBits(number_rdf2, number2));
-    MUST_BE_TRUE(tryAllBits(number_rdf4, number4));
+    MUST_BE_TRUE(setBitAllBits(number_rdf1, number1));
+    MUST_BE_TRUE(setBitAllBits(number_rdf2, number2));
+    MUST_BE_TRUE(setBitAllBits(number_rdf4, number4));
 
     return Test::PASSED;
 }
@@ -348,7 +358,7 @@ Test::Result RawDataField_test_case3::body()
 }
 
 //==============================================================================
-template<class T> bool tryAllBits(RawDataField& number_rdf, T& number)
+template<class T> bool setBitAllBits(RawDataField& number_rdf, T& number)
 {
     bool all_good = true;
 
