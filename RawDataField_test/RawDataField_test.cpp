@@ -20,6 +20,8 @@ TEST(RawDataField_test_getBit_outOfRange)
 TEST(RawDataField_test_setBit)
 TEST(RawDataField_test_shiftUp)
 TEST(RawDataField_test_shiftDown)
+TEST(RawDataField_test_getBitsAsNumericType_outOfRange)
+TEST(RawDataField_test_getBitsAsNumericType_getRangesAllSet)
 
 // Some memory for all test cases to use
 const unsigned int workspace_length = 20;
@@ -53,6 +55,8 @@ void RawDataField_test::addTestCases()
     addTestCase(new RawDataField_test_setBit());
     addTestCase(new RawDataField_test_shiftUp());
     addTestCase(new RawDataField_test_shiftDown());
+    addTestCase(new RawDataField_test_getBitsAsNumericType_outOfRange());
+    addTestCase(new RawDataField_test_getBitsAsNumericType_getRangesAllSet());
 }
 
 //==============================================================================
@@ -283,34 +287,55 @@ Test::Result RawDataField_test_shiftDown::body()
 }
 
 //==============================================================================
-/*Test::Result RawDataField_test_shiftDown::body()
+Test::Result RawDataField_test_getBitsAsNumericType_outOfRange::body()
 {
+    std::uint32_t test_uint32 = std::pow(2, 31);
     std::uint8_t type1 = 255;
 
+    RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                     sizeof(std::uint32_t),
+                     misc::BYTES,
+                     false);
+
     // Can't get more bits than are in the destination type
-    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(bitfield1, 0, 9,  type1));
-    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(bitfield1, 4, 22, type1));
+    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(rdf, 0, 9,  type1));
+    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(rdf, 4, 22, type1));
 
     // Can't get more bits than are in the bitfield
-    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(bitfield1, 0, 33, type1));
+    MUST_BE_TRUE(getBitsAsNumericTypeExCaught(rdf, 0, 33, type1));
 
-    // GETBITSASNUMERICTYPE TESTED BELOW
+    return Test::PASSED;
+}
 
+//==============================================================================
+Test::Result RawDataField_test_getBitsAsNumericType_getRangesAllSet::body()
+{
     // bitfield1 works out of test_uint32
-    test_uint32 = std::numeric_limits<std::uint32_t>::max();
+    std::uint32_t test_uint32 = std::numeric_limits<std::uint32_t>::max();
 
-    unsigned int get1;
+    RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
+                     sizeof(std::uint32_t),
+                     misc::BYTES,
+                     false);
 
-    // All bits in bitfield1 are set so the first i bits should equal
-    // std::pow(2, i) - 1 when interpreted as an integer
+    // All bits in rdf are set so the first i bits should equal std::pow(2, i) -
+    // 1 when interpreted as an integer
     for (unsigned int i = 0; i <= 32; ++i)
     {
         unsigned int get1 = 0;
-        bitfield1.getBitsAsNumericType(get1, 0, i);
+        rdf.getBitsAsNumericType(get1, 0, i);
         std::cout << get1 << " ";
         MUST_BE_TRUE(get1 == std::pow(2, i) - 1);
     }
     std::cout << "\n";
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+/*Test::Result RawDataField_test_shiftDown::body()
+{
+    unsigned int get1;
 
     // Least significant bit of each byte is set
     memset(&test_uint32, 1, 4);
