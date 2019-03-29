@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
