@@ -31,7 +31,7 @@ Test::Result TestCases::body()
     addTestCases();
 
     // Something is wrong if there are no test cases after we tried to add them
-    if (test_cases.size() == 0)
+    if (test_cases.empty())
     {
         throw std::runtime_error(
             "No test cases to run, this test is probably misconfigured");
