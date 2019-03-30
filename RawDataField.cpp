@@ -59,6 +59,11 @@ RawDataField::RawDataField(unsigned long   length,
     memory_internal(memory_internal),
     bit_indexing_mode(bit_indexing_mode)
 {
+    if (length == 0)
+    {
+        throw std::invalid_argument("Length must be at least 1");
+    }
+
     // Set length_bits appropriately
     if (length_units == misc::BYTES)
     {

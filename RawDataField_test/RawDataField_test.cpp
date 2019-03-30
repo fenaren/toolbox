@@ -9,25 +9,25 @@
 #include "RawDataField.hpp"
 
 TEST_CASES_PROGRAM_BEGIN(RawDataField_test)
+TEST(Assignment)
 TEST(ConstructZeroSize)
 TEST(CopyConstructor)
-TEST(GetLengthBytes)
-TEST(WriteRaw)
-TEST(ReadRaw)
 TEST(Equality)
-TEST(Inequality)
-TEST(GetByte)
-TEST(SetByte)
-TEST(Assignment)
 TEST(GetBit_OutOfRange)
-TEST(SetBit)
-TEST(ShiftUp)
-TEST(ShiftDown)
-TEST(GetBitsAsNumericType_OutOfRange)
-TEST(GetBitsAsNumericType_IncRangesAllSet)
 TEST(GetBitsAsNumericType_Chunks)
-TEST(SetBitsAsNumericType_IncRanges)
+TEST(GetBitsAsNumericType_IncRangesAllSet)
+TEST(GetBitsAsNumericType_OutOfRange)
+TEST(GetByte)
+TEST(GetLengthBytes)
+TEST(Inequality)
+TEST(ReadRaw)
+TEST(SetBit)
 TEST(SetBitsAsNumericType_Chunks)
+TEST(SetBitsAsNumericType_IncRanges)
+TEST(SetByte)
+TEST(ShiftDown)
+TEST(ShiftUp)
+TEST(WriteRaw)
 TEST_CASES_PROGRAM_END(RawDataField_test)
 
 // Some memory for all test cases to use
@@ -36,7 +36,7 @@ unsigned char workspace1[workspace_length];
 unsigned char workspace2[workspace_length];
 
 // Free utility functions
-template<class T>  bool setBitAllBits(RawDataField& number_rdf, T& number);
+template <class T> bool setBitAllBits(RawDataField& number_rdf, T& number);
 template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
                                                      unsigned int  start_bit,
                                                      unsigned int  count,
@@ -45,37 +45,47 @@ template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
 //==============================================================================
 void RawDataField_test::addTestCases()
 {
+    addTestCase(new Assignment());
     addTestCase(new ConstructZeroSize());
     addTestCase(new CopyConstructor());
-    addTestCase(new GetLengthBytes());
-
-    // readRaw test must be executed immediately after the writeRaw test
-    addTestCase(new WriteRaw());
-    addTestCase(new ReadRaw());
-
     addTestCase(new Equality());
-    addTestCase(new Inequality());
-    addTestCase(new GetByte());
-    addTestCase(new SetByte());
-    addTestCase(new Assignment());
     addTestCase(new GetBit_OutOfRange());
-    addTestCase(new SetBit());
-    addTestCase(new ShiftUp());
-    addTestCase(new ShiftDown());
-    addTestCase(new GetBitsAsNumericType_OutOfRange());
-    addTestCase(new GetBitsAsNumericType_IncRangesAllSet());
     addTestCase(new GetBitsAsNumericType_Chunks());
-    addTestCase(new SetBitsAsNumericType_IncRanges());
+    addTestCase(new GetBitsAsNumericType_IncRangesAllSet());
+    addTestCase(new GetBitsAsNumericType_OutOfRange());
+    addTestCase(new GetByte());
+    addTestCase(new GetLengthBytes());
+    addTestCase(new Inequality());
+    addTestCase(new ReadRaw());
+    addTestCase(new SetBit());
     addTestCase(new SetBitsAsNumericType_Chunks());
+    addTestCase(new SetBitsAsNumericType_IncRanges());
+    addTestCase(new SetByte());
+    addTestCase(new ShiftDown());
+    addTestCase(new ShiftUp());
+    addTestCase(new WriteRaw());
 }
 
 //==============================================================================
 Test::Result RawDataField_test::ConstructZeroSize::body()
 {
-    // Makes no sense to create an bit field of 0 bytes but we should test
-    // it here
-    RawDataField rdf(0, misc::BYTES); // Dynamic allocation
-    return Test::PASSED;
+    bool exception_caught = false;
+
+    try
+    {
+        RawDataField rdf(0, misc::BYTES);
+    }
+    catch (std::invalid_argument& ex)
+    {
+        exception_caught = true;
+    }
+
+    if (exception_caught)
+    {
+        return Test::PASSED;
+    }
+
+    return Test::FAILED;
 }
 
 //==============================================================================
@@ -100,13 +110,16 @@ Test::Result RawDataField_test::WriteRaw::body()
     for (unsigned int i = 0; i < workspace_length; i++)
     {
         workspace1[i] = static_cast<unsigned char>(i);
+        workspace2[i] = 0;
     }
 
     RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
-
-    // Tests writeRaw
     rdf.DataField::writeRaw(workspace2);
-    MUST_BE_TRUE(memcmp(workspace1, workspace2, workspace_length) == 0);
+
+    for (unsigned int i = 0; i < workspace_length; i++)
+    {
+        MUST_BE_TRUE(workspace2[i] == static_cast<unsigned char>(i));
+    }
 
     return Test::PASSED;
 }
@@ -114,8 +127,19 @@ Test::Result RawDataField_test::WriteRaw::body()
 //==============================================================================
 Test::Result RawDataField_test::ReadRaw::body()
 {
-    RawDataField rdf(workspace_length, misc::BYTES);
+    for (unsigned int i = 0; i < workspace_length; i++)
+    {
+        workspace1[i] = static_cast<unsigned char>(i);
+        workspace2[i] = 0;
+    }
+
+    RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
     rdf.DataField::readRaw(workspace2);
+
+    for (unsigned int i = 0; i < workspace_length; i++)
+    {
+        MUST_BE_TRUE(workspace1[i] == 0);
+    }
 
     return Test::PASSED;
 }
@@ -126,6 +150,7 @@ Test::Result RawDataField_test::Equality::body()
     RawDataField rdf1(workspace1, workspace_length, misc::BYTES);
     RawDataField rdf2(workspace1, workspace_length, misc::BYTES);
     MUST_BE_TRUE(rdf1 == rdf2);
+
     return Test::PASSED;
 }
 
@@ -135,6 +160,7 @@ Test::Result RawDataField_test::Inequality::body()
     RawDataField rdf1(workspace1, workspace_length, misc::BYTES);
     RawDataField rdf2(workspace1, workspace_length, misc::BYTES);
     MUST_BE_FALSE(rdf1 != rdf2);
+
     return Test::PASSED;
 }
 
