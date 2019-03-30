@@ -8,26 +8,27 @@
 
 #include "RawDataField.hpp"
 
-TEST_CASES_PROGRAM(RawDataField_test)
-TEST(RawDataField_test_construct_zero_size)
-TEST(RawDataField_test_copy_constructor)
-TEST(RawDataField_test_getLengthBytes)
-TEST(RawDataField_test_writeRaw)
-TEST(RawDataField_test_readRaw)
-TEST(RawDataField_test_equality)
-TEST(RawDataField_test_inequality)
-TEST(RawDataField_test_getByte)
-TEST(RawDataField_test_setByte)
-TEST(RawDataField_test_assignment)
-TEST(RawDataField_test_getBit_outOfRange)
-TEST(RawDataField_test_setBit)
-TEST(RawDataField_test_shiftUp)
-TEST(RawDataField_test_shiftDown)
-TEST(RawDataField_test_getBitsAsNumericType_outOfRange)
-TEST(RawDataField_test_getBitsAsNumericType_incRangesAllSet)
-TEST(RawDataField_test_getBitsAsNumericType_chunks)
-TEST(RawDataField_test_setBitsAsNumericType_incRanges)
-TEST(RawDataField_test_setBitsAsNumericType_chunks)
+TEST_CASES_PROGRAM_BEGIN(RawDataField_test)
+TEST(ConstructZeroSize)
+TEST(CopyConstructor)
+TEST(GetLengthBytes)
+TEST(WriteRaw)
+TEST(ReadRaw)
+TEST(Equality)
+TEST(Inequality)
+TEST(GetByte)
+TEST(SetByte)
+TEST(Assignment)
+TEST(GetBit_OutOfRange)
+TEST(SetBit)
+TEST(ShiftUp)
+TEST(ShiftDown)
+TEST(GetBitsAsNumericType_OutOfRange)
+TEST(GetBitsAsNumericType_IncRangesAllSet)
+TEST(GetBitsAsNumericType_Chunks)
+TEST(SetBitsAsNumericType_IncRanges)
+TEST(SetBitsAsNumericType_Chunks)
+TEST_CASES_PROGRAM_END(RawDataField_test)
 
 // Some memory for all test cases to use
 const unsigned int workspace_length = 20;
@@ -44,32 +45,32 @@ template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
 //==============================================================================
 void RawDataField_test::addTestCases()
 {
-    addTestCase(new RawDataField_test_construct_zero_size());
-    addTestCase(new RawDataField_test_copy_constructor());
-    addTestCase(new RawDataField_test_getLengthBytes());
+    addTestCase(new ConstructZeroSize());
+    addTestCase(new CopyConstructor());
+    addTestCase(new GetLengthBytes());
 
     // readRaw test must be executed immediately after the writeRaw test
-    addTestCase(new RawDataField_test_writeRaw());
-    addTestCase(new RawDataField_test_readRaw());
+    addTestCase(new WriteRaw());
+    addTestCase(new ReadRaw());
 
-    addTestCase(new RawDataField_test_equality());
-    addTestCase(new RawDataField_test_inequality());
-    addTestCase(new RawDataField_test_getByte());
-    addTestCase(new RawDataField_test_setByte());
-    addTestCase(new RawDataField_test_assignment());
-    addTestCase(new RawDataField_test_getBit_outOfRange());
-    addTestCase(new RawDataField_test_setBit());
-    addTestCase(new RawDataField_test_shiftUp());
-    addTestCase(new RawDataField_test_shiftDown());
-    addTestCase(new RawDataField_test_getBitsAsNumericType_outOfRange());
-    addTestCase(new RawDataField_test_getBitsAsNumericType_incRangesAllSet());
-    addTestCase(new RawDataField_test_getBitsAsNumericType_chunks());
-    addTestCase(new RawDataField_test_setBitsAsNumericType_incRanges());
-    addTestCase(new RawDataField_test_setBitsAsNumericType_chunks());
+    addTestCase(new Equality());
+    addTestCase(new Inequality());
+    addTestCase(new GetByte());
+    addTestCase(new SetByte());
+    addTestCase(new Assignment());
+    addTestCase(new GetBit_OutOfRange());
+    addTestCase(new SetBit());
+    addTestCase(new ShiftUp());
+    addTestCase(new ShiftDown());
+    addTestCase(new GetBitsAsNumericType_OutOfRange());
+    addTestCase(new GetBitsAsNumericType_IncRangesAllSet());
+    addTestCase(new GetBitsAsNumericType_Chunks());
+    addTestCase(new SetBitsAsNumericType_IncRanges());
+    addTestCase(new SetBitsAsNumericType_Chunks());
 }
 
 //==============================================================================
-Test::Result RawDataField_test_construct_zero_size::body()
+Test::Result RawDataField_test::ConstructZeroSize::body()
 {
     // Makes no sense to create an bit field of 0 bytes but we should test
     // it here
@@ -78,7 +79,7 @@ Test::Result RawDataField_test_construct_zero_size::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_copy_constructor::body()
+Test::Result RawDataField_test::CopyConstructor::body()
 {
     RawDataField rdf1(10, misc::BYTES);
     RawDataField rdf2(rdf1);
@@ -86,7 +87,7 @@ Test::Result RawDataField_test_copy_constructor::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_getLengthBytes::body()
+Test::Result RawDataField_test::GetLengthBytes::body()
 {
     RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
     MUST_BE_TRUE(rdf.getLengthBytes() == workspace_length);
@@ -94,7 +95,7 @@ Test::Result RawDataField_test_getLengthBytes::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_writeRaw::body()
+Test::Result RawDataField_test::WriteRaw::body()
 {
     for (unsigned int i = 0; i < workspace_length; i++)
     {
@@ -111,7 +112,7 @@ Test::Result RawDataField_test_writeRaw::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_readRaw::body()
+Test::Result RawDataField_test::ReadRaw::body()
 {
     RawDataField rdf(workspace_length, misc::BYTES);
     rdf.DataField::readRaw(workspace2);
@@ -120,7 +121,7 @@ Test::Result RawDataField_test_readRaw::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_equality::body()
+Test::Result RawDataField_test::Equality::body()
 {
     RawDataField rdf1(workspace1, workspace_length, misc::BYTES);
     RawDataField rdf2(workspace1, workspace_length, misc::BYTES);
@@ -129,7 +130,7 @@ Test::Result RawDataField_test_equality::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_inequality::body()
+Test::Result RawDataField_test::Inequality::body()
 {
     RawDataField rdf1(workspace1, workspace_length, misc::BYTES);
     RawDataField rdf2(workspace1, workspace_length, misc::BYTES);
@@ -138,7 +139,7 @@ Test::Result RawDataField_test_inequality::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_getByte::body()
+Test::Result RawDataField_test::GetByte::body()
 {
     RawDataField rdf(workspace1, workspace_length, misc::BYTES, false);
 
@@ -151,7 +152,7 @@ Test::Result RawDataField_test_getByte::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_setByte::body()
+Test::Result RawDataField_test::SetByte::body()
 {
     memset(workspace1, 1, workspace_length);
 
@@ -167,7 +168,7 @@ Test::Result RawDataField_test_setByte::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_assignment::body()
+Test::Result RawDataField_test::Assignment::body()
 {
     memset(workspace1, 0, workspace_length);
     memset(workspace2, 1, workspace_length);
@@ -185,7 +186,7 @@ Test::Result RawDataField_test_assignment::body()
 //==============================================================================
 // Make sure trying to get out-of-range bits properly throws an exception
 //==============================================================================
-Test::Result RawDataField_test_getBit_outOfRange::body()
+Test::Result RawDataField_test::GetBit_OutOfRange::body()
 {
     RawDataField rdf(1, misc::BYTES);
 
@@ -206,7 +207,7 @@ Test::Result RawDataField_test_getBit_outOfRange::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_setBit::body()
+Test::Result RawDataField_test::SetBit::body()
 {
     std::uint8_t  number1 = 0;
     std::uint16_t number2 = 0;
@@ -239,7 +240,7 @@ Test::Result RawDataField_test_setBit::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_shiftUp::body()
+Test::Result RawDataField_test::ShiftUp::body()
 {
     std::uint32_t test_uint32 = 1;
 
@@ -265,7 +266,7 @@ Test::Result RawDataField_test_shiftUp::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_shiftDown::body()
+Test::Result RawDataField_test::ShiftDown::body()
 {
     std::uint32_t test_uint32 = std::pow(2, 31);
 
@@ -296,7 +297,7 @@ Test::Result RawDataField_test_shiftDown::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_getBitsAsNumericType_outOfRange::body()
+Test::Result RawDataField_test::GetBitsAsNumericType_OutOfRange::body()
 {
     std::uint32_t test_uint32 = std::pow(2, 31);
     std::uint8_t type1 = 255;
@@ -317,7 +318,7 @@ Test::Result RawDataField_test_getBitsAsNumericType_outOfRange::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_getBitsAsNumericType_incRangesAllSet::body()
+Test::Result RawDataField_test::GetBitsAsNumericType_IncRangesAllSet::body()
 {
     std::uint32_t test_uint32 = std::numeric_limits<std::uint32_t>::max();
 
@@ -341,7 +342,7 @@ Test::Result RawDataField_test_getBitsAsNumericType_incRangesAllSet::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_getBitsAsNumericType_chunks::body()
+Test::Result RawDataField_test::GetBitsAsNumericType_Chunks::body()
 {
     std::uint32_t test_uint32 = std::numeric_limits<std::uint32_t>::max();
 
@@ -377,7 +378,7 @@ Test::Result RawDataField_test_getBitsAsNumericType_chunks::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_setBitsAsNumericType_incRanges::body()
+Test::Result RawDataField_test::SetBitsAsNumericType_IncRanges::body()
 {
     std::uint32_t test_uint32 = 0;
 
@@ -403,7 +404,7 @@ Test::Result RawDataField_test_setBitsAsNumericType_incRanges::body()
 }
 
 //==============================================================================
-Test::Result RawDataField_test_setBitsAsNumericType_chunks::body()
+Test::Result RawDataField_test::SetBitsAsNumericType_Chunks::body()
 {
     std::uint32_t test_uint32 = 0;
 
