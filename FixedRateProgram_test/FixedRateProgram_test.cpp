@@ -1,15 +1,25 @@
 #include <ctime>
 #include <iostream>
+#include <string>
 
 #include "HelloWorld.hpp"
 #include "PosixTimespec.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(FixedRateProgram_test);
+TEST_CASES_PROGRAM_BEGIN(FixedRateProgram_test)
+TEST(TimeOneFrame)
+TEST_CASES_PROGRAM_END(FixedRateProgram_test)
 
 //==============================================================================
-Test::Result FixedRateProgram_test::body()
+void FixedRateProgram_test::addTestCases()
+{
+    addTestCase(new TimeOneFrame());
+}
+
+//==============================================================================
+Test::Result FixedRateProgram_test::TimeOneFrame::body()
 {
     PosixTimespec period(1.0);
 
