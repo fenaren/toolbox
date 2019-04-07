@@ -58,6 +58,10 @@ public:
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order);
 
+    // Const-compatible version of the above member function
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                  misc::ByteOrder     source_byte_order);
+
     // Writes to the "buffer" memory location.  No byteswapping is performed
     // even when "destination_byte_order" doesn't match host byte ordering,
     // since this is just raw data.

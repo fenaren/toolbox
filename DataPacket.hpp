@@ -29,6 +29,10 @@ public:
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order);
 
+    // Const-compatible version of the above member function
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                  misc::ByteOrder     source_byte_order);
+
     // Writes all contained data packets in the order they were added to the
     // "buffer" memory location.  Each field is byteswapped if
     // "destination_byte_order" doesn't match host byte ordering.
