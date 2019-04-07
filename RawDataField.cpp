@@ -38,6 +38,30 @@ RawDataField::RawDataField(std::uint8_t*   buffer,
 }
 
 //==============================================================================
+RawDataField::RawDataField(const std::uint8_t* buffer,
+                           unsigned long       length,
+                           misc::DataUnits     length_units,
+                           bool                memory_internal,
+                           IndexingMode        bit_indexing_mode) :
+    RawDataField(length, length_units, memory_internal, bit_indexing_mode)
+{
+    // If memory_internal is false then we have to be careful, because we're
+    // dealing with memory which should be read-only.  Disallow this here for
+    // now.  In the future we could allow this here but disallow any future
+    // write operations.
+
+    if (memory_internal)
+    {
+        DataField::readRaw(buffer);
+    }
+    else
+    {
+        throw std::invalid_argument(
+            "Construction using external read-only memory is disallowed");
+    }
+}
+
+//==============================================================================
 // cppcheck-suppress uninitMemberVar
 RawDataField::RawDataField(const RawDataField& raw_data_field) :
     RawDataField(raw_data_field.getLengthBits(),

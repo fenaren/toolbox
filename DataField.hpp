@@ -26,9 +26,16 @@ public:
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order) = 0;
 
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                  misc::ByteOrder     source_byte_order) = 0;
+
+
     // Same as the virtual readRaw() declared immediately above but with byte
     // swapping disabled.
     unsigned long readRaw(std::uint8_t* buffer);
+
+    // Const-compatible version of the above member function
+    unsigned long readRaw(const std::uint8_t* buffer);
 
     // Same as the virtual readRaw() declared above, but this readRaw() supports
     // reading from a bit offset from the beginning of the buffer.  Intended to
@@ -39,8 +46,13 @@ public:
                           misc::ByteOrder source_byte_order,
                           unsigned long   bit_offset);
 
-    // Same as the readRaw() declared immediately above but with byte swapping
-    // disabled.
+    // Const-compatible version of the above member function
+    unsigned long readRaw(const std::uint8_t* buffer,
+                          misc::ByteOrder     source_byte_order,
+                          unsigned long       bit_offset);
+
+    // Same as the three-argument readRaw() declared above but with byte
+    // swapping disabled.
     unsigned long readRaw(std::uint8_t* buffer,
                           unsigned long bit_offset);
 

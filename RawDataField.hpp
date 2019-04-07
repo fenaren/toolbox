@@ -44,6 +44,13 @@ public:
                  bool            memory_internal = true,
                  IndexingMode    bit_indexing_mode = LS_LEAST);
 
+    // Const-compatible version of the above constructor
+    RawDataField(const std::uint8_t* buffer,
+                 unsigned long       length,
+                 misc::DataUnits     length_units,
+                 bool                memory_internal = true,
+                 IndexingMode        bit_indexing_mode = LS_LEAST);
+
     // Copy constructor; dynamically allocates and maintains a bit field that is
     // "length_bytes" in size, and then copies the given bit field into this
     // newly-allocated memory.
