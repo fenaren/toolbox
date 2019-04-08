@@ -73,12 +73,12 @@ unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
         // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.  Does
         // nothing on the first iteration, since offset_bits always equals 0
         // then.
-        normalizeMemoryLocation(buffer, offset_bits);
+        const uint8_t* buffer_new = normalizeMemoryLocation(buffer, offset_bits);
 
         unsigned long offset_bits_initial = offset_bits;
 
         // Tell the current field to read and record the number of bits it read
-        offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits);
+        offset_bits += (*i)->readRaw(buffer_new, source_byte_order, offset_bits);
 
         // Bump the offset to the next alignment point
         offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
