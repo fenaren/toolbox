@@ -56,6 +56,42 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
 }
 
 //==============================================================================
+unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
+                                  misc::ByteOrder     source_byte_order)
+{
+    unsigned long bits_read = 0;
+
+    // When buffer is incremented this is adjusted so it's less than
+    // BITS_PER_BYTE
+    unsigned long offset_bits = 0;
+
+    for (std::list<DataField*>::const_iterator i = data_fields.begin();
+         i != data_fields.end();
+         ++i)
+    {
+        // This will take all the bytes out of offset_bits and bump buffer
+        // accordingly.  As a result offset_bits will be < BITS_PER_BYTE.  Does
+        // nothing on the first iteration, since offset_bits always equals 0
+        // then.
+        const uint8_t* buffer_new = normalizeMemoryLocation(buffer, offset_bits);
+
+        unsigned long offset_bits_initial = offset_bits;
+
+        // Tell the current field to read and record the number of bits it read
+        offset_bits += (*i)->readRaw(buffer_new, source_byte_order, offset_bits);
+
+        // Bump the offset to the next alignment point
+        offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
+                                                                 offset_bits);
+
+        // This field plus the padding after it
+        bits_read += offset_bits - offset_bits_initial;
+    }
+
+    return bits_read;
+}
+
+//==============================================================================
 unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
                                    misc::ByteOrder destination_byte_order) const
 {

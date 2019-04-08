@@ -58,6 +58,25 @@ template <class T> unsigned long SimpleDataField<T>::readRaw(
 }
 
 //==============================================================================
+template <class T> unsigned long SimpleDataField<T>::readRaw(
+    const std::uint8_t* buffer,
+    misc::ByteOrder     source_byte_order)
+{
+    if (source_byte_order == getByteOrder())
+    {
+        memcpy(&simple_data_field, buffer, sizeof(T));
+    }
+    else
+    {
+        misc::byteswap(reinterpret_cast<std::uint8_t*>(&simple_data_field),
+                       buffer,
+                       sizeof(T));
+    }
+
+    return sizeof(T) * BITS_PER_BYTE;
+}
+
+//==============================================================================
 template <class T> unsigned long SimpleDataField<T>::writeRaw(
     std::uint8_t*   buffer,
     misc::ByteOrder destination_byte_order) const
