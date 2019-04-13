@@ -12,7 +12,7 @@
 RawDataField::RawDataField(unsigned long   length,
                            misc::DataUnits length_units,
                            IndexingMode    bit_indexing_mode) :
-    RawDataField(length, length_units, true, bit_indexing_mode)
+    RawDataField(0, 0, length, length_units, true, bit_indexing_mode, false)
 {
 }
 
@@ -22,7 +22,13 @@ RawDataField::RawDataField(std::uint8_t*   buffer,
                            misc::DataUnits length_units,
                            bool            memory_internal,
                            IndexingMode    bit_indexing_mode) :
-    RawDataField(length, length_units, memory_internal, bit_indexing_mode)
+    RawDataField(buffer,
+                 0,
+                 length,
+                 length_units,
+                 memory_internal,
+                 bit_indexing_mode,
+                 false)
 {
     // Delegate RawDataField constructor has already set up our "raw_data"
     // pointer.  At this point we can just start using it.
@@ -31,19 +37,41 @@ RawDataField::RawDataField(std::uint8_t*   buffer,
     {
         DataField::readRaw(buffer);
     }
-    else
+}
+
+//==============================================================================
+RawDataField::RawDataField(const std::uint8_t* buffer,
+                           unsigned long       length,
+                           misc::DataUnits     length_units,
+                           bool                memory_internal,
+                           IndexingMode        bit_indexing_mode) :
+    RawDataField(0,
+                 buffer,
+                 length,
+                 length_units,
+                 memory_internal,
+                 bit_indexing_mode,
+                 true)
+{
+    // Delegate RawDataField constructor has already set up our "raw_data"
+    // pointer.  At this point we can just start using it.
+
+    if (memory_internal)
     {
-        raw_data = buffer;
+        DataField::readRaw(buffer);
     }
 }
 
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
 RawDataField::RawDataField(const RawDataField& raw_data_field) :
-    RawDataField(raw_data_field.getLengthBits(),
+    RawDataField(0,
+                 0,
+                 raw_data_field.getLengthBits(),
                  misc::BITS,
                  true,
-                 raw_data_field.getBitIndexingMode())
+                 raw_data_field.getBitIndexingMode(),
+                 false)
 {
     // Delegate RawDataField constructor has already set up our "raw_data"
     // pointer.  At this point we can just start using it.
@@ -51,13 +79,19 @@ RawDataField::RawDataField(const RawDataField& raw_data_field) :
 }
 
 //==============================================================================
-RawDataField::RawDataField(unsigned long   length,
-                           misc::DataUnits length_units,
-                           bool            memory_internal,
-                           IndexingMode    bit_indexing_mode) :
+RawDataField::RawDataField(std::uint8_t*       buffer,
+                           const std::uint8_t* buffer_const,
+                           unsigned long       length,
+                           misc::DataUnits     length_units,
+                           bool                memory_internal,
+                           IndexingMode        bit_indexing_mode,
+                           bool                const_mode) :
     DataField(),
+    raw_data(buffer),
+    raw_data_const(buffer_const),
     memory_internal(memory_internal),
-    bit_indexing_mode(bit_indexing_mode)
+    bit_indexing_mode(bit_indexing_mode),
+    const_mode(const_mode)
 {
     if (length == 0)
     {
@@ -104,6 +138,9 @@ RawDataField::~RawDataField()
 unsigned long RawDataField::readRaw(std::uint8_t*   buffer,
                                     misc::ByteOrder source_byte_order)
 {
+    // Prevent us from reading into const memory
+    constModeExceptionCheck();
+
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(raw_data, buffer, getLengthBytes());
     return length_bits;
@@ -113,6 +150,9 @@ unsigned long RawDataField::readRaw(std::uint8_t*   buffer,
 unsigned long RawDataField::readRaw(const std::uint8_t* buffer,
                                     misc::ByteOrder     source_byte_order)
 {
+    // Prevent us from reading into const memory
+    constModeExceptionCheck();
+
     // No byteswapping regardless of "source_byte_order" setting
     memcpy(raw_data, buffer, getLengthBytes());
     return length_bits;
@@ -124,7 +164,15 @@ unsigned long RawDataField::writeRaw(
     misc::ByteOrder destination_byte_order) const
 {
     // No byteswapping regardless of "destination_byte_order" setting
-    memcpy(buffer, raw_data, getLengthBytes());
+    if (const_mode)
+    {
+        memcpy(buffer, raw_data_const, getLengthBytes());
+    }
+    else
+    {
+        memcpy(buffer, raw_data, getLengthBytes());
+    }
+
     return length_bits;
 }
 
@@ -132,12 +180,21 @@ unsigned long RawDataField::writeRaw(
 std::uint8_t RawDataField::getByte(unsigned int index) const
 {
     throwIfIndexOutOfRange(index, getLengthBytes());
+
+    if (const_mode)
+    {
+        return raw_data_const[index];
+    }
+
     return raw_data[index];
 }
 
 //==============================================================================
 void RawDataField::setByte(unsigned int index, std::uint8_t value)
 {
+    // Prevent us from reading into const memory
+    constModeExceptionCheck();
+
     throwIfIndexOutOfRange(index, getLengthBytes());
     raw_data[index] = value;
 }
@@ -151,8 +208,17 @@ bool RawDataField::getBit(unsigned long index) const
     // within that byte
     std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
 
+    std::uint8_t target_byte = 0;
+
     // This is the byte containing the bit we want
-    std::uint8_t target_byte = raw_data[div_result.quot];
+    if (const_mode)
+    {
+        target_byte = raw_data_const[div_result.quot];
+    }
+    else
+    {
+        target_byte = raw_data[div_result.quot];
+    }
 
     // We still need to find the right bit, div_result.rem has the index.  Shift
     // the bit we want down to the least significant bit and then mask out the
@@ -172,6 +238,9 @@ bool RawDataField::getBit(unsigned long index) const
 //==============================================================================
 void RawDataField::setBit(unsigned long index, bool value)
 {
+    // Prevent us from modifying const memory
+    constModeExceptionCheck();
+
     throwIfIndexOutOfRange(index, length_bits);
 
     std::uint8_t mask = 1;
@@ -275,6 +344,9 @@ void RawDataField::setBitsAsNumericType(T            type_var,
                                         unsigned int start_bit,
                                         unsigned int count)
 {
+    // Prevent us from modifying const memory
+    constModeExceptionCheck();
+
     // Handle bad input
     if (start_bit >= length_bits || start_bit + count > length_bits)
     {
@@ -324,6 +396,9 @@ INSTANTIATE_SETBITSASNUMERICTYPE(unsigned short);
 //==============================================================================
 void RawDataField::shiftUp(unsigned int shift_bits)
 {
+    // Prevent us from modifying into const memory
+    constModeExceptionCheck();
+
     if (shift_bits >= length_bits)
     {
         throw std::runtime_error(
@@ -355,6 +430,9 @@ void RawDataField::shiftUp(unsigned int shift_bits)
 //==============================================================================
 void RawDataField::shiftDown(unsigned int shift_bits)
 {
+    // Prevent us from modifying into const memory
+    constModeExceptionCheck();
+
     if (shift_bits >= length_bits)
     {
         throw std::runtime_error(
@@ -383,6 +461,9 @@ void RawDataField::shiftDown(unsigned int shift_bits)
 //==============================================================================
 RawDataField& RawDataField::operator=(const RawDataField& raw_data_field)
 {
+    // Prevent us from modifying const memory
+    constModeExceptionCheck();
+
     if (this != &raw_data_field)
     {
         raw_data_field.DataField::writeRaw(raw_data);

@@ -41,8 +41,20 @@ public:
     RawDataField(std::uint8_t*   buffer,
                  unsigned long   length,
                  misc::DataUnits length_units,
-                 bool            memory_internal = true,
+                 bool            memory_internal   = true,
                  IndexingMode    bit_indexing_mode = LS_LEAST);
+
+    // Const-compatible version of the member function declared immediately
+    // above, EXCEPT usage of this constructor puts objects of this class into
+    // "const mode", meaning they will not do anything to modify the memory at
+    // 'buffer'.  Functions that would modify the buffer are prevented from
+    // doing so with exceptions if they cannot be prevented from doing so at
+    // compile time.
+    RawDataField(const std::uint8_t* buffer,
+                 unsigned long       length,
+                 misc::DataUnits     length_units,
+                 bool                memory_internal   = true,
+                 IndexingMode        bit_indexing_mode = LS_LEAST);
 
     // Copy constructor; dynamically allocates and maintains a bit field that is
     // "length_bytes" in size, and then copies the given bit field into this
@@ -129,6 +141,12 @@ public:
     // information.
     void setBitIndexingMode(IndexingMode bit_indexing_mode);
 
+    // Returns true if this class is in "const mode", meaning it was constructed
+    // using the const buffer constructor.  In this mode this class won't modify
+    // the contents of that buffer.  To protect the data, Const mode can't be
+    // changed after construction time.
+    bool getConstMode() const;
+
     // Assignment from other RawDataFields; copies all internal state including
     // what's at "raw_data"
     RawDataField& operator=(const RawDataField& raw_data_field);
@@ -142,13 +160,22 @@ private:
 
     // Only for use as a delegating constructor.  Sets length_bits and indexing
     // mode.
-    RawDataField(unsigned long   length,
-                 misc::DataUnits length_units,
-                 bool            memory_internal,
-                 IndexingMode    bit_indexing_mode);
+    RawDataField(std::uint8_t*       buffer,
+                 const std::uint8_t* buffer_const,
+                 unsigned long       length,
+                 misc::DataUnits     length_units,
+                 bool                memory_internal,
+                 IndexingMode        bit_indexing_mode,
+                 bool                const_mode);
+
+    void constModeExceptionCheck() const;
 
     // Reference to the raw data represented by this class
     std::uint8_t* raw_data;
+
+    // Another reference to the raw data represented by this class, but is used
+    // only if the const buffer constructor was used
+    const std::uint8_t* raw_data_const;
 
     // Field is this many bits in length
     unsigned long length_bits;
@@ -159,6 +186,10 @@ private:
     // How are we indexing individual bits within bytes?  See the comment on
     // IndexingMode for more information.  Has no relevance across bytes.
     IndexingMode bit_indexing_mode;
+
+    // Is true if the const buffer constructor was used to construct objects of
+    // this class.
+    bool const_mode;
 };
 
 //==============================================================================
@@ -193,6 +224,21 @@ inline void RawDataField::throwIfIndexOutOfRange(unsigned long index,
     if (index >= size)
     {
         throw std::out_of_range("Index out of range");
+    }
+}
+
+//==============================================================================
+inline bool RawDataField::getConstMode() const
+{
+    return const_mode;
+}
+
+//==============================================================================
+inline void RawDataField::constModeExceptionCheck() const
+{
+    if (!memory_internal && const_mode)
+    {
+        throw std::runtime_error("");
     }
 }
 

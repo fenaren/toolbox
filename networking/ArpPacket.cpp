@@ -90,6 +90,29 @@ ArpPacket::ArpPacket(std::uint16_t  htype,
 }
 
 //==============================================================================
+ArpPacket::ArpPacket(std::uint16_t        htype,
+                     std::uint16_t        ptype,
+                     std::uint8_t         hlen,
+                     std::uint8_t         plen,
+                     std::uint16_t        oper,
+                     const unsigned char* buffer_sha,
+                     const unsigned char* buffer_spa,
+                     const unsigned char* buffer_tha,
+                     const unsigned char* buffer_tpa,
+                     bool                 owned_sha,
+                     bool                 owned_spa,
+                     bool                 owned_tha,
+                     bool                 owned_tpa) :
+    ArpPacketBase(htype, ptype, hlen, plen, oper),
+    sha(buffer_sha, hlen, misc::BYTES, owned_sha),
+    spa(buffer_spa, plen, misc::BYTES, owned_spa),
+    tha(buffer_tha, hlen, misc::BYTES, owned_tha),
+    tpa(buffer_tpa, plen, misc::BYTES, owned_tpa)
+{
+    addDataFields();
+}
+
+//==============================================================================
 ArpPacket::~ArpPacket()
 {
 }

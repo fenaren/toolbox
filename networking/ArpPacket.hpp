@@ -56,6 +56,21 @@ public:
               bool           owned_tha = true,
               bool           owned_tpa = true);
 
+    // Const-compatible version of the constructor declared immediately above
+    ArpPacket(std::uint16_t        htype,
+              std::uint16_t        ptype,
+              std::uint8_t         hlen,
+              std::uint8_t         plen,
+              std::uint16_t        oper,
+              const unsigned char* buffer_sha,
+              const unsigned char* buffer_spa,
+              const unsigned char* buffer_tha,
+              const unsigned char* buffer_tpa,
+              bool                 owned_sha = true,
+              bool                 owned_spa = true,
+              bool                 owned_tha = true,
+              bool                 owned_tpa = true);
+
     // Does nothing
     virtual ~ArpPacket();
 
