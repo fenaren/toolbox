@@ -6,6 +6,7 @@
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
+#include "misc.hpp"
 
 TEST_CASES_PROGRAM_BEGIN(ArpPacketEthernetIpv4_test)
 TEST(Length)
@@ -27,6 +28,7 @@ void ArpPacketEthernetIpv4_test::addTestCases()
 {
     addTestCase(new Length());
     addTestCase(new WriteRaw());
+    addTestCase(new Constructor_ReadRaw());
 }
 
 //==============================================================================
@@ -107,13 +109,23 @@ Test::Result ArpPacketEthernetIpv4_test::WriteRaw::body()
 //==============================================================================
 Test::Result ArpPacketEthernetIpv4_test::Constructor_ReadRaw::body()
 {
-    // Copied this from memory after the apie.writeRaw in the test case above
+    // Copied this from memory after the apei.writeRaw() in the test case above
     const std::uint8_t raw_apei[] =
-        {1, 0, 0, 8, 6, 4, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
+        {1, 0,
+         0, 8,
+         6,
+         4,
+         1, 0,
+         1, 1, 1, 1, 1, 1,
+         1, 1, 1, 1,
+         2, 2, 2, 2, 2, 2,
          2, 2, 2, 2};
 
-    ArpPacketEthernetIpv4 apei(raw_apei);
+    ArpPacketEthernetIpv4 apei(raw_apei, misc::ENDIAN_LITTLE);
+
+    std::cout << "Oper " << apei.getOper() << "\n";
     MUST_BE_TRUE(apei.getOper() == 1);
+
     MUST_BE_TRUE(*apei.getSha() == MacAddress("01:01:01:01:01:01"));
     MUST_BE_TRUE(*apei.getSpa() == Ipv4Address("1.1.1.1"));
     MUST_BE_TRUE(*apei.getTha() == MacAddress("02:02:02:02:02:02"));

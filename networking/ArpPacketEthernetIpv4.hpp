@@ -33,19 +33,26 @@ public:
     // what they should be set to for this variant of ARP packet.  All memory is
     // statically allocated; data in buffer_* arguments is copied into internal
     // storage.
-    ArpPacketEthernetIpv4(std::uint16_t  oper,
-                          unsigned char* buffer_sha,
-                          unsigned char* buffer_spa,
-                          unsigned char* buffer_tha,
-                          unsigned char* buffer_tpa);
+    ArpPacketEthernetIpv4(std::uint16_t oper,
+                          std::uint8_t* buffer_sha,
+                          std::uint8_t* buffer_spa,
+                          std::uint8_t* buffer_tha,
+                          std::uint8_t* buffer_tpa);
 
     // Constructs an ARP packet by calling readRaw() on the provided buffer.  No
     // byteswapping is performed.
-    explicit ArpPacketEthernetIpv4(unsigned char* buffer);
+    explicit ArpPacketEthernetIpv4(std::uint8_t* buffer);
+
+    // Const-compatible version of the constructor declared immediately above
+    explicit ArpPacketEthernetIpv4(const std::uint8_t* buffer);
 
     // Constructs an ARP packet by calling readRaw() on the provided buffer.
     // Byteswapping is performed if needed.
-    ArpPacketEthernetIpv4(unsigned char* buffer, misc::ByteOrder byte_order);
+    ArpPacketEthernetIpv4(std::uint8_t* buffer, misc::ByteOrder byte_order);
+
+    // Const-compatible version of the constructor decleared immediately above
+    ArpPacketEthernetIpv4(const std::uint8_t* buffer,
+                          misc::ByteOrder     byte_order);
 
     // Does nothing
     virtual ~ArpPacketEthernetIpv4();

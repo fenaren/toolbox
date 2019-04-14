@@ -8,11 +8,6 @@
 #include "misc.hpp"
 
 //==============================================================================
-// Constructs an ARP packet (Ethernet and IPv4 variant).  All memory is
-// statically allocated.  HTYPE, PTYPE, HLEN, and PLEN are set to what they
-// should be set to for this variant of ARP
-// packet.
-//==============================================================================
 
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper)
@@ -20,11 +15,6 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
     addDataFields();
 }
 
-//==============================================================================
-// Allows up-front specification of all the field in this ArpPacket variant
-// which should be specifiable.  HTYPE, PTYPE, HLEN, and PLEN are set to what
-// they should be set to for this variant of ARP packet.  All memory is
-// statically allocated.
 //==============================================================================
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
                                              const MacAddress&  sha,
@@ -41,17 +31,11 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t      oper,
 }
 
 //==============================================================================
-// Allows up-front specification of all the field in this ArpPacket variant
-// which should be specifiable.  HTYPE, PTYPE, HLEN, and PLEN are set to what
-// they should be set to for this variant of ARP packet.  All memory is
-// statically allocated; data in buffer_* arguments is copied into internal
-// storage.
-//==============================================================================
-ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
-                                             unsigned char* buffer_sha,
-                                             unsigned char* buffer_spa,
-                                             unsigned char* buffer_tha,
-                                             unsigned char* buffer_tpa) :
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper,
+                                             std::uint8_t* buffer_sha,
+                                             std::uint8_t* buffer_spa,
+                                             std::uint8_t* buffer_tha,
+                                             std::uint8_t* buffer_tpa) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper),
     sha(buffer_sha),
     spa(buffer_spa),
@@ -62,10 +46,7 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t  oper,
 }
 
 //==============================================================================
-// Constructs an ARP packet by calling readRaw() on the provided buffer.  No
-// byteswapping is performed.
-//==============================================================================
-ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint8_t* buffer) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
 {
     addDataFields();
@@ -74,12 +55,29 @@ ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char* buffer) :
 }
 
 //==============================================================================
-// Constructs an ARP packet by calling readRaw() on the provided buffer.
-// Byteswapping is performed if needed.
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(const std::uint8_t* buffer) :
+    ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
+{
+    addDataFields();
+
+    DataField::readRaw(buffer);
+}
+
 //==============================================================================
 // cppcheck-suppress uninitMemberVar
-ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(unsigned char*  buffer,
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint8_t*   buffer,
                                              misc::ByteOrder byte_order) :
+    ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
+{
+    addDataFields();
+
+    readRaw(buffer, byte_order);
+}
+
+//==============================================================================
+// cppcheck-suppress uninitMemberVar
+ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(const std::uint8_t* buffer,
+                                             misc::ByteOrder     byte_order) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, 0)
 {
     addDataFields();
