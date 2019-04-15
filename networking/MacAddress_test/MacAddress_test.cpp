@@ -5,12 +5,21 @@
 
 #include "MacAddress.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(MacAddress_test);
+TEST_CASES_PROGRAM_BEGIN(MacAddress_test)
+TEST(Operators_EqualityInequality)
+TEST_CASES_PROGRAM_END(MacAddress_test)
 
 //==============================================================================
-Test::Result MacAddress_test::body()
+void MacAddress_test::addTestCases()
+{
+    addTestCase(new Operators_EqualityInequality());
+}
+
+//==============================================================================
+Test::Result MacAddress_test::Operators_EqualityInequality::body()
 {
     // Initialize vector of test MAC addresses; THESE MUST ALL BE UNIQUE
     std::vector<std::string> unique_mac_addresses;
@@ -66,9 +75,6 @@ Test::Result MacAddress_test::body()
         }
     }
 
-    std::cout << "Failed equality/inequality cases: "
-              << failed_eqineq_cases.size() << "\n";
-
     for (unsigned int i = 0; i < failed_eqineq_cases.size(); i++)
     {
         std::cout << unique_mac_addresses[failed_eqineq_cases[i].first]
@@ -77,19 +83,24 @@ Test::Result MacAddress_test::body()
                   << "\n";
     }
 
-    // Test the read function
+    MUST_BE_TRUE(failed_eqineq_cases.empty());
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result MacAddress_test::Constructor_ReadRaw::body()
+{
     unsigned char testcmac1[] = {0x61, 0x62, 0x63, 0x64, 0x65, 0x66};
     MacAddress testmac1(testcmac1);
     bool read_success = testmac1 == "61:62:63:64:65:66";
-    if (!read_success)
-    {
-        std::cout << "Read test failed\n";
-    }
 
-    std::string testmac1str = testmac1;
-    std::cout << testmac1str << "\n";
+    return Test::PASSED;
+}
 
-    // Test the write function
+//==============================================================================
+Test::Result MacAddress_test::WriteRaw::body()
+{
     std::string testmacstr = "01:02:03:04:05:06";
     MacAddress testmac2(testmacstr);
     unsigned char testcmac2[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
