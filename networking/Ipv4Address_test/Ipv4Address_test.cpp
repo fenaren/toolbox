@@ -81,9 +81,6 @@ Test::Result Ipv4Address_test::Operators_EqualityInequality::body()
         }
     }
 
-    std::cout << "Failed equality/inequality cases: "
-              << failed_eqineq_cases.size() << "\n";
-
     for (unsigned int i = 0; i < failed_eqineq_cases.size(); i++)
     {
         std::cout << unique_ipv4_addresses[failed_eqineq_cases[i].first]
@@ -91,6 +88,8 @@ Test::Result Ipv4Address_test::Operators_EqualityInequality::body()
                   << unique_ipv4_addresses[failed_eqineq_cases[i].second]
                   << "\n";
     }
+
+    MUST_BE_TRUE(failed_eqineq_cases.empty());
 
     return Test::PASSED;
 }
