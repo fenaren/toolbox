@@ -5,12 +5,25 @@
 
 #include "Ipv4Address.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(Ipv4Address_test);
+TEST_CASES_PROGRAM_BEGIN(Ipv4Address_test)
+TEST(Operators_EqualityInequality)
+TEST(Constructor_ReadRaw)
+TEST(WriteRaw)
+TEST_CASES_PROGRAM_END(Ipv4Address_test)
 
 //==============================================================================
-Test::Result Ipv4Address_test::body()
+void Ipv4Address_test::addTestCases()
+{
+    addTestCase(new Operators_EqualityInequality());
+    addTestCase(new Constructor_ReadRaw());
+    addTestCase(new WriteRaw());
+}
+
+//==============================================================================
+Test::Result Ipv4Address_test::Operators_EqualityInequality::body()
 {
     // Initialize vector of test IPv4 addresses; THESE MUST ALL BE UNIQUE
     std::vector<std::string> unique_ipv4_addresses;
@@ -79,41 +92,41 @@ Test::Result Ipv4Address_test::body()
                   << "\n";
     }
 
-    // Test the read function
-    unsigned char testcipv41[] = {97, 98, 99, 100};
-    Ipv4Address testipv41(testcipv41);
-    bool read_success = testipv41 == "97.98.99.100";
-    if (!read_success)
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result Ipv4Address_test::Constructor_ReadRaw::body()
+{
+    std::uint8_t raw_ipv4[] = {97, 98, 99, 100};
+    Ipv4Address ipv4(raw_ipv4);
+
+    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; ++i)
     {
-        std::cout << "Read test failed\n";
+        MUST_BE_TRUE(ipv4.getByte(i) == raw_ipv4[i]);
     }
 
-    std::string testipv41str = testipv41;
-    std::cout << testipv41str << "\n";
+    return Test::PASSED;
+}
 
-    // Test the write function
-    std::string testipv4str = "1.2.3.4";
-    Ipv4Address testipv42(testipv4str);
-    unsigned char testcipv42[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    char shouldbe[] = {1, 2, 3, 4};
-    testipv42.DataField::writeRaw(testcipv42);
-    bool write_success =
-        memcmp(testcipv42, shouldbe, Ipv4Address::LENGTH_BYTES) == 0;
-    if (!write_success)
+//==============================================================================
+Test::Result Ipv4Address_test::WriteRaw::body()
+{
+    Ipv4Address ipv4;
+    std::uint8_t raw_ipv4[Ipv4Address::LENGTH_BYTES];
+
+    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; ++i)
     {
-        std::cout << "Write test failed\n";
+        raw_ipv4[i] = 0;
+        ipv4.setByte(i, i);
     }
 
-    std::string testipv42str = testipv42;
-    std::cout << testipv42str << "\n";
+    ipv4.DataField::writeRaw(raw_ipv4);
 
-    // This unit test passes if no failed cases were recorded
-    if (failed_eqineq_cases.size() == 0 &&
-        read_success &&
-        write_success)
+    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; ++i)
     {
-        return Test::PASSED;
+        MUST_BE_TRUE(raw_ipv4[i] == i);
     }
 
-    return Test::FAILED;
+    return Test::PASSED;
 }
