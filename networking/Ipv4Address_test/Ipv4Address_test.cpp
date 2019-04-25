@@ -10,16 +10,12 @@
 
 TEST_CASES_PROGRAM_BEGIN(Ipv4Address_test)
 TEST(Operators_EqualityInequality)
-TEST(Constructor_ReadRaw)
-TEST(WriteRaw)
 TEST_CASES_PROGRAM_END(Ipv4Address_test)
 
 //==============================================================================
 void Ipv4Address_test::addTestCases()
 {
     addTestCase(new Operators_EqualityInequality());
-    addTestCase(new Constructor_ReadRaw());
-    addTestCase(new WriteRaw());
 }
 
 //==============================================================================
@@ -90,42 +86,6 @@ Test::Result Ipv4Address_test::Operators_EqualityInequality::body()
     }
 
     MUST_BE_TRUE(failed_eqineq_cases.empty());
-
-    return Test::PASSED;
-}
-
-//==============================================================================
-Test::Result Ipv4Address_test::Constructor_ReadRaw::body()
-{
-    std::uint8_t raw_ipv4[] = {97, 98, 99, 100};
-    Ipv4Address ipv4(raw_ipv4);
-
-    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; ++i)
-    {
-        MUST_BE_TRUE(ipv4.getByte(i) == raw_ipv4[i]);
-    }
-
-    return Test::PASSED;
-}
-
-//==============================================================================
-Test::Result Ipv4Address_test::WriteRaw::body()
-{
-    Ipv4Address ipv4;
-    std::uint8_t raw_ipv4[Ipv4Address::LENGTH_BYTES];
-
-    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; ++i)
-    {
-        raw_ipv4[i] = 0;
-        ipv4.setByte(i, i);
-    }
-
-    ipv4.DataField::writeRaw(raw_ipv4);
-
-    for (unsigned int i = 0; i < Ipv4Address::LENGTH_BYTES; ++i)
-    {
-        MUST_BE_TRUE(raw_ipv4[i] == i);
-    }
 
     return Test::PASSED;
 }
