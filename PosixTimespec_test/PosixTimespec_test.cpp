@@ -3,9 +3,18 @@
 
 #include "PosixTimespec.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(PosixTimespec_test);
+TEST_CASES_PROGRAM_BEGIN(PosixTimespec_test)
+TEST(OperatorAddition)
+TEST(OperatorSubtraction)
+TEST(OperatorGreaterThan)
+TEST(OperatorGreaterThanEqualTo)
+TEST(OperatorLessThan)
+TEST(OperatorLessThanEqualTo)
+TEST(BreakMeUp)
+TEST_CASES_PROGRAM_END(PosixTimespec_test)
 
 enum Greater
 {
@@ -29,7 +38,19 @@ struct TimespecTuple
 };
 
 //==============================================================================
-Test::Result PosixTimespec_test::body()
+void PosixTimespec_test::addTestCases()
+{
+    addTestCase(new OperatorAddition());
+    addTestCase(new OperatorSubtraction());
+    addTestCase(new OperatorGreaterThan());
+    addTestCase(new OperatorGreaterThanEqualTo());
+    addTestCase(new OperatorLessThan());
+    addTestCase(new OperatorLessThanEqualTo());
+    addTestCase(new BreakMeUp());
+}
+
+//==============================================================================
+Test::Result PosixTimespec_test::OperatorAddition::body()
 {
     std::cout.precision(10);
 
@@ -125,6 +146,15 @@ Test::Result PosixTimespec_test::body()
 
     MUST_BE_TRUE(addition_cases_failed.size() == 0);
 
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result PosixTimespec_test::OperatorSubtraction::body()
+{
+    timespec tp;
+    TimespecTuple tt;
+
     // Let's do some conclusive subtraction tests
     std::vector<TimespecTuple> subtraction_cases;
     std::vector<TimespecTuple> subtraction_cases_failed;
@@ -218,6 +248,12 @@ Test::Result PosixTimespec_test::body()
 
     MUST_BE_TRUE(subtraction_cases_failed.size() == 0);
 
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result PosixTimespec_test::OperatorGreaterThan::body()
+{
     timespec tp_10;
     timespec tp_01;
 
@@ -240,6 +276,21 @@ Test::Result PosixTimespec_test::body()
                  !(tp_01 > PosixTimespec(tp_10)) &&
                  !(PosixTimespec(tp_01) > PosixTimespec(tp_10)));
 
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result PosixTimespec_test::OperatorGreaterThanEqualTo::body()
+{
+    timespec tp_10;
+    timespec tp_01;
+
+    tp_10.tv_sec  = 1;
+    tp_10.tv_nsec = 0;
+
+    tp_01.tv_sec  = 0;
+    tp_01.tv_nsec = 1;
+
     // GREATER OR EQUAL TO
     MUST_BE_TRUE(PosixTimespec(tp_10) >= tp_01 &&
                  tp_10 >= PosixTimespec(tp_01) &&
@@ -252,6 +303,21 @@ Test::Result PosixTimespec_test::body()
                  !(PosixTimespec(tp_01) >= tp_10) &&
                  !(tp_01 >= PosixTimespec(tp_10)) &&
                  !(PosixTimespec(tp_01) >= PosixTimespec(tp_10)));
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result PosixTimespec_test::OperatorLessThan::body()
+{
+    timespec tp_10;
+    timespec tp_01;
+
+    tp_10.tv_sec  = 1;
+    tp_10.tv_nsec = 0;
+
+    tp_01.tv_sec  = 0;
+    tp_01.tv_nsec = 1;
 
     // LESS THAN
     MUST_BE_TRUE(!(PosixTimespec(tp_10) < tp_01) &&
@@ -266,6 +332,21 @@ Test::Result PosixTimespec_test::body()
                  tp_01 < PosixTimespec(tp_10) &&
                  PosixTimespec(tp_01) < PosixTimespec(tp_10));
 
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result PosixTimespec_test::OperatorLessThanEqualTo::body()
+{
+    timespec tp_10;
+    timespec tp_01;
+
+    tp_10.tv_sec  = 1;
+    tp_10.tv_nsec = 0;
+
+    tp_01.tv_sec  = 0;
+    tp_01.tv_nsec = 1;
+
     // LESS THAN OR EQUAL TO
     MUST_BE_TRUE(!(PosixTimespec(tp_10) <= tp_01) &&
                  !(tp_10 <= PosixTimespec(tp_01)) &&
@@ -279,8 +360,18 @@ Test::Result PosixTimespec_test::body()
                  tp_01 <= PosixTimespec(tp_10) &&
                  PosixTimespec(tp_01) <= PosixTimespec(tp_10));
 
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result PosixTimespec_test::BreakMeUp::body()
+{
+    timespec tp;
+
     // OTHER CASES
     // These are all tested against each other
+
+    std::vector<timespec> timespecs;
 
     tp.tv_sec = 0;
     tp.tv_nsec = 0;
