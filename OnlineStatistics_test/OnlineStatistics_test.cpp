@@ -4,14 +4,24 @@
 #include <string>
 
 #include "OnlineStatistics.hpp"
+
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-TRIVIAL_TEST(OnlineStatistics_test);
+TEST_CASES_PROGRAM_BEGIN(OnlineStatistics_test)
+TEST(CompareToExcel)
+TEST_CASES_PROGRAM_END(OnlineStatistics_test)
 
 //==============================================================================
-Test::Result OnlineStatistics_test::body()
+void OnlineStatistics_test::addTestCases()
+{
+    addTestCase(new CompareToExcel());
+}
+
+//==============================================================================
+Test::Result OnlineStatistics_test::CompareToExcel::body()
 {
     const double EPSILON = 0.00000001;
 
