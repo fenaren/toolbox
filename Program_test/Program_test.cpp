@@ -3,16 +3,26 @@
 #include <string>
 #include <vector>
 
-#include "HelloWorld.hpp"
 #include "Program.hpp"
+
+#include "HelloWorld.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "TestProgram.hpp"
 
-TRIVIAL_TEST(Program_test);
+TEST_CASES_PROGRAM_BEGIN(Program_test)
+TEST(NameArguments)
+TEST_CASES_PROGRAM_END(Program_test)
 
 //==============================================================================
-Test::Result Program_test::body()
+void Program_test::addTestCases()
+{
+    addTestCase(new NameArguments());
+}
+
+//==============================================================================
+Test::Result Program_test::NameArguments::body()
 {
     // We're going to construct some fake arguments to push into our HelloWorld
     // test program
