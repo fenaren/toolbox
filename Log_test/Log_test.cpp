@@ -1,13 +1,23 @@
 #include <iostream>
 
 #include "Log.hpp"
+
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(Log_test);
+TEST_CASES_PROGRAM_BEGIN(Log_test)
+TEST(WriteWarningError)
+TEST_CASES_PROGRAM_END(Log_test)
 
 //==============================================================================
-Test::Result Log_test::body()
+void Log_test::addTestCases()
+{
+    addTestCase(new WriteWarningError());
+}
+
+//==============================================================================
+Test::Result Log_test::WriteWarningError::body()
 {
     Log log;
     log.write("message1");
