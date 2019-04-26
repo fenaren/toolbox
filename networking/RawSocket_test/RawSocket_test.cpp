@@ -2,12 +2,21 @@
 
 #include "RawSocket.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(RawSocket_test);
+TEST_CASES_PROGRAM_BEGIN(RawSocket_test)
+TEST(Constructor)
+TEST_CASES_PROGRAM_END(RawSocket_test)
 
 //==============================================================================
-Test::Result RawSocket_test::body()
+void RawSocket_test::addTestCases()
+{
+    addTestCase(new Constructor());
+}
+
+//==============================================================================
+Test::Result RawSocket_test::Constructor::body()
 {
     try
     {
