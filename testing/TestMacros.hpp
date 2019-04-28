@@ -10,7 +10,7 @@
 // definition, constructor and destructor, and header file contents.  This macro
 // writes all that code.
 
-#define TEST_HEADER(TestClass)                                           \
+#define TEST(TestClass)                                                  \
     class TestClass : public Test                                        \
     {                                                                    \
     public:                                                              \
@@ -20,27 +20,7 @@
         virtual Test::Result body();                                     \
     };
 
-#define TEST_HEADER_BEGIN(TestClass)                                     \
-    class TestClass : public Test                                        \
-    {                                                                    \
-    public:                                                              \
-        TestClass(const std::string& name = #TestClass) : Test(name) {}; \
-        ~TestClass() {};                                                 \
-    protected:                                                           \
-        virtual Test::Result body();
-
-#define TEST_HEADER_END(TestClass) };
-
-#define TEST_CASES_HEADER(TestClass)                                          \
-    class TestClass : public TestCases                                        \
-    {                                                                         \
-    public:                                                                   \
-        TestClass(const std::string& name = #TestClass) : TestCases(name) {}; \
-        ~TestClass() {};                                                      \
-        virtual void addTestCases();                                          \
-    };
-
-#define TEST_CASES_HEADER_BEGIN(TestClass)                                    \
+#define TEST_CASES_BEGIN(TestClass)                                           \
     class TestClass : public TestCases                                        \
     {                                                                         \
     public:                                                                   \
@@ -48,7 +28,7 @@
         ~TestClass() {};                                                      \
         virtual void addTestCases();
 
-#define TEST_CASES_HEADER_END(TestClass) };
+#define TEST_CASES_END(TestClass) };
 
 #define TEST_PROGRAM_MAIN(TestClass)                \
     int main(int argc, char** argv)                 \
@@ -58,57 +38,7 @@
         return testprogram.run();                   \
     }
 
-#define TEST_CONSTRUCTOR_DESTRUCTOR(TestClass)                    \
-    TestClass::TestClass(const std::string& name) : Test(name) {} \
-    TestClass::~TestClass() {}
-
-#define TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass)                   \
-    TestClass::TestClass(const std::string& name) : TestCases(name) {} \
-    TestClass::~TestClass() {}
-
-// DELETE ME
-#define TRIVIAL_TEST(TestClass)            \
-    TEST_HEADER(TestClass)                 \
-    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass) \
-    TEST_PROGRAM_MAIN(TestClass)
-
-// DELETE ME
-#define TRIVIAL_TEST_CASES(TestClass)            \
-    TEST_CASES_HEADER(TestClass)                 \
-    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass) \
-    TEST_PROGRAM_MAIN(TestClass)
-
-#define TEST(TestClass) TEST_HEADER(TestClass)
-
-#define TEST_BEGIN(TestClass) TEST_HEADER_BEGIN(TestClass)
-
-#define TEST_END(TestClass)                \
-    TEST_HEADER_END(TestClass)             \
-    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass)
-
-#define TEST_PROGRAM(TestClass)            \
-    TEST(TestClass)                        \
-    TEST_PROGRAM_MAIN(TestClass)
-
-#define TEST_PROGRAM_BEGIN(TestClass) TEST_HEADER_BEGIN(TestClass)
-
-#define TEST_PROGRAM_END(TestClass) \
-    TEST_END(TestClass)             \
-    TEST_PROGRAM_MAIN(TestClass)
-
-#define TEST_CASES(TestClass)                    \
-    TEST_CASES_HEADER(TestClass)                 \
-    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass)
-
-#define TEST_CASES_BEGIN(TestClass) TEST_CASES_HEADER_BEGIN(TestClass)
-
-#define TEST_CASES_END(TestClass) TEST_CASES_HEADER_END(TestClass)
-
-#define TEST_CASES_PROGRAM(TestClass)            \
-    TEST_CASES(TestClass)                        \
-    TEST_PROGRAM_MAIN(TestClass)
-
-#define TEST_CASES_PROGRAM_BEGIN(TestClass) TEST_CASES_HEADER_BEGIN(TestClass)
+#define TEST_CASES_PROGRAM_BEGIN(TestClass) TEST_CASES_BEGIN(TestClass)
 
 #define TEST_CASES_PROGRAM_END(TestClass) \
     TEST_CASES_END(TestClass)             \
