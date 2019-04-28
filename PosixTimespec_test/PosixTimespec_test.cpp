@@ -159,8 +159,6 @@ Test::Result PosixTimespec_test::OperatorSubtraction::body()
     std::vector<TimespecTuple> subtraction_cases;
     std::vector<TimespecTuple> subtraction_cases_failed;
 
-    std::vector<timespec> timespecs;
-
     // SUBTRACTION CASE 1
     tp.tv_sec  = 0;
     tp.tv_nsec = 0;
@@ -263,7 +261,6 @@ Test::Result PosixTimespec_test::OperatorGreaterThan::body()
     tp_01.tv_sec  = 0;
     tp_01.tv_nsec = 1;
 
-    // GREATER THAN
     MUST_BE_TRUE(PosixTimespec(tp_10) > tp_01 &&
                  tp_10 > PosixTimespec(tp_01) &&
                  PosixTimespec(tp_10) > PosixTimespec(tp_01) &&
@@ -291,7 +288,6 @@ Test::Result PosixTimespec_test::OperatorGreaterThanEqualTo::body()
     tp_01.tv_sec  = 0;
     tp_01.tv_nsec = 1;
 
-    // GREATER OR EQUAL TO
     MUST_BE_TRUE(PosixTimespec(tp_10) >= tp_01 &&
                  tp_10 >= PosixTimespec(tp_01) &&
                  PosixTimespec(tp_10) >= PosixTimespec(tp_01) &&
@@ -319,7 +315,6 @@ Test::Result PosixTimespec_test::OperatorLessThan::body()
     tp_01.tv_sec  = 0;
     tp_01.tv_nsec = 1;
 
-    // LESS THAN
     MUST_BE_TRUE(!(PosixTimespec(tp_10) < tp_01) &&
                  !(tp_10 < PosixTimespec(tp_01)) &&
                  !(PosixTimespec(tp_10) < PosixTimespec(tp_01)) &&
@@ -347,7 +342,6 @@ Test::Result PosixTimespec_test::OperatorLessThanEqualTo::body()
     tp_01.tv_sec  = 0;
     tp_01.tv_nsec = 1;
 
-    // LESS THAN OR EQUAL TO
     MUST_BE_TRUE(!(PosixTimespec(tp_10) <= tp_01) &&
                  !(tp_10 <= PosixTimespec(tp_01)) &&
                  !(PosixTimespec(tp_10) <= PosixTimespec(tp_01)) &&
