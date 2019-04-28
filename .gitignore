@@ -2,11 +2,15 @@
 CMakeCache.txt
 CMakeFiles
 CTestTestfile.cmake
+DartConfiguration.tcl
 Makefile
 Temporary
 Testing
 cmake_install.cmake
 
-# Build output
-libtoolbox.a
-libtoolbox.so
+# The library this repository is meant to generate
+libtools-cpp.a
+libtools-cpp.so
+
+# Tests
+*_test
