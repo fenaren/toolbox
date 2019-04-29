@@ -3,6 +3,10 @@
 
 #include <string>
 
+// All tests derive from the "Test" class.  The Test class captures generic test
+// behavior such as defining the standard way in which all tests are executed.
+// The Test class is intended to represent tests of any level (unit,
+// integration, system, etc.) and complexity.
 class Test
 {
 public:

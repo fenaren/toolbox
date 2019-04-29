@@ -6,9 +6,11 @@
 #include "TestProgram.hpp"
 
 // Using these macros makes writing TestProgram tests which compile into
-// executables easier.  Trivial tests pretty much all share the same main()
-// definition, constructor and destructor, and header file contents.  This macro
-// writes all that code.
+// executables easier.  These macros save lots of duplicate code, but more
+// importantly they make writing tests easier for the developer.  It's easy to
+// think "how hard could it be to write this stuff out oneself", but developers
+// can be reluctant to write tests in the first place, and anything we can do to
+// make the test-writing process easier is extremely valuable.
 
 #define TEST(TestClass)                                                  \
     class TestClass : public Test                                        \
