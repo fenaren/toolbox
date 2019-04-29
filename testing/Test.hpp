@@ -7,16 +7,30 @@
 // behavior such as defining the standard way in which all tests are executed.
 // The Test class is intended to represent tests of any level (unit,
 // integration, system, etc.) and complexity.
+
+// Meaningful test content specific to each test is defined by the user using
+// the pure virtual body() member function.  Tests are run using the run()
+// member function (this calls the body() function and also runs some other
+// generic test content).  Status of the test is returned by the run function
+// using the Result enumeration.
+
+// Tests must have a name.  The name is used only to help a human observer
+// identify output related to each test.
+
+// Consider using the TEST macro (defined in TestMacros.hpp) to declare a
+// derived class to use to implement meaningful tests.  See also README.txt in
+// the top-level "testing" directory for a general description of how tests are
+// structured.
 class Test
 {
 public:
 
-    // Executed tests report one of these
+    // The run() member function uses this to report test status
     enum Result
     {
-        PASSED,
-        FAILED,
-        SKIPPED
+        PASSED, // Test passed successfully
+        FAILED, // Test did not pass successfully
+        SKIPPED // Test did not meaningfully execute
     };
 
     // Sets the name
@@ -44,11 +58,13 @@ private:
     std::string name;
 };
 
+//==============================================================================
 inline void Test::getName(std::string& name) const
 {
     name = this->name;
 }
 
+//==============================================================================
 inline void Test::setName(const std::string& name)
 {
     this->name = name;

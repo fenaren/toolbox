@@ -39,11 +39,14 @@ follows.
 5. Declarations for any constant data or functions used by multiple unit tests.
    BE CAREFUL NOT TO INTRODUCE DEPENDENCIES BETWEEN UNIT TESTS HERE.
 
-6. Definitions of all unit tests.  These are implementations of the pure virtual
+6. Definition of the addTestCases() pure virtual member function of the
+   TestCases class.
+
+7. Definitions of all unit tests.  These are implementations of the pure virtual
    body() class member function within each of the tests declared using the TEST
    macro.
 
-7. Definitions of any functions declared in number 5 above.
+8. Definitions of any functions declared in number 5 above.
 
 The implementation file, along with all other content related to the test
 (necessary CMake files, reference data, notes, etc.) goes in a subdirectory

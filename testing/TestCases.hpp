@@ -6,6 +6,10 @@
 
 #include "Test.hpp"
 
+// The "TestCases" class allows sets of related Tests to be grouped and executed
+// together.  It does this by storing an internal list of Tests and then
+// implementing the Test::body() member function to run all those Tests
+// serially.
 class TestCases : public Test
 {
 public:
