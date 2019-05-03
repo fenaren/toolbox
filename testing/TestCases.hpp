@@ -6,10 +6,13 @@
 
 #include "Test.hpp"
 
-// The "TestCases" class allows sets of related Tests to be grouped and executed
-// together.  It does this by storing an internal list of Tests and then
-// implementing the Test::body() member function to run all those Tests
-// serially.
+// This class allows sets of related Tests to be grouped and executed together.
+// It does this by storing an internal list of Tests and then implementing the
+// Test::body() pure virtual member function in such a way that when a TestCases
+// (which is itself a Test) is run, all tests in its internal list are run and
+// the result of all those tests is aggregated into a single result and
+// returned.  See documentation for the TestCases::body() function for a
+// description of how test case results are aggregated.
 class TestCases : public Test
 {
 public:
@@ -21,7 +24,10 @@ public:
     virtual ~TestCases();
 
     // Adds all test cases by calling addTestCases(), then runs them all in the
-    // order they were added
+    // order they were added.  Test::FAILED is returned if any test cases fail
+    // (return Test::FAILED).  If no test cases fail and at least one test case
+    // passed (returned Test::PASSED), Test::PASSED is returned.  If no test
+    // cases pass or fail, Test::SKIPPED is returned.
     virtual Test::Result body();
 
 protected:
