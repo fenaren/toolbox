@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestProgram.hpp"
 
 // Using these macros makes writing TestProgram tests which compile into

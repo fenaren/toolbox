@@ -4,45 +4,89 @@
 #include <iostream>
 #include <limits>
 
+#include "DataField_test.hpp"
+
 #include "DataField.hpp"
 #include "SimpleDataField.hpp"
-#include "Test.hpp"
-#include "TestCases.hpp"
 #include "TestMacros.hpp"
-#include "misc.hpp"
-
-TEST_CASES_PROGRAM_BEGIN(DataField_test)
-TEST(WriteAndReadRaw_uint8)
-TEST(WriteAndReadRaw_uint16)
-TEST(WriteAndReadRaw_uint32)
-TEST_CASES_PROGRAM_END(DataField_test)
-
-template <class T> bool writeAndReadRawTest();
 
 //==============================================================================
 void DataField_test::addTestCases()
 {
-    addTestCase(new WriteAndReadRaw_uint8());
-    addTestCase(new WriteAndReadRaw_uint16());
-    addTestCase(new WriteAndReadRaw_uint32());
+    addTestCase(new WriteRaw());
+    addTestCase(new ReadRaw());
+    addTestCase(new ReadRawConst());
+    addTestCase(new WriteAndReadRaw());
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteAndReadRaw_uint8::body()
+void DataField_test::ReadRaw::addTestCases()
+{
+    addTestCase(new BitOffset());
+    addTestCase(new NoBitOffset());
+}
+
+//==============================================================================
+void DataField_test::ReadRawConst::addTestCases()
+{
+    addTestCase(new BitOffset());
+    addTestCase(new NoBitOffset());
+}
+
+//==============================================================================
+void DataField_test::WriteAndReadRaw::addTestCases()
+{
+    addTestCase(new UnsignedInt1Byte());
+    addTestCase(new UnsignedInt2Byte());
+    addTestCase(new UnsignedInt4Byte());
+}
+
+//==============================================================================
+Test::Result DataField_test::WriteRaw::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::BitOffset::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::NoBitOffset::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConst::BitOffset::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConst::NoBitOffset::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::WriteAndReadRaw::UnsignedInt1Byte::body()
 {
     MUST_BE_TRUE(writeAndReadRawTest<std::uint8_t>());
     return Test::PASSED;
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteAndReadRaw_uint16::body()
+Test::Result DataField_test::WriteAndReadRaw::UnsignedInt2Byte::body()
 {
     MUST_BE_TRUE(writeAndReadRawTest<std::uint16_t>());
     return Test::PASSED;
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteAndReadRaw_uint32::body()
+Test::Result DataField_test::WriteAndReadRaw::UnsignedInt4Byte::body()
 {
     MUST_BE_TRUE(writeAndReadRawTest<std::uint32_t>());
     return Test::PASSED;
