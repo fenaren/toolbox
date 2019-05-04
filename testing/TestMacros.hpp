@@ -48,6 +48,8 @@
     TEST_CASES_END(TestClass)             \
     TEST_PROGRAM_MAIN(TestClass)
 
+#define ADD_TEST_CASE(TestCase) addTestCase(new TestCase())
+
 // MUST_BE_TRUE and MUST_BE_FALSE are intended to be used within the Test::run()
 // method and work to immediately fail tests if their given expressions don't
 // evaluate to boolean true and false, respectively.

@@ -13,32 +13,32 @@
 //==============================================================================
 void DataField_test::addTestCases()
 {
-    addTestCase(new WriteRaw());
-    addTestCase(new ReadRaw());
-    addTestCase(new ReadRawConst());
-    addTestCase(new WriteAndReadRaw());
+    ADD_TEST_CASE(WriteRaw);
+    ADD_TEST_CASE(ReadRaw);
+    ADD_TEST_CASE(ReadRawConst);
+    ADD_TEST_CASE(WriteAndReadRaw);
 }
 
 //==============================================================================
 void DataField_test::ReadRaw::addTestCases()
 {
-    addTestCase(new BitOffset());
-    addTestCase(new NoBitOffset());
+    ADD_TEST_CASE(BitOffset);
+    ADD_TEST_CASE(NoBitOffset);
 }
 
 //==============================================================================
 void DataField_test::ReadRawConst::addTestCases()
 {
-    addTestCase(new BitOffset());
-    addTestCase(new NoBitOffset());
+    ADD_TEST_CASE(BitOffset);
+    ADD_TEST_CASE(NoBitOffset);
 }
 
 //==============================================================================
 void DataField_test::WriteAndReadRaw::addTestCases()
 {
-    addTestCase(new UnsignedInt1Byte());
-    addTestCase(new UnsignedInt2Byte());
-    addTestCase(new UnsignedInt4Byte());
+    ADD_TEST_CASE(UnsignedInt1Byte);
+    ADD_TEST_CASE(UnsignedInt2Byte);
+    ADD_TEST_CASE(UnsignedInt4Byte);
 }
 
 //==============================================================================
