@@ -12,5 +12,5 @@ cmake_install.cmake
 libtools-cpp.a
 libtools-cpp.so
 
-# Tests
-*_test
+# Test binaries
+*/*_test
