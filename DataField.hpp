@@ -98,8 +98,6 @@ protected:
     // determination stored as a private data member
     static misc::ByteOrder getByteOrder();
 
-protected:
-
     // Takes all the bytes out of "offset_bits" and adds them to buffer.
     // "offset_bits" is reduced to the remainder of offset_bits divided by
     // BITS_PER_BYTE.
