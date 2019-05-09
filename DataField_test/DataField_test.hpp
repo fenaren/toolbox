@@ -1,9 +1,14 @@
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(DataField_test)
+TEST_CASES_BEGIN(DataField_test)
 
     // Tests the writeRaw member function
-    TEST(WriteRaw)
+    TEST_CASES_BEGIN(WriteRaw)
+
+        TEST(BitOffset)
+        // The NoBitOffset case directly calls another user-defined function
+
+    TEST_CASES_END(WriteRaw)
 
     // Tests the readRaw member function
     TEST_CASES_BEGIN(ReadRaw)
@@ -31,6 +36,6 @@ TEST_CASES_PROGRAM_BEGIN(DataField_test)
 
     TEST_CASES_END(WriteAndReadRaw)
 
-TEST_CASES_PROGRAM_END(DataField_test)
+TEST_CASES_END(DataField_test)
 
 template <class T> bool writeAndReadRawTest();

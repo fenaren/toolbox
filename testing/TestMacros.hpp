@@ -42,12 +42,6 @@
         return testprogram.run();                   \
     }
 
-#define TEST_CASES_PROGRAM_BEGIN(TestClass) TEST_CASES_BEGIN(TestClass)
-
-#define TEST_CASES_PROGRAM_END(TestClass) \
-    TEST_CASES_END(TestClass)             \
-    TEST_PROGRAM_MAIN(TestClass)
-
 #define ADD_TEST_CASE(TestCase) addTestCase(new TestCase())
 
 // MUST_BE_TRUE and MUST_BE_FALSE are intended to be used within the Test::run()

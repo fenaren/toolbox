@@ -2,31 +2,20 @@
 #include <cstring>
 #include <iostream>
 
-#include "Test.hpp"
-#include "TestCases.hpp"
+#include "misc_test.hpp"
+
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(misc_test)
-TEST(Byteswap_InPlace)
-TEST(Byteswap_InPlaceTemplate)
-TEST(Byteswap_OutOfPlace)
-TEST(Endian_OperatorNot)
-TEST(SmallestMultipleOfXGreaterOrEqualToY)
-TEST_CASES_PROGRAM_END(misc_test)
-
-const unsigned int SIZE = 8;
-
-void initializeSquareMatrix(std::uint8_t (&m)[SIZE][SIZE]);
-void initializeSquareMatrixSwapped(std::uint8_t (&m)[SIZE][SIZE]);
+TEST_PROGRAM_MAIN(misc_test)
 
 //==============================================================================
 void misc_test::addTestCases()
 {
-    addTestCase(new Byteswap_InPlace());
-    addTestCase(new Byteswap_InPlaceTemplate());
-    addTestCase(new Byteswap_OutOfPlace());
-    addTestCase(new Endian_OperatorNot());
+    ADD_TEST_CASE(Byteswap_InPlace);
+    ADD_TEST_CASE(Byteswap_InPlaceTemplate);
+    ADD_TEST_CASE(Byteswap_OutOfPlace);
+    ADD_TEST_CASE(Endian_OperatorNot);
 }
 
 //==============================================================================

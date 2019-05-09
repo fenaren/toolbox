@@ -2,17 +2,13 @@
 #include <cstring>
 #include <iostream>
 
+#include "ArpPacketEthernetIpv4_test.hpp"
+
 #include "ArpPacketEthernetIpv4.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
-
-TEST_CASES_PROGRAM_BEGIN(ArpPacketEthernetIpv4_test)
-TEST(Length)
-TEST(WriteRaw)
-TEST(Constructor_ReadRaw)
-TEST_CASES_PROGRAM_END(ArpPacketEthernetIpv4_test)
 
 // ARP packets carrying IPv4 and Ethernet addresses are exactly this length
 const unsigned int PACKET_LENGTH = 28;
@@ -20,8 +16,7 @@ const unsigned int PACKET_LENGTH = 28;
 const unsigned int MAC_LENGTH_BYTES  = 6;
 const unsigned int IPV4_LENGTH_BYTES = 4;
 
-template <class T>
-unsigned int fieldPull(unsigned char* buffer, T& destination);
+TEST_PROGRAM_MAIN(ArpPacketEthernetIpv4_test)
 
 //==============================================================================
 void ArpPacketEthernetIpv4_test::addTestCases()

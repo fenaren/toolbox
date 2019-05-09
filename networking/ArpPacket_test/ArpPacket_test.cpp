@@ -1,20 +1,13 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "ArpPacket_test.hpp"
+
 #include "ArpPacket.hpp"
 #include "RawDataField.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
-
-TEST_CASES_PROGRAM_BEGIN(ArpPacket_test)
-TEST(Constructor_BadLengthSha)
-TEST(Constructor_BadLengthSpa)
-TEST(Constructor_BadLengthTha)
-TEST(Constructor_BadLengthTpa)
-TEST(Length_EthernetIpv4)
-TEST(Length_EthernetIpv6)
-TEST_CASES_PROGRAM_END(ArpPacket_test)
 
 const unsigned int HLEN  = 6;
 const unsigned int PLEN4 = 4;
@@ -37,18 +30,15 @@ const unsigned char ip61[] =
 const unsigned char ip62[] =
     {17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32};
 
-bool isLengthBad(const RawDataField& bf1,
-                 const RawDataField& bf2,
-                 const RawDataField& bf3,
-                 const RawDataField& bf4);
+TEST_PROGRAM_MAIN(ArpPacket_test)
 
 //==============================================================================
 void ArpPacket_test::addTestCases()
 {
-    addTestCase(new Constructor_BadLengthSha());
-    addTestCase(new Constructor_BadLengthSpa());
-    addTestCase(new Constructor_BadLengthTha());
-    addTestCase(new Constructor_BadLengthTpa());
+    ADD_TEST_CASE(Constructor_BadLengthSha);
+    ADD_TEST_CASE(Constructor_BadLengthSpa);
+    ADD_TEST_CASE(Constructor_BadLengthTha);
+    ADD_TEST_CASE(Constructor_BadLengthTpa);
 }
 
 //==============================================================================

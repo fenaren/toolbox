@@ -10,6 +10,8 @@
 #include "SimpleDataField.hpp"
 #include "TestMacros.hpp"
 
+TEST_PROGRAM_MAIN(DataField_test)
+
 //==============================================================================
 void DataField_test::addTestCases()
 {
