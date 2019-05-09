@@ -56,11 +56,11 @@ unsigned long DataField::readRaw(std::uint8_t*   buffer,
     // shift the data back to where it was and put the first byte back in
     // place.  This should leave things exactly the way we left them.
 
-    // All the other alternatives involve using memory we don't have.  This
-    // would mean dynamically allocating memory here or statitcally allocating
-    // enough data store this packet in case this happens, which would be
-    // probably be wasteful in general.  Offset packets are expected to be
-    // uncommon.
+    // All the other alternatives involve using memory we don't immediately
+    // have.  This would mean dynamically allocating memory here or statitcally
+    // allocating enough data to store this packet in case this happens, which
+    // would be probably be wasteful in general.  Offset packets are expected to
+    // be uncommon.
 
     // Save the first byte to put back later
     std::uint8_t first_byte = buffer[0];
@@ -147,11 +147,11 @@ unsigned long DataField::writeRaw(std::uint8_t*   buffer,
     // data in the buffer but we'll save that data and put it back where it
     // should be as the last thing we do.
 
-    // All the other alternatives involve using memory we don't have.  This
-    // would mean dynamically allocating memory here or statitcally allocating
-    // enough data store this packet in case this happens, which would be
-    // probably be wasteful in general.  Offset packets are expected to be
-    // uncommon.
+    // All the other alternatives involve using memory we don't immediately
+    // have.  This would mean dynamically allocating memory here or statitcally
+    // allocating enough data to store this packet in case this happens, which
+    // would be probably be wasteful in general.  Offset packets are expected to
+    // be uncommon.
 
     // Save the first byte, we have to mask this back in later
     std::uint8_t first_byte = buffer[0];
