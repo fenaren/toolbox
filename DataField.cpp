@@ -57,7 +57,7 @@ unsigned long DataField::readRaw(std::uint8_t*   buffer,
     // place.  This should leave things exactly the way we left them.
 
     // All the other alternatives involve using memory we don't immediately
-    // have.  This would mean dynamically allocating memory here or statitcally
+    // have.  This would mean dynamically allocating memory here or statically
     // allocating enough data to store this packet in case this happens, which
     // would be probably be wasteful in general.  Offset packets are expected to
     // be uncommon.
@@ -148,7 +148,7 @@ unsigned long DataField::writeRaw(std::uint8_t*   buffer,
     // should be as the last thing we do.
 
     // All the other alternatives involve using memory we don't immediately
-    // have.  This would mean dynamically allocating memory here or statitcally
+    // have.  This would mean dynamically allocating memory here or statically
     // allocating enough data to store this packet in case this happens, which
     // would be probably be wasteful in general.  Offset packets are expected to
     // be uncommon.
