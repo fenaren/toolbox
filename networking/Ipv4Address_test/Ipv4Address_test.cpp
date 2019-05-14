@@ -3,19 +3,19 @@
 #include <string>
 #include <vector>
 
+#include "Ipv4Address_test.hpp"
+
 #include "Ipv4Address.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(Ipv4Address_test)
-TEST(Operators_EqualityInequality)
-TEST_CASES_PROGRAM_END(Ipv4Address_test)
+TEST_PROGRAM_MAIN(Ipv4Address_test);
 
 //==============================================================================
 void Ipv4Address_test::addTestCases()
 {
-    addTestCase(new Operators_EqualityInequality());
+    ADD_TEST_CASE(Operators_EqualityInequality);
 }
 
 //==============================================================================
