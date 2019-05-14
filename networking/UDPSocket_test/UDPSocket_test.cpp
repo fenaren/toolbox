@@ -1,20 +1,19 @@
 #include <iostream>
 #include <string.h>
 
-#include "UDPSocket.hpp"
+#include "UDPSocket_test.hpp"
 
+#include "UDPSocket.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(UDPSocket_test)
-TEST(SendReceive_TwoSockets)
-TEST_CASES_PROGRAM_END(UDPSocket_test)
+TEST_PROGRAM_MAIN(UDPSocket_test);
 
 //==============================================================================
 void UDPSocket_test::addTestCases()
 {
-    addTestCase(new SendReceive_TwoSockets());
+    ADD_TEST_CASE(SendReceive_TwoSockets);
 }
 
 //==============================================================================

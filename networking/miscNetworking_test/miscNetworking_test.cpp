@@ -5,23 +5,21 @@
 #include <iostream>
 #include <string>
 
-#include "miscNetworking.hpp"
+#include "miscNetworking_test.hpp"
 
 #include "MacAddress.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
+#include "miscNetworking.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(miscNetworking_test)
-TEST(GetMacAddress)
-TEST(GetIpv4Address)
-TEST_CASES_PROGRAM_END(miscNetworking_test)
+TEST_PROGRAM_MAIN(miscNetworking_test);
 
 //==============================================================================
 void miscNetworking_test::addTestCases()
 {
-    addTestCase(new GetMacAddress());
-    addTestCase(new GetIpv4Address());
+    ADD_TEST_CASE(GetMacAddress);
+    ADD_TEST_CASE(GetIpv4Address);
 }
 
 //==============================================================================

@@ -3,22 +3,21 @@
 #include <string>
 #include <vector>
 
-#include "Program.hpp"
+#include "Program_test.hpp"
 
 #include "HelloWorld.hpp"
+#include "Program.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "TestProgram.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(Program_test)
-TEST(NameArguments)
-TEST_CASES_PROGRAM_END(Program_test)
+TEST_PROGRAM_MAIN(Program_test);
 
 //==============================================================================
 void Program_test::addTestCases()
 {
-    addTestCase(new NameArguments());
+    ADD_TEST_CASE(NameArguments);
 }
 
 //==============================================================================

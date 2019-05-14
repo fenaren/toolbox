@@ -1,22 +1,20 @@
 #include <cstring>
 #include <iostream>
 
-#include "TCPSocket.hpp"
+#include "TCPSocket_test.hpp"
 
+#include "TCPSocket.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(TCPSocket_test)
-TEST(SendReceive_TwoSockets)
-TEST(SendReceive_TwoSockets_AcceptSpawn)
-TEST_CASES_PROGRAM_END(TCPSocket_test)
+TEST_PROGRAM_MAIN(TCPSocket_test);
 
 //==============================================================================
 void TCPSocket_test::addTestCases()
 {
-    addTestCase(new SendReceive_TwoSockets());
-    addTestCase(new SendReceive_TwoSockets_AcceptSpawn());
+    ADD_TEST_CASE(SendReceive_TwoSockets);
+    ADD_TEST_CASE(SendReceive_TwoSockets_AcceptSpawn);
 }
 
 //==============================================================================

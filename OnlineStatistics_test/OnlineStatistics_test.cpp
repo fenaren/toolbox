@@ -3,21 +3,20 @@
 #include <iostream>
 #include <string>
 
-#include "OnlineStatistics.hpp"
+#include "OnlineStatistics_test.hpp"
 
+#include "OnlineStatistics.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(OnlineStatistics_test)
-TEST(CompareToExcel)
-TEST_CASES_PROGRAM_END(OnlineStatistics_test)
+TEST_PROGRAM_MAIN(OnlineStatistics_test);
 
 //==============================================================================
 void OnlineStatistics_test::addTestCases()
 {
-    addTestCase(new CompareToExcel());
+    ADD_TEST_CASE(CompareToExcel);
 }
 
 //==============================================================================

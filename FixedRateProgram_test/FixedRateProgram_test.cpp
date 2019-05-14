@@ -2,20 +2,20 @@
 #include <iostream>
 #include <string>
 
+#include "FixedRateProgram_test.hpp"
+
 #include "HelloWorld.hpp"
 #include "PosixTimespec.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(FixedRateProgram_test)
-TEST(TimeOneFrame)
-TEST_CASES_PROGRAM_END(FixedRateProgram_test)
+TEST_PROGRAM_MAIN(FixedRateProgram_test);
 
 //==============================================================================
 void FixedRateProgram_test::addTestCases()
 {
-    addTestCase(new TimeOneFrame());
+    ADD_TEST_CASE(TimeOneFrame);
 }
 
 //==============================================================================

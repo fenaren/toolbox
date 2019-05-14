@@ -22,6 +22,12 @@ void DataField_test::addTestCases()
 }
 
 //==============================================================================
+void DataField_test::WriteRaw::addTestCases()
+{
+    ADD_TEST_CASE(BitOffset);
+}
+
+//==============================================================================
 void DataField_test::ReadRaw::addTestCases()
 {
     ADD_TEST_CASE(BitOffset);
@@ -44,7 +50,7 @@ void DataField_test::WriteAndReadRaw::addTestCases()
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteRaw::body()
+Test::Result DataField_test::WriteRaw::BitOffset::body()
 {
     return Test::SKIPPED;
 }

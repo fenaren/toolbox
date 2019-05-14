@@ -5,35 +5,21 @@
 #include <thread>
 #include <unordered_set>
 
-#include "SignalManager.hpp"
+#include "SignalManager_test.hpp"
 
+#include "SignalManager.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(SignalManager_test)
-TEST(PrintSupportedSignalCount)
-TEST(SignalUnknownSignal)
-TEST(CheckUnknownSignalDelivered)
-TEST(GenerateAllSignals)
-TEST_CASES_PROGRAM_END(SignalManager_test)
-
-#define GET_SIGNAL_MANAGER(signal_manager)      \
-    try                                         \
-    {                                           \
-        signal_manager = new SignalManager();   \
-    }                                           \
-    catch (std::runtime_error& ex)              \
-    {                                           \
-        return Test::SKIPPED;                   \
-    }
+TEST_PROGRAM_MAIN(SignalManager_test);
 
 //==============================================================================
 void SignalManager_test::addTestCases()
 {
-    addTestCase(new SignalUnknownSignal());
-    addTestCase(new CheckUnknownSignalDelivered());
-    addTestCase(new GenerateAllSignals());
+    ADD_TEST_CASE(SignalUnknownSignal);
+    ADD_TEST_CASE(CheckUnknownSignalDelivered);
+    ADD_TEST_CASE(GenerateAllSignals);
 }
 
 //==============================================================================

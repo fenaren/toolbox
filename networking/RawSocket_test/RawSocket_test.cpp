@@ -1,18 +1,18 @@
 #include <stdexcept>
 
+#include "RawSocket_test.hpp"
+
 #include "RawSocket.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(RawSocket_test)
-TEST(Constructor)
-TEST_CASES_PROGRAM_END(RawSocket_test)
+TEST_PROGRAM_MAIN(RawSocket_test);
 
 //==============================================================================
 void RawSocket_test::addTestCases()
 {
-    addTestCase(new Constructor());
+    ADD_TEST_CASE(Constructor);
 }
 
 //==============================================================================

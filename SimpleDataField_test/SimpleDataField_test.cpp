@@ -2,26 +2,22 @@
 #include <iostream>
 #include <list>
 
-#include "SimpleDataField.hpp"
+#include "SimpleDataField_test.hpp"
 
+#include "SimpleDataField.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(SimpleDataField_test);
-TEST(Lengths)
-TEST(AssignmentGetValue)
-TEST(WriteRaw)
-TEST(ReadRaw)
-TEST_CASES_PROGRAM_END(SimpleDataField_test);
+TEST_PROGRAM_MAIN(SimpleDataField_test);
 
 //==============================================================================
 void SimpleDataField_test::addTestCases()
 {
-    addTestCase(new Lengths());
-    addTestCase(new AssignmentGetValue());
-    addTestCase(new WriteRaw());
-    addTestCase(new ReadRaw());
+    ADD_TEST_CASE(Lengths);
+    ADD_TEST_CASE(AssignmentGetValue);
+    ADD_TEST_CASE(WriteRaw);
+    ADD_TEST_CASE(ReadRaw);
 }
 
 //==============================================================================

@@ -2,6 +2,8 @@
 #include <cstring>
 #include <iostream>
 
+#include "DataPacket_test.hpp"
+
 #include "DataPacket.hpp"
 #include "DataPacket_test1.hpp"
 #include "DataPacket_test2.hpp"
@@ -10,26 +12,17 @@
 #include "TestMacros.hpp"
 #include "pullUpdatePush.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(DataPacket_test)
-TEST(GetLengthBytes_Align1Byte)
-TEST(GetLengthBytes_Align2Byte)
-TEST(GetLengthBytes_Align3Byte)
-TEST(GetLengthBytes_Align4Byte)
-TEST(PullUpdatePush)
-TEST(PullUpdatePush_Swap)
-TEST_CASES_PROGRAM_END(DataPacket_test)
-
-void initializeDp(DataPacket_test1& dp);
+TEST_PROGRAM_MAIN(DataPacket_test);
 
 //==============================================================================
 void DataPacket_test::addTestCases()
 {
-    addTestCase(new GetLengthBytes_Align1Byte());
-    addTestCase(new GetLengthBytes_Align2Byte());
-    addTestCase(new GetLengthBytes_Align3Byte());
-    addTestCase(new GetLengthBytes_Align4Byte());
-    addTestCase(new PullUpdatePush());
-    addTestCase(new PullUpdatePush_Swap());
+    ADD_TEST_CASE(GetLengthBytes_Align1Byte);
+    ADD_TEST_CASE(GetLengthBytes_Align2Byte);
+    ADD_TEST_CASE(GetLengthBytes_Align3Byte);
+    ADD_TEST_CASE(GetLengthBytes_Align4Byte);
+    ADD_TEST_CASE(PullUpdatePush);
+    ADD_TEST_CASE(PullUpdatePush_Swap);
 }
 
 //==============================================================================

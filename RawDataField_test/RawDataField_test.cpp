@@ -1,69 +1,38 @@
 #include <cstring>
 #include <limits>
 
+#include "RawDataField_test.hpp"
+
+#include "RawDataField.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-#include "RawDataField.hpp"
-
-TEST_CASES_PROGRAM_BEGIN(RawDataField_test)
-TEST(Assignment)
-TEST(ConstructZeroSize)
-TEST(CopyConstructor)
-TEST(Equality)
-TEST(GetBit_OutOfRange)
-TEST(GetBitsAsNumericType_Chunks)
-TEST(GetBitsAsNumericType_IncRangesAllSet)
-TEST(GetBitsAsNumericType_OutOfRange)
-TEST(GetByte)
-TEST(GetLengthBytes)
-TEST(Inequality)
-TEST(ReadRaw)
-TEST(SetBit)
-TEST(SetBitsAsNumericType_Chunks)
-TEST(SetBitsAsNumericType_IncRanges)
-TEST(SetByte)
-TEST(ShiftDown)
-TEST(ShiftUp)
-TEST(WriteRaw)
-TEST_CASES_PROGRAM_END(RawDataField_test)
-
-// Some memory for all test cases to use
-const unsigned int workspace_length = 20;
-unsigned char workspace1[workspace_length];
-unsigned char workspace2[workspace_length];
-
-// Free utility functions
-template <class T> bool setBitAllBits(RawDataField& number_rdf, T& number);
-template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
-                                                     unsigned int  start_bit,
-                                                     unsigned int  count,
-                                                     T&            dest_type);
+TEST_PROGRAM_MAIN(RawDataField_test);
 
 //==============================================================================
 void RawDataField_test::addTestCases()
 {
-    addTestCase(new Assignment());
-    addTestCase(new ConstructZeroSize());
-    addTestCase(new CopyConstructor());
-    addTestCase(new Equality());
-    addTestCase(new GetBit_OutOfRange());
-    addTestCase(new GetBitsAsNumericType_Chunks());
-    addTestCase(new GetBitsAsNumericType_IncRangesAllSet());
-    addTestCase(new GetBitsAsNumericType_OutOfRange());
-    addTestCase(new GetByte());
-    addTestCase(new GetLengthBytes());
-    addTestCase(new Inequality());
-    addTestCase(new ReadRaw());
-    addTestCase(new SetBit());
-    addTestCase(new SetBitsAsNumericType_Chunks());
-    addTestCase(new SetBitsAsNumericType_IncRanges());
-    addTestCase(new SetByte());
-    addTestCase(new ShiftDown());
-    addTestCase(new ShiftUp());
-    addTestCase(new WriteRaw());
+    ADD_TEST_CASE(Assignment);
+    ADD_TEST_CASE(ConstructZeroSize);
+    ADD_TEST_CASE(CopyConstructor);
+    ADD_TEST_CASE(Equality);
+    ADD_TEST_CASE(GetBit_OutOfRange);
+    ADD_TEST_CASE(GetBitsAsNumericType_Chunks);
+    ADD_TEST_CASE(GetBitsAsNumericType_IncRangesAllSet);
+    ADD_TEST_CASE(GetBitsAsNumericType_OutOfRange);
+    ADD_TEST_CASE(GetByte);
+    ADD_TEST_CASE(GetLengthBytes);
+    ADD_TEST_CASE(Inequality);
+    ADD_TEST_CASE(ReadRaw);
+    ADD_TEST_CASE(SetBit);
+    ADD_TEST_CASE(SetBitsAsNumericType_Chunks);
+    ADD_TEST_CASE(SetBitsAsNumericType_IncRanges);
+    ADD_TEST_CASE(SetByte);
+    ADD_TEST_CASE(ShiftDown);
+    ADD_TEST_CASE(ShiftUp);
+    ADD_TEST_CASE(WriteRaw);
 }
 
 //==============================================================================

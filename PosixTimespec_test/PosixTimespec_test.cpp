@@ -1,52 +1,25 @@
 #include <iostream>
 #include <vector>
 
+#include "PosixTimespec_test.hpp"
+
 #include "PosixTimespec.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(PosixTimespec_test)
-TEST(OperatorAddition)
-TEST(OperatorSubtraction)
-TEST(OperatorGreaterThan)
-TEST(OperatorGreaterThanEqualTo)
-TEST(OperatorLessThan)
-TEST(OperatorLessThanEqualTo)
-TEST(BreakMeUp)
-TEST_CASES_PROGRAM_END(PosixTimespec_test)
-
-enum Greater
-{
-    LHS,
-    RHS,
-    EQUAL
-};
-
-struct TimespecGtlt
-{
-    timespec lhs;
-    timespec rhs;
-    Greater  greater;
-};
-
-struct TimespecTuple
-{
-    timespec lhs;
-    timespec rhs;
-    timespec result;
-};
+TEST_PROGRAM_MAIN(PosixTimespec_test);
 
 //==============================================================================
 void PosixTimespec_test::addTestCases()
 {
-    addTestCase(new OperatorAddition());
-    addTestCase(new OperatorSubtraction());
-    addTestCase(new OperatorGreaterThan());
-    addTestCase(new OperatorGreaterThanEqualTo());
-    addTestCase(new OperatorLessThan());
-    addTestCase(new OperatorLessThanEqualTo());
-    addTestCase(new BreakMeUp());
+    ADD_TEST_CASE(OperatorAddition);
+    ADD_TEST_CASE(OperatorSubtraction);
+    ADD_TEST_CASE(OperatorGreaterThan);
+    ADD_TEST_CASE(OperatorGreaterThanEqualTo);
+    ADD_TEST_CASE(OperatorLessThan);
+    ADD_TEST_CASE(OperatorLessThanEqualTo);
+    ADD_TEST_CASE(BreakMeUp);
 }
 
 //==============================================================================

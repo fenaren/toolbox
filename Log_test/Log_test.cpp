@@ -1,19 +1,18 @@
 #include <iostream>
 
-#include "Log.hpp"
+#include "Log_test.hpp"
 
+#include "Log.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(Log_test)
-TEST(WriteWarningError)
-TEST_CASES_PROGRAM_END(Log_test)
+TEST_PROGRAM_MAIN(Log_test);
 
 //==============================================================================
 void Log_test::addTestCases()
 {
-    addTestCase(new WriteWarningError());
+    ADD_TEST_CASE(WriteWarningError);
 }
 
 //==============================================================================
