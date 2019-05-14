@@ -3,19 +3,19 @@
 #include <string>
 #include <vector>
 
+#include "MacAddress_test.hpp"
+
 #include "MacAddress.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_CASES_PROGRAM_BEGIN(MacAddress_test)
-TEST(Operators_EqualityInequality)
-TEST_CASES_PROGRAM_END(MacAddress_test)
+TEST_PROGRAM_MAIN(MacAddress_test);
 
 //==============================================================================
 void MacAddress_test::addTestCases()
 {
-    addTestCase(new Operators_EqualityInequality());
+    ADD_TEST_CASE(Operators_EqualityInequality);
 }
 
 //==============================================================================
