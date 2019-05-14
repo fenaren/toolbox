@@ -1,3 +1,6 @@
+#if !defined DATA_FIELD_TEST
+#define DATA_FIELD_TEST
+
 #include "TestMacros.hpp"
 
 TEST_CASES_BEGIN(DataField_test)
@@ -39,3 +42,5 @@ TEST_CASES_BEGIN(DataField_test)
 TEST_CASES_END(DataField_test)
 
 template <class T> bool writeAndReadRawTest();
+
+#endif

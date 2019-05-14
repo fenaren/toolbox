@@ -1,3 +1,6 @@
+#if !defined POSIX_TIMESPEC_TEST
+#define POSIX_TIMESPEC_TEST
+
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -34,3 +37,5 @@ struct TimespecTuple
     timespec rhs;
     timespec result;
 };
+
+#endif

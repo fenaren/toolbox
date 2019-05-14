@@ -1,3 +1,6 @@
+#if !defined SIGNAL_MANAGER_TEST
+#define SIGNAL_MANAGER_TEST
+
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -20,3 +23,5 @@ TEST_CASES_END(SignalManager_test)
     {                                           \
         return Test::SKIPPED;                   \
     }
+
+#endif

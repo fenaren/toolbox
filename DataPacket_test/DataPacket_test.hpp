@@ -1,3 +1,6 @@
+#if !defined DATA_PACKET_TEST
+#define DATA_PACKET_TEST
+
 #include "DataPacket_test1.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
@@ -15,3 +18,5 @@ TEST_CASES_BEGIN(DataPacket_test)
 TEST_CASES_END(DataPacket_test)
 
 void initializeDp(DataPacket_test1& dp);
+
+#endif

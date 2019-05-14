@@ -1,3 +1,6 @@
+#if !defined RAW_DATA_FIELD_TEST
+#define RAW_DATA_FIELD_TEST
+
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -39,3 +42,5 @@ template <class T> bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
                                                      unsigned int  start_bit,
                                                      unsigned int  count,
                                                      T&            dest_type);
+
+#endif

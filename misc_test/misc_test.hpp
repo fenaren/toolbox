@@ -1,3 +1,6 @@
+#if !defined MISC_TEST
+#define MISC_TEST
+
 #include <cstdint>
 
 #include "Test.hpp"
@@ -18,3 +21,5 @@ const unsigned int SIZE = 8;
 
 void initializeSquareMatrix(std::uint8_t (&m)[SIZE][SIZE]);
 void initializeSquareMatrixSwapped(std::uint8_t (&m)[SIZE][SIZE]);
+
+#endif

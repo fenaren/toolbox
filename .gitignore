@@ -11,3 +11,6 @@ cmake_install.cmake
 # The library this repository is meant to generate
 libtools-cpp.a
 libtools-cpp.so
+
+# Temporary files
+*~

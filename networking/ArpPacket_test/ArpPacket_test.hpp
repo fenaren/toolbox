@@ -1,3 +1,6 @@
+#if !defined ARP_PACKET_TEST
+#define ARP_PACKET_TEST
+
 #include "RawDataField.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
@@ -18,3 +21,5 @@ bool isLengthBad(const RawDataField& bf1,
                  const RawDataField& bf2,
                  const RawDataField& bf3,
                  const RawDataField& bf4);
+
+#endif
