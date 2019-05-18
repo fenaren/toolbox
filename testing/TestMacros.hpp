@@ -1,4 +1,4 @@
-#if !defined TEST_MACROS
+#if !defined TEST_MACROS_HPP
 
 #include <iostream>
 #include <string>
@@ -19,7 +19,6 @@
     {                                                                    \
     public:                                                              \
         TestClass(const std::string& name = #TestClass) : Test(name) {}; \
-        ~TestClass() {};                                                 \
     protected:                                                           \
         virtual Test::Result body();                                     \
     };
@@ -29,7 +28,6 @@
     {                                                                         \
     public:                                                                   \
         TestClass(const std::string& name = #TestClass) : TestCases(name) {}; \
-        ~TestClass() {};                                                      \
         virtual void addTestCases();
 
 #define TEST_CASES_END(TestClass) };
