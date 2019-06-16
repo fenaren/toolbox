@@ -6,8 +6,6 @@
 //==============================================================================
 misc::ByteOrder misc::getByteOrder()
 {
-    int something[4];
-
     unsigned short test_var = 0xff00;
     if (*(unsigned char*)&test_var > 0)
     {
