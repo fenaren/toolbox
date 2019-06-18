@@ -29,7 +29,6 @@ Test::Result SignalManager_test::SignalUnknownSignal::body()
     GET_SIGNAL_MANAGER(signal_manager);
 
     // Give the signal manager a garbage signal and see what happens
-    // cppcheck-suppress nullPointer
     signal_manager->signal(999);
 
     delete signal_manager;
@@ -40,7 +39,6 @@ Test::Result SignalManager_test::SignalUnknownSignal::body()
 //==============================================================================
 Test::Result SignalManager_test::CheckUnknownSignalDelivered::body()
 {
-    // cppcheck-suppress nullPointer
     SignalManager* signal_manager = 0;
     GET_SIGNAL_MANAGER(signal_manager);
 
@@ -65,7 +63,6 @@ Test::Result SignalManager_test::CheckUnknownSignalDelivered::body()
 //==============================================================================
 Test::Result SignalManager_test::GenerateAllSignals::body()
 {
-    // cppcheck-suppress nullPointer
     SignalManager* signal_manager = 0;
     GET_SIGNAL_MANAGER(signal_manager);
 
