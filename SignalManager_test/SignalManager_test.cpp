@@ -40,6 +40,7 @@ Test::Result SignalManager_test::SignalUnknownSignal::body()
 //==============================================================================
 Test::Result SignalManager_test::CheckUnknownSignalDelivered::body()
 {
+    // cppcheck-suppress nullPointer
     SignalManager* signal_manager = 0;
     GET_SIGNAL_MANAGER(signal_manager);
 
@@ -64,6 +65,7 @@ Test::Result SignalManager_test::CheckUnknownSignalDelivered::body()
 //==============================================================================
 Test::Result SignalManager_test::GenerateAllSignals::body()
 {
+    // cppcheck-suppress nullPointer
     SignalManager* signal_manager = 0;
     GET_SIGNAL_MANAGER(signal_manager);
 
