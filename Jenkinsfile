@@ -1,8 +1,8 @@
 #!groovy
 
-@Library(value="jenkins-sl@master")
+@Library(value="jenkins-sl@better-pipeline-stage")
 
-stages = [
+pipeline = [
 
     [name: 'Checkout',
      body: stageCheckout,
@@ -42,4 +42,4 @@ stages = [
 
 ]
 
-doStages(stages)
+runPipeline(pipeline)
