@@ -42,4 +42,4 @@ pipeline = [
 
 ]
 
-runPipeline(pipeline)
+runPipeline(pipeline, 'Linux')
