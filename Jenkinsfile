@@ -76,11 +76,11 @@ pipelineWindows = [
 ]
 
 // Run both branches
-parallel branchLinux: {
+parallel Linux: {
 
     runPipeline(pipelineLinux, 'Linux')
 
-}, branchWindows: {
+}, Windows: {
 
     // This comes later
     //runPipeline(pipelineWindows, 'Windows')
