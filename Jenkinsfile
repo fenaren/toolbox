@@ -2,11 +2,15 @@
 
 @Library(value="jenkins-sl@better-pipeline-stage")
 
-pipeline = [
+// This pipeline runs on Linux, and will run on Windows at some point in the
+// future.
+
+// Construct the Linux pipeine
+pipelineLinux = [
 
     [name: 'Checkout',
      body: stageCheckout,
-     args:  ["http://gitlab.dmz/leighgarbs/toolbox.git"]],
+     args: ["http://gitlab.dmz/leighgarbs/toolbox.git"]],
 
     [name: 'Release Build',
      body: stageBuild,
@@ -42,4 +46,44 @@ pipeline = [
 
 ]
 
-runPipeline(pipeline, 'Linux')
+// Construct the Windows pipeline
+pipelineWindows = [
+
+    [name: 'Checkout',
+     body: stageCheckout,
+     args: ["http://gitlab.dmz/leighgarbs/toolbox.git"]],
+
+    [name: 'Release Build',
+     body: stageBuild,
+     args: ['release', 'tests']],
+
+    [name: 'Release Tests',
+     body: stageTests,
+     args: []],
+
+    [name: 'Debug Build',
+     body: stageBuild,
+     args: ['debug', 'tests']],
+
+    [name: 'Debug Tests',
+     body: stageTests,
+     args: []],
+
+    [name: 'Detect Warnings',
+     body: stageDetectWarnings,
+     args: []]
+
+]
+
+// Run both branches
+parallel branchLinux: {
+
+    runPipeline(pipelineLinux, 'Linux')
+
+}, branchWindows: {
+
+    // This comes later
+    //runPipeline(pipelineWindows, 'Windows')
+
+},
+failFast: false
