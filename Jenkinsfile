@@ -78,13 +78,11 @@ pipelineWindows = [
 // Run both branches
 parallel Linux: {
 
-    cleanWs()
-    runPipeline(pipelineLinux, 'Linux')
+    runPipeline(pipelineLinux, 'Linux', true)
 
 }, Windows: {
 
-    cleanWs()
-    //runPipeline(pipelineWindows, 'Windows')
+    //runPipeline(pipelineWindows, 'Windows', true)
 
 },
 failFast: false
