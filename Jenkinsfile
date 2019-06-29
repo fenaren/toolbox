@@ -13,6 +13,8 @@
 
 // Construct all the stages to be used by this pipeline
 
+new Checkout()
+
 pipeline_linux = [
 
 //    new Stage('CHECKOUT',
