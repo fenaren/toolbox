@@ -6,17 +6,14 @@
 // right of the ampsersand identifies the commit.  Branching jenkins-sl and then
 // adjusting this value is useful for testing pipeline code changes.
 @Library(value = "jenkins-sl@lets-go-oo")
-import stage.Stage
 import stage.StageCheckout
 
 // Stages are not specific to platforms.  At a high level each stage is expected
 // to be aware of the platform it's running on and adjust itself accordingly.
-asdf = new StageCheckout(repos: ['something'])
-//asdf = new Stage()
 
 pipeline_linux = [
 
-//    new StageCheckout(repos: ['http://gitlab.dmz/leighgarbs/toolbox.git'])
+    new StageCheckout(repos: ['http://gitlab.dmz/leighgarbs/toolbox.git'])
 
 //    new Stage('RELEASE BUILD', stageBuild, ['release', 'tests']),
 
