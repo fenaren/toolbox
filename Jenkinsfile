@@ -14,7 +14,7 @@
 // Construct all the stages to be used by this pipeline
 
 asdf = new Checkout(name: 'WHATEVER')
-print asdf.name
+asdf.run()
 
 pipeline_linux = [
 
