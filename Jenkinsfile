@@ -12,7 +12,7 @@
 
 pipeline_linux = [
 
-    new StageCheckout(['http://gitlab.dmz/leighgarbs/toolbox.git'])
+    new Stage(['http://gitlab.dmz/leighgarbs/toolbox.git'])
 
 //    new Stage('RELEASE BUILD', stageBuild, ['release', 'tests']),
 
