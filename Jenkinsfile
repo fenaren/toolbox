@@ -10,7 +10,9 @@
 // Stages are not specific to platforms.  At a high level each stage is expected
 // to be aware of the platform it's running on and adjust itself accordingly.
 
-asdf = new StageCheckout()
+import stages.*
+
+asdf = new RandomThing()
 
 pipeline_linux = [
 
