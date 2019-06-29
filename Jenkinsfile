@@ -5,7 +5,7 @@
 // shared library as set in Jenkins "Manage Jenkins -> Configure System", and
 // right of the ampsersand identifies the commit.  Branching jenkins-sl and then
 // adjusting this value is useful for testing pipeline code changes.
-@Library(value = "jenkins-sl@better-pipeline-stage")
+@Library(value = "jenkins-sl@lets-go-oo")
 
 // As defined here, stages are not specific to platforms.  At a high level each
 // stage is expected to be aware of the platform it's running on and adjust
