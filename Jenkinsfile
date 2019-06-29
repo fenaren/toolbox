@@ -13,7 +13,7 @@
 
 // Construct all the stages to be used by this pipeline
 
-new Checkout()
+asdf = new Checkout()
 
 pipeline_linux = [
 
