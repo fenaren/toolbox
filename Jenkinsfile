@@ -5,7 +5,9 @@
 // shared library as set in Jenkins "Manage Jenkins -> Configure System", and
 // right of the ampsersand identifies the commit.  Branching jenkins-sl and then
 // adjusting this value is useful for testing pipeline code changes.
-@Library(value = "jenkins-sl@lets-go-oo") import stage.StageCheckout
+@Library(value = "jenkins-sl@lets-go-oo")
+
+import stage.*
 
 // Stages are not specific to platforms.  At a high level each stage is expected
 // to be aware of the platform it's running on and adjust itself accordingly.
