@@ -7,7 +7,7 @@
 // adjusting this value is useful for testing pipeline code changes.
 @Library(value = "jenkins-sl@lets-go-oo") _
 
-//import stage.*
+import stage.*
 
 // Stages are not specific to platforms.  At a high level each stage is expected
 // to be aware of the platform it's running on and adjust itself accordingly.
