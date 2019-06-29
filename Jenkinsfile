@@ -9,7 +9,7 @@
 
 // Stages are not specific to platforms.  At a high level each stage is expected
 // to be aware of the platform it's running on and adjust itself accordingly.
-
+import stage.StageCheckout
 asdf = new StageCheckout(repos: ['something'])
 
 pipeline_linux = [
