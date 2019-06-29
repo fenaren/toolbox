@@ -12,6 +12,8 @@
 
 import stage.*
 
+print this
+
 pipeline_linux = [
 
     new StageCheckout(wfscript: this, repos: ['http://gitlab.dmz/leighgarbs/toolbox.git'])
