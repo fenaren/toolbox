@@ -29,7 +29,7 @@ pipeline_linux = [
 
     new Stage('VALGRIND', stageValgrind),
 
-    new Stage('CPPCHECK', stageCppcheck, '--suppress=unusedFunction'),
+    new Stage('CPPCHECK', stageCppcheck, ['--suppress=unusedFunction']),
 
     new Stage('CLANG STATIC ANALYSIS', stageClangStaticAnalysis),
 
