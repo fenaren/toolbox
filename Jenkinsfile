@@ -13,7 +13,7 @@
 
 // Construct all the stages to be used by this pipeline
 
-asdf = new Checkout(name: 'WHATEVER')
+asdf = new Checkout(binding: binding)
 asdf.run()
 
 pipeline_linux = [
