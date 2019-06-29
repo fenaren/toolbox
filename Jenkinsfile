@@ -15,25 +15,25 @@
 
 pipeline_linux = [
 
-    new Stage('CHECKOUT',
-              stageCheckout,
-              ['http://gitlab.dmz/leighgarbs/toolbox.git']),
+//    new Stage('CHECKOUT',
+//              stageCheckout,
+//              ['http://gitlab.dmz/leighgarbs/toolbox.git']),
 
-    new Stage('RELEASE BUILD', stageBuild, ['release', 'tests']),
+//    new Stage('RELEASE BUILD', stageBuild, ['release', 'tests']),
 
-    new Stage('RELEASE TESTS', stageTests),
+//    new Stage('RELEASE TESTS', stageTests),
 
-    new Stage('DEBUG BUILD', stageBuild, ['debug', 'tests']),
+//    new Stage('DEBUG BUILD', stageBuild, ['debug', 'tests']),
 
-    new Stage('DEBUG TESTS', stageTests),
+//    new Stage('DEBUG TESTS', stageTests),
 
-    new Stage('VALGRIND', stageValgrind),
+//    new Stage('VALGRIND', stageValgrind),
 
-    new Stage('CPPCHECK', stageCppcheck, ['--suppress=unusedFunction']),
+//    new Stage('CPPCHECK', stageCppcheck, ['--suppress=unusedFunction']),
 
-    new Stage('CLANG STATIC ANALYSIS', stageClangStaticAnalysis),
+//    new Stage('CLANG STATIC ANALYSIS', stageClangStaticAnalysis),
 
-    new Stage('DETECT WARNINGS', stageDetectWarnings),
+//    new Stage('DETECT WARNINGS', stageDetectWarnings),
 
 ]
 
