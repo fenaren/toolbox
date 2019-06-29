@@ -13,7 +13,7 @@
 
 // Construct all the stages to be used by this pipeline
 
-asdf = new Checkout(arguments = "whatever")
+asdf = new Checkout(arguments = ["whatever"])
 print asdf.arguments
 
 pipeline_linux = [
