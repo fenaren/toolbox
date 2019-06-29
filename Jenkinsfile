@@ -14,6 +14,7 @@
 // Construct all the stages to be used by this pipeline
 
 asdf = new Checkout(binding: binding)
+print currentBuild.result
 asdf.run()
 
 pipeline_linux = [
