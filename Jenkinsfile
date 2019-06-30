@@ -12,6 +12,8 @@
 
 import stage.*
 
+static jfc = this
+
 pipeline_linux = [
 
     new StageCheckout(this, ['http://gitlab.dmz/leighgarbs/toolbox.git'])
