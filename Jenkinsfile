@@ -19,13 +19,13 @@ pipeline_linux = [
                       ['http://gitlab.dmz/leighgarbs/bin.git'],
                       true),
 
-    new StageBuild(this, 'RELEASE BUILD', 'release', 'tests')
+    new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
 
-//    new Stage('RELEASE TESTS', stageTests),
+    new StageTests(this, 'RELEASE TESTS'),
 
-//    new Stage('DEBUG BUILD', stageBuild, ['debug', 'tests']),
+    new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
 
-//    new Stage('DEBUG TESTS', stageTests),
+    new StageTests(this, 'DEBUG TESTS')
 
 //    new Stage('VALGRIND', stageValgrind),
 
