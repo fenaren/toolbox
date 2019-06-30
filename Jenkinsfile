@@ -12,9 +12,11 @@
 
 import stage.*
 
+print this.getClass().getCanonicalName()
+
 pipeline_linux = [
 
-    new StageCheckout(wfscript: this, repos: ['http://gitlab.dmz/leighgarbs/toolbox.git'])
+    //new StageCheckout(wfscript: this, repos: ['http://gitlab.dmz/leighgarbs/toolbox.git'])
 
 //    new Stage('RELEASE BUILD', stageBuild, ['release', 'tests']),
 
