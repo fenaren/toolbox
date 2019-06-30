@@ -12,7 +12,7 @@
 
 import stage.*
 
-print this
+print class(this)
 
 pipeline_linux = [
 
