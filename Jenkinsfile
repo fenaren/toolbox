@@ -14,7 +14,7 @@ import stage.*
 
 pipeline_linux = [
 
-    new StageCheckout(this, ['http://gitlab.dmz/leighgarbs/toolbox.git'])
+    new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/toolbox.git')
 
 //    new Stage('RELEASE BUILD', stageBuild, ['release', 'tests']),
 
