@@ -12,7 +12,7 @@
 
 import stage.*
 
-print this.getClass().getCanonicalName()
+print this.getClass().getPackage()
 
 pipeline_linux = [
 
