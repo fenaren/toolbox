@@ -12,6 +12,8 @@
 
 import stage.*
 
+asdf = new Pipeline(this, 'Linux', [])
+
 pipeline_linux = [
 
     new StageCheckout(this,
