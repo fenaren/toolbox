@@ -19,7 +19,7 @@ pipeline_linux = [
                       ['http://gitlab.dmz/leighgarbs/bin.git'],
                       true),
 
-    new StageBuild('RELEASE BUILD', 'release', 'tests')
+    new StageBuild(this, 'RELEASE BUILD', 'release', 'tests')
 
 //    new Stage('RELEASE TESTS', stageTests),
 
