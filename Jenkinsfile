@@ -25,9 +25,9 @@ pipeline_linux = [
 
     new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
 
-    new StageTests(this, 'DEBUG TESTS')
+    new StageTests(this, 'DEBUG TESTS'),
 
-//    new Stage('VALGRIND', stageValgrind),
+    new StageValgrind(this)
 
 //    new Stage('CPPCHECK', stageCppcheck, ['--suppress=unusedFunction']),
 
