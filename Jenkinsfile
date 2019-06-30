@@ -27,9 +27,9 @@ pipeline_linux = [
 
     new StageTests(this, 'DEBUG TESTS'),
 
-    new StageValgrind(this)
+    new StageValgrind(this),
 
-//    new Stage('CPPCHECK', stageCppcheck, ['--suppress=unusedFunction']),
+    new StageCppcheck(this, '--suppress=unusedFunction')
 
 //    new Stage('CLANG STATIC ANALYSIS', stageClangStaticAnalysis),
 
