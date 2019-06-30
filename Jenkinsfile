@@ -31,9 +31,9 @@ pipeline_linux = [
 
     new StageCppcheck(this, '--suppress=unusedFunction'),
 
-    new StageClangStaticAnalysis(this)
+    new StageClangStaticAnalysis(this),
 
-//    new Stage('DETECT WARNINGS', stageDetectWarnings),
+    new StageDetectWarnings(this)
 
 ]
 
