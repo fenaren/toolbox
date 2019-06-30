@@ -5,7 +5,7 @@
 // shared library as set in Jenkins "Manage Jenkins -> Configure System", and
 // right of the ampsersand identifies the commit.  Branching jenkins-sl and then
 // adjusting this value is useful for testing pipeline code changes.
-@Library(value = "jenkins-sl@lets-go-oo")
+@Library(value = "jenkins-sl@better-pipeline-stage")
 
 import stage.*
 
@@ -21,10 +21,10 @@ pipelineBranchLinux = new PipelineBranch(
      new StageTests(this, 'RELEASE TESTS'),
      new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
      new StageTests(this, 'DEBUG TESTS'),
-     new StageValgrind(this),
-     new StageCppcheck(this, '--suppress=unusedFunction'),
      new StageClangStaticAnalysis(this),
-     new StageDetectWarnings(this)])
+     new StageDetectWarnings(this),
+     new StageValgrind(this),
+     new StageCppcheck(this, '--suppress=unusedFunction')])
 
 // Construct the Windows pipeline branch
 pipelineBranchWindows = new PipelineBranch(
