@@ -25,19 +25,6 @@ pipelineBranchLinux = new PipelineBranch(
      new StageDetectWarnings(this),
      new StageCppcheck(this, '--suppress=unusedFunction')])
 
-// Construct the Windows pipeline branch
-pipelineBranchWindows = new PipelineBranch(
-    this,
-    'Windows',
-    [new StageCheckout(this,
-                       'http://gitlab.dmz/leighgarbs/tools-cpp.git',
-                       ['http://gitlab.dmz/leighgarbs/bin.git']),
-     new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
-     new StageTests(this, 'RELEASE TESTS'),
-     new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
-     new StageTests(this, 'DEBUG TESTS'),
-     new StageDetectWarnings(this)])
-
 // Run both branches
 parallel Linux: {
 
