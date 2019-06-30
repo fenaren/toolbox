@@ -13,6 +13,7 @@
 import stage.*
 
 asdf = new Pipeline(this, 'Linux', [])
+asdf.run()
 
 pipeline_linux = [
 
