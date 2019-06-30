@@ -17,9 +17,9 @@ pipeline_linux = [
     new StageCheckout(this,
                       'http://gitlab.dmz/leighgarbs/tools-cpp.git',
                       ['http://gitlab.dmz/leighgarbs/bin.git'],
-                      true)
+                      true),
 
-//    new StageBuild('RELEASE BUILD', 'release', 'tests')
+    new StageBuild('RELEASE BUILD', 'release', 'tests')
 
 //    new Stage('RELEASE TESTS', stageTests),
 
