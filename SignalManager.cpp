@@ -10,10 +10,6 @@
 #include "SignalManagerFactory.hpp"
 #include "SignalManagerImpl.hpp"
 
-#if defined DEBUG
-asdf
-#endif
-
 SignalManager* signalmanager_p = 0;
 
 // Used by the operating system to forward signals to the SignalManager,
