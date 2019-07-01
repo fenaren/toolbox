@@ -98,5 +98,5 @@ Test::Result SignalManager_test::body()
 
     delete signal_manager;
 
-    return Test::PASSED;
+    return Test::FAILED;
 }
