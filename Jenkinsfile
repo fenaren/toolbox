@@ -20,7 +20,7 @@ pipelineBranchLinux = new PipelineBranch(
      new StageTests(this, 'RELEASE TESTS'),
      new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
      new StageTests(this, 'DEBUG TESTS'),
-     new StageValgrind(this),
+//     new StageValgrind(this),
      new StageClangStaticAnalysis(this),
      new StageDetectWarnings(this),
      new StageCppcheck(this, '--suppress=unusedFunction')])
