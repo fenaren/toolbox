@@ -32,7 +32,7 @@ SignalManager::SignalManager() :
     signal_manager_impl(0)
 {
     int something[4];
-    something[4];
+    something[4] = 0;
 
     // Set the pointer used to forward signals to this SignalManager by
     // handle_signal
