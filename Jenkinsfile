@@ -18,12 +18,12 @@ pipelineBranchLinux = new PipelineBranch(
                        ['http://gitlab.dmz/leighgarbs/bin.git']),
 //     new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
 //     new StageTests(this, 'RELEASE TESTS'),
-//     new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
+     new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
 //     new StageTests(this, 'DEBUG TESTS'),
-//     new StageValgrind(this),
+     new StageValgrind(this),
      new StageClangStaticAnalysis(this),
-     new StageDetectWarnings(this),
-     new StageCppcheck(this, '--suppress=unusedFunction')])
+     new StageCppcheck(this, '--suppress=unusedFunction'),
+     new StageAnalysisIssues(this)])
 
 // Run both branches
 parallel Linux: {
