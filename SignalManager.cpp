@@ -3,6 +3,7 @@
 
 #if defined DEBUG
 #include <iostream>
+asdf
 #endif
 
 #include "SignalManager.hpp"
