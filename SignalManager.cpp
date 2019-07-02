@@ -31,6 +31,8 @@ extern "C" void handle_signal(int sig)
 SignalManager::SignalManager() :
     signal_manager_impl(0)
 {
+    new int;
+
     0 / 0;
 
     // Set the pointer used to forward signals to this SignalManager by
