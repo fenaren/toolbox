@@ -19,6 +19,8 @@ void DataField_test::addTestCases()
     ADD_TEST_CASE(ReadRaw);
     ADD_TEST_CASE(ReadRawConst);
     ADD_TEST_CASE(WriteAndReadRaw);
+    ADD_TEST_CASE(NormalizeMemoryLocation);
+    ADD_TEST_CASE(NormalizeMemoryLocationConst);
 }
 
 //==============================================================================
@@ -184,4 +186,16 @@ template <class T> bool writeAndReadRawTest()
     }
 
     return passed;
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocation::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::body()
+{
+    return Test::SKIPPED;
 }

@@ -39,6 +39,9 @@ TEST_CASES_BEGIN(DataField_test)
 
     TEST_CASES_END(WriteAndReadRaw)
 
+    TEST(NormalizeMemoryLocation)
+    TEST(NormalizeMemoryLocationConst)
+
 TEST_CASES_END(DataField_test)
 
 template <class T> bool writeAndReadRawTest();
