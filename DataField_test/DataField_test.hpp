@@ -11,18 +11,21 @@ TEST_CASES_BEGIN(DataField_test)
     // Tests the writeRaw member function
     TEST_CASES_BEGIN(WriteRaw)
 
-        TEST(BitOffset)
-        // The NoBitOffset case directly calls another user-defined function
+        TEST(Byte1)
+        TEST(Byte2)
+        TEST(Byte4)
+
+        template <class T> static Test::Result writeRawSlidingWindow();
 
     TEST_CASES_END(WriteRaw)
 
     // Tests the readRaw member function
-    TEST_CASES_BEGIN(ReadRaw)
+/*    TEST_CASES_BEGIN(ReadRaw)
 
         TEST(BitOffset)
         TEST(NoBitOffset)
 
-    TEST_CASES_END(ReadRaw)
+        TEST_CASES_END(ReadRaw)*/
 
     // Tests the readRaw const member function
     TEST_CASES_BEGIN(ReadRawConst)
@@ -34,13 +37,13 @@ TEST_CASES_BEGIN(DataField_test)
 
     // A slightly more complicated test involving both readRaw and writeRaw
     // member functions
-    TEST_CASES_BEGIN(WriteAndReadRaw)
+    /*TEST_CASES_BEGIN(WriteAndReadRaw)
 
         TEST(UnsignedInt1Byte)
         TEST(UnsignedInt2Byte)
         TEST(UnsignedInt4Byte)
 
-    TEST_CASES_END(WriteAndReadRaw)
+        TEST_CASES_END(WriteAndReadRaw)*/
 
     // Tests the normalizeMemoryLocation member function
     TEST_CASES_BEGIN(NormalizeMemoryLocation)
@@ -72,7 +75,5 @@ TEST_CASES_BEGIN(DataField_test)
                                             unsigned long bits_after);
 
 TEST_CASES_END(DataField_test)
-
-template <class T> bool writeAndReadRawTest();
 
 #endif

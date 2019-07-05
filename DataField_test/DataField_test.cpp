@@ -16,9 +16,9 @@ TEST_PROGRAM_MAIN(DataField_test)
 void DataField_test::addTestCases()
 {
     ADD_TEST_CASE(WriteRaw);
-    ADD_TEST_CASE(ReadRaw);
+//    ADD_TEST_CASE(ReadRaw);
     ADD_TEST_CASE(ReadRawConst);
-    ADD_TEST_CASE(WriteAndReadRaw);
+//    ADD_TEST_CASE(WriteAndReadRaw);
     ADD_TEST_CASE(NormalizeMemoryLocation);
     ADD_TEST_CASE(NormalizeMemoryLocationConst);
 }
@@ -26,15 +26,17 @@ void DataField_test::addTestCases()
 //==============================================================================
 void DataField_test::WriteRaw::addTestCases()
 {
-    ADD_TEST_CASE(BitOffset);
+    ADD_TEST_CASE(Byte1);
+    ADD_TEST_CASE(Byte2);
+    ADD_TEST_CASE(Byte4);
 }
 
 //==============================================================================
-void DataField_test::ReadRaw::addTestCases()
+/*void DataField_test::ReadRaw::addTestCases()
 {
     ADD_TEST_CASE(BitOffset);
     ADD_TEST_CASE(NoBitOffset);
-}
+    }*/
 
 //==============================================================================
 void DataField_test::ReadRawConst::addTestCases()
@@ -44,12 +46,12 @@ void DataField_test::ReadRawConst::addTestCases()
 }
 
 //==============================================================================
-void DataField_test::WriteAndReadRaw::addTestCases()
+/*void DataField_test::WriteAndReadRaw::addTestCases()
 {
     ADD_TEST_CASE(UnsignedInt1Byte);
     ADD_TEST_CASE(UnsignedInt2Byte);
     ADD_TEST_CASE(UnsignedInt4Byte);
-}
+    }*/
 
 //==============================================================================
 void DataField_test::NormalizeMemoryLocation::addTestCases()
@@ -70,13 +72,7 @@ void DataField_test::NormalizeMemoryLocationConst::addTestCases()
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteRaw::BitOffset::body()
-{
-    return Test::SKIPPED;
-}
-
-//==============================================================================
-Test::Result DataField_test::ReadRaw::BitOffset::body()
+/*Test::Result DataField_test::ReadRaw::BitOffset::body()
 {
     return Test::SKIPPED;
 }
@@ -85,7 +81,7 @@ Test::Result DataField_test::ReadRaw::BitOffset::body()
 Test::Result DataField_test::ReadRaw::NoBitOffset::body()
 {
     return Test::SKIPPED;
-}
+    }*/
 
 //==============================================================================
 Test::Result DataField_test::ReadRawConst::BitOffset::body()
@@ -100,28 +96,26 @@ Test::Result DataField_test::ReadRawConst::NoBitOffset::body()
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteAndReadRaw::UnsignedInt1Byte::body()
+Test::Result DataField_test::WriteRaw::Byte1::body()
 {
-    MUST_BE_TRUE(writeAndReadRawTest<std::uint8_t>());
-    return Test::PASSED;
+    return writeRawSlidingWindow<std::uint8_t>();
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteAndReadRaw::UnsignedInt2Byte::body()
+Test::Result DataField_test::WriteRaw::Byte2::body()
 {
-    MUST_BE_TRUE(writeAndReadRawTest<std::uint16_t>());
-    return Test::PASSED;
+    return writeRawSlidingWindow<std::uint16_t>();
 }
 
 //==============================================================================
-Test::Result DataField_test::WriteAndReadRaw::UnsignedInt4Byte::body()
+Test::Result DataField_test::WriteRaw::Byte4::body()
 {
-    MUST_BE_TRUE(writeAndReadRawTest<std::uint32_t>());
-    return Test::PASSED;
+    return writeRawSlidingWindow<std::uint32_t>();
 }
 
 //==============================================================================
-template <class T> bool writeAndReadRawTest()
+template <class T>
+Test::Result DataField_test::WriteRaw::writeRawSlidingWindow()
 {
     // With this test we're going to write a simple integer data field set to 0
     // into a buffer of 1s that is double the integer's size at successively
@@ -129,9 +123,6 @@ template <class T> bool writeAndReadRawTest()
     // 0s and the second half will gain 0s.  We can predict exactly what both
     // halves should be equal to as integers, so we check this with each offset
     // write.
-
-    // Will go false if the test fails
-    bool passed = true;
 
     const unsigned int workarea_size = sizeof(T) * 2;
     T workarea[2];
@@ -157,26 +148,19 @@ template <class T> bool writeAndReadRawTest()
 
         // Now check both halves
         std::cout << "Offset " << i << " " << workarea[0] << " ";
-        if (workarea[0] != correct_firsthalf)
-        {
-            std::cout << "(WRONG should be " << correct_firsthalf << ") ";
-            passed = false;
-        }
+        MUST_BE_TRUE(workarea[0] == correct_firsthalf)
 
         std::cout << workarea[1] << " ";
-        if (workarea[1] != correct_secondhalf)
-        {
-            std::cout << "(WRONG should be " << correct_secondhalf << ") ";
-            passed = false;
-        }
+        MUST_BE_TRUE(workarea[1] == correct_secondhalf)
 
         std::cout << "\n";
+    }
 
-        if (!passed)
-        {
-            break;
-        }
+    return Test::PASSED;
+}
 
+/*Test::Result DataField_test::ReadRaw::something::body()
+{
         // So the write seems to have worked, if we've reached this point.  Try
         // to read back the field we just wrote and make sure it's zero.  Also
         // make sure the readRaw operation doesn't change the contents of the
@@ -204,7 +188,7 @@ template <class T> bool writeAndReadRawTest()
     }
 
     return passed;
-}
+    }*/
 
 //==============================================================================
 Test::Result DataField_test::NormalizeMemoryLocation::Buffer0Bits0::body()
@@ -258,7 +242,8 @@ Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer1Bits16::body()
 }
 
 //==============================================================================
-Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer2Bits404::body()
+Test::Result
+DataField_test::NormalizeMemoryLocationConst::Buffer2Bits404::body()
 {
     return NML_BufferBitsConst(reinterpret_cast<std::uint8_t*>(2),
                                404,
