@@ -1,6 +1,9 @@
 #if !defined DATA_FIELD_TEST
 #define DATA_FIELD_TEST
 
+#include <cstdint>
+
+#include "Test.hpp"
 #include "TestMacros.hpp"
 
 TEST_CASES_BEGIN(DataField_test)
@@ -39,8 +42,34 @@ TEST_CASES_BEGIN(DataField_test)
 
     TEST_CASES_END(WriteAndReadRaw)
 
-    TEST(NormalizeMemoryLocation)
-    TEST(NormalizeMemoryLocationConst)
+    // Tests the normalizeMemoryLocation member function
+    TEST_CASES_BEGIN(NormalizeMemoryLocation)
+
+        TEST(Buffer0Bits0)
+        TEST(Buffer0Bits8)
+        TEST(Buffer1Bits16)
+        TEST(Buffer2Bits404)
+
+    TEST_CASES_END(NormalizeMemoryLocation)
+
+    TEST_CASES_BEGIN(NormalizeMemoryLocationConst)
+
+        TEST(Buffer0Bits0)
+        TEST(Buffer0Bits8)
+        TEST(Buffer1Bits16)
+        TEST(Buffer2Bits404)
+
+    TEST_CASES_END(NormalizeMemoryLocationConst)
+
+    static Test::Result NML_BufferBits(std::uint8_t* buffer_before,
+                                       unsigned long bits_before,
+                                       std::uint8_t* buffer_after,
+                                       unsigned long bits_after);
+
+    static Test::Result NML_BufferBitsConst(std::uint8_t* buffer_before,
+                                            unsigned long bits_before,
+                                            std::uint8_t* buffer_after,
+                                            unsigned long bits_after);
 
 TEST_CASES_END(DataField_test)
 

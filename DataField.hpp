@@ -14,6 +14,8 @@ class DataField
 {
 public:
 
+    friend class DataField_test;
+
     // Neither of these do anything
     DataField();
     virtual ~DataField();

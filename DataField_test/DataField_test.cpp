@@ -52,6 +52,24 @@ void DataField_test::WriteAndReadRaw::addTestCases()
 }
 
 //==============================================================================
+void DataField_test::NormalizeMemoryLocation::addTestCases()
+{
+    ADD_TEST_CASE(Buffer0Bits0);
+    ADD_TEST_CASE(Buffer0Bits8);
+    ADD_TEST_CASE(Buffer1Bits16);
+    ADD_TEST_CASE(Buffer2Bits404);
+}
+
+//==============================================================================
+void DataField_test::NormalizeMemoryLocationConst::addTestCases()
+{
+    ADD_TEST_CASE(Buffer0Bits0);
+    ADD_TEST_CASE(Buffer0Bits8);
+    ADD_TEST_CASE(Buffer1Bits16);
+    ADD_TEST_CASE(Buffer2Bits404);
+}
+
+//==============================================================================
 Test::Result DataField_test::WriteRaw::BitOffset::body()
 {
     return Test::SKIPPED;
@@ -189,13 +207,97 @@ template <class T> bool writeAndReadRawTest()
 }
 
 //==============================================================================
-Test::Result DataField_test::NormalizeMemoryLocation::body()
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer0Bits0::body()
 {
-    return Test::SKIPPED;
+    return NML_BufferBits(0, 0, 0, 0);
 }
 
 //==============================================================================
-Test::Result DataField_test::NormalizeMemoryLocationConst::body()
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer0Bits8::body()
 {
-    return Test::SKIPPED;
+    return NML_BufferBits(0, 8, reinterpret_cast<std::uint8_t*>(1), 0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer1Bits16::body()
+{
+    return NML_BufferBits(reinterpret_cast<std::uint8_t*>(1),
+                          16,
+                          reinterpret_cast<std::uint8_t*>(3),
+                          0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer2Bits404::body()
+{
+    return NML_BufferBits(reinterpret_cast<std::uint8_t*>(2),
+                          404,
+                          reinterpret_cast<std::uint8_t*>(52),
+                          4);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer0Bits0::body()
+{
+    return NML_BufferBitsConst(0, 0, 0, 0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer0Bits8::body()
+{
+    return NML_BufferBitsConst(0, 8, reinterpret_cast<std::uint8_t*>(1), 0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer1Bits16::body()
+{
+    return NML_BufferBitsConst(reinterpret_cast<std::uint8_t*>(1),
+                               16,
+                               reinterpret_cast<std::uint8_t*>(3),
+                               0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer2Bits404::body()
+{
+    return NML_BufferBitsConst(reinterpret_cast<std::uint8_t*>(2),
+                               404,
+                               reinterpret_cast<std::uint8_t*>(52),
+                               4);
+}
+
+//==============================================================================
+Test::Result DataField_test::NML_BufferBits(std::uint8_t* buffer_before,
+                                            unsigned long bits_before,
+                                            std::uint8_t* buffer_after,
+                                            unsigned long bits_after)
+{
+    // Non-const object to run this function in association with
+    SimpleDataField<int> sdf;
+
+    std::uint8_t* buffer = buffer_before;
+    unsigned long bits   = bits_before;
+
+    sdf.normalizeMemoryLocation(buffer, bits);
+    MUST_BE_TRUE(buffer == buffer_after && bits == bits_after);
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result DataField_test::NML_BufferBitsConst(std::uint8_t* buffer_before,
+                                                 unsigned long bits_before,
+                                                 std::uint8_t* buffer_after,
+                                                 unsigned long bits_after)
+{
+    // Non-const object to run this function in association with
+    const SimpleDataField<int> sdf;
+
+    std::uint8_t* buffer = buffer_before;
+    unsigned long bits   = bits_before;
+
+    sdf.normalizeMemoryLocation(buffer, bits);
+    MUST_BE_TRUE(buffer == buffer_after && bits == bits_after);
+
+    return Test::PASSED;
 }
