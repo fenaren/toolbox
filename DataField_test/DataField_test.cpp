@@ -16,9 +16,8 @@ TEST_PROGRAM_MAIN(DataField_test)
 void DataField_test::addTestCases()
 {
     ADD_TEST_CASE(WriteRaw);
-//    ADD_TEST_CASE(ReadRaw);
+    ADD_TEST_CASE(ReadRaw);
     ADD_TEST_CASE(ReadRawConst);
-//    ADD_TEST_CASE(WriteAndReadRaw);
     ADD_TEST_CASE(NormalizeMemoryLocation);
     ADD_TEST_CASE(NormalizeMemoryLocationConst);
 }
@@ -32,26 +31,20 @@ void DataField_test::WriteRaw::addTestCases()
 }
 
 //==============================================================================
-/*void DataField_test::ReadRaw::addTestCases()
+void DataField_test::ReadRaw::addTestCases()
 {
-    ADD_TEST_CASE(BitOffset);
-    ADD_TEST_CASE(NoBitOffset);
-    }*/
+    ADD_TEST_CASE(Byte1);
+    ADD_TEST_CASE(Byte2);
+    ADD_TEST_CASE(Byte4);
+}
 
 //==============================================================================
 void DataField_test::ReadRawConst::addTestCases()
 {
-    ADD_TEST_CASE(BitOffset);
-    ADD_TEST_CASE(NoBitOffset);
+    ADD_TEST_CASE(Byte1);
+    ADD_TEST_CASE(Byte2);
+    ADD_TEST_CASE(Byte4);
 }
-
-//==============================================================================
-/*void DataField_test::WriteAndReadRaw::addTestCases()
-{
-    ADD_TEST_CASE(UnsignedInt1Byte);
-    ADD_TEST_CASE(UnsignedInt2Byte);
-    ADD_TEST_CASE(UnsignedInt4Byte);
-    }*/
 
 //==============================================================================
 void DataField_test::NormalizeMemoryLocation::addTestCases()
@@ -72,30 +65,6 @@ void DataField_test::NormalizeMemoryLocationConst::addTestCases()
 }
 
 //==============================================================================
-/*Test::Result DataField_test::ReadRaw::BitOffset::body()
-{
-    return Test::SKIPPED;
-}
-
-//==============================================================================
-Test::Result DataField_test::ReadRaw::NoBitOffset::body()
-{
-    return Test::SKIPPED;
-    }*/
-
-//==============================================================================
-Test::Result DataField_test::ReadRawConst::BitOffset::body()
-{
-    return Test::SKIPPED;
-}
-
-//==============================================================================
-Test::Result DataField_test::ReadRawConst::NoBitOffset::body()
-{
-    return Test::SKIPPED;
-}
-
-//==============================================================================
 Test::Result DataField_test::WriteRaw::Byte1::body()
 {
     return writeRawSlidingWindow<std::uint8_t>();
@@ -111,6 +80,42 @@ Test::Result DataField_test::WriteRaw::Byte2::body()
 Test::Result DataField_test::WriteRaw::Byte4::body()
 {
     return writeRawSlidingWindow<std::uint32_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::Byte1::body()
+{
+    return readRawSlidingWindow<std::uint8_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::Byte2::body()
+{
+    return readRawSlidingWindow<std::uint16_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::Byte4::body()
+{
+    return readRawSlidingWindow<std::uint32_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConst::Byte1::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConst::Byte2::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConst::Byte4::body()
+{
+    return Test::SKIPPED;
 }
 
 //==============================================================================
@@ -159,36 +164,44 @@ Test::Result DataField_test::WriteRaw::writeRawSlidingWindow()
     return Test::PASSED;
 }
 
-/*Test::Result DataField_test::ReadRaw::something::body()
+//==============================================================================
+template <class T>
+Test::Result DataField_test::ReadRaw::readRawSlidingWindow()
 {
-        // So the write seems to have worked, if we've reached this point.  Try
-        // to read back the field we just wrote and make sure it's zero.  Also
-        // make sure the readRaw operation doesn't change the contents of the
-        // workarea
+    // So the write seems to have worked, if we've reached this point.  Try
+    // to read back the field we just wrote and make sure it's zero.  Also
+    // make sure the readRaw operation doesn't change the contents of the
+    // workarea
 
-        T workarea_copy[2];
-        memcpy(workarea_copy, workarea, sizeof(T) * 2);
+/*    T workarea_copy[2];
+    memcpy(workarea_copy, workarea, sizeof(T) * 2);
 
-        test_sdf.DataField::readRaw(
-            reinterpret_cast<std::uint8_t*>(workarea), i);
+    test_sdf.DataField::readRaw(
+        reinterpret_cast<std::uint8_t*>(workarea), i);
 
-        if (memcmp(workarea, workarea_copy, sizeof(T) * 2) != 0)
-        {
-            std::cout << "readRaw modified buffer contents, should not have\n";
-            passed = false;
-            break;
-        }
-
-        if (test_sdf != 0)
-        {
-            std::cout << "Readback failed, should have read 0\n";
-            passed = false;
-            break;
-        }
+    if (memcmp(workarea, workarea_copy, sizeof(T) * 2) != 0)
+    {
+        std::cout << "readRaw modified buffer contents, should not have\n";
+        passed = false;
+        break;
     }
 
-    return passed;
-    }*/
+    if (test_sdf != 0)
+    {
+        std::cout << "Readback failed, should have read 0\n";
+        passed = false;
+        break;
+        }*/
+
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+template <class T>
+Test::Result DataField_test::ReadRawConst::readRawConstSlidingWindow()
+{
+    return Test::SKIPPED;
+}
 
 //==============================================================================
 Test::Result DataField_test::NormalizeMemoryLocation::Buffer0Bits0::body()

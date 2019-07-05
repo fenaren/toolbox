@@ -20,30 +20,26 @@ TEST_CASES_BEGIN(DataField_test)
     TEST_CASES_END(WriteRaw)
 
     // Tests the readRaw member function
-/*    TEST_CASES_BEGIN(ReadRaw)
+    TEST_CASES_BEGIN(ReadRaw)
 
-        TEST(BitOffset)
-        TEST(NoBitOffset)
+        TEST(Byte1)
+        TEST(Byte2)
+        TEST(Byte4)
 
-        TEST_CASES_END(ReadRaw)*/
+        template <class T> static Test::Result readRawSlidingWindow();
+
+    TEST_CASES_END(ReadRaw)
 
     // Tests the readRaw const member function
     TEST_CASES_BEGIN(ReadRawConst)
 
-        TEST(BitOffset)
-        TEST(NoBitOffset)
+        TEST(Byte1)
+        TEST(Byte2)
+        TEST(Byte4)
+
+        template <class T> static Test::Result readRawConstSlidingWindow();
 
     TEST_CASES_END(ReadRawConst)
-
-    // A slightly more complicated test involving both readRaw and writeRaw
-    // member functions
-    /*TEST_CASES_BEGIN(WriteAndReadRaw)
-
-        TEST(UnsignedInt1Byte)
-        TEST(UnsignedInt2Byte)
-        TEST(UnsignedInt4Byte)
-
-        TEST_CASES_END(WriteAndReadRaw)*/
 
     // Tests the normalizeMemoryLocation member function
     TEST_CASES_BEGIN(NormalizeMemoryLocation)
