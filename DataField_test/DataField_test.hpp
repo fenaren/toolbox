@@ -8,8 +8,8 @@
 
 TEST_CASES_BEGIN(DataField_test)
 
-    // Tests the writeRaw member function
-    TEST_CASES_BEGIN(WriteRaw)
+    // Tests the writeRaw const member function
+    TEST_CASES_BEGIN(WriteRawConst)
 
         TEST(Byte1)
         TEST(Byte2)
@@ -17,7 +17,7 @@ TEST_CASES_BEGIN(DataField_test)
 
         template <class T> static Test::Result writeRawSlidingWindow();
 
-    TEST_CASES_END(WriteRaw)
+    TEST_CASES_END(WriteRawConst)
 
     // Tests the readRaw member function
     TEST_CASES_BEGIN(ReadRaw)
@@ -30,16 +30,16 @@ TEST_CASES_BEGIN(DataField_test)
 
     TEST_CASES_END(ReadRaw)
 
-    // Tests the readRaw const member function
-    TEST_CASES_BEGIN(ReadRawConst)
+    // Tests the readRaw member function that takes a const buffer
+    TEST_CASES_BEGIN(ReadRawConstBuffer)
 
         TEST(Byte1)
         TEST(Byte2)
         TEST(Byte4)
 
-        template <class T> static Test::Result readRawConstSlidingWindow();
+        template <class T> static Test::Result readRawSlidingWindow();
 
-    TEST_CASES_END(ReadRawConst)
+    TEST_CASES_END(ReadRawConstBuffer)
 
     // Tests the normalizeMemoryLocation member function
     TEST_CASES_BEGIN(NormalizeMemoryLocation)
