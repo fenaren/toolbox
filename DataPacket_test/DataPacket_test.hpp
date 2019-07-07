@@ -8,15 +8,32 @@
 
 TEST_CASES_BEGIN(DataPacket_test)
 
-    TEST(GetLengthBytes_Align1Byte)
-    TEST(GetLengthBytes_Align2Byte)
-    TEST(GetLengthBytes_Align3Byte)
-    TEST(GetLengthBytes_Align4Byte)
-    TEST(PullUpdatePush)
-    TEST(PullUpdatePush_Swap)
+    TEST_CASES_BEGIN(ReadRaw)
+    TEST_CASES_END(ReadRaw)
+
+    TEST_CASES_BEGIN(ReadRawConstBuffer)
+    TEST_CASES_END(ReadRawConstBuffer)
+
+    TEST_CASES_BEGIN(WriteRaw)
+    TEST_CASES_END(WriteRaw)
+
+    TEST_CASES_BEGIN(WriteRawConst)
+    TEST_CASES_END(WriteRawConst)
+
+    TEST_CASES_BEGIN(GetLengthBits)
+
+        TEST(Align1Byte)
+        TEST(Align2Byte)
+        TEST(Align3Byte)
+        TEST(Align4Byte)
+
+    TEST_CASES_END(GetLengthBits)
+
+//    TEST(PullUpdatePush)
+//    TEST(PullUpdatePush_Swap)
 
 TEST_CASES_END(DataPacket_test)
 
-void initializeDp(DataPacket_test1& dp);
+//void initializeDp(DataPacket_test1& dp);
 
 #endif

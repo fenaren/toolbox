@@ -12,21 +12,53 @@
 #include "TestMacros.hpp"
 #include "pullUpdatePush.hpp"
 
-TEST_PROGRAM_MAIN(DataPacket_test);
+TEST_PROGRAM_MAIN(DataPacket_test)
 
 //==============================================================================
 void DataPacket_test::addTestCases()
 {
-    ADD_TEST_CASE(GetLengthBytes_Align1Byte);
-    ADD_TEST_CASE(GetLengthBytes_Align2Byte);
-    ADD_TEST_CASE(GetLengthBytes_Align3Byte);
-    ADD_TEST_CASE(GetLengthBytes_Align4Byte);
-    ADD_TEST_CASE(PullUpdatePush);
-    ADD_TEST_CASE(PullUpdatePush_Swap);
+    ADD_TEST_CASE(ReadRaw);
+    ADD_TEST_CASE(ReadRawConstBuffer);
+    ADD_TEST_CASE(WriteRaw);
+    ADD_TEST_CASE(WriteRawConst);
+    ADD_TEST_CASE(GetLengthBits);
 }
 
 //==============================================================================
-Test::Result DataPacket_test::GetLengthBytes_Align1Byte::body()
+void DataPacket_test::GetLengthBits::addTestCases()
+{
+    ADD_TEST_CASE(Align1Byte);
+    ADD_TEST_CASE(Align2Byte);
+    ADD_TEST_CASE(Align3Byte);
+    ADD_TEST_CASE(Align4Byte);
+}
+
+//==============================================================================
+Test::Result DataPacket_test::GetLengthBits::Align1Byte::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataPacket_test::GetLengthBits::Align2Byte::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataPacket_test::GetLengthBits::Align3Byte::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+Test::Result DataPacket_test::GetLengthBits::Align4Byte::body()
+{
+    return Test::SKIPPED;
+}
+
+//==============================================================================
+/*Test::Result DataPacket_test::GetLengthBytes_Align1Byte::body()
 {
     DataPacket_test1 dp1;
     DataPacket_test2* dp2 = dp1.getNestedPacket();
@@ -300,3 +332,4 @@ void initializeDp(DataPacket_test1& dp)
     dp2->setSdfFloat2(2.0f);
     dp2->setSdfChar('A');
 }
+*/
