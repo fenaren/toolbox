@@ -293,7 +293,7 @@ unsigned int DataPacket_test::pullField(T&            dptest_var,
     memcpy(&dptest_var, raw_dptest + offset, sizeof(T));
 
     // Bump this for successive calls
-    return offset + sizeof(T);
+    return sizeof(T);
 }
 
 //==============================================================================
@@ -308,5 +308,5 @@ unsigned int DataPacket_test::pushField(std::uint8_t* raw_dptest,
            sizeof(T));
 
     // Bump this for successive calls
-    return offset + sizeof(T);
+    return sizeof(T);
 }
