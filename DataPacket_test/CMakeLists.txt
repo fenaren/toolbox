@@ -4,8 +4,7 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 set(SRC
   DataPacket_test.cpp
   DataPacket_test1.cpp
-  DataPacket_test2.cpp
-  pullUpdatePush.cpp)
+  DataPacket_test2.cpp)
 
 # We need these include directories
 set(INC . ..)
