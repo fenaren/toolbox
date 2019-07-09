@@ -11,8 +11,6 @@
 TEST_CASES_BEGIN(DataPacket_test)
 
     TEST(ReadRaw)
-    TEST(ReadRawConstBuffer)
-    TEST(WriteRaw)
     TEST(WriteRawConst)
 
     TEST_CASES_BEGIN(GetLengthBits)

@@ -17,8 +17,6 @@ TEST_PROGRAM_MAIN(DataPacket_test)
 void DataPacket_test::addTestCases()
 {
     ADD_TEST_CASE(ReadRaw);
-    ADD_TEST_CASE(ReadRawConstBuffer);
-    ADD_TEST_CASE(WriteRaw);
     ADD_TEST_CASE(WriteRawConst);
     ADD_TEST_CASE(GetLengthBits);
 }
@@ -111,13 +109,7 @@ Test::Result DataPacket_test::ReadRaw::body()
 }
 
 //==============================================================================
-Test::Result DataPacket_test::ReadRawConstBuffer::body()
-{
-    return Test::SKIPPED;
-}
-
-//==============================================================================
-Test::Result DataPacket_test::WriteRaw::body()
+Test::Result DataPacket_test::WriteRawConst::body()
 {
     DataPacket_test1 dp1;
     DataPacket_test2* dp2 = dp1.getNestedPacket();
@@ -189,12 +181,6 @@ Test::Result DataPacket_test::WriteRaw::body()
     delete [] raw_dp1;
 
     return Test::PASSED;
-}
-
-//==============================================================================
-Test::Result DataPacket_test::WriteRawConst::body()
-{
-    return Test::SKIPPED;
 }
 
 //==============================================================================

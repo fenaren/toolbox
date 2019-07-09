@@ -72,8 +72,7 @@ unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
         unsigned long offset_bits_initial = offset_bits;
 
         // Tell the current field to read and record the number of bits it read
-        offset_bits +=
-            (*i)->readRaw(buffer, source_byte_order, offset_bits);
+        offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits);
 
         // Bump the offset to the next alignment point
         offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
