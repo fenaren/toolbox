@@ -15,11 +15,11 @@ TEST_PROGRAM_MAIN(FixedRateProgram_test);
 //==============================================================================
 void FixedRateProgram_test::addTestCases()
 {
-    ADD_TEST_CASE(TimeOneFrame);
+    ADD_TEST_CASE(Run);
 }
 
 //==============================================================================
-Test::Result FixedRateProgram_test::TimeOneFrame::body()
+Test::Result FixedRateProgram_test::Run::body()
 {
     PosixTimespec period(1.0);
 

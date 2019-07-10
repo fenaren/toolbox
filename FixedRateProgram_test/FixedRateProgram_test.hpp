@@ -7,7 +7,7 @@
 
 TEST_CASES_BEGIN(FixedRateProgram_test)
 
-    TEST(TimeOneFrame)
+    TEST(Run)
 
 TEST_CASES_END(FixedRateProgram_test)
 
