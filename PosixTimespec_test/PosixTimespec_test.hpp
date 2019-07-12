@@ -18,7 +18,15 @@ TEST_CASES_BEGIN(PosixTimespec_test)
 
         TEST_CASES_END(Addition)
 
-        TEST(Subtraction)
+        TEST_CASES_BEGIN(Subtraction)
+
+            TEST(Case1)
+            TEST(Case2)
+            TEST(Case3)
+            TEST(Case4)
+
+        TEST_CASES_END(Subtraction)
+
         TEST(GreaterThan)
         TEST(GreaterThanEqualTo)
         TEST(LessThan)

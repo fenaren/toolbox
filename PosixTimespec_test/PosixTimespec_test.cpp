@@ -38,6 +38,15 @@ void PosixTimespec_test::Operator::Addition::addTestCases()
 }
 
 //==============================================================================
+void PosixTimespec_test::Operator::Subtraction::addTestCases()
+{
+    ADD_TEST_CASE(Case1);
+    ADD_TEST_CASE(Case2);
+    ADD_TEST_CASE(Case3);
+    ADD_TEST_CASE(Case4);
+}
+
+//==============================================================================
 Test::Result PosixTimespec_test::Operator::Addition::Case1::body()
 {
     PosixTimespec lhs;
@@ -114,101 +123,78 @@ Test::Result PosixTimespec_test::Operator::Addition::Case4::body()
 }
 
 //==============================================================================
-Test::Result PosixTimespec_test::Operator::Subtraction::body()
+Test::Result PosixTimespec_test::Operator::Subtraction::Case1::body()
 {
-    timespec tp;
-    TimespecTuple tt;
+    PosixTimespec lhs;
+    lhs.tp.tv_sec  = 0;
+    lhs.tp.tv_nsec = 0;
 
-    // Let's do some conclusive subtraction tests
-    std::vector<TimespecTuple> subtraction_cases;
-    std::vector<TimespecTuple> subtraction_cases_failed;
+    PosixTimespec rhs;
+    rhs.tp.tv_sec  = 0;
+    rhs.tp.tv_nsec = 1;
 
-    // SUBTRACTION CASE 1
-    tp.tv_sec  = 0;
-    tp.tv_nsec = 0;
-    tt.lhs = tp;
+    PosixTimespec difference = lhs - rhs;
 
-    tp.tv_sec  = 0;
-    tp.tv_nsec = 1;
-    tt.rhs = tp;
+    // Shortcut to underflow
+    MUST_BE_TRUE(difference.tp.tv_sec  == lhs.tp.tv_sec - 1);
+    MUST_BE_TRUE(difference.tp.tv_nsec == 999999999);
 
-    tp.tv_sec  -= 1;
-    tp.tv_nsec = 999999999;
-    tt.result = tp;
+    return Test::PASSED;
+}
 
-    subtraction_cases.push_back(tt);
+//==============================================================================
+Test::Result PosixTimespec_test::Operator::Subtraction::Case2::body()
+{
+    PosixTimespec lhs;
+    lhs.tp.tv_sec  = 2346;
+    lhs.tp.tv_nsec = 999999999;
 
-    // SUBTRACTION CASE 2
-    tp.tv_sec = 2346;
-    tp.tv_nsec = 999999999;
-    tt.lhs = tp;
+    PosixTimespec rhs;
+    rhs.tp.tv_sec  = 1000;
+    rhs.tp.tv_nsec = 40;
 
-    tp.tv_sec = 1000;
-    tp.tv_nsec = 40;
-    tt.rhs = tp;
+    PosixTimespec difference = lhs - rhs;
 
-    tp.tv_sec = 1346;
-    tp.tv_nsec = 999999959;
-    tt.result = tp;
+    MUST_BE_TRUE(difference.tp.tv_sec  == 1346);
+    MUST_BE_TRUE(difference.tp.tv_nsec == 999999959);
 
-    subtraction_cases.push_back(tt);
+    return Test::PASSED;
+}
 
-    // SUBTRACTION CASE 3
-    tp.tv_sec = 5;
-    tp.tv_nsec = 0;
-    tt.lhs = tp;
+//==============================================================================
+Test::Result PosixTimespec_test::Operator::Subtraction::Case3::body()
+{
+    PosixTimespec lhs;
+    lhs.tp.tv_sec  = 5;
+    lhs.tp.tv_nsec = 0;
 
-    tp.tv_sec = 2;
-    tp.tv_nsec = 500000000;
-    tt.rhs = tp;
+    PosixTimespec rhs;
+    rhs.tp.tv_sec  = 2;
+    rhs.tp.tv_nsec = 500000000;
 
-    tp.tv_sec = 2;
-    tp.tv_nsec = 500000000;
-    tt.result = tp;
+    PosixTimespec difference = lhs - rhs;
 
-    subtraction_cases.push_back(tt);
+    MUST_BE_TRUE(difference.tp.tv_sec  == 2);
+    MUST_BE_TRUE(difference.tp.tv_nsec == 500000000);
 
-    // SUBTRACTION CASE 4
-    tp.tv_sec = 1;
-    tp.tv_nsec = 250000000;
-    tt.lhs = tp;
+    return Test::PASSED;
+}
 
-    tp.tv_sec = 0;
-    tp.tv_nsec = 750000000;
-    tt.rhs = tp;
+//==============================================================================
+Test::Result PosixTimespec_test::Operator::Subtraction::Case4::body()
+{
+    PosixTimespec lhs;
+    lhs.tp.tv_sec  = 1;
+    lhs.tp.tv_nsec = 250000000;
 
-    tp.tv_sec = 0;
-    tp.tv_nsec = 500000000;
-    tt.result = tp;
+    PosixTimespec rhs;
+    rhs.tp.tv_sec  = 0;
+    rhs.tp.tv_nsec = 750000000;
 
-    subtraction_cases.push_back(tt);
+    PosixTimespec difference = lhs - rhs;
 
-    for (unsigned int i = 0; i < subtraction_cases.size(); i++)
-    {
-        PosixTimespec result = PosixTimespec(subtraction_cases[i].lhs) -
-            PosixTimespec(subtraction_cases[i].rhs);
-
-        if (result != subtraction_cases[i].result)
-        {
-            subtraction_cases_failed.push_back(subtraction_cases[i]);
-            timespec result_tp;
-            result.getTimespec(result_tp);
-
-            std::cout << subtraction_cases[i].lhs.tv_sec << "("
-                      << subtraction_cases[i].lhs.tv_nsec << ") - "
-                      << subtraction_cases[i].rhs.tv_sec << "("
-                      << subtraction_cases[i].rhs.tv_nsec << ") = "
-                      << result_tp.tv_sec << "("
-                      << result_tp.tv_nsec << "), should be "
-                      << subtraction_cases[i].result.tv_sec << "("
-                      << subtraction_cases[i].result.tv_nsec << ")\n";
-        }
-    }
-
-    std::cout << "Failed subtraction cases: " << subtraction_cases_failed.size()
-              << "\n";
-
-    MUST_BE_TRUE(subtraction_cases_failed.size() == 0);
+    MUST_BE_TRUE(difference.tp.tv_sec  == 0);
+    MUST_BE_TRUE(difference.tp.tv_nsec == 500000000);
 
     return Test::PASSED;
 }
