@@ -7,35 +7,48 @@
 
 TEST_CASES_BEGIN(PosixTimespec_test)
 
-    TEST(OperatorAddition)
-    TEST(OperatorSubtraction)
-    TEST(OperatorGreaterThan)
-    TEST(OperatorGreaterThanEqualTo)
-    TEST(OperatorLessThan)
-    TEST(OperatorLessThanEqualTo)
+    TEST_CASES_BEGIN(Operator)
+
+        TEST_CASES_BEGIN(Addition)
+
+            TEST(Case1)
+            TEST(Case2)
+            TEST(Case3)
+            TEST(Case4)
+
+        TEST_CASES_END(Addition)
+
+        TEST(Subtraction)
+        TEST(GreaterThan)
+        TEST(GreaterThanEqualTo)
+        TEST(LessThan)
+        TEST(LessThanEqualTo)
+
+        enum Greater
+        {
+            LHS,
+            RHS,
+            EQUAL
+        };
+
+        struct TimespecGtlt
+        {
+            timespec lhs;
+            timespec rhs;
+            Greater  greater;
+        };
+
+        struct TimespecTuple
+        {
+            timespec lhs;
+            timespec rhs;
+            timespec result;
+        };
+
+    TEST_CASES_END(Operator)
+
     TEST(BreakMeUp)
 
 TEST_CASES_END(PosixTimespec_test)
-
-enum Greater
-{
-    LHS,
-    RHS,
-    EQUAL
-};
-
-struct TimespecGtlt
-{
-    timespec lhs;
-    timespec rhs;
-    Greater  greater;
-};
-
-struct TimespecTuple
-{
-    timespec lhs;
-    timespec rhs;
-    timespec result;
-};
 
 #endif

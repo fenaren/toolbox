@@ -10,6 +10,8 @@ class PosixTimespec
 {
 public:
 
+    friend class PosixTimespec_test;
+
     // Initializes to 0s 0ns
     PosixTimespec();
 
