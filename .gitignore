@@ -12,7 +12,12 @@ cmake_install.cmake
 libtools-cpp.a
 libtools-cpp.so
 
-# Temporary files
+# Emacs temporary files
 *~
 \#*
 .#*
+
+# Ignore the test binaries but not the identically-named directories that
+# contain them
+*_test
+!*_test/
