@@ -7,7 +7,8 @@
 
 TEST_CASES_BEGIN(Program_test)
 
-    TEST(NameArguments)
+    TEST(Constructor)
+    TEST(Run)
 
 TEST_CASES_END(Program_test)
 
