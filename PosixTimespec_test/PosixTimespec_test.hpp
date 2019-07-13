@@ -75,6 +75,7 @@ TEST_CASES_BEGIN(PosixTimespec_test)
             LESS_THAN_OR_EQUAL_TO
         };
 
+        // For binary arithmetic operators like addition and subtraction
         static Test::Result operatorTest(
             time_t              lhs_tv_sec,
             long                lhs_tv_nsec,
@@ -84,6 +85,7 @@ TEST_CASES_BEGIN(PosixTimespec_test)
             long                result_tv_nsec,
             ArithmeticOperation operation);
 
+        // For binary comparison operators like greater than and less than
         static Test::Result operatorTest(time_t              lhs_tv_sec,
                                          long                lhs_tv_nsec,
                                          time_t              rhs_tv_sec,
@@ -91,30 +93,7 @@ TEST_CASES_BEGIN(PosixTimespec_test)
                                          bool                result,
                                          ComparisonOperation operation);
 
-        enum Greater
-        {
-            LHS,
-            RHS,
-            EQUAL
-        };
-
-        struct TimespecGtlt
-        {
-            timespec lhs;
-            timespec rhs;
-            Greater  greater;
-        };
-
-        struct TimespecTuple
-        {
-            timespec lhs;
-            timespec rhs;
-            timespec result;
-        };
-
     TEST_CASES_END(Operators)
-
-    TEST(BreakMeUp)
 
 TEST_CASES_END(PosixTimespec_test)
 
