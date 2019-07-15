@@ -228,6 +228,7 @@ Test::Result RawDataField_test::Operators::EqualTo::body()
 Test::Result RawDataField_test::Operators::NotEqualTo::body()
 {
     unsigned char workspace[workspace_length];
+    memset(workspace, 0, workspace_length);
 
     RawDataField rdf1(workspace, workspace_length, misc::BYTES);
     RawDataField rdf2(workspace, workspace_length, misc::BYTES);
