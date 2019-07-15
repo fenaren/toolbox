@@ -9,9 +9,6 @@ class RawDataField;
 
 TEST_CASES_BEGIN(RawDataField_test)
 
-    // Some memory for all test cases to use
-    static const unsigned int workspace_length = 20;
-
     TEST(ConstructZeroSize)
     TEST(CopyConstructor)
     TEST(GetBit)
@@ -50,12 +47,16 @@ TEST_CASES_BEGIN(RawDataField_test)
     TEST(ShiftUp)
     TEST(WriteRaw)
 
-    // Free utility functions
-    template <class T> static bool setBitAllBits(RawDataField& number_rdf, T& number);
-    template <class T> static bool getBitsAsNumericTypeExCaught(RawDataField& bitfield,
-                                                     unsigned int  start_bit,
-                                                     unsigned int  count,
-                                                     T&            dest_type);
+    template <class T> static bool setBitAllBits(RawDataField& number_rdf,
+                                                 T&            number);
+
+    template <class T> static bool getBitsAsNumericTypeExCaught(
+        RawDataField& bitfield,
+        unsigned int  start_bit,
+        unsigned int  count,
+        T&            dest_type);
+
+    static const unsigned int workspace_length = 20;
 
 TEST_CASES_END(RawDataField_test)
 
