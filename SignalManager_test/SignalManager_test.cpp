@@ -17,13 +17,13 @@ TEST_PROGRAM_MAIN(SignalManager_test);
 //==============================================================================
 void SignalManager_test::addTestCases()
 {
-    ADD_TEST_CASE(SignalUnknownSignal);
-    ADD_TEST_CASE(CheckUnknownSignalDelivered);
+    ADD_TEST_CASE(Signal);
+    ADD_TEST_CASE(IsSignalDelivered);
     ADD_TEST_CASE(GenerateAllSignals);
 }
 
 //==============================================================================
-Test::Result SignalManager_test::SignalUnknownSignal::body()
+Test::Result SignalManager_test::Signal::body()
 {
     SignalManager* signal_manager = 0;
     GET_SIGNAL_MANAGER(signal_manager);
@@ -37,7 +37,7 @@ Test::Result SignalManager_test::SignalUnknownSignal::body()
 }
 
 //==============================================================================
-Test::Result SignalManager_test::CheckUnknownSignalDelivered::body()
+Test::Result SignalManager_test::IsSignalDelivered::body()
 {
     SignalManager* signal_manager = 0;
     GET_SIGNAL_MANAGER(signal_manager);

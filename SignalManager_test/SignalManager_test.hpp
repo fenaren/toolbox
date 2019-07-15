@@ -7,9 +7,8 @@
 
 TEST_CASES_BEGIN(SignalManager_test)
 
-    TEST(PrintSupportedSignalCount)
-    TEST(SignalUnknownSignal)
-    TEST(CheckUnknownSignalDelivered)
+    TEST(Signal)
+    TEST(IsSignalDelivered)
     TEST(GenerateAllSignals)
 
 TEST_CASES_END(SignalManager_test)
