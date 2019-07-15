@@ -14,7 +14,7 @@ TEST_PROGRAM_MAIN(RawDataField_test);
 //==============================================================================
 void RawDataField_test::addTestCases()
 {
-    ADD_TEST_CASE(ConstructZeroSize);
+    ADD_TEST_CASE(Constructor);
     ADD_TEST_CASE(CopyConstructor);
     ADD_TEST_CASE(GetBit);
     ADD_TEST_CASE(GetBitsAsNumericType);
@@ -54,7 +54,7 @@ void RawDataField_test::SetBitsAsNumericType::addTestCases()
 }
 
 //==============================================================================
-Test::Result RawDataField_test::ConstructZeroSize::body()
+Test::Result RawDataField_test::Constructor::body()
 {
     bool exception_caught = false;
 

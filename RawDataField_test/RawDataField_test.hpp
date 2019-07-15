@@ -9,7 +9,7 @@ class RawDataField;
 
 TEST_CASES_BEGIN(RawDataField_test)
 
-    TEST(ConstructZeroSize)
+    TEST(Constructor)
     TEST(CopyConstructor)
     TEST(GetBit)
 
