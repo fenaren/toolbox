@@ -189,6 +189,7 @@ Test::Result RawDataField_test::GetBitsAsNumericType::OutOfRange::body()
 Test::Result RawDataField_test::GetByte::body()
 {
     unsigned char workspace[workspace_length];
+    memset(workspace, 0, workspace_length);
 
     RawDataField rdf(workspace, workspace_length, misc::BYTES, false);
 
