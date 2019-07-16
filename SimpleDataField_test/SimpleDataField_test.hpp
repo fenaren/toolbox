@@ -7,10 +7,11 @@
 
 TEST_CASES_BEGIN(SimpleDataField_test);
 
-    TEST(Lengths)
-    TEST(AssignmentGetValue)
-    TEST(WriteRaw)
+    TEST(GetLengthBytes)
+    TEST(GetValue)
     TEST(ReadRaw)
+    TEST(SimpleAssignment)
+    TEST(WriteRaw)
 
 TEST_CASES_END(SimpleDataField_test);
 

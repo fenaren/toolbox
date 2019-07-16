@@ -12,6 +12,8 @@ class SimpleDataField : public DataField
 {
 public:
 
+    friend class SimpleDataField_test;
+
     // Does nothing
     explicit SimpleDataField();
 
