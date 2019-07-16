@@ -21,7 +21,7 @@ TEST_CASES_BEGIN(SimpleDataField_test);
         TEST(UnsignedInt)
         TEST(UnsignedLong)
         TEST(UnsignedLongLong)
-        TEST(CaseUnsignedShort)
+        TEST(UnsignedShort)
 
         template <class T> static Test::Result test();
 
