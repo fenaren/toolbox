@@ -512,20 +512,28 @@ template <class T> Test::Result SimpleDataField_test::GetLengthBytes::test()
 //==============================================================================
 template <class T> Test::Result SimpleDataField_test::GetValue::test()
 {
-    SimpleDataField<T> test_sdf(0);
+    SimpleDataField<T> test_sdf;
+
+    // Poke the value in without using class functionality, then retrieve it
+    // using class functionality (getValue)
     test_sdf.simple_data_field = 1;
     MUST_BE_TRUE(test_sdf.getValue() == 1);
+
     return Test::PASSED;
 }
 
 //==============================================================================
 template <class T> Test::Result SimpleDataField_test::ReadRaw::test()
 {
-    SimpleDataField<T> test_sdf(0);
+    SimpleDataField<T> test_sdf;
+
+    // Read the intrinsic type with readRaw() and then peek inside the class to
+    // check that it got in there ok
     T intrinsic_type = 1;
     test_sdf.DataField::readRaw(
         reinterpret_cast<std::uint8_t*>(&intrinsic_type));
-    MUST_BE_TRUE(test_sdf.getValue() == 1);
+    MUST_BE_TRUE(test_sdf.simple_data_field == 1);
+
     return Test::PASSED;
 }
 
@@ -533,18 +541,28 @@ template <class T> Test::Result SimpleDataField_test::ReadRaw::test()
 template <class T> Test::Result SimpleDataField_test::SimpleAssignment::test()
 {
     SimpleDataField<T> test_sdf;
+
+    // Poke the value in using class functionality (simple assignment) then
+    // check it without using class functionality
     test_sdf = 1;
     MUST_BE_TRUE(test_sdf.simple_data_field == 1);
+
     return Test::SKIPPED;
 }
 
 //==============================================================================
 template <class T> Test::Result SimpleDataField_test::WriteRaw::test()
 {
-    SimpleDataField<T> test_sdf(1);
+    SimpleDataField<T> test_sdf;
+
+    // Poke a known value into test_sdf and then use writeRaw() to write into an
+    // intrinsic type.  The intrinsic value should match the known value
+    // afterwards.
+    test_sdf.simple_data_field = 1;
     T intrinsic_type = 0;
     test_sdf.DataField::writeRaw(
         reinterpret_cast<std::uint8_t*>(&intrinsic_type));
     MUST_BE_TRUE(intrinsic_type == 1);
+
     return Test::PASSED;
 }
