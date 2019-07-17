@@ -9,17 +9,22 @@
 
 TEST_CASES_BEGIN(misc_test)
 
-    TEST(Byteswap_InPlace)
-    TEST(Byteswap_InPlaceTemplate)
-    TEST(Byteswap_OutOfPlace)
-    TEST(Endian_OperatorNot)
+    TEST_CASES_BEGIN(Byteswap)
+
+        TEST(InPlace)
+        TEST(InPlaceTemplate)
+        TEST(OutOfPlace)
+
+    TEST_CASES_END(Byteswap)
+
+    TEST(EndianOperatorNegation)
     TEST(SmallestMultipleOfXGreaterOrEqualToY)
 
+    static const unsigned int SIZE = 8;
+
+    static void initializeSquareMatrix(std::uint8_t (&m)[SIZE][SIZE]);
+    static void initializeSquareMatrixSwapped(std::uint8_t (&m)[SIZE][SIZE]);
+
 TEST_CASES_END(misc_test)
-
-const unsigned int SIZE = 8;
-
-void initializeSquareMatrix(std::uint8_t (&m)[SIZE][SIZE]);
-void initializeSquareMatrixSwapped(std::uint8_t (&m)[SIZE][SIZE]);
 
 #endif

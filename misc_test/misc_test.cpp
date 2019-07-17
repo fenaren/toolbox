@@ -12,14 +12,21 @@ TEST_PROGRAM_MAIN(misc_test)
 //==============================================================================
 void misc_test::addTestCases()
 {
-    ADD_TEST_CASE(Byteswap_InPlace);
-    ADD_TEST_CASE(Byteswap_InPlaceTemplate);
-    ADD_TEST_CASE(Byteswap_OutOfPlace);
-    ADD_TEST_CASE(Endian_OperatorNot);
+    ADD_TEST_CASE(Byteswap);
+    ADD_TEST_CASE(EndianOperatorNegation);
+    ADD_TEST_CASE(SmallestMultipleOfXGreaterOrEqualToY);
 }
 
 //==============================================================================
-Test::Result misc_test::Byteswap_InPlace::body()
+void misc_test::Byteswap::addTestCases()
+{
+    ADD_TEST_CASE(InPlace);
+    ADD_TEST_CASE(InPlaceTemplate);
+    ADD_TEST_CASE(OutOfPlace);
+}
+
+//==============================================================================
+Test::Result misc_test::Byteswap::InPlace::body()
 {
     // Use two test matrices, one with the rows initialized in opposite order
     std::uint8_t workspace1[SIZE][SIZE];
@@ -37,7 +44,7 @@ Test::Result misc_test::Byteswap_InPlace::body()
 }
 
 //==============================================================================
-Test::Result misc_test::Byteswap_InPlaceTemplate::body()
+Test::Result misc_test::Byteswap::InPlaceTemplate::body()
 {
     std::uint32_t someuint = 3091572734;
     misc::byteswap(someuint);
@@ -49,7 +56,7 @@ Test::Result misc_test::Byteswap_InPlaceTemplate::body()
 }
 
 //==============================================================================
-Test::Result misc_test::Byteswap_OutOfPlace::body()
+Test::Result misc_test::Byteswap::OutOfPlace::body()
 {
     // Use two test matrices, one with the rows initialized in opposite order
     std::uint8_t workspace1[SIZE][SIZE];
@@ -69,7 +76,7 @@ Test::Result misc_test::Byteswap_OutOfPlace::body()
 }
 
 //==============================================================================
-Test::Result misc_test::Endian_OperatorNot::body()
+Test::Result misc_test::EndianOperatorNegation::body()
 {
     // Test operator! on values of the ByteOrder enumeration
     MUST_BE_TRUE(misc::ENDIAN_LITTLE == !misc::ENDIAN_BIG);
@@ -93,7 +100,7 @@ Test::Result misc_test::SmallestMultipleOfXGreaterOrEqualToY::body()
 }
 
 //==============================================================================
-void initializeSquareMatrix(std::uint8_t (&m)[SIZE][SIZE])
+void misc_test::initializeSquareMatrix(std::uint8_t (&m)[SIZE][SIZE])
 {
     for (unsigned int i = 0; i < SIZE; ++i)
     {
@@ -105,7 +112,7 @@ void initializeSquareMatrix(std::uint8_t (&m)[SIZE][SIZE])
 }
 
 //==============================================================================
-void initializeSquareMatrixSwapped(std::uint8_t (&m)[SIZE][SIZE])
+void misc_test::initializeSquareMatrixSwapped(std::uint8_t (&m)[SIZE][SIZE])
 {
     for (unsigned int i = 0; i < SIZE; ++i)
     {
