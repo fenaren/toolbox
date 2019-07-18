@@ -8,7 +8,6 @@
 #include "misc.hpp"
 
 //==============================================================================
-
 ArpPacketEthernetIpv4::ArpPacketEthernetIpv4(std::uint16_t oper) :
     ArpPacketBase(HTYPE, PTYPE, HLEN, PLEN, oper)
 {
