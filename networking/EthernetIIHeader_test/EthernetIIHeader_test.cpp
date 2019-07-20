@@ -11,7 +11,7 @@ TEST_PROGRAM_MAIN(EthernetIIHeader_test);
 void EthernetIIHeader_test::addTestCases()
 {
     ADD_TEST_CASE(Length);
-    ADD_TEST_CASE(EthertypeWrite);
+    ADD_TEST_CASE(WriteRaw);
 }
 
 //==============================================================================
@@ -24,7 +24,7 @@ Test::Result EthernetIIHeader_test::Length::body()
 }
 
 //==============================================================================
-Test::Result EthernetIIHeader_test::EthertypeWrite::body()
+Test::Result EthernetIIHeader_test::WriteRaw::body()
 {
     EthernetIIHeader eth_header(EthernetIIHeader::IPV4);
 

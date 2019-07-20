@@ -8,7 +8,7 @@
 TEST_CASES_BEGIN(EthernetIIHeader_test)
 
     TEST(Length)
-    TEST(EthertypeWrite)
+    TEST(WriteRaw)
 
 TEST_CASES_END(EthernetIIHeader_test)
 
