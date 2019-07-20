@@ -7,7 +7,12 @@
 
 TEST_CASES_BEGIN(MacAddress_test)
 
-    TEST(Operators_EqualityInequality)
+    TEST_CASES_BEGIN(Operators)
+
+        TEST(EqualTo)
+        TEST(NotEqualTo)
+
+    TEST_CASES_END(Operators)
 
 TEST_CASES_END(MacAddress_test)
 
