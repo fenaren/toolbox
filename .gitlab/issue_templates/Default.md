@@ -1,15 +1,8 @@
-## Description[^1]
+## Description
+<em>What are you doing?  If this is a bug</em>
 Some placeholder text
 
-## Rationale[^2]
+## Rationale
 
-## Testing[^3]
+## Testing
 
-<details>
-<summary>
-asdf
-</summary>
-[^1]: What are you doing
-[^2]: Why are you doing it
-[^3]: How are you testing it?
-</details>
