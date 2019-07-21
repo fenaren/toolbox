@@ -1,33 +1,36 @@
-#if !defined TEST_MACROS
+#if !defined TEST_MACROS_HPP
 
 #include <iostream>
 #include <string>
 
+#include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestProgram.hpp"
 
 // Using these macros makes writing TestProgram tests which compile into
-// executables easier.  Trivial tests pretty much all share the same main()
-// definition, constructor and destructor, and header file contents.  This macro
-// writes all that code.
+// executables easier.  These macros save lots of duplicate code, but more
+// importantly they make writing tests easier for the developer.  It's easy to
+// think "how hard could it be to write this stuff out oneself", but developers
+// can be reluctant to write tests in the first place, and anything we can do to
+// make the test-writing process easier is extremely valuable.
 
-#define TEST_HEADER(TestClass)                           \
-    class TestClass : public Test                        \
-    {                                                    \
-    public:                                              \
-        TestClass(const std::string& name = #TestClass); \
-        ~TestClass();                                    \
-    protected:                                           \
-        virtual Test::Result body();                     \
+#define TEST(TestClass)                                                  \
+    class TestClass : public Test                                        \
+    {                                                                    \
+    public:                                                              \
+        TestClass(const std::string& name = #TestClass) : Test(name) {}; \
+    protected:                                                           \
+        virtual Test::Result body();                                     \
     };
 
-#define TEST_CASES_HEADER(TestClass)                     \
-    class TestClass : public TestCases                   \
-    {                                                    \
-    public:                                              \
-        TestClass(const std::string& name = #TestClass); \
-        ~TestClass();                                    \
-        virtual void addTestCases();                     \
-    }
+#define TEST_CASES_BEGIN(TestClass)                                           \
+    class TestClass : public TestCases                                        \
+    {                                                                         \
+    public:                                                                   \
+        TestClass(const std::string& name = #TestClass) : TestCases(name) {}; \
+        virtual void addTestCases();
+
+#define TEST_CASES_END(TestClass) };
 
 #define TEST_PROGRAM_MAIN(TestClass)                \
     int main(int argc, char** argv)                 \
@@ -37,23 +40,7 @@
         return testprogram.run();                   \
     }
 
-#define TEST_CONSTRUCTOR_DESTRUCTOR(TestClass)                    \
-    TestClass::TestClass(const std::string& name) : Test(name) {} \
-    TestClass::~TestClass() {}
-
-#define TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass)                   \
-    TestClass::TestClass(const std::string& name) : TestCases(name) {} \
-    TestClass::~TestClass() {}
-
-#define TRIVIAL_TEST(TestClass)             \
-    TEST_HEADER(TestClass);                 \
-    TEST_PROGRAM_MAIN(TestClass);           \
-    TEST_CONSTRUCTOR_DESTRUCTOR(TestClass);
-
-#define TRIVIAL_TEST_CASES(TestClass)             \
-    TEST_CASES_HEADER(TestClass);                 \
-    TEST_PROGRAM_MAIN(TestClass);                 \
-    TEST_CASES_CONSTRUCTOR_DESTRUCTOR(TestClass);
+#define ADD_TEST_CASE(TestCase) addTestCase(new TestCase())
 
 // MUST_BE_TRUE and MUST_BE_FALSE are intended to be used within the Test::run()
 // method and work to immediately fail tests if their given expressions don't

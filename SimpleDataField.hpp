@@ -12,6 +12,8 @@ class SimpleDataField : public DataField
 {
 public:
 
+    friend class SimpleDataField_test;
+
     // Does nothing
     explicit SimpleDataField();
 
@@ -31,6 +33,10 @@ public:
     // source byte order does not match the byte ordering of this field.
     virtual unsigned long readRaw(std::uint8_t*   buffer,
                                   misc::ByteOrder source_byte_order);
+
+    // Const-compatible version of the above member function
+    virtual unsigned long readRaw(const std::uint8_t* buffer,
+                                  misc::ByteOrder     source_byte_order);
 
     // Writes the data field to the "buffer" memory location, swapping at the
     // destination if the destination byte order does not match the byte
