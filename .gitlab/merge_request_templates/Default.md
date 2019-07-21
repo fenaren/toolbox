@@ -1,1 +1,1 @@
-See issue #XX.
+Closes issue #XX.
