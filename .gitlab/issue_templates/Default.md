@@ -1,10 +1,10 @@
-<details>
-<summary>
-<h2>Description</h2>
-</summary>
+## Description[^1]
 Some placeholder text
-</details>
 
-## Rationale
+## Rationale[^2]
 
-## Testing
+## Testing[^3]
+
+[^1]: What are you doing
+[^2]: Why are you doing it
+[^3]: How are you testing it?
