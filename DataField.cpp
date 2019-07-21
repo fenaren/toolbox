@@ -1,5 +1,6 @@
 #include <cmath>
 #include <cstdlib>
+#include <stdexcept>
 
 #include "DataField.hpp"
 
@@ -28,6 +29,14 @@ unsigned long DataField::readRaw(std::uint8_t* buffer)
 }
 
 //==============================================================================
+unsigned long DataField::readRaw(const std::uint8_t* buffer)
+{
+    // Call the virtual method with the host byte ordering.  If the virtual
+    // method is implemented like it should be it won't do any byteswapping.
+    return readRaw(buffer, getByteOrder());
+}
+
+//==============================================================================
 unsigned long DataField::readRaw(std::uint8_t*   buffer,
                                  misc::ByteOrder source_byte_order,
                                  unsigned long   bit_offset)
@@ -47,11 +56,11 @@ unsigned long DataField::readRaw(std::uint8_t*   buffer,
     // shift the data back to where it was and put the first byte back in
     // place.  This should leave things exactly the way we left them.
 
-    // All the other alternatives involve using memory we don't have.  This
-    // would mean dynamically allocating memory here or statitcally allocating
-    // enough data store this packet in case this happens, which would be
-    // probably be wasteful in general.  Offset packets are expected to be
-    // uncommon.
+    // All the other alternatives involve using memory we don't immediately
+    // have.  This would mean dynamically allocating memory here or statically
+    // allocating enough data to store this packet in case this happens, which
+    // would be probably be wasteful in general.  Offset packets are expected to
+    // be uncommon.
 
     // Save the first byte to put back later
     std::uint8_t first_byte = buffer[0];
@@ -74,8 +83,36 @@ unsigned long DataField::readRaw(std::uint8_t*   buffer,
 }
 
 //==============================================================================
+unsigned long DataField::readRaw(const std::uint8_t* buffer,
+                                 misc::ByteOrder     source_byte_order,
+                                 unsigned long       bit_offset)
+{
+    // Have to use the special const-compatible version with a different
+    // signature
+    const std::uint8_t* buffer_new =
+        normalizeMemoryLocation(buffer, bit_offset);
+
+    if (bit_offset != 0)
+    {
+        throw std::runtime_error(
+            "readRaw with a bit offset on read-only memory is not supported");
+    }
+
+    return readRaw(buffer_new, source_byte_order);
+}
+
+//==============================================================================
 unsigned long DataField::readRaw(std::uint8_t* buffer,
                                  unsigned long bit_offset)
+{
+    // Call the virtual method with the host byte ordering.  If the virtual
+    // method is implemented like it should be it won't do any byteswapping.
+    return readRaw(buffer, getByteOrder(), bit_offset);
+}
+
+//==============================================================================
+unsigned long DataField::readRaw(const std::uint8_t* buffer,
+                                 unsigned long       bit_offset)
 {
     // Call the virtual method with the host byte ordering.  If the virtual
     // method is implemented like it should be it won't do any byteswapping.
@@ -110,11 +147,11 @@ unsigned long DataField::writeRaw(std::uint8_t*   buffer,
     // data in the buffer but we'll save that data and put it back where it
     // should be as the last thing we do.
 
-    // All the other alternatives involve using memory we don't have.  This
-    // would mean dynamically allocating memory here or statitcally allocating
-    // enough data store this packet in case this happens, which would be
-    // probably be wasteful in general.  Offset packets are expected to be
-    // uncommon.
+    // All the other alternatives involve using memory we don't immediately
+    // have.  This would mean dynamically allocating memory here or statically
+    // allocating enough data to store this packet in case this happens, which
+    // would be probably be wasteful in general.  Offset packets are expected to
+    // be uncommon.
 
     // Save the first byte, we have to mask this back in later
     std::uint8_t first_byte = buffer[0];
@@ -155,4 +192,16 @@ void DataField::normalizeMemoryLocation(std::uint8_t*& buffer,
     // Take all the bytes out of offset_bits
     buffer += div_result.quot;
     offset_bits = div_result.rem;
+}
+
+//==============================================================================
+const std::uint8_t* DataField::normalizeMemoryLocation(
+    const std::uint8_t* buffer,
+    unsigned long&      offset_bits)
+{
+    std::ldiv_t div_result = std::ldiv(offset_bits, BITS_PER_BYTE);
+
+    // Take all the bytes out of offset_bits
+    offset_bits = div_result.rem;
+    return buffer + div_result.quot;
 }

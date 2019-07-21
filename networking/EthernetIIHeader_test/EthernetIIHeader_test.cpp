@@ -1,15 +1,32 @@
+#include "EthernetIIHeader_test.hpp"
+
 #include "EthernetIIHeader.hpp"
-#include "Test.hpp"
+
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-TRIVIAL_TEST(EthernetIIHeader_test);
+TEST_PROGRAM_MAIN(EthernetIIHeader_test);
 
 //==============================================================================
-Test::Result EthernetIIHeader_test::body()
+void EthernetIIHeader_test::addTestCases()
+{
+    ADD_TEST_CASE(Length);
+    ADD_TEST_CASE(WriteRaw);
+}
+
+//==============================================================================
+Test::Result EthernetIIHeader_test::Length::body()
 {
     EthernetIIHeader eth_header(EthernetIIHeader::IPV4);
     MUST_BE_TRUE(eth_header.getLengthBytes() == EthernetIIHeader::LENGTH_BYTES);
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result EthernetIIHeader_test::WriteRaw::body()
+{
+    EthernetIIHeader eth_header(EthernetIIHeader::IPV4);
 
     unsigned char eth_header_raw[EthernetIIHeader::LENGTH_BYTES];
     eth_header.writeRaw(eth_header_raw, misc::ENDIAN_BIG);

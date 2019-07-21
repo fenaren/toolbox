@@ -4,16 +4,123 @@
 #include <iostream>
 #include <limits>
 
+#include "DataField_test.hpp"
+
 #include "DataField.hpp"
 #include "SimpleDataField.hpp"
-#include "Test.hpp"
 #include "TestMacros.hpp"
-#include "misc.hpp"
 
-TRIVIAL_TEST(DataField_test);
+TEST_PROGRAM_MAIN(DataField_test)
 
 //==============================================================================
-template <class T> bool writeAndReadRawTest()
+void DataField_test::addTestCases()
+{
+    ADD_TEST_CASE(WriteRawConst);
+    ADD_TEST_CASE(ReadRaw);
+    ADD_TEST_CASE(ReadRawConstBuffer);
+    ADD_TEST_CASE(NormalizeMemoryLocation);
+    ADD_TEST_CASE(NormalizeMemoryLocationConst);
+}
+
+//==============================================================================
+void DataField_test::WriteRawConst::addTestCases()
+{
+    ADD_TEST_CASE(Byte1);
+    ADD_TEST_CASE(Byte2);
+    ADD_TEST_CASE(Byte4);
+}
+
+//==============================================================================
+void DataField_test::ReadRaw::addTestCases()
+{
+    ADD_TEST_CASE(Byte1);
+    ADD_TEST_CASE(Byte2);
+    ADD_TEST_CASE(Byte4);
+}
+
+//==============================================================================
+void DataField_test::ReadRawConstBuffer::addTestCases()
+{
+    ADD_TEST_CASE(Byte1);
+    ADD_TEST_CASE(Byte2);
+    ADD_TEST_CASE(Byte4);
+}
+
+//==============================================================================
+void DataField_test::NormalizeMemoryLocation::addTestCases()
+{
+    ADD_TEST_CASE(Buffer0Bits0);
+    ADD_TEST_CASE(Buffer0Bits8);
+    ADD_TEST_CASE(Buffer1Bits16);
+    ADD_TEST_CASE(Buffer2Bits404);
+}
+
+//==============================================================================
+void DataField_test::NormalizeMemoryLocationConst::addTestCases()
+{
+    ADD_TEST_CASE(Buffer0Bits0);
+    ADD_TEST_CASE(Buffer0Bits8);
+    ADD_TEST_CASE(Buffer1Bits16);
+    ADD_TEST_CASE(Buffer2Bits404);
+}
+
+//==============================================================================
+Test::Result DataField_test::WriteRawConst::Byte1::body()
+{
+    return writeRawSlidingWindow<std::uint8_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::WriteRawConst::Byte2::body()
+{
+    return writeRawSlidingWindow<std::uint16_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::WriteRawConst::Byte4::body()
+{
+    return writeRawSlidingWindow<std::uint32_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::Byte1::body()
+{
+    return readRawSlidingWindow<std::uint8_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::Byte2::body()
+{
+    return readRawSlidingWindow<std::uint16_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRaw::Byte4::body()
+{
+    return readRawSlidingWindow<std::uint32_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConstBuffer::Byte1::body()
+{
+    return readRawSlidingWindow<std::uint8_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConstBuffer::Byte2::body()
+{
+    return readRawSlidingWindow<std::uint16_t>();
+}
+
+//==============================================================================
+Test::Result DataField_test::ReadRawConstBuffer::Byte4::body()
+{
+    return readRawSlidingWindow<std::uint32_t>();
+}
+
+//==============================================================================
+template <class T>
+Test::Result DataField_test::WriteRawConst::writeRawSlidingWindow()
 {
     // With this test we're going to write a simple integer data field set to 0
     // into a buffer of 1s that is double the integer's size at successively
@@ -21,9 +128,6 @@ template <class T> bool writeAndReadRawTest()
     // 0s and the second half will gain 0s.  We can predict exactly what both
     // halves should be equal to as integers, so we check this with each offset
     // write.
-
-    // Will go false if the test fails
-    bool passed = true;
 
     const unsigned int workarea_size = sizeof(T) * 2;
     T workarea[2];
@@ -37,11 +141,10 @@ template <class T> bool writeAndReadRawTest()
         // checking the value of both halves against math
         SimpleDataField<T> test_sdf(0);
 
-        T something = std::pow(2, i) - 1;
-
         // Work area halves should equal these two values after the write
-        T correct_firsthalf = something;
-        T correct_secondhalf = std::numeric_limits<T>::max() - something;
+        T correct_firsthalf = std::pow(2, i) - 1;
+        T correct_secondhalf =
+            std::numeric_limits<T>::max() - correct_firsthalf;
 
         // Actually do the write
         test_sdf.DataField::writeRaw(
@@ -49,61 +152,178 @@ template <class T> bool writeAndReadRawTest()
 
         // Now check both halves
         std::cout << "Offset " << i << " " << workarea[0] << " ";
-        if (workarea[0] != correct_firsthalf)
-        {
-            std::cout << "(WRONG should be " << correct_firsthalf << ") ";
-            passed = false;
-        }
+        MUST_BE_TRUE(workarea[0] == correct_firsthalf)
 
         std::cout << workarea[1] << " ";
-        if (workarea[1] != correct_secondhalf)
-        {
-            std::cout << "(WRONG should be " << correct_secondhalf << ") ";
-            passed = false;
-        }
+        MUST_BE_TRUE(workarea[1] == correct_secondhalf)
 
         std::cout << "\n";
-
-        if (!passed)
-        {
-            break;
-        }
-
-        // So the write seems to have worked, if we've reached this point.  Try
-        // to read back the field we just wrote and make sure it's zero.  Also
-        // make sure the readRaw operation doesn't change the contents of the
-        // workarea
-
-        T workarea_copy[2];
-        memcpy(workarea_copy, workarea, sizeof(T) * 2);
-
-        test_sdf.DataField::readRaw(
-            reinterpret_cast<std::uint8_t*>(workarea), i);
-
-        if (memcmp(workarea, workarea_copy, sizeof(T) * 2) != 0)
-        {
-            std::cout << "readRaw modified buffer contents, should not have\n";
-            passed = false;
-            break;
-        }
-
-        if (test_sdf != 0)
-        {
-            std::cout << "Readback failed, should have read 0\n";
-            passed = false;
-            break;
-        }
     }
 
-    return passed;
+    return Test::PASSED;
 }
 
 //==============================================================================
-Test::Result DataField_test::body()
+template <class T>
+Test::Result DataField_test::ReadRaw::readRawSlidingWindow()
 {
-    MUST_BE_TRUE(writeAndReadRawTest<std::uint8_t>());
-    MUST_BE_TRUE(writeAndReadRawTest<std::uint16_t>());
-    MUST_BE_TRUE(writeAndReadRawTest<std::uint32_t>());
+    // Treat the workarea as a single big-endian integer.  We want to start by
+    // setting the low half to zero and then shift the whole half section across
+    // to the other half, one bit at a time.  As we do this we test readRaw by
+    // telling it to read the section that should be zero and seeing if it
+    // actually does come up with zero.
+
+    T workarea[2];
+
+    for (unsigned int i = 0; i <= sizeof(T) * BITS_PER_BYTE; ++i)
+    {
+        workarea[0] = std::pow(2, i) - 1;
+        workarea[1] = std::numeric_limits<T>::max() - workarea[0];
+
+        SimpleDataField<T> test_sdf;
+        test_sdf.DataField::readRaw(
+            reinterpret_cast<std::uint8_t*>(workarea), misc::ENDIAN_BIG, i);
+
+        MUST_BE_TRUE(test_sdf == 0);
+    }
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+template <class T>
+Test::Result DataField_test::ReadRawConstBuffer::readRawSlidingWindow()
+{
+    // Treat the workarea as a single big-endian integer.  We want to start by
+    // setting the low half to zero and then shift the whole half section across
+    // to the other half, one bit at a time.  As we do this we test readRaw by
+    // telling it to read the section that should be zero and seeing if it
+    // actually does come up with zero.
+
+    T workarea[2];
+
+    for (unsigned int i = 0; i <= sizeof(T) * BITS_PER_BYTE; ++i)
+    {
+        workarea[0] = std::pow(2, i) - 1;
+        workarea[1] = std::numeric_limits<T>::max() - workarea[0];
+
+        SimpleDataField<T> test_sdf;
+
+        try
+        {
+            // Reading from a const buffer with a bit offset is unimplemented
+            // and is supposed to generate an exception
+            test_sdf.DataField::readRaw(
+                reinterpret_cast<const std::uint8_t*>(workarea),
+                misc::ENDIAN_BIG,
+                i);
+        }
+        catch (std::runtime_error& ex)
+        {
+            // We're supposed to be here if we just asked readRaw to do the
+            // thing that we know will generate an exception
+            MUST_BE_TRUE(i % BITS_PER_BYTE != 0);
+        }
+
+        MUST_BE_TRUE(test_sdf == 0);
+    }
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer0Bits0::body()
+{
+    return NML_BufferBits(0, 0, 0, 0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer0Bits8::body()
+{
+    return NML_BufferBits(0, 8, reinterpret_cast<std::uint8_t*>(1), 0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer1Bits16::body()
+{
+    return NML_BufferBits(reinterpret_cast<std::uint8_t*>(1),
+                          16,
+                          reinterpret_cast<std::uint8_t*>(3),
+                          0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocation::Buffer2Bits404::body()
+{
+    return NML_BufferBits(reinterpret_cast<std::uint8_t*>(2),
+                          404,
+                          reinterpret_cast<std::uint8_t*>(52),
+                          4);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer0Bits0::body()
+{
+    return NML_BufferBitsConst(0, 0, 0, 0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer0Bits8::body()
+{
+    return NML_BufferBitsConst(0, 8, reinterpret_cast<std::uint8_t*>(1), 0);
+}
+
+//==============================================================================
+Test::Result DataField_test::NormalizeMemoryLocationConst::Buffer1Bits16::body()
+{
+    return NML_BufferBitsConst(reinterpret_cast<std::uint8_t*>(1),
+                               16,
+                               reinterpret_cast<std::uint8_t*>(3),
+                               0);
+}
+
+//==============================================================================
+Test::Result
+DataField_test::NormalizeMemoryLocationConst::Buffer2Bits404::body()
+{
+    return NML_BufferBitsConst(reinterpret_cast<std::uint8_t*>(2),
+                               404,
+                               reinterpret_cast<std::uint8_t*>(52),
+                               4);
+}
+
+//==============================================================================
+Test::Result DataField_test::NML_BufferBits(std::uint8_t* buffer_before,
+                                            unsigned long bits_before,
+                                            std::uint8_t* buffer_after,
+                                            unsigned long bits_after)
+{
+    // Non-const object to run this function in association with
+    SimpleDataField<int> sdf;
+
+    std::uint8_t* buffer = buffer_before;
+    unsigned long bits   = bits_before;
+
+    sdf.normalizeMemoryLocation(buffer, bits);
+    MUST_BE_TRUE(buffer == buffer_after && bits == bits_after);
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result DataField_test::NML_BufferBitsConst(std::uint8_t* buffer_before,
+                                                 unsigned long bits_before,
+                                                 std::uint8_t* buffer_after,
+                                                 unsigned long bits_after)
+{
+    // Non-const object to run this function in association with
+    const SimpleDataField<int> sdf;
+
+    std::uint8_t* buffer = buffer_before;
+    unsigned long bits   = bits_before;
+
+    sdf.normalizeMemoryLocation(buffer, bits);
+    MUST_BE_TRUE(buffer == buffer_after && bits == bits_after);
 
     return Test::PASSED;
 }

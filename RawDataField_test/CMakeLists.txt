@@ -1,11 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
-set(SRC
-  RawDataField_test.cpp
-  RawDataField_test_case1.cpp
-  RawDataField_test_case2.cpp
-  RawDataField_test_case3.cpp)
+set(SRC RawDataField_test.cpp)
 
 # We need these include directories
 set(INC . ..)

@@ -5,31 +5,42 @@
 #include <thread>
 #include <unordered_set>
 
+#include "SignalManager_test.hpp"
+
 #include "SignalManager.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(SignalManager_test);
+TEST_PROGRAM_MAIN(SignalManager_test);
 
 //==============================================================================
-Test::Result SignalManager_test::body()
+void SignalManager_test::addTestCases()
+{
+    ADD_TEST_CASE(Signal);
+    ADD_TEST_CASE(IsSignalDelivered);
+    ADD_TEST_CASE(GenerateAllSignals);
+}
+
+//==============================================================================
+Test::Result SignalManager_test::Signal::body()
 {
     SignalManager* signal_manager = 0;
-    try
-    {
-        signal_manager = new SignalManager();
-    }
-    catch (std::runtime_error& ex)
-    {
-        return Test::SKIPPED;
-    }
-
-    std::unordered_set<int> supported_signals;
-    signal_manager->getSupportedSignals(supported_signals);
-    std::cout << supported_signals.size() << " supported signal(s)\n";
+    GET_SIGNAL_MANAGER(signal_manager);
 
     // Give the signal manager a garbage signal and see what happens
     signal_manager->signal(999);
+
+    delete signal_manager;
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result SignalManager_test::IsSignalDelivered::body()
+{
+    SignalManager* signal_manager = 0;
+    GET_SIGNAL_MANAGER(signal_manager);
 
     // Give the signal manager another garbage signal and see what happens
     bool signal_caught = false;
@@ -41,7 +52,23 @@ Test::Result SignalManager_test::body()
     {
         signal_caught = true;
     }
+
     MUST_BE_TRUE(signal_caught);
+
+    delete signal_manager;
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result SignalManager_test::GenerateAllSignals::body()
+{
+    SignalManager* signal_manager = 0;
+    GET_SIGNAL_MANAGER(signal_manager);
+
+    std::unordered_set<int> supported_signals;
+    signal_manager->getSupportedSignals(supported_signals);
+    std::cout << supported_signals.size() << " supported signal(s)\n";
 
     // Test that we can signal and handle all the signals
     for (std::unordered_set<int>::const_iterator i = supported_signals.begin();

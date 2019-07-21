@@ -1,9 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
-set(SRC
-  misc_test.cpp
-  misc_test_case1.cpp)
+set(SRC misc_test.cpp)
 
 # We need these include directories
 set(INC . ..)
