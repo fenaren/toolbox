@@ -1,4 +1,4 @@
-<h4>Fixes bug #XX</h4>
+<h5>Fixes bug #XX</h5>
 
 ## Description
 <em>What are you doing to fix the bug?  How completely does this bugfix resolve the bug?</em>
