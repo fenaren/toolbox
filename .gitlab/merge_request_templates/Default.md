@@ -1,8 +1,1 @@
-## Description
-What are you doing?
-
-## Rationale
-Why are you doing it?
-
-## Testing
-How have you tested it?
+See issue #XX.

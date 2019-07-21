@@ -5,4 +5,4 @@ What are you doing?
 Why are you doing it?
 
 ## Testing
-How have you tested it?
+How has this been tested?  How will this be tested?
