@@ -1,5 +1,5 @@
 <details>
-<summary><h2>Description</h2></summary>
+<summary><em>Description</em></summary>
 Some placeholder text
 </details>
 
