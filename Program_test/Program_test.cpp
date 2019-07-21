@@ -3,16 +3,26 @@
 #include <string>
 #include <vector>
 
+#include "Program_test.hpp"
+
 #include "HelloWorld.hpp"
 #include "Program.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "TestProgram.hpp"
 
-TRIVIAL_TEST(Program_test);
+TEST_PROGRAM_MAIN(Program_test);
 
 //==============================================================================
-Test::Result Program_test::body()
+void Program_test::addTestCases()
+{
+    ADD_TEST_CASE(Constructor);
+    ADD_TEST_CASE(Run);
+}
+
+//==============================================================================
+Test::Result Program_test::Constructor::body()
 {
     // We're going to construct some fake arguments to push into our HelloWorld
     // test program
@@ -46,6 +56,23 @@ Test::Result Program_test::body()
     {
         MUST_BE_TRUE(argv[std::distance(arguments.begin(), i) + 1] == *i);
     }
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result Program_test::Run::body()
+{
+    // Three arguments total
+    const int ARGC = 1;
+
+    // Fill in the three arguments
+    char* argv[ARGC];
+    char zero[] = {"zero"};
+    argv[0] = zero;
+
+    // Normally a Program would get a proper set of arguments
+    HelloWorld hello_world(ARGC, argv);
 
     // Running hello world has to be successful
     MUST_BE_TRUE(hello_world.run() == 0);

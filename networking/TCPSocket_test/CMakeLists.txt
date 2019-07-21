@@ -1,10 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
-set(SRC
-  TCPSocket_test.cpp
-  TCPSocket_test_case1.cpp
-  TCPSocket_test_case2.cpp)
+set(SRC TCPSocket_test.cpp)
 
 # We need these include directories
 set(INC . ..)

@@ -1,10 +1,9 @@
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 #include "Test.hpp"
 
-//==============================================================================
-// Sets the name
 //==============================================================================
 Test::Test(const std::string& name)
 {
@@ -36,10 +35,14 @@ Test::Result Test::run()
     {
         std::cout << "passed";
     }
-    else
+    else if (result == Test::SKIPPED)
     {
         // Must have been skipped, there are no other cases
         std::cout << "skipped";
+    }
+    else
+    {
+        throw std::runtime_error("Test returned unknown result");
     }
 
     std::cout << "\n";

@@ -3,15 +3,24 @@
 #include <iostream>
 #include <string>
 
+#include "OnlineStatistics_test.hpp"
+
 #include "OnlineStatistics.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 #include "misc.hpp"
 
-TRIVIAL_TEST(OnlineStatistics_test);
+TEST_PROGRAM_MAIN(OnlineStatistics_test);
 
 //==============================================================================
-Test::Result OnlineStatistics_test::body()
+void OnlineStatistics_test::addTestCases()
+{
+    ADD_TEST_CASE(CompareToExcel);
+}
+
+//==============================================================================
+Test::Result OnlineStatistics_test::CompareToExcel::body()
 {
     const double EPSILON = 0.00000001;
 

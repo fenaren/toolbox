@@ -6,8 +6,6 @@
 #include "Program.hpp"
 
 //==============================================================================
-// Parses program arguments and stores in arguments
-//==============================================================================
 Program::Program(int argc, char** argv) :
     SignalManager()
 {
@@ -25,14 +23,10 @@ Program::Program(int argc, char** argv) :
 }
 
 //==============================================================================
-// Nothing to do on shutdown here
-//==============================================================================
 Program::~Program()
 {
 }
 
-//==============================================================================
-// Returns a copy of the program name
 //==============================================================================
 void Program::getName(std::string& name) const
 {
@@ -40,15 +34,11 @@ void Program::getName(std::string& name) const
 }
 
 //==============================================================================
-// Returns a copy of the program arguments
-//==============================================================================
 void Program::getArguments(std::vector<std::string>& arguments) const
 {
     arguments = this->arguments;
 }
 
-//==============================================================================
-// Reconfigure self as a background process (daemon)
 //==============================================================================
 bool Program::daemonize()
 {

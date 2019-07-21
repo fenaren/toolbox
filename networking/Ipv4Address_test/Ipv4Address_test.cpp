@@ -3,117 +3,82 @@
 #include <string>
 #include <vector>
 
+#include "Ipv4Address_test.hpp"
+
 #include "Ipv4Address.hpp"
 #include "Test.hpp"
+#include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TRIVIAL_TEST(Ipv4Address_test);
+TEST_PROGRAM_MAIN(Ipv4Address_test);
 
 //==============================================================================
-Test::Result Ipv4Address_test::body()
+void Ipv4Address_test::addTestCases()
 {
-    // Initialize vector of test IPv4 addresses; THESE MUST ALL BE UNIQUE
-    std::vector<std::string> unique_ipv4_addresses;
+    ADD_TEST_CASE(Operators);
+}
 
-    unique_ipv4_addresses.push_back("0.0.0.0");
-    unique_ipv4_addresses.push_back("1.2.3.4");
-    unique_ipv4_addresses.push_back("1.2.200.210");
-    unique_ipv4_addresses.push_back("01.02.200.201");
-    unique_ipv4_addresses.push_back("192.168.1.1");
-    unique_ipv4_addresses.push_back("255.255.255.255");
+//==============================================================================
+void Ipv4Address_test::Operators::addTestCases()
+{
+    ADD_TEST_CASE(EqualTo);
+    ADD_TEST_CASE(NotEqualTo);
+}
 
-    // Failed cases are recorded here and output at the end of the test
-    std::vector<std::pair<unsigned int, unsigned int> > failed_eqineq_cases;
+//==============================================================================
+Test::Result Ipv4Address_test::Operators::EqualTo::body()
+{
+    std::vector<std::string> ipv4_addresses;
+    ipv4_addresses.push_back("0.0.0.0");
+    ipv4_addresses.push_back("1.2.3.4");
+    ipv4_addresses.push_back("1.2.200.210");
+    ipv4_addresses.push_back("01.02.200.201");
+    ipv4_addresses.push_back("192.168.1.1");
+    ipv4_addresses.push_back("255.255.255.255");
 
-    // Check all IPv4 addresses against each other
-    for (unsigned int i = 0; i < unique_ipv4_addresses.size(); i++)
+    for (unsigned int i = 0; i < ipv4_addresses.size(); i++)
     {
-        Ipv4Address ipv4_address_i(unique_ipv4_addresses[i]);
+        Ipv4Address ipv4_address(ipv4_addresses[i]);
 
-        // Exercise output stream functionality by outputting each Ipv4Address
-        std::cout << ipv4_address_i << "\n";
+        MUST_BE_TRUE(ipv4_address      == ipv4_address);
+        MUST_BE_TRUE(ipv4_address      == ipv4_addresses[i]);
+        MUST_BE_TRUE(ipv4_addresses[i] == ipv4_address);
+    }
 
-        for (unsigned int j = 0; j < unique_ipv4_addresses.size(); j++)
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result Ipv4Address_test::Operators::NotEqualTo::body()
+{
+    std::vector<std::string> ipv4_addresses;
+    ipv4_addresses.push_back("0.0.0.0");
+    ipv4_addresses.push_back("1.2.3.4");
+    ipv4_addresses.push_back("1.2.200.210");
+    ipv4_addresses.push_back("01.02.200.201");
+    ipv4_addresses.push_back("192.168.1.1");
+    ipv4_addresses.push_back("255.255.255.255");
+
+    for (unsigned int i = 0; i < ipv4_addresses.size(); i++)
+    {
+        Ipv4Address ipv4_address_i(ipv4_addresses[i]);
+
+        for (unsigned int j = 0; j < ipv4_addresses.size(); j++)
         {
-            Ipv4Address ipv4_address_j(unique_ipv4_addresses[j]);
-
             if (i == j)
             {
-                if (!(ipv4_address_i == ipv4_address_j &&
-                      // cppcheck-suppress duplicateExpression
-                      ipv4_address_i == unique_ipv4_addresses[j] &&
-                      // cppcheck-suppress duplicateExpression
-                      ipv4_address_j == unique_ipv4_addresses[i] &&
-                      unique_ipv4_addresses[i] == ipv4_address_j &&
-                      unique_ipv4_addresses[j] == ipv4_address_i))
-                {
-                    failed_eqineq_cases.push_back(
-                        std::pair<unsigned int, unsigned int>(i, j));
-                }
+                continue;
             }
-            else
-            {
-                if (!(ipv4_address_i != ipv4_address_j &&
-                      // cppcheck-suppress duplicateExpression
-                      ipv4_address_i != unique_ipv4_addresses[j] &&
-                      // cppcheck-suppress duplicateExpression
-                      ipv4_address_j != unique_ipv4_addresses[i] &&
-                      unique_ipv4_addresses[i] != ipv4_address_j &&
-                      unique_ipv4_addresses[j] != ipv4_address_i))
-            {
-                    failed_eqineq_cases.push_back(
-                        std::pair<unsigned int, unsigned int>(i, j));
-                }
-            }
+
+            Ipv4Address ipv4_address_j(ipv4_addresses[j]);
+
+            MUST_BE_TRUE(ipv4_address_i    != ipv4_address_j);
+            MUST_BE_TRUE(ipv4_address_i    != ipv4_addresses[j]);
+            MUST_BE_TRUE(ipv4_address_j    != ipv4_addresses[i]);
+            MUST_BE_TRUE(ipv4_addresses[i] != ipv4_address_j);
+            MUST_BE_TRUE(ipv4_addresses[j] != ipv4_address_i);
         }
     }
 
-    std::cout << "Failed equality/inequality cases: "
-              << failed_eqineq_cases.size() << "\n";
-
-    for (unsigned int i = 0; i < failed_eqineq_cases.size(); i++)
-    {
-        std::cout << unique_ipv4_addresses[failed_eqineq_cases[i].first]
-                  << " and "
-                  << unique_ipv4_addresses[failed_eqineq_cases[i].second]
-                  << "\n";
-    }
-
-    // Test the read function
-    unsigned char testcipv41[] = {97, 98, 99, 100};
-    Ipv4Address testipv41(testcipv41);
-    bool read_success = testipv41 == "97.98.99.100";
-    if (!read_success)
-    {
-        std::cout << "Read test failed\n";
-    }
-
-    std::string testipv41str = testipv41;
-    std::cout << testipv41str << "\n";
-
-    // Test the write function
-    std::string testipv4str = "1.2.3.4";
-    Ipv4Address testipv42(testipv4str);
-    unsigned char testcipv42[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    char shouldbe[] = {1, 2, 3, 4};
-    testipv42.DataField::writeRaw(testcipv42);
-    bool write_success =
-        memcmp(testcipv42, shouldbe, Ipv4Address::LENGTH_BYTES) == 0;
-    if (!write_success)
-    {
-        std::cout << "Write test failed\n";
-    }
-
-    std::string testipv42str = testipv42;
-    std::cout << testipv42str << "\n";
-
-    // This unit test passes if no failed cases were recorded
-    if (failed_eqineq_cases.size() == 0 &&
-        read_success &&
-        write_success)
-    {
-        return Test::PASSED;
-    }
-
-    return Test::FAILED;
+    return Test::PASSED;
 }
