@@ -1,7 +1,7 @@
-<h5>Fixes bug #XX</h5>
+<em>Fixes bug #XX</em>
 
 ## Description
-<em>What are you doing to fix the bug?  How completely does this bugfix resolve the bug?</em>
+<What are you doing to fix the bug?  How completely does this bugfix resolve the bug?
 
 ## Testing
-<em>How has this bugfix been tested?</em>
+How has this bugfix been tested?
