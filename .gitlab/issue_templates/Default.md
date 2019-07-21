@@ -5,6 +5,11 @@ Some placeholder text
 
 ## Testing[^3]
 
+<details>
+<summary>
+asdf
+</summary>
 [^1]: What are you doing
 [^2]: Why are you doing it
 [^3]: How are you testing it?
+</details>
