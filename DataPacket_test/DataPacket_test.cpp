@@ -33,6 +33,8 @@ void DataPacket_test::GetLengthBits::addTestCases()
 //==============================================================================
 Test::Result DataPacket_test::ReadRaw::body()
 {
+    int someunusedthing;
+
     DataPacket_test1 dp1;
     DataPacket_test2* dp2 = dp1.getNestedPacket();
 
