@@ -22,8 +22,7 @@ pipelineBranchLinux = new PipelineBranch(
      new StageTests(this, 'DEBUG TESTS'),
      new StageValgrind(this),
      new StageClangStaticAnalysis(this),
-     new StageCppcheck(this, '--suppress=unusedFunction'),
-     new StageAnalysisIssues(this)])
+     new StageCppcheck(this, '--suppress=unusedFunction')])
 
 // Run both branches
 parallel Linux: {
