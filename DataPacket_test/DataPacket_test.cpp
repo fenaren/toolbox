@@ -90,7 +90,7 @@ Test::Result DataPacket_test::ReadRaw::body()
     // Grab the character out of the nested packet and push an updated and
     // byteswapped copy of it into its place.  readRaw() will read this out
     // later, hopefully correctly.
-    pushField(raw_dp1, dp2_char, offset);
+    offset += pushField(raw_dp1, dp2_char, offset);
 
     // Now read the field with the functionality under test
     dp1.DataField::readRaw(raw_dp1);
@@ -168,7 +168,7 @@ Test::Result DataPacket_test::WriteRawConst::body()
     // byteswapped copy of it into its place.  readRaw() will read this out
     // later, hopefully correctly.
     char dp2_char;
-    pullField(dp2_char, raw_dp1, offset);
+    offset += pullField(dp2_char, raw_dp1, offset);
 
     // All the values we copied out of the raw packet have to match the values
     // we originally set them to
