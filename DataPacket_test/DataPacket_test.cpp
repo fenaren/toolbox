@@ -180,7 +180,7 @@ Test::Result DataPacket_test::WriteRawConst::body()
 
     delete [] raw_dp1;
 
-    return Test::PASSED;
+    return Test::FAILED;
 }
 
 //==============================================================================
