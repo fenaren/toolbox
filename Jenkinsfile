@@ -14,7 +14,7 @@ pipelineBranchLinux = new PipelineBranch(
     this,
     'Linux',
     [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
-     new StageBuild(this, 'RELEASE BUILD', 'release', 'tests')])
+     new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests')])
 
 // Run both branches
 parallel Linux: {
