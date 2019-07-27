@@ -13,9 +13,7 @@ import stage.*
 pipelineBranchLinux = new PipelineBranch(
     this,
     'Linux',
-    [new StageCheckout(this,
-                       'http://gitlab.dmz/leighgarbs/tools-cpp.git',
-                       ['http://gitlab.dmz/leighgarbs/bin.git']),
+    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
      new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
      new StageTests(this, 'RELEASE TESTS'),
      new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
