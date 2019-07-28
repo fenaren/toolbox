@@ -1,7 +1,3 @@
-| **Related To** | **Blocks** | **Is Blocked By** |
-| :---           | :---       | :---              |
-| None           | None       | None              |
-
 ## Description
 What are you doing?
 
@@ -10,3 +6,8 @@ Why are you doing it?
 
 ## Testing
 How has this been tested?  How will this be tested?
+
+## Links
+| **Related To** | **Blocks** | **Is Blocked By** |
+| :---           | :---       | :---              |
+| None           | None       | None              |
