@@ -5,6 +5,6 @@ What are you doing to fix the bug?  How completely does this bugfix resolve the 
 How has this bugfix been tested?
 
 ## Links
-| **Related To** | **Blocks** | **Is Blocked By** | **Fixes ** | **Is Fixed By** |
-| :---           | :---       | :---              | :---       | :---            |
-| None           | None       | None              | None       | None            |
+| **Related To** | **Blocks** | **Is Blocked By** | **Fixes** | **Is Fixed By** |
+| :---           | :---       | :---              | :---      | :---            |
+| None           | None       | None              | None      | None            |
