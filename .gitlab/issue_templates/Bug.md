@@ -5,6 +5,6 @@ Under what conditions will this bug manifest?  How often will it manifest?  What
 How can another developer can replicate this bug?  Be specific.
 
 ## Links
-| **Related To** | **Blocks** | **Is Blocked By** |
-| :---           | :---       | :---              |
-| None           | None       | None              |
+| **Related To** | **Blocks** | **Is Blocked By** | **Fixes** | **Is Fixed By** |
+| :---           | :---       | :---              | :---      | :---            |
+| None           | None       | None              | None      | None            |
