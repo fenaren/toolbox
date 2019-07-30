@@ -31,7 +31,7 @@ pipelineBranchWindows = new PipelineBranch(
 // Run both branches
 parallel Linux: {
 
-    pipelineBranchLinux.run()
+    //pipelineBranchLinux.run()
 
 }, Windows: {
 
