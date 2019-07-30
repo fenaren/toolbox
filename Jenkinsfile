@@ -22,6 +22,12 @@ pipelineBranchLinux = new PipelineBranch(
      new StageClangStaticAnalysis(this),
      new StageCppcheck(this, '--suppress=unusedFunction')])
 
+// Construct the Linux pipeline branch
+pipelineBranchWindows = new PipelineBranch(
+    this,
+    'Windows',
+    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git')])
+
 // Run both branches
 parallel Linux: {
 
@@ -29,8 +35,7 @@ parallel Linux: {
 
 }, Windows: {
 
-    // No usable Windows build hosts at the moment
-    //pipelineBranchWindows.run()
+    pipelineBranchWindows.run()
 
 },
 failFast: false
