@@ -45,14 +45,15 @@ stage('whatever')
 {
     parallel Linux: {
 
-        node('Windows')
+        node('Linux')
         {
             print 'whatever'
+            sh 'touch afile'
         }
 
     }, Windows: {
 
-        node('Linux')
+        node('Windows')
         {
             print 'whatever'
         }
@@ -63,14 +64,15 @@ stage('whatever2')
 {
     parallel Linux: {
 
-        node('Windows')
+        node('Linux')
         {
+            sh 'ls'
             print 'whatever'
         }
 
     }, Windows: {
 
-        node('Linux')
+        node('Windows')
         {
             print 'whatever'
         }
