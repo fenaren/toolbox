@@ -43,4 +43,8 @@ failFast: false
 
 stage('whatever')
 {
+    node('Linux')
+    {
+        print 'whatever'
+    }
 }
