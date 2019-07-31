@@ -58,3 +58,21 @@ stage('whatever')
         }
     }
 }
+
+stage('whatever2')
+{
+    parallel Linux: {
+
+        node('Windows')
+        {
+            print 'whatever'
+        }
+
+    }, Windows: {
+
+        node('Linux')
+        {
+            print 'whatever'
+        }
+    }
+}
