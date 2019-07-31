@@ -43,8 +43,18 @@ failFast: false
 
 stage('whatever')
 {
-    node('Windows')
-    {
-        print 'whatever'
+    parallel Linux: {
+
+        node('Windows')
+        {
+            print 'whatever'
+        }
+
+    }, Windows: {
+
+        node('Linux')
+        {
+            print 'whatever'
+        }
     }
 }
