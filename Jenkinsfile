@@ -10,7 +10,7 @@
 import stage.*
 
 // Construct the Linux pipeline branch
-pipelineBranchLinux = new PipelineBranch(
+/*pipelineBranchLinux = new PipelineBranch(
     this,
     'Linux',
     [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
@@ -39,3 +39,8 @@ parallel Linux: {
 
 },
 failFast: false
+ */
+
+stage('whatever')
+{
+}
