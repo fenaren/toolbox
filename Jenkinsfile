@@ -43,7 +43,7 @@ failFast: false
 
 stage('whatever')
 {
-    node('Linux')
+    node('Windows')
     {
         print 'whatever'
     }
