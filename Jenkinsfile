@@ -9,7 +9,8 @@
 
 import stage.*
 
-pipeline = [new Stage(this, 'TEST')]
+pipeline = [
+    new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git')]
 
 /*    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
      new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
