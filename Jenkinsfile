@@ -27,7 +27,7 @@ pipelineBranchWindows = new PipelineBranch(
     [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git')])
  */
 
-for stage in pipeline
+for (stage in pipeline)
 {
     stage.run()
 }
