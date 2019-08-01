@@ -10,23 +10,14 @@
 import stage.*
 
 pipeline = [
-    new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git')]
-
-/*    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
-     new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
-     new StageTests(this, 'RELEASE TESTS'),
-     new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
-     new StageTests(this, 'DEBUG TESTS'),
-     new StageValgrind(this),
-     new StageClangStaticAnalysis(this),
-     new StageCppcheck(this, '--suppress=unusedFunction')])
-
-// Construct the Linux pipeline branch
-pipelineBranchWindows = new PipelineBranch(
-    this,
-    'Windows',
-    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git')])
- */
+    new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
+    new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
+    new StageTests(this, 'RELEASE TESTS'),
+    new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
+    new StageTests(this, 'DEBUG TESTS'),
+    new StageValgrind(this),
+    new StageClangStaticAnalysis(this),
+    new StageCppcheck(this, '--suppress=unusedFunction')]
 
 for (stage in pipeline)
 {
