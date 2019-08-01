@@ -9,11 +9,9 @@
 
 import stage.*
 
-// Construct the Linux pipeline branch
-/*pipelineBranchLinux = new PipelineBranch(
-    this,
-    'Linux',
-    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
+pipeline = [new Stage(this, 'TEST')]
+
+/*    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
      new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
      new StageTests(this, 'RELEASE TESTS'),
      new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
@@ -27,54 +25,9 @@ pipelineBranchWindows = new PipelineBranch(
     this,
     'Windows',
     [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git')])
-
-// Run both branches
-parallel Linux: {
-
-    pipelineBranchLinux.run()
-
-}, Windows: {
-
-    pipelineBranchWindows.run()
-
-},
-failFast: false
  */
 
-stage('whatever')
+for stage in pipeline
 {
-    parallel Linux: {
-
-        node('Linux')
-        {
-            print 'whatever'
-            sh 'touch afile'
-        }
-
-    }, Windows: {
-
-        node('Windows')
-        {
-            print 'whatever'
-        }
-    }
-}
-
-stage('whatever2')
-{
-    parallel Linux: {
-
-        node('Linux')
-        {
-            sh 'ls'
-            print 'whatever'
-        }
-
-    }, Windows: {
-
-        node('Windows')
-        {
-            print 'whatever'
-        }
-    }
+    stage.run()
 }
