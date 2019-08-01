@@ -9,17 +9,13 @@
 
 import stage.*
 
-pipeline = [
-    new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
-    new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
-    new StageTests(this, 'RELEASE TESTS'),
-    new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
-    new StageTests(this, 'DEBUG TESTS'),
-    new StageValgrind(this),
-    new StageClangStaticAnalysis(this),
-    new StageCppcheck(this, '--suppress=unusedFunction')]
-
-for (stage in pipeline)
-{
-    stage.run()
-}
+new Pipeline(
+    this,
+    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
+     new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
+     new StageTests(this, 'RELEASE TESTS'),
+     new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
+     new StageTests(this, 'DEBUG TESTS'),
+     new StageValgrind(this),
+     new StageClangStaticAnalysis(this),
+     new StageCppcheck(this, '--suppress=unusedFunction')]).run()
