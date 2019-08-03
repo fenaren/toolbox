@@ -16,6 +16,6 @@ new Pipeline(
      new StageTests(this, 'RELEASE TESTS'),
      new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
      new StageTests(this, 'DEBUG TESTS'),
-     new StageValgrind(this),
-     new StageClangStaticAnalysis(this),
-     new StageCppcheck(this, '--suppress=unusedFunction')]).run()
+     new StageValgrind(this, false, true, false),
+     new StageClangStaticAnalysis(this, false, true, false),
+     new StageCppcheck(this, '--suppress=unusedFunction', false, true, false)]).run()
