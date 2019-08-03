@@ -11,7 +11,7 @@ import stage.*
 
 new Pipeline(
     this,
-    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git', true)
+    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git', true),
      new StageBuild(this, 'RELEASE BUILD', 'release', 'tests', false, false, true),
      new StageTests(this, 'RELEASE TESTS'),
      new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
