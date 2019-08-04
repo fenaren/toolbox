@@ -42,11 +42,11 @@ public:
 
     // Sets the interface from which to receive data.  On Windows, the receive
     // interface is specified by IP address.
-    bool setInputInterface(const std::string& interface_ip);
+    virtual bool setInputInterface(const std::string& interface_ip);
 
     // Returns string representation of the IP address of the interface input is
     // being received from.
-    void getInputInterface(std::string& interface_ip) const;
+    virtual void getInputInterface(std::string& interface_ip) const;
 
     // Sets the IP address data will be sent to
     void setDestinationIP(const std::string& destination_ip);
