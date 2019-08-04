@@ -12,7 +12,6 @@ For personal project use.
 
 ## Goals ##
 * Windows support
-* Better test framework
 
 ## Priorities ##
 * Multi-platform support
