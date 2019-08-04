@@ -12,7 +12,6 @@ set(SRC
   DataField.cpp
   DataPacket.cpp
   OnlineStatistics.cpp
-  Program.cpp
   RawDataField.cpp
   SignalManager.cpp
   SignalManagerImpl.cpp
@@ -28,7 +27,8 @@ if(MACOS OR LINUX)
     Log.cpp
     PosixClock.cpp
     PosixSignalManagerImpl.cpp
-    PosixTimespec.cpp)
+    PosixTimespec.cpp
+    Program.cpp)
 endif(MACOS OR LINUX)
 
 # Add source files to the project sources
