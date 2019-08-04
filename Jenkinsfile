@@ -9,12 +9,12 @@
 
 import stage.*
 
-// Construct the pipeline
-def pipeline = new Pipeline(this,
+// Construct the pipeline.  Stages execute in the order shown here.
+def pipeline = new Pipeline(
+    this,
 
-    [new StageCheckout(this,
-                       'http://gitlab.dmz/leighgarbs/tools-cpp.git',
-                       true),
+    [new StageCheckout(
+            this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git', true),
 
      new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
 
@@ -28,11 +28,7 @@ def pipeline = new Pipeline(this,
 
      new StageClangStaticAnalysis(this, false, true, false),
 
-     new StageCppcheck(this,
-                       '--suppress=unusedFunction',
-                       false,
-                       true,
-                       false)])
+     new StageCppcheck(this, '--suppress=unusedFunction', false, true, false)])
 
 // Run the pipeline
 pipeline.run()
