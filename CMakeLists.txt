@@ -11,7 +11,6 @@ include(tools-cmake/ProjectCommon.cmake)
 set(SRC
   DataField.cpp
   DataPacket.cpp
-  FixedRateProgram.cpp
   Log.cpp
   OnlineStatistics.cpp
   Program.cpp
@@ -26,6 +25,7 @@ set(SRC
 # Only include POSIX code when building for platforms we know support it
 if(MACOS OR LINUX)
   list(APPEND SRC
+    FixedRateProgram.cpp
     PosixClock.cpp
     PosixSignalManagerImpl.cpp
     PosixTimespec.cpp)
