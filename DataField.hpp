@@ -118,7 +118,7 @@ private:
 
     // A meaningful deep copy can't be done here so disallow that and operator=
     DataField(const DataField&);
-    DataField& operator=(const DataField&);
+    //DataField& operator=(const DataField&);
 };
 
 //==============================================================================
