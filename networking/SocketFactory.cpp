@@ -42,7 +42,7 @@ UDPSocketImpl* SocketFactory::createUDPSocket()
 RawSocketImpl* SocketFactory::createRawSocket()
 {
 #if defined WINDOWS
-    return new WindowsUDPSocketImpl();
+    return new WindowsRawSocketImpl();
 #elif defined LINUX
     return new LinuxRawSocketImpl();
 #else
