@@ -17,7 +17,7 @@
 // Creates a Windows raw socket
 //=============================================================================
 WindowsRawSocketImpl::WindowsRawSocketImpl(int protocol) :
-    SocketImpl(),
+    RawSocketImpl(),
     socket_fd(INVALID_SOCKET),
     is_blocking(true)
 {
