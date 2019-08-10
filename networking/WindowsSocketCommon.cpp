@@ -233,7 +233,7 @@ void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
     disableBlocking(socket_fd, class_ba);
 
     // Data will be discarded into here when copied out of the socket.
-    char buf;
+    uint8_t buf;
 
     // Create a temporary timeout to give to read
     INT temp_timeout = 0;
