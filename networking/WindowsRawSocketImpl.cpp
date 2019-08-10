@@ -182,12 +182,6 @@ bool WindowsRawSocketImpl::setInputInterface(const std::string& interface_ip)
 }
 
 //=============================================================================
-void WindowsRawSocketImpl::getInputInterface(std::string& interface_ip) const
-{
-    throw std::runtime_error("Operation not supported");
-}
-
-//=============================================================================
 bool WindowsRawSocketImpl::setOutputInterface(const std::string& interface_name)
 {
     throw std::runtime_error("Operation not supported");
