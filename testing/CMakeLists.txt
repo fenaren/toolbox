@@ -8,7 +8,7 @@ set(SRC
 
 # Add source files to the project sources; have to prepend the relative path to
 # the project root for this to work
-list_prepend_to_each(SRC testing/)
+#list_prepend_to_each(SRC testing/)
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 
 # Add this directory to the project includes
