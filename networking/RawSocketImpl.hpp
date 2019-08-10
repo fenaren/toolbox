@@ -1,6 +1,8 @@
 #if !defined RAW_SOCKET_IMPL_HPP
 #define RAW_SOCKET_IMPL_HPP
 
+#include <string>
+
 #include "SocketImpl.hpp"
 
 class RawSocketImpl : public SocketImpl
@@ -19,7 +21,7 @@ public:
 
     // Overwrites interface_name with name of current input interface; empty
     // string means data is received from all interfaces
-    virtual void getInputInterface(std::string& interface_name) = 0;
+    virtual void getInputInterface(std::string& interface_name) const = 0;
 
     // Sets the interface data will be sent from
     virtual bool setOutputInterface(const std::string& interface_name) = 0;
