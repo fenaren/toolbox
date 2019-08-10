@@ -12,6 +12,7 @@ set(SRC
   DataField.cpp
   DataPacket.cpp
   OnlineStatistics.cpp
+  Program.cpp
   RawDataField.cpp
   SignalManager.cpp
   SignalManagerImpl.cpp
@@ -27,8 +28,7 @@ if(MACOS OR LINUX)
     Log.cpp
     PosixClock.cpp
     PosixSignalManagerImpl.cpp
-    PosixTimespec.cpp
-    Program.cpp)
+    PosixTimespec.cpp)
 endif(MACOS OR LINUX)
 
 # Add source files to the project sources
@@ -52,8 +52,6 @@ add_subdirectory(testing)
 # Add test subdirectories (these don't build unconditionally)
 add_subdirectory(DataField_test        EXCLUDE_FROM_ALL)
 add_subdirectory(DataPacket_test       EXCLUDE_FROM_ALL)
-add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
-add_subdirectory(Log_test              EXCLUDE_FROM_ALL)
 add_subdirectory(OnlineStatistics_test EXCLUDE_FROM_ALL)
 add_subdirectory(PosixTimespec_test    EXCLUDE_FROM_ALL)
 add_subdirectory(Program_test          EXCLUDE_FROM_ALL)
@@ -62,3 +60,8 @@ add_subdirectory(SignalManager_test    EXCLUDE_FROM_ALL)
 add_subdirectory(SimpleDataField_test  EXCLUDE_FROM_ALL)
 add_subdirectory(TemplateClass_test    EXCLUDE_FROM_ALL)
 add_subdirectory(misc_test             EXCLUDE_FROM_ALL)
+
+if(MACOS OR LINUX)
+  add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
+  add_subdirectory(Log_test              EXCLUDE_FROM_ALL)
+ENDIF(MACOS OR LINUX)
