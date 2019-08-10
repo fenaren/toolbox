@@ -3,6 +3,7 @@
 
 #include <WinSock2.h>
 #include <cstdint>
+#include <string>
 
 #include "RawSocketImpl.hpp"
 
@@ -48,6 +49,12 @@ public:
     // Returns string representation of the IP address of the interface input is
     // being received from.
     virtual void getInputInterface(std::string& interface_ip) const;
+
+    // Sets the interface data will be sent from
+    virtual bool setOutputInterface(const std::string& interface_name);
+
+    // Retrieves the name of the interface data will be sent from
+    virtual void getOutputInterface(std::string& interface_name);
 
     // Sets the IP address data will be sent to
     void setDestinationIP(const std::string& destination_ip);
