@@ -16,8 +16,7 @@ set(SRC
   TCPSocket.cpp
   TCPSocketImpl.cpp
   UDPSocket.cpp
-  UDPSocketImpl.cpp
-  miscNetworking.cpp)
+  UDPSocketImpl.cpp)
 
 # All the platform-dependent source files in this directory
 if(WIN32)
@@ -30,7 +29,8 @@ else(WIN32)
   list(APPEND SRC
     PosixSocketCommon.cpp
     PosixTCPSocketImpl.cpp
-    PosixUDPSocketImpl.cpp)
+    PosixUDPSocketImpl.cpp
+    miscNetworking.cpp)
   if(LINUX)
     list(APPEND SRC LinuxRawSocketImpl.cpp)
   endif(LINUX)
