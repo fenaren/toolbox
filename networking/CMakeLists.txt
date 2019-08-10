@@ -4,7 +4,6 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 set(SRC
   ArpPacket.cpp
   ArpPacketBase.cpp
-  ArpPacketEthernetIpv4.cpp
   EthernetIIHeader.cpp
   Ipv4Address.cpp
   MacAddress.cpp
@@ -27,6 +26,7 @@ if(WIN32)
     WindowsUDPSocketImpl.cpp)
 else(WIN32)
   list(APPEND SRC
+    ArpPacketEthernetIpv4.cpp
     PosixSocketCommon.cpp
     PosixTCPSocketImpl.cpp
     PosixUDPSocketImpl.cpp
@@ -44,15 +44,15 @@ target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 # Add test subdirectories (these don't build unconditionally)
-add_subdirectory(ArpPacket_test             EXCLUDE_FROM_ALL)
-add_subdirectory(EthernetIIHeader_test      EXCLUDE_FROM_ALL)
-add_subdirectory(Ipv4Address_test           EXCLUDE_FROM_ALL)
-add_subdirectory(MacAddress_test            EXCLUDE_FROM_ALL)
-add_subdirectory(RawSocket_test             EXCLUDE_FROM_ALL)
-add_subdirectory(TCPSocket_test             EXCLUDE_FROM_ALL)
-add_subdirectory(UDPSocket_test             EXCLUDE_FROM_ALL)
-add_subdirectory(miscNetworking_test        EXCLUDE_FROM_ALL)
+add_subdirectory(ArpPacket_test        EXCLUDE_FROM_ALL)
+add_subdirectory(EthernetIIHeader_test EXCLUDE_FROM_ALL)
+add_subdirectory(Ipv4Address_test      EXCLUDE_FROM_ALL)
+add_subdirectory(MacAddress_test       EXCLUDE_FROM_ALL)
+add_subdirectory(RawSocket_test        EXCLUDE_FROM_ALL)
+add_subdirectory(TCPSocket_test        EXCLUDE_FROM_ALL)
+add_subdirectory(UDPSocket_test        EXCLUDE_FROM_ALL)
 
 if(MACOS OR LINUX)
   add_subdirectory(ArpPacketEthernetIpv4_test EXCLUDE_FROM_ALL)
+  add_subdirectory(miscNetworking_test        EXCLUDE_FROM_ALL)
 endif(MACOS OR LINUX)
