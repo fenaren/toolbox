@@ -35,7 +35,7 @@ public:
     virtual double getBlockingTimeout() const;
 
     // Associates a name and port with a newly-created socket.
-    virtual bool bind(unsigned int port);
+    virtual bool bind(unsigned int& port);
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.

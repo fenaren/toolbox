@@ -31,11 +31,11 @@ namespace WindowsSocketCommon
     // socket).  'socktype' and 'protocol' are set according to the type of
     // socket being bound.  'class_la' is filled in with the local address that
     // was bound to.  Returns true on success, false otherwise.
-    bool bind(SOCKET       socket_fd,
-              unsigned int port,
-              int          socktype,
-              int          protocol,
-              sockaddr_in& class_la);
+    bool bind(SOCKET        socket_fd,
+              unsigned int& port,
+              int           socktype,
+              int           protocol,
+              sockaddr_in&  class_la);
 
     // Reads from the given file descriptor, being careful to conduct a blocking
     // timeout beforehand if instructed to.  A blocking timeout is performed if

@@ -100,11 +100,11 @@ int WindowsSocketCommon::doBlockingTimeout(SOCKET socket_fd,
 //=============================================================================
 // Associates the given socket with a name and a port
 //=============================================================================
-bool WindowsSocketCommon::bind(SOCKET       socket_fd,
-                               unsigned int port,
-                               int          socktype,
-                               int          protocol,
-                               sockaddr_in& class_la)
+bool WindowsSocketCommon::bind(SOCKET        socket_fd,
+                               unsigned int& port,
+                               int           socktype,
+                               int           protocol,
+                               sockaddr_in&  class_la)
 {
     // Convert int local_port to string
     std::string port_s;
