@@ -232,17 +232,16 @@ void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
 
     disableBlocking(socket_fd, class_ba);
 
-    // Data will be discarded into here when copied out of the socket.  2000
-    // bytes should be large enough to handle all possible packets
-    char buf[2000];
+    // Data will be discarded into here when copied out of the socket.
+    char buf;
 
     // Create a temporary timeout to give to read
     INT temp_timeout = 0;
 
     // Read single bytes until no more remain
     while(read(socket_fd,
-               buf,
-               2000,
+               &buf,
+               1,
                -1,
                temp_timeout,
                class_rfa,
