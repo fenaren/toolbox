@@ -92,7 +92,8 @@ inline double LinuxRawSocketImpl::getBlockingTimeout() const
     return this->blocking_timeout;
 }
 
-inline void LinuxRawSocketImpl::getInputInterface(std::string& interface_name)
+inline
+void LinuxRawSocketImpl::getInputInterface(std::string& interface_name) const
 {
     interface_name = input_interface_name;
 }
