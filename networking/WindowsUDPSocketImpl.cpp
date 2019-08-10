@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <sstream>
 #include <stdexcept>
 #include <winsock2.h>
@@ -114,7 +115,7 @@ bool WindowsUDPSocketImpl::bind(unsigned int& port)
 //=============================================================================
 // Reads data from this socket into user code
 //=============================================================================
-int WindowsUDPSocketImpl::read(char* buffer, unsigned int size)
+int WindowsUDPSocketImpl::read(std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::read(
         socket_fd,
@@ -130,7 +131,7 @@ int WindowsUDPSocketImpl::read(char* buffer, unsigned int size)
 //=============================================================================
 // Writes data from user code into this socket
 //=============================================================================
-int WindowsUDPSocketImpl::write(const char* buffer, unsigned int size)
+int WindowsUDPSocketImpl::write(const std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::write(
         socket_fd,

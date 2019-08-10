@@ -2,6 +2,7 @@
 
 #include <WinSock2.h>
 #include <cmath>
+#include <cstdint>
 #include <stdio.h>
 #include <sstream>
 #include <string>
@@ -149,14 +150,14 @@ bool WindowsSocketCommon::bind(SOCKET       socket_fd,
 //=============================================================================
 // Reads socket data into buffer
 //=============================================================================
-int WindowsSocketCommon::read(SOCKET       socket_fd,
-                              char*        buffer,
-                              unsigned int size,
-                              double       class_bt,
-                              INT&         class_ts_bt,
-                              sockaddr*    class_rfa,
-                              int          class_rfa_size,
-                              bool         class_ba)
+int WindowsSocketCommon::read(SOCKET        socket_fd,
+                              std::uint8_t* buffer,
+                              unsigned int  size,
+                              double        class_bt,
+                              INT&          class_ts_bt,
+                              sockaddr*     class_rfa,
+                              int           class_rfa_size,
+                              bool          class_ba)
 {
     // Is a valid timeout set?
     if (class_ba && class_bt > 0.0)
@@ -199,14 +200,14 @@ int WindowsSocketCommon::read(SOCKET       socket_fd,
 //=============================================================================
 // Writes buffer data into socket
 //=============================================================================
-int WindowsSocketCommon::write(SOCKET       socket_fd,
-                               const char*  buffer,
-                               unsigned int size,
-                               double       class_bt,
-                               INT&         class_ts_bt,
-                               sockaddr*    class_sta,
-                               int          class_sta_size,
-                               bool         class_ba)
+int WindowsSocketCommon::write(SOCKET              socket_fd,
+                               const std::uint8_t* buffer,
+                               unsigned int        size,
+                               double              class_bt,
+                               INT&                class_ts_bt,
+                               sockaddr*           class_sta,
+                               int                 class_sta_size,
+                               bool                class_ba)
 {
     // Is a valid timeout set?
     if (class_ba && class_bt > 0.0)

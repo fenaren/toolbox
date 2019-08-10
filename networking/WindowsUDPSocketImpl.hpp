@@ -2,6 +2,7 @@
 #define WINDOWS_UDP_SOCKET_IMPL_HPP
 
 #include <WinSock2.h>
+#include <cstdint>
 
 #include "UDPSocketImpl.hpp"
 
@@ -38,11 +39,11 @@ public:
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
-    virtual int read(char* buffer, unsigned int size);
+    virtual int read(std::uint8_t* buffer, unsigned int size);
 
     // Writes the specified amount of data to this socket from the specified
     // buffer.
-    virtual int write(const char* buffer, unsigned int size);
+    virtual int write(const std::uint8_t* buffer, unsigned int size);
 
     // Causes outgoing messages to be sent to the specified address and port.
     virtual bool sendTo(const std::string& address, unsigned int port);

@@ -1,5 +1,6 @@
-#include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <WinSock2.h>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <errno.h>
@@ -194,7 +195,7 @@ void WindowsRawSocketImpl::setDestinationIP(const std::string& destination_ip)
 //=============================================================================
 // Reads data from socket into buffer
 //=============================================================================
-int WindowsRawSocketImpl::read(char* buffer, unsigned int size)
+int WindowsRawSocketImpl::read(std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::read(
         socket_fd,
@@ -210,7 +211,7 @@ int WindowsRawSocketImpl::read(char* buffer, unsigned int size)
 //=============================================================================
 // Writes data to socket
 //=============================================================================
-int WindowsRawSocketImpl::write(const char* buffer, unsigned int size)
+int WindowsRawSocketImpl::write(const std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::write(socket_fd,
                                       buffer,
