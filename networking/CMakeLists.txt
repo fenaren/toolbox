@@ -43,9 +43,9 @@ target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 # Add this directory to the project includes
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
-if(WIN32)
-  target_link_libraries(${PROJECT_NAME} PUBLIC Ws2_32.lib)
-endif(WIN32)
+#if(WIN32)
+#  target_link_libraries(${PROJECT_NAME} PUBLIC Ws2_32.lib)
+#endif(WIN32)
 
 # Add test subdirectories (these don't build unconditionally)
 add_subdirectory(ArpPacket_test             EXCLUDE_FROM_ALL)
