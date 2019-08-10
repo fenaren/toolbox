@@ -13,8 +13,6 @@
 #endif // WINDOWS
 
 //=============================================================================
-// Creates a platform-specific TCP socket
-//=============================================================================
 TCPSocketImpl* SocketFactory::createTCPSocket()
 {
 #if defined WINDOWS
@@ -25,8 +23,6 @@ TCPSocketImpl* SocketFactory::createTCPSocket()
 }
 
 //=============================================================================
-// Creates a platform-specific UDP socket
-//=============================================================================
 UDPSocketImpl* SocketFactory::createUDPSocket()
 {
 #if defined WINDOWS
@@ -36,8 +32,6 @@ UDPSocketImpl* SocketFactory::createUDPSocket()
 #endif
 }
 
-//=============================================================================
-// Creates a platform-specific raw socket
 //=============================================================================
 RawSocketImpl* SocketFactory::createRawSocket()
 {
@@ -51,14 +45,10 @@ RawSocketImpl* SocketFactory::createRawSocket()
 }
 
 //=============================================================================
-// Does nothing
-//=============================================================================
 SocketFactory::SocketFactory()
 {
 }
 
-//=============================================================================
-// Does nothing
 //=============================================================================
 SocketFactory::~SocketFactory()
 {
