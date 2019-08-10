@@ -158,7 +158,7 @@ int WindowsSocketCommon::read(SOCKET        socket_fd,
 
     // Do the read
     int bytes_read = recvfrom(socket_fd,
-                              buffer,
+                              reinterpret_cast<char*>(buffer),
                               size,
                               0,
                               class_rfa,
@@ -205,8 +205,12 @@ int WindowsSocketCommon::write(SOCKET              socket_fd,
     }
 
     // Perform the write
-    int bytes_written = sendto(
-        socket_fd, buffer, size, 0, class_sta, class_sta_size);
+    int bytes_written = sendto(socket_fd,
+                               reinterpret_cast<const char*>(buffer),
+                               size,
+                               0,
+                               class_sta,
+                               class_sta_size);
 
     // Check for errors
     if (bytes_written == SOCKET_ERROR)
