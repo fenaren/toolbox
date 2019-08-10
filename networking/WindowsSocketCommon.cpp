@@ -1,17 +1,13 @@
-// Common Windows socket operations live here
-
+#include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <cmath>
 #include <cstdint>
-#include <stdio.h>
 #include <sstream>
+#include <stdio.h>
 #include <string>
-#include <WS2tcpip.h>
 
 #include "WindowsSocketCommon.hpp"
 
-//=============================================================================
-// Enables blocking on a file descriptor
 //=============================================================================
 bool WindowsSocketCommon::enableBlocking(SOCKET socket_fd,
                                          bool&  is_blocking)
@@ -33,8 +29,6 @@ bool WindowsSocketCommon::enableBlocking(SOCKET socket_fd,
 }
 
 //=============================================================================
-// Disables blocking on a file descriptor
-//=============================================================================
 bool WindowsSocketCommon::disableBlocking(SOCKET socket_fd,
                                           bool&  is_blocking)
 {
@@ -55,8 +49,6 @@ bool WindowsSocketCommon::disableBlocking(SOCKET socket_fd,
 }
 
 //=============================================================================
-// Sets blocking timeout parameters appropriately
-//=============================================================================
 void WindowsSocketCommon::setBlockingTimeout(double  blocking_timeout,
                                              double& class_bt,
                                              INT&    class_ts_bt)
@@ -75,8 +67,6 @@ void WindowsSocketCommon::setBlockingTimeout(double  blocking_timeout,
     class_ts_bt = static_cast<INT>(blocking_timeout * 1e3);
 }
 
-//=============================================================================
-// Performs a blocking timeout
 //=============================================================================
 int WindowsSocketCommon::doBlockingTimeout(SOCKET socket_fd,
                                            short  events,
@@ -97,8 +87,6 @@ int WindowsSocketCommon::doBlockingTimeout(SOCKET socket_fd,
     return ready_count;
 }
 
-//=============================================================================
-// Associates the given socket with a name and a port
 //=============================================================================
 bool WindowsSocketCommon::bind(SOCKET        socket_fd,
                                unsigned int& port,
@@ -148,8 +136,6 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
 }
 
 //=============================================================================
-// Reads socket data into buffer
-//=============================================================================
 int WindowsSocketCommon::read(SOCKET        socket_fd,
                               std::uint8_t* buffer,
                               unsigned int  size,
@@ -198,8 +184,6 @@ int WindowsSocketCommon::read(SOCKET        socket_fd,
 }
 
 //=============================================================================
-// Writes buffer data into socket
-//=============================================================================
 int WindowsSocketCommon::write(SOCKET              socket_fd,
                                const std::uint8_t* buffer,
                                unsigned int        size,
@@ -233,8 +217,6 @@ int WindowsSocketCommon::write(SOCKET              socket_fd,
     return bytes_written;
 }
 
-//=============================================================================
-// Clears all data out of a socket's receive buffer
 //=============================================================================
 void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
                                       sockaddr* class_rfa,
@@ -277,8 +259,6 @@ void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
 }
 
 //=============================================================================
-// Shuts the given socket down
-//=============================================================================
 void WindowsSocketCommon::shutdown(SOCKET socket_fd)
 {
     // Shutdown the send half of the connection
@@ -288,8 +268,6 @@ void WindowsSocketCommon::shutdown(SOCKET socket_fd)
     closesocket(socket_fd);
 }
 
-//=============================================================================
-// Prints an error message
 //=============================================================================
 void WindowsSocketCommon::printErrorMessage(const std::string& location)
 {
