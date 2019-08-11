@@ -20,8 +20,8 @@ set(SRC
 
 # All the platform-dependent source files in this directory
 if(WIN32)
-  message(asdfasdfasdfasdf)
   list(APPEND SRC
+    message(asdfasdfasdfasdf)
     WindowsRawSocketImpl.cpp
     WindowsSocketCommon.cpp
     WindowsTCPSocketImpl.cpp
