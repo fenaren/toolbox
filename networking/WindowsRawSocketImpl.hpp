@@ -136,7 +136,10 @@ void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
     char stringbuf[stringbuf_len];
 
     // Get the string representation and store locally
-    inet_ntop(AF_INET, last_source_addr.sin_addr, stringbuf, stringbuf_len);
+    inet_ntop(AF_INET,
+              reinterpret_cast<const void*>(&last_source_addr.sin_addr),
+              stringbuf,
+              stringbuf_len);
 
     // Copy to object scope
     peer_address = stringbuf;
