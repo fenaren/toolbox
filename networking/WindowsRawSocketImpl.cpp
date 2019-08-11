@@ -195,7 +195,7 @@ void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
     if (returnCode == NULL)
     {
         throw std::runtime_error(
-            "Cannot construct string representation of peer address")
+            "Cannot construct string representation of peer address");
     }
 
     // Copy to object scope
