@@ -62,7 +62,7 @@ Test::Result RawDataField_test::Constructor::body()
     {
         RawDataField rdf(0, misc::BYTES);
     }
-    catch (std::invalid_argument& ex)
+    catch (std::invalid_argument&)
     {
         exception_caught = true;
     }
@@ -94,7 +94,7 @@ Test::Result RawDataField_test::GetBit::body()
     {
         rdf.getBit(BITS_PER_BYTE);
     }
-    catch (std::out_of_range& ex)
+    catch (std::out_of_range&)
     {
         exception_caught = true;
     }
@@ -534,7 +534,7 @@ bool RawDataField_test::getBitsAsNumericTypeExCaught(RawDataField& bitfield,
     {
         bitfield.getBitsAsNumericType(start_bit, count, dest_type);
     }
-    catch (std::out_of_range& ex)
+    catch (std::out_of_range&)
     {
         exception_caught = true;
     }
