@@ -167,7 +167,7 @@ Test::Result RawDataField_test::GetBitsAsNumericType::IncRangesAllSet::body()
 //==============================================================================
 Test::Result RawDataField_test::GetBitsAsNumericType::OutOfRange::body()
 {
-    std::uint32_t test_uint32 = std::pow(2, 31);
+    std::uint32_t test_uint32 = static_cast<std::uint32_t>(std::pow(2, 31));
     std::uint8_t type1 = 255;
 
     RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
@@ -394,7 +394,7 @@ Test::Result RawDataField_test::SetByte::body()
 //==============================================================================
 Test::Result RawDataField_test::ShiftDown::body()
 {
-    std::uint32_t test_uint32 = std::pow(2, 31);
+    std::uint32_t test_uint32 = static_cast<std::uint32_t>(std::pow(2, 31));
 
     RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
                      sizeof(std::uint32_t),
