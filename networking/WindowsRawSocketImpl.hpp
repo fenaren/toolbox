@@ -44,11 +44,11 @@ public:
 
     // Sets the interface from which to receive data.  On Windows, the receive
     // interface is specified by IP address.
-    virtual bool setInputInterface(const std::string& interface_ip);
+    virtual bool setInputInterface(const std::string& interface_name);
 
     // Returns string representation of the IP address of the interface input is
     // being received from.
-    virtual void getInputInterface(std::string& interface_ip) const;
+    virtual void getInputInterface(std::string& interface_name) const;
 
     // Sets the interface data will be sent from
     virtual bool setOutputInterface(const std::string& interface_name);
@@ -106,18 +106,28 @@ private:
     WindowsRawSocketImpl& operator=(const WindowsRawSocketImpl&);
 };
 
+//==============================================================================
 inline
-void WindowsRawSocketImpl::getInputInterface(std::string& interface_ip) const
+void WindowsRawSocketImpl::getInputInterface(std::string& interface_name) const
 {
-    interface_ip = recv_addr_str;
+    interface_name = recv_addr_str;
 }
 
+//==============================================================================
+inline
+void WindowsRawSocketImpl::getOutputInterface(std::string& interface_name) const
+{
+    interface_name = send_addr_str;
+}
+
+//==============================================================================
 inline
 void WindowsRawSocketImpl::getDestinationIP(std::string& destination_ip) const
 {
     destination_ip = send_addr_str;
 }
 
+//==============================================================================
 inline
 void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
 {
