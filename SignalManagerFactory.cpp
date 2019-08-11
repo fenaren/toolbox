@@ -1,15 +1,17 @@
 #include "SignalManagerFactory.hpp"
 
-#if defined LINUX or MACOS
+#if defined LINUX
+#include "PosixSignalManagerImpl.hpp"
+#elif defined MACOS
 #include "PosixSignalManagerImpl.hpp"
 #endif
 
 //=============================================================================
-// The interface through which platform-specific signal managers are acquired.
-//=============================================================================
 SignalManagerImpl* SignalManagerFactory::createSignalManager()
 {
-#if defined LINUX or MACOS
+#if defined LINUX
+    return new PosixSignalManagerImpl();
+#elif defined MACOS
     return new PosixSignalManagerImpl();
 #else
     return 0;

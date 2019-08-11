@@ -124,8 +124,9 @@ private:
 //==============================================================================
 inline unsigned int DataField::getLengthBytes() const
 {
-    return std::ceil(static_cast<double>(getLengthBits()) /
-                     static_cast<double>(BITS_PER_BYTE));
+    return static_cast<unsigned int>(
+        std::ceil(static_cast<double>(getLengthBits()) /
+                  static_cast<double>(BITS_PER_BYTE)));
 }
 
 //==============================================================================
