@@ -4,6 +4,7 @@
 #include <WinSock2.h>
 #include <cstdint>
 #include <string>
+#include <ws2tcpip.h>
 
 #include "RawSocketImpl.hpp"
 
