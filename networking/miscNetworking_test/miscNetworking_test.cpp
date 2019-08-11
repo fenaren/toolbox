@@ -96,7 +96,7 @@ Test::Result miscNetworking_test::GetMacAddress::body()
 Test::Result miscNetworking_test::GetIpv4Address::body()
 {
 // This will only work on a POSIX-compatible system
-#if defined LINUX or MACOS
+#if defined LINUX || MACOS
 
     std::string interface_name;
     std::string command;
