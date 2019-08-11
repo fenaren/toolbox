@@ -296,7 +296,7 @@ void WindowsSocketCommon::printErrorMessage(const std::string& location)
 
     // Print the error message
     std::cerr << location << ": ";
-    fwprintf(stderr, "%s", error_string);
+    fwprintf(stderr, L"%s", error_string);
 
     // Free the string created by FormatMessage
     LocalFree(error_string);
