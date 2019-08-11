@@ -49,7 +49,7 @@ target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 if(WIN32)
-  target_link_libraries(${PROJECT_NAME} wsock32 Ws2_32)
+  target_link_libraries(${PROJECT_NAME} Ws2_32)
 endif(WIN32)
 
 # Add test subdirectories (these don't build unconditionally)
