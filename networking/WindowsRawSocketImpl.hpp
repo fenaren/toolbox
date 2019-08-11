@@ -115,7 +115,7 @@ void WindowsRawSocketImpl::getInputInterface(std::string& interface_name) const
 
 //==============================================================================
 inline
-void WindowsRawSocketImpl::getOutputInterface(std::string& interface_name) const
+void WindowsRawSocketImpl::getOutputInterface(std::string& interface_name)
 {
     interface_name = send_addr_str;
 }
