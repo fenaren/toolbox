@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <string>
 
+#if defined DEBUG
+#include <iostream>
+#endif
+
 #include "WindowsSocketCommon.hpp"
 
 //=============================================================================
@@ -277,7 +281,7 @@ void WindowsSocketCommon::printErrorMessage(const std::string& location)
 #if defined DEBUG
     // Will point to a wchar buffer containing the error string after the call
     // to FormatMessage
-    LPWSTR error_string = 0;
+    LPTSTR error_string = 0;
 
     // Fill in error_string with the last socket error
     FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -286,13 +290,13 @@ void WindowsSocketCommon::printErrorMessage(const std::string& location)
                   NULL,
                   WSAGetLastError(),
                   LANG_SYSTEM_DEFAULT,
-                  (LPWSTR)&error_string,
+                  error_string,
                   0,
                   NULL);
 
     // Print the error message
     std::cerr << location << ": ";
-    fwprintf(stderr, L"%s", error_string);
+    fwprintf(stderr, "%s", error_string);
 
     // Free the string created by FormatMessage
     LocalFree(error_string);
