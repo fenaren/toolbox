@@ -182,13 +182,15 @@ void WindowsRawSocketImpl::setDestinationIP(const std::string& destination_ip)
 //=============================================================================
 void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
 {
+    // An IPv4 address in string form takes at least this many characters.  3
+    // for each octet, three periods, plus a null terminator.
     const unsigned int stringbuf_len = 16;
     char stringbuf[stringbuf_len];
 
     // Get the string representation and store locally
     PCSTR WSAAPI returnCode =
         inet_ntop(AF_INET,
-                  reinterpret_cast<const void*>(&last_source_addr.sin_addr),
+                  reinterpret_cast<void*>(&last_source_addr.sin_addr),
                   stringbuf,
                   stringbuf_len);
 
