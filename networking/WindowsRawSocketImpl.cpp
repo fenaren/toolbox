@@ -139,15 +139,15 @@ bool WindowsRawSocketImpl::getIncludeIPHeader() const
 }
 
 //=============================================================================
-bool WindowsRawSocketImpl::setInputInterface(const std::string& interface_ip)
+bool WindowsRawSocketImpl::setInputInterface(const std::string& interface_name)
 {
     // Record the "input interface"; on Windows this is an IPv4 address
-    recv_addr_str = interface_ip;
+    recv_addr_str = interface_name;
 
     // Fill in new input interface address info
     sockaddr_in recv_addr;
     recv_addr.sin_family      = AF_INET;
-    recv_addr.sin_addr.s_addr = inet_addr(interface_ip.c_str());
+    recv_addr.sin_addr.s_addr = inet_addr(interface_name.c_str());
 
     if (bind(socket_fd,
              (sockaddr*)&recv_addr,
