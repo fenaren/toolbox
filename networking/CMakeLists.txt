@@ -37,6 +37,7 @@ else(WIN32)
 endif(WIN32)
 
 # Add source files to the project sources
+#list_prepend_to_each(SRC networking/)
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 
 # Add this directory to the project includes
