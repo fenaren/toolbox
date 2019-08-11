@@ -36,8 +36,12 @@ else(WIN32)
   endif(LINUX)
 endif(WIN32)
 
-# Add source files to the project sources
-#list_prepend_to_each(SRC networking/)
+# Add source files to the project sources.  In cmake v3.13 the behavior of
+# target_sources changed and no longer requires prepending this directory to
+# each source file (it does it for us).
+if(CMAKE_VERSION VERSION_LESS 3.13)
+  list_prepend_to_each(SRC networking/)
+endif(CMAKE_VERSION VERSION_LESS 3.13)
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 
 # Add this directory to the project includes
