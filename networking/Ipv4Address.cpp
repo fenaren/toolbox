@@ -107,12 +107,12 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
 
     unsigned int tempipv4[Ipv4Address::LENGTH_BYTES];
     // Scan the temporary string as a IPv4 address
-    if (std::sscanf(tempstr,
-                    "%u.%u.%u.%u",
-                    &tempipv4[0],
-                    &tempipv4[1],
-                    &tempipv4[2],
-                    &tempipv4[3]) != Ipv4Address::LENGTH_BYTES)
+    if (sscanf(tempstr,
+               "%u.%u.%u.%u",
+               &tempipv4[0],
+               &tempipv4[1],
+               &tempipv4[2],
+               &tempipv4[3]) != Ipv4Address::LENGTH_BYTES)
     {
         // We didn't convert all 4 bytes.  Leave our internal state as-is but
         // set the fail bit on the stream so the user has some way of knowing
