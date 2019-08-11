@@ -108,7 +108,7 @@ std::istream& operator>>(std::istream& is, Ipv4Address& ipv4_address)
     unsigned int tempipv4[Ipv4Address::LENGTH_BYTES];
     // Scan the temporary string as a IPv4 address
     if (sscanf(tempstr,
-               "%4u.%4u.%4u.%4u",
+               "%u.%u.%u.%u",
                &tempipv4[0],
                &tempipv4[1],
                &tempipv4[2],
