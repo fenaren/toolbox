@@ -4,7 +4,6 @@
 #include <WinSock2.h>
 #include <cstdint>
 #include <string>
-#include <ws2tcpip.h>
 
 #include "RawSocketImpl.hpp"
 
@@ -126,23 +125,6 @@ inline
 void WindowsRawSocketImpl::getDestinationIP(std::string& destination_ip) const
 {
     destination_ip = send_addr_str;
-}
-
-//==============================================================================
-inline
-void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
-{
-    const unsigned int stringbuf_len = 16;
-    char stringbuf[stringbuf_len];
-
-    // Get the string representation and store locally
-    inet_ntop(AF_INET,
-              reinterpret_cast<const void*>(&last_source_addr.sin_addr),
-              stringbuf,
-              stringbuf_len);
-
-    // Copy to object scope
-    peer_address = stringbuf;
 }
 
 #endif

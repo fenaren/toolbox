@@ -8,6 +8,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <ws2tcpip.h>
 
 #include "WindowsRawSocketImpl.hpp"
 
@@ -176,6 +177,29 @@ void WindowsRawSocketImpl::setDestinationIP(const std::string& destination_ip)
 
     send_addr.sin_family      = AF_INET;
     send_addr.sin_addr.s_addr = inet_addr(destination_ip.c_str());
+}
+
+//=============================================================================
+void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
+{
+    const unsigned int stringbuf_len = 16;
+    char stringbuf[stringbuf_len];
+
+    // Get the string representation and store locally
+    PCSTR WSAAPI returnCode =
+        inet_ntop(AF_INET,
+                  reinterpret_cast<const void*>(&last_source_addr.sin_addr),
+                  stringbuf,
+                  stringbuf_len);
+
+    if (returnCode == NULL)
+    {
+        throw std::runtime_error(
+            "Cannot construct string representation of peer address")
+    }
+
+    // Copy to object scope
+    peer_address = stringbuf;
 }
 
 //=============================================================================
