@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_set>
 
+#include "SignalManagerImpl.hpp"
+
 class NoopSignalManagerImpl : public SignalManagerImpl
 {
 public:
