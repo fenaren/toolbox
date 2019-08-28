@@ -32,6 +32,7 @@ cmake_policy(VERSION ${CMAKE_VERSION})
 set(SRC
   DataField.cpp
   DataPacket.cpp
+  NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
   Program.cpp
   RawDataField.cpp
