@@ -138,7 +138,7 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
 
     // Now we need to figure out what port was actually assigned to the socket,
     // since the port we give to bind is just a request (or if it's 0, we're
-    // asking bind to just give us something that's openb).
+    // asking bind to just give us something that's open).
     int namelen = sizeof(sockaddr_in);
     if (getsockname(socket_fd,
                     reinterpret_cast<sockaddr*>(&class_la),

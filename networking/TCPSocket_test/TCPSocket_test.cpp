@@ -93,9 +93,11 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets_AcceptSpawn::body()
     MUST_BE_TRUE(socket1.connect("localhost", port));
 
     // SEND SOMETHING ONE WAY
+    socket2.enableBlocking();
 
     TCPSocket* socket3 = socket2.accept(false);
     MUST_BE_TRUE(socket3 != 0);
+    socket2.disableBlocking();
 
     socket3->enableBlocking();
 
