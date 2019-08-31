@@ -140,9 +140,9 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
     // since the port we give to bind is just a request (or if it's 0, we're
     // asking bind to just give us something that's openb).
     int namelen = sizeof(sockaddr_in);
-    if (!getsockname(socket_fd,
-                     reinterpret_cast<sockaddr*>(&class_la),
-                     &namelen))
+    if (getsockname(socket_fd,
+                    reinterpret_cast<sockaddr*>(&class_la),
+                    &namelen) != 0)
     {
         WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
         return false;
