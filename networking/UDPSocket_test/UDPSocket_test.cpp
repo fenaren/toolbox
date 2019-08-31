@@ -19,8 +19,8 @@ void UDPSocket_test::addTestCases()
 //==============================================================================
 Test::Result UDPSocket_test::SendReceive_TwoSockets::body()
 {
-    unsigned int port1 = 4322;  // Use whatever port is available
-    unsigned int port2 = 9838;  // Use whatever port is available
+    unsigned int port1 = 0;  // Use whatever port is available
+    unsigned int port2 = 0;  // Use whatever port is available
 
     unsigned char send1[]      = {'o',  'n',  'e',  '\0'};
     unsigned char send1_recv[] = {'\0', '\0', '\0', '\0'};
