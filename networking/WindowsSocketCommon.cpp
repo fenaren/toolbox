@@ -142,7 +142,7 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
     int namelen = sizeof(sockaddr_in);
     if (getsockname(socket_fd,
                     reinterpret_cast<sockaddr*>(&class_la),
-                    &namelen) != 0)
+                    &namelen) == SOCKET_ERROR)
     {
         WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
         return false;
