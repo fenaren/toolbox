@@ -129,7 +129,7 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
 
     // We need to return the port we got in the "port" argument so grab a copy
     // of that
-    port = class_la.sin_port;
+    port = ntohs(class_la.sin_port);
 
     // Bind the socket
     if (::bind(socket_fd,
