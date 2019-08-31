@@ -115,7 +115,7 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
     // Resolve the local address and port to be used by the server
     addrinfo* result = NULL;
     int ret = getaddrinfo(NULL, port_s.c_str(), &hints, &result);
-    if (ret != 0)
+    if (ret != 0 || result == NULL)
     {
         WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
         return false;
