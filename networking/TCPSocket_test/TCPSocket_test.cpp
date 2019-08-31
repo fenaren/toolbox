@@ -45,9 +45,8 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets::body()
 
     // SEND SOMETHING ONE WAY
 
-    MUST_BE_TRUE(socket2.accept());
-
     socket2.enableBlocking();
+    MUST_BE_TRUE(socket2.accept());
 
     MUST_BE_TRUE(socket1.write(send1, send_size) == send_size);
     MUST_BE_TRUE(socket2.read(send1_recv, send_size) == send_size);
