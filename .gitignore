@@ -8,6 +8,12 @@ Temporary
 Testing
 cmake_install.cmake
 
+# Nmake data related to the linking process?  Not sure
+*.ilk
+
+# Windows debug info
+*.pdb
+
 # The library this repository is meant to generate
 libtools-cpp.a
 libtools-cpp.so
@@ -17,7 +23,8 @@ libtools-cpp.so
 \#*
 .#*
 
-# Ignore the test binaries but not the identically-named directories that
-# contain them
+# Ignore the test binaries but not the identically-named directories (on Linux
+# and macOS) that contain them
+*.exe
 *_test
 !*_test/
