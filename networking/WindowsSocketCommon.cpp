@@ -127,10 +127,6 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
     // Free the rest of the address list
     freeaddrinfo(result);
 
-    // We need to return the port we got in the "port" argument so grab a copy
-    // of that
-    port = ntohs(class_la.sin_port);
-
     // Bind the socket
     if (::bind(socket_fd,
                reinterpret_cast<sockaddr*>(&class_la),
@@ -139,6 +135,16 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
         WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
         return false;
     }
+
+    // Now we need to figure out what port was actually assigned to the socket,
+    // since the port we give to bind is just a request (or if it's 0, we're
+    // asking bind to just give us something that's openb).
+    if (!getsockname(socket_fd, &class_la, sizeof(sockaddr_in)))
+    {
+        WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
+        return false;
+    }
+    port = class_la->sin_port;
 
     return true;
 }
