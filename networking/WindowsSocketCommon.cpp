@@ -147,7 +147,7 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
         WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
         return false;
     }
-    port = class_la->sin_port;
+    port = class_la.sin_port;
 
     return true;
 }
