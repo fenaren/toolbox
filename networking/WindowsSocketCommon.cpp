@@ -127,6 +127,10 @@ bool WindowsSocketCommon::bind(SOCKET        socket_fd,
     // Free the rest of the address list
     freeaddrinfo(result);
 
+    // We need to return the port we got in the "port" argument so grab a copy
+    // of that
+    port = class_la.ai_addr->sin_port;
+
     // Bind the socket
     if (::bind(socket_fd,
                reinterpret_cast<sockaddr*>(&class_la),
