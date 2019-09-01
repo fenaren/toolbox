@@ -1,6 +1,7 @@
 #if !defined SOCKET_IMPL_HPP
 #define SOCKET_IMPL_HPP
 
+#include <cstdint>
 #include <string>
 
 // This is the base class for all socket implementations.
@@ -32,11 +33,11 @@ public:
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
-    virtual int read(unsigned char* buffer, unsigned int size) = 0;
+    virtual int read(std::uint8_t* buffer, unsigned int size) = 0;
 
     // Writes the specified amount of data to this socket from the specified
     // buffer.
-    virtual int write(const unsigned char* buffer, unsigned int size) = 0;
+    virtual int write(const std::uint8_t* buffer, unsigned int size) = 0;
 
     // Forces this socket to discard all received data.
     virtual void clearBuffer() = 0;

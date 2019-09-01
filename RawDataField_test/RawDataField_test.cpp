@@ -62,7 +62,7 @@ Test::Result RawDataField_test::Constructor::body()
     {
         RawDataField rdf(0, misc::BYTES);
     }
-    catch (std::invalid_argument& ex)
+    catch (std::invalid_argument&)
     {
         exception_caught = true;
     }
@@ -94,7 +94,7 @@ Test::Result RawDataField_test::GetBit::body()
     {
         rdf.getBit(BITS_PER_BYTE);
     }
-    catch (std::out_of_range& ex)
+    catch (std::out_of_range&)
     {
         exception_caught = true;
     }
@@ -167,7 +167,7 @@ Test::Result RawDataField_test::GetBitsAsNumericType::IncRangesAllSet::body()
 //==============================================================================
 Test::Result RawDataField_test::GetBitsAsNumericType::OutOfRange::body()
 {
-    std::uint32_t test_uint32 = std::pow(2, 31);
+    std::uint32_t test_uint32 = static_cast<std::uint32_t>(std::pow(2, 31));
     std::uint8_t type1 = 255;
 
     RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
@@ -394,7 +394,7 @@ Test::Result RawDataField_test::SetByte::body()
 //==============================================================================
 Test::Result RawDataField_test::ShiftDown::body()
 {
-    std::uint32_t test_uint32 = std::pow(2, 31);
+    std::uint32_t test_uint32 = static_cast<std::uint32_t>(std::pow(2, 31));
 
     RawDataField rdf(reinterpret_cast<std::uint8_t*>(&test_uint32),
                      sizeof(std::uint32_t),
@@ -534,7 +534,7 @@ bool RawDataField_test::getBitsAsNumericTypeExCaught(RawDataField& bitfield,
     {
         bitfield.getBitsAsNumericType(start_bit, count, dest_type);
     }
-    catch (std::out_of_range& ex)
+    catch (std::out_of_range&)
     {
         exception_caught = true;
     }
