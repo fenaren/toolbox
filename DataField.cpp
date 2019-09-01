@@ -74,7 +74,7 @@ unsigned long DataField::readRaw(std::uint8_t*   buffer,
     unsigned long bits_read = readRaw(buffer, source_byte_order);
 
     // Mask the bits we shouldn't have touched back into the first byte
-    std::uint8_t mask = std::pow(2, bit_offset) - 1;
+    std::uint8_t mask = static_cast<std::uint8_t>(std::pow(2, bit_offset) - 1);
     first_byte &= mask;
     buffer[0] &= ~mask;
     buffer[0] |= first_byte;
@@ -166,7 +166,7 @@ unsigned long DataField::writeRaw(std::uint8_t*   buffer,
     buffer_rdf.shiftUp(bit_offset);
 
     // Mask the bits we shouldn't have touched back into the first byte
-    std::uint8_t mask = std::pow(2, bit_offset) - 1;
+    std::uint8_t mask = static_cast<std::uint8_t>(std::pow(2, bit_offset) - 1);
     first_byte &= mask;
     buffer[0] &= ~mask;
     buffer[0] |= first_byte;

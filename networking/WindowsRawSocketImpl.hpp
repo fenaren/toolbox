@@ -2,6 +2,8 @@
 #define WINDOWS_RAW_SOCKET_IMPL_HPP
 
 #include <WinSock2.h>
+#include <cstdint>
+#include <string>
 
 #include "RawSocketImpl.hpp"
 
@@ -12,7 +14,7 @@ public:
 
     // Constructs a new Windows socket.  The 'protocol' argument should be an
     // IPPROTO_* enumeration value (defined in ws2def.h)
-    explicit WindowsRawSocketImpl(int protocol);
+    explicit WindowsRawSocketImpl(int protocol = 0);
 
     // Closes the associated socket.
     virtual ~WindowsRawSocketImpl();
@@ -42,11 +44,17 @@ public:
 
     // Sets the interface from which to receive data.  On Windows, the receive
     // interface is specified by IP address.
-    bool setInputInterface(const std::string& interface_ip);
+    virtual bool setInputInterface(const std::string& interface_name);
 
     // Returns string representation of the IP address of the interface input is
     // being received from.
-    void getInputInterface(std::string& interface_ip) const;
+    virtual void getInputInterface(std::string& interface_name) const;
+
+    // Sets the interface data will be sent from
+    virtual bool setOutputInterface(const std::string& interface_name);
+
+    // Retrieves the name of the interface data will be sent from
+    virtual void getOutputInterface(std::string& interface_name);
 
     // Sets the IP address data will be sent to
     void setDestinationIP(const std::string& destination_ip);
@@ -59,11 +67,11 @@ public:
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
-    virtual int read(char* buffer, unsigned int size);
+    virtual int read(std::uint8_t* buffer, unsigned int size);
 
     // Writes the specified amount of data to this socket from the specified
     // buffer.
-    virtual int write(const char* buffer, unsigned int size);
+    virtual int write(const std::uint8_t* buffer, unsigned int size);
 
     // Forces this socket to discard any received data.
     virtual void clearBuffer();
@@ -98,22 +106,25 @@ private:
     WindowsRawSocketImpl& operator=(const WindowsRawSocketImpl&);
 };
 
+//==============================================================================
 inline
-void WindowsRawSocketImpl::getInputInterface(std::string& interface_ip) const
+void WindowsRawSocketImpl::getInputInterface(std::string& interface_name) const
 {
-    interface_ip = recv_addr_str;
+    interface_name = recv_addr_str;
 }
 
+//==============================================================================
+inline
+void WindowsRawSocketImpl::getOutputInterface(std::string& interface_name)
+{
+    interface_name = send_addr_str;
+}
+
+//==============================================================================
 inline
 void WindowsRawSocketImpl::getDestinationIP(std::string& destination_ip) const
 {
-    interface_ip = send_addr_str;
-}
-
-inline
-void WindowsRawSocketImpl::getPeerAddress(std::string& peer_address) const
-{
-    peer_address = inet_ntoa(last_source_addr.sin_addr);
+    destination_ip = send_addr_str;
 }
 
 #endif
