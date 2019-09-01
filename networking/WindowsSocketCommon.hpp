@@ -4,6 +4,7 @@
 #define WINDOWS_SOCKET_COMMON_HPP
 
 #include <WinSock2.h>
+#include <cstdint>
 #include <string>
 
 namespace WindowsSocketCommon
@@ -30,11 +31,11 @@ namespace WindowsSocketCommon
     // socket).  'socktype' and 'protocol' are set according to the type of
     // socket being bound.  'class_la' is filled in with the local address that
     // was bound to.  Returns true on success, false otherwise.
-    bool bind(SOCKET       socket_fd,
-              unsigned int port,
-              int          socktype,
-              int          protocol,
-              sockaddr_in& class_la);
+    bool bind(SOCKET        socket_fd,
+              unsigned int& port,
+              int           socktype,
+              int           protocol,
+              sockaddr_in&  class_la);
 
     // Reads from the given file descriptor, being careful to conduct a blocking
     // timeout beforehand if instructed to.  A blocking timeout is performed if
@@ -47,14 +48,14 @@ namespace WindowsSocketCommon
     // 'class_rfa_size' is the length of the 'class_rfa' buffer, in bytes.
     // 'class_ba' should be set true if blocking is enabled on the socket, false
     // otherwise.
-    int read(SOCKET       socket_fd,
-             char*        buffer,
-             unsigned int size,
-             double       class_bt,
-             INT&         class_ts_bt,
-             sockaddr*    class_rfa,
-             int          class_rfa_size,
-             bool         class_ba);
+    int read(SOCKET        socket_fd,
+             std::uint8_t* buffer,
+             unsigned int  size,
+             double        class_bt,
+             INT&          class_ts_bt,
+             sockaddr*     class_rfa,
+             int           class_rfa_size,
+             bool          class_ba);
 
     // Writes to the given file descriptor, being careful to conduct a blocking
     // timeout beforehand if instructed to.  A blocking timeout is performed if
@@ -66,14 +67,14 @@ namespace WindowsSocketCommon
     // to output the data on.  In both cases, 'class_sta_size' represents the
     // size of the 'class_rfa' buffer, in bytes.  'class_ba' should be set true
     // if blocking is enabled on the socket, false otherwise.
-    int write(SOCKET       socket_fd,
-              const char*  buffer,
-              unsigned int size,
-              double       class_bt,
-              INT&         class_ts_bt,
-              sockaddr*    class_sta,
-              int          class_sta_size,
-              bool         class_ba);
+    int write(SOCKET              socket_fd,
+              const std::uint8_t* buffer,
+              unsigned int        size,
+              double              class_bt,
+              INT&                class_ts_bt,
+              sockaddr*           class_sta,
+              int                 class_sta_size,
+              bool                class_ba);
 
     // Clears the receive buffer of the specified socket.  It does this by
     // iteratively reading single bytes of data from the socket until it would

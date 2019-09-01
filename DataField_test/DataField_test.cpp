@@ -142,7 +142,7 @@ Test::Result DataField_test::WriteRawConst::writeRawSlidingWindow()
         SimpleDataField<T> test_sdf(0);
 
         // Work area halves should equal these two values after the write
-        T correct_firsthalf = std::pow(2, i) - 1;
+        T correct_firsthalf = static_cast<T>(std::pow(2, i) - 1);
         T correct_secondhalf =
             std::numeric_limits<T>::max() - correct_firsthalf;
 
@@ -177,7 +177,7 @@ Test::Result DataField_test::ReadRaw::readRawSlidingWindow()
 
     for (unsigned int i = 0; i <= sizeof(T) * BITS_PER_BYTE; ++i)
     {
-        workarea[0] = std::pow(2, i) - 1;
+        workarea[0] = static_cast<T>(std::pow(2, i) - 1);
         workarea[1] = std::numeric_limits<T>::max() - workarea[0];
 
         SimpleDataField<T> test_sdf;
@@ -204,7 +204,7 @@ Test::Result DataField_test::ReadRawConstBuffer::readRawSlidingWindow()
 
     for (unsigned int i = 0; i <= sizeof(T) * BITS_PER_BYTE; ++i)
     {
-        workarea[0] = std::pow(2, i) - 1;
+        workarea[0] = static_cast<T>(std::pow(2, i) - 1);
         workarea[1] = std::numeric_limits<T>::max() - workarea[0];
 
         SimpleDataField<T> test_sdf;
@@ -218,7 +218,7 @@ Test::Result DataField_test::ReadRawConstBuffer::readRawSlidingWindow()
                 misc::ENDIAN_BIG,
                 i);
         }
-        catch (std::runtime_error& ex)
+        catch (std::runtime_error&)
         {
             // We're supposed to be here if we just asked readRaw to do the
             // thing that we know will generate an exception

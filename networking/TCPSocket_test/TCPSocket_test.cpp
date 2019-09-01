@@ -45,9 +45,8 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets::body()
 
     // SEND SOMETHING ONE WAY
 
-    MUST_BE_TRUE(socket2.accept());
-
     socket2.enableBlocking();
+    MUST_BE_TRUE(socket2.accept());
 
     MUST_BE_TRUE(socket1.write(send1, send_size) == send_size);
     MUST_BE_TRUE(socket2.read(send1_recv, send_size) == send_size);
@@ -93,9 +92,11 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets_AcceptSpawn::body()
     MUST_BE_TRUE(socket1.connect("localhost", port));
 
     // SEND SOMETHING ONE WAY
+    socket2.enableBlocking();
 
     TCPSocket* socket3 = socket2.accept(false);
     MUST_BE_TRUE(socket3 != 0);
+    socket2.disableBlocking();
 
     socket3->enableBlocking();
 
@@ -125,11 +126,13 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets_AcceptSpawn::body()
 
     // As long as this goes out to localhost it should be almost instantaneous,
     // at least in human terms
-    MUST_BE_TRUE(socket4.connect("localhost", port))
+    MUST_BE_TRUE(socket4.connect("localhost", port));
 
+    socket2.enableBlocking();
     TCPSocket* socket5 = socket2.accept(false);
-    MUST_BE_TRUE(socket5 != 0)
+    MUST_BE_TRUE(socket5 != 0);
 
+    socket2.disableBlocking();
     socket5->enableBlocking();
 
     MUST_BE_TRUE(socket4.write(send1, send_size) == send_size);

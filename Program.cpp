@@ -1,5 +1,4 @@
 #include <string>
-#include <unistd.h>
 #include <utility>
 #include <vector>
 
@@ -37,11 +36,4 @@ void Program::getName(std::string& name) const
 void Program::getArguments(std::vector<std::string>& arguments) const
 {
     arguments = this->arguments;
-}
-
-//==============================================================================
-bool Program::daemonize()
-{
-    // Linux-specific and possibly outdated
-    return daemon(0, 0) == 0;
 }
