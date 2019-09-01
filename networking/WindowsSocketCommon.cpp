@@ -1,16 +1,17 @@
-// Common Windows socket operations live here
-
+#include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <cmath>
-#include <stdio.h>
+#include <cstdint>
 #include <sstream>
+#include <stdio.h>
 #include <string>
-#include <WS2tcpip.h>
+
+#if defined DEBUG
+#include <iostream>
+#endif
 
 #include "WindowsSocketCommon.hpp"
 
-//=============================================================================
-// Enables blocking on a file descriptor
 //=============================================================================
 bool WindowsSocketCommon::enableBlocking(SOCKET socket_fd,
                                          bool&  is_blocking)
@@ -32,8 +33,6 @@ bool WindowsSocketCommon::enableBlocking(SOCKET socket_fd,
 }
 
 //=============================================================================
-// Disables blocking on a file descriptor
-//=============================================================================
 bool WindowsSocketCommon::disableBlocking(SOCKET socket_fd,
                                           bool&  is_blocking)
 {
@@ -54,8 +53,6 @@ bool WindowsSocketCommon::disableBlocking(SOCKET socket_fd,
 }
 
 //=============================================================================
-// Sets blocking timeout parameters appropriately
-//=============================================================================
 void WindowsSocketCommon::setBlockingTimeout(double  blocking_timeout,
                                              double& class_bt,
                                              INT&    class_ts_bt)
@@ -74,8 +71,6 @@ void WindowsSocketCommon::setBlockingTimeout(double  blocking_timeout,
     class_ts_bt = static_cast<INT>(blocking_timeout * 1e3);
 }
 
-//=============================================================================
-// Performs a blocking timeout
 //=============================================================================
 int WindowsSocketCommon::doBlockingTimeout(SOCKET socket_fd,
                                            short  events,
@@ -97,13 +92,11 @@ int WindowsSocketCommon::doBlockingTimeout(SOCKET socket_fd,
 }
 
 //=============================================================================
-// Associates the given socket with a name and a port
-//=============================================================================
-bool WindowsSocketCommon::bind(SOCKET       socket_fd,
-                               unsigned int port,
-                               int          socktype,
-                               int          protocol,
-                               sockaddr_in& class_la)
+bool WindowsSocketCommon::bind(SOCKET        socket_fd,
+                               unsigned int& port,
+                               int           socktype,
+                               int           protocol,
+                               sockaddr_in&  class_la)
 {
     // Convert int local_port to string
     std::string port_s;
@@ -122,7 +115,7 @@ bool WindowsSocketCommon::bind(SOCKET       socket_fd,
     // Resolve the local address and port to be used by the server
     addrinfo* result = NULL;
     int ret = getaddrinfo(NULL, port_s.c_str(), &hints, &result);
-    if (ret != 0)
+    if (ret != 0 || result == NULL)
     {
         WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
         return false;
@@ -143,20 +136,31 @@ bool WindowsSocketCommon::bind(SOCKET       socket_fd,
         return false;
     }
 
+    // Now we need to figure out what port was actually assigned to the socket,
+    // since the port we give to bind is just a request (or if it's 0, we're
+    // asking bind to just give us something that's open).
+    int namelen = sizeof(sockaddr_in);
+    if (getsockname(socket_fd,
+                    reinterpret_cast<sockaddr*>(&class_la),
+                    &namelen) == SOCKET_ERROR)
+    {
+        WindowsSocketCommon::printErrorMessage("WindowsSocketCommon::bind");
+        return false;
+    }
+    port = ntohs(class_la.sin_port);
+
     return true;
 }
 
 //=============================================================================
-// Reads socket data into buffer
-//=============================================================================
-int WindowsSocketCommon::read(SOCKET       socket_fd,
-                              char*        buffer,
-                              unsigned int size,
-                              double       class_bt,
-                              INT&         class_ts_bt,
-                              sockaddr*    class_rfa,
-                              int          class_rfa_size,
-                              bool         class_ba)
+int WindowsSocketCommon::read(SOCKET        socket_fd,
+                              std::uint8_t* buffer,
+                              unsigned int  size,
+                              double        class_bt,
+                              INT&          class_ts_bt,
+                              sockaddr*     class_rfa,
+                              int           class_rfa_size,
+                              bool          class_ba)
 {
     // Is a valid timeout set?
     if (class_ba && class_bt > 0.0)
@@ -171,7 +175,7 @@ int WindowsSocketCommon::read(SOCKET       socket_fd,
 
     // Do the read
     int bytes_read = recvfrom(socket_fd,
-                              buffer,
+                              reinterpret_cast<char*>(buffer),
                               size,
                               0,
                               class_rfa,
@@ -197,16 +201,14 @@ int WindowsSocketCommon::read(SOCKET       socket_fd,
 }
 
 //=============================================================================
-// Writes buffer data into socket
-//=============================================================================
-int WindowsSocketCommon::write(SOCKET       socket_fd,
-                               const char*  buffer,
-                               unsigned int size,
-                               double       class_bt,
-                               INT&         class_ts_bt,
-                               sockaddr*    class_sta,
-                               int          class_sta_size,
-                               bool         class_ba)
+int WindowsSocketCommon::write(SOCKET              socket_fd,
+                               const std::uint8_t* buffer,
+                               unsigned int        size,
+                               double              class_bt,
+                               INT&                class_ts_bt,
+                               sockaddr*           class_sta,
+                               int                 class_sta_size,
+                               bool                class_ba)
 {
     // Is a valid timeout set?
     if (class_ba && class_bt > 0.0)
@@ -220,8 +222,12 @@ int WindowsSocketCommon::write(SOCKET       socket_fd,
     }
 
     // Perform the write
-    int bytes_written = sendto(
-        socket_fd, buffer, size, 0, class_sta, class_sta_size);
+    int bytes_written = sendto(socket_fd,
+                               reinterpret_cast<const char*>(buffer),
+                               size,
+                               0,
+                               class_sta,
+                               class_sta_size);
 
     // Check for errors
     if (bytes_written == SOCKET_ERROR)
@@ -233,8 +239,6 @@ int WindowsSocketCommon::write(SOCKET       socket_fd,
 }
 
 //=============================================================================
-// Clears all data out of a socket's receive buffer
-//=============================================================================
 void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
                                       sockaddr* class_rfa,
                                       int       class_rfa_size,
@@ -245,17 +249,16 @@ void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
 
     disableBlocking(socket_fd, class_ba);
 
-    // Data will be discarded into here when copied out of the socket.  2000
-    // bytes should be large enough to handle all possible packets
-    char buf[2000];
+    // Data will be discarded into here when copied out of the socket.
+    uint8_t buf;
 
     // Create a temporary timeout to give to read
     INT temp_timeout = 0;
 
     // Read single bytes until no more remain
     while(read(socket_fd,
-               buf,
-               2000,
+               &buf,
+               1,
                -1,
                temp_timeout,
                class_rfa,
@@ -276,8 +279,6 @@ void WindowsSocketCommon::clearBuffer(SOCKET    socket_fd,
 }
 
 //=============================================================================
-// Shuts the given socket down
-//=============================================================================
 void WindowsSocketCommon::shutdown(SOCKET socket_fd)
 {
     // Shutdown the send half of the connection
@@ -288,14 +289,12 @@ void WindowsSocketCommon::shutdown(SOCKET socket_fd)
 }
 
 //=============================================================================
-// Prints an error message
-//=============================================================================
 void WindowsSocketCommon::printErrorMessage(const std::string& location)
 {
 #if defined DEBUG
     // Will point to a wchar buffer containing the error string after the call
     // to FormatMessage
-    LPWSTR error_string = 0;
+    LPTSTR error_string = 0;
 
     // Fill in error_string with the last socket error
     FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -304,7 +303,7 @@ void WindowsSocketCommon::printErrorMessage(const std::string& location)
                   NULL,
                   WSAGetLastError(),
                   LANG_SYSTEM_DEFAULT,
-                  (LPWSTR)&error_string,
+                  error_string,
                   0,
                   NULL);
 

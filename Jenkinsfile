@@ -9,28 +9,26 @@
 
 import stage.*
 
-// Construct the Linux pipeline branch
-pipelineBranchLinux = new PipelineBranch(
+// Construct the pipeline.  Stages execute in the order shown here.
+def pipeline = new Pipeline(
     this,
-    'Linux',
-    [new StageCheckout(this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git'),
+
+    [new StageCheckout(
+            this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git', true),
+
      new StageBuild(this, 'RELEASE BUILD', 'release', 'tests'),
+
      new StageTests(this, 'RELEASE TESTS'),
+
      new StageBuild(this, 'DEBUG BUILD', 'debug', 'tests'),
+
      new StageTests(this, 'DEBUG TESTS'),
-     new StageValgrind(this),
-     new StageClangStaticAnalysis(this),
-     new StageCppcheck(this, '--suppress=unusedFunction')])
 
-// Run both branches
-parallel Linux: {
+     new StageValgrind(this, false, true, false),
 
-    pipelineBranchLinux.run()
+     new StageClangStaticAnalysis(this, false, true, false),
 
-}, Windows: {
+     new StageCppcheck(this, '--suppress=unusedFunction', false, true, false)])
 
-    // No usable Windows build hosts at the moment
-    //pipelineBranchWindows.run()
-
-},
-failFast: false
+// Run the pipeline
+pipeline.run()

@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <sstream>
 #include <stdexcept>
 #include <winsock2.h>
@@ -283,7 +284,7 @@ bool WindowsTCPSocketImpl::isConnected()
 //=============================================================================
 // Reads data from this socket into user code
 //=============================================================================
-int WindowsTCPSocketImpl::read(char* buffer, unsigned int size)
+int WindowsTCPSocketImpl::read(std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::read(
         socket_fd,
@@ -299,7 +300,7 @@ int WindowsTCPSocketImpl::read(char* buffer, unsigned int size)
 //=============================================================================
 // Writes data from user code into this socket
 //=============================================================================
-int WindowsTCPSocketImpl::write(const char* buffer, unsigned int size)
+int WindowsTCPSocketImpl::write(const std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::write(socket_fd,
                                       buffer,
