@@ -62,6 +62,3 @@ add_subdirectory(RawSocket_test             EXCLUDE_FROM_ALL)
 add_subdirectory(TCPSocket_test             EXCLUDE_FROM_ALL)
 add_subdirectory(UDPSocket_test             EXCLUDE_FROM_ALL)
 add_subdirectory(miscNetworking_test        EXCLUDE_FROM_ALL)
-
-if(MACOS OR LINUX)
-endif(MACOS OR LINUX)
