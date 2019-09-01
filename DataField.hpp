@@ -115,17 +115,14 @@ private:
 
     // Stores host ordering for reference by all data fields
     static const misc::ByteOrder byte_order;
-
-    // A meaningful deep copy can't be done here so disallow that and operator=
-    DataField(const DataField&);
-    DataField& operator=(const DataField&);
 };
 
 //==============================================================================
 inline unsigned int DataField::getLengthBytes() const
 {
-    return std::ceil(static_cast<double>(getLengthBits()) /
-                     static_cast<double>(BITS_PER_BYTE));
+    return static_cast<unsigned int>(
+        std::ceil(static_cast<double>(getLengthBits()) /
+                  static_cast<double>(BITS_PER_BYTE)));
 }
 
 //==============================================================================

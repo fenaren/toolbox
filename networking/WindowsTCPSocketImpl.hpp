@@ -64,11 +64,11 @@ public:
 
     // Reads the specified amount of data from this socket into the specified
     // buffer.
-    virtual int read(char* buffer, unsigned int size);
+    virtual int read(std::uint8_t* buffer, unsigned int size);
 
     // Writes the specified amount of data to this socket from the specified
     // buffer.
-    virtual int write(const char* buffer, unsigned int size);
+    virtual int write(const std::uint8_t* buffer, unsigned int size);
 
     // Gets the source IP address of the last received packet
     virtual void getPeerAddress(std::string& peer_address_str) const;

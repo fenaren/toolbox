@@ -1,17 +1,18 @@
 #include "SignalManagerFactory.hpp"
 
-#if defined LINUX or MACOS
+#if defined LINUX || MACOS
 #include "PosixSignalManagerImpl.hpp"
+#elif defined WINDOWS
+#include "NoopSignalManagerImpl.hpp"
 #endif
 
 //=============================================================================
-// The interface through which platform-specific signal managers are acquired.
-//=============================================================================
 SignalManagerImpl* SignalManagerFactory::createSignalManager()
 {
-#if defined LINUX or MACOS
+#if defined LINUX || MACOS
     return new PosixSignalManagerImpl();
 #else
-    return 0;
+    // Should be replaced with a proper implementation
+    return new NoopSignalManagerImpl();
 #endif
 }
