@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <sstream>
 #include <stdexcept>
 #include <winsock2.h>
@@ -6,8 +7,6 @@
 
 #include "WindowsSocketCommon.hpp"
 
-//=============================================================================
-// Creates the socket
 //=============================================================================
 WindowsUDPSocketImpl::WindowsUDPSocketImpl() :
     UDPSocketImpl(),
@@ -50,15 +49,11 @@ WindowsUDPSocketImpl::WindowsUDPSocketImpl() :
 }
 
 //=============================================================================
-// Closes and destroys the socket
-//=============================================================================
 WindowsUDPSocketImpl::~WindowsUDPSocketImpl()
 {
     WindowsSocketCommon::shutdown(socket_fd);
 }
 
-//=============================================================================
-// Enables blocking
 //=============================================================================
 bool WindowsUDPSocketImpl::enableBlocking()
 {
@@ -66,23 +61,17 @@ bool WindowsUDPSocketImpl::enableBlocking()
 }
 
 //=============================================================================
-// Disables blocking
-//=============================================================================
 bool WindowsUDPSocketImpl::disableBlocking()
 {
     return WindowsSocketCommon::disableBlocking(socket_fd, is_blocking);
 }
 
 //=============================================================================
-// Returns whether or not this socket blocks
-//=============================================================================
 bool WindowsUDPSocketImpl::isBlockingEnabled()
 {
     return is_blocking;
 }
 
-//=============================================================================
-// Sets the blocking timeout
 //=============================================================================
 void WindowsUDPSocketImpl::setBlockingTimeout(double blocking_timeout)
 {
@@ -92,15 +81,11 @@ void WindowsUDPSocketImpl::setBlockingTimeout(double blocking_timeout)
 }
 
 //=============================================================================
-// Gets the blocking timeout
-//=============================================================================
 double WindowsUDPSocketImpl::getBlockingTimeout() const
 {
     return blocking_timeout;
 }
 
-//=============================================================================
-// Associates this socket with a name and a port
 //=============================================================================
 bool WindowsUDPSocketImpl::bind(unsigned int& port)
 {
@@ -112,9 +97,7 @@ bool WindowsUDPSocketImpl::bind(unsigned int& port)
 }
 
 //=============================================================================
-// Reads data from this socket into user code
-//=============================================================================
-int WindowsUDPSocketImpl::read(char* buffer, unsigned int size)
+int WindowsUDPSocketImpl::read(std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::read(
         socket_fd,
@@ -128,9 +111,7 @@ int WindowsUDPSocketImpl::read(char* buffer, unsigned int size)
 }
 
 //=============================================================================
-// Writes data from user code into this socket
-//=============================================================================
-int WindowsUDPSocketImpl::write(const char* buffer, unsigned int size)
+int WindowsUDPSocketImpl::write(const std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::write(
         socket_fd,
@@ -144,8 +125,6 @@ int WindowsUDPSocketImpl::write(const char* buffer, unsigned int size)
 }
 
 //=============================================================================
-// Establishes where packets from this socket will be sent
-//=============================================================================
 bool WindowsUDPSocketImpl::sendTo(const std::string& address,
                                   unsigned int       port)
 {
@@ -157,8 +136,6 @@ bool WindowsUDPSocketImpl::sendTo(const std::string& address,
     return true;
 }
 
-//=============================================================================
-// Forces this socket to discard all received data
 //=============================================================================
 void WindowsUDPSocketImpl::clearBuffer()
 {
