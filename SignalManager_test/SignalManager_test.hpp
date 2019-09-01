@@ -18,7 +18,7 @@ TEST_CASES_END(SignalManager_test)
     {                                           \
         signal_manager = new SignalManager();   \
     }                                           \
-    catch (std::runtime_error& ex)              \
+    catch (std::runtime_error&)                 \
     {                                           \
         return Test::SKIPPED;                   \
     }

@@ -39,7 +39,7 @@ public:
 
     // Overwrites interface_name with name of current input interface; empty
     // string means data is received from all interfaces
-    virtual void getInputInterface(std::string& interface_name);
+    virtual void getInputInterface(std::string& interface_name) const;
 
     // Sets the interface data will be sent from
     virtual bool setOutputInterface(const std::string& interface_name);
@@ -92,7 +92,8 @@ inline double LinuxRawSocketImpl::getBlockingTimeout() const
     return this->blocking_timeout;
 }
 
-inline void LinuxRawSocketImpl::getInputInterface(std::string& interface_name)
+inline
+void LinuxRawSocketImpl::getInputInterface(std::string& interface_name) const
 {
     interface_name = input_interface_name;
 }
