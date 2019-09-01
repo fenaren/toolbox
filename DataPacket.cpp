@@ -46,15 +46,17 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
 
         // smallestMultipleOfXGreaterOrEqualToY take two longs, which means we
         // could go out of range with our offset here
-        if (offset_bits > std::numeric_limits<long>::max())
+        if (offset_bits > static_cast<unsigned long>(
+                std::numeric_limits<long>::max()))
         {
             throw std::runtime_error(
                 "Maximum representable offset bit count exceeded");
         }
 
         // Bump the offset to the next alignment point
-        offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
-                                                                 offset_bits);
+        offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(
+            alignment_bits,
+            static_cast<long>(offset_bits));
 
         // This field plus the padding after it
         bits_read += offset_bits - offset_bits_initial;
