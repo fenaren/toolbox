@@ -55,9 +55,10 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
         }
 
         // Bump the offset to the next alignment point
-        offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(
-            static_cast<long>(alignment_bits),
-            static_cast<long>(offset_bits));
+        offset_bits = static_cast<unsigned long>(
+            misc::smallestMultipleOfXGreaterOrEqualToY(
+                static_cast<long>(alignment_bits),
+                static_cast<long>(offset_bits)));
 
         // This field plus the padding after it
         bits_read += offset_bits - offset_bits_initial;
