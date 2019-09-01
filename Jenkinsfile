@@ -13,10 +13,10 @@ import stage.*
 def pipeline = new Pipeline(
     this,
 
-    new StageCheckout(
-        this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git', true),
+    [new StageCheckout(
+            this, 'http://gitlab.dmz/leighgarbs/tools-cpp.git', true),
 
-    new StageClangStaticAnalysis(this, false, true, false))
+     new StageClangStaticAnalysis(this, false, true, false)])
 
 // Run the pipeline
 pipeline.run()
