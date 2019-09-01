@@ -13,8 +13,7 @@
 
 //==============================================================================
 Ipv4Address::Ipv4Address() :
-    RawDataField(
-        ipv4_address_raw, LENGTH_BYTES, misc::BYTES, false)
+    RawDataField(ipv4_address_raw, LENGTH_BYTES, misc::BYTES, false)
 {
     memset(ipv4_address_raw, 0, LENGTH_BYTES);
 }

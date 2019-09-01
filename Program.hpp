@@ -26,11 +26,6 @@ public:
     // Returns a copy of the program arguments
     void getArguments(std::vector<std::string>& arguments) const;
 
-    // Reconfigure self as a background process (daemon); this may be a behavior
-    // that only makes sense to implement at this level on Linux systems, not
-    // sure
-    static bool daemonize();
-
 private:
 
     // String used to launch this program at the command line

@@ -48,7 +48,7 @@ Test::Result SignalManager_test::IsSignalDelivered::body()
     {
         signal_manager->isSignalDelivered(1234);
     }
-    catch (std::out_of_range& ex)
+    catch (std::out_of_range&)
     {
         signal_caught = true;
     }
