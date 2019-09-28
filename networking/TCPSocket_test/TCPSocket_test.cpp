@@ -26,7 +26,7 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets::body()
     unsigned char send1_recv[] = {'\0', '\0', '\0', '\0'};
     unsigned char send2[]      = {'t',  'w',  'o',  '\0'};
     unsigned char send2_recv[] = {'\0', '\0', '\0', '\0'};
-    int send_size = 4;  // Must equal the length of all four arrays
+    unsigned int send_size = 4;  // Must equal the length of all four arrays
 
     TCPSocket socket1;
     TCPSocket socket2;
@@ -48,16 +48,20 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets::body()
     socket2.enableBlocking();
     MUST_BE_TRUE(socket2.accept());
 
-    MUST_BE_TRUE(socket1.write(send1, send_size) == send_size);
-    MUST_BE_TRUE(socket2.read(send1_recv, send_size) == send_size);
+    MUST_BE_TRUE(socket1.write(send1, send_size) ==
+                 static_cast<int>(send_size));
+    MUST_BE_TRUE(socket2.read(send1_recv, send_size) ==
+                 static_cast<int>(send_size));
 
     std::cout << "Sent " << send1 << " received " << send1_recv << "\n";
     MUST_BE_TRUE(memcmp(send1, send1_recv, send_size) == 0);
 
     // SEND SOMETHING BACK
 
-    MUST_BE_TRUE(socket2.write(send2, send_size) == send_size);
-    MUST_BE_TRUE(socket1.read(send2_recv, send_size) == send_size);
+    MUST_BE_TRUE(socket2.write(send2, send_size) ==
+                 static_cast<int>(send_size));
+    MUST_BE_TRUE(socket1.read(send2_recv, send_size) ==
+                 static_cast<int>(send_size));
 
     std::cout << "Sent " << send2 << " received " << send2_recv << "\n";
     MUST_BE_TRUE(memcmp(send2, send2_recv, send_size) == 0);
@@ -74,7 +78,7 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets_AcceptSpawn::body()
     unsigned char send1_recv[] = {'\0', '\0', '\0', '\0'};
     unsigned char send2[]      = {'d',  'e',  'f',  '\0'};
     unsigned char send2_recv[] = {'\0', '\0', '\0', '\0'};
-    int send_size = 4;  // Must equal the length of all four arrays
+    unsigned int send_size = 4;  // Must equal the length of all four arrays
 
     TCPSocket socket1;
     TCPSocket socket2;
@@ -100,16 +104,20 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets_AcceptSpawn::body()
 
     socket3->enableBlocking();
 
-    MUST_BE_TRUE(socket1.write(send1, send_size) == send_size);
-    MUST_BE_TRUE(socket3->read(send1_recv, send_size) == send_size);
+    MUST_BE_TRUE(socket1.write(send1, send_size) ==
+                 static_cast<int>(send_size));
+    MUST_BE_TRUE(socket3->read(send1_recv, send_size) ==
+                 static_cast<int>(send_size));
 
     std::cout << "Sent " << send1 << " received " << send1_recv << "\n";
     MUST_BE_TRUE(memcmp(send1, send1_recv, send_size) == 0);
 
     // SEND SOMETHING BACK
 
-    MUST_BE_TRUE(socket3->write(send2, send_size) == send_size);
-    MUST_BE_TRUE(socket1.read(send2_recv, send_size) == send_size);
+    MUST_BE_TRUE(socket3->write(send2, send_size) ==
+                 static_cast<int>(send_size));
+    MUST_BE_TRUE(socket1.read(send2_recv, send_size) ==
+                 static_cast<int>(send_size));
 
     std::cout << "Sent " << send2 << " received " << send2_recv << "\n";
     MUST_BE_TRUE(memcmp(send2, send2_recv, send_size) == 0);
@@ -135,17 +143,21 @@ Test::Result TCPSocket_test::SendReceive_TwoSockets_AcceptSpawn::body()
     socket2.disableBlocking();
     socket5->enableBlocking();
 
-    MUST_BE_TRUE(socket4.write(send1, send_size) == send_size);
+    MUST_BE_TRUE(socket4.write(send1, send_size) ==
+                 static_cast<int>(send_size));
 
-    MUST_BE_TRUE(socket5->read(send1_recv, send_size) == send_size);
+    MUST_BE_TRUE(socket5->read(send1_recv, send_size) ==
+                 static_cast<int>(send_size));
 
     std::cout << "Sent " << send1 << " received " << send1_recv << "\n";
     MUST_BE_TRUE(memcmp(send1, send1_recv, send_size) == 0);
 
     // SEND SOMETHING BACK
 
-    MUST_BE_TRUE(socket5->write(send2, send_size) == send_size);
-    MUST_BE_TRUE(socket4.read(send2_recv, send_size) == send_size);
+    MUST_BE_TRUE(socket5->write(send2, send_size) ==
+                 static_cast<int>(send_size));
+    MUST_BE_TRUE(socket4.read(send2_recv, send_size) ==
+                 static_cast<int>(send_size));
 
     std::cout << "Sent " << send2 << " received " << send2_recv << "\n";
     MUST_BE_TRUE(memcmp(send2, send2_recv, send_size) == 0);

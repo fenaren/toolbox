@@ -9,8 +9,6 @@
 #include "WindowsSocketCommon.hpp"
 
 //=============================================================================
-// Creates the socket
-//=============================================================================
 WindowsTCPSocketImpl::WindowsTCPSocketImpl() :
     TCPSocketImpl(),
     is_blocking(false)
@@ -43,8 +41,6 @@ WindowsTCPSocketImpl::WindowsTCPSocketImpl() :
 }
 
 //=============================================================================
-// Sets a couple things for an already-initialized socket descriptor
-//=============================================================================
 WindowsTCPSocketImpl::WindowsTCPSocketImpl(SOCKET       socket_fd,
                                            sockaddr_in& local_address,
                                            sockaddr_in& peer_address) :
@@ -59,15 +55,11 @@ WindowsTCPSocketImpl::WindowsTCPSocketImpl(SOCKET       socket_fd,
 }
 
 //=============================================================================
-// Closes and destroys the socket
-//=============================================================================
 WindowsTCPSocketImpl::~WindowsTCPSocketImpl()
 {
     WindowsSocketCommon::shutdown(socket_fd);
 }
 
-//=============================================================================
-// Enables blocking
 //=============================================================================
 bool WindowsTCPSocketImpl::enableBlocking()
 {
@@ -75,23 +67,17 @@ bool WindowsTCPSocketImpl::enableBlocking()
 }
 
 //=============================================================================
-// Disables blocking
-//=============================================================================
 bool WindowsTCPSocketImpl::disableBlocking()
 {
     return WindowsSocketCommon::disableBlocking(socket_fd, is_blocking);
 }
 
 //=============================================================================
-// Returns whether or not this socket blocks
-//=============================================================================
 bool WindowsTCPSocketImpl::isBlockingEnabled()
 {
     return is_blocking;
 }
 
-//=============================================================================
-// Sets the blocking timeout
 //=============================================================================
 void WindowsTCPSocketImpl::setBlockingTimeout(double blocking_timeout)
 {
@@ -101,15 +87,11 @@ void WindowsTCPSocketImpl::setBlockingTimeout(double blocking_timeout)
 }
 
 //=============================================================================
-// Gets the blocking timeout
-//=============================================================================
 double WindowsTCPSocketImpl::getBlockingTimeout() const
 {
     return blocking_timeout;
 }
 
-//=============================================================================
-// Associates this socket with a name and a port
 //=============================================================================
 bool WindowsTCPSocketImpl::bind(unsigned int& port)
 {
@@ -120,8 +102,6 @@ bool WindowsTCPSocketImpl::bind(unsigned int& port)
                                      local_address);
 }
 
-//=============================================================================
-// Instructs this socket to begin listening for incoming traffic
 //=============================================================================
 bool WindowsTCPSocketImpl::listen()
 {
@@ -135,8 +115,6 @@ bool WindowsTCPSocketImpl::listen()
     return true;
 }
 
-//=============================================================================
-// Accepts any pending incoming connections
 //=============================================================================
 WindowsTCPSocketImpl* WindowsTCPSocketImpl::accept(bool take_over)
 {
@@ -210,8 +188,6 @@ WindowsTCPSocketImpl* WindowsTCPSocketImpl::accept(bool take_over)
 }
 
 //=============================================================================
-// Connects this socket to another socket
-//=============================================================================
 bool WindowsTCPSocketImpl::connect(const std::string& hostname,
                                    unsigned int       port)
 {
@@ -243,7 +219,7 @@ bool WindowsTCPSocketImpl::connect(const std::string& hostname,
     // Attempt to connect to whatever peer was found above
     if (::connect(socket_fd,
                   result->ai_addr,
-                  result->ai_addrlen) == SOCKET_ERROR)
+                  static_cast<int>(result->ai_addrlen)) == SOCKET_ERROR)
     {
         WindowsSocketCommon::printErrorMessage("WindowsTCPSocketImpl::connect");
         return false;
@@ -252,8 +228,6 @@ bool WindowsTCPSocketImpl::connect(const std::string& hostname,
     return true;
 }
 
-//=============================================================================
-// Returns whether or not this socket is connected to another
 //=============================================================================
 bool WindowsTCPSocketImpl::isConnected()
 {
@@ -282,8 +256,6 @@ bool WindowsTCPSocketImpl::isConnected()
 }
 
 //=============================================================================
-// Reads data from this socket into user code
-//=============================================================================
 int WindowsTCPSocketImpl::read(std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::read(
@@ -298,8 +270,6 @@ int WindowsTCPSocketImpl::read(std::uint8_t* buffer, unsigned int size)
 }
 
 //=============================================================================
-// Writes data from user code into this socket
-//=============================================================================
 int WindowsTCPSocketImpl::write(const std::uint8_t* buffer, unsigned int size)
 {
     return WindowsSocketCommon::write(socket_fd,
@@ -312,8 +282,6 @@ int WindowsTCPSocketImpl::write(const std::uint8_t* buffer, unsigned int size)
                                       is_blocking);
 }
 
-//=============================================================================
-// Establishes where packets from this socket will be sent
 //=============================================================================
 void WindowsTCPSocketImpl::clearBuffer()
 {
