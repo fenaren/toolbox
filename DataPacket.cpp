@@ -1,5 +1,6 @@
 #include <cmath>
 #include <cstdint>
+#include <limits>
 #include <list>
 
 #include "DataField.hpp"
@@ -44,9 +45,20 @@ unsigned long DataPacket::readRaw(std::uint8_t*   buffer,
         // Tell the current field to read and record the number of bits it read
         offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits);
 
+        // smallestMultipleOfXGreaterOrEqualToY take two longs, which means we
+        // could go out of range with our offset here
+        if (offset_bits > static_cast<unsigned long>(
+                std::numeric_limits<long>::max()))
+        {
+            throw std::runtime_error(
+                "Maximum representable offset bit count exceeded");
+        }
+
         // Bump the offset to the next alignment point
-        offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
-                                                                 offset_bits);
+        offset_bits = static_cast<unsigned long>(
+            misc::smallestMultipleOfXGreaterOrEqualToY(
+                static_cast<long>(alignment_bits),
+                static_cast<long>(offset_bits)));
 
         // This field plus the padding after it
         bits_read += offset_bits - offset_bits_initial;
@@ -74,9 +86,20 @@ unsigned long DataPacket::readRaw(const std::uint8_t* buffer,
         // Tell the current field to read and record the number of bits it read
         offset_bits += (*i)->readRaw(buffer, source_byte_order, offset_bits);
 
+        // smallestMultipleOfXGreaterOrEqualToY take two longs, which means we
+        // could go out of range with our offset here
+        if (offset_bits > static_cast<unsigned long>(
+                std::numeric_limits<long>::max()))
+        {
+            throw std::runtime_error(
+                "Maximum representable offset bit count exceeded");
+        }
+
         // Bump the offset to the next alignment point
-        offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
-                                                                 offset_bits);
+        offset_bits = static_cast<unsigned long>(
+            misc::smallestMultipleOfXGreaterOrEqualToY(
+                static_cast<long>(alignment_bits),
+                static_cast<long>(offset_bits)));
 
         // This field plus the padding after it
         bits_read += offset_bits - offset_bits_initial;
@@ -109,9 +132,20 @@ unsigned long DataPacket::writeRaw(std::uint8_t*   buffer,
         offset_bits +=
             (*i)->writeRaw(buffer, destination_byte_order, offset_bits);
 
+        // smallestMultipleOfXGreaterOrEqualToY take two longs, which means we
+        // could go out of range with our offset here
+        if (offset_bits > static_cast<unsigned long>(
+                std::numeric_limits<long>::max()))
+        {
+            throw std::runtime_error(
+                "Maximum representable offset bit count exceeded");
+        }
+
         // Bump the offset to the next alignment point
-        offset_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
-                                                                 offset_bits);
+        offset_bits = static_cast<unsigned long>(
+            misc::smallestMultipleOfXGreaterOrEqualToY(
+                static_cast<long>(alignment_bits),
+                static_cast<long>(offset_bits)));
 
         // This field plus the padding after it
         bits_written += offset_bits - offset_bits_initial;
@@ -134,8 +168,10 @@ unsigned long DataPacket::getLengthBits() const
         length_bits += (*i)->getLengthBits();
 
         // Increase packet length again to account for alignment
-        length_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
-                                                                 length_bits);
+        length_bits = static_cast<unsigned long>(
+            misc::smallestMultipleOfXGreaterOrEqualToY(
+                static_cast<long>(alignment_bits),
+                static_cast<long>(length_bits)));
     }
 
     return length_bits;
