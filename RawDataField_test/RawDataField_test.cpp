@@ -491,7 +491,8 @@ bool RawDataField_test::setBitAllBits(RawDataField& number_rdf, T& number)
         }
         else if (number_rdf.getBitIndexingMode() == RawDataField::MS_LEAST)
         {
-            std::ldiv_t div_result = std::ldiv(i, BITS_PER_BYTE);
+            std::ldiv_t div_result = std::ldiv(static_cast<long>(i),
+                                               BITS_PER_BYTE);
 
             all_good = number ==
                 static_cast<T>(

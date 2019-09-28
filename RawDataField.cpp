@@ -206,7 +206,7 @@ bool RawDataField::getBit(unsigned long index) const
 
     // This returns the index of the byte we want and the index of the bit
     // within that byte
-    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
+    std::ldiv_t div_result = std::ldiv(static_cast<long>(index), BITS_PER_BYTE);
 
     std::uint8_t target_byte = 0;
 
@@ -253,14 +253,15 @@ void RawDataField::setBit(unsigned long index, bool value)
 
     // This returns the index of the byte we want and the index of the bit
     // within that byte
-    std::ldiv_t div_result = std::ldiv(index, BITS_PER_BYTE);
+    std::ldiv_t div_result = std::ldiv(static_cast<long>(index), BITS_PER_BYTE);
 
     // Shift the bit we set above to the correct position depending on bit
     // indexing setting
-    unsigned int shift_amount = div_result.rem;
+    unsigned int shift_amount = static_cast<unsigned int>(div_result.rem);
     if (bit_indexing_mode == MS_LEAST)
     {
-        shift_amount = BITS_PER_BYTE - div_result.rem - 1;
+        shift_amount =
+            static_cast<unsigned int>(BITS_PER_BYTE - div_result.rem - 1);
     }
     target_byte <<= shift_amount;
 
@@ -271,7 +272,7 @@ void RawDataField::setBit(unsigned long index, bool value)
     // byte into the proper place in raw_bit_field without disturbing the other
     // bits
 
-    unsigned int byte_index = div_result.quot;
+    unsigned int byte_index = static_cast<unsigned int>(div_result.quot);
 
     // Mask the bit setting in
     raw_data[byte_index] &= ~mask;
