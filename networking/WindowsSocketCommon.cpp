@@ -176,7 +176,7 @@ int WindowsSocketCommon::read(SOCKET        socket_fd,
     // Do the read
     int bytes_read = recvfrom(socket_fd,
                               reinterpret_cast<char*>(buffer),
-                              size,
+                              static_cast<int>(size),
                               0,
                               class_rfa,
                               &class_rfa_size);
@@ -224,7 +224,7 @@ int WindowsSocketCommon::write(SOCKET              socket_fd,
     // Perform the write
     int bytes_written = sendto(socket_fd,
                                reinterpret_cast<const char*>(buffer),
-                               size,
+                               static_cast<int>(size),
                                0,
                                class_sta,
                                class_sta_size);
