@@ -168,8 +168,10 @@ unsigned long DataPacket::getLengthBits() const
         length_bits += (*i)->getLengthBits();
 
         // Increase packet length again to account for alignment
-        length_bits = misc::smallestMultipleOfXGreaterOrEqualToY(alignment_bits,
-                                                                 length_bits);
+        length_bits = static_cast<unsigned long>(
+            misc::smallestMultipleOfXGreaterOrEqualToY(
+                static_cast<long>(alignment_bits),
+                static_cast<long>(length_bits)));
     }
 
     return length_bits;
