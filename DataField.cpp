@@ -187,11 +187,12 @@ unsigned long DataField::writeRaw(std::uint8_t* buffer,
 void DataField::normalizeMemoryLocation(std::uint8_t*& buffer,
                                         unsigned long& offset_bits)
 {
-    std::ldiv_t div_result = std::ldiv(offset_bits, BITS_PER_BYTE);
+    std::ldiv_t div_result = std::ldiv(static_cast<long>(offset_bits),
+                                       BITS_PER_BYTE);
 
     // Take all the bytes out of offset_bits
     buffer += div_result.quot;
-    offset_bits = div_result.rem;
+    offset_bits = static_cast<unsigned long>(div_result.rem);
 }
 
 //==============================================================================
@@ -199,9 +200,10 @@ const std::uint8_t* DataField::normalizeMemoryLocation(
     const std::uint8_t* buffer,
     unsigned long&      offset_bits)
 {
-    std::ldiv_t div_result = std::ldiv(offset_bits, BITS_PER_BYTE);
+    std::ldiv_t div_result = std::ldiv(static_cast<long>(offset_bits),
+                                       BITS_PER_BYTE);
 
     // Take all the bytes out of offset_bits
-    offset_bits = div_result.rem;
+    offset_bits = static_cast<unsigned long>(div_result.rem);
     return buffer + div_result.quot;
 }
