@@ -10,3 +10,14 @@ NoopClockImpl::NoopClockImpl(int clock) :
 NoopClockImpl::~NoopClockImpl()
 {
 }
+
+//==============================================================================
+double NoopClockImpl::getTime() const
+{
+    return 0.0;
+}
+
+//==============================================================================
+void NoopClockImpl::sleep(double time)
+{
+}
