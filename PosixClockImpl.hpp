@@ -14,9 +14,6 @@ public:
     // Saves user specified clock
     explicit PosixClockImpl(int clock_type);
 
-    // Copy constructor
-    PosixClockImpl(const PosixClockImpl&);
-
     // Does nothing
     ~PosixClockImpl();
 
@@ -29,16 +26,20 @@ public:
     // Returns time according to the users previously specified clock and the
     // POSIX clock_gettime function
     double getTime() const;
+    void getTime(PosixTimespec& ts) const;
 
     // Caling process nanosleeps for specified length of time
     void sleep(double duration);
-
-    PosixClockImpl& operator=(const PosixClockImpl&);
+    void sleep(const PosixTimespec& ts);
 
 private:
 
     // Currently selected POSIX clock source
     clockid_t clock_id;
+
+    // Copy constructor
+    PosixClockImpl(const PosixClockImpl&);
+    PosixClockImpl& operator=(const PosixClockImpl&);
 };
 
 //==============================================================================

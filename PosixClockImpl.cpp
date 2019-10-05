@@ -5,6 +5,7 @@
 
 #include "PosixClockImpl.hpp"
 
+#include "ClockImpl.hpp"
 #include "PosixTimespec.hpp"
 
 //==============================================================================
@@ -15,12 +16,6 @@ PosixClockImpl::PosixClockImpl(int clock_type) :
 }
 
 //==============================================================================
-PosixClockImpl::PosixClockImpl(const PosixClockImpl& posix_clock_impl)
-{
-    *this = posix_clock_impl;
-}
-
-//==============================================================================
 PosixClockImpl::~PosixClockImpl()
 {
 }
@@ -28,7 +23,8 @@ PosixClockImpl::~PosixClockImpl()
 //==============================================================================
 double PosixClockImpl::getTime() const
 {
-    // Get the time in the specific way and then generalize
+    // Get the time in a platform-specific way and then generalize to fit the
+    // interface
     PosixTimespec ts;
     getTime(ts);
     return ts.toDouble();
@@ -51,7 +47,7 @@ void PosixClockImpl::sleep(double duration)
 {
     // Convert to the specific way we sleep here and then sleep
     PosixTimespec ts(duration);
-    sleep(duration);
+    sleep(ts);
 }
 
 //==============================================================================
@@ -71,16 +67,4 @@ void PosixClockImpl::sleep(const PosixTimespec& ts)
     {
         throw std::system_error(errno, std::system_category());
     }
-}
-
-//==============================================================================
-PosixClockImpl& PosixClockImpl::operator=(const PosixClockImpl& posix_clock)
-{
-    // Don't do anything if we're assigning to ourselves
-    if (this != &posix_clock)
-    {
-        clock_id = posix_clock.getClockId();
-    }
-
-    return *this;
 }
