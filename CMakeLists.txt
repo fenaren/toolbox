@@ -45,7 +45,7 @@ if(MACOS OR LINUX)
   list(APPEND SRC
     FixedRateProgram.cpp
     Log.cpp
-    PosixClock.cpp
+    PosixClockImpl.cpp
     PosixSignalManagerImpl.cpp
     PosixTimespec.cpp)
 endif(MACOS OR LINUX)

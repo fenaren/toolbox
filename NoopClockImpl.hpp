@@ -7,7 +7,7 @@ class NoopClockImpl : public ClockImpl
 {
 public:
 
-    explicit NoopClockImpl(int clock);
+    explicit NoopClockImpl(int clock_type);
 
     // Does nothing
     ~NoopClockImpl();
@@ -16,7 +16,7 @@ public:
     virtual double getTime() const;
 
     // Calling process sleeps for specified duration (in seconds)
-    virtual void sleep(double time);
+    virtual void sleep(double duration);
 };
 
 #endif

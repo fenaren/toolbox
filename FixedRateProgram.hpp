@@ -3,16 +3,15 @@
 
 #include "Program.hpp"
 
+#include "ClockImpl.hpp"
 #include "OnlineStatistics.hpp"
-#include "PosixClock.hpp"
-#include "PosixTimespec.hpp"
 
 class FixedRateProgram : public Program
 {
 public:
 
     // Argument "period" specifies the period between iterations
-    FixedRateProgram(int argc, char** argv, const PosixTimespec& period);
+    FixedRateProgram(int argc, char** argv, double period);
 
     // Does nothing
     virtual ~FixedRateProgram();
@@ -24,20 +23,20 @@ public:
     virtual void step() = 0;
 
     // Replace the clock in use with the given clock
-    void setClock(const PosixClock& clock);
+    void setClock(const ClockImpl& clock);
 
     // Returns a copy of the clock in use
-    void getClock(PosixClock& clock) const;
+    void getClock(ClockImpl& clock) const;
 
-    // Sets length of time between iterations as a PosixTimespec
-    void setPeriod(const PosixTimespec& tp);
+    // Sets length of time between iterations
+    void setPeriod(double period);
 
-    // Returns length of time between iterations as a PosixTimespec
-    void getPeriod(PosixTimespec& tp) const;
+    // Returns length of time between iterations
+    double getPeriod() const;
 
     // Returns the last time a frame started and stopped, respectively
-    void getFrameStart(PosixTimespec& tp) const;
-    void getFrameStop(PosixTimespec& tp) const;
+    double getFrameStart() const;
+    double getFrameStop() const;
 
     // Setting to true will cause program termination before the next time
     // step() is called; a step() in progress is not interrupted
@@ -49,14 +48,14 @@ public:
 private:
 
     // Time source used to compare elapsed time against period
-    PosixClock clock;
+    ClockImpl* clock;
 
     // Length of time between iterations
-    PosixTimespec period;
+    double period;
 
     // Updated at the beginning and ending of the frame, respectively
-    PosixTimespec frame_start;
-    PosixTimespec frame_stop;
+    double frame_start;
+    double frame_stop;
 
     // Iterative loop will exit if this is true
     bool terminate;
@@ -70,41 +69,37 @@ private:
     FixedRateProgram& operator=(const FixedRateProgram&);
 };
 
-inline void FixedRateProgram::setClock(const PosixClock& clock)
+//==============================================================================
+inline void FixedRateProgram::setPeriod(double period)
 {
-    this->clock = clock;
+    this->period = period;
 }
 
-inline void FixedRateProgram::getClock(PosixClock& clock) const
+//==============================================================================
+inline double FixedRateProgram::getPeriod() const
 {
-    clock = this->clock;
+    return period;
 }
 
-inline void FixedRateProgram::setPeriod(const PosixTimespec& tp)
+//==============================================================================
+inline double FixedRateProgram::getFrameStart() const
 {
-    period = tp;
+    return frame_start;
 }
 
-inline void FixedRateProgram::getPeriod(PosixTimespec& tp) const
+//==============================================================================
+inline double FixedRateProgram::getFrameStop() const
 {
-    tp = period;
+    return frame_stop;
 }
 
-inline void FixedRateProgram::getFrameStart(PosixTimespec& tp) const
-{
-    tp = frame_start;
-}
-
-inline void FixedRateProgram::getFrameStop(PosixTimespec& tp) const
-{
-    tp = frame_stop;
-}
-
+//==============================================================================
 inline void FixedRateProgram::setTerminate(bool terminate)
 {
     this->terminate = terminate;
 }
 
+//==============================================================================
 inline bool FixedRateProgram::getTerminate() const
 {
     return terminate;

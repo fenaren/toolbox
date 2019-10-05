@@ -3,38 +3,42 @@
 #include <stdexcept>
 #include <system_error>
 
-#include "PosixClock.hpp"
+#include "PosixClockImpl.hpp"
 
 #include "PosixTimespec.hpp"
 
 //==============================================================================
-// Saves user specified clock
-//==============================================================================
-PosixClock::PosixClock(clockid_t clk_id) :
-    clk_id(clk_id)
+PosixClockImpl::PosixClockImpl(int clock_type) :
+    ClockImpl(clock_type),
+    clock_id(static_cast<clockid_t>(clock_type))
 {
 }
 
 //==============================================================================
-PosixClock::PosixClock(const PosixClock& posix_clock)
+PosixClockImpl::PosixClockImpl(const PosixClockImpl& posix_clock_impl)
 {
-    *this = posix_clock;
+    *this = posix_clock_impl;
 }
 
 //==============================================================================
-// Does nothing
-//==============================================================================
-PosixClock::~PosixClock()
+PosixClockImpl::~PosixClockImpl()
 {
 }
 
 //==============================================================================
-// Returns time according to the users previously specified clock
+double PosixClockImpl::getTime() const
+{
+    // Get the time in the specific way and then generalize
+    PosixTimespec ts;
+    getTime(ts);
+    return ts.toDouble();
+}
+
 //==============================================================================
-void PosixClock::getTime(PosixTimespec& ts) const
+void PosixClockImpl::getTime(PosixTimespec& ts) const
 {
     timespec tp;
-    if (clock_gettime(clk_id, &tp) != 0)
+    if (clock_gettime(clock_id, &tp) != 0)
     {
         throw std::system_error(errno, std::system_category());
     }
@@ -43,9 +47,15 @@ void PosixClock::getTime(PosixTimespec& ts) const
 }
 
 //==============================================================================
-// Calling process sleeps for specified length of time
+void PosixClockImpl::sleep(double duration)
+{
+    // Convert to the specific way we sleep here and then sleep
+    PosixTimespec ts(duration);
+    sleep(duration);
+}
+
 //==============================================================================
-void PosixClock::nanosleep(const PosixTimespec& ts)
+void PosixClockImpl::sleep(const PosixTimespec& ts)
 {
     timespec tp;
     ts.getTimespec(tp);
@@ -54,7 +64,7 @@ void PosixClock::nanosleep(const PosixTimespec& ts)
     // clock_nanosleep isn't implemented on macOS?
     int sleep_ret = ::nanosleep(&tp, 0);
 #else
-    int sleep_ret = clock_nanosleep(clk_id, 0, &tp, 0);
+    int sleep_ret = clock_nanosleep(clock_id, 0, &tp, 0);
 #endif
 
     if (sleep_ret != 0)
@@ -64,12 +74,12 @@ void PosixClock::nanosleep(const PosixTimespec& ts)
 }
 
 //==============================================================================
-PosixClock& PosixClock::operator=(const PosixClock& posix_clock)
+PosixClockImpl& PosixClockImpl::operator=(const PosixClockImpl& posix_clock)
 {
     // Don't do anything if we're assigning to ourselves
     if (this != &posix_clock)
     {
-        clk_id = posix_clock.getClockId();
+        clock_id = posix_clock.getClockId();
     }
 
     return *this;

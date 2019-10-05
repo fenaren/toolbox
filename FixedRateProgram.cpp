@@ -3,31 +3,21 @@
 
 #include "FixedRateProgram.hpp"
 
-#include "PosixClock.hpp"
-#include "PosixTimespec.hpp"
+#include "ClockImpl.hpp"
 
 //==============================================================================
-// Argument "period" specifies the period between iterations
-//==============================================================================
-FixedRateProgram::FixedRateProgram(int                  argc,
-                                   char**               argv,
-                                   const PosixTimespec& period) :
+FixedRateProgram::FixedRateProgram(int argc, char** argv, double period) :
     Program(argc, argv),
-    clock(CLOCK_MONOTONIC),
     period(period),
     terminate(false)
 {
 }
 
 //==============================================================================
-// Does nothing
-//==============================================================================
 FixedRateProgram::~FixedRateProgram()
 {
 }
 
-//==============================================================================
-// Step until we're told to stop
 //==============================================================================
 int FixedRateProgram::run()
 {
@@ -35,23 +25,23 @@ int FixedRateProgram::run()
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
-        clock.getTime(frame_start);
+        frame_start = clock->getTime();
 
         // Run the iterative code
         step();
 
         // Used to determine the amount of time taken to execute the iterative
         // code
-        clock.getTime(frame_stop);
+        frame_stop = clock->getTime();
 
         // How long was that frame
-        PosixTimespec frame_time = frame_stop - frame_start;
+        double frame_time = frame_stop - frame_start;
 
         // Include frame time into running frame statistics
         statistics.update(frame_time);
 
         // Sleep off the rest of the frame
-        clock.nanosleep(period - frame_time);
+        clock->sleep(period - frame_time);
     }
 
     // Retrieve and print frame time used statistics

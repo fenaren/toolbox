@@ -5,14 +5,14 @@ class ClockImpl
 {
 public:
 
-    explicit ClockImpl(int clock);
+    explicit ClockImpl(int clock_type);
 
     // Does nothing
     ~ClockImpl();
 
-    virtual void setClock(int clock);
+    virtual void setClockType(int clock_type);
 
-    virtual int getClock() const;
+    virtual int getClockType() const;
 
     // Returns time duration from clock epoch in seconds
     virtual double getTime() const = 0;
@@ -22,19 +22,19 @@ public:
 
 private:
 
-    int clock;
+    int clock_type;
 };
 
 //==============================================================================
-inline void ClockImpl::setClock(int clock)
+inline void ClockImpl::setClockType(int clock_type)
 {
-    this->clock = clock;
+    this->clock_type = clock_type;
 }
 
 //==============================================================================
-inline int ClockImpl::getClock() const
+inline int ClockImpl::getClockType() const
 {
-    return clock;
+    return clock_type;
 }
 
 #endif

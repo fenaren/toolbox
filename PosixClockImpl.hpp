@@ -12,7 +12,7 @@ class PosixClockImpl : public ClockImpl
 public:
 
     // Saves user specified clock
-    explicit PosixClockImpl(clockid_t clk_id);
+    explicit PosixClockImpl(int clock_type);
 
     // Copy constructor
     PosixClockImpl(const PosixClockImpl&);
@@ -20,35 +20,41 @@ public:
     // Does nothing
     ~PosixClockImpl();
 
-    // Returns time according to the users previously specified clock and the
-    // POSIX clock_gettime function
-    void getTime(PosixTimespec& ts) const;
-
     // Saves user specified POSIX clock
-    void setClockId(clockid_t clk_id);
+    virtual void setClockType(int clock_type);
 
     // Returns POSIX clock in use
-    clockid_t getClockId() const;
+    virtual int getClockType() const;
+
+    // Returns time according to the users previously specified clock and the
+    // POSIX clock_gettime function
+    double getTime() const;
 
     // Caling process nanosleeps for specified length of time
-    void nanosleep(const PosixTimespec& ts);
+    void sleep(double duration);
 
     PosixClockImpl& operator=(const PosixClockImpl&);
 
 private:
 
     // Currently selected POSIX clock source
-    clockid_t clk_id;
+    clockid_t clock_id;
 };
 
-inline void PosixClockImpl::setClockId(clockid_t clk_id)
+//==============================================================================
+inline void PosixClockImpl::setClockType(int clock_type)
 {
-    this->clk_id = clk_id;
+    ClockImpl::setClockType(clock_type);
+
+    // Store a more specific reference here, where we know this is how clocks
+    // are identified for POSIX
+    this->clock_id = static_cast<clockid_t>(clock_type);
 }
 
-inline clockid_t PosixClockImpl::getClockId() const
+//==============================================================================
+inline int PosixClockImpl::getClockType() const
 {
-    return clk_id;
+    return static_cast<int>(clock_id);
 }
 
 #endif

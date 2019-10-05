@@ -1,8 +1,8 @@
 #include "ClockImpl.hpp"
 
 //==============================================================================
-ClockImpl::ClockImpl(int clock) :
-    clock(clock)
+ClockImpl::ClockImpl(int clock_type) :
+    clock_type(clock_type)
 {
 }
 
