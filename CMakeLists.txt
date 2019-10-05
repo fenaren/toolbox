@@ -28,6 +28,7 @@ set(SRC
   ClockImpl.cpp
   DataField.cpp
   DataPacket.cpp
+  NoopClockImpl.cpp
   NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
   Program.cpp
