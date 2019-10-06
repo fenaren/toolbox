@@ -24,6 +24,7 @@ void FixedRateProgram_test::addTestCases()
 //==============================================================================
 Test::Result FixedRateProgram_test::Run::body()
 {
+#if defined MACOS || LINUX
     PosixTimespec period(1.0);
 
     // Normally it would not be possible for a program to receive no arguments
@@ -65,4 +66,7 @@ Test::Result FixedRateProgram_test::Run::body()
     MUST_BE_TRUE(period + epsilon > time_taken && period - epsilon < time_taken);
 
     return Test::PASSED;
+#else
+    return Test::SKIPPED;
+#endif
 }
