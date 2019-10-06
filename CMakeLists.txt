@@ -30,6 +30,7 @@ set(SRC
   ClockImpl.cpp
   DataField.cpp
   DataPacket.cpp
+  FixedRateProgramImpl.cpp
   NoopClockImpl.cpp
   NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
