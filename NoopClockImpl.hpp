@@ -10,7 +10,7 @@ public:
     explicit NoopClockImpl(int clock_type);
 
     // Does nothing
-    ~NoopClockImpl();
+    virtual ~NoopClockImpl();
 
     // Returns time duration from clock epoch in seconds
     virtual double getTime() const;

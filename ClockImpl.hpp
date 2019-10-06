@@ -8,7 +8,7 @@ public:
     explicit ClockImpl(int clock_type);
 
     // Does nothing
-    ~ClockImpl();
+    virtual ~ClockImpl();
 
     virtual void setClockType(int clock_type);
 

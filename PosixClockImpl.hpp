@@ -15,7 +15,7 @@ public:
     explicit PosixClockImpl(int clock_type);
 
     // Does nothing
-    ~PosixClockImpl();
+    virtual ~PosixClockImpl();
 
     // Saves user specified POSIX clock
     virtual void setClockType(int clock_type);
