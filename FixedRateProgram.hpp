@@ -3,9 +3,8 @@
 
 #include "Program.hpp"
 
+#include "Clock.hpp"
 #include "OnlineStatistics.hpp"
-
-class Clock;
 
 class FixedRateProgram : public Program
 {
@@ -24,9 +23,9 @@ public:
     virtual void step() = 0;
 
     // Replace the clock in use with the given clock
-    void setClock(Clock* clock);
+    void setClock(const Clock& clock);
 
-    Clock* getClock() const;
+    void getClock(Clock& clock) const;
 
     // Sets length of time between iterations as a PosixTimespec
     void setPeriod(double period);
@@ -48,7 +47,7 @@ public:
 private:
 
     // Time source used to compare elapsed time against period
-    Clock* clock;
+    Clock clock;
 
     // Length of time between iterations
     double period;
@@ -70,15 +69,15 @@ private:
 };
 
 //==============================================================================
-inline void FixedRateProgram::setClock(Clock* clock)
+inline void FixedRateProgram::setClock(const Clock& clock)
 {
     this->clock = clock;
 }
 
 //==============================================================================
-inline Clock* FixedRateProgram::getClock() const
+inline void FixedRateProgram::getClock(Clock& clock) const
 {
-    return clock;
+    clock = this->clock;
 }
 
 //==============================================================================

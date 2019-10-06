@@ -7,7 +7,10 @@ class Clock
 {
 public:
 
-    explicit Clock(int clock_type);
+    explicit Clock(int clock_type = 0);
+
+    // Copy constructor
+    Clock(const Clock& clock);
 
     // Does nothing
     ~Clock();
@@ -22,27 +25,32 @@ public:
     // Calling process sleeps for specified duration (in seconds)
     virtual void sleep(double time);
 
+    // Assignment
+    Clock& operator=(const Clock& clock);
+
 protected:
 
     // Sets the platform-specific implementation to be used
     void setImplementation(ClockImpl* clock_impl);
 
+    ClockImpl* getImplementation() const;
+
 private:
 
     // A concrete implementation created by derived classes
     ClockImpl* clock_impl;
-
-    // Copy construction and assignment not allowed.  Consider getting rid of
-    // the operator= code in the implementation file if operator= remains
-    // private
-    Clock(const Clock&);
-    Clock& operator=(const Clock&);
 };
 
 //==============================================================================
 inline void Clock::setImplementation(ClockImpl* clock_impl)
 {
     this->clock_impl = clock_impl;
+}
+
+//==============================================================================
+inline ClockImpl* Clock::getImplementation() const
+{
+    return clock_impl;
 }
 
 #endif

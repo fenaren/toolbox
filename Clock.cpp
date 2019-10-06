@@ -18,6 +18,11 @@ Clock::Clock(int clock_type) :
 }
 
 //==============================================================================
+Clock::Clock(const Clock& clock)
+{
+}
+
+//==============================================================================
 Clock::~Clock()
 {
     delete clock_impl;
@@ -53,4 +58,16 @@ void Clock::sleep(double duration)
     IF_NULL_THROW_ELSE_RUN(clock_impl,
                            "Platform-specific clock is not available",
                            clock_impl->sleep(duration));
+}
+
+//==============================================================================
+Clock& Clock::operator=(const Clock& clock)
+{
+    // Don't do anything if we're assigning to ourselves
+    if (this != &clock)
+    {
+        // Do something
+    }
+
+    return *this;
 }

@@ -8,7 +8,6 @@
 //==============================================================================
 FixedRateProgram::FixedRateProgram(int argc, char** argv, double period) :
     Program(argc, argv),
-    clock(0),
     period(period),
     terminate(false)
 {
@@ -26,14 +25,14 @@ int FixedRateProgram::run()
     {
         // Used to determine the amount of time taken to execute the iterative
         // code
-        frame_start = clock->getTime();
+        frame_start = clock.getTime();
 
         // Run the iterative code
         step();
 
         // Used to determine the amount of time taken to execute the iterative
         // code
-        frame_stop = clock->getTime();
+        frame_stop = clock.getTime();
 
         // How long was that frame
         double frame_time = frame_stop - frame_start;
@@ -42,7 +41,7 @@ int FixedRateProgram::run()
         statistics.update(frame_time);
 
         // Sleep off the rest of the frame
-        clock->sleep(period - frame_time);
+        clock.sleep(period - frame_time);
     }
 
     // Retrieve and print frame time used statistics

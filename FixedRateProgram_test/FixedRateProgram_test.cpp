@@ -5,10 +5,13 @@
 #include "FixedRateProgram_test.hpp"
 
 #include "HelloWorld.hpp"
-#include "PosixTimespec.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
+
+#if defined MACOS || LINUX
+#include "PosixTimespec.hpp"
+#endif
 
 TEST_PROGRAM_MAIN(FixedRateProgram_test);
 
