@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "FixedRateProgram_test.hpp"
+#include "PosixFixedRateProgramImpl_test.hpp"
 
 #include "HelloWorld.hpp"
 #include "PosixTimespec.hpp"
@@ -10,16 +10,16 @@
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-TEST_PROGRAM_MAIN(FixedRateProgram_test);
+TEST_PROGRAM_MAIN(PosixFixedRateProgramImpl_test);
 
 //==============================================================================
-void FixedRateProgram_test::addTestCases()
+void PosixFixedRateProgramImpl_test::addTestCases()
 {
     ADD_TEST_CASE(Run);
 }
 
 //==============================================================================
-Test::Result FixedRateProgram_test::Run::body()
+Test::Result PosixFixedRateProgramImpl_test::Run::body()
 {
     PosixTimespec period(1.0);
 

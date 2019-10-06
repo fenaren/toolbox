@@ -45,9 +45,9 @@ set(SRC
 # Only include POSIX code when building for platforms we know support it
 if(MACOS OR LINUX)
   list(APPEND SRC
-    FixedRateProgram.cpp
     Log.cpp
     PosixClockImpl.cpp
+    PosixFixedRateProgramImpl.cpp
     PosixSignalManagerImpl.cpp
     PosixTimespec.cpp)
 endif(MACOS OR LINUX)
@@ -82,7 +82,7 @@ add_subdirectory(TemplateClass_test    EXCLUDE_FROM_ALL)
 add_subdirectory(misc_test             EXCLUDE_FROM_ALL)
 
 if(MACOS OR LINUX)
-  add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
-  add_subdirectory(Log_test              EXCLUDE_FROM_ALL)
-  add_subdirectory(PosixTimespec_test    EXCLUDE_FROM_ALL)
+  add_subdirectory(Log_test                       EXCLUDE_FROM_ALL)
+  add_subdirectory(PosixFixedRateProgramImpl_test EXCLUDE_FROM_ALL)
+  add_subdirectory(PosixTimespec_test             EXCLUDE_FROM_ALL)
 ENDIF(MACOS OR LINUX)

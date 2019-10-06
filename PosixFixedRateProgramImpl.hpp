@@ -1,21 +1,22 @@
-#if !defined FIXED_RATE_PROGRAM_HPP
-#define FIXED_RATE_PROGRAM_HPP
+#if !defined POSIX_FIXED_RATE_PROGRAM_IMPL_HPP
+#define POSIX_FIXED_RATE_PROGRAM_IMPL_HPP
 
 #include "Program.hpp"
 
 #include "OnlineStatistics.hpp"
-#include "PosixClock.hpp"
+#include "PosixClockImpl.hpp"
 #include "PosixTimespec.hpp"
 
-class FixedRateProgram : public Program
+class PosixFixedRateProgramImpl : public Program
 {
 public:
 
     // Argument "period" specifies the period between iterations
-    FixedRateProgram(int argc, char** argv, const PosixTimespec& period);
+    PosixFixedRateProgramImpl(
+        int argc, char** argv, const PosixTimespec& period);
 
     // Does nothing
-    virtual ~FixedRateProgram();
+    virtual ~PosixFixedRateProgramImpl();
 
     // Runs the step function every "period" length of time
     virtual int run();
@@ -24,10 +25,10 @@ public:
     virtual void step() = 0;
 
     // Replace the clock in use with the given clock
-    void setClock(const PosixClock& clock);
+    void setClock(const PosixClockImpl& clock);
 
     // Returns a copy of the clock in use
-    void getClock(PosixClock& clock) const;
+    void getClock(PosixClockImpl& clock) const;
 
     // Sets length of time between iterations as a PosixTimespec
     void setPeriod(const PosixTimespec& tp);
@@ -49,7 +50,7 @@ public:
 private:
 
     // Time source used to compare elapsed time against period
-    PosixClock clock;
+    PosixClockImpl clock;
 
     // Length of time between iterations
     PosixTimespec period;
@@ -66,46 +67,54 @@ private:
 
     // Disallow these for now; maybe these could be meaningfully implemented but
     // we'll save that for later
-    FixedRateProgram(const FixedRateProgram&);
-    FixedRateProgram& operator=(const FixedRateProgram&);
+    PosixFixedRateProgramImpl(const PosixFixedRateProgramImpl&);
+    PosixFixedRateProgramImpl& operator=(const PosixFixedRateProgramImpl&);
 };
 
-inline void FixedRateProgram::setClock(const PosixClock& clock)
+//==============================================================================
+inline void PosixFixedRateProgramImpl::setClock(const PosixClockImpl& clock)
 {
     this->clock = clock;
 }
 
-inline void FixedRateProgram::getClock(PosixClock& clock) const
+//==============================================================================
+inline void PosixFixedRateProgramImpl::getClock(PosixClockImpl& clock) const
 {
     clock = this->clock;
 }
 
-inline void FixedRateProgram::setPeriod(const PosixTimespec& tp)
+//==============================================================================
+inline void PosixFixedRateProgramImpl::setPeriod(const PosixTimespec& tp)
 {
     period = tp;
 }
 
-inline void FixedRateProgram::getPeriod(PosixTimespec& tp) const
+//==============================================================================
+inline void PosixFixedRateProgramImpl::getPeriod(PosixTimespec& tp) const
 {
     tp = period;
 }
 
-inline void FixedRateProgram::getFrameStart(PosixTimespec& tp) const
+//==============================================================================
+inline void PosixFixedRateProgramImpl::getFrameStart(PosixTimespec& tp) const
 {
     tp = frame_start;
 }
 
-inline void FixedRateProgram::getFrameStop(PosixTimespec& tp) const
+//==============================================================================
+inline void PosixFixedRateProgramImpl::getFrameStop(PosixTimespec& tp) const
 {
     tp = frame_stop;
 }
 
-inline void FixedRateProgram::setTerminate(bool terminate)
+//==============================================================================
+inline void PosixFixedRateProgramImpl::setTerminate(bool terminate)
 {
     this->terminate = terminate;
 }
 
-inline bool FixedRateProgram::getTerminate() const
+//==============================================================================
+inline bool PosixFixedRateProgramImpl::getTerminate() const
 {
     return terminate;
 }

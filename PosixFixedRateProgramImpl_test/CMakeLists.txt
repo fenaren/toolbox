@@ -3,7 +3,7 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 # All the source files
 set(SRC
   HelloWorld.cpp
-  FixedRateProgram_test.cpp)
+  PosixFixedRateProgramImpl_test.cpp)
 
 # We need these include directories
 set(INC . ..)
@@ -12,4 +12,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-add_test_executable(FixedRateProgram_test "${SRC}" "${INC}" "${LIB}")
+add_test_executable(PosixFixedRateProgramImpl_test "${SRC}" "${INC}" "${LIB}")

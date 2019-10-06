@@ -1,12 +1,11 @@
 #include <ctime>
 #include <iostream>
 
-#include "FixedRateProgram.hpp"
-
-#include "ClockImpl.hpp"
+#include "PosixFixedRateProgramImpl.hpp"
 
 //==============================================================================
-FixedRateProgram::FixedRateProgram(int argc, char** argv, double period) :
+PosixFixedRateProgramImpl::PosixFixedRateProgramImpl(
+    int argc, char** argv, double period) :
     Program(argc, argv),
     period(period),
     terminate(false)
@@ -14,12 +13,12 @@ FixedRateProgram::FixedRateProgram(int argc, char** argv, double period) :
 }
 
 //==============================================================================
-FixedRateProgram::~FixedRateProgram()
+PosixFixedRateProgramImpl::~PosixFixedRateProgramImpl()
 {
 }
 
 //==============================================================================
-int FixedRateProgram::run()
+int PosixFixedRateProgramImpl::run()
 {
     while(!terminate)
     {
