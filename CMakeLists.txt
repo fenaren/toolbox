@@ -25,6 +25,7 @@ cmake_policy(VERSION ${CMAKE_VERSION})
 
 # All the source files in this directory
 set(SRC
+  ClockFactory.cpp
   ClockImpl.cpp
   DataField.cpp
   DataPacket.cpp
@@ -34,8 +35,8 @@ set(SRC
   Program.cpp
   RawDataField.cpp
   SignalManager.cpp
-  SignalManagerImpl.cpp
   SignalManagerFactory.cpp
+  SignalManagerImpl.cpp
   SimpleDataField.cpp
   TemplateClass.cpp
   misc.cpp)
