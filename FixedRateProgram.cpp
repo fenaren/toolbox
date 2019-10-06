@@ -1,24 +1,26 @@
 #include <ctime>
 #include <iostream>
 
-#include "FixedRateProgramImpl.hpp"
+#include "FixedRateProgram.hpp"
+
+#include "Clock.hpp"
 
 //==============================================================================
-FixedRateProgramImpl::FixedRateProgramImpl(
-    int argc, char** argv, double period) :
+FixedRateProgram::FixedRateProgram(int argc, char** argv, double period) :
     Program(argc, argv),
+    clock(0),
     period(period),
     terminate(false)
 {
 }
 
 //==============================================================================
-FixedRateProgramImpl::~FixedRateProgramImpl()
+FixedRateProgram::~FixedRateProgram()
 {
 }
 
 //==============================================================================
-int FixedRateProgramImpl::run()
+int FixedRateProgram::run()
 {
     while(!terminate)
     {

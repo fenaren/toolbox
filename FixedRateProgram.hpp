@@ -1,33 +1,32 @@
-#if !defined FIXED_RATE_PROGRAM_IMPL_HPP
-#define FIXED_RATE_PROGRAM_IMPL_HPP
+#if !defined FIXED_RATE_PROGRAM_HPP
+#define FIXED_RATE_PROGRAM_HPP
 
 #include "Program.hpp"
 
 #include "OnlineStatistics.hpp"
-#include "PosixClockImpl.hpp"
-#include "PosixTimespec.hpp"
 
-class FixedRateProgramImpl : public Program
+class Clock;
+
+class FixedRateProgram : public Program
 {
 public:
 
     // Argument "period" specifies the period between iterations
-    FixedRateProgramImpl(int argc, char** argv, double period);
+    FixedRateProgram(int argc, char** argv, double period);
 
     // Does nothing
-    virtual ~FixedRateProgramImpl();
+    virtual ~FixedRateProgram();
 
     // Runs the step function every "period" length of time
-    virtual int run();
+    int run();
 
     // Iterative code goes here
     virtual void step() = 0;
 
     // Replace the clock in use with the given clock
-    void setClock(const ClockImpl& clock);
+    void setClock(Clock* clock);
 
-    // Returns a copy of the clock in use
-    void getClock(ClockImpl& clock) const;
+    Clock* getClock() const;
 
     // Sets length of time between iterations as a PosixTimespec
     void setPeriod(double period);
@@ -49,7 +48,7 @@ public:
 private:
 
     // Time source used to compare elapsed time against period
-    ClockImpl clock;
+    Clock* clock;
 
     // Length of time between iterations
     double period;
@@ -66,54 +65,54 @@ private:
 
     // Disallow these for now; maybe these could be meaningfully implemented but
     // we'll save that for later
-    FixedRateProgramImpl(const FixedRateProgramImpl&);
-    FixedRateProgramImpl& operator=(const FixedRateProgramImpl&);
+    FixedRateProgram(const FixedRateProgram&);
+    FixedRateProgram& operator=(const FixedRateProgram&);
 };
 
 //==============================================================================
-inline void FixedRateProgramImpl::setClock(const ClockImpl& clock)
+inline void FixedRateProgram::setClock(Clock* clock)
 {
     this->clock = clock;
 }
 
 //==============================================================================
-inline void FixedRateProgramImpl::getClock(ClockImpl& clock) const
+inline Clock* FixedRateProgram::getClock() const
 {
-    clock = this->clock;
+    return clock;
 }
 
 //==============================================================================
-inline void FixedRateProgramImpl::setPeriod(double period)
+inline void FixedRateProgram::setPeriod(double period)
 {
-    period = tp;
+    this->period = period;
 }
 
 //==============================================================================
-inline double FixedRateProgramImpl::getPeriod() const
+inline double FixedRateProgram::getPeriod() const
 {
     return period;
 }
 
 //==============================================================================
-inline double FixedRateProgramImpl::getFrameStart() const
+inline double FixedRateProgram::getFrameStart() const
 {
     return frame_start;
 }
 
 //==============================================================================
-inline double FixedRateProgramImpl::getFrameStop() const
+inline double FixedRateProgram::getFrameStop() const
 {
     return frame_stop;
 }
 
 //==============================================================================
-inline void FixedRateProgramImpl::setTerminate(bool terminate)
+inline void FixedRateProgram::setTerminate(bool terminate)
 {
     this->terminate = terminate;
 }
 
 //==============================================================================
-inline bool FixedRateProgramImpl::getTerminate() const
+inline bool FixedRateProgram::getTerminate() const
 {
     return terminate;
 }

@@ -30,7 +30,7 @@ set(SRC
   ClockImpl.cpp
   DataField.cpp
   DataPacket.cpp
-  FixedRateProgramImpl.cpp
+  FixedRateProgram.cpp
   NoopClockImpl.cpp
   NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
@@ -48,7 +48,6 @@ if(MACOS OR LINUX)
   list(APPEND SRC
     Log.cpp
     PosixClockImpl.cpp
-    PosixFixedRateProgramImpl.cpp
     PosixSignalManagerImpl.cpp
     PosixTimespec.cpp)
 endif(MACOS OR LINUX)
@@ -74,6 +73,7 @@ add_subdirectory(testing)
 # Add test subdirectories (these don't build unconditionally)
 add_subdirectory(DataField_test        EXCLUDE_FROM_ALL)
 add_subdirectory(DataPacket_test       EXCLUDE_FROM_ALL)
+add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
 add_subdirectory(OnlineStatistics_test EXCLUDE_FROM_ALL)
 add_subdirectory(Program_test          EXCLUDE_FROM_ALL)
 add_subdirectory(RawDataField_test     EXCLUDE_FROM_ALL)
@@ -83,7 +83,6 @@ add_subdirectory(TemplateClass_test    EXCLUDE_FROM_ALL)
 add_subdirectory(misc_test             EXCLUDE_FROM_ALL)
 
 if(MACOS OR LINUX)
-  add_subdirectory(Log_test                       EXCLUDE_FROM_ALL)
-  add_subdirectory(PosixFixedRateProgramImpl_test EXCLUDE_FROM_ALL)
-  add_subdirectory(PosixTimespec_test             EXCLUDE_FROM_ALL)
+  add_subdirectory(Log_test           EXCLUDE_FROM_ALL)
+  add_subdirectory(PosixTimespec_test EXCLUDE_FROM_ALL)
 ENDIF(MACOS OR LINUX)
