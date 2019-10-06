@@ -4,16 +4,7 @@
 
 #include "ClockFactory.hpp"
 #include "ClockImpl.hpp"
-
-#define IF_NULL_THROW_ELSE_RUN(possibly_null, null_desc, statement)     \
-    if (possibly_null)                                                  \
-    {                                                                   \
-        statement;                                                      \
-    }                                                                   \
-    else                                                                \
-    {                                                                   \
-        throw std::runtime_error(null_desc);                            \
-    }
+#include "misc.hpp"
 
 //==============================================================================
 Clock::Clock(int clock_type) :
