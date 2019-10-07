@@ -1,6 +1,8 @@
 #if !defined FIXED_RATE_PROGRAM_HPP
 #define FIXED_RATE_PROGRAM_HPP
 
+#include <chrono>
+
 #include "Program.hpp"
 
 #include "Clock.hpp"
@@ -21,11 +23,6 @@ public:
 
     // Iterative code goes here
     virtual void step() = 0;
-
-    // Replace the clock in use with the given clock
-    void setClock(const Clock& clock);
-
-    void getClock(Clock& clock) const;
 
     // Sets length of time (in seconds) between iterations
     void setPeriod(double period);

@@ -25,13 +25,9 @@ cmake_policy(VERSION ${CMAKE_VERSION})
 
 # All the source files in this directory
 set(SRC
-  Clock.cpp
-  ClockFactory.cpp
-  ClockImpl.cpp
   DataField.cpp
   DataPacket.cpp
   FixedRateProgram.cpp
-  NoopClockImpl.cpp
   NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
   Program.cpp
@@ -47,7 +43,6 @@ set(SRC
 if(MACOS OR LINUX)
   list(APPEND SRC
     Log.cpp
-    PosixClockImpl.cpp
     PosixSignalManagerImpl.cpp
     PosixTimespec.cpp)
 endif(MACOS OR LINUX)
