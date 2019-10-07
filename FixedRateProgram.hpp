@@ -27,10 +27,10 @@ public:
 
     void getClock(Clock& clock) const;
 
-    // Sets length of time between iterations as a PosixTimespec
+    // Sets length of time (in seconds) between iterations
     void setPeriod(double period);
 
-    // Returns length of time between iterations as a PosixTimespec
+    // Returns length of time (in seconds) between iterations
     double getPeriod() const;
 
     // Returns the last time a frame started and stopped, respectively
