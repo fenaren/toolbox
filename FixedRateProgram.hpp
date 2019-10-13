@@ -20,7 +20,7 @@ public:
                      char**                          argv,
                      const std::chrono::nanoseconds& period,
                      const std::chrono::nanoseconds& tolerance =
-                     std::chrono::nanoseconds(1e9));
+                     std::chrono::nanoseconds(static_cast<unsigned int>(1e9)));
 
     // Does nothing
     virtual ~FixedRateProgram();
