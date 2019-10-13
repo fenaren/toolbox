@@ -15,12 +15,13 @@ public:
     // and "tolerance" are new here.  The "period" argument specifies the fixed
     // rate at which this program should execute.  The "tolerance" argument
     // specifies how close we have to be to the ideal start time to be
-    // considered at the start time.
+    // considered at the start time.  By default this is set to a
+    // human-noticeable 100 milliseconds.
     FixedRateProgram(int                             argc,
                      char**                          argv,
                      const std::chrono::nanoseconds& period,
                      const std::chrono::nanoseconds& tolerance =
-                     std::chrono::nanoseconds(static_cast<unsigned int>(1e9)));
+                     std::chrono::nanoseconds(static_cast<unsigned int>(1e8)));
 
     // Does nothing
     virtual ~FixedRateProgram();
