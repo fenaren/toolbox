@@ -1,14 +1,18 @@
-#include <ctime>
+#include <chrono>
 #include <iostream>
+#include <thread>
 
 #include "FixedRateProgram.hpp"
 
-#include "Clock.hpp"
-
 //==============================================================================
-FixedRateProgram::FixedRateProgram(int argc, char** argv, double period) :
+FixedRateProgram::FixedRateProgram(int                             argc,
+                                   char**                          argv,
+                                   const std::chrono::nanoseconds& period,
+                                   const std::chrono::nanoseconds& tolerance) :
     Program(argc, argv),
     period(period),
+    tolerance(tolerance),
+    completed_iterations(0L),
     terminate(false)
 {
 }
@@ -21,27 +25,51 @@ FixedRateProgram::~FixedRateProgram()
 //==============================================================================
 int FixedRateProgram::run()
 {
+    // Take the time once at the start of execution.  We'll compare to this over
+    // the course of execution, rather than comparing to loop start, to
+    // determine how long to sleep after each frame.  This eliminates any drift
+    // over time inherent to this code.
+    std::chrono::time_point<std::chrono::steady_clock> run_start =
+        std::chrono::steady_clock::now();
+
     while(!terminate)
     {
-        // Used to determine the amount of time taken to execute the iterative
-        // code
-        frame_start = clock.getTime();
+        // Ideally this frame starts at this time ...
+        std::chrono::time_point<std::chrono::steady_clock> frame_start_ideal =
+            run_start + (period * completed_iterations);
+
+        // After the loop below this will be set to when we actually start the
+        // frame.
+        std::chrono::time_point<std::chrono::steady_clock> frame_start =
+            std::chrono::steady_clock::now();
+
+        // Wait until it's time to start this frame.
+        while (frame_start < frame_start_ideal - tolerance)
+        {
+            // This is a no-op if we're already past the ideal start time
+            std::this_thread::sleep_until(frame_start_ideal);
+
+            frame_start = std::chrono::steady_clock::now();
+        }
+
+        // Have we overrun a frame by too much?
+        if (frame_start > frame_start_ideal + tolerance)
+        {
+            // What should happen here?
+        }
 
         // Run the iterative code
         step();
 
-        // Used to determine the amount of time taken to execute the iterative
-        // code
-        frame_stop = clock.getTime();
+        std::chrono::time_point<std::chrono::steady_clock> frame_end =
+            std::chrono::steady_clock::now();
 
-        // How long was that frame
-        double frame_time = frame_stop - frame_start;
+        completed_iterations++;
 
         // Include frame time into running frame statistics
-        statistics.update(frame_time);
-
-        // Sleep off the rest of the frame
-        clock.sleep(period - frame_time);
+        statistics.update(
+            static_cast<std::chrono::nanoseconds>(
+                frame_end - frame_start).count() / 1e9);
     }
 
     // Retrieve and print frame time used statistics

@@ -5,7 +5,6 @@
 
 #include "Program.hpp"
 
-#include "Clock.hpp"
 #include "OnlineStatistics.hpp"
 
 class FixedRateProgram : public Program
@@ -13,7 +12,11 @@ class FixedRateProgram : public Program
 public:
 
     // Argument "period" specifies the period between iterations
-    FixedRateProgram(int argc, char** argv, double period);
+    FixedRateProgram(int                             argc,
+                     char**                          argv,
+                     const std::chrono::nanoseconds& period,
+                     const std::chrono::nanoseconds& tolerance =
+                     std::chrono::milliseconds(100));
 
     // Does nothing
     virtual ~FixedRateProgram();
@@ -25,10 +28,18 @@ public:
     virtual void step() = 0;
 
     // Sets length of time (in seconds) between iterations
-    void setPeriod(double period);
+    void setPeriod(const std::chrono::nanoseconds& period);
 
     // Returns length of time (in seconds) between iterations
-    double getPeriod() const;
+    void getPeriod(std::chrono::nanoseconds& period) const;
+
+    // Sets allowable error between the ideal frame start time and the actual
+    // frame start time
+    void setTolerance(const std::chrono::nanoseconds& tolerance);
+
+    // Returns the allowable error between the ideal frame start time and actual
+    // frame start time
+    void getTolerance(std::chrono::nanoseconds& tolerance) const;
 
     // Returns the last time a frame started and stopped, respectively
     double getFrameStart() const;
@@ -44,14 +55,17 @@ public:
 private:
 
     // Time source used to compare elapsed time against period
-    Clock clock;
+    std::chrono::steady_clock clock;
 
     // Length of time between iterations
-    double period;
+    std::chrono::nanoseconds period;
 
-    // Updated at the beginning and ending of the frame, respectively
-    double frame_start;
-    double frame_stop;
+    // How close do we have to be to the start of frame time to be considered
+    // "at the time"
+    std::chrono::nanoseconds tolerance;
+
+    // Counts the number of completed iterations
+    long completed_iterations;
 
     // Iterative loop will exit if this is true
     bool terminate;
@@ -66,39 +80,29 @@ private:
 };
 
 //==============================================================================
-inline void FixedRateProgram::setClock(const Clock& clock)
-{
-    this->clock = clock;
-}
-
-//==============================================================================
-inline void FixedRateProgram::getClock(Clock& clock) const
-{
-    clock = this->clock;
-}
-
-//==============================================================================
-inline void FixedRateProgram::setPeriod(double period)
+inline void FixedRateProgram::setPeriod(const std::chrono::nanoseconds& period)
 {
     this->period = period;
 }
 
 //==============================================================================
-inline double FixedRateProgram::getPeriod() const
+inline void FixedRateProgram::getPeriod(std::chrono::nanoseconds& period) const
 {
-    return period;
+    period = this->period;
 }
 
 //==============================================================================
-inline double FixedRateProgram::getFrameStart() const
+inline
+void FixedRateProgram::setTolerance(const std::chrono::nanoseconds& tolerance)
 {
-    return frame_start;
+    this->tolerance = tolerance;
 }
 
 //==============================================================================
-inline double FixedRateProgram::getFrameStop() const
+inline
+void FixedRateProgram::getTolerance(std::chrono::nanoseconds& tolerance) const
 {
-    return frame_stop;
+    tolerance = this->tolerance;
 }
 
 //==============================================================================

@@ -1,4 +1,5 @@
-#include <ctime>
+#include <chrono>
+#include <cstdint>
 #include <iostream>
 #include <string>
 
@@ -8,10 +9,6 @@
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
-
-#if defined MACOS || LINUX
-#include "PosixTimespec.hpp"
-#endif
 
 TEST_PROGRAM_MAIN(FixedRateProgram_test);
 
@@ -25,12 +22,13 @@ void FixedRateProgram_test::addTestCases()
 Test::Result FixedRateProgram_test::Run::body()
 {
 #if defined MACOS || LINUX
-    PosixTimespec period(1.0);
+    std::chrono::nanoseconds period(static_cast<std::uint32_t>(1e9));
+    double period_sec = period.count() / 1e9;
 
     // Normally it would not be possible for a program to receive no arguments
-    HelloWorld test_frp(0, 0, period);
+    HelloWorld test_frp(0, 0, period, 2);
 
-    std::cout << "Period " << period << "s\n";
+    std::cout << "Period " << period_sec << "s\n";
 
     // Grab start time; if we can't do that we can't test, so skip
     timespec tstart;
@@ -60,10 +58,11 @@ Test::Result FixedRateProgram_test::Run::body()
 
     double epsilon = 0.5;
     std::cout << "Time taken " << time_taken << "s\n"
-              << "Upper bound " << period + epsilon << "s\n"
-              << "Lower bound " << period - epsilon << "s\n";
+              << "Upper bound " << period_sec + epsilon << "s\n"
+              << "Lower bound " << period_sec - epsilon << "s\n";
 
-    MUST_BE_TRUE(period + epsilon > time_taken && period - epsilon < time_taken);
+    MUST_BE_TRUE(period_sec + epsilon > time_taken &&
+                 period_sec - epsilon < time_taken);
 
     return Test::PASSED;
 #else
