@@ -11,12 +11,16 @@ class FixedRateProgram : public Program
 {
 public:
 
-    // Argument "period" specifies the period between iterations
+    // Arguments "argc" and "argv" are needed by Program.  Arguments "period"
+    // and "tolerance" are new here.  The "period" argument specifies the fixed
+    // rate at which this program should execute.  The "tolerance" argument
+    // specifies how close we have to be to the ideal start time to be
+    // considered at the start time.
     FixedRateProgram(int                             argc,
                      char**                          argv,
                      const std::chrono::nanoseconds& period,
                      const std::chrono::nanoseconds& tolerance =
-                     std::chrono::milliseconds(100));
+                     std::chrono::nanoseconds(1e9));
 
     // Does nothing
     virtual ~FixedRateProgram();
@@ -27,10 +31,10 @@ public:
     // Iterative code goes here
     virtual void step() = 0;
 
-    // Sets length of time (in seconds) between iterations
+    // Sets length of time between step() executions
     void setPeriod(const std::chrono::nanoseconds& period);
 
-    // Returns length of time (in seconds) between iterations
+    // Returns length of time between step() executions
     void getPeriod(std::chrono::nanoseconds& period) const;
 
     // Sets allowable error between the ideal frame start time and the actual
@@ -40,10 +44,6 @@ public:
     // Returns the allowable error between the ideal frame start time and actual
     // frame start time
     void getTolerance(std::chrono::nanoseconds& tolerance) const;
-
-    // Returns the last time a frame started and stopped, respectively
-    double getFrameStart() const;
-    double getFrameStop() const;
 
     // Setting to true will cause program termination before the next time
     // step() is called; a step() in progress is not interrupted
@@ -57,20 +57,20 @@ private:
     // Time source used to compare elapsed time against period
     std::chrono::steady_clock clock;
 
-    // Length of time between iterations
+    // Length of time between step() executions
     std::chrono::nanoseconds period;
 
     // How close do we have to be to the start of frame time to be considered
-    // "at the time"
+    // at the start time
     std::chrono::nanoseconds tolerance;
 
-    // Counts the number of completed iterations
+    // Counts the number of completed step() executions
     long completed_iterations;
 
-    // Iterative loop will exit if this is true
+    // run() will exit if this is true
     bool terminate;
 
-    // Tracks frame time used statistics during runtime
+    // Used to track frame time used statistics during runtime
     OnlineStatistics statistics;
 
     // Disallow these for now; maybe these could be meaningfully implemented but
