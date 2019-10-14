@@ -22,11 +22,13 @@ void FixedRateProgram_test::addTestCases()
 Test::Result FixedRateProgram_test::Run::body()
 {
 #if defined MACOS || LINUX
-    std::chrono::nanoseconds period(static_cast<std::uint32_t>(1e9));
+    std::chrono::nanoseconds period(static_cast<std::uint32_t>(5e8));
     double period_sec = period.count() / 1e9;
 
+    unsigned int iterations = 6;
+
     // Normally it would not be possible for a program to receive no arguments
-    HelloWorld test_frp(0, 0, period, 2);
+    HelloWorld test_frp(0, 0, period, 6);
 
     std::cout << "Period " << period_sec << "s\n";
 
@@ -56,13 +58,18 @@ Test::Result FixedRateProgram_test::Run::body()
     double time_taken = static_cast<double>(tend.tv_sec) +
         (static_cast<double>(tend.tv_nsec) / static_cast<double>(1e9));
 
-    double epsilon = 0.5;
-    std::cout << "Time taken " << time_taken << "s\n"
-              << "Upper bound " << period_sec + epsilon << "s\n"
-              << "Lower bound " << period_sec - epsilon << "s\n";
+    double epsilon = 0.25;
+    double time_taken_ideal = period_sec * (iterations - 1);
 
-    MUST_BE_TRUE(period_sec + epsilon > time_taken &&
-                 period_sec - epsilon < time_taken);
+    double time_taken_upperbound = time_taken_ideal + epsilon;
+    double time_taken_lowerbound = time_taken_ideal - epsilon;
+
+    std::cout << "Time taken " << time_taken << "s\n"
+              << "Upper bound " << time_taken_upperbound << "s\n"
+              << "Lower bound " << time_taken_lowerbound << "s\n";
+
+    MUST_BE_TRUE(time_taken <= time_taken_upperbound &&
+                 time_taken >= time_taken_lowerbound);
 
     return Test::PASSED;
 #else
