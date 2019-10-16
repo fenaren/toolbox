@@ -1,17 +1,25 @@
 #if !defined HELLO_WORLD_HPP
 #define HELLO_WORLD_HPP
 
-#include "FixedRateProgram.hpp"
+#include <chrono>
 
-class PosixTimespec;
+#include "FixedRateProgram.hpp"
 
 class HelloWorld : public FixedRateProgram
 {
 public:
 
-    HelloWorld(int argc, char** argv, const PosixTimespec& period);
+    HelloWorld(int                             argc,
+               char**                          argv,
+               const std::chrono::nanoseconds& period,
+               unsigned int                    num_frames_to_execute);
     ~HelloWorld();
     virtual void step();
+
+private:
+
+    unsigned int num_frames_to_execute;
+    unsigned int frame_counter;
 };
 
 #endif

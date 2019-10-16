@@ -60,6 +60,7 @@ private:
     Socket& operator=(const Socket&);
 };
 
+//==============================================================================
 inline void Socket::setImplementation(SocketImpl* socket_impl)
 {
     this->socket_impl = socket_impl;
