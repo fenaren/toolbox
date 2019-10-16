@@ -1,10 +1,6 @@
 #include <stdexcept>
 #include <string>
 
-#if defined DEBUG
-#include <iostream>
-#endif
-
 #include "TCPSocket.hpp"
 
 #include "SocketFactory.hpp"
