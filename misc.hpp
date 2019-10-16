@@ -7,6 +7,18 @@
 
 #define BITS_PER_BYTE 8
 
+// Allows for a shorthand verison of this commonly-used pattern.  Being able to
+// adjust the type of exception that is thrown might be nice.
+#define IF_NULL_THROW_ELSE_RUN(possibly_null, null_desc, statement)     \
+    if (possibly_null)                                                  \
+    {                                                                   \
+        statement;                                                      \
+    }                                                                   \
+    else                                                                \
+    {                                                                   \
+        throw std::runtime_error(null_desc);                            \
+    }
+
 namespace misc
 {
     // This would be BIG_ENDIAN and LITTLE_ENDIAN but those names collide with
