@@ -1,5 +1,6 @@
 #include <chrono>
 #include <iostream>
+#include <stdexcept>
 #include <thread>
 
 #include "FixedRateProgram.hpp"
@@ -52,10 +53,10 @@ int FixedRateProgram::run()
             frame_start = std::chrono::steady_clock::now();
         }
 
-        // Have we overrun a frame by too much?
+        // Frame overruns generate an exception
         if (frame_start > frame_start_ideal + tolerance)
         {
-            // What should happen here?
+            throw std::runtime_error("Frame overrun detected");
         }
 
         // Run the iterative code
