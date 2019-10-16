@@ -27,13 +27,14 @@ cmake_policy(VERSION ${CMAKE_VERSION})
 set(SRC
   DataField.cpp
   DataPacket.cpp
+  FixedRateProgram.cpp
   NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
   Program.cpp
   RawDataField.cpp
   SignalManager.cpp
-  SignalManagerImpl.cpp
   SignalManagerFactory.cpp
+  SignalManagerImpl.cpp
   SimpleDataField.cpp
   TemplateClass.cpp
   misc.cpp)
@@ -41,9 +42,7 @@ set(SRC
 # Only include POSIX code when building for platforms we know support it
 if(MACOS OR LINUX)
   list(APPEND SRC
-    FixedRateProgram.cpp
     Log.cpp
-    PosixClock.cpp
     PosixSignalManagerImpl.cpp
     PosixTimespec.cpp)
 endif(MACOS OR LINUX)
@@ -69,6 +68,7 @@ add_subdirectory(testing)
 # Add test subdirectories (these don't build unconditionally)
 add_subdirectory(DataField_test        EXCLUDE_FROM_ALL)
 add_subdirectory(DataPacket_test       EXCLUDE_FROM_ALL)
+add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
 add_subdirectory(OnlineStatistics_test EXCLUDE_FROM_ALL)
 add_subdirectory(Program_test          EXCLUDE_FROM_ALL)
 add_subdirectory(RawDataField_test     EXCLUDE_FROM_ALL)
@@ -78,7 +78,6 @@ add_subdirectory(TemplateClass_test    EXCLUDE_FROM_ALL)
 add_subdirectory(misc_test             EXCLUDE_FROM_ALL)
 
 if(MACOS OR LINUX)
-  add_subdirectory(FixedRateProgram_test EXCLUDE_FROM_ALL)
-  add_subdirectory(Log_test              EXCLUDE_FROM_ALL)
-  add_subdirectory(PosixTimespec_test    EXCLUDE_FROM_ALL)
+  add_subdirectory(Log_test           EXCLUDE_FROM_ALL)
+  add_subdirectory(PosixTimespec_test EXCLUDE_FROM_ALL)
 ENDIF(MACOS OR LINUX)
