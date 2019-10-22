@@ -1,12 +1,11 @@
-#include <string>
-#include <utility>
-#include <vector>
-
 #include "Program.hpp"
 
+#include "SignalManager.hpp"
+
+SignalManager Program::signal_manager;
+
 //==============================================================================
-Program::Program(int argc, char** argv) :
-    SignalManager()
+Program::Program(int argc, char** argv)
 {
     // Program name is always the first argument
     if (argc > 0)
@@ -24,16 +23,4 @@ Program::Program(int argc, char** argv) :
 //==============================================================================
 Program::~Program()
 {
-}
-
-//==============================================================================
-void Program::getName(std::string& name) const
-{
-    name = this->name;
-}
-
-//==============================================================================
-void Program::getArguments(std::vector<std::string>& arguments) const
-{
-    arguments = this->arguments;
 }
