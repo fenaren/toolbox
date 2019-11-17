@@ -5,9 +5,11 @@
 #include <utility>
 #include <vector>
 
+#include "ProgramInterface.hpp"
+
 class SignalManager;
 
-class Program
+class Program : virtual public ProgramInterface
 {
 public:
 
@@ -17,18 +19,15 @@ public:
     // Nothing to do on shutdown here
     virtual ~Program();
 
-    // Derived programs implement the program in here
-    virtual int run() = 0;
-
     // Returns a copy of the program name
-    void getName(std::string& name) const;
+    virtual void getName(std::string& name) const;
 
     // Returns a copy of the program arguments
-    void getArguments(std::vector<std::string>& arguments) const;
+    virtual void getArguments(std::vector<std::string>& arguments) const;
 
 protected:
 
-    SignalManager* getSignalManager() const;
+    virtual SignalManager* getSignalManager() const;
 
 private:
 
