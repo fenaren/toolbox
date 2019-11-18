@@ -38,7 +38,7 @@ private:
     std::vector<std::string> arguments;
 
     // Manages signals for the program
-    static SignalManager signal_manager;
+    SignalManager signal_manager;
 
     // Disallow these for now; maybe these could be meaningfully implemented but
     // we'll save that for later
