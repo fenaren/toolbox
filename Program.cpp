@@ -2,8 +2,6 @@
 
 #include "SignalManager.hpp"
 
-SignalManager Program::signal_manager;
-
 //==============================================================================
 Program::Program(int argc, char** argv)
 {

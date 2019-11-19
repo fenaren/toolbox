@@ -7,7 +7,7 @@
 
 #include "ProgramInterface.hpp"
 
-class SignalManager;
+#include "SignalManager.hpp"
 
 class Program : virtual public ProgramInterface
 {
@@ -27,7 +27,7 @@ public:
 
 protected:
 
-    virtual SignalManager* getSignalManager() const;
+    virtual SignalManager* getSignalManager();
 
 private:
 
@@ -59,7 +59,7 @@ inline void Program::getArguments(std::vector<std::string>& arguments) const
 }
 
 //==============================================================================
-inline SignalManager* Program::getSignalManager() const
+inline SignalManager* Program::getSignalManager()
 {
     return &signal_manager;
 }

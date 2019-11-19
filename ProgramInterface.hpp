@@ -21,7 +21,7 @@ public:
 
 protected:
 
-    virtual SignalManager* getSignalManager() const = 0;
+    virtual SignalManager* getSignalManager() = 0;
 };
 
 #endif
