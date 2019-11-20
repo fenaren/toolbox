@@ -9,14 +9,17 @@
 
 #include "SignalManager.hpp"
 
+// Program is meant to represent the running program that objects of this class
+// are built into.  Only one of these is meant to be used at a time.
 class Program : virtual public ProgramInterface
 {
 public:
 
-    // Argument parsing and program initialization happens here
+    // Internalizes arguments passed to the running program.  Retrieve using
+    // getName() and getArguments().
     Program(int argc, char** argv);
 
-    // Nothing to do on shutdown here
+    // Does nothing
     virtual ~Program();
 
     // Returns a copy of the program name
@@ -27,6 +30,8 @@ public:
 
 protected:
 
+    // All Programs have an internal SignalManager to manage received IPC
+    // signals.
     virtual SignalManager* getSignalManager();
 
 private:

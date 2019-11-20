@@ -8,6 +8,8 @@
 
 #include "OnlineStatistics.hpp"
 
+// FixedRatePrograms are Programs that periodically execute code at a fixed
+// rate.
 class FixedRateProgram : public Program,
                          virtual public FixedRateProgramInterface
 {

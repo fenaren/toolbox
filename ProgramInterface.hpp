@@ -6,17 +6,15 @@
 
 class SignalManager;
 
+// Defines the API for Programs.  See the Program header for documentation.
 class ProgramInterface
 {
 public:
 
-    // Derived programs implement the program in here
     virtual int run() = 0;
 
-    // Returns a copy of the program name
     virtual void getName(std::string& name) const = 0;
 
-    // Returns a copy of the program arguments
     virtual void getArguments(std::vector<std::string>& arguments) const = 0;
 
 protected:

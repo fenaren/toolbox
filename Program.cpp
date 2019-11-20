@@ -11,7 +11,7 @@ Program::Program(int argc, char** argv)
         name = argv[0];
     }
 
-    // Store all arguments
+    // Store the arguments
     for (int i = 1; i < argc; i++)
     {
         arguments.push_back(argv[i]);
