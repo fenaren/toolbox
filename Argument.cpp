@@ -1,11 +1,11 @@
 #include <string>
-#include <vector>
+#include <unordered_set>
 
 #include "Argument.hpp"
 
 //==============================================================================
-Argument::Argument(const std::string&              canonical_name,
-                   const std::vector<std::string>& aliases) :
+Argument::Argument(const std::string&                     canonical_name,
+                   const std::unordered_set<std::string>& aliases) :
     canonical_name(canonical_name),
     aliases(aliases)
 {

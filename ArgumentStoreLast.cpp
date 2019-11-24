@@ -2,8 +2,8 @@
 
 //==============================================================================
 ArgumentStoreLast::ArgumentStoreLast(
-    const std::string&              canonical_name,
-    const std::vector<std::string>& aliases) :
+    const std::string&                     canonical_name,
+    const std::unordered_set<std::string>& aliases) :
     Argument(canonical_name, aliases)
 {
 }
