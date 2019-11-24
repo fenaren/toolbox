@@ -27,6 +27,7 @@ cmake_policy(VERSION ${CMAKE_VERSION})
 set(SRC
   DataField.cpp
   DataPacket.cpp
+  DisjointSet.cpp
   FixedRateProgram.cpp
   NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
