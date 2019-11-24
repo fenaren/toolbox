@@ -16,6 +16,7 @@ ArgumentStoreLast::~ArgumentStoreLast()
 //==============================================================================
 void ArgumentStoreLast::process(const std::string& token)
 {
+    this->value = token;
 }
 
 //==============================================================================
