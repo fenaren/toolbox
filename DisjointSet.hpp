@@ -3,7 +3,7 @@
 
 #include <unordered_set>
 
-class DisjointSet
+template <class T> class DisjointSet
 {
 public:
 
