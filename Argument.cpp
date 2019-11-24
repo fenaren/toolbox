@@ -1,25 +1,25 @@
-#include "ArgumentProcessor.hpp"
+#include <string>
+#include <vector>
+
+#include "Argument.hpp"
 
 //==============================================================================
-ArgumentProcessor::ArgumentProcessor(int argc, char** argv)
+Argument::Argument(const std::string& canonical_name,
+                   const std::vector<std::string>& aliases) :
+    canonical_name(canonical_name),
+    aliases(aliases)
 {
-    // Store the arguments
-    for (int i = 1; i < argc; i++)
-    {
-        arguments.push_back(argv[i]);
-    }
 }
 
 //==============================================================================
-ArgumentProcessor::~ArgumentProcessor()
+Argument::~Argument()
 {
 }
 
 //==============================================================================
 // If implemented, operator= should follow this template
 //==============================================================================
-ArgumentProcessor&
-ArgumentProcessor::operator=(const ArgumentProcessor& template_class)
+Argument& Argument::operator=(const Argument& template_class)
 {
     // Don't do anything if we're assigning to ourselves
     if (this != &template_class)

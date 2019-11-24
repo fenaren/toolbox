@@ -25,6 +25,7 @@ cmake_policy(VERSION ${CMAKE_VERSION})
 
 # All the source files in this directory
 set(SRC
+  Argument.cpp
   ArgumentProcessor.cpp
   DataField.cpp
   DataPacket.cpp
