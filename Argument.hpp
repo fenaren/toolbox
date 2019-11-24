@@ -9,7 +9,7 @@ class Argument
 public:
 
     // Frobnicates the widget
-    Argument(const std::string& canonical_name,
+    Argument(const std::string&              canonical_name,
              const std::vector<std::string>& aliases =
              std::vector<std::string>());
 
@@ -22,6 +22,8 @@ public:
 
     void getAliases(std::vector<std::string>& aliases) const;
     void setAliases(const std::vector<std::string>& aliases);
+
+    virtual void process(const std::string& token) = 0;
 
 private:
 

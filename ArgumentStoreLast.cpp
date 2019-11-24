@@ -1,25 +1,28 @@
-#include <string>
-#include <vector>
-
-#include "Argument.hpp"
+#include "ArgumentStoreLast.hpp"
 
 //==============================================================================
-Argument::Argument(const std::string&              canonical_name,
-                   const std::vector<std::string>& aliases) :
-    canonical_name(canonical_name),
-    aliases(aliases)
+ArgumentStoreLast::ArgumentStoreLast(
+    const std::string&              canonical_name,
+    const std::vector<std::string>& aliases) :
+    Argument(canonical_name, aliases)
 {
 }
 
 //==============================================================================
-Argument::~Argument()
+ArgumentStoreLast::~ArgumentStoreLast()
+{
+}
+
+//==============================================================================
+void ArgumentStoreLast::process(const std::string& token)
 {
 }
 
 //==============================================================================
 // If implemented, operator= should follow this template
 //==============================================================================
-Argument& Argument::operator=(const Argument& template_class)
+ArgumentStoreLast&
+ArgumentStoreLast::operator=(const ArgumentStoreLast& template_class)
 {
     // Don't do anything if we're assigning to ourselves
     if (this != &template_class)
