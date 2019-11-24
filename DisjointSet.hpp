@@ -14,6 +14,12 @@ public:
     // something
     ~DisjointSet();
 
+    void MakeSet(const T* element);
+
+    T* Find(const T* element);
+
+    void Union(const T* element1, const T* element2);
+
 private:
 
     // Copy construction and assignment not allowed.  Consider getting rid of
