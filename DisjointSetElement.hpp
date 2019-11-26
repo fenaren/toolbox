@@ -15,8 +15,10 @@ public:
     ~DisjointSetElement();
 
     T* getElement() const;
+    void setElement(T* element);
 
     DisjointSetElement<T>* getParent() const;
+    void setParent(DisjointSetElement<T>* parent);
 
     DisjointSetElement& operator=(const DisjointSetElement&);
 
@@ -36,10 +38,23 @@ template <class T> T* DisjointSetElement<T>::getElement() const
 }
 
 //==============================================================================
+template <class T> void DisjointSetElement<T>::setElement(T* element)
+{
+    this->element = element;
+}
+
+//==============================================================================
 template <class T>
 DisjointSetElement<T>* DisjointSetElement<T>::getParent() const
 {
     return parent;
+}
+
+//==============================================================================
+template <class T>
+void DisjointSetElement<T>::setParent(DisjointSetElement<T>* parent)
+{
+    this->parent = parent;
 }
 
 template <class T> bool operator==(const DisjointSetElement<T>& lhs,
