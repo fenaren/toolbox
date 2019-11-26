@@ -2,7 +2,7 @@
 
 //==============================================================================
 template <class T> DisjointSetElement<T>::DisjointSetElement(
-    const T*               element,
+    T*                     element,
     DisjointSetElement<T>* parent) :
     element(element),
     parent(parent)
@@ -27,6 +27,13 @@ DisjointSetElement<T>::operator=(const DisjointSetElement<T>& template_class)
     }
 
     return *this;
+}
+
+//==============================================================================
+template <class T> bool operator==(const DisjointSetElement<T>& lhs,
+                                   const DisjointSetElement<T>& rhs)
+{
+    return lhs.getElement() == rhs.getElement();
 }
 
 template class DisjointSetElement<char>;

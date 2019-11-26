@@ -7,7 +7,7 @@
 
 TEST_CASES_BEGIN(DisjointSet_test)
 
-    TEST(Stub)
+    TEST(IsRepresentative)
 
 TEST_CASES_END(DisjointSet_test)
 

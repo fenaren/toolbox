@@ -12,6 +12,8 @@ template <class T> class DisjointSet
 {
 public:
 
+    friend class DisjointSet_test;
+
     // Initializes with no sets tracked
     DisjointSet();
 
@@ -37,7 +39,7 @@ private:
     // Allows us to get the DisjointSetElement container for a given element.
     // When the user does a union or find we can get into our data structure
     // with this.
-    std::map<const T*, DisjointSetElement<T>*> dj_elements;
+    std::map<const T*, DisjointSetElement<T> > dj_elements;
 
     // Copy construction and assignment not allowed.  Consider getting rid of
     // the operator= code in the implementation file if operator= remains

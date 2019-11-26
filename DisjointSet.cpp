@@ -26,6 +26,32 @@ template <class T> void DisjointSet<T>::makeSet(const T* element)
 }
 
 //==============================================================================
+template <class T> T* DisjointSet<T>::find(const T* element)
+{
+    // Why is "typename" needed here?
+    typename std::map<const T*, DisjointSetElement<T> >::iterator dj_element =
+        dj_elements.find(element);
+
+    if (dj_element == dj_elements.end())
+    {
+        throw std::runtime_error("Element is not in any set");
+
+        // We have nothing useful to return here.
+        return 0;
+    }
+
+    // Find the representative.  This is the part that scales poorly without
+    // path compression.
+    DisjointSetElement<T>* representative = dj_element->second.getParent();
+    while (representative != 0 && representative->getParent() != 0)
+    {
+        representative = representative->getParent();
+    }
+
+    return representative->getElement();
+}
+
+//==============================================================================
 // If implemented, operator= should follow this template
 //==============================================================================
 template <class T>

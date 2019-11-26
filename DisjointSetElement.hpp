@@ -6,16 +6,20 @@ template <class T> class DisjointSetElement
 public:
 
     // Initializes data members, nothing more.
-    DisjointSetElement(const T*               element,
+    DisjointSetElement(T*                     element,
                        DisjointSetElement<T>* parent = 0);
 
     // Does nothing.
     ~DisjointSetElement();
 
+    T* getElement() const;
+
+    DisjointSetElement<T>* getParent() const;
+
 private:
 
     // The thing we're actually tracking
-    const T* element;
+    T* element;
 
     // Follow this to get to the representative
     DisjointSetElement<T>* parent;
@@ -26,5 +30,21 @@ private:
     DisjointSetElement(const DisjointSetElement&);
     DisjointSetElement& operator=(const DisjointSetElement&);
 };
+
+//==============================================================================
+template <class T> T* DisjointSetElement<T>::getElement() const
+{
+    return element;
+}
+
+//==============================================================================
+template <class T>
+DisjointSetElement<T>* DisjointSetElement<T>::getParent() const
+{
+    return parent;
+}
+
+template <class T> bool operator==(const DisjointSetElement<T>& lhs,
+                                   const DisjointSetElement<T>& rhs);
 
 #endif
