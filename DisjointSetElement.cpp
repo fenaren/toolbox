@@ -1,0 +1,44 @@
+#include "DisjointSetElement.hpp"
+
+//==============================================================================
+template <class T> DisjointSetElement<T>::DisjointSetElement(
+    const T*               element,
+    DisjointSetElement<T>* parent) :
+    element(element),
+    parent(parent)
+{
+}
+
+//==============================================================================
+template <class T> DisjointSetElement<T>::~DisjointSetElement()
+{
+}
+
+//==============================================================================
+// If implemented, operator= should follow this template
+//==============================================================================
+template <class T> DisjointSetElement<T>&
+DisjointSetElement<T>::operator=(const DisjointSetElement<T>& template_class)
+{
+    // Don't do anything if we're assigning to ourselves
+    if (this != &template_class)
+    {
+        // Do something
+    }
+
+    return *this;
+}
+
+template class DisjointSetElement<char>;
+template class DisjointSetElement<double>;
+template class DisjointSetElement<float>;
+template class DisjointSetElement<int>;
+template class DisjointSetElement<long>;
+template class DisjointSetElement<long double>;
+template class DisjointSetElement<long long>;
+template class DisjointSetElement<short>;
+template class DisjointSetElement<unsigned char>;
+template class DisjointSetElement<unsigned int>;
+template class DisjointSetElement<unsigned long>;
+template class DisjointSetElement<unsigned long long>;
+template class DisjointSetElement<unsigned short>;
