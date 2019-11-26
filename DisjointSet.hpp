@@ -22,10 +22,10 @@ public:
 
     // Starts tracking whatever is passed in as a new disjointed set (does not
     // belong to any other tracked sets)
-    void makeSet(const T* element);
+    void makeSet(T* element);
 
     // Returns the representative of the set containing the "element" argument
-    T* find(const T* element);
+    T* find(T* element);
 
     // Unions the two sets given as arguments.  After this they will both belong
     // to the same set.
@@ -39,7 +39,7 @@ private:
     // Allows us to get the DisjointSetElement container for a given element.
     // When the user does a union or find we can get into our data structure
     // with this.
-    std::map<const T*, DisjointSetElement<T> > dj_elements;
+    std::map<T*, DisjointSetElement<T> > dj_elements;
 
     // Copy construction and assignment not allowed.  Consider getting rid of
     // the operator= code in the implementation file if operator= remains

@@ -9,12 +9,16 @@ public:
     DisjointSetElement(T*                     element,
                        DisjointSetElement<T>* parent = 0);
 
+    DisjointSetElement(const DisjointSetElement& dj_element);
+
     // Does nothing.
     ~DisjointSetElement();
 
     T* getElement() const;
 
     DisjointSetElement<T>* getParent() const;
+
+    DisjointSetElement& operator=(const DisjointSetElement&);
 
 private:
 
@@ -23,12 +27,6 @@ private:
 
     // Follow this to get to the representative
     DisjointSetElement<T>* parent;
-
-    // Copy construction and assignment not allowed.  Consider getting rid of
-    // the operator= code in the implementation file if operator= remains
-    // private
-    DisjointSetElement(const DisjointSetElement&);
-    DisjointSetElement& operator=(const DisjointSetElement&);
 };
 
 //==============================================================================

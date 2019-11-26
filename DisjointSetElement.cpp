@@ -10,12 +10,18 @@ template <class T> DisjointSetElement<T>::DisjointSetElement(
 }
 
 //==============================================================================
+template <class T> DisjointSetElement<T>::DisjointSetElement(
+    const DisjointSetElement<T>& dj_element)
+{
+    this->element = dj_element.getElement();
+    this->parent = dj_element.getParent();
+}
+
+//==============================================================================
 template <class T> DisjointSetElement<T>::~DisjointSetElement()
 {
 }
 
-//==============================================================================
-// If implemented, operator= should follow this template
 //==============================================================================
 template <class T> DisjointSetElement<T>&
 DisjointSetElement<T>::operator=(const DisjointSetElement<T>& template_class)

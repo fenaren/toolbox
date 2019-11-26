@@ -2,6 +2,8 @@
 
 #include "DisjointSet.hpp"
 
+#include "DisjointSetElement.hpp"
+
 //==============================================================================
 template <class T> DisjointSet<T>::DisjointSet()
 {
@@ -13,23 +15,24 @@ template <class T> DisjointSet<T>::~DisjointSet()
 }
 
 //==============================================================================
-template <class T> void DisjointSet<T>::makeSet(const T* element)
+template <class T> void DisjointSet<T>::makeSet(T* element)
 {
     // Make sure we're not already tracking this element.
     if (dj_elements.find(element) != dj_elements.end())
     {
         throw std::runtime_error("Element is already in at least one set");
+        return;
     }
 
     // Keep track of this new element
-    //dj_elements[element] = 
+    dj_elements[element] = DisjointSetElement<T>(element, 0);
 }
 
 //==============================================================================
-template <class T> T* DisjointSet<T>::find(const T* element)
+template <class T> T* DisjointSet<T>::find(T* element)
 {
     // Why is "typename" needed here?
-    typename std::map<const T*, DisjointSetElement<T> >::iterator dj_element =
+    typename std::map<T*, DisjointSetElement<T> >::iterator dj_element =
         dj_elements.find(element);
 
     if (dj_element == dj_elements.end())
