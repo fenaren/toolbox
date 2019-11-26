@@ -25,7 +25,7 @@ template <class T> void DisjointSet<T>::makeSet(T* element)
     }
 
     // Keep track of this new element
-    dj_elements[element] = DisjointSetElement<T>(element, 0);
+    dj_elements[element] = DisjointSetElement<T>(element);
 }
 
 //==============================================================================

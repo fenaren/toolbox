@@ -6,8 +6,8 @@ template <class T> class DisjointSetElement
 public:
 
     // Initializes data members, nothing more.
-    DisjointSetElement(T*                     element,
-                       DisjointSetElement<T>* parent = 0);
+    DisjointSetElement(T*                     element = 0,
+                       DisjointSetElement<T>* parent  = 0);
 
     DisjointSetElement(const DisjointSetElement& dj_element);
 
