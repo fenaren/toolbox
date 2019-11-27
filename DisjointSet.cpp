@@ -24,8 +24,10 @@ template <class T> void DisjointSet<T>::makeSet(T* element)
         return;
     }
 
-    // Keep track of this new element
-    dj_elements[element] = DisjointSetElement<T>(element);
+    // Keep track of this new element.  It has no parent which implicitly makes
+    // it the only element in its set.
+    DisjointSetElement<T> asdf(element);
+    dj_elements[element] = asdf;
 }
 
 //==============================================================================
@@ -45,8 +47,8 @@ template <class T> T* DisjointSet<T>::find(T* element)
 
     // Find the representative.  This is the part that scales poorly without
     // path compression.
-    DisjointSetElement<T>* representative = dj_element->second.getParent();
-    while (representative != 0 && representative->getParent() != 0)
+    DisjointSetElement<T>* representative = &dj_element->second;
+    while (representative->getParent() != 0)
     {
         representative = representative->getParent();
     }
@@ -55,7 +57,29 @@ template <class T> T* DisjointSet<T>::find(T* element)
 }
 
 //==============================================================================
-// If implemented, operator= should follow this template
+template <class T> void DisjointSet<T>::unionSets(T* element1, T* element2)
+{
+    // These elements will have the same representative if they are already in
+    // the same set.
+
+    T* rep_element1 = find(element1);
+    T* rep_element2 = find(element2);
+
+    if (rep_element1 == rep_element2)
+    {
+        return;
+    }
+
+    dj_elements[rep_element1].setParent(&dj_elements[rep_element2]);
+}
+
+//==============================================================================
+template <class T> bool DisjointSet<T>::isRepresentative(T* element)
+{
+    // Finds on the representative element of a set return the representative.
+    return element == find(element);
+}
+
 //==============================================================================
 template <class T>
 DisjointSet<T>& DisjointSet<T>::operator=(const DisjointSet<T>& template_class)

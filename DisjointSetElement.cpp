@@ -13,8 +13,7 @@ template <class T> DisjointSetElement<T>::DisjointSetElement(
 template <class T> DisjointSetElement<T>::DisjointSetElement(
     const DisjointSetElement<T>& dj_element)
 {
-    this->element = dj_element.getElement();
-    this->parent = dj_element.getParent();
+    *this = dj_element;
 }
 
 //==============================================================================
@@ -29,7 +28,8 @@ DisjointSetElement<T>::operator=(const DisjointSetElement<T>& template_class)
     // Don't do anything if we're assigning to ourselves
     if (this != &template_class)
     {
-        // Do something
+        this->element = template_class.getElement();
+        this->parent  = template_class.getParent();
     }
 
     return *this;

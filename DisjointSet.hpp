@@ -29,10 +29,10 @@ public:
 
     // Unions the two sets given as arguments.  After this they will both belong
     // to the same set.
-    void unionSets(const T* element1, const T* element2);
+    void unionSets(T* element1, T* element2);
 
     // Returns true if the given element is the representative of its set.
-    bool isRepresentative(const T* element);
+    bool isRepresentative(T* element);
 
 private:
 
