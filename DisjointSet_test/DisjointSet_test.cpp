@@ -9,6 +9,18 @@
 
 TEST_PROGRAM_MAIN(DisjointSet_test);
 
+#define TEST_SETUP()               \
+    DisjointSet<int> disjoint_set; \
+                                   \
+    int a = 1;                     \
+    int b = 2;                     \
+    int c = 3;                     \
+                                   \
+    disjoint_set.makeSet(&a);      \
+    disjoint_set.makeSet(&b);      \
+    disjoint_set.makeSet(&c);
+
+
 //==============================================================================
 void DisjointSet_test::addTestCases()
 {
@@ -32,15 +44,7 @@ void DisjointSet_test::UnionSets::addTestCases()
 //==============================================================================
 Test::Result DisjointSet_test::UnionSets::Case1::body()
 {
-    DisjointSet<int> disjoint_set;
-
-    int a = 1;
-    int b = 2;
-    int c = 3;
-
-    disjoint_set.makeSet(&a);
-    disjoint_set.makeSet(&b);
-    disjoint_set.makeSet(&c);
+    TEST_SETUP();
 
     disjoint_set.unionSets(&a, &b);
 
@@ -59,15 +63,7 @@ Test::Result DisjointSet_test::UnionSets::Case1::body()
 //==============================================================================
 Test::Result DisjointSet_test::IsRepresentative::Case1::body()
 {
-    DisjointSet<int> disjoint_set;
-
-    int a = 1;
-    int b = 2;
-    int c = 3;
-
-    disjoint_set.makeSet(&a);
-    disjoint_set.makeSet(&b);
-    disjoint_set.makeSet(&c);
+    TEST_SETUP();
 
     MUST_BE_TRUE(disjoint_set.isRepresentative(&a));
     MUST_BE_TRUE(disjoint_set.isRepresentative(&b));
@@ -79,15 +75,7 @@ Test::Result DisjointSet_test::IsRepresentative::Case1::body()
 //==============================================================================
 Test::Result DisjointSet_test::IsRepresentative::Case2::body()
 {
-    DisjointSet<int> disjoint_set;
-
-    int a = 1;
-    int b = 2;
-    int c = 3;
-
-    disjoint_set.makeSet(&a);
-    disjoint_set.makeSet(&b);
-    disjoint_set.makeSet(&c);
+    TEST_SETUP();
 
     return Test::PASSED;
 }
