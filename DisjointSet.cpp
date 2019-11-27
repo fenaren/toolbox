@@ -33,8 +33,7 @@ template <class T> void DisjointSet<T>::makeSet(T* element)
 
     // Keep track of this new element.  It has no parent which implicitly makes
     // it the only element in its set.
-    DisjointSetElement<T> asdf(element);
-    elements_map[element] = asdf;
+    elements_map[element] = DisjointSetElement<T>(element);
 }
 
 //==============================================================================
