@@ -10,6 +10,13 @@ template <class T> DisjointSet<T>::DisjointSet()
 }
 
 //==============================================================================
+template <class T>
+DisjointSet<T>::DisjointSet(const DisjointSet<T>& disjoint_set)
+{
+    *this = disjoint_set;
+}
+
+//==============================================================================
 template <class T> DisjointSet<T>::~DisjointSet()
 {
 }
@@ -18,7 +25,7 @@ template <class T> DisjointSet<T>::~DisjointSet()
 template <class T> void DisjointSet<T>::makeSet(T* element)
 {
     // Make sure we're not already tracking this element.
-    if (dj_elements.find(element) != dj_elements.end())
+    if (elements_map.find(element) != elements_map.end())
     {
         throw std::runtime_error("Element is already in at least one set");
         return;
@@ -27,7 +34,7 @@ template <class T> void DisjointSet<T>::makeSet(T* element)
     // Keep track of this new element.  It has no parent which implicitly makes
     // it the only element in its set.
     DisjointSetElement<T> asdf(element);
-    dj_elements[element] = asdf;
+    elements_map[element] = asdf;
 }
 
 //==============================================================================
@@ -35,9 +42,9 @@ template <class T> T* DisjointSet<T>::find(T* element)
 {
     // Why is "typename" needed here?
     typename std::map<T*, DisjointSetElement<T> >::iterator dj_element =
-        dj_elements.find(element);
+        elements_map.find(element);
 
-    if (dj_element == dj_elements.end())
+    if (dj_element == elements_map.end())
     {
         throw std::runtime_error("Element is not in any set");
 
@@ -59,18 +66,17 @@ template <class T> T* DisjointSet<T>::find(T* element)
 //==============================================================================
 template <class T> void DisjointSet<T>::unionSets(T* element1, T* element2)
 {
-    // These elements will have the same representative if they are already in
-    // the same set.
-
     T* rep_element1 = find(element1);
     T* rep_element2 = find(element2);
 
+    // These elements will have the same representative if they are already in
+    // the same set.
     if (rep_element1 == rep_element2)
     {
         return;
     }
 
-    dj_elements[rep_element1].setParent(&dj_elements[rep_element2]);
+    elements_map[rep_element1].setParent(&elements_map[rep_element2]);
 }
 
 //==============================================================================
@@ -81,13 +87,20 @@ template <class T> bool DisjointSet<T>::isRepresentative(T* element)
 }
 
 //==============================================================================
+template <class T> void DisjointSet<T>::getElementsMap(
+    std::map<T*, DisjointSetElement<T> >& elements_map) const
+{
+    elements_map = this->elements_map;
+}
+
+//==============================================================================
 template <class T>
-DisjointSet<T>& DisjointSet<T>::operator=(const DisjointSet<T>& template_class)
+DisjointSet<T>& DisjointSet<T>::operator=(const DisjointSet<T>& disjoint_set)
 {
     // Don't do anything if we're assigning to ourselves
-    if (this != &template_class)
+    if (this != &disjoint_set)
     {
-        // Do something
+        disjoint_set.getElementsMap(this->elements_map);
     }
 
     return *this;

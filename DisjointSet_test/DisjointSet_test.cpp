@@ -44,9 +44,9 @@ Test::Result DisjointSet_test::UnionSets::Case1::body()
 
     disjoint_set.unionSets(&a, &b);
 
-    DisjointSetElement<int>* element_a = &disjoint_set.dj_elements[&a];
-    DisjointSetElement<int>* element_b = &disjoint_set.dj_elements[&b];
-    DisjointSetElement<int>* element_c = &disjoint_set.dj_elements[&c];
+    DisjointSetElement<int>* element_a = &disjoint_set.elements_map[&a];
+    DisjointSetElement<int>* element_b = &disjoint_set.elements_map[&b];
+    DisjointSetElement<int>* element_c = &disjoint_set.elements_map[&c];
 
     MUST_BE_TRUE(element_a->getParent() == element_b ||
                  element_b->getParent() == element_a);

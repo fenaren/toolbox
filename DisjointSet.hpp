@@ -17,6 +17,9 @@ public:
     // Initializes with no sets tracked
     DisjointSet();
 
+    // Copy constructor
+    DisjointSet(const DisjointSet&);
+
     // Frees any allocated set elements
     ~DisjointSet();
 
@@ -34,18 +37,19 @@ public:
     // Returns true if the given element is the representative of its set.
     bool isRepresentative(T* element);
 
+    // Allows retrieval of the internal map used to track all known elements
+    // regardless of set.  This exists primarily for the assignment operator.
+    void
+    getElementsMap(std::map<T*, DisjointSetElement<T> >& elements_map) const;
+
+    DisjointSet& operator=(const DisjointSet&);
+
 private:
 
     // Allows us to get the DisjointSetElement container for a given element.
     // When the user does a union or find we can get into our data structure
     // with this.
-    std::map<T*, DisjointSetElement<T> > dj_elements;
-
-    // Copy construction and assignment not allowed.  Consider getting rid of
-    // the operator= code in the implementation file if operator= remains
-    // private
-    DisjointSet(const DisjointSet&);
-    DisjointSet& operator=(const DisjointSet&);
+    std::map<T*, DisjointSetElement<T> > elements_map;
 };
 
 #endif
