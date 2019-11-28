@@ -31,9 +31,14 @@ template <class T> void DisjointSet<T>::makeSet(T* element)
         return;
     }
 
-    // Keep track of this new element.  It has no parent which implicitly makes
-    // it the only element in its set.
+    // Keep track of this new element.  We can't have the DisjointSetElement set
+    // itself as its own parent here, because at the DisjointSetElement always
+    // has the same memory address here.
     elements_map[element] = DisjointSetElement<T>(element);
+
+    // Set the new element as its own parent after it's been copied into the
+    // map, ensuring it has the right parent pointer.
+    elements_map[element].setParent(&elements_map[element]);
 }
 
 //==============================================================================
@@ -54,7 +59,7 @@ template <class T> T* DisjointSet<T>::find(T* element)
     // Find the representative.  This is the part that scales poorly without
     // path compression.
     DisjointSetElement<T>* representative = &dj_element->second;
-    while (representative->getParent() != 0)
+    while (representative->getParent() != representative)
     {
         representative = representative->getParent();
     }
