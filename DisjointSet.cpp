@@ -42,6 +42,22 @@ template <class T> void DisjointSet<T>::makeSet(T* element)
 }
 
 //==============================================================================
+template <class T> void DisjointSet<T>::unionSets(T* element1, T* element2)
+{
+    T* rep_element1 = find(element1);
+    T* rep_element2 = find(element2);
+
+    // These elements will have the same representative if they are already in
+    // the same set.
+    if (rep_element1 == rep_element2)
+    {
+        return;
+    }
+
+    elements_map[rep_element1].setParent(&elements_map[rep_element2]);
+}
+
+//==============================================================================
 template <class T> T* DisjointSet<T>::find(T* element)
 {
     // Why is "typename" needed here?
@@ -65,22 +81,6 @@ template <class T> T* DisjointSet<T>::find(T* element)
     }
 
     return representative->getElement();
-}
-
-//==============================================================================
-template <class T> void DisjointSet<T>::unionSets(T* element1, T* element2)
-{
-    T* rep_element1 = find(element1);
-    T* rep_element2 = find(element2);
-
-    // These elements will have the same representative if they are already in
-    // the same set.
-    if (rep_element1 == rep_element2)
-    {
-        return;
-    }
-
-    elements_map[rep_element1].setParent(&elements_map[rep_element2]);
 }
 
 //==============================================================================

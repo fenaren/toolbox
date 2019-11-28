@@ -8,8 +8,14 @@
 TEST_CASES_BEGIN(DisjointSet_test)
 
     TEST(MakeSet)
-    TEST(Find)
-    TEST(UnionSets)
+
+    TEST_CASES_BEGIN(UnionSetsFind)
+
+        TEST(Case1)
+        TEST(Case2)
+
+    TEST_CASES_END(UnionSetsFind)
+
     TEST(IsRepresentative)
 
 TEST_CASES_END(DisjointSet_test)

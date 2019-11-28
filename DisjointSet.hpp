@@ -27,12 +27,12 @@ public:
     // belong to any other tracked sets)
     void makeSet(T* element);
 
-    // Returns the representative of the set containing the "element" argument
-    T* find(T* element);
-
     // Unions the two sets given as arguments.  After this they will both belong
     // to the same set.
     void unionSets(T* element1, T* element2);
+
+    // Returns the representative of the set containing the "element" argument
+    T* find(T* element);
 
     // Returns true if the given element is the representative of its set.
     bool isRepresentative(T* element);
