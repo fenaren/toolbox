@@ -9,14 +9,17 @@ public:
     DisjointSetElement(T*                     element = 0,
                        DisjointSetElement<T>* parent  = 0);
 
+    // Copy constructor
     DisjointSetElement(const DisjointSetElement& dj_element);
 
     // Does nothing.
     ~DisjointSetElement();
 
+    // For getting and setting the represented element.
     T* getElement() const;
     void setElement(T* element);
 
+    // For getting and setting parents
     DisjointSetElement<T>* getParent() const;
     void setParent(DisjointSetElement<T>* parent);
 
@@ -56,8 +59,5 @@ void DisjointSetElement<T>::setParent(DisjointSetElement<T>* parent)
 {
     this->parent = parent;
 }
-
-template <class T> bool operator==(const DisjointSetElement<T>& lhs,
-                                   const DisjointSetElement<T>& rhs);
 
 #endif

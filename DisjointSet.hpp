@@ -20,7 +20,7 @@ public:
     // Copy constructor
     DisjointSet(const DisjointSet&);
 
-    // Frees any allocated set elements
+    // Does nothing.
     ~DisjointSet();
 
     // Starts tracking whatever is passed in as a new disjointed set (does not
