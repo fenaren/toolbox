@@ -28,7 +28,6 @@ template <class T> void DisjointSet<T>::makeSet(T* element)
     if (elements_map.find(element) != elements_map.end())
     {
         throw std::runtime_error("Element is already in at least one set");
-        return;
     }
 
     // Keep track of this new element.  We can't have the DisjointSetElement set
