@@ -1,5 +1,5 @@
-#if !defined TEMPLATE_CLASS_TEST
-#define TEMPLATE_CLASS_TEST
+#if !defined TEMPLATE_CLASS_TEST_HPP
+#define TEMPLATE_CLASS_TEST_HPP
 
 #include "Test.hpp"
 #include "TestCases.hpp"
