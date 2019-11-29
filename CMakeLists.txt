@@ -30,6 +30,8 @@ set(SRC
   ArgumentProcessor.cpp
   DataField.cpp
   DataPacket.cpp
+  DisjointSet.cpp
+  DisjointSetElement.cpp
   FixedRateProgram.cpp
   NoopSignalManagerImpl.cpp
   OnlineStatistics.cpp
@@ -72,6 +74,7 @@ add_subdirectory(testing)
 add_subdirectory(ArgumentProcessor_test EXCLUDE_FROM_ALL)
 add_subdirectory(DataField_test         EXCLUDE_FROM_ALL)
 add_subdirectory(DataPacket_test        EXCLUDE_FROM_ALL)
+add_subdirectory(DisjointSet_test       EXCLUDE_FROM_ALL)
 add_subdirectory(FixedRateProgram_test  EXCLUDE_FROM_ALL)
 add_subdirectory(OnlineStatistics_test  EXCLUDE_FROM_ALL)
 add_subdirectory(Program_test           EXCLUDE_FROM_ALL)
