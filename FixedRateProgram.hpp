@@ -3,11 +3,15 @@
 
 #include <chrono>
 
+#include "FixedRateProgramInterface.hpp"
 #include "Program.hpp"
 
 #include "OnlineStatistics.hpp"
 
-class FixedRateProgram : public Program
+// FixedRatePrograms are Programs that periodically execute code at a fixed
+// rate.
+class FixedRateProgram : public Program,
+                         virtual public FixedRateProgramInterface
 {
 public:
 
@@ -27,31 +31,31 @@ public:
     virtual ~FixedRateProgram();
 
     // Runs the step function every "period" length of time
-    int run();
+    virtual int run();
 
     // Iterative code goes here
     virtual void step() = 0;
 
     // Sets length of time between step() executions
-    void setPeriod(const std::chrono::nanoseconds& period);
+    virtual void setPeriod(const std::chrono::nanoseconds& period);
 
     // Returns length of time between step() executions
-    void getPeriod(std::chrono::nanoseconds& period) const;
+    virtual void getPeriod(std::chrono::nanoseconds& period) const;
 
     // Sets allowable error between the ideal frame start time and the actual
     // frame start time
-    void setTolerance(const std::chrono::nanoseconds& tolerance);
+    virtual void setTolerance(const std::chrono::nanoseconds& tolerance);
 
     // Returns the allowable error between the ideal frame start time and actual
     // frame start time
-    void getTolerance(std::chrono::nanoseconds& tolerance) const;
+    virtual void getTolerance(std::chrono::nanoseconds& tolerance) const;
 
     // Setting to true will cause program termination before the next time
     // step() is called; a step() in progress is not interrupted
-    void setTerminate(bool terminate);
+    virtual void setTerminate(bool terminate);
 
     // Is the program set to terminate?
-    bool getTerminate() const;
+    virtual bool getTerminate() const;
 
 private:
 
