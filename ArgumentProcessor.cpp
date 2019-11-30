@@ -1,17 +1,19 @@
 #include "ArgumentProcessor.hpp"
 
 //==============================================================================
-ArgumentProcessor::ArgumentProcessor(int argc, char** argv)
+ArgumentProcessor::ArgumentProcessor()
 {
-    // Store the arguments
-    for (int i = 1; i < argc; i++)
-    {
-        arguments.push_back(argv[i]);
-    }
 }
 
 //==============================================================================
 ArgumentProcessor::~ArgumentProcessor()
+{
+}
+
+//==============================================================================
+void ArgumentProcessor::registerArgument(
+    const std::unordered_set<std::string>& names,
+    ArgumentType                           type)
 {
 }
 
