@@ -1,20 +1,20 @@
-#include "OptionalArgument.hpp"
+#include "PositionalArgument.hpp"
 
 //==============================================================================
-OptionalArgument::OptionalArgument()
+PositionalArgument::PositionalArgument()
 {
 }
 
 //==============================================================================
-OptionalArgument::~OptionalArgument()
+PositionalArgument::~PositionalArgument()
 {
 }
 
 //==============================================================================
 // If implemented, operator= should follow this template
 //==============================================================================
-OptionalArgument&
-OptionalArgument::operator=(const OptionalArgument& template_class)
+PositionalArgument&
+PositionalArgument::operator=(const PositionalArgument& template_class)
 {
     // Don't do anything if we're assigning to ourselves
     if (this != &template_class)

@@ -1,24 +1,24 @@
-#if !defined OPTIONAL_ARGUMENT_HPP
-#define OPTIONAL_ARGUMENT_HPP
+#if !defined POSITIONAL_ARGUMENT_HPP
+#define POSITIONAL_ARGUMENT_HPP
 
-class OptionalArgument
+class PositionalArgument
 {
 public:
 
     // Frobnicates the widget
-    OptionalArgument();
+    PositionalArgument();
 
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something
-    ~OptionalArgument();
+    ~PositionalArgument();
 
 private:
 
     // Copy construction and assignment not allowed.  Consider getting rid of
     // the operator= code in the implementation file if operator= remains
     // private
-    OptionalArgument(const OptionalArgument&);
-    OptionalArgument& operator=(const OptionalArgument&);
+    PositionalArgument(const PositionalArgument&);
+    PositionalArgument& operator=(const PositionalArgument&);
 };
 
 #endif
