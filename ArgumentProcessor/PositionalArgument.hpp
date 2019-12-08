@@ -20,7 +20,28 @@ public:
     // something
     ~PositionalArgument();
 
+    void getValue(std::string& value) const;
+    void setValue(const std::string& value);
+
+    virtual void process(const std::string& argument);
+
     PositionalArgument& operator=(const PositionalArgument&);
+
+private:
+
+    std::string value;
 };
+
+//==============================================================================
+inline void PositionalArgument::getValue(std::string& value) const
+{
+    value = this->value;
+}
+
+//==============================================================================
+inline void PositionalArgument::setValue(const std::string& value)
+{
+    this->value = value;
+}
 
 #endif

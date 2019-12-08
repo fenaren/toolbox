@@ -64,6 +64,14 @@ void ArgumentProcessor::process(const std::string& argument)
     if (found_opt_arg != optional_arguments.end())
     {
     }
+    else
+    {
+        // It's not optional, so process it as a positional argument.
+        current_pa->process(argument);
+
+        // We're ready for the next positional argument.
+        current_pa++;
+    }
 }
 
 //==============================================================================

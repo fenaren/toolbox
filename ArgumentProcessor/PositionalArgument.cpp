@@ -15,6 +15,12 @@ PositionalArgument::~PositionalArgument()
 }
 
 //==============================================================================
+void PositionalArgument::process(const std::string& argument)
+{
+    setValue(argument);
+}
+
+//==============================================================================
 PositionalArgument&
 PositionalArgument::operator=(const PositionalArgument& template_class)
 {

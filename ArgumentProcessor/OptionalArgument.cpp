@@ -5,12 +5,18 @@
 //==============================================================================
 OptionalArgument::OptionalArgument(const std::string& name,
                                    const std::string& description) :
-    Argument(name, description)
+    Argument(name, description),
+    done_processing(false)
 {
 }
 
 //==============================================================================
 OptionalArgument::~OptionalArgument()
+{
+}
+
+//==============================================================================
+void OptionalArgument::process(const std::string& argument)
 {
 }
 
