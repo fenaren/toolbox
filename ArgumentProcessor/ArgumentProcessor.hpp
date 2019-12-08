@@ -6,6 +6,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "OptionalArgument.hpp"
+#include "PositionalArgument.hpp"
+
 class ArgumentProcessor
 {
 public:
@@ -26,7 +29,7 @@ private:
 
     std::list<PositionalArgument> positional_arguments;
 
-    std::unordered_map<OptionalArgument> optional_arguments;
+    std::unordered_map<std::string, OptionalArgument> optional_arguments;
 
     // Maps argument names to their corresponding values.  Multiple names will
     // link to the same value for arguments with multiple names (ex. -v and
