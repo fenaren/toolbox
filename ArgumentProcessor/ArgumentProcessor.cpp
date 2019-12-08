@@ -10,6 +10,9 @@
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor()
 {
+    // It's a safe bet users will always want the program name registered.
+    // Positional arguments won't work correctly otherwise.
+    registerName();
 }
 
 //==============================================================================
@@ -18,17 +21,34 @@ ArgumentProcessor::~ArgumentProcessor()
 }
 
 //==============================================================================
-bool ArgumentProcessor::process(int argc, char** argv)
+void ArgumentProcessor::process(const std::string& argument)
+{
+    std::unordered_map<std::string, OptionalArgument>::iterator found_opt_arg =
+        optional_arguments.find(argument);
+
+    // Is this argument one of the optional arguments?
+    if (found_opt_arg != optional_arguments.end())
+    {
+    }
+}
+
+//==============================================================================
+void ArgumentProcessor::process(const std::list<std::string>& arguments)
+{
+    for (std::list<std::string>::const_iterator i = arguments.begin();
+         i != arguments.end();
+         ++i)
+    {
+        
+    }
+}
+
+//==============================================================================
+void ArgumentProcessor::process(int argc, char** argv)
 {
     for (int i = 0; i < argc; ++i)
     {
-        std::unordered_map<std::string, OptionalArgument>::iterator
-            found_opt_arg = optional_arguments.find(argv[i]);
-
-        // Is this argument one of the optional arguments?
-        if (found_opt_arg != optional_arguments.end())
-        {
-        }
+        process(argv[i]);
     }
 }
 

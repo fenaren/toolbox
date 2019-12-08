@@ -25,7 +25,28 @@ public:
         const std::unordered_set<std::string>& aliases =
         std::unordered_set<std::string>());
 
-    bool process(int argc, char** argv);
+    // Registers a positional argument representing the name the program was
+    // invoked with at the command line.  Program name is always the first
+    // argument, so chances are you'll want to have this registered as the first
+    // positional argument.  This method is called at construction time to help
+    // with this.
+    void registerName();
+
+    // Un-registers all registered arguments.  After a call to this no arguments
+    // will be recognized, including the usual first argument representing the
+    // name the program was invoked with at the command line.  It is possible to
+    // register arguments after a call to this (calling registerName() might be
+    // a good idea).
+    void unregisterAll();
+
+    // Process a single argument
+    void process(const std::string& argument);
+
+    // Process multiple sequential arguments
+    void process(const std::list<std::string>& arguments);
+
+    // Compatibility with C/C++
+    void process(int argc, char** argv);
 
 private:
 
@@ -47,5 +68,21 @@ private:
     ArgumentProcessor(const ArgumentProcessor&);
     ArgumentProcessor& operator=(const ArgumentProcessor&);
 };
+
+//==============================================================================
+inline void ArgumentProcessor::registerName()
+{
+    positional_arguments.push_back(
+        PositionalArgument(
+            "Name",
+            "Name the program was invoked with at the command line"));
+}
+
+//==============================================================================
+inline void ArgumentProcessor::unregisterAll()
+{
+    positional_arguments.clear();
+    optional_arguments.clear();
+}
 
 #endif

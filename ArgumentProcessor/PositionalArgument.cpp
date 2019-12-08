@@ -15,8 +15,6 @@ PositionalArgument::~PositionalArgument()
 }
 
 //==============================================================================
-// If implemented, operator= should follow this template
-//==============================================================================
 PositionalArgument&
 PositionalArgument::operator=(const PositionalArgument& template_class)
 {
