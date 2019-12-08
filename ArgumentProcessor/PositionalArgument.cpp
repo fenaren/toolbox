@@ -1,7 +1,11 @@
+#include <string>
+
 #include "PositionalArgument.hpp"
 
 //==============================================================================
-PositionalArgument::PositionalArgument()
+PositionalArgument::PositionalArgument(const std::string& name,
+                                       const std::string& description) :
+    Argument(name, description)
 {
 }
 

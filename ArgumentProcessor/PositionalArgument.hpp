@@ -1,12 +1,17 @@
 #if !defined POSITIONAL_ARGUMENT_HPP
 #define POSITIONAL_ARGUMENT_HPP
 
-class PositionalArgument
+#include <string>
+
+#include "Argument.hpp"
+
+class PositionalArgument : public Argument
 {
 public:
 
     // Frobnicates the widget
-    PositionalArgument();
+    PositionalArgument(const std::string& name,
+                       const std::string& description);
 
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something

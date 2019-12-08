@@ -1,7 +1,11 @@
+#include <string>
+
 #include "OptionalArgument.hpp"
 
 //==============================================================================
-OptionalArgument::OptionalArgument()
+OptionalArgument::OptionalArgument(const std::string& name,
+                                   const std::string& description) :
+    Argument(name, description)
 {
 }
 

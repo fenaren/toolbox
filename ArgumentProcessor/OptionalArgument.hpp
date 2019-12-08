@@ -1,12 +1,17 @@
 #if !defined OPTIONAL_ARGUMENT_HPP
 #define OPTIONAL_ARGUMENT_HPP
 
-class OptionalArgument
+#include <string>
+
+#include "Argument.hpp"
+
+class OptionalArgument : public Argument
 {
 public:
 
     // Frobnicates the widget
-    OptionalArgument();
+    OptionalArgument(const std::string& name,
+                     const std::string& description);
 
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something
