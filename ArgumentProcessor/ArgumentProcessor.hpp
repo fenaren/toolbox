@@ -54,6 +54,9 @@ private:
 
     std::unordered_map<std::string, OptionalArgument> optional_arguments;
 
+    // Tracks the positional argument we're going to process next
+    std::list<PositionalArgument>::iterator current_pa;
+
     // Maps argument names to their corresponding values.  Multiple names will
     // link to the same value for arguments with multiple names (ex. -v and
     // --verbose).  A single copy of the actual value for each argument is
@@ -72,10 +75,9 @@ private:
 //==============================================================================
 inline void ArgumentProcessor::registerName()
 {
-    positional_arguments.push_back(
-        PositionalArgument(
-            "Name",
-            "Name the program was invoked with at the command line"));
+    registerPositionalArgument(
+        "Name",
+        "Name the program was invoked with at the command line");
 }
 
 //==============================================================================
