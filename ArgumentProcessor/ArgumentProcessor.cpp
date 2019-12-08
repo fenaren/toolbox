@@ -1,7 +1,11 @@
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
 
 #include "ArgumentProcessor.hpp"
+
+#include "OptionalArgument.hpp"
+#include "PositionalArgument.hpp"
 
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor()
@@ -11,6 +15,21 @@ ArgumentProcessor::ArgumentProcessor()
 //==============================================================================
 ArgumentProcessor::~ArgumentProcessor()
 {
+}
+
+//==============================================================================
+bool ArgumentProcessor::process(int argc, char** argv)
+{
+    for (int i = 0; i < argc; ++i)
+    {
+        std::unordered_map<std::string, OptionalArgument>::iterator
+            found_opt_arg = optional_arguments.find(argv[i]);
+
+        // Is this argument one of the optional arguments?
+        if (found_opt_arg != optional_arguments.end())
+        {
+        }
+    }
 }
 
 //==============================================================================

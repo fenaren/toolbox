@@ -25,6 +25,8 @@ public:
         const std::unordered_set<std::string>& aliases =
         std::unordered_set<std::string>());
 
+    bool process(int argc, char** argv);
+
 private:
 
     std::list<PositionalArgument> positional_arguments;
