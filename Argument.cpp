@@ -1,13 +1,10 @@
-#include <string>
-#include <unordered_set>
-
 #include "Argument.hpp"
 
 //==============================================================================
-Argument::Argument(const std::string&                     canonical_name,
-                   const std::unordered_set<std::string>& aliases) :
-    canonical_name(canonical_name),
-    aliases(aliases)
+Argument::Argument(const std::string& name,
+                   const std::string& description) :
+    name(name),
+    description(description)
 {
 }
 

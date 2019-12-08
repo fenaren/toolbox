@@ -1,3 +1,6 @@
+#include <string>
+#include <unordered_set>
+
 #include "ArgumentProcessor.hpp"
 
 //==============================================================================
@@ -7,13 +10,6 @@ ArgumentProcessor::ArgumentProcessor()
 
 //==============================================================================
 ArgumentProcessor::~ArgumentProcessor()
-{
-}
-
-//==============================================================================
-void ArgumentProcessor::registerArgument(
-    const std::unordered_set<std::string>& names,
-    ArgumentType                           type)
 {
 }
 

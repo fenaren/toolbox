@@ -1,37 +1,34 @@
 #if !defined ARGUMENT_HPP
 #define ARGUMENT_HPP
 
+#include <list>
 #include <string>
-#include <unordered_set>
 
 class Argument
 {
 public:
 
-    // Frobnicates the widget
-    Argument(const std::string&                     canonical_name,
-             const std::unordered_set<std::string>& aliases =
-             std::unordered_set<std::string>());
+    Argument(const std::string& name,
+             const std::string& description);
 
-    // Defrobnicates the widget.  Make this virtual if this class derives from
-    // something
     virtual ~Argument();
 
-    void getCanonicalName(std::string& canonical_name) const;
-    void setCanonicalName(const std::string& canonical_name);
+    void getName(std::string& name) const;
+    void setName(const std::string& name);
 
-    void getAliases(std::unordered_set<std::string>& aliases) const;
-    void setAliases(const std::unordered_set<std::string>& aliases);
+    void getDescription(std::string& description) const;
+    void setDescription(const std::string& description);
 
-    virtual void process(const std::string& token) = 0;
+    void addValue(const std::string& value);
+    void clearValues();
 
 private:
 
-    // Canonical name of this argument
-    std::string canonical_name;
+    std::string name;
 
-    // Any aliases this argument goes by
-    std::unordered_set<std::string> aliases;
+    std::string description;
+
+    std::list<std::string> values;
 
     // Copy construction and assignment not allowed.  Consider getting rid of
     // the operator= code in the implementation file if operator= remains
@@ -41,27 +38,39 @@ private:
 };
 
 //==============================================================================
-inline void Argument::getCanonicalName(std::string& canonical_name) const
+inline void Argument::getName(std::string& name) const
 {
-    canonical_name = this->canonical_name;
+    name = this->name;
 }
 
 //==============================================================================
-inline void Argument::setCanonicalName(const std::string& canonical_name)
+inline void Argument::setName(const std::string& name)
 {
-    this->canonical_name = canonical_name;
+    this->name = name;
 }
 
 //==============================================================================
-inline void Argument::getAliases(std::unordered_set<std::string>& aliases) const
+inline void Argument::getDescription(std::string& description) const
 {
-    aliases = this->aliases;
+    description = this->description;
 }
 
 //==============================================================================
-inline void Argument::setAliases(const std::unordered_set<std::string>& aliases)
+inline void Argument::setDescription(const std::string& description)
 {
-    this->aliases = aliases;
+    this->description = description;
+}
+
+//==============================================================================
+inline void Argument::addValue(const std::string& value)
+{
+    values.push_back(value);
+}
+
+//==============================================================================
+inline void Argument::clearValues()
+{
+    values.clear();
 }
 
 #endif
