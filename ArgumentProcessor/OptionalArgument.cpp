@@ -1,29 +1,19 @@
-#include "ArgumentStoreLast.hpp"
+#include "TemplateClass.hpp"
 
 //==============================================================================
-ArgumentStoreLast::ArgumentStoreLast(
-    const std::string&                     canonical_name,
-    const std::unordered_set<std::string>& aliases) :
-    Argument(canonical_name, aliases)
+TemplateClass::TemplateClass()
 {
 }
 
 //==============================================================================
-ArgumentStoreLast::~ArgumentStoreLast()
+TemplateClass::~TemplateClass()
 {
-}
-
-//==============================================================================
-void ArgumentStoreLast::process(const std::string& token)
-{
-    this->value = token;
 }
 
 //==============================================================================
 // If implemented, operator= should follow this template
 //==============================================================================
-ArgumentStoreLast&
-ArgumentStoreLast::operator=(const ArgumentStoreLast& template_class)
+TemplateClass& TemplateClass::operator=(const TemplateClass& template_class)
 {
     // Don't do anything if we're assigning to ourselves
     if (this != &template_class)

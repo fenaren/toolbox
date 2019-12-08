@@ -25,8 +25,6 @@ cmake_policy(VERSION ${CMAKE_VERSION})
 
 # All the source files in this directory
 set(SRC
-  Argument.cpp
-  ArgumentProcessor.cpp
   DataField.cpp
   DataPacket.cpp
   DisjointSet.cpp
@@ -66,11 +64,11 @@ if(LINUX)
 endif(LINUX)
 
 # Add standard subdirectories (these build unconditionally)
+add_subdirectory(ArgumentProcessor)
 add_subdirectory(networking)
 add_subdirectory(testing)
 
 # Add test subdirectories (these don't build unconditionally)
-add_subdirectory(ArgumentProcessor_test EXCLUDE_FROM_ALL)
 add_subdirectory(DataField_test         EXCLUDE_FROM_ALL)
 add_subdirectory(DataPacket_test        EXCLUDE_FROM_ALL)
 add_subdirectory(DisjointSet_test       EXCLUDE_FROM_ALL)
