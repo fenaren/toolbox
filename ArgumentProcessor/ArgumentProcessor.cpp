@@ -91,7 +91,7 @@ void ArgumentProcessor::process(const std::string& argument)
         next_positional_argument->process(argument);
 
         // We're ready for the next positional argument.
-        next_positional_argument++;
+        ++next_positional_argument;
     }
 }
 
