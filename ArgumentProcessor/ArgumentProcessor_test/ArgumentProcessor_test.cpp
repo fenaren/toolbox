@@ -1,5 +1,6 @@
 #include "ArgumentProcessor_test.hpp"
 
+#include "ArgumentProcessor.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -35,17 +36,20 @@ void ArgumentProcessor_test::Process::addTestCases()
 //==============================================================================
 Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 {
+    ArgumentProcessor argument_processor;
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentProcessor_test::RegisterOptionalArgument::Case1::body()
 {
+    ArgumentProcessor argument_processor;
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentProcessor_test::Process::Case1::body()
 {
+    ArgumentProcessor argument_processor;
     return Test::PASSED;
 }
