@@ -10,6 +10,13 @@ PositionalArgument::PositionalArgument(const std::string& name,
 }
 
 //==============================================================================
+PositionalArgument::PositionalArgument(
+    const PositionalArgument& positional_argument)
+{
+    *this = positional_argument;
+}
+
+//==============================================================================
 PositionalArgument::~PositionalArgument()
 {
 }
@@ -22,12 +29,15 @@ void PositionalArgument::process(const std::string& argument)
 
 //==============================================================================
 PositionalArgument&
-PositionalArgument::operator=(const PositionalArgument& template_class)
+PositionalArgument::operator=(const PositionalArgument& positional_argument)
 {
     // Don't do anything if we're assigning to ourselves
-    if (this != &template_class)
+    if (this != &positional_argument)
     {
-        // Do something
+        std::string value;
+        positional_argument.getValue(value);
+
+        setValue(value);
     }
 
     return *this;

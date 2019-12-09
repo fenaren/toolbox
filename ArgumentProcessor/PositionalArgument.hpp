@@ -25,7 +25,8 @@ public:
 
     virtual void process(const std::string& argument);
 
-    PositionalArgument& operator=(const PositionalArgument&);
+    PositionalArgument&
+    operator=(const PositionalArgument& positional_argument);
 
 private:
 

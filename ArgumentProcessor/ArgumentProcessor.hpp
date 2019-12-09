@@ -55,7 +55,12 @@ private:
     std::unordered_map<std::string, OptionalArgument> optional_arguments;
 
     // Tracks the positional argument we're going to process next
-    std::list<PositionalArgument>::iterator current_pa;
+    std::list<PositionalArgument>::iterator next_positional_argument;
+
+    // Tracks the optional argument we're in the middle of processing, if there
+    // is one
+    std::unordered_map<std::string, OptionalArgument>::iterator
+    current_optional_argument;
 
     // Maps argument names to their corresponding values.  Multiple names will
     // link to the same value for arguments with multiple names (ex. -v and

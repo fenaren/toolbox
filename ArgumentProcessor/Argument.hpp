@@ -8,8 +8,8 @@ class Argument
 {
 public:
 
-    Argument(const std::string& name,
-             const std::string& description);
+    Argument(const std::string& name        = "",
+             const std::string& description = "");
 
     virtual ~Argument();
 
