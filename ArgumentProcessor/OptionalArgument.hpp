@@ -26,11 +26,14 @@ public:
     void getAliases(std::unordered_set<std::string>& aliases) const;
 
     bool isDoneProcessing() const;
-    void setDoneProcessing(bool done_processing);
 
     virtual void process(const std::string& argument);
 
     OptionalArgument& operator=(const OptionalArgument& optional_argument);
+
+protected:
+
+    void setDoneProcessing(bool done_processing);
 
 private:
 

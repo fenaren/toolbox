@@ -13,6 +13,8 @@ class ArgumentProcessor
 {
 public:
 
+    friend class ArgumentProcessor_test;
+
     ArgumentProcessor();
     ~ArgumentProcessor();
 

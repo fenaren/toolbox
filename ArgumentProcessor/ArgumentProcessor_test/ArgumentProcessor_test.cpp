@@ -9,11 +9,43 @@ TEST_PROGRAM_MAIN(ArgumentProcessor_test);
 //==============================================================================
 void ArgumentProcessor_test::addTestCases()
 {
-    ADD_TEST_CASE(Stub);
+    ADD_TEST_CASE(RegisterPositionalArgument);
+    ADD_TEST_CASE(RegisterOptionalArgument);
+    ADD_TEST_CASE(Process);
 }
 
 //==============================================================================
-Test::Result ArgumentProcessor_test::Stub::body()
+void ArgumentProcessor_test::RegisterPositionalArgument::addTestCases()
+{
+    ADD_TEST_CASE(Case1);
+}
+
+//==============================================================================
+void ArgumentProcessor_test::RegisterOptionalArgument::addTestCases()
+{
+    ADD_TEST_CASE(Case1);
+}
+
+//==============================================================================
+void ArgumentProcessor_test::Process::addTestCases()
+{
+    ADD_TEST_CASE(Case1);
+}
+
+//==============================================================================
+Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
+{
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentProcessor_test::RegisterOptionalArgument::Case1::body()
+{
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentProcessor_test::Process::Case1::body()
 {
     return Test::PASSED;
 }
