@@ -6,8 +6,10 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "OptionalArgument.hpp"
-#include "PositionalArgument.hpp"
+#include "ArgumentType.hpp"
+
+class OptionalArgument;
+class PositionalArgument;
 
 class ArgumentProcessor
 {
@@ -19,11 +21,13 @@ public:
     ~ArgumentProcessor();
 
     void registerPositionalArgument(const std::string& name,
-                                    const std::string& description);
+                                    const std::string& description,
+                                    ArgumentType       type = STORE_LAST);
 
     void registerOptionalArgument(
-        const std::string& name,
-        const std::string& description,
+        const std::string&                     name,
+        const std::string&                     description,
+        ArgumentType                           type = STORE_LAST,
         const std::unordered_set<std::string>& aliases =
         std::unordered_set<std::string>());
 
@@ -52,16 +56,16 @@ public:
 
 private:
 
-    std::list<PositionalArgument> positional_arguments;
+    std::list<PositionalArgument*> positional_arguments;
 
-    std::unordered_map<std::string, OptionalArgument> optional_arguments;
+    std::unordered_map<std::string, OptionalArgument*> optional_arguments;
 
     // Tracks the positional argument we're going to process next
-    std::list<PositionalArgument>::iterator next_positional_argument;
+    std::list<PositionalArgument*>::iterator next_positional_argument;
 
     // Tracks the optional argument we're in the middle of processing, if there
     // is one
-    std::unordered_map<std::string, OptionalArgument>::iterator
+    std::unordered_map<std::string, OptionalArgument*>::iterator
     current_optional_argument;
 
     // Maps argument names to their corresponding values.  Multiple names will

@@ -10,10 +10,11 @@ class OptionalArgument : public Argument
 {
 public:
 
-    OptionalArgument(const std::string&                     name = "",
-                     const std::string&                     description = "",
-                     const std::unordered_set<std::string>& aliases =
-                     std::unordered_set<std::string>());
+    OptionalArgument(
+        const std::string&                     name        = "",
+        const std::string&                     description = "",
+        const std::unordered_set<std::string>& aliases     =
+        std::unordered_set<std::string>());
 
     // Copy constructor
     OptionalArgument(const OptionalArgument& optional_argument);
