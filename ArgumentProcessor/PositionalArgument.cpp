@@ -24,7 +24,8 @@ PositionalArgument::~PositionalArgument()
 //==============================================================================
 void PositionalArgument::process(const std::string& argument)
 {
-    setValue(argument);
+    value = argument;
+    setSatisfied(true);
 }
 
 //==============================================================================
@@ -37,7 +38,7 @@ PositionalArgument::operator=(const PositionalArgument& positional_argument)
         std::string value;
         positional_argument.getValue(value);
 
-        setValue(value);
+        this->value = value;
     }
 
     return *this;

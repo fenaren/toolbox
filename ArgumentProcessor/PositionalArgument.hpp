@@ -23,6 +23,8 @@ public:
     void getValue(std::string& value) const;
     void setValue(const std::string& value);
 
+    virtual unsigned int count() const;
+
     virtual void process(const std::string& argument);
 
     PositionalArgument&
@@ -43,6 +45,17 @@ inline void PositionalArgument::getValue(std::string& value) const
 inline void PositionalArgument::setValue(const std::string& value)
 {
     this->value = value;
+}
+
+//==============================================================================
+inline unsigned int PositionalArgument::count() const
+{
+    if (isSatisfied())
+    {
+        return 1;
+    }
+
+    return 0;
 }
 
 #endif

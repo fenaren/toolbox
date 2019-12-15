@@ -23,6 +23,8 @@ public:
 
     bool isSatisfied() const;
 
+    virtual unsigned int count() const = 0;
+
     virtual void process(const std::string& argument) = 0;
 
     Argument& operator=(const Argument& argument);
