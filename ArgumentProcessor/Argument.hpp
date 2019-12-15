@@ -11,6 +11,8 @@ public:
     Argument(const std::string& name        = "",
              const std::string& description = "");
 
+    Argument(const Argument& argument);
+
     virtual ~Argument();
 
     void getName(std::string& name) const;
@@ -19,18 +21,22 @@ public:
     void getDescription(std::string& description) const;
     void setDescription(const std::string& description);
 
+    bool isSatisfied() const;
+
     virtual void process(const std::string& argument) = 0;
+
+    Argument& operator=(const Argument&);
+
+protected:
+
+    void setSatisfied(bool satisfied);
 
 private:
 
     std::string name;
     std::string description;
 
-    // Copy construction and assignment not allowed.  Consider getting rid of
-    // the operator= code in the implementation file if operator= remains
-    // private
-    Argument(const Argument&);
-    Argument& operator=(const Argument&);
+    bool satisfied;
 };
 
 //==============================================================================
@@ -55,6 +61,18 @@ inline void Argument::getDescription(std::string& description) const
 inline void Argument::setDescription(const std::string& description)
 {
     this->description = description;
+}
+
+//==============================================================================
+inline bool Argument::isSatisfied() const
+{
+    return satisfied;
+}
+
+//==============================================================================
+inline void Argument::setSatisfied(bool satisfied)
+{
+    this->satisfied = satisfied;
 }
 
 #endif

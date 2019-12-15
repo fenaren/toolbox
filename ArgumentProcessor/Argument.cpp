@@ -4,8 +4,15 @@
 Argument::Argument(const std::string& name,
                    const std::string& description) :
     name(name),
-    description(description)
+    description(description),
+    satisfied(false)
 {
+}
+
+//==============================================================================
+Argument::Argument(const Argument& argument)
+{
+    *this = argument;
 }
 
 //==============================================================================

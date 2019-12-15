@@ -11,8 +11,7 @@ OptionalArgument::OptionalArgument(
     const std::string&                     description,
     const std::unordered_set<std::string>& aliases) :
     Argument(name, description),
-    aliases(aliases),
-    done_processing(false)
+    aliases(aliases)
 {
 }
 

@@ -26,8 +26,6 @@ public:
     void setAliases(const std::unordered_set<std::string>& aliases);
     void getAliases(std::unordered_set<std::string>& aliases) const;
 
-    bool isDoneProcessing() const;
-
     virtual void process(const std::string& argument);
 
     OptionalArgument& operator=(const OptionalArgument& optional_argument);
@@ -39,8 +37,6 @@ protected:
 private:
 
     std::unordered_set<std::string> aliases;
-
-    bool done_processing;
 };
 
 //==============================================================================
@@ -55,18 +51,6 @@ inline void
 OptionalArgument::getAliases(std::unordered_set<std::string>& aliases) const
 {
     aliases = this->aliases;
-}
-
-//==============================================================================
-inline bool OptionalArgument::isDoneProcessing() const
-{
-    return done_processing;
-}
-
-//==============================================================================
-inline void OptionalArgument::setDoneProcessing(bool done_processing)
-{
-    this->done_processing = done_processing;
 }
 
 #endif

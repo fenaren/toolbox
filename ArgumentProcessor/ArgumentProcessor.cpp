@@ -45,7 +45,7 @@ void ArgumentProcessor::registerPositionalArgument(
     const std::string& description,
     ArgumentType       type)
 {
-    positional_arguments.push_back(new PositionalArgument(name, description));
+    //positional_arguments.push_back(new PositionalArgument(name, description));
 
     // If we just added the first positional argument then we have to start
     // processing positional arguments from here.  There's nowhere else to
@@ -73,7 +73,7 @@ void ArgumentProcessor::registerOptionalArgument(
 {
     // Stores the name twice, which is a bit inefficient.  Also ignores aliases
     // in the map, for now.
-    optional_arguments[name] = new OptionalArgument(name, description, aliases);
+    //optional_arguments[name] = new OptionalArgument(name, description, aliases);
 }
 
 //==============================================================================
@@ -98,7 +98,7 @@ void ArgumentProcessor::process(const std::string& argument)
         current_optional_argument->second->process(argument);
 
         // Stop processing this optional argument only when it says it's done.
-        if (current_optional_argument->second->isDoneProcessing())
+        if (current_optional_argument->second->isSatisfied())
         {
             current_optional_argument = optional_arguments.end();
         }
