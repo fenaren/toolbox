@@ -23,12 +23,20 @@ Argument::~Argument()
 //==============================================================================
 // If implemented, operator= should follow this template
 //==============================================================================
-Argument& Argument::operator=(const Argument& template_class)
+Argument& Argument::operator=(const Argument& argument)
 {
     // Don't do anything if we're assigning to ourselves
-    if (this != &template_class)
+    if (this != &argument)
     {
-        // Do something
+        std::string name;
+        argument.getName(name);
+        this->name = name;
+
+        std::string description;
+        argument.getDescription(description);
+        this->description = description;
+
+        satisfied = argument.isSatisfied();
     }
 
     return *this;

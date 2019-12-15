@@ -25,7 +25,7 @@ public:
 
     virtual void process(const std::string& argument) = 0;
 
-    Argument& operator=(const Argument&);
+    Argument& operator=(const Argument& argument);
 
 protected:
 
