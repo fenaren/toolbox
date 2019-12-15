@@ -21,8 +21,6 @@ Argument::~Argument()
 }
 
 //==============================================================================
-// If implemented, operator= should follow this template
-//==============================================================================
 Argument& Argument::operator=(const Argument& argument)
 {
     // Don't do anything if we're assigning to ourselves
