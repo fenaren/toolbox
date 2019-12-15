@@ -5,6 +5,7 @@ set(SRC
   Argument.cpp
   ArgumentProcessor.cpp
   PositionalArgument.cpp
+  PositionalArgumentList.cpp
   OptionalArgument.cpp)
 
 # Add source files to the project sources.  In cmake v3.13 the behavior of

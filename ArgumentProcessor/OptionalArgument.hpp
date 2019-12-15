@@ -30,10 +30,6 @@ public:
 
     OptionalArgument& operator=(const OptionalArgument& optional_argument);
 
-protected:
-
-    void setDoneProcessing(bool done_processing);
-
 private:
 
     std::unordered_set<std::string> aliases;
