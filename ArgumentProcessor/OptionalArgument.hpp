@@ -33,6 +33,10 @@ public:
 private:
 
     std::unordered_set<std::string> aliases;
+
+    std::list<std::string> values;
+
+    unsigned int count;
 };
 
 //==============================================================================

@@ -11,7 +11,8 @@ OptionalArgument::OptionalArgument(
     const std::string&                     description,
     const std::unordered_set<std::string>& aliases) :
     Argument(name, description),
-    aliases(aliases)
+    aliases(aliases),
+    flag_processed(false)
 {
 }
 
@@ -24,6 +25,11 @@ OptionalArgument::OptionalArgument(const OptionalArgument& optional_argument) :
 
 //==============================================================================
 OptionalArgument::~OptionalArgument()
+{
+}
+
+//==============================================================================
+void OptionalArgument::process(const std::string& argument)
 {
 }
 
