@@ -8,15 +8,11 @@ class Argument
 {
 public:
 
-    Argument(const std::string& name        = "",
-             const std::string& description = "");
+    Argument(const std::string& description = "");
 
     Argument(const Argument& argument);
 
     virtual ~Argument();
-
-    void getName(std::string& name) const;
-    void setName(const std::string& name);
 
     void getDescription(std::string& description) const;
     void setDescription(const std::string& description);
@@ -35,23 +31,10 @@ protected:
 
 private:
 
-    std::string name;
     std::string description;
 
     bool satisfied;
 };
-
-//==============================================================================
-inline void Argument::getName(std::string& name) const
-{
-    name = this->name;
-}
-
-//==============================================================================
-inline void Argument::setName(const std::string& name)
-{
-    this->name = name;
-}
 
 //==============================================================================
 inline void Argument::getDescription(std::string& description) const

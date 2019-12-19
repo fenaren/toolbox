@@ -10,8 +10,7 @@ class PositionalArgument : public Argument
 public:
 
     // Frobnicates the widget
-    PositionalArgument(const std::string& name,
-                       const std::string& description);
+    PositionalArgument(const std::string& description);
 
     // Copy constructor
     PositionalArgument(const PositionalArgument&);

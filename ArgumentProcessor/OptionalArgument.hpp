@@ -10,11 +10,7 @@ class OptionalArgument : public Argument
 {
 public:
 
-    OptionalArgument(
-        const std::string&                     name        = "",
-        const std::string&                     description = "",
-        const std::unordered_set<std::string>& aliases     =
-        std::unordered_set<std::string>());
+    OptionalArgument(const std::string& description = "");
 
     // Copy constructor
     OptionalArgument(const OptionalArgument& optional_argument);
@@ -23,34 +19,13 @@ public:
     // something
     virtual ~OptionalArgument();
 
-    void setAliases(const std::unordered_set<std::string>& aliases);
-    void getAliases(std::unordered_set<std::string>& aliases) const;
-
     virtual void process(const std::string& argument);
 
     OptionalArgument& operator=(const OptionalArgument& optional_argument);
 
 private:
 
-    std::unordered_set<std::string> aliases;
-
     std::list<std::string> values;
-
-    unsigned int count;
 };
-
-//==============================================================================
-inline void
-OptionalArgument::setAliases(const std::unordered_set<std::string>& aliases)
-{
-    this->aliases = aliases;
-}
-
-//==============================================================================
-inline void
-OptionalArgument::getAliases(std::unordered_set<std::string>& aliases) const
-{
-    aliases = this->aliases;
-}
 
 #endif

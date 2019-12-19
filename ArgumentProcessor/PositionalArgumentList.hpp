@@ -11,8 +11,7 @@ class PositionalArgumentList : public PositionalArgument
 public:
 
     // Frobnicates the widget
-    PositionalArgumentList(const std::string& name        = "",
-                           const std::string& description = "");
+    PositionalArgumentList(const std::string& description = "");
 
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something

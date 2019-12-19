@@ -3,9 +3,8 @@
 #include "PositionalArgument.hpp"
 
 //==============================================================================
-PositionalArgument::PositionalArgument(const std::string& name,
-                                       const std::string& description) :
-    Argument(name, description)
+PositionalArgument::PositionalArgument(const std::string& description) :
+    Argument(description)
 {
 }
 
