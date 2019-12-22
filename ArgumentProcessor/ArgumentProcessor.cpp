@@ -33,7 +33,7 @@ void ArgumentProcessor::registerPositionalArgument(
     const std::string& name,
     const std::string& description)
 {
-    positional_arguments.push_back(PositionalArgument(description));
+    positional_arguments.push_back(PositionalArgument(name, description));
 
     // If we just added the first positional argument then we have to start
     // processing positional arguments from here.  There's nowhere else to
