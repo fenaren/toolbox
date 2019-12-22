@@ -15,8 +15,10 @@ public:
 
     friend class ArgumentProcessor_test;
 
-    ArgumentProcessor();
-    ~ArgumentProcessor();
+    ArgumentProcessor(const std::string& name,
+                      const std::string& description = "");
+
+    virtual ~ArgumentProcessor();
 
     void registerPositionalArgument(const std::string& name,
                                     const std::string& description);

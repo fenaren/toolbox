@@ -36,20 +36,20 @@ void ArgumentProcessor_test::Process::addTestCases()
 //==============================================================================
 Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 {
-    ArgumentProcessor argument_processor;
+    ArgumentProcessor argument_processor("ArgumentProcessor");
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentProcessor_test::RegisterOptionalArgument::Case1::body()
 {
-    ArgumentProcessor argument_processor;
+    ArgumentProcessor argument_processor("ArgumentProcessor");
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentProcessor_test::Process::Case1::body()
 {
-    ArgumentProcessor argument_processor;
+    ArgumentProcessor argument_processor("ArgumentProcessor");
     return Test::PASSED;
 }

@@ -7,7 +7,9 @@
 #include "PositionalArgument.hpp"
 
 //==============================================================================
-ArgumentProcessor::ArgumentProcessor() :
+ArgumentProcessor::ArgumentProcessor(const std::string& name,
+                                     const std::string& description) :
+    Argument(name, description),
     next_positional_argument(positional_arguments.end()),
     current_optional_argument(optional_arguments.end())
 {
