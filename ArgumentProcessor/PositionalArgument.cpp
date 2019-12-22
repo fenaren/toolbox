@@ -21,13 +21,6 @@ PositionalArgument::~PositionalArgument()
 }
 
 //==============================================================================
-void PositionalArgument::process(const std::string& argument)
-{
-    value = argument;
-    setSatisfied(true);
-}
-
-//==============================================================================
 PositionalArgument&
 PositionalArgument::operator=(const PositionalArgument& positional_argument)
 {
@@ -37,7 +30,8 @@ PositionalArgument::operator=(const PositionalArgument& positional_argument)
         std::string value;
         positional_argument.getValue(value);
 
-        this->value = value;
+        this->value     = value;
+        this->specified = positional_argument.isSpecified();
     }
 
     return *this;

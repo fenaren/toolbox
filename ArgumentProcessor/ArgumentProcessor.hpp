@@ -4,14 +4,12 @@
 #include <list>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 
-#include "ArgumentType.hpp"
+#include "Argument.hpp"
 
-class OptionalArgument;
 class PositionalArgument;
 
-class ArgumentProcessor
+class ArgumentProcessor : public Argument
 {
 public:
 
@@ -21,29 +19,31 @@ public:
     ~ArgumentProcessor();
 
     void registerPositionalArgument(const std::string& name,
-                                    const std::string& description,
-                                    ArgumentType       type = STORE_LAST);
+                                    const std::string& description);
 
-    void registerOptionalArgument(
+    /*void registerOptionalArgument(
         const std::string&                     name,
         const std::string&                     description,
-        ArgumentType                           type = STORE_LAST,
         const std::unordered_set<std::string>& aliases =
-        std::unordered_set<std::string>());
+        std::unordered_set<std::string>());*/
 
     // Registers a positional argument representing the name the program was
     // invoked with at the command line.  Program name is always the first
     // argument, so chances are you'll want to have this registered as the first
     // positional argument.  This method is called at construction time to help
     // with this.
-    void registerName();
+    //void registerName();
 
     // Un-registers all registered arguments.  After a call to this no arguments
     // will be recognized, including the usual first argument representing the
     // name the program was invoked with at the command line.  It is possible to
     // register arguments after a call to this (calling registerName() might be
     // a good idea).
-    void unregisterAll();
+    //void unregisterAll();
+
+    virtual bool isSpecified() const;
+
+    virtual void reset();
 
     // Process a single argument
     void process(const std::string& argument);
@@ -51,21 +51,21 @@ public:
     // Process multiple sequential arguments
     void process(const std::list<std::string>& arguments);
 
-    // Compatibility with C/C++
+    // For arguments straight off the command line
     void process(int argc, char** argv);
 
 private:
 
-    std::list<PositionalArgument*> positional_arguments;
+    std::list<PositionalArgument> positional_arguments;
 
-    std::unordered_map<std::string, OptionalArgument*> optional_arguments;
+    std::unordered_map<std::string, ArgumentProcessor> optional_arguments;
 
     // Tracks the positional argument we're going to process next
-    std::list<PositionalArgument*>::iterator next_positional_argument;
+    std::list<PositionalArgument>::iterator next_positional_argument;
 
     // Tracks the optional argument we're in the middle of processing, if there
     // is one
-    std::unordered_map<std::string, OptionalArgument*>::iterator
+    std::unordered_map<std::string, ArgumentProcessor>::iterator
     current_optional_argument;
 
     // Maps argument names to their corresponding values.  Multiple names will
@@ -84,18 +84,18 @@ private:
 };
 
 //==============================================================================
-inline void ArgumentProcessor::registerName()
+/*inline void ArgumentProcessor::registerName()
 {
     registerPositionalArgument(
         "Name",
         "Name the program was invoked with at the command line");
-}
+        }*/
 
 //==============================================================================
-inline void ArgumentProcessor::unregisterAll()
+/*inline void ArgumentProcessor::unregisterAll()
 {
     positional_arguments.clear();
     optional_arguments.clear();
-}
+    }*/
 
 #endif

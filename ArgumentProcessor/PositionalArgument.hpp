@@ -9,30 +9,40 @@ class PositionalArgument : public Argument
 {
 public:
 
-    // Frobnicates the widget
-    PositionalArgument(const std::string& description);
+    PositionalArgument(const std::string& description = "");
 
-    // Copy constructor
-    PositionalArgument(const PositionalArgument&);
+    PositionalArgument(const PositionalArgument& argument);
 
-    // Defrobnicates the widget.  Make this virtual if this class derives from
-    // something
-    ~PositionalArgument();
+    virtual ~PositionalArgument();
+
+    virtual bool isSpecified() const;
+
+    virtual void reset();
 
     void getValue(std::string& value) const;
     void setValue(const std::string& value);
 
-    virtual unsigned int count() const;
-
-    virtual void process(const std::string& argument);
-
-    PositionalArgument&
-    operator=(const PositionalArgument& positional_argument);
+    PositionalArgument& operator=(const PositionalArgument& argument);
 
 private:
 
     std::string value;
+
+    bool specified;
 };
+
+//==============================================================================
+inline bool PositionalArgument::isSpecified() const
+{
+    return specified;
+}
+
+//==============================================================================
+inline void PositionalArgument::reset()
+{
+    value.clear();
+    specified = false;
+}
 
 //==============================================================================
 inline void PositionalArgument::getValue(std::string& value) const
@@ -43,18 +53,8 @@ inline void PositionalArgument::getValue(std::string& value) const
 //==============================================================================
 inline void PositionalArgument::setValue(const std::string& value)
 {
-    this->value = value;
-}
-
-//==============================================================================
-inline unsigned int PositionalArgument::count() const
-{
-    if (isSatisfied())
-    {
-        return 1;
-    }
-
-    return 0;
+    this->value     = value;
+    this->specified = true;
 }
 
 #endif

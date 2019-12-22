@@ -1,12 +1,9 @@
 #include <iterator>
 #include <string>
-#include <unordered_set>
 #include <unordered_map>
 
 #include "ArgumentProcessor.hpp"
 
-#include "ArgumentType.hpp"
-#include "OptionalArgument.hpp"
 #include "PositionalArgument.hpp"
 
 //==============================================================================
@@ -14,38 +11,19 @@ ArgumentProcessor::ArgumentProcessor() :
     next_positional_argument(positional_arguments.end()),
     current_optional_argument(optional_arguments.end())
 {
-    // It's a safe bet users will always want the program name registered.
-    // Positional arguments won't work correctly otherwise.
-    registerName();
 }
 
 //==============================================================================
 ArgumentProcessor::~ArgumentProcessor()
 {
-    for (std::list<PositionalArgument*>::iterator i =
-             positional_arguments.begin();
-         i != positional_arguments.end();
-         ++i)
-    {
-        delete *i;
-    }
-
-    for (std::unordered_map<std::string, OptionalArgument*>::iterator i =
-             optional_arguments.begin();
-         i != optional_arguments.end();
-         ++i)
-    {
-        delete i->second;
-    }
 }
 
 //==============================================================================
 void ArgumentProcessor::registerPositionalArgument(
     const std::string& name,
-    const std::string& description,
-    ArgumentType       type)
+    const std::string& description)
 {
-    //positional_arguments.push_back(new PositionalArgument(name, description));
+    positional_arguments.push_back(PositionalArgument(description));
 
     // If we just added the first positional argument then we have to start
     // processing positional arguments from here.  There's nowhere else to
@@ -65,7 +43,20 @@ void ArgumentProcessor::registerPositionalArgument(
 }
 
 //==============================================================================
-void ArgumentProcessor::registerOptionalArgument(
+bool ArgumentProcessor::isSpecified() const
+{
+    return false;
+}
+
+//==============================================================================
+void ArgumentProcessor::reset()
+{
+    positional_arguments.clear();
+    optional_arguments.clear();
+}
+
+//==============================================================================
+/*void ArgumentProcessor::registerOptionalArgument(
         const std::string&                     name,
         const std::string&                     description,
         ArgumentType                           type,
@@ -74,7 +65,7 @@ void ArgumentProcessor::registerOptionalArgument(
     // Stores the name twice, which is a bit inefficient.  Also ignores aliases
     // in the map, for now.
     //optional_arguments[name] = new OptionalArgument(name, description, aliases);
-}
+    }*/
 
 //==============================================================================
 void ArgumentProcessor::process(const std::string& argument)
@@ -95,10 +86,10 @@ void ArgumentProcessor::process(const std::string& argument)
     // will happen for all optional arguments that themselves take arguments.
     if (current_optional_argument != optional_arguments.end())
     {
-        current_optional_argument->second->process(argument);
+        current_optional_argument->second.process(argument);
 
         // Stop processing this optional argument only when it says it's done.
-        if (current_optional_argument->second->isSatisfied())
+        if (current_optional_argument->second.isSpecified())
         {
             current_optional_argument = optional_arguments.end();
         }
@@ -106,7 +97,7 @@ void ArgumentProcessor::process(const std::string& argument)
     else
     {
         // It's not optional, so process it as a positional argument.
-        (*next_positional_argument)->process(argument);
+        next_positional_argument->setValue(argument);
 
         // We're ready for the next positional argument.
         ++next_positional_argument;
