@@ -45,7 +45,7 @@ void ArgumentProcessor::registerPositionalArgument(
 //==============================================================================
 bool ArgumentProcessor::isSpecified() const
 {
-    return false;
+    return next_positional_argument == positional_arguments.end();
 }
 
 //==============================================================================
@@ -53,6 +53,9 @@ void ArgumentProcessor::reset()
 {
     positional_arguments.clear();
     optional_arguments.clear();
+
+    next_positional_argument = positional_arguments.end();
+    current_optional_argument = optional_arguments.end();
 }
 
 //==============================================================================
