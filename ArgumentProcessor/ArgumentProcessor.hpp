@@ -18,6 +18,8 @@ public:
     ArgumentProcessor(const std::string& name,
                       const std::string& description = "");
 
+    ArgumentProcessor(const ArgumentProcessor& argument_processor);
+
     virtual ~ArgumentProcessor();
 
     void registerPositionalArgument(const std::string& name,
@@ -56,6 +58,8 @@ public:
     // For arguments straight off the command line
     void process(int argc, char** argv);
 
+    ArgumentProcessor& operator=(const ArgumentProcessor& argument_processor);
+
 private:
 
     std::list<PositionalArgument> positional_arguments;
@@ -77,12 +81,6 @@ private:
     //std::unordered_map<std::string, std::string*> canonical_names;
 
     //std::unordered_set<std::string> canonical_names;
-
-    // Copy construction and assignment not allowed.  Consider getting rid of
-    // the operator= code in the implementation file if operator= remains
-    // private
-    ArgumentProcessor(const ArgumentProcessor&);
-    ArgumentProcessor& operator=(const ArgumentProcessor&);
 };
 
 //==============================================================================

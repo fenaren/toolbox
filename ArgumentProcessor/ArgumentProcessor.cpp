@@ -16,6 +16,14 @@ ArgumentProcessor::ArgumentProcessor(const std::string& name,
 }
 
 //==============================================================================
+ArgumentProcessor::ArgumentProcessor(
+    const ArgumentProcessor& argument_processor) :
+    Argument(argument_processor)
+{
+    *this = argument_processor;
+}
+
+//==============================================================================
 ArgumentProcessor::~ArgumentProcessor()
 {
 }
@@ -127,4 +135,21 @@ void ArgumentProcessor::process(int argc, char** argv)
     {
         process(argv[i]);
     }
+}
+
+//==============================================================================
+ArgumentProcessor& ArgumentProcessor::operator=(
+    const ArgumentProcessor& argument_processor)
+{
+    Argument::operator=(argument_processor);
+
+    if (this != &argument_processor)
+    {
+        this->positional_arguments = argument_processor.positional_arguments;
+        this->optional_arguments   = argument_processor.optional_arguments;
+
+        // Mirror the iterators
+    }
+
+    return *this;
 }

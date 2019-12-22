@@ -28,11 +28,11 @@ PositionalArgument::~PositionalArgument()
 PositionalArgument&
 PositionalArgument::operator=(const PositionalArgument& positional_argument)
 {
+    Argument::operator=(positional_argument);
+
     // Don't do anything if we're assigning to ourselves
     if (this != &positional_argument)
     {
-        Argument::operator=(positional_argument);
-
         std::string value;
         positional_argument.getValue(value);
 
