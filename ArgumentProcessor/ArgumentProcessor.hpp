@@ -30,13 +30,14 @@ public:
     void registerOptionalArgument(
         const std::string&                     name,
         const std::string&                     description,
-        const std::unordered_set<std::string>& flags);
-
-    // Has this argument been specified?
-    virtual bool isSpecified() const;
+        const std::unordered_set<std::string>& flags,
+        bool                                   has_a_value);
 
     // Internal state is set to what it would be after initial construction.
     virtual void reset();
+
+    // Has this argument been specified?
+    virtual bool isSpecified() const;
 
     // Process a single argument
     void process(const std::string& argument);
@@ -46,6 +47,8 @@ public:
 
     // For arguments straight off the command line
     void process(int argc, char** argv);
+
+    unsigned int getNumProcessed() const;
 
     ArgumentProcessor& operator=(const ArgumentProcessor& argument_processor);
 
@@ -59,34 +62,24 @@ private:
     typedef std::unordered_map<std::string, std::shared_ptr<ArgumentProcessor> >
     OptionalArgumentsMap;
 
+    // Maps optional argument flags to their corresponding processors.  Multiple
+    // flags will link to the same processor for arguments with multiple flags
+    // (ex. -v and --verbose).  Only a single copy of the actual processor for
+    // each argument is stored.
     OptionalArgumentsMap optional_arguments;
 
     // Tracks the optional argument we're in the middle of processing, if there
     // is one
     OptionalArgumentsMap::iterator current_optional_argument;
 
-    // Maps argument names to their corresponding values.  Multiple names will
-    // link to the same value for arguments with multiple names (ex. -v and
-    // --verbose).  A single copy of the actual value for each argument is
-    // stored in the argument_values map.
-    //std::unordered_map<std::string, std::string*> canonical_names;
-
-    //std::unordered_set<std::string> canonical_names;
+    // Counts the number of arguments processed
+    unsigned int num_processed;
 };
 
 //==============================================================================
-/*inline void ArgumentProcessor::registerName()
+inline unsigned int ArgumentProcessor::getNumProcessed() const
 {
-    registerPositionalArgument(
-        "Name",
-        "Name the program was invoked with at the command line");
-        }*/
-
-//==============================================================================
-/*inline void ArgumentProcessor::unregisterAll()
-{
-    positional_arguments.clear();
-    optional_arguments.clear();
-    }*/
+    return num_processed;
+}
 
 #endif

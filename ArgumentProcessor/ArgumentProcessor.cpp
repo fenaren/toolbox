@@ -1,5 +1,6 @@
 #include <iterator>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 
@@ -12,7 +13,8 @@ ArgumentProcessor::ArgumentProcessor(const std::string& name,
                                      const std::string& description) :
     Argument(name, description),
     next_positional_argument(positional_arguments.end()),
-    current_optional_argument(optional_arguments.end())
+    current_optional_argument(optional_arguments.end()),
+    num_processed(0)
 {
 }
 
@@ -54,29 +56,44 @@ void ArgumentProcessor::registerPositionalArgument(
 
 //==============================================================================
 void ArgumentProcessor::registerOptionalArgument(
-        const std::string&                     name,
-        const std::string&                     description,
-        const std::unordered_set<std::string>& flags)
+    const std::string&                     name,
+    const std::string&                     description,
+    const std::unordered_set<std::string>& flags,
+    bool                                   has_a_value)
 {
+    // Don't bother if no flags were provided
+    if (flags.empty())
+    {
+        throw std::invalid_argument(
+            "Argument \"flags\" must contain at least one flag");
+    }
+
     // We're going to make one of these for every flag.  Every flag will map to
     // a shared pointer to the same ArgumentProcessor.
     std::shared_ptr<ArgumentProcessor> argument_processor(
         new ArgumentProcessor(name, description));
 
-    // Properly configure argument_processor using function arguments
+    // If this optional argument itself takes a value, register that value.
+    if (has_a_value)
+    {
+        argument_processor->registerPositionalArgument(name);
+    }
 
+    // Map all the flags to the ArgumentProcessor we've configured to handle
+    // them.
     for (std::unordered_set<std::string>::const_iterator i = flags.begin();
          i != flags.end();
          ++i)
     {
+        // Do not allow multiple optional arguments to share flags
+        if (optional_arguments.find(*i) != optional_arguments.end())
+        {
+            throw std::runtime_error(
+                "Optional argument with flag " + *i + " already registered");
+        }
+
         optional_arguments[*i] = argument_processor;
     }
-}
-
-//==============================================================================
-bool ArgumentProcessor::isSpecified() const
-{
-    return next_positional_argument == positional_arguments.end();
 }
 
 //==============================================================================
@@ -87,6 +104,15 @@ void ArgumentProcessor::reset()
 
     next_positional_argument  = positional_arguments.end();
     current_optional_argument = optional_arguments.end();
+
+    num_processed = 0;
+}
+
+//==============================================================================
+bool ArgumentProcessor::isSpecified() const
+{
+    // Doesn't consider optional arguments because they're optional
+    return next_positional_argument == positional_arguments.end();
 }
 
 //==============================================================================
@@ -101,6 +127,11 @@ void ArgumentProcessor::process(const std::string& argument)
     if (current_optional_argument == optional_arguments.end())
     {
         current_optional_argument = optional_arguments.find(argument);
+
+        if (current_optional_argument != optional_arguments.end())
+        {
+            return;
+        }
     }
 
     // Are we processing an optional argument?  This if can be true multiple
@@ -124,6 +155,8 @@ void ArgumentProcessor::process(const std::string& argument)
         // We're ready for the next positional argument.
         ++next_positional_argument;
     }
+
+    num_processed++;
 }
 
 //==============================================================================
@@ -150,8 +183,7 @@ void ArgumentProcessor::process(int argc, char** argv)
 ArgumentProcessor& ArgumentProcessor::operator=(
     const ArgumentProcessor& argument_processor)
 {
-    // FIXME
-//    Argument::operator=(argument_processor);
+    Argument::operator=(argument_processor);
 
     if (this != &argument_processor)
     {
