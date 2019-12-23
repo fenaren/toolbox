@@ -1,4 +1,5 @@
 #include <iterator>
+#include <memory>
 #include <string>
 #include <unordered_map>
 
@@ -17,8 +18,7 @@ ArgumentProcessor::ArgumentProcessor(const std::string& name,
 
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor(
-    const ArgumentProcessor& argument_processor) :
-    Argument(argument_processor)
+    const ArgumentProcessor& argument_processor)
 {
     *this = argument_processor;
 }
@@ -53,6 +53,27 @@ void ArgumentProcessor::registerPositionalArgument(
 }
 
 //==============================================================================
+void ArgumentProcessor::registerOptionalArgument(
+        const std::string&                     name,
+        const std::string&                     description,
+        const std::unordered_set<std::string>& flags)
+{
+    // We're going to make one of these for every flag.  Every flag will map to
+    // a shared pointer to the same ArgumentProcessor.
+    std::shared_ptr<ArgumentProcessor> argument_processor(
+        new ArgumentProcessor(name, description));
+
+    // Properly configure argument_processor using function arguments
+
+    for (std::unordered_set<std::string>::const_iterator i = flags.begin();
+         i != flags.end();
+         ++i)
+    {
+        optional_arguments[*i] = argument_processor;
+    }
+}
+
+//==============================================================================
 bool ArgumentProcessor::isSpecified() const
 {
     return next_positional_argument == positional_arguments.end();
@@ -64,21 +85,9 @@ void ArgumentProcessor::reset()
     positional_arguments.clear();
     optional_arguments.clear();
 
-    next_positional_argument = positional_arguments.end();
+    next_positional_argument  = positional_arguments.end();
     current_optional_argument = optional_arguments.end();
 }
-
-//==============================================================================
-/*void ArgumentProcessor::registerOptionalArgument(
-        const std::string&                     name,
-        const std::string&                     description,
-        ArgumentType                           type,
-        const std::unordered_set<std::string>& aliases)
-{
-    // Stores the name twice, which is a bit inefficient.  Also ignores aliases
-    // in the map, for now.
-    //optional_arguments[name] = new OptionalArgument(name, description, aliases);
-    }*/
 
 //==============================================================================
 void ArgumentProcessor::process(const std::string& argument)
@@ -99,10 +108,10 @@ void ArgumentProcessor::process(const std::string& argument)
     // will happen for all optional arguments that themselves take arguments.
     if (current_optional_argument != optional_arguments.end())
     {
-        current_optional_argument->second.process(argument);
+        current_optional_argument->second->process(argument);
 
         // Stop processing this optional argument only when it says it's done.
-        if (current_optional_argument->second.isSpecified())
+        if (current_optional_argument->second->isSpecified())
         {
             current_optional_argument = optional_arguments.end();
         }
@@ -141,7 +150,8 @@ void ArgumentProcessor::process(int argc, char** argv)
 ArgumentProcessor& ArgumentProcessor::operator=(
     const ArgumentProcessor& argument_processor)
 {
-    Argument::operator=(argument_processor);
+    // FIXME
+//    Argument::operator=(argument_processor);
 
     if (this != &argument_processor)
     {

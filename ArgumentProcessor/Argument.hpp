@@ -7,7 +7,7 @@ class Argument
 {
 public:
 
-    Argument(const std::string& name,
+    Argument(const std::string& name        = "",
              const std::string& description = "");
 
     Argument(const Argument& argument);
