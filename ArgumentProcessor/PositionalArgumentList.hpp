@@ -11,13 +11,11 @@ class PositionalArgumentList : public PositionalArgument
 public:
 
     // Frobnicates the widget
-    PositionalArgumentList(const std::string& description = "");
+    explicit PositionalArgumentList(const std::string& name);
 
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something
     virtual ~PositionalArgumentList();
-
-    virtual void process(const std::string& argument);
 
 private:
 
