@@ -19,8 +19,6 @@ public:
 
     bool isSpecified() const;
 
-    //void getValue(std::string& value) const;
-
     PositionalArgument& operator=(const PositionalArgument& argument);
 
 private:
@@ -42,11 +40,5 @@ inline bool PositionalArgument::isSpecified() const
 {
     return specified;
 }
-
-//==============================================================================
-//inline void PositionalArgument::getValue(std::string& value) const
-//{
-//    value = this->value;
-//}
 
 #endif

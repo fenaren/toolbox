@@ -6,7 +6,8 @@
 
 //==============================================================================
 PositionalArgument::PositionalArgument(const std::string& name) :
-    Argument(name)
+    Argument(name),
+    specified(false)
 {
 }
 
