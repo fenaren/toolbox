@@ -7,8 +7,7 @@ class Argument
 {
 public:
 
-    Argument(const std::string& name        = "",
-             const std::string& description = "");
+    Argument(const std::string& name = "");
 
     Argument(const Argument& argument);
 
@@ -29,7 +28,6 @@ public:
 private:
 
     std::string name;
-    std::string description;
 };
 
 //==============================================================================
@@ -42,18 +40,6 @@ inline void Argument::getName(std::string& name) const
 inline void Argument::setName(const std::string& name)
 {
     this->name = name;
-}
-
-//==============================================================================
-inline void Argument::getDescription(std::string& description) const
-{
-    description = this->description;
-}
-
-//==============================================================================
-inline void Argument::setDescription(const std::string& description)
-{
-    this->description = description;
 }
 
 #endif

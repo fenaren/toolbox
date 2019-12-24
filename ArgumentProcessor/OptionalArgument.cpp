@@ -6,8 +6,8 @@
 #include "Argument.hpp"
 
 //==============================================================================
-OptionalArgument::OptionalArgument(const std::string& description) :
-    Argument(description)
+OptionalArgument::OptionalArgument(const std::string& name) :
+    Argument(name)
 {
 }
 
@@ -24,7 +24,7 @@ OptionalArgument::~OptionalArgument()
 }
 
 //==============================================================================
-void OptionalArgument::process(const std::string& argument)
+void OptionalArgument::reset()
 {
 }
 

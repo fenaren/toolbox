@@ -7,18 +7,16 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Argument.hpp"
-
+class OptionalArgument;
 class PositionalArgument;
 
-class ArgumentProcessor : public Argument
+class ArgumentProcessor
 {
 public:
 
     friend class ArgumentProcessor_test;
 
-    ArgumentProcessor(const std::string& name        = "",
-                      const std::string& description = "");
+    ArgumentProcessor();
 
     ArgumentProcessor(const ArgumentProcessor& argument_processor);
 
@@ -59,7 +57,7 @@ private:
     // Tracks the positional argument we're going to process next
     std::list<PositionalArgument>::iterator next_positional_argument;
 
-    typedef std::unordered_map<std::string, std::shared_ptr<ArgumentProcessor> >
+    typedef std::unordered_map<std::string, std::shared_ptr<OptionalArgument> >
     OptionalArgumentsMap;
 
     // Maps optional argument flags to their corresponding processors.  Multiple

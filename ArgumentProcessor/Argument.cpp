@@ -3,10 +3,8 @@
 #include "Argument.hpp"
 
 //==============================================================================
-Argument::Argument(const std::string& name,
-                   const std::string& description) :
-    name(name),
-    description(description)
+Argument::Argument(const std::string& name) :
+    name(name)
 {
 }
 
@@ -29,10 +27,6 @@ Argument& Argument::operator=(const Argument& argument)
         std::string name;
         argument.getName(name);
         this->name = name;
-
-        std::string description;
-        argument.getDescription(description);
-        this->description = description;
     }
 
     return *this;

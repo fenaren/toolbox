@@ -9,9 +9,7 @@
 #include "PositionalArgument.hpp"
 
 //==============================================================================
-ArgumentProcessor::ArgumentProcessor(const std::string& name,
-                                     const std::string& description) :
-    Argument(name, description),
+ArgumentProcessor::ArgumentProcessor() :
     next_positional_argument(positional_arguments.end()),
     current_optional_argument(optional_arguments.end()),
     num_processed(0)
@@ -35,7 +33,7 @@ void ArgumentProcessor::registerPositionalArgument(
     const std::string& name,
     const std::string& description)
 {
-    positional_arguments.push_back(PositionalArgument(name, description));
+    positional_arguments.push_back(PositionalArgument(name));
 
     // If we just added the first positional argument then we have to start
     // processing positional arguments from here.  There's nowhere else to
@@ -55,7 +53,7 @@ void ArgumentProcessor::registerPositionalArgument(
 }
 
 //==============================================================================
-void ArgumentProcessor::registerOptionalArgument(
+/*void ArgumentProcessor::registerOptionalArgument(
     const std::string&                     name,
     const std::string&                     description,
     const std::unordered_set<std::string>& flags,
@@ -94,7 +92,7 @@ void ArgumentProcessor::registerOptionalArgument(
 
         optional_arguments[*i] = argument_processor;
     }
-}
+    }*/
 
 //==============================================================================
 void ArgumentProcessor::reset()
@@ -130,6 +128,7 @@ void ArgumentProcessor::process(const std::string& argument)
 
         if (current_optional_argument != optional_arguments.end())
         {
+            // We just found a new optional argument to process.
             return;
         }
     }
@@ -139,13 +138,13 @@ void ArgumentProcessor::process(const std::string& argument)
     // will happen for all optional arguments that themselves take arguments.
     if (current_optional_argument != optional_arguments.end())
     {
-        current_optional_argument->second->process(argument);
+        //current_optional_argument->second->process(argument);
 
         // Stop processing this optional argument only when it says it's done.
-        if (current_optional_argument->second->isSpecified())
-        {
-            current_optional_argument = optional_arguments.end();
-        }
+        //if (current_optional_argument->second->isSpecified())
+        //{
+        //    current_optional_argument = optional_arguments.end();
+        //}
     }
     else
     {
@@ -183,8 +182,6 @@ void ArgumentProcessor::process(int argc, char** argv)
 ArgumentProcessor& ArgumentProcessor::operator=(
     const ArgumentProcessor& argument_processor)
 {
-    Argument::operator=(argument_processor);
-
     if (this != &argument_processor)
     {
         this->positional_arguments = argument_processor.positional_arguments;

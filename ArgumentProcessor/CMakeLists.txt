@@ -4,6 +4,7 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 set(SRC
   Argument.cpp
   ArgumentProcessor.cpp
+  OptionalArgument.cpp
   PositionalArgument.cpp)
 
 # Add source files to the project sources.  In cmake v3.13 the behavior of

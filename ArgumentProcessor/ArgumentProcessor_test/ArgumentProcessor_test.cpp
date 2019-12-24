@@ -36,7 +36,7 @@ void ArgumentProcessor_test::Process::addTestCases()
 //==============================================================================
 Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 {
-    ArgumentProcessor argument_processor("ArgumentProcessor");
+    ArgumentProcessor argument_processor;
     argument_processor.registerPositionalArgument("ARG1");
 
     MUST_BE_TRUE(!argument_processor.isSpecified());
@@ -51,13 +51,13 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 //==============================================================================
 Test::Result ArgumentProcessor_test::RegisterOptionalArgument::Case1::body()
 {
-    ArgumentProcessor argument_processor("ArgumentProcessor");
+    ArgumentProcessor argument_processor;
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentProcessor_test::Process::Case1::body()
 {
-    ArgumentProcessor argument_processor("ArgumentProcessor");
+    ArgumentProcessor argument_processor;
     return Test::PASSED;
 }

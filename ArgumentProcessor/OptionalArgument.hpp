@@ -1,8 +1,8 @@
 #if !defined OPTIONAL_ARGUMENT_HPP
 #define OPTIONAL_ARGUMENT_HPP
 
+#include <list>
 #include <string>
-#include <unordered_set>
 
 #include "Argument.hpp"
 
@@ -10,7 +10,7 @@ class OptionalArgument : public Argument
 {
 public:
 
-    OptionalArgument(const std::string& description = "");
+    OptionalArgument(const std::string& name);
 
     // Copy constructor
     OptionalArgument(const OptionalArgument& optional_argument);
@@ -19,7 +19,9 @@ public:
     // something
     virtual ~OptionalArgument();
 
-    virtual void process(const std::string& argument);
+    virtual bool isSpecified() const;
+
+    virtual void reset();
 
     OptionalArgument& operator=(const OptionalArgument& optional_argument);
 
