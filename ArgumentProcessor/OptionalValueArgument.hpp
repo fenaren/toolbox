@@ -16,7 +16,7 @@ public:
     // something
     virtual ~OptionalValueArgument();
 
-    void specifyValue(const std::string& value);
+    void specify(const std::string& value);
 
 private:
 
@@ -30,9 +30,9 @@ private:
 };
 
 //==============================================================================
-inline void OptionalValueArgument::specifyValue(const std::string& value)
+inline void OptionalValueArgument::specify(const std::string& value)
 {
-    specify();
+    OptionalArgument::specify();
 
     values.push_back(value);
 }
