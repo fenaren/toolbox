@@ -7,7 +7,7 @@ class Argument
 {
 public:
 
-    Argument(const std::string& name = "");
+    Argument(const std::string& name = std::string());
 
     Argument(const Argument& argument);
 
@@ -15,9 +15,6 @@ public:
 
     void getName(std::string& name) const;
     void setName(const std::string& name);
-
-    void getDescription(std::string& description) const;
-    void setDescription(const std::string& description);
 
     virtual bool isSpecified() const = 0;
 

@@ -24,6 +24,12 @@ OptionalArgument::~OptionalArgument()
 }
 
 //==============================================================================
+bool OptionalArgument::isSpecified() const
+{
+    return false;
+}
+
+//==============================================================================
 void OptionalArgument::reset()
 {
 }
@@ -35,9 +41,9 @@ OptionalArgument::operator=(const OptionalArgument& optional_argument)
     // Don't do anything if we're assigning to ourselves
     if (this != &optional_argument)
     {
-        std::string description;
-        optional_argument.getDescription(description);
-        setDescription(description);
+        std::string name;
+        optional_argument.getName(name);
+        setName(name);
     }
 
     return *this;
