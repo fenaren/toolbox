@@ -10,7 +10,7 @@ class OptionalValueArgument : public OptionalArgument
 public:
 
     // Frobnicates the widget
-    OptionalValueArgument(const std::string& name);
+    explicit OptionalValueArgument(const std::string& name);
 
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something

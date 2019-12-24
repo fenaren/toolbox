@@ -10,7 +10,7 @@ class OptionalArgument : public Argument
 {
 public:
 
-    OptionalArgument(const std::string& name);
+    explicit OptionalArgument(const std::string& name);
 
     // Copy constructor
     OptionalArgument(const OptionalArgument& optional_argument);
