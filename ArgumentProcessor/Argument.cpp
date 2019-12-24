@@ -24,9 +24,7 @@ Argument& Argument::operator=(const Argument& argument)
 {
     if (this != &argument)
     {
-        std::string name;
-        argument.getName(name);
-        this->name = name;
+        name = argument.name;
     }
 
     return *this;

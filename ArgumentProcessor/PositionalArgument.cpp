@@ -32,11 +32,8 @@ PositionalArgument::operator=(const PositionalArgument& positional_argument)
     // Don't do anything if we're assigning to ourselves
     if (this != &positional_argument)
     {
-        std::string value;
-        positional_argument.getValue(value);
-
-        this->value     = value;
-        this->specified = positional_argument.isSpecified();
+        value     = positional_argument.value;
+        specified = positional_argument.specified;
     }
 
     return *this;
