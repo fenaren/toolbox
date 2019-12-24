@@ -13,7 +13,7 @@
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor() :
     next_positional_argument(positional_arguments.end()),
-    current_optional_value_argument(optional_value_arguments.end())
+    current_optional_value_argument(optional_value_arguments_flagmap.end())
 {
 }
 
@@ -76,16 +76,17 @@ void ArgumentProcessor::registerOptionalArgument(
         {
             // Do not allow multiple optional arguments (either
             // OptionalArguments or OptionalValueArguments) to share flags
-            if (optional_arguments.find(*i) != optional_arguments.end() ||
-                optional_value_arguments.find(*i) !=
-                optional_value_arguments.end())
+            if (optional_arguments_flagmap.find(*i) !=
+                optional_arguments_flagmap.end() ||
+                optional_value_arguments_flagmap.find(*i) !=
+                optional_value_arguments_flagmap.end())
             {
                 throw std::runtime_error(
                     "Optional argument with flag " + *i +
                     " already registered");
             }
 
-            optional_value_arguments[*i] = optional_value_argument;
+            optional_value_arguments_flagmap[*i] = optional_value_argument;
         }
     }
     else
@@ -99,16 +100,17 @@ void ArgumentProcessor::registerOptionalArgument(
              ++i)
         {
             // Do not allow multiple optional arguments to share flags
-            if (optional_arguments.find(*i) != optional_arguments.end() ||
-                optional_value_arguments.find(*i) !=
-                optional_value_arguments.end())
+            if (optional_arguments_flagmap.find(*i) !=
+                optional_arguments_flagmap.end() ||
+                optional_value_arguments_flagmap.find(*i) !=
+                optional_value_arguments_flagmap.end())
             {
                 throw std::runtime_error(
                     "Optional argument with flag " + *i +
                     " already registered");
             }
 
-            optional_arguments[*i] = optional_argument;
+            optional_arguments_flagmap[*i] = optional_argument;
         }
     }
 
@@ -119,13 +121,15 @@ void ArgumentProcessor::process(const std::string& argument)
 {
     // Are we in the middle of processing an optional argument that takes a
     // value?
-    if (current_optional_value_argument != optional_value_arguments.end())
+    if (current_optional_value_argument !=
+        optional_value_arguments_flagmap.end())
     {
         // Specify the value
         current_optional_value_argument->second->specify(argument);
 
         // Note that we're no longer processing this optional value argument
-        current_optional_value_argument = optional_value_arguments.end();
+        current_optional_value_argument =
+            optional_value_arguments_flagmap.end();
 
         // We've done all we should with this argument.
         return;
@@ -135,9 +139,11 @@ void ArgumentProcessor::process(const std::string& argument)
     // argument that takes a value.
 
     // Have we been given a flag for an optional argument that takes a value?
-    current_optional_value_argument = optional_value_arguments.find(argument);
+    current_optional_value_argument =
+        optional_value_arguments_flagmap.find(argument);
 
-    if (current_optional_value_argument != optional_value_arguments.end())
+    if (current_optional_value_argument !=
+        optional_value_arguments_flagmap.end())
     {
         // We've seen a flag for an optional argument that takes a value.  Now
         // we must wait for the value to come in the next argument.
@@ -148,8 +154,9 @@ void ArgumentProcessor::process(const std::string& argument)
     // take a value, or we're processing a positional argument.
 
     // Are we processing an optional argument?
-    OptionalArgumentsMap::const_iterator i = optional_arguments.find(argument);
-    if (i != optional_arguments.end())
+    OptionalArgumentsMap::const_iterator i =
+        optional_arguments_flagmap.find(argument);
+    if (i != optional_arguments_flagmap.end())
     {
         // Note that the argument is specified.
         i->second->specify();
@@ -198,9 +205,13 @@ ArgumentProcessor& ArgumentProcessor::operator=(
 {
     if (this != &argument_processor)
     {
-        positional_arguments     = argument_processor.positional_arguments;
-        optional_arguments       = argument_processor.optional_arguments;
-        optional_value_arguments = argument_processor.optional_value_arguments;
+        positional_arguments = argument_processor.positional_arguments;
+
+        optional_arguments_flagmap =
+            argument_processor.optional_arguments_flagmap;
+
+        optional_value_arguments_flagmap =
+            argument_processor.optional_value_arguments_flagmap;
 
         // Mirror the iterators
     }
