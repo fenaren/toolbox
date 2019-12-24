@@ -171,6 +171,7 @@ void ArgumentProcessor::process(const std::string& argument)
     }
     else
     {
+        // TODO
     }
 }
 
@@ -200,8 +201,9 @@ ArgumentProcessor& ArgumentProcessor::operator=(
 {
     if (this != &argument_processor)
     {
-        positional_arguments = argument_processor.positional_arguments;
-        optional_arguments   = argument_processor.optional_arguments;
+        positional_arguments     = argument_processor.positional_arguments;
+        optional_arguments       = argument_processor.optional_arguments;
+        optional_value_arguments = argument_processor.optional_value_arguments;
 
         // Mirror the iterators
     }
