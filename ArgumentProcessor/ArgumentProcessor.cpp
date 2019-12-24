@@ -11,8 +11,7 @@
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor() :
     next_positional_argument(positional_arguments.end()),
-    current_optional_argument(optional_arguments.end()),
-    num_processed(0)
+    current_optional_argument(optional_arguments.end())
 {
 }
 
@@ -102,8 +101,6 @@ void ArgumentProcessor::reset()
 
     next_positional_argument  = positional_arguments.end();
     current_optional_argument = optional_arguments.end();
-
-    num_processed = 0;
 }
 
 //==============================================================================
@@ -154,8 +151,6 @@ void ArgumentProcessor::process(const std::string& argument)
         // We're ready for the next positional argument.
         ++next_positional_argument;
     }
-
-    num_processed++;
 }
 
 //==============================================================================
@@ -184,8 +179,8 @@ ArgumentProcessor& ArgumentProcessor::operator=(
 {
     if (this != &argument_processor)
     {
-        this->positional_arguments = argument_processor.positional_arguments;
-        this->optional_arguments   = argument_processor.optional_arguments;
+        positional_arguments = argument_processor.positional_arguments;
+        optional_arguments   = argument_processor.optional_arguments;
 
         // Mirror the iterators
     }

@@ -46,8 +46,6 @@ public:
     // For arguments straight off the command line
     void process(int argc, char** argv);
 
-    unsigned int getNumProcessed() const;
-
     ArgumentProcessor& operator=(const ArgumentProcessor& argument_processor);
 
 private:
@@ -69,15 +67,6 @@ private:
     // Tracks the optional argument we're in the middle of processing, if there
     // is one
     OptionalArgumentsMap::iterator current_optional_argument;
-
-    // Counts the number of arguments processed
-    unsigned int num_processed;
 };
-
-//==============================================================================
-inline unsigned int ArgumentProcessor::getNumProcessed() const
-{
-    return num_processed;
-}
 
 #endif
