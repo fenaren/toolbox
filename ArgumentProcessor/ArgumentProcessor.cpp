@@ -30,9 +30,7 @@ ArgumentProcessor::~ArgumentProcessor()
 }
 
 //==============================================================================
-void ArgumentProcessor::registerPositionalArgument(
-    const std::string& name,
-    const std::string& description)
+void ArgumentProcessor::registerPositionalArgument(const std::string& name)
 {
     positional_arguments.push_back(PositionalArgument(name));
 
@@ -56,7 +54,6 @@ void ArgumentProcessor::registerPositionalArgument(
 //==============================================================================
 void ArgumentProcessor::registerOptionalArgument(
     const std::string&                     name,
-    const std::string&                     description,
     const std::unordered_set<std::string>& flags,
     bool                                   has_a_value)
 {

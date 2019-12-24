@@ -23,12 +23,10 @@ public:
 
     virtual ~ArgumentProcessor();
 
-    void registerPositionalArgument(const std::string& name,
-                                    const std::string& description = "");
+    void registerPositionalArgument(const std::string& name);
 
     void registerOptionalArgument(
         const std::string&                     name,
-        const std::string&                     description,
         const std::unordered_set<std::string>& flags,
         bool                                   has_a_value);
 
