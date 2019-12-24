@@ -6,8 +6,8 @@
 #include "Argument.hpp"
 
 //==============================================================================
-OptionalArgument::OptionalArgument(const std::string& name) :
-    Argument(name),
+OptionalArgument::OptionalArgument() :
+    Argument(),
     specified_count(0)
 {
 }

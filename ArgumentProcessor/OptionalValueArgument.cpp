@@ -1,10 +1,8 @@
-#include <string>
-
 #include "OptionalValueArgument.hpp"
 
 //==============================================================================
-OptionalValueArgument::OptionalValueArgument(const std::string& name) :
-    OptionalArgument(name)
+OptionalValueArgument::OptionalValueArgument() :
+    OptionalArgument()
 {
 }
 

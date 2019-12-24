@@ -1,6 +1,7 @@
 #if !defined OPTIONAL_VALUE_ARGUMENT_HPP
 #define OPTIONAL_VALUE_ARGUMENT_HPP
 
+#include <list>
 #include <string>
 
 #include "OptionalArgument.hpp"
@@ -10,7 +11,7 @@ class OptionalValueArgument : public OptionalArgument
 public:
 
     // Frobnicates the widget
-    explicit OptionalValueArgument(const std::string& name);
+    OptionalValueArgument();
 
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something

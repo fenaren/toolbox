@@ -33,7 +33,10 @@ ArgumentProcessor::~ArgumentProcessor()
 void ArgumentProcessor::registerPositionalArgument(const std::string& name)
 {
     std::shared_ptr<PositionalArgument> positional_argument(
-        new PositionalArgument(name));
+        new PositionalArgument());
+
+    // Index this in the name map so we can quickly retrieve the value later.
+    positional_arguments_namemap[name] = positional_argument;
 
     // If we just added the first positional argument then we have to start
     // processing positional arguments from here.  There's nowhere else to
@@ -68,9 +71,21 @@ void ArgumentProcessor::registerOptionalArgument(
     if (has_a_value)
     {
         std::shared_ptr<OptionalValueArgument> optional_value_argument(
-            new OptionalValueArgument(name));
+            new OptionalValueArgument());
 
-        // Map all the flags to the new OptionalValueArgment
+        // Index by name
+        if (optional_arguments_namemap.find(name) !=
+            optional_arguments_namemap.end() ||
+            optional_value_arguments_namemap.find(name) !=
+            optional_value_arguments_namemap.end())
+        {
+            throw std::runtime_error("Optional argument with name \"" + name
+                                     + "\" already registered");
+        }
+
+        optional_value_arguments_namemap[name] = optional_value_argument;
+
+        // Index by flags
         for (std::unordered_set<std::string>::const_iterator i = flags.begin();
              i != flags.end();
              ++i)
@@ -93,9 +108,21 @@ void ArgumentProcessor::registerOptionalArgument(
     else
     {
         std::shared_ptr<OptionalArgument> optional_argument(
-            new OptionalArgument(name));
+            new OptionalArgument());
 
-        // Map all the flags to the new OptionalArgment
+        // Index by name
+        if (optional_arguments_namemap.find(name) !=
+            optional_arguments_namemap.end() ||
+            optional_value_arguments_namemap.find(name) !=
+            optional_value_arguments_namemap.end())
+        {
+            throw std::runtime_error("Optional argument with name \"" + name
+                                     + "\" already registered");
+        }
+
+        optional_arguments_namemap[name] = optional_argument;
+
+        // Index by flags
         for (std::unordered_set<std::string>::const_iterator i = flags.begin();
              i != flags.end();
              ++i)

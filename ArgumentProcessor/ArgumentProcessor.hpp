@@ -63,6 +63,7 @@ private:
     // Maps optional arguments that DO NOT themselves have values to their
     // representative objects. Multiple flags will link to the same object for
     // arguments with multiple flags (ex. -v and --verbose).
+    OptionalArgumentsMap optional_arguments_namemap;
     OptionalArgumentsMap optional_arguments_flagmap;
 
     typedef std::unordered_map<std::string,
@@ -72,6 +73,7 @@ private:
     // Maps optional arguments that DO have values to their representative
     // objects. Multiple flags will link to the same object for arguments with
     // multiple flags (ex. -v and --verbose).
+    OptionalValueArgumentsMap optional_value_arguments_namemap;
     OptionalValueArgumentsMap optional_value_arguments_flagmap;
 
     // The optional value argument we're in the middle of processing

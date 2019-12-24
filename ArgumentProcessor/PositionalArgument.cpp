@@ -5,8 +5,8 @@
 #include "Argument.hpp"
 
 //==============================================================================
-PositionalArgument::PositionalArgument(const std::string& name) :
-    Argument(name),
+PositionalArgument::PositionalArgument() :
+    Argument(),
     specified(false)
 {
 }

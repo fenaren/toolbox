@@ -1,16 +1,13 @@
 #if !defined OPTIONAL_ARGUMENT_HPP
 #define OPTIONAL_ARGUMENT_HPP
 
-#include <list>
-#include <string>
-
 #include "Argument.hpp"
 
 class OptionalArgument : public Argument
 {
 public:
 
-    explicit OptionalArgument(const std::string& name);
+    OptionalArgument();
 
     // Copy constructor
     OptionalArgument(const OptionalArgument& optional_argument);

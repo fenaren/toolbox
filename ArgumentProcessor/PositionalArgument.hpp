@@ -9,7 +9,7 @@ class PositionalArgument : public Argument
 {
 public:
 
-    explicit PositionalArgument(const std::string& name);
+    PositionalArgument();
 
     PositionalArgument(const PositionalArgument& argument);
 
