@@ -8,6 +8,7 @@
 #include <unordered_set>
 
 class OptionalArgument;
+class OptionalValueArgument;
 class PositionalArgument;
 
 class ArgumentProcessor
@@ -31,12 +32,6 @@ public:
         const std::unordered_set<std::string>& flags,
         bool                                   has_a_value);
 
-    // Internal state is set to what it would be after initial construction.
-    virtual void reset();
-
-    // Has this argument been specified?
-    virtual bool isSpecified() const;
-
     // Process a single argument
     void process(const std::string& argument);
 
@@ -58,15 +53,22 @@ private:
     typedef std::unordered_map<std::string, std::shared_ptr<OptionalArgument> >
     OptionalArgumentsMap;
 
-    // Maps optional argument flags to their corresponding processors.  Multiple
-    // flags will link to the same processor for arguments with multiple flags
-    // (ex. -v and --verbose).  Only a single copy of the actual processor for
-    // each argument is stored.
+    // Maps optional arguments that DO NOT themselves have values to their
+    // representative objects. Multiple flags will link to the same object for
+    // arguments with multiple flags (ex. -v and --verbose).
     OptionalArgumentsMap optional_arguments;
 
-    // Tracks the optional argument we're in the middle of processing, if there
-    // is one
-    OptionalArgumentsMap::iterator current_optional_argument;
+    typedef std::unordered_map<std::string,
+                               std::shared_ptr<OptionalValueArgument> >
+    OptionalValueArgumentsMap;
+
+    // Maps optional arguments that DO have values to their representative
+    // objects. Multiple flags will link to the same object for arguments with
+    // multiple flags (ex. -v and --verbose).
+    OptionalValueArgumentsMap optional_value_arguments;
+
+    // The optional value argument we're in the middle of processing
+    OptionalValueArgumentsMap::iterator current_optional_value_argument;
 };
 
 #endif

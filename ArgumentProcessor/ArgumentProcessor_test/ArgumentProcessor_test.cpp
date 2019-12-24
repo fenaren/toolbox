@@ -39,11 +39,7 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
     ArgumentProcessor argument_processor;
     argument_processor.registerPositionalArgument("ARG1");
 
-    MUST_BE_TRUE(!argument_processor.isSpecified());
-
     argument_processor.process("garbage");
-
-    MUST_BE_TRUE(argument_processor.isSpecified());
 
     return Test::PASSED;
 }

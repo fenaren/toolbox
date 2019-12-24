@@ -7,12 +7,13 @@
 #include "ArgumentProcessor.hpp"
 
 #include "OptionalArgument.hpp"
+#include "OptionalValueArgument.hpp"
 #include "PositionalArgument.hpp"
 
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor() :
     next_positional_argument(positional_arguments.end()),
-    current_optional_argument(optional_arguments.end())
+    current_optional_value_argument(optional_value_arguments.end())
 {
 }
 
@@ -53,7 +54,7 @@ void ArgumentProcessor::registerPositionalArgument(
 }
 
 //==============================================================================
-/*void ArgumentProcessor::registerOptionalArgument(
+void ArgumentProcessor::registerOptionalArgument(
     const std::string&                     name,
     const std::string&                     description,
     const std::unordered_set<std::string>& flags,
@@ -66,83 +67,110 @@ void ArgumentProcessor::registerPositionalArgument(
             "Argument \"flags\" must contain at least one flag");
     }
 
-    std::shared_ptr<OptionalArgument> optional_argument(
-        new OptionalArgument(name, has_a_value));
-
-    // Map all the flags to the ArgumentProcessor we've configured to handle
-    // them.
-    for (std::unordered_set<std::string>::const_iterator i = flags.begin();
-         i != flags.end();
-         ++i)
+    if (has_a_value)
     {
-        // Do not allow multiple optional arguments to share flags
-        if (optional_arguments.find(*i) != optional_arguments.end())
+        std::shared_ptr<OptionalValueArgument> optional_value_argument(
+            new OptionalValueArgument(name));
+
+        // Map all the flags to the new OptionalValueArgment
+        for (std::unordered_set<std::string>::const_iterator i = flags.begin();
+             i != flags.end();
+             ++i)
         {
-            throw std::runtime_error(
-                "Optional argument with flag " + *i + " already registered");
+            // Do not allow multiple optional arguments (either
+            // OptionalArguments or OptionalValueArguments) to share flags
+            if (optional_arguments.find(*i) != optional_arguments.end() ||
+                optional_value_arguments.find(*i) !=
+                optional_value_arguments.end())
+            {
+                throw std::runtime_error(
+                    "Optional argument with flag " + *i +
+                    " already registered");
+            }
+
+            optional_value_arguments[*i] = optional_value_argument;
         }
-
-        optional_arguments[*i] = optional_argument;
     }
-    }*/
+    else
+    {
+        std::shared_ptr<OptionalArgument> optional_argument(
+            new OptionalArgument(name));
 
-//==============================================================================
-void ArgumentProcessor::reset()
-{
-    positional_arguments.clear();
-    optional_arguments.clear();
+        // Map all the flags to the new OptionalArgment
+        for (std::unordered_set<std::string>::const_iterator i = flags.begin();
+             i != flags.end();
+             ++i)
+        {
+            // Do not allow multiple optional arguments to share flags
+            if (optional_arguments.find(*i) != optional_arguments.end() ||
+                optional_value_arguments.find(*i) !=
+                optional_value_arguments.end())
+            {
+                throw std::runtime_error(
+                    "Optional argument with flag " + *i +
+                    " already registered");
+            }
 
-    next_positional_argument  = positional_arguments.end();
-    current_optional_argument = optional_arguments.end();
-}
+            optional_arguments[*i] = optional_argument;
+        }
+    }
 
-//==============================================================================
-bool ArgumentProcessor::isSpecified() const
-{
-    // Doesn't consider optional arguments because they're optional
-    return next_positional_argument == positional_arguments.end();
 }
 
 //==============================================================================
 void ArgumentProcessor::process(const std::string& argument)
 {
-    // There is a two-dimensional state machine here, represented by the
-    // next_positional_argument and current_optional_argument iterator class
-    // members.
-
-    // If we're not already processing an optional argument, try to find one
-    // that matches the current argument.
-    if (current_optional_argument == optional_arguments.end())
+    // Are we in the middle of processing an optional argument that takes a
+    // value?
+    if (current_optional_value_argument != optional_value_arguments.end())
     {
-        current_optional_argument = optional_arguments.find(argument);
+        // Specify the value
+        current_optional_value_argument->second->specify(argument);
 
-        if (current_optional_argument != optional_arguments.end())
-        {
-            // We just found a new optional argument to process.
-            return;
-        }
+        // Note that we're no longer processing this optional value argument
+        current_optional_value_argument = optional_value_arguments.end();
+
+        // We've done all we should with this argument.
+        return;
     }
 
-    // Are we processing an optional argument?  This if can be true multiple
-    // times for the same value of the current_optional_argument iterator.  This
-    // will happen for all optional arguments that themselves take arguments.
-    if (current_optional_argument != optional_arguments.end())
-    {
-        //current_optional_argument->second->process(argument);
+    // If we're here then we're not processing the value for an optional
+    // argument that takes a value.
 
-        // Stop processing this optional argument only when it says it's done.
-        //if (current_optional_argument->second->isSpecified())
-        //{
-        //    current_optional_argument = optional_arguments.end();
-        //}
+    // Have we been given a flag for an optional argument that takes a value?
+    current_optional_value_argument = optional_value_arguments.find(argument);
+
+    if (current_optional_value_argument != optional_value_arguments.end())
+    {
+        // We've seen a flag for an optional argument that takes a value.  Now
+        // we must wait for the value to come in the next argument.
+        return;
+    }
+
+    // If we're here we're either processing an optional argument that doesn't
+    // take a value, or we're processing a positional argument.
+
+    // Are we processing an optional argument?
+    OptionalArgumentsMap::const_iterator i = optional_arguments.find(argument);
+    if (i != optional_arguments.end())
+    {
+        // Note that the argument is specified.
+        i->second->specify();
+
+        // We've done all we should with this argument.
+        return;
+    }
+
+    // By this point we know this argument must be positional.  There's no other
+    // possibility.
+
+    if (next_positional_argument != positional_arguments.end())
+    {
+        next_positional_argument->specifyValue(argument);
+        ++next_positional_argument;
     }
     else
     {
-        // It's not optional, so process it as a positional argument.
-        next_positional_argument->specifyValue(argument);
-
-        // We're ready for the next positional argument.
-        ++next_positional_argument;
     }
 }
 
