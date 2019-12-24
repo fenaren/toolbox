@@ -38,12 +38,12 @@ void OptionalArgument::reset()
 OptionalArgument&
 OptionalArgument::operator=(const OptionalArgument& optional_argument)
 {
+    Argument::operator=(optional_argument);
+
     // Don't do anything if we're assigning to ourselves
     if (this != &optional_argument)
     {
-        std::string name;
-        optional_argument.getName(name);
-        setName(name);
+        values = optional_argument.values;
     }
 
     return *this;
