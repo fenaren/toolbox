@@ -43,10 +43,19 @@ public:
 
 private:
 
-    std::list<PositionalArgument> positional_arguments;
+    typedef std::list<std::shared_ptr<PositionalArgument> >
+    PositionalArgumentList;
+
+    PositionalArgumentList positional_arguments_list;
+
+    typedef std::unordered_map<std::string,
+                               std::shared_ptr<PositionalArgument> >
+    PositionalArgumentNameMap;
+
+    PositionalArgumentNameMap positional_arguments_namemap;
 
     // Tracks the positional argument we're going to process next
-    std::list<PositionalArgument>::iterator next_positional_argument;
+    PositionalArgumentList::iterator next_positional_argument;
 
     typedef std::unordered_map<std::string, std::shared_ptr<OptionalArgument> >
     OptionalArgumentsMap;

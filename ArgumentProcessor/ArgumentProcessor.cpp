@@ -12,7 +12,7 @@
 
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor() :
-    next_positional_argument(positional_arguments.end()),
+    next_positional_argument(positional_arguments_list.end()),
     current_optional_value_argument(optional_value_arguments_flagmap.end())
 {
 }
@@ -32,22 +32,23 @@ ArgumentProcessor::~ArgumentProcessor()
 //==============================================================================
 void ArgumentProcessor::registerPositionalArgument(const std::string& name)
 {
-    positional_arguments.push_back(PositionalArgument(name));
+    std::shared_ptr<PositionalArgument> positional_argument(
+        new PositionalArgument(name));
 
     // If we just added the first positional argument then we have to start
     // processing positional arguments from here.  There's nowhere else to
     // process from.
-    if (positional_arguments.size() == 1)
+    if (positional_arguments_list.size() == 1)
     {
-        next_positional_argument = positional_arguments.begin();
+        next_positional_argument = positional_arguments_list.begin();
     }
 
     // The idea here is to support processing additional arguments after we've
     // already processed a set of existing ones.  Probably not a very likely use
     // case but it seems nice.
-    if (next_positional_argument == positional_arguments.end())
+    if (next_positional_argument == positional_arguments_list.end())
     {
-        next_positional_argument = std::prev(positional_arguments.end());
+        next_positional_argument = std::prev(positional_arguments_list.end());
     }
 }
 
@@ -168,9 +169,9 @@ void ArgumentProcessor::process(const std::string& argument)
     // By this point we know this argument must be positional.  There's no other
     // possibility.
 
-    if (next_positional_argument != positional_arguments.end())
+    if (next_positional_argument != positional_arguments_list.end())
     {
-        next_positional_argument->specifyValue(argument);
+        (*next_positional_argument)->specifyValue(argument);
         ++next_positional_argument;
     }
     else
@@ -205,7 +206,8 @@ ArgumentProcessor& ArgumentProcessor::operator=(
 {
     if (this != &argument_processor)
     {
-        positional_arguments = argument_processor.positional_arguments;
+        positional_arguments_list =
+            argument_processor.positional_arguments_list;
 
         optional_arguments_flagmap =
             argument_processor.optional_arguments_flagmap;
