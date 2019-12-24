@@ -6,6 +6,7 @@
 
 #include "ArgumentProcessor.hpp"
 
+#include "OptionalArgument.hpp"
 #include "PositionalArgument.hpp"
 
 //==============================================================================
@@ -65,16 +66,8 @@ void ArgumentProcessor::registerPositionalArgument(
             "Argument \"flags\" must contain at least one flag");
     }
 
-    // We're going to make one of these for every flag.  Every flag will map to
-    // a shared pointer to the same ArgumentProcessor.
-    std::shared_ptr<ArgumentProcessor> argument_processor(
-        new ArgumentProcessor(name, description));
-
-    // If this optional argument itself takes a value, register that value.
-    if (has_a_value)
-    {
-        argument_processor->registerPositionalArgument(name);
-    }
+    std::shared_ptr<OptionalArgument> optional_argument(
+        new OptionalArgument(name, has_a_value));
 
     // Map all the flags to the ArgumentProcessor we've configured to handle
     // them.
@@ -89,7 +82,7 @@ void ArgumentProcessor::registerPositionalArgument(
                 "Optional argument with flag " + *i + " already registered");
         }
 
-        optional_arguments[*i] = argument_processor;
+        optional_arguments[*i] = optional_argument;
     }
     }*/
 
@@ -146,7 +139,7 @@ void ArgumentProcessor::process(const std::string& argument)
     else
     {
         // It's not optional, so process it as a positional argument.
-        next_positional_argument->setValue(argument);
+        next_positional_argument->specifyValue(argument);
 
         // We're ready for the next positional argument.
         ++next_positional_argument;

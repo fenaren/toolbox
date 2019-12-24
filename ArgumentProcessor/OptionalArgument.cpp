@@ -7,7 +7,8 @@
 
 //==============================================================================
 OptionalArgument::OptionalArgument(const std::string& name) :
-    Argument(name)
+    Argument(name),
+    specified_count(0)
 {
 }
 
@@ -24,17 +25,6 @@ OptionalArgument::~OptionalArgument()
 }
 
 //==============================================================================
-bool OptionalArgument::isSpecified() const
-{
-    return false;
-}
-
-//==============================================================================
-void OptionalArgument::reset()
-{
-}
-
-//==============================================================================
 OptionalArgument&
 OptionalArgument::operator=(const OptionalArgument& optional_argument)
 {
@@ -43,7 +33,7 @@ OptionalArgument::operator=(const OptionalArgument& optional_argument)
     // Don't do anything if we're assigning to ourselves
     if (this != &optional_argument)
     {
-        values = optional_argument.values;
+        specified_count = optional_argument.specified_count;
     }
 
     return *this;

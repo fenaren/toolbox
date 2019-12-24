@@ -15,12 +15,11 @@ public:
 
     virtual ~PositionalArgument();
 
-    virtual bool isSpecified() const;
+    void specifyValue(const std::string& value);
 
-    virtual void reset();
+    bool isSpecified() const;
 
-    void getValue(std::string& value) const;
-    void setValue(const std::string& value);
+    //void getValue(std::string& value) const;
 
     PositionalArgument& operator=(const PositionalArgument& argument);
 
@@ -32,29 +31,22 @@ private:
 };
 
 //==============================================================================
+inline void PositionalArgument::specifyValue(const std::string& value)
+{
+    this->value     = value;
+    this->specified = true;
+}
+
+//==============================================================================
 inline bool PositionalArgument::isSpecified() const
 {
     return specified;
 }
 
 //==============================================================================
-inline void PositionalArgument::reset()
-{
-    value.clear();
-    specified = false;
-}
-
-//==============================================================================
-inline void PositionalArgument::getValue(std::string& value) const
-{
-    value = this->value;
-}
-
-//==============================================================================
-inline void PositionalArgument::setValue(const std::string& value)
-{
-    this->value     = value;
-    this->specified = true;
-}
+//inline void PositionalArgument::getValue(std::string& value) const
+//{
+//    value = this->value;
+//}
 
 #endif

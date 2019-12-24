@@ -19,15 +19,35 @@ public:
     // something
     virtual ~OptionalArgument();
 
-    virtual bool isSpecified() const;
+    void specify();
 
-    virtual void reset();
+    bool isSpecified() const;
+
+    unsigned int getSpecifiedCount() const;
 
     OptionalArgument& operator=(const OptionalArgument& optional_argument);
 
 private:
 
-    std::list<std::string> values;
+    unsigned int specified_count;
 };
+
+//==============================================================================
+inline void OptionalArgument::specify()
+{
+    specified_count++;
+}
+
+//==============================================================================
+inline bool OptionalArgument::isSpecified() const
+{
+    return specified_count > 0;
+}
+
+//==============================================================================
+inline unsigned int OptionalArgument::getSpecifiedCount() const
+{
+    return specified_count;
+}
 
 #endif

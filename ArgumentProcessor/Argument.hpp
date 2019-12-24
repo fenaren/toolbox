@@ -16,10 +16,6 @@ public:
     void getName(std::string& name) const;
     void setName(const std::string& name);
 
-    virtual bool isSpecified() const = 0;
-
-    virtual void reset() = 0;
-
     Argument& operator=(const Argument& argument);
 
 private:
