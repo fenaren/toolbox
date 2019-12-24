@@ -32,6 +32,9 @@ ArgumentProcessor::~ArgumentProcessor()
 //==============================================================================
 void ArgumentProcessor::registerPositionalArgument(const std::string& name)
 {
+    // Ensure we haven't already registered an argument that uses this name.
+    checkNamemapsForDuplicate(name);
+
     std::shared_ptr<PositionalArgument> positional_argument(
         new PositionalArgument());
 
@@ -61,6 +64,9 @@ void ArgumentProcessor::registerOptionalArgument(
     const std::unordered_set<std::string>& flags,
     bool                                   has_a_value)
 {
+    // Ensure we haven't already registered an argument that uses this name.
+    checkNamemapsForDuplicate(name);
+
     // Don't bother if no flags were provided
     if (flags.empty())
     {
@@ -73,36 +79,21 @@ void ArgumentProcessor::registerOptionalArgument(
         std::shared_ptr<OptionalValueArgument> optional_value_argument(
             new OptionalValueArgument());
 
-        // Index by name
-        if (optional_arguments_namemap.find(name) !=
-            optional_arguments_namemap.end() ||
-            optional_value_arguments_namemap.find(name) !=
-            optional_value_arguments_namemap.end())
-        {
-            throw std::runtime_error("Optional argument with name \"" + name
-                                     + "\" already registered");
-        }
-
+        // Index by name.  By this point we've made sure name is not already
+        // registered to another argument.
         optional_value_arguments_namemap[name] = optional_value_argument;
 
         // Index by flags
-        for (std::unordered_set<std::string>::const_iterator i = flags.begin();
-             i != flags.end();
-             ++i)
+        for (std::unordered_set<std::string>::const_iterator flag =
+                 flags.begin();
+             flag != flags.end();
+             ++flag)
         {
             // Do not allow multiple optional arguments (either
             // OptionalArguments or OptionalValueArguments) to share flags
-            if (optional_arguments_flagmap.find(*i) !=
-                optional_arguments_flagmap.end() ||
-                optional_value_arguments_flagmap.find(*i) !=
-                optional_value_arguments_flagmap.end())
-            {
-                throw std::runtime_error(
-                    "Optional argument with flag " + *i +
-                    " already registered");
-            }
+            checkFlagmapsForDuplicate(*flag);
 
-            optional_value_arguments_flagmap[*i] = optional_value_argument;
+            optional_value_arguments_flagmap[*flag] = optional_value_argument;
         }
     }
     else
@@ -110,35 +101,21 @@ void ArgumentProcessor::registerOptionalArgument(
         std::shared_ptr<OptionalArgument> optional_argument(
             new OptionalArgument());
 
-        // Index by name
-        if (optional_arguments_namemap.find(name) !=
-            optional_arguments_namemap.end() ||
-            optional_value_arguments_namemap.find(name) !=
-            optional_value_arguments_namemap.end())
-        {
-            throw std::runtime_error("Optional argument with name \"" + name
-                                     + "\" already registered");
-        }
-
+        // Index by name.  By this point we've made sure name is not already
+        // registered to another argument.
         optional_arguments_namemap[name] = optional_argument;
 
         // Index by flags
-        for (std::unordered_set<std::string>::const_iterator i = flags.begin();
-             i != flags.end();
-             ++i)
+        for (std::unordered_set<std::string>::const_iterator flag =
+                 flags.begin();
+             flag != flags.end();
+             ++flag)
         {
-            // Do not allow multiple optional arguments to share flags
-            if (optional_arguments_flagmap.find(*i) !=
-                optional_arguments_flagmap.end() ||
-                optional_value_arguments_flagmap.find(*i) !=
-                optional_value_arguments_flagmap.end())
-            {
-                throw std::runtime_error(
-                    "Optional argument with flag " + *i +
-                    " already registered");
-            }
+            // Do not allow multiple optional arguments (either
+            // OptionalArguments or OptionalValueArguments) to share flags
+            checkFlagmapsForDuplicate(*flag);
 
-            optional_arguments_flagmap[*i] = optional_argument;
+            optional_arguments_flagmap[*flag] = optional_argument;
         }
     }
 
@@ -224,6 +201,35 @@ void ArgumentProcessor::process(int argc, char** argv)
     for (int i = 0; i < argc; ++i)
     {
         process(argv[i]);
+    }
+}
+
+//==============================================================================
+void ArgumentProcessor::checkNamemapsForDuplicate(const std::string& name) const
+{
+    if (positional_arguments_namemap.find(name) !=
+        positional_arguments_namemap.end() ||
+        optional_arguments_namemap.find(name) !=
+        optional_arguments_namemap.end() ||
+        optional_value_arguments_namemap.find(name) !=
+        optional_value_arguments_namemap.end())
+    {
+        throw std::runtime_error("Argument with name \"" + name + "\" " +
+                                 "already registered");
+    }
+}
+
+//==============================================================================
+void
+ArgumentProcessor::checkFlagmapsForDuplicate(const std::string& flag) const
+{
+    if (optional_arguments_flagmap.find(flag) !=
+        optional_arguments_flagmap.end() ||
+        optional_value_arguments_flagmap.find(flag) !=
+        optional_value_arguments_flagmap.end())
+    {
+        throw std::runtime_error("Optional argument with flag \"" + flag +
+                                 "\" already registered");
     }
 }
 

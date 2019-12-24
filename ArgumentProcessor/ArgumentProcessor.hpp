@@ -43,6 +43,9 @@ public:
 
 private:
 
+    void checkNamemapsForDuplicate(const std::string& name) const;
+    void checkFlagmapsForDuplicate(const std::string& flag) const;
+
     typedef std::list<std::shared_ptr<PositionalArgument> >
     PositionalArgumentList;
 
