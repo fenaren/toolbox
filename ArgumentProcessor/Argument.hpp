@@ -14,10 +14,6 @@ public:
     virtual ~Argument();
 
     Argument& operator=(const Argument& argument);
-
-private:
-
-    std::string name;
 };
 
 #endif
