@@ -17,7 +17,15 @@ public:
     // something
     virtual ~OptionalValueArgument();
 
-    void specify(const std::string& value);
+    void setValue(const std::string& value);
+
+    void getLastValue(std::string& value) const;
+
+    template <class T> T getLastValue() const;
+
+    void getValues(std::list<std::string>& values) const;
+
+    template <class T> void getValues(std::list<T>& values) const;
 
 private:
 
@@ -31,11 +39,24 @@ private:
 };
 
 //==============================================================================
-inline void OptionalValueArgument::specify(const std::string& value)
+inline void OptionalValueArgument::setValue(const std::string& value)
 {
-    OptionalArgument::specify();
+    OptionalArgument::set();
 
     values.push_back(value);
+}
+
+//==============================================================================
+inline void OptionalValueArgument::getLastValue(std::string& last_value) const
+{
+    last_value = values.back();
+}
+
+//==============================================================================
+inline
+void OptionalValueArgument::getValues(std::list<std::string>& values) const
+{
+    values = this->values;
 }
 
 #endif

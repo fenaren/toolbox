@@ -1,3 +1,4 @@
+#include <sstream>
 #include <string>
 
 #include "PositionalArgument.hpp"
@@ -7,7 +8,7 @@
 //==============================================================================
 PositionalArgument::PositionalArgument() :
     Argument(),
-    specified(false)
+    set(false)
 {
 }
 
@@ -25,6 +26,15 @@ PositionalArgument::~PositionalArgument()
 }
 
 //==============================================================================
+template <class T> T PositionalArgument::getValue() const
+{
+    std::istringstream converter(value);
+    T value_tmp;
+    converter >> value_tmp;
+    return value_tmp;
+}
+
+//==============================================================================
 PositionalArgument&
 PositionalArgument::operator=(const PositionalArgument& positional_argument)
 {
@@ -33,8 +43,8 @@ PositionalArgument::operator=(const PositionalArgument& positional_argument)
     // Don't do anything if we're assigning to ourselves
     if (this != &positional_argument)
     {
-        value     = positional_argument.value;
-        specified = positional_argument.specified;
+        value = positional_argument.value;
+        set   = positional_argument.set;
     }
 
     return *this;

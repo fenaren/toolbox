@@ -15,9 +15,13 @@ public:
 
     virtual ~PositionalArgument();
 
-    void specifyValue(const std::string& value);
+    void setValue(const std::string& value);
 
-    bool isSpecified() const;
+    void getValue(std::string& value) const;
+
+    bool isSet() const;
+
+    template <class T> T getValue() const;
 
     PositionalArgument& operator=(const PositionalArgument& argument);
 
@@ -25,20 +29,26 @@ private:
 
     std::string value;
 
-    bool specified;
+    bool set;
 };
 
 //==============================================================================
-inline void PositionalArgument::specifyValue(const std::string& value)
+inline void PositionalArgument::setValue(const std::string& value)
 {
-    this->value     = value;
-    this->specified = true;
+    this->value = value;
+    this->set   = true;
 }
 
 //==============================================================================
-inline bool PositionalArgument::isSpecified() const
+inline bool PositionalArgument::isSet() const
 {
-    return specified;
+    return set;
+}
+
+//==============================================================================
+inline void PositionalArgument::getValue(std::string& value) const
+{
+    value = this->value;
 }
 
 #endif

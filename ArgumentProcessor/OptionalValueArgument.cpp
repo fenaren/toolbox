@@ -1,3 +1,6 @@
+#include <sstream>
+#include <string>
+
 #include "OptionalValueArgument.hpp"
 
 //==============================================================================
@@ -8,6 +11,21 @@ OptionalValueArgument::OptionalValueArgument() :
 
 //==============================================================================
 OptionalValueArgument::~OptionalValueArgument()
+{
+}
+
+//==============================================================================
+template <class T> T OptionalValueArgument::getLastValue() const
+{
+    std::istringstream converter(values.back());
+    T value_tmp;
+    converter >> value_tmp;
+    return value_tmp;
+}
+
+//==============================================================================
+template <class T>
+void OptionalValueArgument::getValues(std::list<T>& values) const
 {
 }
 

@@ -16,35 +16,35 @@ public:
     // something
     virtual ~OptionalArgument();
 
-    void specify();
+    void set();
 
-    bool isSpecified() const;
+    bool isSet() const;
 
-    unsigned int getSpecifiedCount() const;
+    unsigned int getSetCount() const;
 
     OptionalArgument& operator=(const OptionalArgument& optional_argument);
 
 private:
 
-    unsigned int specified_count;
+    unsigned int set_count;
 };
 
 //==============================================================================
-inline void OptionalArgument::specify()
+inline void OptionalArgument::set()
 {
-    specified_count++;
+    set_count++;
 }
 
 //==============================================================================
-inline bool OptionalArgument::isSpecified() const
+inline bool OptionalArgument::isSet() const
 {
-    return specified_count > 0;
+    return set_count > 0;
 }
 
 //==============================================================================
-inline unsigned int OptionalArgument::getSpecifiedCount() const
+inline unsigned int OptionalArgument::getSetCount() const
 {
-    return specified_count;
+    return set_count;
 }
 
 #endif

@@ -8,7 +8,7 @@
 //==============================================================================
 OptionalArgument::OptionalArgument() :
     Argument(),
-    specified_count(0)
+    set_count(0)
 {
 }
 
@@ -33,7 +33,7 @@ OptionalArgument::operator=(const OptionalArgument& optional_argument)
     // Don't do anything if we're assigning to ourselves
     if (this != &optional_argument)
     {
-        specified_count = optional_argument.specified_count;
+        set_count = optional_argument.set_count;
     }
 
     return *this;

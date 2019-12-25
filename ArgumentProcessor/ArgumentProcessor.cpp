@@ -129,8 +129,8 @@ void ArgumentProcessor::process(const std::string& argument)
     if (current_optional_value_argument !=
         optional_value_arguments_flagmap.end())
     {
-        // Specify the value
-        current_optional_value_argument->second->specify(argument);
+        // Set the value
+        current_optional_value_argument->second->setValue(argument);
 
         // Note that we're no longer processing this optional value argument
         current_optional_value_argument =
@@ -163,8 +163,8 @@ void ArgumentProcessor::process(const std::string& argument)
         optional_arguments_flagmap.find(argument);
     if (i != optional_arguments_flagmap.end())
     {
-        // Note that the argument is specified.
-        i->second->specify();
+        // Note that the argument is set.
+        i->second->set();
 
         // We've done all we should with this argument.
         return;
@@ -175,7 +175,7 @@ void ArgumentProcessor::process(const std::string& argument)
 
     if (next_positional_argument != positional_arguments_list.end())
     {
-        (*next_positional_argument)->specifyValue(argument);
+        (*next_positional_argument)->setValue(argument);
         ++next_positional_argument;
     }
     else
