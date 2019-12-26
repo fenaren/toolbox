@@ -1,7 +1,10 @@
+#include <string>
+
 #include "ArgumentValueCount.hpp"
 
 //==============================================================================
 ArgumentValueCount::ArgumentValueCount() :
+    Argument(),
     count(0)
 {
 }

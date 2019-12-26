@@ -14,9 +14,6 @@ public:
 
     ArgumentValueCount(const ArgumentValueCount& argument_value_count);
 
-    ArgumentValueCount& operator=(
-        const ArgumentValueCount& argument_value_count);
-
     // Defrobnicates the widget.  Make this virtual if this class derives from
     // something
     virtual ~ArgumentValueCount();
@@ -24,6 +21,9 @@ public:
     virtual void update(const std::string& value = "");
 
     unsigned int getCount() const;
+
+    ArgumentValueCount& operator=(
+        const ArgumentValueCount& argument_value_count);
 
 private:
 

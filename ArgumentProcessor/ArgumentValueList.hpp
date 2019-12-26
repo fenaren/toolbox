@@ -6,7 +6,7 @@
 
 #include "Argument.hpp"
 
-class ArgumentValueList : public Argument
+template <class T> class ArgumentValueList : public Argument
 {
 public:
 
@@ -21,13 +21,13 @@ public:
 
     virtual void update(const std::string& value = "");
 
-    template <class T> void getValues(std::list<std::string>& values) const;
+    void getValues(std::list<T>& values) const;
 
     ArgumentValueList& operator=(const ArgumentValueList& argument_value_list);
 
 private:
 
-    std::list<std::string> values;
+    std::list<T> values;
 };
 
 #endif
