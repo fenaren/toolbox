@@ -4,6 +4,8 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 set(SRC
   Argument.cpp
   ArgumentProcessor.cpp
+  ArgumentValue.cpp
+  ArgumentValueBase.cpp
   OptionalArgument.cpp
   OptionalValueArgument.cpp
   PositionalArgument.cpp)

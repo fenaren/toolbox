@@ -37,6 +37,16 @@ public:
     // For arguments straight off the command line
     void process(int argc, char** argv);
 
+
+    // Gets the value of the named argument as a string.
+    void getValue(const std::string& name, std::string& value) const;
+
+    // Gets the value of the named
+    template <class T> T getValue(const std::string& name) const;
+
+    void getValues(const std::string&      name,
+                   std::list<std::string>& values) const;
+
 private:
 
     void checkNamemapsForDuplicate(const std::string& name) const;
