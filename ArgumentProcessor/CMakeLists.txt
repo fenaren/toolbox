@@ -6,6 +6,7 @@ set(SRC
   ArgumentProcessor.cpp
   ArgumentValue.cpp
   ArgumentValueBase.cpp
+  ArgumentValueList.cpp
   OptionalArgument.cpp
   OptionalValueArgument.cpp
   PositionalArgument.cpp)
