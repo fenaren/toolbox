@@ -1,9 +1,11 @@
 #if !defined ARGUMENT_VALUE_HPP
 #define ARGUMENT_VALUE_HPP
 
+#include <string>
+
 #include "Argument.hpp"
 
-template <class T> class ArgumentValue : public Argument
+class ArgumentValue : public Argument
 {
 public:
 
@@ -16,17 +18,17 @@ public:
     // something
     virtual ~ArgumentValue();
 
-    void setValue(const T& value);
+    virtual void update(const std::string& value = "");
 
-    T getValue() const;
+    template <class T> T getValue() const;
 
-    void getValue(T& value) const;
+    template <class T> void getValue(T& value) const;
 
     ArgumentValue& operator=(const ArgumentValue& argument_value);
 
 private:
 
-    T value;
+    std::string value;
 };
 
 #endif

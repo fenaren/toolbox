@@ -37,10 +37,6 @@ void ArgumentProcessor_test::Process::addTestCases()
 Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 {
     ArgumentProcessor argument_processor;
-    argument_processor.registerPositionalArgument("ARG1");
-
-    argument_processor.process("garbage");
-
     return Test::PASSED;
 }
 

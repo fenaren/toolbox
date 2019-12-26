@@ -1,24 +1,31 @@
-#include "TemplateClass.hpp"
+#include "ArgumentValueCount.hpp"
 
 //==============================================================================
-TemplateClass::TemplateClass()
+ArgumentValueCount::ArgumentValueCount() :
+    count(0)
 {
 }
 
 //==============================================================================
-TemplateClass::~TemplateClass()
+ArgumentValueCount::~ArgumentValueCount()
 {
 }
 
 //==============================================================================
-// If implemented, operator= should follow this template
+void ArgumentValueCount::update(const std::string& value)
+{
+    // value argument intentionally ignored
+    count++;
+}
+
 //==============================================================================
-TemplateClass& TemplateClass::operator=(const TemplateClass& template_class)
+ArgumentValueCount&
+ArgumentValueCount::operator=(const ArgumentValueCount& argument_value_count)
 {
     // Don't do anything if we're assigning to ourselves
-    if (this != &template_class)
+    if (this != &argument_value_count)
     {
-        // Do something
+        count = argument_value_count.count;
     }
 
     return *this;

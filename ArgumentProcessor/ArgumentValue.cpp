@@ -1,21 +1,29 @@
+#include <string>
+
 #include "ArgumentValue.hpp"
 
 #include "Argument.hpp"
 
 //==============================================================================
-template <class T> ArgumentValue<T>::ArgumentValue() :
+ArgumentValue::ArgumentValue() :
     Argument()
 {
 }
 
 //==============================================================================
-template <class T> ArgumentValue<T>::~ArgumentValue()
+ArgumentValue::~ArgumentValue()
 {
 }
 
 //==============================================================================
-template <class T> ArgumentValue<T>&
-ArgumentValue<T>::operator=(const ArgumentValue& argument_value)
+void ArgumentValue::update(const std::string& value)
+{
+    this->value = value;
+    set();
+}
+
+//==============================================================================
+ArgumentValue& ArgumentValue::operator=(const ArgumentValue& argument_value)
 {
     Argument::operator=(argument_value);
 

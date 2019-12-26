@@ -79,10 +79,10 @@ void ArgumentProcessor::process(const std::string& argument)
     // Are we looking for a value for an optional argument?
     if (current_optional_argument != optional_arguments.end())
     {
-        // Set the value
-        current_optional_argument->second->setValue(argument);
+        // Update whatever argument we're working with the new value
+        current_optional_argument->second->update(argument);
 
-        // Note that we're no longer processing this optional value argument
+        // Note that we're done processing this optional argument
         current_optional_argument = optional_arguments.end();
 
         // We've done all we should with this argument.
@@ -90,31 +90,20 @@ void ArgumentProcessor::process(const std::string& argument)
     }
 
     // If we're here then we're not processing the value for an optional
-    // argument that takes a value.
+    // argument.
 
-    // Have we been given a flag for an optional argument that takes a value?
+    // Have we been given a flag for an optional argument?
     current_optional_argument = optional_arguments.find(argument);
 
     if (current_optional_argument != optional_arguments.end())
     {
-        // We've seen a flag for an optional argument that takes a value.  Now
-        // we must wait for the value to come in the next argument.
-        return;
-    }
+        if (dynamic_cast<ArgumentValueCount*>(
+                current_optional_argument->second))
+        {
+            current_optional_argument->second->update();
+            current_optional_argument = optional_arguments.end();
+        }
 
-    // If we're here we're either processing an optional argument that doesn't
-    // take a value, or we're processing a positional argument.
-
-    // Are we processing an optional argument?
-    std::unordered_map<std::string, Argument*>::const_iterator i =
-        optional_arguments.find(argument);
-
-    if (i != optional_arguments.end())
-    {
-        // Note that the argument is set.
-        i->second->set();
-
-        // We've done all we should with this argument.
         return;
     }
 
@@ -123,7 +112,7 @@ void ArgumentProcessor::process(const std::string& argument)
 
     if (next_positional_argument != positional_arguments.end())
     {
-        (*next_positional_argument)->setValue(argument);
+        (*next_positional_argument)->update(argument);
         ++next_positional_argument;
     }
     else

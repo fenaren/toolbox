@@ -1,6 +1,8 @@
 #if !defined ARGUMENT_HPP
 #define ARGUMENT_HPP
 
+#include <string>
+
 class Argument
 {
 public:
@@ -14,11 +16,15 @@ public:
     // something
     virtual ~Argument();
 
-    void set();
-
     bool isSet() const;
 
+    virtual void update(const std::string& value = "") = 0;
+
     Argument& operator=(const Argument& argument_value_base);
+
+protected:
+
+    void set();
 
 private:
 

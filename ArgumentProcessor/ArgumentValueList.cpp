@@ -1,18 +1,25 @@
 #include "ArgumentValueList.hpp"
 
 //==============================================================================
-template <class T> ArgumentValueList<T>::ArgumentValueList()
+ArgumentValueList::ArgumentValueList()
 {
 }
 
 //==============================================================================
-template <class T> ArgumentValueList<T>::~ArgumentValueList()
+ArgumentValueList::~ArgumentValueList()
 {
 }
 
 //==============================================================================
-template <class T> ArgumentValueList<T>&
-ArgumentValueList<T>::operator=(const ArgumentValueList& argument_value_list)
+void ArgumentValueList::update(const std::string& value)
+{
+    values.push_back(value);
+    set();
+}
+
+//==============================================================================
+ArgumentValueList& ArgumentValueList::operator=(
+    const ArgumentValueList& argument_value_list)
 {
     // Don't do anything if we're assigning to ourselves
     if (this != &argument_value_list)
