@@ -38,6 +38,8 @@ template <class T> void ArgumentValueList<T>::update(const std::string& value)
 template <class T> ArgumentValueList<T>& ArgumentValueList<T>::operator=(
     const ArgumentValueList<T>& argument_value_list)
 {
+    Argument::operator=(argument_value_list);
+
     // Don't do anything if we're assigning to ourselves
     if (this != &argument_value_list)
     {
