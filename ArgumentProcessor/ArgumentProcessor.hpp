@@ -19,8 +19,6 @@ public:
 
     ArgumentProcessor();
 
-    ArgumentProcessor(const ArgumentProcessor& argument_processor);
-
     virtual ~ArgumentProcessor();
 
     void registerPositionalArgument(const std::string& name);
@@ -38,8 +36,6 @@ public:
 
     // For arguments straight off the command line
     void process(int argc, char** argv);
-
-    ArgumentProcessor& operator=(const ArgumentProcessor& argument_processor);
 
 private:
 
@@ -81,6 +77,9 @@ private:
 
     // The optional value argument we're in the middle of processing
     OptionalValueArgumentsMap::iterator current_optional_value_argument;
+
+    ArgumentProcessor(const ArgumentProcessor& argument_processor);
+    ArgumentProcessor& operator=(const ArgumentProcessor& argument_processor);
 };
 
 #endif

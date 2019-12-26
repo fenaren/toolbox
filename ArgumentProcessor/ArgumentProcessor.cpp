@@ -18,13 +18,6 @@ ArgumentProcessor::ArgumentProcessor() :
 }
 
 //==============================================================================
-ArgumentProcessor::ArgumentProcessor(
-    const ArgumentProcessor& argument_processor)
-{
-    *this = argument_processor;
-}
-
-//==============================================================================
 ArgumentProcessor::~ArgumentProcessor()
 {
 }
@@ -231,25 +224,4 @@ ArgumentProcessor::checkFlagmapsForDuplicate(const std::string& flag) const
         throw std::runtime_error("Optional argument with flag \"" + flag +
                                  "\" already registered");
     }
-}
-
-//==============================================================================
-ArgumentProcessor& ArgumentProcessor::operator=(
-    const ArgumentProcessor& argument_processor)
-{
-    if (this != &argument_processor)
-    {
-        positional_arguments_list =
-            argument_processor.positional_arguments_list;
-
-        optional_arguments_flagmap =
-            argument_processor.optional_arguments_flagmap;
-
-        optional_value_arguments_flagmap =
-            argument_processor.optional_value_arguments_flagmap;
-
-        // Mirror the iterators
-    }
-
-    return *this;
 }

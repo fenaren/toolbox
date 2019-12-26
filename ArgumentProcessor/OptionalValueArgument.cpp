@@ -38,7 +38,7 @@ OptionalValueArgument& OptionalValueArgument::operator=(
     // Don't do anything if we're assigning to ourselves
     if (this != &optional_value_argument)
     {
-        // Do something
+        values = optional_value_argument.values;
     }
 
     return *this;
