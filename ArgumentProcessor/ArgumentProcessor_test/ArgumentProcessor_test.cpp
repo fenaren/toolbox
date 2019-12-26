@@ -1,6 +1,9 @@
+#include <string>
+
 #include "ArgumentProcessor_test.hpp"
 
 #include "ArgumentProcessor.hpp"
+#include "ArgumentValue.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -37,6 +40,15 @@ void ArgumentProcessor_test::Process::addTestCases()
 Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 {
     ArgumentProcessor argument_processor;
+
+    ArgumentValue av;
+
+    argument_processor.registerPositionalArgument(&av);
+    argument_processor.process("12");
+
+    MUST_BE_TRUE(av.isSet());
+    MUST_BE_TRUE(av.getValue<int>() == 12);
+
     return Test::PASSED;
 }
 
