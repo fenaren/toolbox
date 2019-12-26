@@ -5,12 +5,12 @@
 
 #include "Argument.hpp"
 
-class ArgumentValue : public Argument
+template <class T> class ArgumentValue : public Argument
 {
 public:
 
     // Frobnicates the widget
-    ArgumentValue();
+    ArgumentValue(const T& value_default);
 
     ArgumentValue(const ArgumentValue& argument_value);
 
@@ -20,15 +20,15 @@ public:
 
     virtual void update(const std::string& value = "");
 
-    template <class T> T getValue() const;
+    T getValue() const;
 
-    template <class T> void getValue(T& value) const;
+    void getValue(T& value) const;
 
     ArgumentValue& operator=(const ArgumentValue& argument_value);
 
 private:
 
-    std::string value;
+    T value;
 };
 
 #endif

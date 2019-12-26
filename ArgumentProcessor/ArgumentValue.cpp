@@ -7,48 +7,47 @@
 #include "Argument.hpp"
 
 //==============================================================================
-ArgumentValue::ArgumentValue() :
-    Argument()
+template <class T> ArgumentValue<T>::ArgumentValue(const T& default_value) :
+    Argument(),
+    value(default_value)
 {
 }
 
 //==============================================================================
-ArgumentValue::~ArgumentValue()
+template <class T> ArgumentValue<T>::~ArgumentValue()
 {
 }
 
 //==============================================================================
-void ArgumentValue::update(const std::string& value)
-{
-    this->value = value;
-    set();
-}
-
-//==============================================================================
-template <class T> T ArgumentValue::getValue() const
+template <class T> void ArgumentValue<T>::update(const std::string& value)
 {
     std::istringstream converter(value);
-    T value_tmp;
-    converter >> value_tmp;
+    converter >> this->value;
 
     // Did the conversion go okay?
     if (!converter)
     {
-        throw std::runtime_error("Error converting value to requested type");
+        throw std::runtime_error("Error converting value to template type");
     }
 
-    return value_tmp;
+    set();
 }
 
 //==============================================================================
-template <class T> void ArgumentValue::getValue(T& value) const
+template <class T> T ArgumentValue<T>::getValue() const
 {
-    std::istringstream converter(this->value);
-    converter >> value;
+    return value;
 }
 
 //==============================================================================
-ArgumentValue& ArgumentValue::operator=(const ArgumentValue& argument_value)
+template <class T> void ArgumentValue<T>::getValue(T& value) const
+{
+    value = this->value;
+}
+
+//==============================================================================
+template <class T> ArgumentValue<T>&
+ArgumentValue<T>::operator=(const ArgumentValue& argument_value)
 {
     Argument::operator=(argument_value);
 
@@ -61,32 +60,18 @@ ArgumentValue& ArgumentValue::operator=(const ArgumentValue& argument_value)
     return *this;
 }
 
-template void ArgumentValue::getValue(std::string&) const;
+template class ArgumentValue<std::string>;
 
-template void ArgumentValue::getValue(char&) const;
-template void ArgumentValue::getValue(double&) const;
-template void ArgumentValue::getValue(float&) const;
-template void ArgumentValue::getValue(int&) const;
-template void ArgumentValue::getValue(long&) const;
-template void ArgumentValue::getValue(long double&) const;
-template void ArgumentValue::getValue(long long&) const;
-template void ArgumentValue::getValue(short&) const;
-template void ArgumentValue::getValue(unsigned char&) const;
-template void ArgumentValue::getValue(unsigned int&) const;
-template void ArgumentValue::getValue(unsigned long&) const;
-template void ArgumentValue::getValue(unsigned long long&) const;
-template void ArgumentValue::getValue(unsigned short&) const;
-
-template char               ArgumentValue::getValue() const;
-template double             ArgumentValue::getValue() const;
-template float              ArgumentValue::getValue() const;
-template int                ArgumentValue::getValue() const;
-template long               ArgumentValue::getValue() const;
-template long double        ArgumentValue::getValue() const;
-template long long          ArgumentValue::getValue() const;
-template short              ArgumentValue::getValue() const;
-template unsigned char      ArgumentValue::getValue() const;
-template unsigned int       ArgumentValue::getValue() const;
-template unsigned long      ArgumentValue::getValue() const;
-template unsigned long long ArgumentValue::getValue() const;
-template unsigned short     ArgumentValue::getValue() const;
+template class ArgumentValue<char>;
+template class ArgumentValue<double>;
+template class ArgumentValue<float>;
+template class ArgumentValue<int>;
+template class ArgumentValue<long>;
+template class ArgumentValue<long double>;
+template class ArgumentValue<long long>;
+template class ArgumentValue<short>;
+template class ArgumentValue<unsigned char>;
+template class ArgumentValue<unsigned int>;
+template class ArgumentValue<unsigned long>;
+template class ArgumentValue<unsigned long long>;
+template class ArgumentValue<unsigned short>;

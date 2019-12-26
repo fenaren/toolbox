@@ -42,7 +42,7 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 {
     ArgumentProcessor argument_processor;
 
-    ArgumentValue av;
+    ArgumentValue<int> av(0);
 
     argument_processor.registerPositionalArgument(&av);
 
@@ -51,7 +51,7 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
     argument_processor.process("12");
 
     MUST_BE_TRUE(av.isSet());
-    MUST_BE_TRUE(av.getValue<int>() == 12);
+    MUST_BE_TRUE(av.getValue() == 12);
 
     return Test::PASSED;
 }
