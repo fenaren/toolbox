@@ -26,6 +26,8 @@ public:
 
     ArgumentValue& operator=(const ArgumentValue& argument_value);
 
+    ArgumentValue& operator=(const std::string& value);
+
 private:
 
     T value;

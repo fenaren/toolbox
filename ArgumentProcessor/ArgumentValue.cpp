@@ -60,6 +60,14 @@ ArgumentValue<T>::operator=(const ArgumentValue& argument_value)
     return *this;
 }
 
+//==============================================================================
+template <class T>
+ArgumentValue<T>& ArgumentValue<T>::operator=(const std::string& value)
+{
+    update(value);
+    return *this;
+}
+
 template class ArgumentValue<std::string>;
 
 template class ArgumentValue<char>;
