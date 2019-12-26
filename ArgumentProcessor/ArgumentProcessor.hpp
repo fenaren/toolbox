@@ -21,12 +21,14 @@ public:
 
     virtual ~ArgumentProcessor();
 
+
     void registerPositionalArgument(const std::string& name);
 
     void registerOptionalArgument(
         const std::string&                     name,
         const std::unordered_set<std::string>& flags,
         bool                                   has_a_value);
+
 
     // Process a single argument
     void process(const std::string& argument);
