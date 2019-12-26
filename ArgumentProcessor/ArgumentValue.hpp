@@ -1,6 +1,7 @@
 #if !defined ARGUMENT_VALUE_HPP
 #define ARGUMENT_VALUE_HPP
 
+#include <stdexcept>
 #include <string>
 
 #include "Argument.hpp"
@@ -26,11 +27,29 @@ public:
 
     ArgumentValue& operator=(const ArgumentValue& argument_value);
 
-    ArgumentValue& operator=(const std::string& value);
+    ArgumentValue& operator=(const T& value);
 
 private:
 
     T value;
 };
+
+template <class T> bool operator<(const ArgumentValue<T>& lhs,
+                                  const ArgumentValue<T>& rhs);
+
+template <class T> bool operator>(const ArgumentValue<T>& lhs,
+                                  const ArgumentValue<T>& rhs);
+
+template <class T> bool operator<=(const ArgumentValue<T>& lhs,
+                                   const ArgumentValue<T>& rhs);
+
+template <class T> bool operator>=(const ArgumentValue<T>& lhs,
+                                   const ArgumentValue<T>& rhs);
+
+template <class T> bool operator==(const ArgumentValue<T>& lhs,
+                                   const ArgumentValue<T>& rhs);
+
+template <class T> bool operator!=(const ArgumentValue<T>& lhs,
+                                   const ArgumentValue<T>& rhs);
 
 #endif

@@ -61,11 +61,76 @@ ArgumentValue<T>::operator=(const ArgumentValue& argument_value)
 }
 
 //==============================================================================
-template <class T>
-ArgumentValue<T>& ArgumentValue<T>::operator=(const std::string& value)
+template <class T> ArgumentValue<T>& ArgumentValue<T>::operator=(const T& value)
 {
-    update(value);
+    this->value = value;
+    set();
+
     return *this;
+}
+
+//==============================================================================
+template <class T>
+bool operator<(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
+{
+    if (!lhs.isSet() || !rhs.isSet())
+    {
+        throw std::runtime_error("Both sides (lhs and rhs) must be set");
+    }
+
+    T lhs_value;
+    T rhs_value;
+
+    lhs.getValue(lhs_value);
+    rhs.getValue(rhs_value);
+
+    return lhs_value < rhs_value;
+}
+
+//==============================================================================
+template <class T>
+bool operator>(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
+{
+    return rhs < lhs;
+}
+
+//==============================================================================
+template <class T>
+bool operator<=(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
+{
+    return !(lhs > rhs);
+}
+
+//==============================================================================
+template <class T>
+bool operator>=(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
+{
+    return !(lhs < rhs);
+}
+
+//==============================================================================
+template <class T>
+bool operator==(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
+{
+    if (!lhs.isSet() || !rhs.isSet())
+    {
+        throw std::runtime_error("Both sides (lhs and rhs) must be set");
+    }
+
+    T lhs_value;
+    T rhs_value;
+
+    lhs.getValue(lhs_value);
+    rhs.getValue(rhs_value);
+
+    return lhs_value == rhs_value;
+}
+
+//==============================================================================
+template <class T>
+bool operator!=(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
+{
+    return !(lhs == rhs);
 }
 
 template class ArgumentValue<std::string>;
