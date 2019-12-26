@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 
 #include "ArgumentProcessor_test.hpp"
@@ -44,6 +45,9 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
     ArgumentValue av;
 
     argument_processor.registerPositionalArgument(&av);
+
+    MUST_BE_TRUE(!av.isSet());
+
     argument_processor.process("12");
 
     MUST_BE_TRUE(av.isSet());

@@ -1,4 +1,5 @@
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include "ArgumentValue.hpp"
@@ -29,6 +30,13 @@ template <class T> T ArgumentValue::getValue() const
     std::istringstream converter(value);
     T value_tmp;
     converter >> value_tmp;
+
+    // Did the conversion go okay?
+    if (!converter)
+    {
+        throw std::runtime_error("Error converting value to requested type");
+    }
+
     return value_tmp;
 }
 
