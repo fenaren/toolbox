@@ -1,10 +1,10 @@
 #include "ArgumentValue.hpp"
 
-#include "ArgumentValueBase.hpp"
+#include "Argument.hpp"
 
 //==============================================================================
 template <class T> ArgumentValue<T>::ArgumentValue() :
-    ArgumentValueBase()
+    Argument()
 {
 }
 
@@ -17,7 +17,7 @@ template <class T> ArgumentValue<T>::~ArgumentValue()
 template <class T> ArgumentValue<T>&
 ArgumentValue<T>::operator=(const ArgumentValue& argument_value)
 {
-    ArgumentValueBase::operator=(argument_value);
+    Argument::operator=(argument_value);
 
     // Don't do anything if we're assigning to ourselves
     if (this != &argument_value)

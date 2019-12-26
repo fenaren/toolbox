@@ -1,9 +1,9 @@
 #if !defined ARGUMENT_VALUE_HPP
 #define ARGUMENT_VALUE_HPP
 
-#include "ArgumentValueBase.hpp"
+#include "Argument.hpp"
 
-template <class T> class ArgumentValue : public ArgumentValueBase
+template <class T> class ArgumentValue : public Argument
 {
 public:
 

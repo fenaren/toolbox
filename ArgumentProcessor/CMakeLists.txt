@@ -5,11 +5,11 @@ set(SRC
   Argument.cpp
   ArgumentProcessor.cpp
   ArgumentValue.cpp
-  ArgumentValueBase.cpp
-  ArgumentValueList.cpp
-  OptionalArgument.cpp
-  OptionalValueArgument.cpp
-  PositionalArgument.cpp)
+  ArgumentValueCount.cpp
+  ArgumentValueList.cpp)
+  #OptionalArgument.cpp
+  #OptionalValueArgument.cpp
+  #PositionalArgument.cpp)
 
 # Add source files to the project sources.  In cmake v3.13 the behavior of
 # target_sources changed and no longer requires prepending this directory to

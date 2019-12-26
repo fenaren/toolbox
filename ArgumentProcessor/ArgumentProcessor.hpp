@@ -2,14 +2,11 @@
 #define ARGUMENT_PROCESSOR_HPP
 
 #include <list>
-#include <memory>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 
-class OptionalArgument;
-class OptionalValueArgument;
-class PositionalArgument;
+#include "Argument.hpp"
 
 class ArgumentProcessor
 {
@@ -21,13 +18,11 @@ public:
 
     virtual ~ArgumentProcessor();
 
-
-    void registerPositionalArgument(const std::string& name);
+    void registerPositionalArgument(Argument* argument);
 
     void registerOptionalArgument(
-        const std::string&                     name,
-        const std::unordered_set<std::string>& flags,
-        bool                                   has_a_value);
+        Argument*                              argument,
+        const std::unordered_set<std::string>& flags);
 
 
     // Process a single argument
@@ -39,56 +34,23 @@ public:
     // For arguments straight off the command line
     void process(int argc, char** argv);
 
-
-    // Gets the value of the named argument as a string.
-    void getValue(const std::string& name, std::string& value) const;
-
-    // Gets the value of the named
-    template <class T> T getValue(const std::string& name) const;
-
-    void getValues(const std::string&      name,
-                   std::list<std::string>& values) const;
-
 private:
 
-    void checkNamemapsForDuplicate(const std::string& name) const;
-    void checkFlagmapsForDuplicate(const std::string& flag) const;
+    void checkForDuplicateFlag(const std::string& flag) const;
 
-    typedef std::list<std::shared_ptr<PositionalArgument> >
-    PositionalArgumentList;
-
-    PositionalArgumentList positional_arguments_list;
-
-    typedef std::unordered_map<std::string,
-                               std::shared_ptr<PositionalArgument> >
-    PositionalArgumentNameMap;
-
-    PositionalArgumentNameMap positional_arguments_namemap;
+    std::list<Argument*> positional_arguments;
 
     // Tracks the positional argument we're going to process next
-    PositionalArgumentList::iterator next_positional_argument;
-
-    typedef std::unordered_map<std::string, std::shared_ptr<OptionalArgument> >
-    OptionalArgumentsMap;
+    std::list<Argument*>::iterator next_positional_argument;
 
     // Maps optional arguments that DO NOT themselves have values to their
     // representative objects. Multiple flags will link to the same object for
     // arguments with multiple flags (ex. -v and --verbose).
-    OptionalArgumentsMap optional_arguments_namemap;
-    OptionalArgumentsMap optional_arguments_flagmap;
-
-    typedef std::unordered_map<std::string,
-                               std::shared_ptr<OptionalValueArgument> >
-    OptionalValueArgumentsMap;
-
-    // Maps optional arguments that DO have values to their representative
-    // objects. Multiple flags will link to the same object for arguments with
-    // multiple flags (ex. -v and --verbose).
-    OptionalValueArgumentsMap optional_value_arguments_namemap;
-    OptionalValueArgumentsMap optional_value_arguments_flagmap;
+    std::unordered_map<std::string, Argument*> optional_arguments;
 
     // The optional value argument we're in the middle of processing
-    OptionalValueArgumentsMap::iterator current_optional_value_argument;
+    std::unordered_map<std::string, Argument*>::iterator
+    current_optional_argument;
 
     ArgumentProcessor(const ArgumentProcessor& argument_processor);
     ArgumentProcessor& operator=(const ArgumentProcessor& argument_processor);

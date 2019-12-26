@@ -3,9 +3,9 @@
 
 #include <list>
 
-#include "ArgumentValueBase.hpp"
+#include "Argument.hpp"
 
-template <class T> class ArgumentValueList : public ArgumentValueBase
+template <class T> class ArgumentValueList : public Argument
 {
 public:
 
