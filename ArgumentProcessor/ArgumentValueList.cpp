@@ -1,11 +1,14 @@
+#include <list>
 #include <sstream>
 #include <string>
 
 #include "ArgumentValueList.hpp"
 
 //==============================================================================
-template <class T> ArgumentValueList<T>::ArgumentValueList() :
-    Argument()
+template <class T>
+ArgumentValueList<T>::ArgumentValueList(const std::list<T>& default_values) :
+    Argument(),
+    values(default_values)
 {
 }
 
@@ -38,10 +41,30 @@ template <class T> ArgumentValueList<T>& ArgumentValueList<T>::operator=(
     // Don't do anything if we're assigning to ourselves
     if (this != &argument_value_list)
     {
-        // Do something
+        values = argument_value_list.values;
     }
 
     return *this;
+}
+
+//==============================================================================
+template <class T> bool operator==(const ArgumentValueList<T>& lhs,
+                                   const ArgumentValueList<T>& rhs)
+{
+    std::list<T> lhs_values;
+    std::list<T> rhs_values;
+
+    lhs.getValues(lhs_values);
+    rhs.getValues(rhs_values);
+
+    return lhs_values == rhs_values;
+}
+
+//==============================================================================
+template <class T> bool operator!=(const ArgumentValueList<T>& lhs,
+                                   const ArgumentValueList<T>& rhs)
+{
+    return !(lhs == rhs);
 }
 
 template class ArgumentValueList<std::string>;

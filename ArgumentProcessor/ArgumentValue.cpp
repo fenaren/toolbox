@@ -73,11 +73,6 @@ template <class T> ArgumentValue<T>& ArgumentValue<T>::operator=(const T& value)
 template <class T>
 bool operator<(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
 {
-    if (!lhs.isSet() || !rhs.isSet())
-    {
-        throw std::runtime_error("Both sides (lhs and rhs) must be set");
-    }
-
     T lhs_value;
     T rhs_value;
 
@@ -112,11 +107,6 @@ bool operator>=(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
 template <class T>
 bool operator==(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
 {
-    if (!lhs.isSet() || !rhs.isSet())
-    {
-        throw std::runtime_error("Both sides (lhs and rhs) must be set");
-    }
-
     T lhs_value;
     T rhs_value;
 

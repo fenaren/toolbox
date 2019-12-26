@@ -11,7 +11,7 @@ template <class T> class ArgumentValueList : public Argument
 public:
 
     // Frobnicates the widget
-    ArgumentValueList();
+    ArgumentValueList(const std::list<T>& default_values);
 
     ArgumentValueList(const ArgumentValueList& argument_value_list);
 
@@ -29,5 +29,11 @@ private:
 
     std::list<T> values;
 };
+
+template <class T> bool operator==(const ArgumentValueList<T>& lhs,
+                                   const ArgumentValueList<T>& rhs);
+
+template <class T> bool operator!=(const ArgumentValueList<T>& lhs,
+                                   const ArgumentValueList<T>& rhs);
 
 #endif
