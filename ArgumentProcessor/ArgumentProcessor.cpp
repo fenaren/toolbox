@@ -142,6 +142,13 @@ void ArgumentProcessor::process(int argc, char** argv)
 }
 
 //==============================================================================
+bool ArgumentProcessor::isSatisfied() const
+{
+    return next_positional_argument == positional_arguments.end() &&
+        current_optional_argument == optional_arguments.end();
+}
+
+//==============================================================================
 void
 ArgumentProcessor::checkForDuplicateFlag(const std::string& flag) const
 {

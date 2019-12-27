@@ -34,6 +34,9 @@ public:
     // For arguments straight off the command line
     void process(int argc, char** argv);
 
+
+    bool isSatisfied() const;
+
 private:
 
     void checkForDuplicateFlag(const std::string& flag) const;
