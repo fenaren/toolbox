@@ -43,7 +43,7 @@ Test::Result ArgumentValue_test::Update::String::body()
 //==============================================================================
 Test::Result ArgumentValue_test::Update::Char::body()
 {
-    return test<char>(0, "111", 'o');
+    return test<char>(0, "111", '1');
 }
 
 //==============================================================================
@@ -91,7 +91,7 @@ Test::Result ArgumentValue_test::Update::Short::body()
 //==============================================================================
 Test::Result ArgumentValue_test::Update::UnsignedChar::body()
 {
-    return test<unsigned char>(0, "111", 'o');
+    return test<unsigned char>(0, "111", static_cast<unsigned char>('1'));
 }
 
 //==============================================================================
