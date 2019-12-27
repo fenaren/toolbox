@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 
 #include "ArgumentValue_test.hpp"
@@ -43,6 +42,7 @@ Test::Result ArgumentValue_test::Update::String::body()
 //==============================================================================
 Test::Result ArgumentValue_test::Update::Char::body()
 {
+    // stringstream pulls off one character at a time
     return test<char>(0, "111", '1');
 }
 
@@ -91,6 +91,7 @@ Test::Result ArgumentValue_test::Update::Short::body()
 //==============================================================================
 Test::Result ArgumentValue_test::Update::UnsignedChar::body()
 {
+    // stringstream pulls off one character at a time
     return test<unsigned char>(0, "111", static_cast<unsigned char>('1'));
 }
 
@@ -134,7 +135,6 @@ Test::Result ArgumentValue_test::Update::test(const T&           default_value,
 
     T set_value;
     argument_value.getValue(set_value);
-    std::cout << set_value << "\n";
     MUST_BE_TRUE(set_value == expected_value);
 
     return Test::PASSED;
