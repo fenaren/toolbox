@@ -6,7 +6,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Argument.hpp"
+class Argument;
+template <class T> class ArgumentValue;
 
 class ArgumentProcessor
 {
@@ -18,7 +19,8 @@ public:
 
     virtual ~ArgumentProcessor();
 
-    void registerPositionalArgument(Argument* argument);
+    template <class T>
+    void registerPositionalArgument(ArgumentValue<T>* argument);
 
     void registerOptionalArgument(
         Argument*                              argument,
@@ -38,8 +40,6 @@ public:
     bool isSatisfied() const;
 
 private:
-
-    void checkForDuplicateFlag(const std::string& flag) const;
 
     std::list<Argument*> positional_arguments;
 

@@ -23,7 +23,8 @@ ArgumentProcessor::~ArgumentProcessor()
 }
 
 //==============================================================================
-void ArgumentProcessor::registerPositionalArgument(Argument* argument)
+template <class T>
+void ArgumentProcessor::registerPositionalArgument(ArgumentValue<T>* argument)
 {
     positional_arguments.push_back(argument);
 
@@ -148,8 +149,44 @@ bool ArgumentProcessor::isSatisfied() const
         current_optional_argument == optional_arguments.end();
 }
 
-//==============================================================================
-void
-ArgumentProcessor::checkForDuplicateFlag(const std::string& flag) const
-{
-}
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<std::string>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<char>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<double>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<float>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<int>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<long>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<long double>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<long long>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<short>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<unsigned char>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<unsigned int>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<unsigned long>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<unsigned long long>*);
+
+template void ArgumentProcessor::registerPositionalArgument(
+    ArgumentValue<unsigned short>*);

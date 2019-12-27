@@ -11,7 +11,7 @@ template <class T> class ArgumentValueList : public Argument
 public:
 
     // Frobnicates the widget
-    ArgumentValueList(const std::list<T>& default_values);
+    explicit ArgumentValueList(const std::list<T>& default_values);
 
     ArgumentValueList(const ArgumentValueList& argument_value_list);
 

@@ -11,7 +11,7 @@ template <class T> class ArgumentValue : public Argument
 public:
 
     // Frobnicates the widget
-    ArgumentValue(const T& value_default);
+    explicit ArgumentValue(const T& value_default);
 
     ArgumentValue(const ArgumentValue& argument_value);
 
