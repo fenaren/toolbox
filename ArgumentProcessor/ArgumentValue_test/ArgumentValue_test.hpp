@@ -33,6 +33,14 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
     TEST_CASES_END(Update)
 
+    // Relational operators
+    TEST(OperatorLessThan)
+    TEST(OperatorGreaterThan)
+    TEST(OperatorLessThanOrEqualTo)
+    TEST(OperatorGreaterThanOrEqualTo)
+    TEST(OperatorEquality)
+    TEST(OperatorNotEqual)
+
 TEST_CASES_END(ArgumentValue_test)
 
 #endif

@@ -12,6 +12,14 @@ TEST_PROGRAM_MAIN(ArgumentValue_test);
 void ArgumentValue_test::addTestCases()
 {
     ADD_TEST_CASE(Update);
+
+    // Relational operators
+    ADD_TEST_CASE(OperatorLessThan);
+    ADD_TEST_CASE(OperatorGreaterThan);
+    ADD_TEST_CASE(OperatorLessThanOrEqualTo);
+    ADD_TEST_CASE(OperatorGreaterThanOrEqualTo);
+    ADD_TEST_CASE(OperatorEquality);
+    ADD_TEST_CASE(OperatorNotEqual);
 }
 
 //==============================================================================
@@ -137,5 +145,48 @@ Test::Result ArgumentValue_test::Update::test(const T&           default_value,
     argument_value.getValue(set_value);
     MUST_BE_TRUE(set_value == expected_value);
 
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentValue_test::OperatorLessThan::body()
+{
+    ArgumentValue<int> arg0(0);
+    ArgumentValue<int> arg1(1);
+
+    MUST_BE_TRUE(arg0 < arg1);
+    MUST_BE_TRUE(!(arg1 < arg0));
+    MUST_BE_TRUE(!(arg0 < arg0));
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentValue_test::OperatorGreaterThan::body()
+{
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::body()
+{
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::body()
+{
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentValue_test::OperatorEquality::body()
+{
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentValue_test::OperatorNotEqual::body()
+{
     return Test::PASSED;
 }

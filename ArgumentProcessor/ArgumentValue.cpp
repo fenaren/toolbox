@@ -138,3 +138,50 @@ template class ArgumentValue<unsigned int>;
 template class ArgumentValue<unsigned long>;
 template class ArgumentValue<unsigned long long>;
 template class ArgumentValue<unsigned short>;
+
+#define INSTANTIATE_RELATIONAL_OPERATOR(OPERATOR)                       \
+    template bool OPERATOR(const ArgumentValue<char>&,                  \
+                           const ArgumentValue<char>&);                 \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<double>&,                \
+                           const ArgumentValue<double>&);               \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<float>&,                 \
+                           const ArgumentValue<float>&);                \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<int>&,                   \
+                           const ArgumentValue<int>&);                  \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<long>&,                  \
+                           const ArgumentValue<long>&);                 \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<long double>&,           \
+                           const ArgumentValue<long double>&);          \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<long long>&,             \
+                           const ArgumentValue<long long>&);            \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<short>&,                 \
+                           const ArgumentValue<short>&);                \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<unsigned char>&,         \
+                           const ArgumentValue<unsigned char>&);        \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<unsigned int>&,          \
+                           const ArgumentValue<unsigned int>&);         \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<unsigned long>&,         \
+                           const ArgumentValue<unsigned long>&);        \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<unsigned long long>&,    \
+                           const ArgumentValue<unsigned long long>&);   \
+                                                                        \
+    template bool OPERATOR(const ArgumentValue<unsigned short>&,        \
+                           const ArgumentValue<unsigned short>&);
+
+INSTANTIATE_RELATIONAL_OPERATOR(operator<)
+INSTANTIATE_RELATIONAL_OPERATOR(operator>)
+INSTANTIATE_RELATIONAL_OPERATOR(operator<=)
+INSTANTIATE_RELATIONAL_OPERATOR(operator>=)
+INSTANTIATE_RELATIONAL_OPERATOR(operator==)
+INSTANTIATE_RELATIONAL_OPERATOR(operator!=)
