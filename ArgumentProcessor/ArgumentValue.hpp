@@ -10,6 +10,8 @@ template <class T> class ArgumentValue : public Argument
 {
 public:
 
+    friend class ArgumentValue_test;
+
     // Frobnicates the widget
     explicit ArgumentValue(const T& value_default);
 
