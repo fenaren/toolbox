@@ -164,29 +164,62 @@ Test::Result ArgumentValue_test::OperatorLessThan::body()
 //==============================================================================
 Test::Result ArgumentValue_test::OperatorGreaterThan::body()
 {
+    ArgumentValue<int> arg0(0);
+    ArgumentValue<int> arg1(1);
+
+    MUST_BE_TRUE(arg1 > arg0);
+    MUST_BE_TRUE(!(arg0 > arg1));
+    MUST_BE_TRUE(!(arg0 > arg0));
+
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::body()
 {
+    ArgumentValue<int> arg0(0);
+    ArgumentValue<int> arg1(1);
+
+    MUST_BE_TRUE(arg0 <= arg1);
+    MUST_BE_TRUE(!(arg1 <= arg0));
+    MUST_BE_TRUE(arg0 <= arg0);
+
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::body()
 {
+    ArgumentValue<int> arg0(0);
+    ArgumentValue<int> arg1(1);
+
+    MUST_BE_TRUE(arg1 >= arg0);
+    MUST_BE_TRUE(!(arg0 >= arg1));
+    MUST_BE_TRUE(arg0 >= arg0);
+
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentValue_test::OperatorEquality::body()
 {
+    ArgumentValue<int> arg0(0);
+    ArgumentValue<int> arg1(1);
+
+    MUST_BE_TRUE(arg0 == arg0);
+    MUST_BE_TRUE(!(arg0 == arg1));
+
     return Test::PASSED;
 }
 
 //==============================================================================
 Test::Result ArgumentValue_test::OperatorNotEqual::body()
 {
+    ArgumentValue<int> arg0(0);
+    ArgumentValue<int> arg1(1);
+
+    MUST_BE_TRUE(arg0 != arg1);
+    MUST_BE_TRUE(!(arg0 != arg0));
+
     return Test::PASSED;
 }
