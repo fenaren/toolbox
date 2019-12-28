@@ -4,6 +4,8 @@
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
+#include "ArgumentValueCount.hpp"
+
 TEST_PROGRAM_MAIN(ArgumentValueCount_test);
 
 //==============================================================================

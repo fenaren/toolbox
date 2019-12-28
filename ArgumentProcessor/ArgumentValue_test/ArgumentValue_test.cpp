@@ -6,6 +6,8 @@
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
+#include "ArgumentValue.hpp"
+
 TEST_PROGRAM_MAIN(ArgumentValue_test);
 
 //==============================================================================

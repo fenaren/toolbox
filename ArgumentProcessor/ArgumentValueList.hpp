@@ -30,6 +30,13 @@ private:
     std::list<T> values;
 };
 
+//==============================================================================
+template <class T>
+inline void ArgumentValueList<T>::getValues(std::list<T>& values) const
+{
+    values = this->values;
+}
+
 template <class T> bool operator==(const ArgumentValueList<T>& lhs,
                                    const ArgumentValueList<T>& rhs);
 

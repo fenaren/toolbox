@@ -140,6 +140,9 @@ template class ArgumentValue<unsigned long long>;
 template class ArgumentValue<unsigned short>;
 
 #define INSTANTIATE_RELATIONAL_OPERATOR(OPERATOR)                       \
+    template bool OPERATOR(const ArgumentValue<std::string>&,           \
+                           const ArgumentValue<std::string>&);          \
+                                                                        \
     template bool OPERATOR(const ArgumentValue<char>&,                  \
                            const ArgumentValue<char>&);                 \
                                                                         \
