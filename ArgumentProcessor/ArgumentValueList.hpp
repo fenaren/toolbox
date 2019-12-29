@@ -10,6 +10,8 @@ template <class T> class ArgumentValueList : public Argument
 {
 public:
 
+    friend class ArgumentValueList_test;
+
     // Frobnicates the widget
     explicit ArgumentValueList(const std::list<T>& default_values);
 

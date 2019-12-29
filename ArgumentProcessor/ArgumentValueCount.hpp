@@ -9,8 +9,10 @@ class ArgumentValueCount : public Argument
 {
 public:
 
+    friend class ArgumentValueCount_test;
+
     // Frobnicates the widget
-    ArgumentValueCount();
+    explicit ArgumentValueCount(unsigned int default_count = 0);
 
     ArgumentValueCount(const ArgumentValueCount& argument_value_count);
 

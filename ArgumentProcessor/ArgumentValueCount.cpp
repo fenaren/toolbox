@@ -3,9 +3,9 @@
 #include "ArgumentValueCount.hpp"
 
 //==============================================================================
-ArgumentValueCount::ArgumentValueCount() :
+ArgumentValueCount::ArgumentValueCount(unsigned int default_count) :
     Argument(),
-    count(0)
+    count(default_count)
 {
 }
 
