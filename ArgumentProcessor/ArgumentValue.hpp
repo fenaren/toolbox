@@ -13,7 +13,7 @@ public:
     friend class ArgumentValue_test;
 
     // Frobnicates the widget
-    explicit ArgumentValue(const T& value_default);
+    explicit ArgumentValue(const T& value_default = T());
 
     ArgumentValue(const ArgumentValue& argument_value);
 

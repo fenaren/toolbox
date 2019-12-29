@@ -13,7 +13,8 @@ public:
     friend class ArgumentValueList_test;
 
     // Frobnicates the widget
-    explicit ArgumentValueList(const std::list<T>& default_values);
+    explicit ArgumentValueList(const std::list<T>& default_values =
+                               std::list<T>());
 
     ArgumentValueList(const ArgumentValueList& argument_value_list);
 
