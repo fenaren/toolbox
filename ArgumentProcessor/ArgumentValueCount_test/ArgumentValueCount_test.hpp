@@ -5,9 +5,19 @@
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
+#include "ArgumentValueCount.hpp"
+
 TEST_CASES_BEGIN(ArgumentValueCount_test)
 
-    TEST(Stub)
+    TEST(Update)
+
+    // Relational operators
+    TEST(OperatorLessThan)
+    TEST(OperatorGreaterThan)
+    TEST(OperatorLessThanOrEqualTo)
+    TEST(OperatorGreaterThanOrEqualTo)
+    TEST(OperatorEquality)
+    TEST(OperatorNotEqual)
 
 TEST_CASES_END(ArgumentValueCount_test)
 

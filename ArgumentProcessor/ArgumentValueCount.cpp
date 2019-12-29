@@ -19,6 +19,7 @@ void ArgumentValueCount::update(const std::string& value)
 {
     // value argument intentionally ignored
     count++;
+    set();
 }
 
 //==============================================================================
@@ -34,4 +35,49 @@ ArgumentValueCount::operator=(const ArgumentValueCount& argument_value_count)
     }
 
     return *this;
+}
+
+//==============================================================================
+ArgumentValueCount& ArgumentValueCount::operator=(unsigned int count)
+{
+    this->count = count;
+    set();
+
+    return *this;
+}
+
+//==============================================================================
+bool operator<(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs)
+{
+    return lhs.getCount() < rhs.getCount();
+}
+
+//==============================================================================
+bool operator>(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs)
+{
+    return rhs < lhs;
+}
+
+//==============================================================================
+bool operator<=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs)
+{
+    return !(lhs > rhs);
+}
+
+//==============================================================================
+bool operator>=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs)
+{
+    return !(lhs < rhs);
+}
+
+//==============================================================================
+bool operator==(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs)
+{
+    return lhs.getCount() == rhs.getCount();
+}
+
+//==============================================================================
+bool operator!=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs)
+{
+    return !(lhs == rhs);
 }

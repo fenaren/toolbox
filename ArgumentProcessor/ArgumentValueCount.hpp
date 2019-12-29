@@ -27,6 +27,8 @@ public:
     ArgumentValueCount& operator=(
         const ArgumentValueCount& argument_value_count);
 
+    ArgumentValueCount& operator=(unsigned int count);
+
 private:
 
     unsigned int count;
@@ -37,5 +39,12 @@ inline unsigned int ArgumentValueCount::getCount() const
 {
     return count;
 }
+
+bool operator<(const ArgumentValueCount& lhs,  const ArgumentValueCount& rhs);
+bool operator>(const ArgumentValueCount& lhs,  const ArgumentValueCount& rhs);
+bool operator<=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
+bool operator>=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
+bool operator==(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
+bool operator!=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
 
 #endif
