@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iterator>
 #include <string>
 
 #include "ArgumentProcessor_test.hpp"
@@ -42,16 +43,33 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 {
     ArgumentProcessor argument_processor;
 
-    ArgumentValue<int> av(0);
+    ArgumentValue<int> av0(0);
+    ArgumentValue<int> av1(1);
 
-    argument_processor.registerPositionalArgument(&av);
+    // Iterator should indicate that every positional argument (none at this
+    // point) has been processed
+    MUST_BE_TRUE(argument_processor.next_positional_argument ==
+                 argument_processor.positional_arguments.end());
 
-    MUST_BE_TRUE(!argument_processor.isSatisfied());
+    argument_processor.registerPositionalArgument(&av0);
 
-    argument_processor.process("12");
+    // There should now be one argument, since we just pushed one
+    MUST_BE_TRUE(argument_processor.positional_arguments.size() == 1);
 
-    MUST_BE_TRUE(argument_processor.isSatisfied());
-    MUST_BE_TRUE(av.getValue() == 12);
+    // Iterator should now indicate the next argument to process is the one we
+    // just pushed
+    MUST_BE_TRUE(argument_processor.next_positional_argument ==
+                 argument_processor.positional_arguments.begin());
+
+    argument_processor.registerPositionalArgument(&av1);
+
+    // Now there are two, since we just pushed another
+    MUST_BE_TRUE(argument_processor.positional_arguments.size() == 2);
+
+    // We haven't processed anything so the next argument to be processed is
+    // still this one
+    MUST_BE_TRUE(argument_processor.next_positional_argument ==
+                 argument_processor.positional_arguments.begin());
 
     return Test::PASSED;
 }
