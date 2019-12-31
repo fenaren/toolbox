@@ -36,17 +36,17 @@ private:
     T value;
 };
 
-#define DECLARE_ARGUMENT_VALUE_OPERATOR(OPERATOR)                   \
-    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,   \
-                                     const ArgumentValue<T>& rhs);  \
-    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,   \
-                                     T                       rhs);  \
-    template <class T> bool OPERATOR(T                       lhs,   \
-                                     const ArgumentValue<T>& rhs);  \
-    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,   \
-                                     const std::string&      rhs);  \
-    template <class T> bool OPERATOR(const std::string&      lhs,   \
-                                     const ArgumentValue<T>& rhs);
+#define DECLARE_ARGUMENT_VALUE_OPERATOR(OPERATOR)                       \
+    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,       \
+                                     const ArgumentValue<T>& rhs);      \
+    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,       \
+                                     T                       rhs);      \
+    template <class T> bool OPERATOR(T                       lhs,            \
+                                     const ArgumentValue<T>& rhs);           \
+    template <class T> bool OPERATOR(const ArgumentValue<std::string>& lhs,  \
+                                     const std::string&                rhs); \
+    template <class T> bool OPERATOR(const std::string&                lhs,  \
+                                     const ArgumentValue<std::string>& rhs);
 
 DECLARE_ARGUMENT_VALUE_OPERATOR(operator<);
 DECLARE_ARGUMENT_VALUE_OPERATOR(operator>);

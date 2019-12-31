@@ -6,17 +6,17 @@
 
 #include "Argument.hpp"
 
-#define DEFINE_OPERATOR_MIXEDTYPES(OPERATOR, OP)        \
-    template <class T>                                  \
-    bool OPERATOR(const ArgumentValue<T>& lhs, T rhs)   \
-    {                                                   \
-        return lhs OP ArgumentValue<T>(rhs);            \
-    }                                                   \
-                                                        \
-    template <class T>                                  \
-    bool OPERATOR(T lhs, const ArgumentValue<T>& rhs)   \
-    {                                                   \
-        return ArgumentValue<T>(lhs) OP rhs;            \
+#define DEFINE_MIXED_ARGUMENT_VALUE_OPERATOR(OPERATOR, OP)      \
+    template <class T>                                          \
+    bool OPERATOR(const ArgumentValue<T>& lhs, T rhs)           \
+    {                                                           \
+        return lhs OP ArgumentValue<T>(rhs);                    \
+    }                                                           \
+                                                                \
+    template <class T>                                          \
+    bool OPERATOR(T lhs, const ArgumentValue<T>& rhs)           \
+    {                                                           \
+        return ArgumentValue<T>(lhs) OP rhs;                    \
     }
 
 //==============================================================================
@@ -95,7 +95,7 @@ bool operator<(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
     return lhs_value < rhs_value;
 }
 
-DEFINE_OPERATOR_MIXEDTYPES(operator<, <);
+DEFINE_MIXED_ARGUMENT_VALUE_OPERATOR(operator<, <);
 
 //==============================================================================
 template <class T>
@@ -104,7 +104,7 @@ bool operator>(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
     return rhs < lhs;
 }
 
-DEFINE_OPERATOR_MIXEDTYPES(operator>, >);
+DEFINE_MIXED_ARGUMENT_VALUE_OPERATOR(operator>, >);
 
 //==============================================================================
 template <class T>
@@ -113,7 +113,7 @@ bool operator<=(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
     return !(lhs > rhs);
 }
 
-DEFINE_OPERATOR_MIXEDTYPES(operator<=, <=);
+DEFINE_MIXED_ARGUMENT_VALUE_OPERATOR(operator<=, <=);
 
 //==============================================================================
 template <class T>
@@ -122,7 +122,7 @@ bool operator>=(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
     return !(lhs < rhs);
 }
 
-DEFINE_OPERATOR_MIXEDTYPES(operator>=, >=);
+DEFINE_MIXED_ARGUMENT_VALUE_OPERATOR(operator>=, >=);
 
 //==============================================================================
 template <class T>
@@ -137,7 +137,7 @@ bool operator==(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
     return lhs_value == rhs_value;
 }
 
-DEFINE_OPERATOR_MIXEDTYPES(operator==, ==);
+DEFINE_MIXED_ARGUMENT_VALUE_OPERATOR(operator==, ==);
 
 //==============================================================================
 template <class T>
@@ -146,7 +146,7 @@ bool operator!=(const ArgumentValue<T>& lhs, const ArgumentValue<T>& rhs)
     return !(lhs == rhs);
 }
 
-DEFINE_OPERATOR_MIXEDTYPES(operator!=, !=);
+DEFINE_MIXED_ARGUMENT_VALUE_OPERATOR(operator!=, !=);
 
 template class ArgumentValue<std::string>;
 
@@ -164,12 +164,12 @@ template class ArgumentValue<unsigned long>;
 template class ArgumentValue<unsigned long long>;
 template class ArgumentValue<unsigned short>;
 
-#define INSTANTIATE_RELATIONAL_OPERATOR(OPERATOR)                       \
+#define INSTANTIATE_ARGUMENT_VALUE_OPERATOR(OPERATOR)                   \
     template bool OPERATOR(const ArgumentValue<std::string>&,           \
                            const ArgumentValue<std::string>&);          \
     template bool OPERATOR(const ArgumentValue<std::string>&,           \
-                           const std::string&);                         \
-    template bool OPERATOR(const std::string&,                          \
+                           std::string);                                \
+    template bool OPERATOR(std::string,                                 \
                            const ArgumentValue<std::string>&);          \
                                                                         \
     template bool OPERATOR(const ArgumentValue<char>&,                  \
@@ -245,9 +245,9 @@ template class ArgumentValue<unsigned short>;
     template bool OPERATOR(unsigned short,                              \
                            const ArgumentValue<unsigned short>&);
 
-INSTANTIATE_RELATIONAL_OPERATOR(operator<)
-INSTANTIATE_RELATIONAL_OPERATOR(operator>)
-INSTANTIATE_RELATIONAL_OPERATOR(operator<=)
-INSTANTIATE_RELATIONAL_OPERATOR(operator>=)
-INSTANTIATE_RELATIONAL_OPERATOR(operator==)
-INSTANTIATE_RELATIONAL_OPERATOR(operator!=)
+INSTANTIATE_ARGUMENT_VALUE_OPERATOR(operator<);
+INSTANTIATE_ARGUMENT_VALUE_OPERATOR(operator>);
+INSTANTIATE_ARGUMENT_VALUE_OPERATOR(operator<=);
+INSTANTIATE_ARGUMENT_VALUE_OPERATOR(operator>=);
+INSTANTIATE_ARGUMENT_VALUE_OPERATOR(operator==);
+INSTANTIATE_ARGUMENT_VALUE_OPERATOR(operator!=);
