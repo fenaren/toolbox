@@ -13,7 +13,7 @@ public:
     friend class ArgumentValue_test;
 
     // Frobnicates the widget
-    explicit ArgumentValue(const T& value_default = T());
+    ArgumentValue(const T& value_default = T());
 
     ArgumentValue(const ArgumentValue& argument_value);
 
@@ -36,22 +36,23 @@ private:
     T value;
 };
 
-template <class T> bool operator<(const ArgumentValue<T>& lhs,
-                                  const ArgumentValue<T>& rhs);
+#define DECLARE_ARGUMENT_VALUE_OPERATOR(OPERATOR)                   \
+    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,   \
+                                     const ArgumentValue<T>& rhs);  \
+    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,   \
+                                     T                       rhs);  \
+    template <class T> bool OPERATOR(T                       lhs,   \
+                                     const ArgumentValue<T>& rhs);  \
+    template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,   \
+                                     const std::string&      rhs);  \
+    template <class T> bool OPERATOR(const std::string&      lhs,   \
+                                     const ArgumentValue<T>& rhs);
 
-template <class T> bool operator>(const ArgumentValue<T>& lhs,
-                                  const ArgumentValue<T>& rhs);
-
-template <class T> bool operator<=(const ArgumentValue<T>& lhs,
-                                   const ArgumentValue<T>& rhs);
-
-template <class T> bool operator>=(const ArgumentValue<T>& lhs,
-                                   const ArgumentValue<T>& rhs);
-
-template <class T> bool operator==(const ArgumentValue<T>& lhs,
-                                   const ArgumentValue<T>& rhs);
-
-template <class T> bool operator!=(const ArgumentValue<T>& lhs,
-                                   const ArgumentValue<T>& rhs);
+DECLARE_ARGUMENT_VALUE_OPERATOR(operator<);
+DECLARE_ARGUMENT_VALUE_OPERATOR(operator>);
+DECLARE_ARGUMENT_VALUE_OPERATOR(operator<=);
+DECLARE_ARGUMENT_VALUE_OPERATOR(operator>=);
+DECLARE_ARGUMENT_VALUE_OPERATOR(operator==);
+DECLARE_ARGUMENT_VALUE_OPERATOR(operator!=);
 
 #endif

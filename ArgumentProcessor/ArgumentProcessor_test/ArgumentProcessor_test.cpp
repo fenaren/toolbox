@@ -21,25 +21,15 @@ void ArgumentProcessor_test::addTestCases()
 }
 
 //==============================================================================
-void ArgumentProcessor_test::RegisterPositionalArgument::addTestCases()
-{
-    ADD_TEST_CASE(Case1);
-}
-
-//==============================================================================
-void ArgumentProcessor_test::RegisterOptionalArgument::addTestCases()
-{
-    ADD_TEST_CASE(Case1);
-}
-
-//==============================================================================
 void ArgumentProcessor_test::Process::addTestCases()
 {
-    ADD_TEST_CASE(Case1);
+    ADD_TEST_CASE(PositionalArgument);
+    ADD_TEST_CASE(OptionalArgument);
+    ADD_TEST_CASE(Combined);
 }
 
 //==============================================================================
-Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
+Test::Result ArgumentProcessor_test::RegisterPositionalArgument::body()
 {
     ArgumentProcessor argument_processor;
 
@@ -75,15 +65,90 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::Case1::body()
 }
 
 //==============================================================================
-Test::Result ArgumentProcessor_test::RegisterOptionalArgument::Case1::body()
+Test::Result ArgumentProcessor_test::RegisterOptionalArgument::body()
 {
     ArgumentProcessor argument_processor;
+
+    ArgumentValue<std::string> av0;
+
+    argument_processor.registerOptionalArgument(&av0, {"badflag"});
+
+    argument_processor.process(std::list<std::string>({"badflag", "asdf"}));
+
+    MUST_BE_TRUE(av0 == std::string("asdf"));
+
     return Test::PASSED;
 }
 
 //==============================================================================
-Test::Result ArgumentProcessor_test::Process::Case1::body()
+Test::Result ArgumentProcessor_test::Process::PositionalArgument::body()
 {
     ArgumentProcessor argument_processor;
+
+    MUST_BE_TRUE(argument_processor.positional_arguments.size() == 0);
+
+    ArgumentValue<int> av0;
+    argument_processor.registerPositionalArgument(&av0);
+
+    MUST_BE_TRUE(argument_processor.positional_arguments.size() == 1);
+
+    argument_processor.process("12");
+
+    MUST_BE_TRUE(av0.getValue() == 12);
+    MUST_BE_TRUE(argument_processor.next_positional_argument ==
+                 argument_processor.positional_arguments.end());
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentProcessor_test::Process::OptionalArgument::body()
+{
+    ArgumentProcessor argument_processor;
+
+    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
+
+    ArgumentValue<int> av0;
+    argument_processor.registerOptionalArgument(&av0, {"-a"});
+
+    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 1);
+
+    argument_processor.process(std::list<std::string>({"-a", "12"}));
+
+    MUST_BE_TRUE(av0.getValue() == 12);
+    MUST_BE_TRUE(argument_processor.current_optional_argument ==
+                 argument_processor.optional_arguments.end());
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentProcessor_test::Process::Combined::body()
+{
+    ArgumentProcessor argument_processor;
+
+    MUST_BE_TRUE(argument_processor.positional_arguments.size() == 0);
+    MUST_BE_TRUE(argument_processor.next_positional_argument ==
+                 argument_processor.positional_arguments.end());
+
+    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
+
+    ArgumentValue<int> av0;
+    ArgumentValue<int> av1;
+
+    argument_processor.registerOptionalArgument(&av1, {"--wtf"});
+    argument_processor.registerPositionalArgument(&av0);
+
+    MUST_BE_TRUE(argument_processor.positional_arguments.size() == 1);
+    MUST_BE_TRUE(argument_processor.next_positional_argument ==
+                 argument_processor.positional_arguments.begin());
+
+    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 1);
+
+    argument_processor.process(std::list<std::string>({"--wtf", "12", "34"}));
+
+    MUST_BE_TRUE(av0.getValue() == 34);
+    MUST_BE_TRUE(av1.getValue() == 12);
+
     return Test::PASSED;
 }

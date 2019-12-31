@@ -7,21 +7,14 @@
 
 TEST_CASES_BEGIN(ArgumentProcessor_test)
 
-    TEST_CASES_BEGIN(RegisterPositionalArgument)
-
-        TEST(Case1)
-
-    TEST_CASES_END(RegisterPositionalArgument)
-
-    TEST_CASES_BEGIN(RegisterOptionalArgument)
-
-        TEST(Case1)
-
-    TEST_CASES_END(RegisterOptionalArgument)
+    TEST(RegisterPositionalArgument)
+    TEST(RegisterOptionalArgument)
 
     TEST_CASES_BEGIN(Process)
 
-         TEST(Case1)
+         TEST(PositionalArgument)
+         TEST(OptionalArgument)
+         TEST(Combined)
 
     TEST_CASES_END(Process)
 
