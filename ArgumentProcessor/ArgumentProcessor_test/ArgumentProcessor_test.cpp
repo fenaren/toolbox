@@ -69,13 +69,16 @@ Test::Result ArgumentProcessor_test::RegisterOptionalArgument::body()
 {
     ArgumentProcessor argument_processor;
 
-    ArgumentValue<std::string> av0;
+    MUST_BE_TRUE(argument_processor.optional_arguments.empty());
 
+    ArgumentValue<std::string> av0;
     argument_processor.registerOptionalArgument(&av0, {"badflag"});
 
-    argument_processor.process(std::list<std::string>({"badflag", "asdf"}));
+    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 1);
+    MUST_BE_TRUE(argument_processor.current_optional_argument ==
+                 argument_processor.optional_arguments.end());
 
-    MUST_BE_TRUE(av0 == std::string("asdf"));
+    MUST_BE_TRUE(argument_processor.optional_arguments["badflag"] == &av0);
 
     return Test::PASSED;
 }
@@ -110,8 +113,6 @@ Test::Result ArgumentProcessor_test::Process::OptionalArgument::body()
 
     ArgumentValue<int> av0;
     argument_processor.registerOptionalArgument(&av0, {"-a"});
-
-    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 1);
 
     argument_processor.process(std::list<std::string>({"-a", "12"}));
 

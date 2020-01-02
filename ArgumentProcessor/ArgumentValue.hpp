@@ -12,7 +12,6 @@ public:
 
     friend class ArgumentValue_test;
 
-    // Frobnicates the widget
     ArgumentValue(const T& value_default = T());
 
     ArgumentValue(const ArgumentValue& argument_value);
@@ -40,13 +39,9 @@ private:
     template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,       \
                                      const ArgumentValue<T>& rhs);      \
     template <class T> bool OPERATOR(const ArgumentValue<T>& lhs,       \
-                                     T                       rhs);      \
-    template <class T> bool OPERATOR(T                       lhs,            \
-                                     const ArgumentValue<T>& rhs);           \
-    template <class T> bool OPERATOR(const ArgumentValue<std::string>& lhs,  \
-                                     const std::string&                rhs); \
-    template <class T> bool OPERATOR(const std::string&                lhs,  \
-                                     const ArgumentValue<std::string>& rhs);
+                                     const T&                rhs);      \
+    template <class T> bool OPERATOR(const T&                lhs,       \
+                                     const ArgumentValue<T>& rhs);
 
 DECLARE_ARGUMENT_VALUE_OPERATOR(operator<);
 DECLARE_ARGUMENT_VALUE_OPERATOR(operator>);
