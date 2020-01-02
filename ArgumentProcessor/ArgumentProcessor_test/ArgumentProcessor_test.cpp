@@ -113,10 +113,9 @@ Test::Result ArgumentProcessor_test::Process::OptionalArgument::body()
 
     ArgumentValue<int> av0;
     argument_processor.registerOptionalArgument(&av0, {"-a"});
-
     argument_processor.process(std::list<std::string>({"-a", "12"}));
 
-    MUST_BE_TRUE(av0.getValue() == 12);
+    MUST_BE_TRUE(av0 == 12);
     MUST_BE_TRUE(argument_processor.current_optional_argument ==
                  argument_processor.optional_arguments.end());
 

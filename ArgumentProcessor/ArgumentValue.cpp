@@ -180,41 +180,83 @@ template class ArgumentValue<unsigned short>;
                                                                         \
     template bool OPERATOR(const ArgumentValue<char>&,                  \
                            const ArgumentValue<char>&);                 \
+    template bool OPERATOR(const ArgumentValue<char>&, const char&);    \
+    template bool OPERATOR(const char&, const ArgumentValue<char>&);    \
                                                                         \
     template bool OPERATOR(const ArgumentValue<double>&,                \
                            const ArgumentValue<double>&);               \
+    template bool OPERATOR(const ArgumentValue<double>&, const double&); \
+    template bool OPERATOR(const double&, const ArgumentValue<double>&); \
                                                                         \
     template bool OPERATOR(const ArgumentValue<float>&,                 \
                            const ArgumentValue<float>&);                \
+    template bool OPERATOR(const ArgumentValue<float>&, const float&);  \
+    template bool OPERATOR(const float&, const ArgumentValue<float>&);  \
                                                                         \
     template bool OPERATOR(const ArgumentValue<int>&,                   \
                            const ArgumentValue<int>&);                  \
+    template bool OPERATOR(const ArgumentValue<int>&, const int&);      \
+    template bool OPERATOR(const int&, const ArgumentValue<int>&);      \
                                                                         \
     template bool OPERATOR(const ArgumentValue<long>&,                  \
                            const ArgumentValue<long>&);                 \
+    template bool OPERATOR(const ArgumentValue<long>&, const long&);    \
+    template bool OPERATOR(const long&, const ArgumentValue<long>&);    \
                                                                         \
     template bool OPERATOR(const ArgumentValue<long double>&,           \
+                           const ArgumentValue<long double>&);          \
+    template bool OPERATOR(const ArgumentValue<long double>&,           \
+                           const long double&);                         \
+    template bool OPERATOR(const long double&,                          \
                            const ArgumentValue<long double>&);          \
                                                                         \
     template bool OPERATOR(const ArgumentValue<long long>&,             \
                            const ArgumentValue<long long>&);            \
+    template bool OPERATOR(const ArgumentValue<long long>&,             \
+                           const long long&);                           \
+    template bool OPERATOR(const long long&,                            \
+                           const ArgumentValue<long long>&);            \
                                                                         \
     template bool OPERATOR(const ArgumentValue<short>&,                 \
+                           const ArgumentValue<short>&);                \
+    template bool OPERATOR(const ArgumentValue<short>&,                 \
+                           const short&);                               \
+    template bool OPERATOR(const short&,                                \
                            const ArgumentValue<short>&);                \
                                                                         \
     template bool OPERATOR(const ArgumentValue<unsigned char>&,         \
                            const ArgumentValue<unsigned char>&);        \
+    template bool OPERATOR(const ArgumentValue<unsigned char>&,         \
+                           const unsigned char&);                       \
+    template bool OPERATOR(const unsigned char&,                        \
+                           const ArgumentValue<unsigned char>&);        \
                                                                         \
     template bool OPERATOR(const ArgumentValue<unsigned int>&,          \
+                           const ArgumentValue<unsigned int>&);         \
+    template bool OPERATOR(const ArgumentValue<unsigned int>&,          \
+                           const unsigned int&);                        \
+    template bool OPERATOR(const unsigned int&,                         \
                            const ArgumentValue<unsigned int>&);         \
                                                                         \
     template bool OPERATOR(const ArgumentValue<unsigned long>&,         \
                            const ArgumentValue<unsigned long>&);        \
+    template bool OPERATOR(const ArgumentValue<unsigned long>&,         \
+                           const unsigned long&);                       \
+    template bool OPERATOR(const unsigned long&,                        \
+                           const ArgumentValue<unsigned long>&);        \
                                                                         \
     template bool OPERATOR(const ArgumentValue<unsigned long long>&,    \
                            const ArgumentValue<unsigned long long>&);   \
+    template bool OPERATOR(const ArgumentValue<unsigned long long>&,    \
+                           const unsigned long long&);                  \
+    template bool OPERATOR(const unsigned long long&,                   \
+                           const ArgumentValue<unsigned long long>&);   \
                                                                         \
     template bool OPERATOR(const ArgumentValue<unsigned short>&,        \
+                           const ArgumentValue<unsigned short>&);       \
+    template bool OPERATOR(const ArgumentValue<unsigned short>&,        \
+                           const unsigned short&);                      \
+    template bool OPERATOR(const unsigned short&,                       \
                            const ArgumentValue<unsigned short>&);
 
 INSTANTIATE_ARGUMENT_VALUE_OPERATOR(operator<);
