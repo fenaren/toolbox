@@ -43,6 +43,11 @@ private:
     template <class T> bool OPERATOR(const T&                lhs,       \
                                      const ArgumentValue<T>& rhs);
 
+template <std::size_t N> bool operator==(const ArgumentValue<std::string>& lhs,
+                                         const char (&rhs)[N]);
+template <std::size_t N> bool operator==(const char (&lhs)[N],
+                                         const ArgumentValue<std::string>& rhs);
+
 DECLARE_ARGUMENT_VALUE_OPERATOR(operator<);
 DECLARE_ARGUMENT_VALUE_OPERATOR(operator>);
 DECLARE_ARGUMENT_VALUE_OPERATOR(operator<=);
