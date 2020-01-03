@@ -168,7 +168,6 @@ Test::Result ArgumentValue_test::Update::String::body()
 
 Test::Result ArgumentValue_test::Update::Char::body()
 {
-    // stringstream pulls off one character at a time
     return test<char>(0, "111", '1');
 }
 
@@ -209,7 +208,6 @@ Test::Result ArgumentValue_test::Update::Short::body()
 
 Test::Result ArgumentValue_test::Update::UnsignedChar::body()
 {
-    // stringstream pulls off one character at a time
     return test<unsigned char>(0, "111", static_cast<unsigned char>('1'));
 }
 
@@ -244,7 +242,6 @@ Test::Result ArgumentValue_test::OperatorLessThan::String::body()
 
 Test::Result ArgumentValue_test::OperatorLessThan::Char::body()
 {
-    // stringstream pulls off one character at a time
     return test<char>('a', 'b');
 }
 
@@ -319,7 +316,6 @@ Test::Result ArgumentValue_test::OperatorGreaterThan::String::body()
 
 Test::Result ArgumentValue_test::OperatorGreaterThan::Char::body()
 {
-    // stringstream pulls off one character at a time
     return test<char>('a', 'b');
 }
 
@@ -394,7 +390,6 @@ Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::String::body()
 
 Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::Char::body()
 {
-    // stringstream pulls off one character at a time
     return test<char>('a', 'b');
 }
 
@@ -469,7 +464,6 @@ Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::String::body()
 
 Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::Char::body()
 {
-    // stringstream pulls off one character at a time
     return test<char>('a', 'b');
 }
 
@@ -544,7 +538,6 @@ Test::Result ArgumentValue_test::OperatorEquality::String::body()
 
 Test::Result ArgumentValue_test::OperatorEquality::Char::body()
 {
-    // stringstream pulls off one character at a time
     return test<char>('a', 'b');
 }
 
@@ -619,7 +612,6 @@ Test::Result ArgumentValue_test::OperatorNotEqual::String::body()
 
 Test::Result ArgumentValue_test::OperatorNotEqual::Char::body()
 {
-    // stringstream pulls off one character at a time
     return test<char>('a', 'b');
 }
 

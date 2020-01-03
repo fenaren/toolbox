@@ -19,6 +19,18 @@
                   const ArgumentValue<T>& rhs)                  \
     {                                                           \
         return ArgumentValue<T>(lhs) OP rhs;                    \
+    }                                                           \
+                                                                \
+    bool OPERATOR(const ArgumentValue<std::string>& lhs,        \
+                  const char* rhs)                              \
+    {                                                           \
+        return lhs OP ArgumentValue<std::string>(rhs);          \
+    }                                                           \
+                                                                \
+    bool OPERATOR(const char* lhs,                              \
+                  const ArgumentValue<std::string>& rhs)        \
+    {                                                           \
+        return ArgumentValue<std::string>(lhs) OP rhs;          \
     }
 
 //==============================================================================
