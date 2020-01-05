@@ -48,12 +48,16 @@ ArgumentValueList_test::Update::test(const std::list<T>& default_value,
 {
     ArgumentValueList<T> argument_value_list(default_value);
 
+    // Arguments are not set by default, even when given a default value.
     MUST_BE_TRUE(!argument_value_list.isSet());
 
     argument_value_list.update(update_value);
 
+    // We were just given a value so we should now be set.
     MUST_BE_TRUE(argument_value_list.isSet());
 
+    // Get the list from the argument and compare to what we were supposed to
+    // get.
     std::list<T> set_value;
     argument_value_list.getValues(set_value);
     MUST_BE_TRUE(set_value == expected_value);
