@@ -6,6 +6,9 @@
 
 #include "Argument.hpp"
 
+// Represents an argument with a single value.  All the intrinsic types and
+// std::string are supported as value types, and a variety of operators are
+// overloaded to make this easy to use.
 template <class T> class ArgumentValue : public Argument
 {
 public:
