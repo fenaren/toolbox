@@ -35,6 +35,7 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
     TEST_CASES_BEGIN(OperatorLessThan)
 
+        TEST(StringConstCharP)
         TEST(String)
         TEST(Char)
         TEST(Double)
@@ -57,6 +58,7 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
     TEST_CASES_BEGIN(OperatorGreaterThan)
 
+        TEST(StringConstCharP)
         TEST(String)
         TEST(Char)
         TEST(Double)
@@ -79,6 +81,7 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
     TEST_CASES_BEGIN(OperatorLessThanOrEqualTo)
 
+        TEST(StringConstCharP)
         TEST(String)
         TEST(Char)
         TEST(Double)
@@ -101,6 +104,7 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
     TEST_CASES_BEGIN(OperatorGreaterThanOrEqualTo)
 
+        TEST(StringConstCharP)
         TEST(String)
         TEST(Char)
         TEST(Double)
@@ -123,6 +127,7 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
     TEST_CASES_BEGIN(OperatorEquality)
 
+        TEST(StringConstCharP)
         TEST(String)
         TEST(Char)
         TEST(Double)
@@ -145,6 +150,7 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
     TEST_CASES_BEGIN(OperatorNotEqual)
 
+        TEST(StringConstCharP)
         TEST(String)
         TEST(Char)
         TEST(Double)
