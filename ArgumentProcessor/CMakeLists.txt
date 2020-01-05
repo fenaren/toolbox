@@ -14,9 +14,6 @@ set(SRC
 # systems are at or above cmake v3.13.
 if(CMAKE_VERSION VERSION_LESS 3.13)
   list_prepend_to_each(SRC ArgumentProcessor/)
-  list_prepend_to_each(SRC ArgumentValue/)
-  list_prepend_to_each(SRC ArgumentValueCount/)
-  list_prepend_to_each(SRC ArgumentValueList/)
 endif(CMAKE_VERSION VERSION_LESS 3.13)
 target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 
