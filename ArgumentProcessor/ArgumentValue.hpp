@@ -12,23 +12,25 @@ public:
 
     friend class ArgumentValue_test;
 
+    // Constructors
     // cppcheck-suppress noExplicitConstructor
     ArgumentValue(const T& value_default = T());
-
     ArgumentValue(const ArgumentValue& argument_value);
 
-    // Defrobnicates the widget.  Make this virtual if this class derives from
-    // something
+    // Destructor
     virtual ~ArgumentValue();
 
+    // Defines the update interface required by Argument
     virtual void update(const std::string& value = "");
 
+    // Returns the current value of the argument on the stack.  Try to use the
+    // other getValue() method if the argument is large.
     T getValue() const;
 
+    // Returns a reference to the current value of the argument.
     void getValue(T& value) const;
 
     ArgumentValue& operator=(const ArgumentValue& argument_value);
-
     ArgumentValue& operator=(const T& value);
 
 private:
