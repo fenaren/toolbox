@@ -12,6 +12,7 @@ public:
 
     friend class ArgumentValue_test;
 
+    // cppcheck-suppress noExplicitConstructor
     ArgumentValue(const T& value_default = T());
 
     ArgumentValue(const ArgumentValue& argument_value);
