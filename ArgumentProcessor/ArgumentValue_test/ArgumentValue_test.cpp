@@ -171,12 +171,15 @@ Test::Result ArgumentValue_test::Update::test(const T&           default_value,
 {
     ArgumentValue<T> argument_value(default_value);
 
+    // Arguments are not set by default, even when given a default value.
     MUST_BE_TRUE(!argument_value.isSet());
 
     argument_value.update(update_value);
 
+    // Now we should be set.
     MUST_BE_TRUE(argument_value.isSet());
 
+    // Get the value after the update and compare to what we expected.
     T set_value;
     argument_value.getValue(set_value);
     MUST_BE_TRUE(set_value == expected_value);
