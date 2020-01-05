@@ -412,7 +412,17 @@ Test::Result ArgumentValue_test::Update::UnsignedShort::body()
 
 Test::Result ArgumentValue_test::OperatorLessThan::StringConstCharP::body()
 {
-    return test<std::string>("abcd", "efgh");
+    const char* smaller = "abcd";
+    const char* bigger  = "efgh";
+
+    ArgumentValue<std::string> smaller_arg(smaller);
+    ArgumentValue<std::string> bigger_arg(bigger);
+
+    MUST_BE_TRUE(smaller     < bigger_arg);
+    MUST_BE_TRUE(smaller_arg < bigger);
+    MUST_BE_TRUE(!(smaller_arg < smaller));
+
+    return Test::PASSED;
 }
 
 Test::Result ArgumentValue_test::OperatorLessThan::String::body()
@@ -491,7 +501,17 @@ Test::Result ArgumentValue_test::OperatorLessThan::UnsignedShort::body()
 
 Test::Result ArgumentValue_test::OperatorGreaterThan::StringConstCharP::body()
 {
-    return test<std::string>("abcd", "efgh");
+    const char* smaller = "abcd";
+    const char* bigger  = "efgh";
+
+    ArgumentValue<std::string> smaller_arg(smaller);
+    ArgumentValue<std::string> bigger_arg(bigger);
+
+    MUST_BE_TRUE(bigger_arg > smaller);
+    MUST_BE_TRUE(bigger     > smaller_arg);
+    MUST_BE_TRUE(!(bigger     > bigger_arg));
+
+    return Test::PASSED;
 }
 
 Test::Result ArgumentValue_test::OperatorGreaterThan::String::body()
@@ -571,7 +591,17 @@ Test::Result ArgumentValue_test::OperatorGreaterThan::UnsignedShort::body()
 Test::Result
 ArgumentValue_test::OperatorLessThanOrEqualTo::StringConstCharP::body()
 {
-    return test<std::string>("abcd", "efgh");
+    const char* smaller = "abcd";
+    const char* bigger  = "efgh";
+
+    ArgumentValue<std::string> smaller_arg(smaller);
+    ArgumentValue<std::string> bigger_arg(bigger);
+
+    MUST_BE_TRUE(smaller     <= bigger_arg);
+    MUST_BE_TRUE(smaller_arg <= bigger);
+    MUST_BE_TRUE(smaller_arg <= smaller);
+
+    return Test::PASSED;
 }
 
 Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::String::body()
@@ -651,7 +681,17 @@ Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::UnsignedShort::body(
 Test::Result
 ArgumentValue_test::OperatorGreaterThanOrEqualTo::StringConstCharP::body()
 {
-    return test<std::string>("abcd", "efgh");
+    const char* smaller = "abcd";
+    const char* bigger  = "efgh";
+
+    ArgumentValue<std::string> smaller_arg(smaller);
+    ArgumentValue<std::string> bigger_arg(bigger);
+
+    MUST_BE_TRUE(bigger      >= smaller_arg);
+    MUST_BE_TRUE(bigger_arg  >= smaller);
+    MUST_BE_TRUE(smaller_arg >= smaller);
+
+    return Test::PASSED;
 }
 
 Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::String::body()
@@ -735,7 +775,19 @@ ArgumentValue_test::OperatorGreaterThanOrEqualTo::UnsignedShort::body()
 
 Test::Result ArgumentValue_test::OperatorEquality::StringConstCharP::body()
 {
-    return test<std::string>("abcd", "efgh");
+    const char* smaller = "abcd";
+    const char* bigger  = "efgh";
+
+    ArgumentValue<std::string> smaller_arg(smaller);
+    ArgumentValue<std::string> bigger_arg(bigger);
+
+    MUST_BE_TRUE(bigger      == bigger_arg);
+    MUST_BE_TRUE(bigger_arg  == bigger);
+
+    MUST_BE_TRUE(!(bigger == smaller_arg));
+    MUST_BE_TRUE(!(bigger_arg == smaller));
+
+    return Test::PASSED;
 }
 
 Test::Result ArgumentValue_test::OperatorEquality::String::body()
@@ -814,7 +866,19 @@ Test::Result ArgumentValue_test::OperatorEquality::UnsignedShort::body()
 
 Test::Result ArgumentValue_test::OperatorNotEqual::StringConstCharP::body()
 {
-    return test<std::string>("abcd", "efgh");
+    const char* smaller = "abcd";
+    const char* bigger  = "efgh";
+
+    ArgumentValue<std::string> smaller_arg(smaller);
+    ArgumentValue<std::string> bigger_arg(bigger);
+
+    MUST_BE_TRUE(bigger     != smaller_arg);
+    MUST_BE_TRUE(bigger_arg != smaller);
+
+    MUST_BE_TRUE(!(bigger     != bigger_arg));
+    MUST_BE_TRUE(!(bigger_arg != bigger));
+
+    return Test::PASSED;
 }
 
 Test::Result ArgumentValue_test::OperatorNotEqual::String::body()
