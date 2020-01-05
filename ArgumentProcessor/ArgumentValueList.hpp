@@ -6,24 +6,28 @@
 
 #include "Argument.hpp"
 
+// Represents a type of argument for which we want to preserve every value
+// given for it on the command line.  This really only works for optional
+// arguments now, since positional arguments can only be specified once.
 template <class T> class ArgumentValueList : public Argument
 {
 public:
 
     friend class ArgumentValueList_test;
 
-    // Frobnicates the widget
-    explicit ArgumentValueList(const std::list<T>& default_values =
-                               std::list<T>());
-
+    // Constructors
+    explicit
+    ArgumentValueList(const std::list<T>& default_values = std::list<T>());
     ArgumentValueList(const ArgumentValueList& argument_value_list);
 
-    // Defrobnicates the widget.  Make this virtual if this class derives from
-    // something
+    // Destructor
     virtual ~ArgumentValueList();
 
+    // Defines the update interface required by Argument
     virtual void update(const std::string& value = "");
 
+    // Returns all the values specified for this argument as a list.  Argument
+    // values are returned in the order they were specified.
     void getValues(std::list<T>& values) const;
 
     ArgumentValueList& operator=(const ArgumentValueList& argument_value_list);

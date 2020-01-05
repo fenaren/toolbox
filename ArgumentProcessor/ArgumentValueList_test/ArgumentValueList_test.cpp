@@ -41,144 +41,6 @@ void ArgumentValueList_test::Update::addTestCases()
 }
 
 //==============================================================================
-Test::Result ArgumentValueList_test::Update::String::body()
-{
-    std::list<std::string> expected_value;
-    expected_value.push_back("alpha");
-
-    return test<std::string>(std::list<std::string>(), "alpha", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::Char::body()
-{
-    std::list<char> expected_value;
-    expected_value.push_back('1');
-
-    // stringstream pulls off one character at a time
-    return test<char>(std::list<char>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::Double::body()
-{
-    std::list<double> expected_value;
-    expected_value.push_back(111.0);
-
-    return test<double>(std::list<double>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::Float::body()
-{
-    std::list<float> expected_value;
-    expected_value.push_back(111.0f);
-
-    return test<float>(std::list<float>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::Int::body()
-{
-    std::list<int> expected_value;
-    expected_value.push_back(111);
-
-    return test<int>(std::list<int>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::Long::body()
-{
-    std::list<long> expected_value;
-    expected_value.push_back(111L);
-
-    return test<long>(std::list<long>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::LongDouble::body()
-{
-    std::list<long double> expected_value;
-    expected_value.push_back(111.0L);
-
-    return test<long double>(std::list<long double>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::LongLong::body()
-{
-    std::list<long long> expected_value;
-    expected_value.push_back(111LL);
-
-    return test<long long>(std::list<long long>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::Short::body()
-{
-    std::list<short> expected_value;
-    expected_value.push_back(static_cast<short>(111));
-
-    return test<short>(std::list<short>(), "111", expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::UnsignedChar::body()
-{
-    std::list<unsigned char> expected_value;
-    expected_value.push_back(static_cast<unsigned char>('1'));
-
-    // stringstream pulls off one character at a time
-    return test<unsigned char>(std::list<unsigned char>(),
-                               "111",
-                               expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::UnsignedInt::body()
-{
-    std::list<unsigned int> expected_value;
-    expected_value.push_back(111U);
-
-    return test<unsigned int>(std::list<unsigned int>(),
-                              "111",
-                              expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::UnsignedLong::body()
-{
-    std::list<unsigned long> expected_value;
-    expected_value.push_back(111UL);
-
-    return test<unsigned long>(std::list<unsigned long>(),
-                               "111",
-                               expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::UnsignedLongLong::body()
-{
-    std::list<unsigned long long> expected_value;
-    expected_value.push_back(111ULL);
-
-    return test<unsigned long long>(std::list<unsigned long long>(),
-                                    "111",
-                                    expected_value);
-}
-
-//==============================================================================
-Test::Result ArgumentValueList_test::Update::UnsignedShort::body()
-{
-    std::list<unsigned short> expected_value;
-    expected_value.push_back(111);
-
-    return test<unsigned short>(std::list<unsigned short>(),
-                                "111",
-                                expected_value);
-}
-
-//==============================================================================
 template <class T> Test::Result
 ArgumentValueList_test::Update::test(const std::list<T>& default_value,
                                      const std::string&  update_value,
@@ -197,6 +59,134 @@ ArgumentValueList_test::Update::test(const std::list<T>& default_value,
     MUST_BE_TRUE(set_value == expected_value);
 
     return Test::PASSED;
+}
+
+//==============================================================================
+// UPDATE
+//==============================================================================
+
+Test::Result ArgumentValueList_test::Update::String::body()
+{
+    std::list<std::string> expected_value;
+    expected_value.push_back("alpha");
+
+    return test<std::string>(std::list<std::string>(), "alpha", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::Char::body()
+{
+    std::list<char> expected_value;
+    expected_value.push_back('1');
+
+    // stringstream pulls off one character at a time
+    return test<char>(std::list<char>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::Double::body()
+{
+    std::list<double> expected_value;
+    expected_value.push_back(111.0);
+
+    return test<double>(std::list<double>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::Float::body()
+{
+    std::list<float> expected_value;
+    expected_value.push_back(111.0f);
+
+    return test<float>(std::list<float>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::Int::body()
+{
+    std::list<int> expected_value;
+    expected_value.push_back(111);
+
+    return test<int>(std::list<int>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::Long::body()
+{
+    std::list<long> expected_value;
+    expected_value.push_back(111L);
+
+    return test<long>(std::list<long>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::LongDouble::body()
+{
+    std::list<long double> expected_value;
+    expected_value.push_back(111.0L);
+
+    return test<long double>(std::list<long double>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::LongLong::body()
+{
+    std::list<long long> expected_value;
+    expected_value.push_back(111LL);
+
+    return test<long long>(std::list<long long>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::Short::body()
+{
+    std::list<short> expected_value;
+    expected_value.push_back(static_cast<short>(111));
+
+    return test<short>(std::list<short>(), "111", expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::UnsignedChar::body()
+{
+    std::list<unsigned char> expected_value;
+    expected_value.push_back(static_cast<unsigned char>('1'));
+
+    // stringstream pulls off one character at a time
+    return test<unsigned char>(std::list<unsigned char>(),
+                               "111",
+                               expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::UnsignedInt::body()
+{
+    std::list<unsigned int> expected_value;
+    expected_value.push_back(111U);
+
+    return test<unsigned int>(std::list<unsigned int>(),
+                              "111",
+                              expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::UnsignedLong::body()
+{
+    std::list<unsigned long> expected_value;
+    expected_value.push_back(111UL);
+
+    return test<unsigned long>(std::list<unsigned long>(),
+                               "111",
+                               expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::UnsignedLongLong::body()
+{
+    std::list<unsigned long long> expected_value;
+    expected_value.push_back(111ULL);
+
+    return test<unsigned long long>(std::list<unsigned long long>(),
+                                    "111",
+                                    expected_value);
+}
+
+Test::Result ArgumentValueList_test::Update::UnsignedShort::body()
+{
+    std::list<unsigned short> expected_value;
+    expected_value.push_back(111);
+
+    return test<unsigned short>(std::list<unsigned short>(),
+                                "111",
+                                expected_value);
 }
 
 //==============================================================================
