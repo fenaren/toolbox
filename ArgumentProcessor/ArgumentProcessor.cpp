@@ -118,7 +118,9 @@ void ArgumentProcessor::process(const std::string& argument)
     }
     else
     {
-        // TODO
+        // All positional arguments have been processed already, so this is an
+        // extra argument that belongs nowhere.
+        throw std::runtime_error("Extra positional argument");
     }
 }
 
