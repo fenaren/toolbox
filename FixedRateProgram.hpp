@@ -59,9 +59,6 @@ public:
 
 private:
 
-    // Time source used to compare elapsed time against period
-    std::chrono::steady_clock clock;
-
     // Length of time between step() executions
     std::chrono::nanoseconds period;
 
