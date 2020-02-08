@@ -3,10 +3,10 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 # All the platform-independent source files in this directory
 set(SRC
   ArgumentProcessor.cpp
-  ConfigurationValue.cpp
-  ConfigurationValueCount.cpp
-  ConfigurationValueList.cpp
-  ConfigurationValueSimple.cpp)
+  ConfigurationValue.cpp)
+#  ConfigurationValueCount.cpp
+#  ConfigurationValueList.cpp
+#  ConfigurationValueSimple.cpp)
 
 # Add source files to the project sources.  In cmake v3.13 the behavior of
 # target_sources changed and no longer requires prepending this directory to
@@ -21,7 +21,7 @@ target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 # Add test subdirectories (these don't build unconditionally)
-add_subdirectory(ArgumentProcessor_test        EXCLUDE_FROM_ALL)
-add_subdirectory(ConfigurationValueCount_test  EXCLUDE_FROM_ALL)
-add_subdirectory(ConfigurationValueList_test   EXCLUDE_FROM_ALL)
-add_subdirectory(ConfigurationValueSimple_test EXCLUDE_FROM_ALL)
+#add_subdirectory(ArgumentProcessor_test        EXCLUDE_FROM_ALL)
+#add_subdirectory(ConfigurationValueCount_test  EXCLUDE_FROM_ALL)
+#add_subdirectory(ConfigurationValueList_test   EXCLUDE_FROM_ALL)
+#add_subdirectory(ConfigurationValueSimple_test EXCLUDE_FROM_ALL)

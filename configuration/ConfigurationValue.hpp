@@ -1,52 +1,67 @@
-#if !defined ARGUMENT_HPP
-#define ARGUMENT_HPP
+#if !defined CONFIGURATION_VALUE_HPP
+#define CONFIGURATION_VALUE_HPP
 
+#include <stdexcept>
 #include <string>
 
-// Abstract class representing a generic command-line argument.  Mostly this
-// exists to define how derived argument types are set by ArgumentProcessors,
-// but isSet() is also useful for determining if arguments are ever set.
-class Argument
+// Represents an argument with a single value.  All the intrinsic types and
+// std::string are supported as value types, and a variety of operators are
+// overloaded to make this easy to use.
+template <class T> class ConfigurationValue
 {
 public:
 
+    friend class ConfigurationValue_test;
+
     // Constructors
-    Argument();
-    Argument(const Argument& argument_value_base);
+    // cppcheck-suppress noExplicitConstructor
+    ConfigurationValue(const T& value_default = T());
+    ConfigurationValue(const ConfigurationValue& configuration_value);
 
     // Destructor
-    virtual ~Argument();
+    virtual ~ConfigurationValue();
 
-    // Returns true if this argument has ever had a value pushed into it using
-    // update().
+    // Returns true if this argument has ever been set with any of the
+    // setValue() methods.
     bool isSet() const;
 
-    // Derived classes define how they deal with the update string provided by
-    // the value argument here.
-    virtual void update(const std::string& value = std::string()) = 0;
+    void setValue(const T& value);
+    void setValue(const std::string& value);
 
-    Argument& operator=(const Argument& argument_value_base);
+    // Returns the current value of the argument on the stack.  Try to use the
+    // other getValue() method if the argument is large.
+    T getValue() const;
 
-protected:
+    // Returns a reference to the current value of the argument.
+    void getValue(T& value) const;
 
-    // Derived classes flag themselves as "set" using this method.
-    void set();
+    ConfigurationValue& operator=(const ConfigurationValue& value);
+    ConfigurationValue& operator=(const T& value);
 
 private:
 
-    bool _set;
+    T value;
+    bool set;
 };
 
-//==============================================================================
-inline void Argument::set()
-{
-    _set = true;
-}
+#define DECLARE_CONFIGURATION_VALUE_OPERATOR(OPERATOR)                  \
+    template <class T> bool OPERATOR(const ConfigurationValue<T>& lhs,  \
+                                     const ConfigurationValue<T>& rhs); \
+    template <class T> bool OPERATOR(const ConfigurationValue<T>& lhs,  \
+                                     const T&                rhs);      \
+    template <class T> bool OPERATOR(const T&                lhs,       \
+                                     const ConfigurationValue<T>& rhs); \
+                                                                        \
+    bool OPERATOR(const ConfigurationValue<std::string>& lhs,           \
+                  const char* rhs);                                     \
+    bool OPERATOR(const char* lhs,                                      \
+                  const ConfigurationValue<std::string>& rhs);
 
-//==============================================================================
-inline bool Argument::isSet() const
-{
-    return _set;
-}
+DECLARE_CONFIGURATION_VALUE_OPERATOR(operator<);
+DECLARE_CONFIGURATION_VALUE_OPERATOR(operator>);
+DECLARE_CONFIGURATION_VALUE_OPERATOR(operator<=);
+DECLARE_CONFIGURATION_VALUE_OPERATOR(operator>=);
+DECLARE_CONFIGURATION_VALUE_OPERATOR(operator==);
+DECLARE_CONFIGURATION_VALUE_OPERATOR(operator!=);
 
 #endif
