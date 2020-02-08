@@ -5,10 +5,7 @@
 
 #include "ArgumentProcessor.hpp"
 
-#include "Argument.hpp"
-#include "ArgumentValue.hpp"
-#include "ArgumentValueCount.hpp"
-#include "ArgumentValueList.hpp"
+#include "ConfigurationValue.hpp"
 
 //==============================================================================
 ArgumentProcessor::ArgumentProcessor() :
@@ -23,8 +20,8 @@ ArgumentProcessor::~ArgumentProcessor()
 }
 
 //==============================================================================
-template <class T>
-void ArgumentProcessor::registerPositionalArgument(ArgumentValue<T>* argument)
+template <class T> void
+ArgumentProcessor::registerPositionalArgument(ConfigurationValue<T>* argument)
 {
     positional_arguments.push_back(argument);
 
@@ -47,7 +44,7 @@ void ArgumentProcessor::registerPositionalArgument(ArgumentValue<T>* argument)
 
 //==============================================================================
 void ArgumentProcessor::registerOptionalArgument(
-    Argument*                              argument,
+    ConfigurationValue*                              argument,
     const std::unordered_set<std::string>& flags)
 {
     // Don't bother if no flags were provided
@@ -98,7 +95,7 @@ void ArgumentProcessor::process(const std::string& argument)
 
     if (current_optional_argument != optional_arguments.end())
     {
-        if (dynamic_cast<ArgumentValueCount*>(
+        if (dynamic_cast<ConfigurationValueCount*>(
                 current_optional_argument->second))
         {
             current_optional_argument->second->update();
@@ -152,43 +149,43 @@ bool ArgumentProcessor::isSatisfied() const
 }
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<std::string>*);
+    ConfigurationValue<std::string>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<char>*);
+    ConfigurationValue<char>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<double>*);
+    ConfigurationValue<double>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<float>*);
+    ConfigurationValue<float>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<int>*);
+    ConfigurationValue<int>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<long>*);
+    ConfigurationValue<long>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<long double>*);
+    ConfigurationValue<long double>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<long long>*);
+    ConfigurationValue<long long>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<short>*);
+    ConfigurationValue<short>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<unsigned char>*);
+    ConfigurationValue<unsigned char>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<unsigned int>*);
+    ConfigurationValue<unsigned int>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<unsigned long>*);
+    ConfigurationValue<unsigned long>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<unsigned long long>*);
+    ConfigurationValue<unsigned long long>*);
 
 template void ArgumentProcessor::registerPositionalArgument(
-    ArgumentValue<unsigned short>*);
+    ConfigurationValue<unsigned short>*);
