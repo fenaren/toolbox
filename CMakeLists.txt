@@ -64,7 +64,7 @@ if(LINUX)
 endif(LINUX)
 
 # Add standard subdirectories (these build unconditionally)
-add_subdirectory(ArgumentProcessor)
+add_subdirectory(configuration)
 add_subdirectory(networking)
 add_subdirectory(testing)
 
