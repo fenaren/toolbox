@@ -4,10 +4,12 @@
 #include <stdexcept>
 #include <string>
 
+#include "ConfigurationValueBase.hpp"
+
 // Represents an argument with a single value.  All the intrinsic types and
 // std::string are supported as value types, and a variety of operators are
 // overloaded to make this easy to use.
-template <class T> class ConfigurationValue
+template <class T> class ConfigurationValue : public ConfigurationValueBase
 {
 public:
 
@@ -16,7 +18,7 @@ public:
     // Constructors
     // cppcheck-suppress noExplicitConstructor
     ConfigurationValue(const T& value_default = T());
-    ConfigurationValue(const ConfigurationValue& configuration_value);
+    ConfigurationValue(const ConfigurationValue& value);
 
     // Destructor
     virtual ~ConfigurationValue();
@@ -25,8 +27,11 @@ public:
     // setValue() methods.
     bool isSet() const;
 
+    // Allows Processors to set the value regardless of templatized type
+    virtual void setValue(const std::string& value);
+
+    // Use this if the type is known
     void setValue(const T& value);
-    void setValue(const std::string& value);
 
     // Returns the current value of the argument on the stack.  Try to use the
     // other getValue() method if the argument is large.

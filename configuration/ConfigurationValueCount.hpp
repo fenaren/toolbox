@@ -1,36 +1,38 @@
-#if !defined ARGUMENT_VALUE_COUNT_HPP
-#define ARGUMENT_VALUE_COUNT_HPP
+#if !defined CONFIGURATION_VALUE_COUNT_HPP
+#define CONFIGURATION_VALUE_COUNT_HPP
 
 #include <string>
 
-#include "Argument.hpp"
+#include "ConfigurationValueBase.hpp"
 
-// Sometimes we only care about the number of times a specific argument appears
-// in the argument list.  This type of Argument represents those.  The
-// getCount() method returns the number of times the argument appears in the
-// argument list.
-class ArgumentValueCount : public Argument
+// Sometimes we only care about the number of times a configuration value is
+// specified, and not the actual value or values in the specification (its
+// "value" is the number of times it appears).  This class represents this type
+// of configuration value.  The getCount() method returns the number of times
+// the configuration value is specified.
+class ConfigurationValueCount : public ConfigurationValueBase
 {
 public:
 
-    friend class ArgumentValueCount_test;
+    friend class ConfigurationValueCount_test;
 
     // Constructors
-    explicit ArgumentValueCount(unsigned int default_count = 0);
-    ArgumentValueCount(const ArgumentValueCount& argument_value_count);
+    explicit ConfigurationValueCount(unsigned int default_count = 0);
+    ConfigurationValueCount(
+        const ConfigurationValueCount& argument_value_count);
 
     // Destructor
-    virtual ~ArgumentValueCount();
+    virtual ~ConfigurationValueCount();
 
-    // Defines the update interface required by Argument
-    virtual void update(const std::string& value = "");
+    // Defines the update interface required by ConfigurationValueBase
+    virtual void setValue(const std::string& value);
 
     // Returns the number of times the argument appears in the command list.
     unsigned int getCount() const;
 
-    ArgumentValueCount&
-    operator=(const ArgumentValueCount& argument_value_count);
-    ArgumentValueCount& operator=(unsigned int count);
+    ConfigurationValueCount&
+    operator=(const ConfigurationValueCount& argument_value_count);
+    ConfigurationValueCount& operator=(unsigned int count);
 
 private:
 
@@ -38,16 +40,16 @@ private:
 };
 
 //==============================================================================
-inline unsigned int ArgumentValueCount::getCount() const
+inline unsigned int ConfigurationValueCount::getCount() const
 {
     return count;
 }
 
-bool operator<(const ArgumentValueCount& lhs,  const ArgumentValueCount& rhs);
-bool operator>(const ArgumentValueCount& lhs,  const ArgumentValueCount& rhs);
-bool operator<=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
-bool operator>=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
-bool operator==(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
-bool operator!=(const ArgumentValueCount& lhs, const ArgumentValueCount& rhs);
+bool operator<(const ConfigurationValueCount& lhs,  const ConfigurationValueCount& rhs);
+bool operator>(const ConfigurationValueCount& lhs,  const ConfigurationValueCount& rhs);
+bool operator<=(const ConfigurationValueCount& lhs, const ConfigurationValueCount& rhs);
+bool operator>=(const ConfigurationValueCount& lhs, const ConfigurationValueCount& rhs);
+bool operator==(const ConfigurationValueCount& lhs, const ConfigurationValueCount& rhs);
+bool operator!=(const ConfigurationValueCount& lhs, const ConfigurationValueCount& rhs);
 
 #endif

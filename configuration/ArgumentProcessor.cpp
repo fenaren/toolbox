@@ -20,8 +20,8 @@ ArgumentProcessor::~ArgumentProcessor()
 }
 
 //==============================================================================
-template <class T> void
-ArgumentProcessor::registerPositionalArgument(ConfigurationValue<T>* argument)
+void
+ArgumentProcessor::registerPositionalArgument(ConfigurationValueBase* argument)
 {
     positional_arguments.push_back(argument);
 
@@ -44,7 +44,7 @@ ArgumentProcessor::registerPositionalArgument(ConfigurationValue<T>* argument)
 
 //==============================================================================
 void ArgumentProcessor::registerOptionalArgument(
-    ConfigurationValue*                              argument,
+    ConfigurationValueBase*                argument,
     const std::unordered_set<std::string>& flags)
 {
     // Don't bother if no flags were provided
@@ -72,13 +72,20 @@ void ArgumentProcessor::registerOptionalArgument(
 }
 
 //==============================================================================
+void ArgumentProcessor::registerOptionalArgumentCount(
+    ConfigurationValue<unsigned int>*      argument,
+    const std::unordered_set<std::string>& flags)
+{
+}
+
+//==============================================================================
 void ArgumentProcessor::process(const std::string& argument)
 {
     // Are we looking for a value for an optional argument?
     if (current_optional_argument != optional_arguments.end())
     {
         // Update whatever argument we're working with the new value
-        current_optional_argument->second->update(argument);
+        current_optional_argument->second->setValue(argument);
 
         // Note that we're done processing this optional argument
         current_optional_argument = optional_arguments.end();
@@ -98,7 +105,7 @@ void ArgumentProcessor::process(const std::string& argument)
         if (dynamic_cast<ConfigurationValueCount*>(
                 current_optional_argument->second))
         {
-            current_optional_argument->second->update();
+            current_optional_argument->second->setValue();
             current_optional_argument = optional_arguments.end();
         }
 
@@ -110,7 +117,7 @@ void ArgumentProcessor::process(const std::string& argument)
 
     if (next_positional_argument != positional_arguments.end())
     {
-        (*next_positional_argument)->update(argument);
+        (*next_positional_argument)->setValue(argument);
         ++next_positional_argument;
     }
     else
@@ -139,13 +146,6 @@ void ArgumentProcessor::process(int argc, char** argv)
     {
         process(argv[i]);
     }
-}
-
-//==============================================================================
-bool ArgumentProcessor::isSatisfied() const
-{
-    return next_positional_argument == positional_arguments.end() &&
-        current_optional_argument == optional_arguments.end();
 }
 
 template void ArgumentProcessor::registerPositionalArgument(
