@@ -6,9 +6,11 @@
 
 #include "ConfigurationValueBase.hpp"
 
-// Represents an argument with a single value.  All the intrinsic types and
-// std::string are supported as value types, and a variety of operators are
-// overloaded to make this easy to use.
+// Represents a configuration value.  They function like intrinsic types, except
+// they can be "unset" or "set".  Unset configuration values have never had
+// their value set after being construction, and set configuration values have.
+// All the intrinsic types and std::string are supported as value types, and a
+// variety of operators are overloaded to make this easy to use.
 template <class T> class ConfigurationValue : public ConfigurationValueBase
 {
 public:
@@ -23,21 +25,20 @@ public:
     // Destructor
     virtual ~ConfigurationValue();
 
-    // Returns true if this argument has ever been set with any of the
-    // setValue() methods.
+    // Returns true if this configuration value has been set after construction.
     bool isSet() const;
 
-    // Allows Processors to set the value regardless of templatized type
+    // Allows Processors to set the value regardless of templatized type.
     virtual void setValue(const std::string& value);
 
     // Use this if the type is known
     void setValue(const T& value);
 
-    // Returns the current value of the argument on the stack.  Try to use the
-    // other getValue() method if the argument is large.
+    // Returns the current value on the stack.  Try to use the other getValue()
+    // method if T is large in memory.
     T getValue() const;
 
-    // Returns a reference to the current value of the argument.
+    // Returns a reference to the current value of the configuration value.
     void getValue(T& value) const;
 
     ConfigurationValue& operator=(const ConfigurationValue& value);

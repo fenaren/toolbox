@@ -45,7 +45,8 @@ ArgumentProcessor::registerPositionalArgument(ConfigurationValueBase* argument)
 //==============================================================================
 void ArgumentProcessor::registerOptionalArgument(
     ConfigurationValueBase*                argument,
-    const std::unordered_set<std::string>& flags)
+    const std::unordered_set<std::string>& flags,
+    bool                                   count)
 {
     // Don't bother if no flags were provided
     if (flags.empty())
@@ -72,13 +73,6 @@ void ArgumentProcessor::registerOptionalArgument(
 }
 
 //==============================================================================
-void ArgumentProcessor::registerOptionalArgumentCount(
-    ConfigurationValue<unsigned int>*      argument,
-    const std::unordered_set<std::string>& flags)
-{
-}
-
-//==============================================================================
 void ArgumentProcessor::process(const std::string& argument)
 {
     // Are we looking for a value for an optional argument?
@@ -97,18 +91,21 @@ void ArgumentProcessor::process(const std::string& argument)
     // If we're here then we're not processing the value for an optional
     // argument.
 
-    // Have we been given a flag for an optional argument?
-    current_optional_argument = optional_arguments.find(argument);
+    // Have we been given a flag for an optional argument that doesn't take a
+    // value?
+    std::unordered_map<std::string, ConfigurationValue<unsigned int>*>::
+        iterator i = optional_argument_counts.find(argument);
+    if (i != optional_argument_counts.end())
+    {
+        i->second->setValue(i->second->getValue() + 1);
+        return;
+    }
 
+    // Have we been given a flag for an optional argument that does take a
+    // value?
+    current_optional_argument = optional_arguments.find(argument);
     if (current_optional_argument != optional_arguments.end())
     {
-        if (dynamic_cast<ConfigurationValueCount*>(
-                current_optional_argument->second))
-        {
-            current_optional_argument->second->setValue();
-            current_optional_argument = optional_arguments.end();
-        }
-
         return;
     }
 
@@ -119,13 +116,12 @@ void ArgumentProcessor::process(const std::string& argument)
     {
         (*next_positional_argument)->setValue(argument);
         ++next_positional_argument;
+        return;
     }
-    else
-    {
-        // All positional arguments have been processed already, so this is an
-        // extra argument that belongs nowhere.
-        throw std::runtime_error("Extra positional argument");
-    }
+
+    // All positional arguments have been processed already, so this is an extra
+    // argument that belongs nowhere.
+    throw std::runtime_error("Extra positional argument");
 }
 
 //==============================================================================
@@ -147,45 +143,3 @@ void ArgumentProcessor::process(int argc, char** argv)
         process(argv[i]);
     }
 }
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<std::string>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<char>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<double>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<float>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<int>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<long>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<long double>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<long long>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<short>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<unsigned char>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<unsigned int>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<unsigned long>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<unsigned long long>*);
-
-template void ArgumentProcessor::registerPositionalArgument(
-    ConfigurationValue<unsigned short>*);

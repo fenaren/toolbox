@@ -34,21 +34,11 @@ public:
     // Registers an optional argument with the processor.  Unlike positional
     // arguments, registration order of optional arguments does not matter,
     // since conventionally optional arguments are identified by their flags,
-    // not their position in the argument list.  Arguments registered using this
-    // method take a single value.
+    // not their position in the argument list.
     void registerOptionalArgument(
         ConfigurationValueBase*                argument,
-        const std::unordered_set<std::string>& flags);
-
-    // Registers an optional argument with the processor.  Unlike positional
-    // arguments, registration order of optional arguments does not matter,
-    // since conventionally optional arguments are identified by their flags,
-    // not their position in the argument list.  Arguments registered using this
-    // method do not take a value.  Instead, the number of times the argument
-    // appears is the value.
-    void registerOptionalArgumentCount(
-        ConfigurationValue<unsigned int>*      argument,
-        const std::unordered_set<std::string>& flags);
+        const std::unordered_set<std::string>& flags,
+        bool                                   count);
 
     // Processes a single command-line argument.  If this is a positional
     // argument its value will be written into the next unset registered
