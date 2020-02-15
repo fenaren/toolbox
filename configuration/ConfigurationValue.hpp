@@ -25,9 +25,6 @@ public:
     // Destructor
     virtual ~ConfigurationValue();
 
-    // Returns true if this configuration value has been set after construction.
-    bool isSet() const;
-
     // Allows Processors to set the value regardless of templatized type.
     virtual void setValue(const std::string& value);
 
@@ -44,7 +41,6 @@ public:
 private:
 
     T value;
-    bool set;
 };
 
 #define DECLARE_CONFIGURATION_VALUE_OPERATOR(OPERATOR)                  \

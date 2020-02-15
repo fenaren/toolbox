@@ -34,8 +34,7 @@
 //==============================================================================
 template <class T>
 ConfigurationValue<T>::ConfigurationValue(const T& default_value) :
-    value(default_value),
-    set(false)
+    value(default_value)
 {
 }
 
@@ -57,7 +56,7 @@ void ConfigurationValue<T>::setValue(const std::string& value)
         throw std::runtime_error("Error converting value to template type");
     }
 
-    set = true;
+    set();
 }
 
 //==============================================================================
@@ -76,11 +75,12 @@ template <class T> void ConfigurationValue<T>::getValue(T& value) const
 template <class T> ConfigurationValue<T>&
 ConfigurationValue<T>::operator=(const ConfigurationValue& configuration_value)
 {
+    ConfigurationValueBase::operator=(configuration_value);
+
     // Don't do anything if we're assigning to ourselves
     if (this != &configuration_value)
     {
         value = configuration_value.value;
-        set   = configuration_value.set;
     }
 
     return *this;
@@ -91,7 +91,7 @@ template <class T>
 ConfigurationValue<T>& ConfigurationValue<T>::operator=(const T& value)
 {
     this->value = value;
-    set = true;
+    set();
 
     return *this;
 }
