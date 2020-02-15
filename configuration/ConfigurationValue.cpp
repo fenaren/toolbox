@@ -39,6 +39,19 @@ ConfigurationValue<T>::ConfigurationValue(const T& default_value) :
 }
 
 //==============================================================================
+template <class T>
+ConfigurationValue<T>::ConfigurationValue(const ConfigurationValue& value)
+{
+    *this = value;
+}
+
+//==============================================================================
+template <class T> ConfigurationValue<T>::operator T() const
+{
+    return value;
+}
+
+//==============================================================================
 template <class T> ConfigurationValue<T>::~ConfigurationValue()
 {
 }

@@ -22,6 +22,9 @@ public:
     ConfigurationValue(const T& value_default = T());
     ConfigurationValue(const ConfigurationValue& value);
 
+    // Defines how to convert a ConfigurationValue<T> to a T
+    operator T() const;
+
     // Destructor
     virtual ~ConfigurationValue();
 

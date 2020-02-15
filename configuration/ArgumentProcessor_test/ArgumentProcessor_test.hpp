@@ -14,6 +14,7 @@ TEST_CASES_BEGIN(ArgumentProcessor_test)
 
          TEST(PositionalArgument)
          TEST(OptionalArgument)
+         TEST(OptionalArgumentCount)
          TEST(Combined)
 
     TEST_CASES_END(Process)

@@ -144,6 +144,30 @@ Test::Result ArgumentProcessor_test::Process::OptionalArgument::body()
 }
 
 //==============================================================================
+Test::Result ArgumentProcessor_test::Process::OptionalArgumentCount::body()
+{
+    ArgumentProcessor argument_processor;
+
+    // No arguments registered yet, size should be 0.
+    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
+
+    ConfigurationValue<unsigned int> cv0;
+    argument_processor.registerOptionalArgument(&cv0, {"-a"}, true);
+
+    // Do this one with the version of process() that accepts a list of strings.
+    argument_processor.process(std::list<std::string>({"-a", "12", "-a"}));
+
+    // Check for the correct value using the equality operator.
+    MUST_BE_TRUE(cv0 == 2);
+
+    // We should be done processing.
+    MUST_BE_TRUE(argument_processor.current_optional_argument ==
+                 argument_processor.optional_arguments.end());
+
+    return Test::PASSED;
+}
+
+//==============================================================================
 Test::Result ArgumentProcessor_test::Process::Combined::body()
 {
     ArgumentProcessor argument_processor;
