@@ -23,6 +23,12 @@ ArgumentProcessor::~ArgumentProcessor()
 void
 ArgumentProcessor::registerPositionalArgument(ConfigurationValueBase* argument)
 {
+    // Don't let the user register over top of something already registered.
+    if (isRegistered(argument))
+    {
+        throw std::runtime_error("ConfigurationValue already registered");
+    }
+
     positional_arguments.push_back(argument);
 
     // If we just added the first positional argument then we have to start
@@ -45,14 +51,19 @@ ArgumentProcessor::registerPositionalArgument(ConfigurationValueBase* argument)
 //==============================================================================
 void ArgumentProcessor::registerOptionalArgument(
     ConfigurationValueBase*                argument,
-    const std::unordered_set<std::string>& flags,
-    bool                                   count)
+    const std::unordered_set<std::string>& flags)
 {
     // Don't bother if no flags were provided
     if (flags.empty())
     {
         throw std::invalid_argument(
             "Argument \"flags\" must specify at least one flag");
+    }
+
+    // Don't let the user register over top of something already registered.
+    if (isRegistered(argument))
+    {
+        throw std::runtime_error("ConfigurationValue already registered");
     }
 
     // Index by flags
@@ -69,6 +80,42 @@ void ArgumentProcessor::registerOptionalArgument(
         }
 
         optional_arguments[*flag] = argument;
+    }
+}
+
+//==============================================================================
+void ArgumentProcessor::registerOptionalCountingArgument(
+    ConfigurationValue<unsigned int>*      argument,
+    const std::unordered_set<std::string>& flags)
+{
+    // Don't bother if no flags were provided
+    if (flags.empty())
+    {
+        throw std::invalid_argument(
+            "Argument \"flags\" must specify at least one flag");
+    }
+
+    // Don't let the user register over top of something already registered.
+    if (isRegistered(argument))
+    {
+        throw std::runtime_error("ConfigurationValue already registered");
+    }
+
+    // Index by flags
+    for (std::unordered_set<std::string>::const_iterator flag = flags.begin();
+         flag != flags.end();
+         ++flag)
+    {
+        // Do not allow multiple optional arguments to share flags.  That
+        // wouldn't make any sense.
+        if (optional_counting_arguments.find(*flag) !=
+            optional_counting_arguments.end())
+        {
+            throw std::runtime_error("Optional argument with flag \"" + *flag +
+                                     "\" already registered");
+        }
+
+        optional_counting_arguments[*flag] = argument;
     }
 }
 
@@ -94,8 +141,8 @@ void ArgumentProcessor::process(const std::string& argument)
     // Have we been given a flag for an optional argument that doesn't take a
     // value?
     std::unordered_map<std::string, ConfigurationValue<unsigned int>*>::
-        iterator i = optional_argument_counts.find(argument);
-    if (i != optional_argument_counts.end())
+        iterator i = optional_counting_arguments.find(argument);
+    if (i != optional_counting_arguments.end())
     {
         *(i->second) = i->second->getValue() + 1;
         return;
@@ -142,4 +189,43 @@ void ArgumentProcessor::process(int argc, char** argv)
     {
         process(argv[i]);
     }
+}
+
+//==============================================================================
+bool ArgumentProcessor::isRegistered(const ConfigurationValueBase* cv) const
+{
+    for (std::list<ConfigurationValueBase*>::const_iterator i =
+             positional_arguments.begin();
+         i != positional_arguments.end();
+         ++i)
+    {
+        if (*i == cv)
+        {
+            return true;
+        }
+    }
+
+    for (std::unordered_map<std::string, ConfigurationValueBase*>::
+             const_iterator i = optional_arguments.begin();
+         i != optional_arguments.end();
+         ++i)
+    {
+        if (i->second == cv)
+        {
+            return true;
+        }
+    }
+
+    for (std::unordered_map<std::string, ConfigurationValue<unsigned int>*>::
+             const_iterator i = optional_counting_arguments.begin();
+         i != optional_counting_arguments.end();
+         ++i)
+    {
+        if (i->second == cv)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

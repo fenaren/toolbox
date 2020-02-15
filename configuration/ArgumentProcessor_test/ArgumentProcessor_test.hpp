@@ -14,10 +14,12 @@ TEST_CASES_BEGIN(ArgumentProcessor_test)
 
          TEST(PositionalArgument)
          TEST(OptionalArgument)
-         TEST(OptionalArgumentCount)
+         TEST(OptionalCountingArgument)
          TEST(Combined)
 
     TEST_CASES_END(Process)
+
+    TEST(IsRegistered)
 
 TEST_CASES_END(ArgumentProcessor_test)
 

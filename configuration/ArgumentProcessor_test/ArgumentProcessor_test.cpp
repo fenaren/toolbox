@@ -18,6 +18,7 @@ void ArgumentProcessor_test::addTestCases()
     ADD_TEST_CASE(RegisterPositionalArgument);
     ADD_TEST_CASE(RegisterOptionalArgument);
     ADD_TEST_CASE(Process);
+    ADD_TEST_CASE(IsRegistered);
 }
 
 //==============================================================================
@@ -25,7 +26,7 @@ void ArgumentProcessor_test::Process::addTestCases()
 {
     ADD_TEST_CASE(PositionalArgument);
     ADD_TEST_CASE(OptionalArgument);
-    ADD_TEST_CASE(OptionalArgumentCount);
+    ADD_TEST_CASE(OptionalCountingArgument);
     ADD_TEST_CASE(Combined);
 }
 
@@ -145,7 +146,7 @@ Test::Result ArgumentProcessor_test::Process::OptionalArgument::body()
 }
 
 //==============================================================================
-Test::Result ArgumentProcessor_test::Process::OptionalArgumentCount::body()
+Test::Result ArgumentProcessor_test::Process::OptionalCountingArgument::body()
 {
     ArgumentProcessor argument_processor;
 
@@ -153,10 +154,12 @@ Test::Result ArgumentProcessor_test::Process::OptionalArgumentCount::body()
     MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
 
     ConfigurationValue<unsigned int> cv0;
-    argument_processor.registerOptionalArgument(&cv0, {"-a"}, true);
+    ConfigurationValue<unsigned int> cv1;
+    argument_processor.registerOptionalCountingArgument(&cv0, {"-a"});
+    argument_processor.registerOptionalCountingArgument(&cv1, {"-b"});
 
     // Do this one with the version of process() that accepts a list of strings.
-    argument_processor.process(std::list<std::string>({"-a", "12", "-a"}));
+    argument_processor.process(std::list<std::string>({"-a", "-b", "-a"}));
 
     // Check for the correct value using the equality operator.
     MUST_BE_TRUE(cv0 == 2);
@@ -175,7 +178,7 @@ Test::Result ArgumentProcessor_test::Process::Combined::body()
 
     // No arguments registered, size of both lists should be 0.
     MUST_BE_TRUE(argument_processor.positional_arguments.size() == 0);
-    MUST_BE_TRUE(argument_processor.optional_arguments.size()   == 0);
+    MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
 
     // There should be no positional arguments to process.
     MUST_BE_TRUE(argument_processor.next_positional_argument ==
@@ -202,6 +205,59 @@ Test::Result ArgumentProcessor_test::Process::Combined::body()
     // Check for the correct values.
     MUST_BE_TRUE(cv0.getValue() == 34);
     MUST_BE_TRUE(cv1.getValue() == 12);
+
+    return Test::PASSED;
+}
+
+//==============================================================================
+Test::Result ArgumentProcessor_test::IsRegistered::body()
+{
+    ArgumentProcessor argument_processor;
+
+    ConfigurationValue<int> cv0;
+    ConfigurationValue<int> cv1;
+    ConfigurationValue<unsigned int> cv2;
+
+    argument_processor.registerPositionalArgument(&cv0);
+    argument_processor.registerOptionalArgument(
+        &cv1, std::unordered_set<std::string>({"asdf"}));
+    argument_processor.registerOptionalCountingArgument(
+        &cv2, std::unordered_set<std::string>({"gh"}));
+
+    bool exception_caught = false;
+    try
+    {
+        argument_processor.registerPositionalArgument(&cv0);
+    }
+    catch (std::runtime_error ex)
+    {
+        exception_caught = true;
+    }
+    MUST_BE_TRUE(exception_caught);
+
+    exception_caught = false;
+    try
+    {
+        argument_processor.registerOptionalArgument(
+            &cv1, std::unordered_set<std::string>({"eeee"}));
+    }
+    catch (std::runtime_error ex)
+    {
+        exception_caught = true;
+    }
+    MUST_BE_TRUE(exception_caught);
+
+    exception_caught = false;
+    try
+    {
+        argument_processor.registerOptionalCountingArgument(
+            &cv2, std::unordered_set<std::string>({"wwww"}));
+    }
+    catch (std::runtime_error ex)
+    {
+        exception_caught = true;
+    }
+    MUST_BE_TRUE(exception_caught);
 
     return Test::PASSED;
 }

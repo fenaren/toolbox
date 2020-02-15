@@ -34,11 +34,21 @@ public:
     // Registers an optional argument with the processor.  Unlike positional
     // arguments, registration order of optional arguments does not matter,
     // since conventionally optional arguments are identified by their flags,
-    // not their position in the argument list.
+    // not their position in the argument list.  Optional arguments registered
+    // with this method take a single value.
     void registerOptionalArgument(
         ConfigurationValueBase*                argument,
-        const std::unordered_set<std::string>& flags,
-        bool                                   count = false);
+        const std::unordered_set<std::string>& flags);
+
+    // Registers an optional argument with the processor.  Unlike positional
+    // arguments, registration order of optional arguments does not matter,
+    // since conventionally optional arguments are identified by their flags,
+    // not their position in the argument list.  Optional arguments registered
+    // with this method do not take a value; instead, the number of times the
+    // argument flag appears is counted and stored as the value.
+    void registerOptionalCountingArgument(
+        ConfigurationValue<unsigned int>*      argument,
+        const std::unordered_set<std::string>& flags);
 
     // Processes a single command-line argument.  If this is a positional
     // argument its value will be written into the next unset registered
@@ -76,7 +86,9 @@ private:
     // argument counts.  Multiple flags will link to the same object for
     // arguments with multiple flags (ex. -v and --verbose).
     std::unordered_map<std::string, ConfigurationValue<unsigned int>*>
-    optional_argument_counts;
+    optional_counting_arguments;
+
+    bool isRegistered(const ConfigurationValueBase* cv) const;
 
     ArgumentProcessor(const ArgumentProcessor& argument_processor);
     ArgumentProcessor& operator=(const ArgumentProcessor& argument_processor);
