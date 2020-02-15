@@ -31,9 +31,6 @@ public:
     // Allows Processors to set the value regardless of templatized type.
     virtual void setValue(const std::string& value);
 
-    // Use this if the type is known
-    void setValue(const T& value);
-
     // Returns the current value on the stack.  Try to use the other getValue()
     // method if T is large in memory.
     T getValue() const;

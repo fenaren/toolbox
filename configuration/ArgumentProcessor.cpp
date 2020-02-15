@@ -97,7 +97,7 @@ void ArgumentProcessor::process(const std::string& argument)
         iterator i = optional_argument_counts.find(argument);
     if (i != optional_argument_counts.end())
     {
-        i->second->setValue(i->second->getValue() + 1);
+        *(i->second) = i->second->getValue() + 1;
         return;
     }
 

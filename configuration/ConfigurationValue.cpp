@@ -34,8 +34,8 @@
 //==============================================================================
 template <class T>
 ConfigurationValue<T>::ConfigurationValue(const T& default_value) :
-    set(false),
-    value(default_value)
+    value(default_value),
+    set(false)
 {
 }
 
@@ -76,8 +76,6 @@ template <class T> void ConfigurationValue<T>::getValue(T& value) const
 template <class T> ConfigurationValue<T>&
 ConfigurationValue<T>::operator=(const ConfigurationValue& configuration_value)
 {
-    Argument::operator=(configuration_value);
-
     // Don't do anything if we're assigning to ourselves
     if (this != &configuration_value)
     {
