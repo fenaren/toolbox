@@ -25,6 +25,7 @@ void ArgumentProcessor_test::Process::addTestCases()
 {
     ADD_TEST_CASE(PositionalArgument);
     ADD_TEST_CASE(OptionalArgument);
+    ADD_TEST_CASE(OptionalArgumentCount);
     ADD_TEST_CASE(Combined);
 }
 
