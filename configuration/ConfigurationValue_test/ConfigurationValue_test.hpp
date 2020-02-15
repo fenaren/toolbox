@@ -1,13 +1,13 @@
-#if !defined ARGUMENT_VALUE_TEST_HPP
-#define ARGUMENT_VALUE_TEST_HPP
+#if !defined CONFIGURATION_VALUE_TEST_HPP
+#define CONFIGURATION_VALUE_TEST_HPP
 
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-#include "ArgumentValue.hpp"
+#include "ConfigurationValue.hpp"
 
-TEST_CASES_BEGIN(ArgumentValue_test)
+TEST_CASES_BEGIN(ConfigurationValue_test)
 
     TEST_CASES_BEGIN(Update)
 
@@ -171,6 +171,6 @@ TEST_CASES_BEGIN(ArgumentValue_test)
 
         TEST_CASES_END(OperatorNotEqual)
 
-TEST_CASES_END(ArgumentValue_test)
+TEST_CASES_END(ConfigurationValue_test)
 
 #endif

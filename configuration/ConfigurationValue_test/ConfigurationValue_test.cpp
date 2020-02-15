@@ -1,17 +1,17 @@
 #include <string>
 
-#include "ArgumentValue_test.hpp"
+#include "ConfigurationValue_test.hpp"
 
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-#include "ArgumentValue.hpp"
+#include "ConfigurationValue.hpp"
 
-TEST_PROGRAM_MAIN(ArgumentValue_test);
+TEST_PROGRAM_MAIN(ConfigurationValue_test);
 
 //==============================================================================
-void ArgumentValue_test::addTestCases()
+void ConfigurationValue_test::addTestCases()
 {
     ADD_TEST_CASE(Update);
 
@@ -25,7 +25,7 @@ void ArgumentValue_test::addTestCases()
 }
 
 //==============================================================================
-void ArgumentValue_test::Update::addTestCases()
+void ConfigurationValue_test::Update::addTestCases()
 {
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
@@ -44,7 +44,7 @@ void ArgumentValue_test::Update::addTestCases()
 }
 
 //==============================================================================
-void ArgumentValue_test::OperatorLessThan::addTestCases()
+void ConfigurationValue_test::OperatorLessThan::addTestCases()
 {
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
@@ -64,7 +64,7 @@ void ArgumentValue_test::OperatorLessThan::addTestCases()
 }
 
 //==============================================================================
-void ArgumentValue_test::OperatorGreaterThan::addTestCases()
+void ConfigurationValue_test::OperatorGreaterThan::addTestCases()
 {
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
@@ -84,7 +84,7 @@ void ArgumentValue_test::OperatorGreaterThan::addTestCases()
 }
 
 //==============================================================================
-void ArgumentValue_test::OperatorLessThanOrEqualTo::addTestCases()
+void ConfigurationValue_test::OperatorLessThanOrEqualTo::addTestCases()
 {
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
@@ -104,7 +104,7 @@ void ArgumentValue_test::OperatorLessThanOrEqualTo::addTestCases()
 }
 
 //==============================================================================
-void ArgumentValue_test::OperatorGreaterThanOrEqualTo::addTestCases()
+void ConfigurationValue_test::OperatorGreaterThanOrEqualTo::addTestCases()
 {
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
@@ -124,7 +124,7 @@ void ArgumentValue_test::OperatorGreaterThanOrEqualTo::addTestCases()
 }
 
 //==============================================================================
-void ArgumentValue_test::OperatorEquality::addTestCases()
+void ConfigurationValue_test::OperatorEquality::addTestCases()
 {
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
@@ -144,7 +144,7 @@ void ArgumentValue_test::OperatorEquality::addTestCases()
 }
 
 //==============================================================================
-void ArgumentValue_test::OperatorNotEqual::addTestCases()
+void ConfigurationValue_test::OperatorNotEqual::addTestCases()
 {
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
@@ -164,24 +164,24 @@ void ArgumentValue_test::OperatorNotEqual::addTestCases()
 }
 
 //==============================================================================
-template <class T>
-Test::Result ArgumentValue_test::Update::test(const T&           default_value,
-                                              const std::string& update_value,
-                                              const T&           expected_value)
+template <class T> Test::Result
+ConfigurationValue_test::Update::test(const T&           default_value,
+                                      const std::string& update_value,
+                                      const T&           expected_value)
 {
-    ArgumentValue<T> argument_value(default_value);
+    ConfigurationValue<T> configuration_value(default_value);
 
     // Arguments are not set by default, even when given a default value.
-    MUST_BE_TRUE(!argument_value.isSet());
+    MUST_BE_TRUE(!configuration_value.isSet());
 
-    argument_value.update(update_value);
+    configuration_value.setValue(update_value);
 
     // Now we should be set.
-    MUST_BE_TRUE(argument_value.isSet());
+    MUST_BE_TRUE(configuration_value.isSet());
 
     // Get the value after the update and compare to what we expected.
     T set_value;
-    argument_value.getValue(set_value);
+    configuration_value.getValue(set_value);
     MUST_BE_TRUE(set_value == expected_value);
 
     return Test::PASSED;
@@ -189,23 +189,23 @@ Test::Result ArgumentValue_test::Update::test(const T&           default_value,
 
 //==============================================================================
 template <class T>
-Test::Result ArgumentValue_test::OperatorLessThan::test(const T& smaller,
-                                                        const T& bigger)
+Test::Result ConfigurationValue_test::OperatorLessThan::test(const T& smaller,
+                                                             const T& bigger)
 {
-    ArgumentValue<T> arg_smaller(smaller);
-    ArgumentValue<T> arg_bigger(bigger);
+    ConfigurationValue<T> arg_smaller(smaller);
+    ConfigurationValue<T> arg_bigger(bigger);
 
-    // ArgumentValue<T> vs. ArgumentValue<T>
+    // ConfigurationValue<T> vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_smaller < arg_bigger);
     MUST_BE_TRUE(!(arg_bigger < arg_smaller));
     MUST_BE_TRUE(!(arg_smaller < arg_smaller));
 
-    // ArgumentValue<T> vs. const T
+    // ConfigurationValue<T> vs. const T
     MUST_BE_TRUE(arg_smaller < bigger);
     MUST_BE_TRUE(!(bigger < arg_smaller));
     MUST_BE_TRUE(!(arg_smaller < arg_smaller));
 
-    // const T vs. ArgumentValue<T>
+    // const T vs. ConfigurationValue<T>
     MUST_BE_TRUE(smaller < arg_bigger);
     MUST_BE_TRUE(!(arg_bigger < smaller));
     MUST_BE_TRUE(!(smaller < smaller));
@@ -214,24 +214,24 @@ Test::Result ArgumentValue_test::OperatorLessThan::test(const T& smaller,
 }
 
 //==============================================================================
-template <class T>
-Test::Result ArgumentValue_test::OperatorGreaterThan::test(const T& smaller,
-                                                           const T& bigger)
+template <class T> Test::Result
+ConfigurationValue_test::OperatorGreaterThan::test(const T& smaller,
+                                                   const T& bigger)
 {
-    ArgumentValue<T> arg_smaller(smaller);
-    ArgumentValue<T> arg_bigger(bigger);
+    ConfigurationValue<T> arg_smaller(smaller);
+    ConfigurationValue<T> arg_bigger(bigger);
 
-    // ArgumentValue<T> vs. ArgumentValue<T>
+    // ConfigurationValue<T> vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_bigger > arg_smaller);
     MUST_BE_TRUE(!(arg_smaller > arg_bigger));
     MUST_BE_TRUE(!(arg_smaller > arg_smaller));
 
-    // ArgumentValue<T> vs. const T
+    // ConfigurationValue<T> vs. const T
     MUST_BE_TRUE(bigger > arg_smaller);
     MUST_BE_TRUE(!(arg_smaller > bigger));
     MUST_BE_TRUE(!(arg_smaller > arg_smaller));
 
-    // const T vs. ArgumentValue<T>
+    // const T vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_bigger > smaller);
     MUST_BE_TRUE(!(smaller > arg_bigger));
     MUST_BE_TRUE(!(smaller > smaller));
@@ -241,23 +241,23 @@ Test::Result ArgumentValue_test::OperatorGreaterThan::test(const T& smaller,
 
 //==============================================================================
 template <class T> Test::Result
-ArgumentValue_test::OperatorLessThanOrEqualTo::test(const T& smaller,
-                                                    const T& bigger)
+ConfigurationValue_test::OperatorLessThanOrEqualTo::test(const T& smaller,
+                                                         const T& bigger)
 {
-    ArgumentValue<T> arg_smaller(smaller);
-    ArgumentValue<T> arg_bigger(bigger);
+    ConfigurationValue<T> arg_smaller(smaller);
+    ConfigurationValue<T> arg_bigger(bigger);
 
-    // ArgumentValue<T> vs. ArgumentValue<T>
+    // ConfigurationValue<T> vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_smaller <= arg_bigger);
     MUST_BE_TRUE(!(arg_bigger <= arg_smaller));
     MUST_BE_TRUE(arg_smaller <= arg_smaller);
 
-    // ArgumentValue<T> vs. const T
+    // ConfigurationValue<T> vs. const T
     MUST_BE_TRUE(arg_smaller <= bigger);
     MUST_BE_TRUE(!(bigger <= arg_smaller));
     MUST_BE_TRUE(arg_smaller <= arg_smaller);
 
-    // const T vs. ArgumentValue<T>
+    // const T vs. ConfigurationValue<T>
     MUST_BE_TRUE(smaller <= arg_bigger);
     MUST_BE_TRUE(!(arg_bigger <= smaller));
     MUST_BE_TRUE(smaller <= smaller);
@@ -267,23 +267,23 @@ ArgumentValue_test::OperatorLessThanOrEqualTo::test(const T& smaller,
 
 //==============================================================================
 template <class T> Test::Result
-ArgumentValue_test::OperatorGreaterThanOrEqualTo::test(const T& smaller,
-                                                       const T& bigger)
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::test(const T& smaller,
+                                                            const T& bigger)
 {
-    ArgumentValue<T> arg_smaller(smaller);
-    ArgumentValue<T> arg_bigger(bigger);
+    ConfigurationValue<T> arg_smaller(smaller);
+    ConfigurationValue<T> arg_bigger(bigger);
 
-    // ArgumentValue<T> vs. ArgumentValue<T>
+    // ConfigurationValue<T> vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_bigger >= arg_smaller);
     MUST_BE_TRUE(!(arg_smaller >= arg_bigger));
     MUST_BE_TRUE(arg_smaller >= arg_smaller);
 
-    // ArgumentValue<T> vs. const T
+    // ConfigurationValue<T> vs. const T
     MUST_BE_TRUE(bigger >= arg_smaller);
     MUST_BE_TRUE(!(arg_smaller >= bigger));
     MUST_BE_TRUE(arg_smaller >= arg_smaller);
 
-    // const T vs. ArgumentValue<T>
+    // const T vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_bigger >= smaller);
     MUST_BE_TRUE(!(smaller >= arg_bigger));
     MUST_BE_TRUE(smaller >= smaller);
@@ -292,21 +292,21 @@ ArgumentValue_test::OperatorGreaterThanOrEqualTo::test(const T& smaller,
 }
 
 //==============================================================================
-template <class T> Test::Result ArgumentValue_test::OperatorEquality::test(
+template <class T> Test::Result ConfigurationValue_test::OperatorEquality::test(
     const T& smaller, const T& bigger)
 {
-    ArgumentValue<T> arg_smaller(smaller);
-    ArgumentValue<T> arg_bigger(bigger);
+    ConfigurationValue<T> arg_smaller(smaller);
+    ConfigurationValue<T> arg_bigger(bigger);
 
-    // ArgumentValue<T> vs. ArgumentValue<T>
+    // ConfigurationValue<T> vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_smaller == arg_smaller);
     MUST_BE_TRUE(!(arg_smaller == arg_bigger));
 
-    // ArgumentValue<T> vs. const T
+    // ConfigurationValue<T> vs. const T
     MUST_BE_TRUE(arg_smaller == arg_smaller);
     MUST_BE_TRUE(!(arg_smaller == bigger));
 
-    // const T vs. ArgumentValue<T>
+    // const T vs. ConfigurationValue<T>
     MUST_BE_TRUE(smaller == smaller);
     MUST_BE_TRUE(!(smaller == arg_bigger));
 
@@ -314,21 +314,21 @@ template <class T> Test::Result ArgumentValue_test::OperatorEquality::test(
 }
 
 //==============================================================================
-template <class T> Test::Result ArgumentValue_test::OperatorNotEqual::test(
+template <class T> Test::Result ConfigurationValue_test::OperatorNotEqual::test(
     const T& smaller, const T& bigger)
 {
-    ArgumentValue<T> arg_smaller(smaller);
-    ArgumentValue<T> arg_bigger(bigger);
+    ConfigurationValue<T> arg_smaller(smaller);
+    ConfigurationValue<T> arg_bigger(bigger);
 
-    // ArgumentValue<T> vs. ArgumentValue<T>
+    // ConfigurationValue<T> vs. ConfigurationValue<T>
     MUST_BE_TRUE(arg_smaller != arg_bigger);
     MUST_BE_TRUE(!(arg_smaller != arg_smaller));
 
-    // ArgumentValue<T> vs. const T
+    // ConfigurationValue<T> vs. const T
     MUST_BE_TRUE(arg_smaller != bigger);
     MUST_BE_TRUE(!(arg_smaller != arg_smaller));
 
-    // const T vs. ArgumentValue<T>
+    // const T vs. ConfigurationValue<T>
     MUST_BE_TRUE(smaller != arg_bigger);
     MUST_BE_TRUE(!(smaller != smaller));
 
@@ -339,72 +339,72 @@ template <class T> Test::Result ArgumentValue_test::OperatorNotEqual::test(
 // UPDATE
 //==============================================================================
 
-Test::Result ArgumentValue_test::Update::String::body()
+Test::Result ConfigurationValue_test::Update::String::body()
 {
     return test<std::string>("", "1234", "1234");
 }
 
-Test::Result ArgumentValue_test::Update::Char::body()
+Test::Result ConfigurationValue_test::Update::Char::body()
 {
     return test<char>(0, "111", '1');
 }
 
-Test::Result ArgumentValue_test::Update::Double::body()
+Test::Result ConfigurationValue_test::Update::Double::body()
 {
     return test<double>(0, "111", 111.0);
 }
 
-Test::Result ArgumentValue_test::Update::Float::body()
+Test::Result ConfigurationValue_test::Update::Float::body()
 {
     return test<float>(0, "111", 111.0f);
 }
 
-Test::Result ArgumentValue_test::Update::Int::body()
+Test::Result ConfigurationValue_test::Update::Int::body()
 {
     return test<int>(0, "111", 111);
 }
 
-Test::Result ArgumentValue_test::Update::Long::body()
+Test::Result ConfigurationValue_test::Update::Long::body()
 {
     return test<long>(0, "111", 111L);
 }
 
-Test::Result ArgumentValue_test::Update::LongDouble::body()
+Test::Result ConfigurationValue_test::Update::LongDouble::body()
 {
     return test<long double>(0, "111", 111.0L);
 }
 
-Test::Result ArgumentValue_test::Update::LongLong::body()
+Test::Result ConfigurationValue_test::Update::LongLong::body()
 {
     return test<long long>(0, "111", 111LL);
 }
 
-Test::Result ArgumentValue_test::Update::Short::body()
+Test::Result ConfigurationValue_test::Update::Short::body()
 {
     return test<short>(0, "111", static_cast<short>(111));
 }
 
-Test::Result ArgumentValue_test::Update::UnsignedChar::body()
+Test::Result ConfigurationValue_test::Update::UnsignedChar::body()
 {
     return test<unsigned char>(0, "111", static_cast<unsigned char>('1'));
 }
 
-Test::Result ArgumentValue_test::Update::UnsignedInt::body()
+Test::Result ConfigurationValue_test::Update::UnsignedInt::body()
 {
     return test<unsigned int>(0, "111", 111U);
 }
 
-Test::Result ArgumentValue_test::Update::UnsignedLong::body()
+Test::Result ConfigurationValue_test::Update::UnsignedLong::body()
 {
     return test<unsigned long>(0, "111", 111);
 }
 
-Test::Result ArgumentValue_test::Update::UnsignedLongLong::body()
+Test::Result ConfigurationValue_test::Update::UnsignedLongLong::body()
 {
     return test<unsigned long long>(0, "111", 111ULL);
 }
 
-Test::Result ArgumentValue_test::Update::UnsignedShort::body()
+Test::Result ConfigurationValue_test::Update::UnsignedShort::body()
 {
     return test<unsigned short>(0, "111", static_cast<unsigned short>(111));
 }
@@ -413,13 +413,13 @@ Test::Result ArgumentValue_test::Update::UnsignedShort::body()
 // OPERATOR LESS THAN
 //==============================================================================
 
-Test::Result ArgumentValue_test::OperatorLessThan::StringConstCharP::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::StringConstCharP::body()
 {
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    ArgumentValue<std::string> smaller_arg(smaller);
-    ArgumentValue<std::string> bigger_arg(bigger);
+    ConfigurationValue<std::string> smaller_arg(smaller);
+    ConfigurationValue<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(smaller     < bigger_arg);
     MUST_BE_TRUE(smaller_arg < bigger);
@@ -428,72 +428,72 @@ Test::Result ArgumentValue_test::OperatorLessThan::StringConstCharP::body()
     return Test::PASSED;
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::String::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::String::body()
 {
     return test<std::string>("abcd", "efgh");
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::Char::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::Char::body()
 {
     return test<char>('a', 'b');
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::Double::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::Double::body()
 {
     return test<double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::Float::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::Float::body()
 {
     return test<float>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::Int::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::Int::body()
 {
     return test<int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::Long::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::Long::body()
 {
     return test<long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::LongDouble::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::LongDouble::body()
 {
     return test<long double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::LongLong::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::LongLong::body()
 {
     return test<long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::Short::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::Short::body()
 {
     return test<short>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::UnsignedChar::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::UnsignedChar::body()
 {
     return test<unsigned char>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::UnsignedInt::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::UnsignedInt::body()
 {
     return test<unsigned int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::UnsignedLong::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::UnsignedLong::body()
 {
     return test<unsigned long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::UnsignedLongLong::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::UnsignedLongLong::body()
 {
     return test<unsigned long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThan::UnsignedShort::body()
+Test::Result ConfigurationValue_test::OperatorLessThan::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
 }
@@ -502,13 +502,14 @@ Test::Result ArgumentValue_test::OperatorLessThan::UnsignedShort::body()
 // OPERATOR GREATER THAN
 //==============================================================================
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::StringConstCharP::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThan::StringConstCharP::body()
 {
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    ArgumentValue<std::string> smaller_arg(smaller);
-    ArgumentValue<std::string> bigger_arg(bigger);
+    ConfigurationValue<std::string> smaller_arg(smaller);
+    ConfigurationValue<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger_arg > smaller);
     MUST_BE_TRUE(bigger     > smaller_arg);
@@ -517,72 +518,73 @@ Test::Result ArgumentValue_test::OperatorGreaterThan::StringConstCharP::body()
     return Test::PASSED;
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::String::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::String::body()
 {
     return test<std::string>("abcd", "efgh");
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::Char::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::Char::body()
 {
     return test<char>('a', 'b');
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::Double::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::Double::body()
 {
     return test<double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::Float::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::Float::body()
 {
     return test<float>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::Int::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::Int::body()
 {
     return test<int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::Long::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::Long::body()
 {
     return test<long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::LongDouble::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::LongDouble::body()
 {
     return test<long double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::LongLong::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::LongLong::body()
 {
     return test<long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::Short::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::Short::body()
 {
     return test<short>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::UnsignedChar::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::UnsignedChar::body()
 {
     return test<unsigned char>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::UnsignedInt::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::UnsignedInt::body()
 {
     return test<unsigned int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::UnsignedLong::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::UnsignedLong::body()
 {
     return test<unsigned long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::UnsignedLongLong::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThan::UnsignedLongLong::body()
 {
     return test<unsigned long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThan::UnsignedShort::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThan::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
 }
@@ -592,13 +594,13 @@ Test::Result ArgumentValue_test::OperatorGreaterThan::UnsignedShort::body()
 //==============================================================================
 
 Test::Result
-ArgumentValue_test::OperatorLessThanOrEqualTo::StringConstCharP::body()
+ConfigurationValue_test::OperatorLessThanOrEqualTo::StringConstCharP::body()
 {
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    ArgumentValue<std::string> smaller_arg(smaller);
-    ArgumentValue<std::string> bigger_arg(bigger);
+    ConfigurationValue<std::string> smaller_arg(smaller);
+    ConfigurationValue<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(smaller     <= bigger_arg);
     MUST_BE_TRUE(smaller_arg <= bigger);
@@ -607,72 +609,79 @@ ArgumentValue_test::OperatorLessThanOrEqualTo::StringConstCharP::body()
     return Test::PASSED;
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::String::body()
+Test::Result ConfigurationValue_test::OperatorLessThanOrEqualTo::String::body()
 {
     return test<std::string>("abcd", "efgh");
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::Char::body()
+Test::Result ConfigurationValue_test::OperatorLessThanOrEqualTo::Char::body()
 {
     return test<char>('a', 'b');
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::Double::body()
+Test::Result ConfigurationValue_test::OperatorLessThanOrEqualTo::Double::body()
 {
     return test<double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::Float::body()
+Test::Result ConfigurationValue_test::OperatorLessThanOrEqualTo::Float::body()
 {
     return test<float>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::Int::body()
+Test::Result ConfigurationValue_test::OperatorLessThanOrEqualTo::Int::body()
 {
     return test<int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::Long::body()
+Test::Result ConfigurationValue_test::OperatorLessThanOrEqualTo::Long::body()
 {
     return test<long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::LongDouble::body()
+Test::Result
+ConfigurationValue_test::OperatorLessThanOrEqualTo::LongDouble::body()
 {
     return test<long double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::LongLong::body()
+Test::Result
+ConfigurationValue_test::OperatorLessThanOrEqualTo::LongLong::body()
 {
     return test<long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::Short::body()
+Test::Result ConfigurationValue_test::OperatorLessThanOrEqualTo::Short::body()
 {
     return test<short>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::UnsignedChar::body()
+Test::Result
+ConfigurationValue_test::OperatorLessThanOrEqualTo::UnsignedChar::body()
 {
     return test<unsigned char>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::UnsignedInt::body()
+Test::Result
+ConfigurationValue_test::OperatorLessThanOrEqualTo::UnsignedInt::body()
 {
     return test<unsigned int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::UnsignedLong::body()
+Test::Result
+ConfigurationValue_test::OperatorLessThanOrEqualTo::UnsignedLong::body()
 {
     return test<unsigned long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::UnsignedLongLong::body()
+Test::Result
+ConfigurationValue_test::OperatorLessThanOrEqualTo::UnsignedLongLong::body()
 {
     return test<unsigned long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::UnsignedShort::body()
+Test::Result
+ConfigurationValue_test::OperatorLessThanOrEqualTo::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
 }
@@ -682,13 +691,13 @@ Test::Result ArgumentValue_test::OperatorLessThanOrEqualTo::UnsignedShort::body(
 //==============================================================================
 
 Test::Result
-ArgumentValue_test::OperatorGreaterThanOrEqualTo::StringConstCharP::body()
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::StringConstCharP::body()
 {
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    ArgumentValue<std::string> smaller_arg(smaller);
-    ArgumentValue<std::string> bigger_arg(bigger);
+    ConfigurationValue<std::string> smaller_arg(smaller);
+    ConfigurationValue<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger      >= smaller_arg);
     MUST_BE_TRUE(bigger_arg  >= smaller);
@@ -697,77 +706,84 @@ ArgumentValue_test::OperatorGreaterThanOrEqualTo::StringConstCharP::body()
     return Test::PASSED;
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::String::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::String::body()
 {
     return test<std::string>("abcd", "efgh");
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::Char::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::Char::body()
 {
     return test<char>('a', 'b');
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::Double::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::Double::body()
 {
     return test<double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::Float::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::Float::body()
 {
     return test<float>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::Int::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThanOrEqualTo::Int::body()
 {
     return test<int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::Long::body()
+Test::Result ConfigurationValue_test::OperatorGreaterThanOrEqualTo::Long::body()
 {
     return test<long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::LongDouble::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::LongDouble::body()
 {
     return test<long double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::LongLong::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::LongLong::body()
 {
     return test<long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorGreaterThanOrEqualTo::Short::body()
+Test::Result
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::Short::body()
 {
     return test<short>(0, 1);
 }
 
 Test::Result
-ArgumentValue_test::OperatorGreaterThanOrEqualTo::UnsignedChar::body()
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::UnsignedChar::body()
 {
     return test<unsigned char>(0, 1);
 }
 
 Test::Result
-ArgumentValue_test::OperatorGreaterThanOrEqualTo::UnsignedInt::body()
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::UnsignedInt::body()
 {
     return test<unsigned int>(0, 1);
 }
 
 Test::Result
-ArgumentValue_test::OperatorGreaterThanOrEqualTo::UnsignedLong::body()
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::UnsignedLong::body()
 {
     return test<unsigned long>(0, 1);
 }
 
 Test::Result
-ArgumentValue_test::OperatorGreaterThanOrEqualTo::UnsignedLongLong::body()
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::UnsignedLongLong::body()
 {
     return test<unsigned long long>(0, 1);
 }
 
 Test::Result
-ArgumentValue_test::OperatorGreaterThanOrEqualTo::UnsignedShort::body()
+ConfigurationValue_test::OperatorGreaterThanOrEqualTo::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
 }
@@ -776,13 +792,13 @@ ArgumentValue_test::OperatorGreaterThanOrEqualTo::UnsignedShort::body()
 // OPERATOR EQUALITY
 //==============================================================================
 
-Test::Result ArgumentValue_test::OperatorEquality::StringConstCharP::body()
+Test::Result ConfigurationValue_test::OperatorEquality::StringConstCharP::body()
 {
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    ArgumentValue<std::string> smaller_arg(smaller);
-    ArgumentValue<std::string> bigger_arg(bigger);
+    ConfigurationValue<std::string> smaller_arg(smaller);
+    ConfigurationValue<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger      == bigger_arg);
     MUST_BE_TRUE(bigger_arg  == bigger);
@@ -793,72 +809,72 @@ Test::Result ArgumentValue_test::OperatorEquality::StringConstCharP::body()
     return Test::PASSED;
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::String::body()
+Test::Result ConfigurationValue_test::OperatorEquality::String::body()
 {
     return test<std::string>("abcd", "efgh");
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::Char::body()
+Test::Result ConfigurationValue_test::OperatorEquality::Char::body()
 {
     return test<char>('a', 'b');
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::Double::body()
+Test::Result ConfigurationValue_test::OperatorEquality::Double::body()
 {
     return test<double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::Float::body()
+Test::Result ConfigurationValue_test::OperatorEquality::Float::body()
 {
     return test<float>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::Int::body()
+Test::Result ConfigurationValue_test::OperatorEquality::Int::body()
 {
     return test<int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::Long::body()
+Test::Result ConfigurationValue_test::OperatorEquality::Long::body()
 {
     return test<long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::LongDouble::body()
+Test::Result ConfigurationValue_test::OperatorEquality::LongDouble::body()
 {
     return test<long double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::LongLong::body()
+Test::Result ConfigurationValue_test::OperatorEquality::LongLong::body()
 {
     return test<long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::Short::body()
+Test::Result ConfigurationValue_test::OperatorEquality::Short::body()
 {
     return test<short>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::UnsignedChar::body()
+Test::Result ConfigurationValue_test::OperatorEquality::UnsignedChar::body()
 {
     return test<unsigned char>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::UnsignedInt::body()
+Test::Result ConfigurationValue_test::OperatorEquality::UnsignedInt::body()
 {
     return test<unsigned int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::UnsignedLong::body()
+Test::Result ConfigurationValue_test::OperatorEquality::UnsignedLong::body()
 {
     return test<unsigned long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::UnsignedLongLong::body()
+Test::Result ConfigurationValue_test::OperatorEquality::UnsignedLongLong::body()
 {
     return test<unsigned long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorEquality::UnsignedShort::body()
+Test::Result ConfigurationValue_test::OperatorEquality::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
 }
@@ -867,13 +883,13 @@ Test::Result ArgumentValue_test::OperatorEquality::UnsignedShort::body()
 // OPERATOR NOT EQUAL
 //==============================================================================
 
-Test::Result ArgumentValue_test::OperatorNotEqual::StringConstCharP::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::StringConstCharP::body()
 {
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    ArgumentValue<std::string> smaller_arg(smaller);
-    ArgumentValue<std::string> bigger_arg(bigger);
+    ConfigurationValue<std::string> smaller_arg(smaller);
+    ConfigurationValue<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger     != smaller_arg);
     MUST_BE_TRUE(bigger_arg != smaller);
@@ -884,72 +900,72 @@ Test::Result ArgumentValue_test::OperatorNotEqual::StringConstCharP::body()
     return Test::PASSED;
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::String::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::String::body()
 {
     return test<std::string>("abcd", "efgh");
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::Char::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::Char::body()
 {
     return test<char>('a', 'b');
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::Double::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::Double::body()
 {
     return test<double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::Float::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::Float::body()
 {
     return test<float>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::Int::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::Int::body()
 {
     return test<int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::Long::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::Long::body()
 {
     return test<long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::LongDouble::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::LongDouble::body()
 {
     return test<long double>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::LongLong::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::LongLong::body()
 {
     return test<long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::Short::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::Short::body()
 {
     return test<short>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::UnsignedChar::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::UnsignedChar::body()
 {
     return test<unsigned char>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::UnsignedInt::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::UnsignedInt::body()
 {
     return test<unsigned int>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::UnsignedLong::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::UnsignedLong::body()
 {
     return test<unsigned long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::UnsignedLongLong::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::UnsignedLongLong::body()
 {
     return test<unsigned long long>(0, 1);
 }
 
-Test::Result ArgumentValue_test::OperatorNotEqual::UnsignedShort::body()
+Test::Result ConfigurationValue_test::OperatorNotEqual::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
 }

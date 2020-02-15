@@ -4,9 +4,6 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 set(SRC
   ArgumentProcessor.cpp
   ConfigurationValue.cpp)
-#  ConfigurationValueCount.cpp
-#  ConfigurationValueList.cpp
-#  ConfigurationValueSimple.cpp)
 
 # Add source files to the project sources.  In cmake v3.13 the behavior of
 # target_sources changed and no longer requires prepending this directory to
@@ -24,4 +21,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC .)
 #add_subdirectory(ArgumentProcessor_test        EXCLUDE_FROM_ALL)
 #add_subdirectory(ConfigurationValueCount_test  EXCLUDE_FROM_ALL)
 #add_subdirectory(ConfigurationValueList_test   EXCLUDE_FROM_ALL)
-#add_subdirectory(ConfigurationValueSimple_test EXCLUDE_FROM_ALL)
+add_subdirectory(ConfigurationValue_test EXCLUDE_FROM_ALL)
