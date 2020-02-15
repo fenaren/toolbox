@@ -3,7 +3,8 @@ include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 # All the platform-independent source files in this directory
 set(SRC
   ArgumentProcessor.cpp
-  ConfigurationValue.cpp)
+  ConfigurationValue.cpp
+  ConfigurationValueBase.cpp)
 
 # Add source files to the project sources.  In cmake v3.13 the behavior of
 # target_sources changed and no longer requires prepending this directory to
