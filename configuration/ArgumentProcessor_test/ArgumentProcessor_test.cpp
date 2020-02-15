@@ -5,7 +5,7 @@
 #include "ArgumentProcessor_test.hpp"
 
 #include "ArgumentProcessor.hpp"
-#include "ArgumentValue.hpp"
+#include "ConfigurationValue.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -33,15 +33,15 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::body()
 {
     ArgumentProcessor argument_processor;
 
-    ArgumentValue<int> av0(0);
-    ArgumentValue<int> av1(1);
+    ConfigurationValue<int> cv0(0);
+    ConfigurationValue<int> cv1(1);
 
     // Iterator should indicate that every positional argument (none at this
     // point) has been processed
     MUST_BE_TRUE(argument_processor.next_positional_argument ==
                  argument_processor.positional_arguments.end());
 
-    argument_processor.registerPositionalArgument(&av0);
+    argument_processor.registerPositionalArgument(&cv0);
 
     // There should now be one argument, since we just pushed one
     MUST_BE_TRUE(argument_processor.positional_arguments.size() == 1);
@@ -51,7 +51,7 @@ Test::Result ArgumentProcessor_test::RegisterPositionalArgument::body()
     MUST_BE_TRUE(argument_processor.next_positional_argument ==
                  argument_processor.positional_arguments.begin());
 
-    argument_processor.registerPositionalArgument(&av1);
+    argument_processor.registerPositionalArgument(&cv1);
 
     // Now there are two, since we just pushed another
     MUST_BE_TRUE(argument_processor.positional_arguments.size() == 2);
@@ -73,10 +73,10 @@ Test::Result ArgumentProcessor_test::RegisterOptionalArgument::body()
     // anything yet.
     MUST_BE_TRUE(argument_processor.optional_arguments.empty());
 
-    ArgumentValue<std::string> av0;
-    argument_processor.registerOptionalArgument(&av0, {"badflag"});
+    ConfigurationValue<std::string> cv0;
+    argument_processor.registerOptionalArgument(&cv0, {"badflag"});
 
-    // Size should be once since we've registered exactly one argument.
+    // Size should be one since we've registered exactly one argument.
     MUST_BE_TRUE(argument_processor.optional_arguments.size() == 1);
 
     // We aren't processing anything yet.
@@ -86,7 +86,7 @@ Test::Result ArgumentProcessor_test::RegisterOptionalArgument::body()
     // We should be storing a pointer to the av0 argument in the optional
     // arguments map associated with the flag we provided to
     // registerOptionalArgument().
-    MUST_BE_TRUE(argument_processor.optional_arguments["badflag"] == &av0);
+    MUST_BE_TRUE(argument_processor.optional_arguments["badflag"] == &cv0);
 
     return Test::PASSED;
 }
@@ -99,8 +99,8 @@ Test::Result ArgumentProcessor_test::Process::PositionalArgument::body()
     // No arguments registered, so list should be empty.
     MUST_BE_TRUE(argument_processor.positional_arguments.size() == 0);
 
-    ArgumentValue<int> av0;
-    argument_processor.registerPositionalArgument(&av0);
+    ConfigurationValue<int> cv0;
+    argument_processor.registerPositionalArgument(&cv0);
 
     // One argument registered, so list should be of size 1.
     MUST_BE_TRUE(argument_processor.positional_arguments.size() == 1);
@@ -110,7 +110,7 @@ Test::Result ArgumentProcessor_test::Process::PositionalArgument::body()
 
     // See that we actually did get the value back as an int of the correct
     // value.
-    MUST_BE_TRUE(av0.getValue() == 12);
+    MUST_BE_TRUE(cv0.getValue() == 12);
 
     // Also check that we're done processing positional arguments.
     MUST_BE_TRUE(argument_processor.next_positional_argument ==
@@ -127,14 +127,14 @@ Test::Result ArgumentProcessor_test::Process::OptionalArgument::body()
     // No arguments registered yet, size should be 0.
     MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
 
-    ArgumentValue<int> av0;
-    argument_processor.registerOptionalArgument(&av0, {"-a"});
+    ConfigurationValue<int> cv0;
+    argument_processor.registerOptionalArgument(&cv0, {"-a"});
 
     // Do this one with the version of process() that accepts a list of strings.
     argument_processor.process(std::list<std::string>({"-a", "12"}));
 
     // Check for the correct value using the equality operator.
-    MUST_BE_TRUE(av0 == 12);
+    MUST_BE_TRUE(cv0 == 12);
 
     // We should be done processing.
     MUST_BE_TRUE(argument_processor.current_optional_argument ==
@@ -156,11 +156,11 @@ Test::Result ArgumentProcessor_test::Process::Combined::body()
     MUST_BE_TRUE(argument_processor.next_positional_argument ==
                  argument_processor.positional_arguments.end());
 
-    ArgumentValue<int> av0;
-    ArgumentValue<int> av1;
+    ConfigurationValue<int> cv0;
+    ConfigurationValue<int> cv1;
 
-    argument_processor.registerOptionalArgument(&av1, {"--wtf"});
-    argument_processor.registerPositionalArgument(&av0);
+    argument_processor.registerOptionalArgument(&cv1, {"--wtf"});
+    argument_processor.registerPositionalArgument(&cv0);
 
     // We just registered one positional argument, and we should be set to
     // process that one next.
@@ -175,8 +175,8 @@ Test::Result ArgumentProcessor_test::Process::Combined::body()
     argument_processor.process(std::list<std::string>({"--wtf", "12", "34"}));
 
     // Check for the correct values.
-    MUST_BE_TRUE(av0.getValue() == 34);
-    MUST_BE_TRUE(av1.getValue() == 12);
+    MUST_BE_TRUE(cv0.getValue() == 34);
+    MUST_BE_TRUE(cv1.getValue() == 12);
 
     return Test::PASSED;
 }

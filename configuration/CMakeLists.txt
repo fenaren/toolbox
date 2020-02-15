@@ -19,7 +19,5 @@ target_sources(${PROJECT_NAME} PRIVATE ${SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 # Add test subdirectories (these don't build unconditionally)
-#add_subdirectory(ArgumentProcessor_test        EXCLUDE_FROM_ALL)
-#add_subdirectory(ConfigurationValueCount_test  EXCLUDE_FROM_ALL)
-#add_subdirectory(ConfigurationValueList_test   EXCLUDE_FROM_ALL)
+add_subdirectory(ArgumentProcessor_test  EXCLUDE_FROM_ALL)
 add_subdirectory(ConfigurationValue_test EXCLUDE_FROM_ALL)

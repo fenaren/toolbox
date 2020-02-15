@@ -38,7 +38,7 @@ public:
     void registerOptionalArgument(
         ConfigurationValueBase*                argument,
         const std::unordered_set<std::string>& flags,
-        bool                                   count);
+        bool                                   count = false);
 
     // Processes a single command-line argument.  If this is a positional
     // argument its value will be written into the next unset registered
