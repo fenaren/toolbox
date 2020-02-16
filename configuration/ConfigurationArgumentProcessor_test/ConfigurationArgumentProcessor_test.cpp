@@ -15,7 +15,7 @@ TEST_PROGRAM_MAIN(Configuration::ArgumentProcessor_test);
 namespace Configuration
 {
 
-//==============================================================================
+    //==========================================================================
     void ArgumentProcessor_test::addTestCases()
     {
         ADD_TEST_CASE(RegisterPositionalArgument);
@@ -24,7 +24,7 @@ namespace Configuration
         ADD_TEST_CASE(IsRegistered);
     }
 
-//==============================================================================
+    //==========================================================================
     void ArgumentProcessor_test::Process::addTestCases()
     {
         ADD_TEST_CASE(PositionalArgument);
@@ -33,7 +33,7 @@ namespace Configuration
         ADD_TEST_CASE(Combined);
     }
 
-//==============================================================================
+    //==========================================================================
     Test::Result ArgumentProcessor_test::RegisterPositionalArgument::body()
     {
         ArgumentProcessor argument_processor;
@@ -51,8 +51,8 @@ namespace Configuration
         // There should now be one argument, since we just pushed one
         MUST_BE_TRUE(argument_processor.positional_arguments.size() == 1);
 
-        // Iterator should now indicate the next argument to process is the one we
-        // just pushed
+        // Iterator should now indicate the next argument to process is the one
+        // we just pushed
         MUST_BE_TRUE(argument_processor.next_positional_argument ==
                      argument_processor.positional_arguments.begin());
 
@@ -69,7 +69,7 @@ namespace Configuration
         return Test::PASSED;
     }
 
-//==============================================================================
+    //==========================================================================
     Test::Result ArgumentProcessor_test::RegisterOptionalArgument::body()
     {
         ArgumentProcessor argument_processor;
@@ -96,7 +96,7 @@ namespace Configuration
         return Test::PASSED;
     }
 
-//==============================================================================
+    //==========================================================================
     Test::Result ArgumentProcessor_test::Process::PositionalArgument::body()
     {
         ArgumentProcessor argument_processor;
@@ -124,7 +124,7 @@ namespace Configuration
         return Test::PASSED;
     }
 
-//==============================================================================
+    //==========================================================================
     Test::Result ArgumentProcessor_test::Process::OptionalArgument::body()
     {
         ArgumentProcessor argument_processor;
@@ -135,7 +135,8 @@ namespace Configuration
         Parameter<int> cv0;
         argument_processor.registerOptionalArgument(&cv0, {"-a"});
 
-        // Do this one with the version of process() that accepts a list of strings.
+        // Do this one with the version of process() that accepts a list of
+        // strings.
         argument_processor.process(std::list<std::string>({"-a", "12"}));
 
         // Check for the correct value using the equality operator.
@@ -148,8 +149,9 @@ namespace Configuration
         return Test::PASSED;
     }
 
-//==============================================================================
-    Test::Result ArgumentProcessor_test::Process::OptionalCountingArgument::body()
+    //==========================================================================
+    Test::Result
+    ArgumentProcessor_test::Process::OptionalCountingArgument::body()
     {
         ArgumentProcessor argument_processor;
 
@@ -161,7 +163,8 @@ namespace Configuration
         argument_processor.registerOptionalCountingArgument(&cv0, {"-a"});
         argument_processor.registerOptionalCountingArgument(&cv1, {"-b"});
 
-        // Do this one with the version of process() that accepts a list of strings.
+        // Do this one with the version of process() that accepts a list of
+        // strings.
         argument_processor.process(std::list<std::string>({"-a", "-b", "-a"}));
 
         // Check for the correct value using the equality operator.
@@ -174,7 +177,7 @@ namespace Configuration
         return Test::PASSED;
     }
 
-//==============================================================================
+    //==========================================================================
     Test::Result ArgumentProcessor_test::Process::Combined::body()
     {
         ArgumentProcessor argument_processor;
@@ -203,7 +206,8 @@ namespace Configuration
         MUST_BE_TRUE(argument_processor.optional_arguments.size() == 1);
 
         // Process using the list version of process()
-        argument_processor.process(std::list<std::string>({"--wtf", "12", "34"}));
+        argument_processor.process(
+            std::list<std::string>({"--wtf", "12", "34"}));
 
         // Check for the correct values.
         MUST_BE_TRUE(cv0.getValue() == 34);
@@ -212,7 +216,7 @@ namespace Configuration
         return Test::PASSED;
     }
 
-//==============================================================================
+    //==========================================================================
     Test::Result ArgumentProcessor_test::IsRegistered::body()
     {
         ArgumentProcessor argument_processor;

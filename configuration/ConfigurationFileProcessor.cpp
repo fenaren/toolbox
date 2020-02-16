@@ -8,7 +8,8 @@ namespace Configuration
 {
 
     //==========================================================================
-    FileProcessor::FileProcessor()
+    FileProcessor::FileProcessor() :
+        comment_character('#')
     {
     }
 
