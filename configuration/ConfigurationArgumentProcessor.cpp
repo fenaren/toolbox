@@ -131,7 +131,7 @@ namespace Configuration
         if (current_optional_argument != optional_arguments.end())
         {
             // Update whatever argument we're working with the new value
-            current_optional_argument->second->setValue(argument);
+            current_optional_argument->second->updateValue(argument);
 
             // Note that we're done processing this optional argument
             current_optional_argument = optional_arguments.end();
@@ -166,7 +166,7 @@ namespace Configuration
 
         if (next_positional_argument != positional_arguments.end())
         {
-            (*next_positional_argument)->setValue(argument);
+            (*next_positional_argument)->updateValue(argument);
             ++next_positional_argument;
             return;
         }

@@ -1,6 +1,7 @@
 #if !defined CONFIGURATION_FILE_PROCESSOR_HPP
 #define CONFIGURATION_FILE_PROCESSOR_HPP
 
+#include <list>
 #include <string>
 #include <unordered_map>
 
@@ -23,6 +24,10 @@ namespace Configuration
 
         void
         registerParameter(ParameterBase* parameter, const std::string& name);
+
+        void registerParameterList(
+            const std::list<ParameterBase*> parameter_list,
+            const std::string&              name);
 
         void process(const std::string& filename);
 

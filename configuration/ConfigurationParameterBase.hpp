@@ -18,7 +18,7 @@ namespace Configuration
         virtual ~ParameterBase();
 
         // This is how Processors push values into Parameters generically
-        virtual void setValue(const std::string& value) = 0;
+        virtual void updateValue(const std::string& value) = 0;
 
         // Returns true if this configuration value has been set after
         // construction.

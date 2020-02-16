@@ -58,7 +58,7 @@ namespace Configuration
     }
 
     //==========================================================================
-    template <class T> void Parameter<T>::setValue(const std::string& value)
+    template <class T> void Parameter<T>::updateValue(const std::string& value)
     {
         std::istringstream converter(value);
         converter >> this->value;

@@ -34,7 +34,7 @@ namespace Configuration
         virtual ~Parameter();
 
         // Allows Processors to set the value regardless of templatized type.
-        virtual void setValue(const std::string& value);
+        virtual void updateValue(const std::string& value);
 
         // Returns the current value on the stack.  Try to use the other
         // getValue() method if T is large in memory.

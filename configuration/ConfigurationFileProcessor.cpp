@@ -1,5 +1,6 @@
 #include "ConfigurationFileProcessor.hpp"
 
+#include <list>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -36,4 +37,12 @@ namespace Configuration
 
         parameters[name] = parameter;
     }
+
+    //==========================================================================
+    void FileProcessor::registerParameterList(
+        const std::list<ParameterBase*> parameter_list,
+        const std::string&              name)
+    {
+    }
+
 }

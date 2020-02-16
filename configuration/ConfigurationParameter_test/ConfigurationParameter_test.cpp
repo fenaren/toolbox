@@ -177,7 +177,7 @@ namespace Configuration
         // Arguments are not set by default, even when given a default value.
         MUST_BE_TRUE(!configuration_value.isSet());
 
-        configuration_value.setValue(update_value);
+        configuration_value.updateValue(update_value);
 
         // Now we should be set.
         MUST_BE_TRUE(configuration_value.isSet());
