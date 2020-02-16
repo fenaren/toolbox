@@ -9,13 +9,13 @@
 namespace Configuration
 {
 
-// Represents a simple configuration parameter.  They function like intrinsic
-// types, except they can be "unset" or "set".  Unset configuration parameters
-// have never had their value set after construction, and set configuration
-// parameters have.
+    // Represents a simple configuration parameter.  They function like
+    // intrinsic types, except they can be "unset" or "set".  Unset
+    // configuration parameters have never had their value set after
+    // construction, and set configuration parameters have.
 
-// All the intrinsic types and std::string are supported as parameter types, and
-// a variety of operators are overloaded to make this easy to use.
+    // All the intrinsic types and std::string are supported as parameter types,
+    // and a variety of operators are overloaded to make this easy to use.
     template <class T> class Parameter : public ParameterBase
     {
     public:

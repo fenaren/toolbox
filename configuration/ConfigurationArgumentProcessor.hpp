@@ -11,10 +11,10 @@ namespace Configuration
     class ParameterBase;
     template <class T> class Parameter;
 
-// Implements a method of more easily processing command line arguments into
-// actual in-program values.  The idea is to get rid of having to manually code
-// the looping over arguments and comparing to known flags or positions in the
-// argument list.
+    // Implements a method of more easily processing command line arguments into
+    // actual in-program values.  The idea is to get rid of having to manually
+    // code the looping over arguments and comparing to known flags or positions
+    // in the argument list.
     class ArgumentProcessor
     {
     public:

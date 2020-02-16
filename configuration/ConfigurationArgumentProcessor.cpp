@@ -10,19 +10,19 @@
 namespace Configuration
 {
 
-//==============================================================================
+    //==========================================================================
     ArgumentProcessor::ArgumentProcessor() :
         next_positional_argument(positional_arguments.end()),
         current_optional_argument(optional_arguments.end())
     {
     }
 
-//==============================================================================
+    //==========================================================================
     ArgumentProcessor::~ArgumentProcessor()
     {
     }
 
-//==============================================================================
+    //==========================================================================
     void
     ArgumentProcessor::registerPositionalArgument(ParameterBase* argument)
     {
@@ -51,7 +51,7 @@ namespace Configuration
         }
     }
 
-//==============================================================================
+    //==========================================================================
     void ArgumentProcessor::registerOptionalArgument(
         ParameterBase*                argument,
         const std::unordered_set<std::string>& flags)
@@ -87,7 +87,7 @@ namespace Configuration
         }
     }
 
-//==============================================================================
+    //==========================================================================
     void ArgumentProcessor::registerOptionalCountingArgument(
         Parameter<unsigned int>*      argument,
         const std::unordered_set<std::string>& flags)
@@ -124,7 +124,7 @@ namespace Configuration
         }
     }
 
-//==============================================================================
+    //==========================================================================
     void ArgumentProcessor::process(const std::string& argument)
     {
         // Are we looking for a value for an optional argument?
@@ -176,7 +176,7 @@ namespace Configuration
         throw std::runtime_error("Extra positional argument");
     }
 
-//==============================================================================
+    //==========================================================================
     void ArgumentProcessor::process(const std::list<std::string>& arguments)
     {
         for (std::list<std::string>::const_iterator i = arguments.begin();
@@ -187,7 +187,7 @@ namespace Configuration
         }
     }
 
-//==============================================================================
+    //==========================================================================
     void ArgumentProcessor::process(int argc, char** argv)
     {
         for (int i = 0; i < argc; ++i)
@@ -196,7 +196,7 @@ namespace Configuration
         }
     }
 
-//==============================================================================
+    //==========================================================================
     bool ArgumentProcessor::isRegistered(const ParameterBase* cv) const
     {
         for (std::list<ParameterBase*>::const_iterator i =

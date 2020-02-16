@@ -34,30 +34,30 @@ namespace Configuration
         return Parameter<std::string>(lhs) OP rhs;      \
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> Parameter<T>::Parameter(const T& default_value) :
         value(default_value)
     {
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> Parameter<T>::Parameter(const Parameter& value)
     {
         *this = value;
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> Parameter<T>::operator T() const
     {
         return value;
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> Parameter<T>::~Parameter()
     {
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> void Parameter<T>::setValue(const std::string& value)
     {
         std::istringstream converter(value);
@@ -72,19 +72,19 @@ namespace Configuration
         set();
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> T Parameter<T>::getValue() const
     {
         return value;
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> void Parameter<T>::getValue(T& value) const
     {
         value = this->value;
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T>
     Parameter<T>& Parameter<T>::operator=(const Parameter& configuration_value)
     {
@@ -99,7 +99,7 @@ namespace Configuration
         return *this;
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T> Parameter<T>& Parameter<T>::operator=(const T& value)
     {
         this->value = value;
@@ -108,7 +108,7 @@ namespace Configuration
         return *this;
     }
 
-//==============================================================================
+    //==========================================================================
     template <class T>
     bool operator<(const Parameter<T>& lhs, const Parameter<T>& rhs)
     {
@@ -123,7 +123,7 @@ namespace Configuration
 
     DEFINE_MIXED_PARAMETER_OPERATOR(operator<, <);
 
-//==============================================================================
+    //==========================================================================
     template <class T>
     bool operator>(const Parameter<T>& lhs, const Parameter<T>& rhs)
     {
@@ -132,7 +132,7 @@ namespace Configuration
 
     DEFINE_MIXED_PARAMETER_OPERATOR(operator>, >);
 
-//==============================================================================
+    //==========================================================================
     template <class T>
     bool operator<=(const Parameter<T>& lhs, const Parameter<T>& rhs)
     {
@@ -141,7 +141,7 @@ namespace Configuration
 
     DEFINE_MIXED_PARAMETER_OPERATOR(operator<=, <=);
 
-//==============================================================================
+    //==========================================================================
     template <class T>
     bool operator>=(const Parameter<T>& lhs, const Parameter<T>& rhs)
     {
@@ -150,7 +150,7 @@ namespace Configuration
 
     DEFINE_MIXED_PARAMETER_OPERATOR(operator>=, >=);
 
-//==============================================================================
+    //==========================================================================
     template <class T>
     bool operator==(const Parameter<T>& lhs, const Parameter<T>& rhs)
     {
@@ -165,7 +165,7 @@ namespace Configuration
 
     DEFINE_MIXED_PARAMETER_OPERATOR(operator==, ==);
 
-//==============================================================================
+    //==========================================================================
     template <class T>
     bool operator!=(const Parameter<T>& lhs, const Parameter<T>& rhs)
     {

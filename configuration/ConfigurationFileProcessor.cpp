@@ -1,30 +1,38 @@
 #include "ConfigurationFileProcessor.hpp"
 
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
+
 namespace Configuration
 {
 
-//==============================================================================
+    //==========================================================================
     FileProcessor::FileProcessor()
     {
     }
 
-//==============================================================================
+    //==========================================================================
     FileProcessor::~FileProcessor()
     {
     }
 
-//==============================================================================
-// If implemented, operator= should follow this template
-//==============================================================================
-    FileProcessor& FileProcessor::operator=(const FileProcessor& template_class)
+    //==========================================================================
+    void FileProcessor::registerParameter(ParameterBase*     parameter,
+                                          const std::string& name)
     {
-        // Don't do anything if we're assigning to ourselves
-        if (this != &template_class)
+        if (name.empty())
         {
-            // Do something
+            // Parameters have to have names
+            throw std::runtime_error("Parameter name is empty");
         }
 
-        return *this;
-    }
+        if (parameters.find(name) != parameters.end())
+        {
+            // Parameters must have unique names
+            throw std::runtime_error("Parameter name already registered");
+        }
 
+        parameters[name] = parameter;
+    }
 }
