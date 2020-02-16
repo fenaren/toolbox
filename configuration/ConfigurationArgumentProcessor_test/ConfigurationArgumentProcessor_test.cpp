@@ -232,7 +232,7 @@ namespace Configuration
         {
             argument_processor.registerPositionalArgument(&cv0);
         }
-        catch (std::runtime_error ex)
+        catch (std::runtime_error& ex)
         {
             exception_caught = true;
         }
@@ -244,7 +244,7 @@ namespace Configuration
             argument_processor.registerOptionalArgument(
                 &cv1, std::unordered_set<std::string>({"eeee"}));
         }
-        catch (std::runtime_error ex)
+        catch (std::runtime_error& ex)
         {
             exception_caught = true;
         }
@@ -256,7 +256,7 @@ namespace Configuration
             argument_processor.registerOptionalCountingArgument(
                 &cv2, std::unordered_set<std::string>({"wwww"}));
         }
-        catch (std::runtime_error ex)
+        catch (std::runtime_error& ex)
         {
             exception_caught = true;
         }
