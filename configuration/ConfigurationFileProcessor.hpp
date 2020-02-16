@@ -1,24 +1,27 @@
-#if !defined TEMPLATE_CLASS_HPP
-#define TEMPLATE_CLASS_HPP
+#if !defined CONFIGURATION_FILE_PROCESSOR_HPP
+#define CONFIGURATION_FILE_PROCESSOR_HPP
 
-class TemplateClass
+namespace Configuration
 {
-public:
 
-    // Frobnicates the widget
-    TemplateClass();
+    class FileProcessor
+    {
+    public:
 
-    // Defrobnicates the widget.  Make this virtual if this class derives from
-    // something
-    ~TemplateClass();
+        // Frobnicates the widget
+        FileProcessor();
 
-private:
+        ~FileProcessor();
 
-    // Copy construction and assignment not allowed.  Consider getting rid of
-    // the operator= code in the implementation file if operator= remains
-    // private
-    TemplateClass(const TemplateClass&);
-    TemplateClass& operator=(const TemplateClass&);
-};
+    private:
+
+        // Copy construction and assignment not allowed.  Consider getting rid
+        // of the operator= code in the implementation file if operator= remains
+        // private
+        FileProcessor(const FileProcessor&);
+        FileProcessor& operator=(const FileProcessor&);
+    };
+
+}
 
 #endif
