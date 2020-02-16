@@ -25,7 +25,7 @@ namespace Configuration
         ArgumentProcessor();
 
         // Destructor
-        virtual ~ArgumentProcessor();
+        ~ArgumentProcessor();
 
         // Registers a positional argument with the processor.  Order of
         // registration matters here; positional arguments are set in the order

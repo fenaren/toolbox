@@ -3,14 +3,19 @@
 
 namespace Configuration
 {
+    class ParameterBase;
+    template <class T> class Parameter;
 
     class FileProcessor
     {
     public:
 
-        // Frobnicates the widget
+        friend class FileProcessor_test;
+
+        // Constructor
         FileProcessor();
 
+        // Destructor
         ~FileProcessor();
 
     private:
