@@ -1,7 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
-set(SRC ArgumentProcessor_test.cpp)
+set(SRC ConfigurationArgumentProcessor_test.cpp)
 
 # We need these include directories
 set(INC . ..)
@@ -10,4 +10,5 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-add_test_executable(ArgumentProcessor_test "${SRC}" "${INC}" "${LIB}")
+add_test_executable(
+  ConfigurationArgumentProcessor_test "${SRC}" "${INC}" "${LIB}")
