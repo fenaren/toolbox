@@ -1,32 +1,27 @@
-#include "ConfigurationParameterBase.hpp"
+#include "ConfigurationListParameter.hpp"
 
 namespace Configuration
 {
 
     //==========================================================================
-    ParameterBase::ParameterBase() :
-        _set(false)
+    ListParameter::ListParameter()
     {
     }
 
     //==========================================================================
-    ParameterBase::ParameterBase(const ParameterBase& parameter_base)
-    {
-        *this = parameter_base;
-    }
-
-    //==========================================================================
-    ParameterBase::~ParameterBase()
+    ListParameter::~ListParameter()
     {
     }
 
     //==========================================================================
-    ParameterBase& ParameterBase::operator=(const ParameterBase& parameter_base)
+    // If implemented, operator= should follow this template
+    //==========================================================================
+    ListParameter& ListParameter::operator=(const ListParameter& list_parameter)
     {
         // Don't do anything if we're assigning to ourselves
-        if (this != &parameter_base)
+        if (this != &list_parameter)
         {
-            _set = parameter_base._set;
+            // Do something
         }
 
         return *this;

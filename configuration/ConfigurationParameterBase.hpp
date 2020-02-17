@@ -6,8 +6,9 @@
 namespace Configuration
 {
 
-// ConfigurationParameter inherits from this, defining an interface by which all
-// ConfigurationParameters can be modified regardless of templatized type.
+    // ConfigurationParameter inherits from this, defining an interface by which
+    // all ConfigurationParameters can be modified regardless of templatized
+    // type.
     class ParameterBase
     {
     public:
@@ -35,13 +36,13 @@ namespace Configuration
         bool _set;
     };
 
-//==============================================================================
+    //==========================================================================
     inline void ParameterBase::set()
     {
         _set = true;
     }
 
-//==============================================================================
+    //==========================================================================
     inline bool ParameterBase::isSet() const
     {
         return _set;
