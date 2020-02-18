@@ -63,7 +63,9 @@ namespace Configuration
     template <class T> void Parameter<T>::updateValue(const std::string& value)
     {
         std::istringstream converter(value);
-        converter >> this->value;
+
+        T value_temp;
+        converter >> value_temp;
 
         // Did the conversion go okay?
         if (!converter)
@@ -71,6 +73,7 @@ namespace Configuration
             throw std::runtime_error("Error converting value to template type");
         }
 
+        this->value = value_temp;
         set();
     }
 
