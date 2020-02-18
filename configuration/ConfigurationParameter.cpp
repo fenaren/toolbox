@@ -36,14 +36,16 @@ namespace Configuration
 
     //==========================================================================
     template <class T> Parameter<T>::Parameter(const T& default_value) :
+        ParameterBase(),
         value(default_value)
     {
     }
 
     //==========================================================================
-    template <class T> Parameter<T>::Parameter(const Parameter& value)
+    template <class T> Parameter<T>::Parameter(const Parameter<T>& parameter) :
+        ParameterBase()
     {
-        *this = value;
+        parameter.getValue(value);
     }
 
     //==========================================================================
@@ -85,15 +87,14 @@ namespace Configuration
     }
 
     //==========================================================================
-    template <class T>
-    Parameter<T>& Parameter<T>::operator=(const Parameter& configuration_value)
+    template <class T> Parameter<T>&
+    Parameter<T>::operator=(const Parameter& configuration_parameter)
     {
-        ParameterBase::operator=(configuration_value);
-
         // Don't do anything if we're assigning to ourselves
-        if (this != &configuration_value)
+        if (this != &configuration_parameter)
         {
-            value = configuration_value.value;
+            value = configuration_parameter.value;
+            set();
         }
 
         return *this;

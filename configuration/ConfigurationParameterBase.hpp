@@ -6,26 +6,23 @@
 namespace Configuration
 {
 
-    // ConfigurationParameter inherits from this, defining an interface by which
-    // all ConfigurationParameters can be modified regardless of templatized
-    // type.
+    // ParameterBases can be "unset" or "set". Unset configuration parameters
+    // have never had their value set after construction (using updateValue()),
+    // and set configuration parameters have.  This allows programs to determine
+    // if ParameterBases have been specified by a user at runtime (set) or if
+    // the default is in use (unset).
     class ParameterBase
     {
     public:
 
+        // Does nothing
         ParameterBase();
-        ParameterBase(const ParameterBase&);
-
         virtual ~ParameterBase();
 
-        // This is how Processors push values into Parameters generically
-        virtual void updateValue(const std::string& value) = 0;
-
-        // Returns true if this configuration value has been set after
-        // construction.
         bool isSet() const;
 
-        ParameterBase& operator=(const ParameterBase&);
+        // New values are taken with this method.
+        virtual void updateValue(const std::string& value) = 0;
 
     protected:
 
@@ -34,13 +31,10 @@ namespace Configuration
     private:
 
         bool _set;
-    };
 
-    //==========================================================================
-    inline void ParameterBase::set()
-    {
-        _set = true;
-    }
+        ParameterBase(const ParameterBase&);
+        ParameterBase& operator=(const ParameterBase&);
+    };
 
     //==========================================================================
     inline bool ParameterBase::isSet() const
@@ -48,6 +42,11 @@ namespace Configuration
         return _set;
     }
 
+    //==========================================================================
+    inline void ParameterBase::set()
+    {
+        _set = true;
+    }
 }
 
 #endif
