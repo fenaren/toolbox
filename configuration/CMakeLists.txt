@@ -22,6 +22,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 # Add test subdirectories (these don't build unconditionally)
 add_subdirectory(ConfigurationArgumentProcessor_test EXCLUDE_FROM_ALL)
-#add_subdirectory(ConfigurationListParameter_test     EXCLUDE_FROM_ALL)
+add_subdirectory(ConfigurationListParameter_test     EXCLUDE_FROM_ALL)
 add_subdirectory(ConfigurationFileProcessor_test     EXCLUDE_FROM_ALL)
 add_subdirectory(ConfigurationParameter_test         EXCLUDE_FROM_ALL)

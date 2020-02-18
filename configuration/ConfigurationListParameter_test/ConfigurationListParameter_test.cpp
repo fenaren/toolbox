@@ -1,5 +1,6 @@
 #include "ConfigurationListParameter_test.hpp"
 
+#include "ConfigurationListParameter.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
