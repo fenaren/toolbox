@@ -8,7 +8,7 @@
 namespace Configuration
 {
 
-#define DEFINE_MIXED_PARAMETER_LIST_OPERATOR(OPERATOR, OP)      \
+#define DEFINE_MIXED_LIST_PARAMETER_OPERATOR(OPERATOR, OP)      \
     template <class T>                                          \
     bool OPERATOR(const ListParameter<T>& lhs,                  \
                   const std::list<T>&     rhs)                  \
@@ -118,7 +118,7 @@ namespace Configuration
         return lhs_value < rhs_value;
     }
 
-    DEFINE_MIXED_PARAMETER_LIST_OPERATOR(operator<, <);
+    DEFINE_MIXED_LIST_PARAMETER_OPERATOR(operator<, <);
 
     //==========================================================================
     template <class T>
@@ -127,7 +127,7 @@ namespace Configuration
         return rhs < lhs;
     }
 
-    DEFINE_MIXED_PARAMETER_LIST_OPERATOR(operator>, >);
+    DEFINE_MIXED_LIST_PARAMETER_OPERATOR(operator>, >);
 
     //==========================================================================
     template <class T>
@@ -136,7 +136,7 @@ namespace Configuration
         return !(lhs > rhs);
     }
 
-    DEFINE_MIXED_PARAMETER_LIST_OPERATOR(operator<=, <=);
+    DEFINE_MIXED_LIST_PARAMETER_OPERATOR(operator<=, <=);
 
     //==========================================================================
     template <class T>
@@ -145,7 +145,7 @@ namespace Configuration
         return !(lhs < rhs);
     }
 
-    DEFINE_MIXED_PARAMETER_LIST_OPERATOR(operator>=, >=);
+    DEFINE_MIXED_LIST_PARAMETER_OPERATOR(operator>=, >=);
 
     //==========================================================================
     template <class T>
@@ -160,7 +160,7 @@ namespace Configuration
         return lhs_value == rhs_value;
     }
 
-    DEFINE_MIXED_PARAMETER_LIST_OPERATOR(operator==, ==);
+    DEFINE_MIXED_LIST_PARAMETER_OPERATOR(operator==, ==);
 
     //==========================================================================
     template <class T>
@@ -169,7 +169,7 @@ namespace Configuration
         return !(lhs == rhs);
     }
 
-    DEFINE_MIXED_PARAMETER_LIST_OPERATOR(operator!=, !=);
+    DEFINE_MIXED_LIST_PARAMETER_OPERATOR(operator!=, !=);
 
     template class ListParameter<std::string>;
 
@@ -187,7 +187,7 @@ namespace Configuration
     template class ListParameter<unsigned long long>;
     template class ListParameter<unsigned short>;
 
-#define INSTANTIATE_PARAMETER_LIST_OPERATOR(OPERATOR)                   \
+#define INSTANTIATE_LIST_PARAMETER_OPERATOR(OPERATOR)                   \
     template bool                                                       \
     OPERATOR(const ListParameter<std::string>&,                         \
              const ListParameter<std::string>&);                        \
@@ -280,11 +280,11 @@ namespace Configuration
     template bool OPERATOR(const std::list<unsigned short>&,            \
                            const ListParameter<unsigned short>&);
 
-    INSTANTIATE_PARAMETER_LIST_OPERATOR(operator<);
-    INSTANTIATE_PARAMETER_LIST_OPERATOR(operator>);
-    INSTANTIATE_PARAMETER_LIST_OPERATOR(operator<=);
-    INSTANTIATE_PARAMETER_LIST_OPERATOR(operator>=);
-    INSTANTIATE_PARAMETER_LIST_OPERATOR(operator==);
-    INSTANTIATE_PARAMETER_LIST_OPERATOR(operator!=);
+    INSTANTIATE_LIST_PARAMETER_OPERATOR(operator<);
+    INSTANTIATE_LIST_PARAMETER_OPERATOR(operator>);
+    INSTANTIATE_LIST_PARAMETER_OPERATOR(operator<=);
+    INSTANTIATE_LIST_PARAMETER_OPERATOR(operator>=);
+    INSTANTIATE_LIST_PARAMETER_OPERATOR(operator==);
+    INSTANTIATE_LIST_PARAMETER_OPERATOR(operator!=);
 
 }
