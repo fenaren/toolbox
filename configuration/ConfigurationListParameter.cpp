@@ -201,28 +201,38 @@ namespace Configuration
                                                                         \
     template bool OPERATOR(const ListParameter<char>&,                  \
                            const ListParameter<char>&);                 \
-    template bool OPERATOR(const ListParameter<char>&, const std::list<char>&); \
-    template bool OPERATOR(const std::list<char>&, const ListParameter<char>&); \
+    template bool OPERATOR(const ListParameter<char>&,                  \
+                           const std::list<char>&);                     \
+    template bool OPERATOR(const std::list<char>&,                      \
+                           const ListParameter<char>&);                 \
                                                                         \
     template bool OPERATOR(const ListParameter<double>&,                \
                            const ListParameter<double>&);               \
-    template bool OPERATOR(const ListParameter<double>&, const std::list<double>&); \
-    template bool OPERATOR(const std::list<double>&, const ListParameter<double>&); \
+    template bool OPERATOR(const ListParameter<double>&,                \
+                           const std::list<double>&);                   \
+    template bool OPERATOR(const std::list<double>&,                    \
+                           const ListParameter<double>&);               \
                                                                         \
     template bool OPERATOR(const ListParameter<float>&,                 \
                            const ListParameter<float>&);                \
-    template bool OPERATOR(const ListParameter<float>&, const std::list<float>&); \
-    template bool OPERATOR(const std::list<float>&, const ListParameter<float>&); \
+    template bool OPERATOR(const ListParameter<float>&,                 \
+                           const std::list<float>&);                    \
+    template bool OPERATOR(const std::list<float>&,                     \
+                           const ListParameter<float>&);                \
                                                                         \
     template bool OPERATOR(const ListParameter<int>&,                   \
                            const ListParameter<int>&);                  \
-    template bool OPERATOR(const ListParameter<int>&, const std::list<int>&); \
-    template bool OPERATOR(const std::list<int>&, const ListParameter<int>&); \
+    template bool OPERATOR(const ListParameter<int>&,                   \
+                           const std::list<int>&);                      \
+    template bool OPERATOR(const std::list<int>&,                       \
+                           const ListParameter<int>&);                  \
                                                                         \
     template bool OPERATOR(const ListParameter<long>&,                  \
                            const ListParameter<long>&);                 \
-    template bool OPERATOR(const ListParameter<long>&, const std::list<long>&); \
-    template bool OPERATOR(const std::list<long>&, const ListParameter<long>&); \
+    template bool OPERATOR(const ListParameter<long>&,                  \
+                           const std::list<long>&);                     \
+    template bool OPERATOR(const std::list<long>&,                      \
+                           const ListParameter<long>&);                 \
                                                                         \
     template bool OPERATOR(const ListParameter<long double>&,           \
                            const ListParameter<long double>&);          \

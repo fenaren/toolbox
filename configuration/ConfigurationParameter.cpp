@@ -91,12 +91,12 @@ namespace Configuration
 
     //==========================================================================
     template <class T> Parameter<T>&
-    Parameter<T>::operator=(const Parameter& configuration_parameter)
+    Parameter<T>::operator=(const Parameter& parameter)
     {
         // Don't do anything if we're assigning to ourselves
-        if (this != &configuration_parameter)
+        if (this != &parameter)
         {
-            value = configuration_parameter.value;
+            value = parameter.value;
             set();
         }
 
