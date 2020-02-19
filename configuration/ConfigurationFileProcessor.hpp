@@ -26,8 +26,8 @@ namespace Configuration
         registerParameter(ParameterBase* parameter, const std::string& name);
 
         void registerParameterList(
-            const std::list<ParameterBase*> parameter_list,
-            const std::string&              name);
+            const std::list<ParameterBase*>& parameter_list,
+            const std::string&               name);
 
         void process(const std::string& filename);
 

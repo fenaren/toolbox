@@ -40,8 +40,8 @@ namespace Configuration
 
     //==========================================================================
     void FileProcessor::registerParameterList(
-        const std::list<ParameterBase*> parameter_list,
-        const std::string&              name)
+        const std::list<ParameterBase*>& parameter_list,
+        const std::string&               name)
     {
     }
 
