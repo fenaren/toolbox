@@ -19,6 +19,11 @@ namespace Configuration
         ParameterBase();
         virtual ~ParameterBase();
 
+        // Sets the _set data member to false, marking the
+        // ConfigurationParameterBase as "unset".
+        void unset();
+
+        // Is this ConfigurationParameterBase set?
         bool isSet() const;
 
         // New values are taken with this method.
@@ -35,6 +40,12 @@ namespace Configuration
         ParameterBase(const ParameterBase&);
         ParameterBase& operator=(const ParameterBase&);
     };
+
+    //==========================================================================
+    inline void ParameterBase::unset()
+    {
+        _set = false;
+    }
 
     //==========================================================================
     inline bool ParameterBase::isSet() const
