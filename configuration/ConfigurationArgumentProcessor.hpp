@@ -21,10 +21,7 @@ namespace Configuration
 
         friend class ArgumentProcessor_test;
 
-        // Constructor
         ArgumentProcessor();
-
-        // Destructor
         ~ArgumentProcessor();
 
         // Registers a positional argument with the processor.  Order of

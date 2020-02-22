@@ -1,9 +1,7 @@
 #include "ConfigurationFileProcessor.hpp"
 
-#include <list>
 #include <stdexcept>
 #include <string>
-#include <unordered_map>
 
 namespace Configuration
 {
@@ -39,9 +37,7 @@ namespace Configuration
     }
 
     //==========================================================================
-    void FileProcessor::registerParameterList(
-        const std::list<ParameterBase*>& parameter_list,
-        const std::string&               name)
+    void FileProcessor::process(const std::string& filename)
     {
     }
 

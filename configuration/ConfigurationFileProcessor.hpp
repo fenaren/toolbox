@@ -10,25 +10,25 @@ namespace Configuration
     class ParameterBase;
     template <class T> class Parameter;
 
+    // Implements a method of more easily processing configuration file settings
+    // into actual in-program values.  Right now only a single file format is
+    // supported.
     class FileProcessor
     {
     public:
 
         friend class FileProcessor_test;
 
-        // Constructor
         FileProcessor();
-
-        // Destructor
         ~FileProcessor();
 
+        // Associates a configuration parameter with a string identifier.  When
+        // processing a file, identifiers matching the given string will be
+        // parsed and saved to the given configuration parameter.
         void
         registerParameter(ParameterBase* parameter, const std::string& name);
 
-        void registerParameterList(
-            const std::list<ParameterBase*>& parameter_list,
-            const std::string&               name);
-
+        // Processes an entire file at the given location.
         void process(const std::string& filename);
 
         void setCommentCharacter(char comment_character);
@@ -38,6 +38,7 @@ namespace Configuration
 
         std::unordered_map<std::string, ParameterBase*> parameters;
 
+        // This at the beginning of a line marks the line as a comment
         char comment_character;
 
         // Copy construction and assignment not allowed.  Consider getting rid
@@ -47,11 +48,13 @@ namespace Configuration
         FileProcessor& operator=(const FileProcessor&);
     };
 
+    //==========================================================================
     inline void FileProcessor::setCommentCharacter(char comment_character)
     {
         this->comment_character = comment_character;
     }
 
+    //==========================================================================
     inline char FileProcessor::getCommentCharacter() const
     {
         return comment_character;

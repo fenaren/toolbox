@@ -1,5 +1,6 @@
 #include "ConfigurationFileProcessor_test.hpp"
 
+#include "ConfigurationFileProcessor.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -18,6 +19,7 @@ namespace Configuration
     //==========================================================================
     Test::Result FileProcessor_test::Stub::body()
     {
+        FileProcessor file_processor;
         return Test::PASSED;
     }
 
