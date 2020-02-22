@@ -31,10 +31,15 @@ namespace Configuration
 
     protected:
 
+        // Sets the _set data member to true, marking the
+        // ConfigurationParameterBase as "set".  Only derived classes can do
+        // this because this operation is only supposed to happen when
+        // updateValue() is called.
         void set();
 
     private:
 
+        // The "set" or "unset" status of this ConfigurationParameterBase.
         bool _set;
 
         ParameterBase(const ParameterBase&);
