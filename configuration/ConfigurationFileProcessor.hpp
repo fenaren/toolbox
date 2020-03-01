@@ -1,6 +1,7 @@
 #if !defined CONFIGURATION_FILE_PROCESSOR_HPP
 #define CONFIGURATION_FILE_PROCESSOR_HPP
 
+#include <ios>
 #include <list>
 #include <string>
 #include <unordered_map>
@@ -54,6 +55,8 @@ namespace Configuration
         // Delimits values (everything to the right of
         // identifier_value_delimiter).
         char value_delimiter;
+
+        static const std::streamsize PROCESS_BUFFER_SIZE;
 
         // Copy construction and assignment not allowed.  Consider getting rid
         // of the operator= code in the implementation file if operator= remains
