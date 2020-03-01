@@ -1,0 +1,33 @@
+# Sleep proxy (sproxy) configuration options
+
+# The interface to operate on
+ETH_INTERFACE=eth0
+
+# Location of the sproxy log file
+LOG_FILE=/var/log/sproxy.log
+
+# Location of the sproxy PID file
+PID_FILE=/var/run/sproxy.pid
+
+# Whether or not to daemonize by default (can be 'yes' or 'no')
+DAEMONIZE=no
+
+# sproxy regularly attempts to determine if the devices it's monitoring are
+# asleep.  This setting specifies the length of time to wait (in seconds)
+# between sleep checks.
+DEVICE_CHECK_PERIOD=10
+
+# sproxy regularly attempts to determine if the devices it's monitoring are
+# asleep.  This setting specifies the length of time to wait (in seconds) for
+# responses from the monitored devices.
+DEVICE_RESPONSE_GRACE_PERIOD=1
+
+# Setting 'yes' causes sproxy to use gratuitous ARP messages to proactively
+# keep the network up-to-date on changing ARP status.  For example, when
+# sproxy detects that a device has gone asleep and assumes their IP address,
+# a 'true' setting here will cause a gratuitous ARP to be issued that updates
+# all network devices with this change.  Otherwise network devices will not
+# know of ARP changes until they request a new mapping, which generally
+# happens only after waiting through long time-outs, so a 'yes' setting here
+# can increase responsiveness.
+AGGRESSIVE_GARP=yes

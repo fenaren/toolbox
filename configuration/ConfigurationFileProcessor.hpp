@@ -34,12 +34,26 @@ namespace Configuration
         void setCommentCharacter(char comment_character);
         char getCommentCharacter() const;
 
+        void setIdentifierValueDelimiter(char identifier_value_delimiter);
+        char getIdentifierValueDelimiter() const;
+
+        void setValueDelimiter(char value_delimiter);
+        char getValueDelimiter() const;
+
     private:
 
         std::unordered_map<std::string, ParameterBase*> parameters;
 
         // This at the beginning of a line marks the line as a comment
         char comment_character;
+
+        // Separates configuration parameter identifiers from the rest of the
+        // line.
+        char identifier_value_delimiter;
+
+        // Delimits values (everything to the right of
+        // identifier_value_delimiter).
+        char value_delimiter;
 
         // Copy construction and assignment not allowed.  Consider getting rid
         // of the operator= code in the implementation file if operator= remains
@@ -58,6 +72,19 @@ namespace Configuration
     inline char FileProcessor::getCommentCharacter() const
     {
         return comment_character;
+    }
+
+    //==========================================================================
+    inline void
+    FileProcessor::setValueDelimiter(char value_delimiter)
+    {
+        this->value_delimiter = value_delimiter;
+    }
+
+    //==========================================================================
+    inline char FileProcessor::getValueDelimiter() const
+    {
+        return value_delimiter;
     }
 
 }

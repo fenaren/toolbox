@@ -20,6 +20,7 @@ namespace Configuration
     Test::Result FileProcessor_test::Stub::body()
     {
         FileProcessor file_processor;
+        file_processor.process("config");
         return Test::PASSED;
     }
 

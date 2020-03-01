@@ -1,5 +1,7 @@
 #include "ConfigurationFileProcessor.hpp"
 
+#include <fstream>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -8,7 +10,9 @@ namespace Configuration
 
     //==========================================================================
     FileProcessor::FileProcessor() :
-        comment_character('#')
+        comment_character('#'),
+        identifier_value_delimiter('='),
+        value_delimiter(' ')
     {
     }
 
@@ -39,6 +43,14 @@ namespace Configuration
     //==========================================================================
     void FileProcessor::process(const std::string& filename)
     {
+        std::fstream instream(filename, std::ios_base::in);
+
+        while (instream.good())
+        {
+            std::string asdf;
+            instream.getline(asdf);
+            std::cout << asdf;
+        }
     }
 
 }
