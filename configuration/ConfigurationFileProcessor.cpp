@@ -1,5 +1,6 @@
 #include "ConfigurationFileProcessor.hpp"
 
+#include <cstring>
 #include <fstream>
 #include <ios>
 #include <iostream>
@@ -46,6 +47,9 @@ namespace Configuration
     //==========================================================================
     void FileProcessor::process(const std::string& filename)
     {
+        // Each line in filename reads into this one-by-one
+        char line_buffer[PROCESS_BUFFER_SIZE];
+
         // Open an input file stream, make sure the open went okay
         std::fstream instream(filename, std::ios_base::in);
         if (!instream)
@@ -54,17 +58,20 @@ namespace Configuration
                 "Could not open file \"" + filename + "\"");
         }
 
-        // Buffer to read into
-        char buffer[PROCESS_BUFFER_SIZE];
-
-        // Keep reading while there's something to read
-        while (instream.good())
+        // Keep reading while there's something to read. Getline will
+        // null-terminate unless getline retrieves a string that's exactly the
+        // length of the buffer, so read one less to give room for the null
+        while (instream.getline(line_buffer, PROCESS_BUFFER_SIZE - 1).good())
         {
-            // getline will null-terminate unless getline retrieves a string
-            // that's exactly the length of the buffer, so read one less to give
-            // room for the null
-            instream.getline(buffer, PROCESS_BUFFER_SIZE - 1);
-            std::cout << buffer << "\n";
+            // Process the current line
+
+            const char* current_token = line_buffer;
+
+            // The line has to have a character delimiting the name of the
+            // configuration parameter from its value setting
+
+            // Lines beginning with the comment character are skipped
+
         }
     }
 

@@ -13,10 +13,10 @@ Configuration::~Configuration()
 //==============================================================================
 // If implemented, operator= should follow this template
 //==============================================================================
-Configuration& Configuration::operator=(const Configuration& template_class)
+Configuration& Configuration::operator=(const Configuration& configuration)
 {
     // Don't do anything if we're assigning to ourselves
-    if (this != &template_class)
+    if (this != &configuration)
     {
         // Do something
     }

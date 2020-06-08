@@ -1,25 +1,23 @@
 project(tools-cpp)
 
-# CMake 2.6 is the oldest version of CMake that still has documentation
-# available online
+# CMake 2.6 is the oldest version of CMake that still has documentation available online
 cmake_minimum_required(VERSION 2.6)
 
-# Use generalized settings in tools-cmake to define a bunch of baseline cmake
-# stuff for this project
+# Use generalized settings in tools-cmake to define a bunch of baseline cmake stuff for this
+# project
 include(tools-cmake/ProjectCommon.cmake)
 
 # v3.13 is when policy CMP0076 was introduced.  From cmake --help-policy:
 
-# In CMake 3.13 and above, the ``target_sources()`` command now converts
-# relative source file paths to absolute paths in the following cases:
+# In CMake 3.13 and above, the ``target_sources()`` command now converts relative source file
+# paths to absolute paths in the following cases:
 
 # * Source files are added to the target's ``INTERFACE_SOURCES`` property.
-# * The target's ``SOURCE_DIR`` property differs from
-#   ``CMAKE_CURRENT_SOURCE_DIR``.
+# * The target's ``SOURCE_DIR`` property differs from ``CMAKE_CURRENT_SOURCE_DIR``.
 
-# We want the new behavior but we build regularly on a Linux system which is not
-# at cmake v3.13 yet, so it has to use the old behavior.  The change in behavior
-# requires a change in how we pass sources to target_sources
+# We want the new behavior but we build regularly on a Linux system which is not at cmake v3.13
+# yet, so it has to use the old behavior.  The change in behavior requires a change in how we
+# pass sources to target_sources
 
 cmake_policy(VERSION ${CMAKE_VERSION})
 
@@ -58,8 +56,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC .)
 if(LINUX)
   target_link_libraries(${PROJECT_NAME} PUBLIC rt)
 
-  # Not sure where else to put this so put it here for now; scheduler-toy is for
-  # Linux only
+  # Not sure where else to put this so put it here for now; scheduler-toy is for Linux only
   add_executable(scheduler-toy EXCLUDE_FROM_ALL scheduler-toy.cpp)
 endif(LINUX)
 
