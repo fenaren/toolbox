@@ -9,7 +9,6 @@
 
 namespace Configuration
 {
-
     TEST_CASES_BEGIN(Parameter_test)
 
         TEST_CASES_BEGIN(Update)
@@ -175,7 +174,6 @@ namespace Configuration
         TEST_CASES_END(OperatorNotEqual)
 
     TEST_CASES_END(Parameter_test)
-
 }
 
 #endif
