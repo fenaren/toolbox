@@ -240,9 +240,9 @@ Test::Result Configuration::Parameter_test::OperatorGreaterThan::test(const T& s
 }
 
 //=============================================================================================
-template <class T> Test::Result
-Configuration::Parameter_test::OperatorLessThanOrEqualTo::test(const T& smaller,
-                                                               const T& bigger)
+template <class T>
+Test::Result Configuration::Parameter_test::OperatorLessThanOrEqualTo::test(const T& smaller,
+                                                                            const T& bigger)
 {
     Parameter<T> arg_smaller(smaller);
     Parameter<T> arg_bigger(bigger);
@@ -428,7 +428,7 @@ Test::Result Configuration::Parameter_test::OperatorLessThan::StringConstCharP::
     Parameter<std::string> smaller_arg(smaller);
     Parameter<std::string> bigger_arg(bigger);
 
-    MUST_BE_TRUE(smaller     < bigger_arg);
+    MUST_BE_TRUE(smaller < bigger_arg);
     MUST_BE_TRUE(smaller_arg < bigger);
     MUST_BE_TRUE(!(smaller_arg < smaller));
 
@@ -529,8 +529,8 @@ Test::Result Configuration::Parameter_test::OperatorGreaterThan::StringConstChar
     Parameter<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger_arg > smaller);
-    MUST_BE_TRUE(bigger     > smaller_arg);
-    MUST_BE_TRUE(!(bigger     > bigger_arg));
+    MUST_BE_TRUE(bigger > smaller_arg);
+    MUST_BE_TRUE(!(bigger > bigger_arg));
 
     return Test::PASSED;
 }
@@ -628,7 +628,7 @@ Test::Result Configuration::Parameter_test::OperatorLessThanOrEqualTo::StringCon
     Parameter<std::string> smaller_arg(smaller);
     Parameter<std::string> bigger_arg(bigger);
 
-    MUST_BE_TRUE(smaller     <= bigger_arg);
+    MUST_BE_TRUE(smaller <= bigger_arg);
     MUST_BE_TRUE(smaller_arg <= bigger);
     MUST_BE_TRUE(smaller_arg <= smaller);
 
@@ -729,7 +729,7 @@ Configuration::Parameter_test::OperatorGreaterThanOrEqualTo::StringConstCharP::b
     Parameter<std::string> smaller_arg(smaller);
     Parameter<std::string> bigger_arg(bigger);
 
-    MUST_BE_TRUE(bigger      >= smaller_arg);
+    MUST_BE_TRUE(bigger >= smaller_arg);
     MUST_BE_TRUE(bigger_arg  >= smaller);
     MUST_BE_TRUE(smaller_arg >= smaller);
 
@@ -830,8 +830,8 @@ Test::Result Configuration::Parameter_test::OperatorEquality::StringConstCharP::
     Parameter<std::string> smaller_arg(smaller);
     Parameter<std::string> bigger_arg(bigger);
 
-    MUST_BE_TRUE(bigger      == bigger_arg);
-    MUST_BE_TRUE(bigger_arg  == bigger);
+    MUST_BE_TRUE(bigger == bigger_arg);
+    MUST_BE_TRUE(bigger_arg == bigger);
 
     MUST_BE_TRUE(!(bigger == smaller_arg));
     MUST_BE_TRUE(!(bigger_arg == smaller));
@@ -932,10 +932,10 @@ Test::Result Configuration::Parameter_test::OperatorNotEqual::StringConstCharP::
     Parameter<std::string> smaller_arg(smaller);
     Parameter<std::string> bigger_arg(bigger);
 
-    MUST_BE_TRUE(bigger     != smaller_arg);
+    MUST_BE_TRUE(bigger != smaller_arg);
     MUST_BE_TRUE(bigger_arg != smaller);
 
-    MUST_BE_TRUE(!(bigger     != bigger_arg));
+    MUST_BE_TRUE(!(bigger != bigger_arg));
     MUST_BE_TRUE(!(bigger_arg != bigger));
 
     return Test::PASSED;
