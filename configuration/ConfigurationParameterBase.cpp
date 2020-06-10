@@ -1,17 +1,12 @@
 #include "ConfigurationParameterBase.hpp"
 
-namespace Configuration
+//=============================================================================================
+Configuration::ParameterBase::ParameterBase() :
+    is_set(false)
 {
+}
 
-    //==========================================================================
-    ParameterBase::ParameterBase() :
-        _set(false)
-    {
-    }
-
-    //==========================================================================
-    ParameterBase::~ParameterBase()
-    {
-    }
-
+//=============================================================================================
+Configuration::ParameterBase::~ParameterBase()
+{
 }
