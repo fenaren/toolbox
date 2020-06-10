@@ -8,10 +8,9 @@
 
 namespace Configuration
 {
-
-    // Represents a scalar configuration parameter. All the intrinsic types and
-    // std::string are supported as parameter types, and a variety of operators
-    // are overloaded to make this easy to use.
+    // Represents a scalar configuration parameter. All the intrinsic types and std::string are
+    // supported as parameter types, and a variety of operators are overloaded to make this
+    // easy to use.
     template <class T> class Parameter : public ParameterBase
     {
     public:
@@ -20,7 +19,7 @@ namespace Configuration
 
         // Constructors
         // cppcheck-suppress noExplicitConstructor
-        Parameter(const T& parameter_default = T());
+        Parameter(const T& initial_value = T());
         Parameter(const Parameter& parameter);
 
         // Defines how to convert a Parameter<T> to a T
@@ -32,12 +31,11 @@ namespace Configuration
         // Allows Processors to set the value regardless of templatized type.
         virtual void setValue(const std::string& value);
 
-        // Returns the current value on the stack.  Try to use the other
-        // getValue() method if T is large in memory.
+        // Returns the current value on the stack.  Try to use the other getValue() method if T
+        // is large in memory.
         T getValue() const;
 
-        // Returns a reference to the current value of the configuration
-        // parameter.
+        // Returns a reference to the current value of the configuration parameter.
         void getValue(T& value) const;
 
         Parameter& operator=(const Parameter& parameter);
@@ -67,7 +65,6 @@ namespace Configuration
     DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator>=);
     DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator==);
     DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator!=);
-
 }
 
 #endif

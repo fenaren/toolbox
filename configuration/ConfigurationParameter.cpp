@@ -28,9 +28,9 @@
 namespace Configuration
 {
     //=========================================================================================
-    template <class T> Parameter<T>::Parameter(const T& default_value) :
+    template <class T> Parameter<T>::Parameter(const T& initial_value) :
         ParameterBase(),
-        value(default_value)
+        value(initial_value)
     {
     }
 
