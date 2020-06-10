@@ -11,7 +11,7 @@ namespace Configuration
 {
     TEST_CASES_BEGIN(Parameter_test)
 
-        TEST_CASES_BEGIN(Update)
+        TEST_CASES_BEGIN(SetValue)
 
             TEST(String)
             TEST(Char)
@@ -28,12 +28,11 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T>
-            static Test::Result test(const T&           default_value,
-                                     const std::string& update_value,
-                                     const T&           expected_value);
+            template <class T> static Test::Result test(const T&           default_value,
+                                                        const std::string& update_value,
+                                                        const T&           expected_value);
 
-        TEST_CASES_END(Update)
+        TEST_CASES_END(SetValue)
 
         TEST_CASES_BEGIN(OperatorLessThan)
 
@@ -53,8 +52,7 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T>
-            static Test::Result test(const T& value1, const T& value2);
+            template <class T> static Test::Result test(const T& value1, const T& value2);
 
         TEST_CASES_END(OperatorLessThan)
 
@@ -76,8 +74,7 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T>
-            static Test::Result test(const T& value1, const T& value2);
+            template <class T> static Test::Result test(const T& value1, const T& value2);
 
         TEST_CASES_END(OperatorGreaterThan)
 
@@ -99,8 +96,7 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T>
-            static Test::Result test(const T& value1, const T& value2);
+            template <class T> static Test::Result test(const T& value1, const T& value2);
 
         TEST_CASES_END(OperatorLessThanOrEqualTo)
 
@@ -122,8 +118,7 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T>
-            static Test::Result test(const T& value1, const T& value2);
+            template <class T> static Test::Result test(const T& value1, const T& value2);
 
         TEST_CASES_END(OperatorGreaterThanOrEqualTo)
 
@@ -145,8 +140,7 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T>
-            static Test::Result test(const T& value1, const T& value2);
+            template <class T> static Test::Result test(const T& value1, const T& value2);
 
         TEST_CASES_END(OperatorEquality)
 
@@ -168,8 +162,7 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T>
-            static Test::Result test(const T& value1, const T& value2);
+            template <class T> static Test::Result test(const T& value1, const T& value2);
 
         TEST_CASES_END(OperatorNotEqual)
 
