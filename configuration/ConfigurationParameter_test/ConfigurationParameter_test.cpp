@@ -165,24 +165,23 @@ void Configuration::Parameter_test::OperatorNotEqual::addTestCases()
 
 //=============================================================================================
 template <class T> Test::Result Configuration::Parameter_test::SetValue::test(
-    const T&           default_value,
-    const std::string& update_value,
-    const T&           expected_value)
+    const T& initial_value,
+    const T& set_value)
 {
-    Parameter<T> configuration_value(default_value);
+    Parameter<T> configuration_value(initial_value);
 
     // Arguments are not set by default, even when given a default value.
     MUST_BE_TRUE(!configuration_value.isSet());
 
-    configuration_value.setValue(update_value);
+    configuration_value.setValue(set_value);
 
     // Now we should be set.
     MUST_BE_TRUE(configuration_value.isSet());
 
     // Get the value after the update and compare to what we expected.
-    T set_value;
-    configuration_value.getValue(set_value);
-    MUST_BE_TRUE(set_value == expected_value);
+    T retrieved_value;
+    configuration_value.getValue(retrieved_value);
+    MUST_BE_TRUE(set_value == retrieved_value);
 
     return Test::PASSED;
 }
@@ -338,85 +337,85 @@ template <class T> Test::Result Configuration::Parameter_test::OperatorNotEqual:
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::String::body()
 {
-    return test<std::string>("", "1234", "1234");
+    return test<std::string>("", "1234");
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::Char::body()
 {
-    return test<char>(0, "111", '1');
+    return test<char>(0, '1');
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::Double::body()
 {
-    return test<double>(0, "111", 111.0);
+    return test<double>(0, 111.0);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::Float::body()
 {
-    return test<float>(0, "111", 111.0f);
+    return test<float>(0, 111.0f);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::Int::body()
 {
-    return test<int>(0, "111", 111);
+    return test<int>(0, 111);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::Long::body()
 {
-    return test<long>(0, "111", 111L);
+    return test<long>(0, 111L);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::LongDouble::body()
 {
-    return test<long double>(0, "111", 111.0L);
+    return test<long double>(0, 111.0L);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::LongLong::body()
 {
-    return test<long long>(0, "111", 111LL);
+    return test<long long>(0, 111LL);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::Short::body()
 {
-    return test<short>(0, "111", static_cast<short>(111));
+    return test<short>(0, static_cast<short>(111));
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::UnsignedChar::body()
 {
-    return test<unsigned char>(0, "111", static_cast<unsigned char>('1'));
+    return test<unsigned char>(0, static_cast<unsigned char>('1'));
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::UnsignedInt::body()
 {
-    return test<unsigned int>(0, "111", 111U);
+    return test<unsigned int>(0, 111U);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::UnsignedLong::body()
 {
-    return test<unsigned long>(0, "111", 111);
+    return test<unsigned long>(0, 111);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::UnsignedLongLong::body()
 {
-    return test<unsigned long long>(0, "111", 111ULL);
+    return test<unsigned long long>(0, 111ULL);
 }
 
 //=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::UnsignedShort::body()
 {
-    return test<unsigned short>(0, "111", static_cast<unsigned short>(111));
+    return test<unsigned short>(0, static_cast<unsigned short>(111));
 }
 
 //=============================================================================================

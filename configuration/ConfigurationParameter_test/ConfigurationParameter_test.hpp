@@ -28,9 +28,8 @@ namespace Configuration
             TEST(UnsignedLongLong)
             TEST(UnsignedShort)
 
-            template <class T> static Test::Result test(const T&           default_value,
-                                                        const std::string& update_value,
-                                                        const T&           expected_value);
+            template <class T>
+            static Test::Result test(const T& initial_value, const T& set_value);
 
         TEST_CASES_END(SetValue)
 

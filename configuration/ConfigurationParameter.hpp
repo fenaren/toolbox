@@ -4,14 +4,12 @@
 #include <stdexcept>
 #include <string>
 
-#include "ConfigurationParameterBase.hpp"
-
 namespace Configuration
 {
-    // Represents a scalar configuration parameter. All the intrinsic types and std::string are
-    // supported as parameter types, and a variety of operators are overloaded to make this
-    // easy to use.
-    template <class T> class Parameter : public ParameterBase
+    // ConfigurationParameter is a simple class for associating a small amount of metadata with
+    // a piece of data (the "value" field).  It's basically a simple implementation of the data
+    // element concept (see "https://en.wikipedia.org/wiki/Data_element").
+    template <class T> class Parameter
     {
     public:
 
@@ -26,10 +24,16 @@ namespace Configuration
         operator T() const;
 
         // Destructor
-        virtual ~Parameter();
+        ~Parameter();
 
-        // Allows Processors to set the value regardless of templatized type.
-        virtual void setValue(const std::string& value);
+        // Marks the ConfigurationParameter as unset. The value of an unset
+        // ConfigurationParameter should not be used.
+        void unset();
+
+        // Is this ConfigurationParameter set (does the "value" field contain good data)?
+        bool isSet() const;
+
+        void setValue(const T& value);
 
         // Returns the current value on the stack.  Try to use the other getValue() method if T
         // is large in memory.
@@ -44,6 +48,10 @@ namespace Configuration
     private:
 
         T value;
+
+        // The "value" field contains usable data if this is true, otherwise it doesn't.  What
+        // is and isn't usable is determined by the user.
+        bool set;
     };
 
 #define DECLARE_CONFIGURATION_PARAMETER_OPERATOR(OPERATOR)      \
@@ -65,6 +73,7 @@ namespace Configuration
     DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator>=);
     DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator==);
     DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator!=);
+
 }
 
 #endif

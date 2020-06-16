@@ -29,14 +29,14 @@ namespace Configuration
 {
     //=========================================================================================
     template <class T> Parameter<T>::Parameter(const T& initial_value) :
-        ParameterBase(),
-        value(initial_value)
+        value(initial_value),
+        set(false)
     {
     }
 
     //=========================================================================================
     template <class T> Parameter<T>::Parameter(const Parameter<T>& parameter) :
-        ParameterBase()
+        set(false)
     {
         parameter.getValue(value);
     }
@@ -53,21 +53,22 @@ namespace Configuration
     }
 
     //=========================================================================================
-    template <class T> void Parameter<T>::setValue(const std::string& value)
+    template <class T> void Parameter<T>::unset()
     {
-        std::istringstream converter(value);
+        set = false;
+    }
 
-        T value_temp;
-        converter >> value_temp;
+    //=========================================================================================
+    template <class T> bool Parameter<T>::isSet() const
+    {
+        return set;
+    }
 
-        // Did the conversion go okay?
-        if (!converter)
-        {
-            throw std::runtime_error("Error converting value to template type");
-        }
-
-        this->value = value_temp;
-        set();
+    //=========================================================================================
+    template <class T> void Parameter<T>::setValue(const T& value)
+    {
+        this->value = value;
+        set = true;
     }
 
     //=========================================================================================
@@ -89,7 +90,7 @@ namespace Configuration
         if (this != &parameter)
         {
             value = parameter.value;
-            set();
+            set = true;
         }
 
         return *this;
@@ -99,7 +100,7 @@ namespace Configuration
     template <class T> Parameter<T>& Parameter<T>::operator=(const T& value)
     {
         this->value = value;
-        set();
+        set = true;
 
         return *this;
     }
@@ -181,83 +182,53 @@ namespace Configuration
     template class Parameter<unsigned short>;
 
 #define INSTANTIATE_PARAMETER_OPERATOR(OPERATOR)                        \
-    template bool                                                       \
-    OPERATOR(const Parameter<std::string>&,                             \
-             const Parameter<std::string>&);                            \
+    template bool OPERATOR(const Parameter<std::string>&, const Parameter<std::string>&); \
+    template bool OPERATOR(const Parameter<std::string>&, const std::string&); \
+    template bool OPERATOR(const std::string&, const Parameter<std::string>&); \
                                                                         \
-    template bool                                                       \
-    OPERATOR(const Parameter<std::string>&,                             \
-             const std::string&);                                       \
-    template bool                                                       \
-    OPERATOR(const std::string&,                                        \
-             const Parameter<std::string>&);                            \
-                                                                        \
-    template bool OPERATOR(const Parameter<char>&,                      \
-                           const Parameter<char>&);                     \
+    template bool OPERATOR(const Parameter<char>&, const Parameter<char>&); \
     template bool OPERATOR(const Parameter<char>&, const char&);        \
     template bool OPERATOR(const char&, const Parameter<char>&);        \
                                                                         \
-    template bool OPERATOR(const Parameter<double>&,                    \
-                           const Parameter<double>&);                   \
+    template bool OPERATOR(const Parameter<double>&, const Parameter<double>&); \
     template bool OPERATOR(const Parameter<double>&, const double&);    \
     template bool OPERATOR(const double&, const Parameter<double>&);    \
                                                                         \
-    template bool OPERATOR(const Parameter<float>&,                     \
-                           const Parameter<float>&);                    \
+    template bool OPERATOR(const Parameter<float>&, const Parameter<float>&); \
     template bool OPERATOR(const Parameter<float>&, const float&);      \
     template bool OPERATOR(const float&, const Parameter<float>&);      \
                                                                         \
-    template bool OPERATOR(const Parameter<int>&,                       \
-                           const Parameter<int>&);                      \
+    template bool OPERATOR(const Parameter<int>&, const Parameter<int>&); \
     template bool OPERATOR(const Parameter<int>&, const int&);          \
     template bool OPERATOR(const int&, const Parameter<int>&);          \
                                                                         \
-    template bool OPERATOR(const Parameter<long>&,                      \
-                           const Parameter<long>&);                     \
+    template bool OPERATOR(const Parameter<long>&, const Parameter<long>&); \
     template bool OPERATOR(const Parameter<long>&, const long&);        \
     template bool OPERATOR(const long&, const Parameter<long>&);        \
                                                                         \
-    template bool OPERATOR(const Parameter<long double>&,               \
-                           const Parameter<long double>&);              \
-    template bool OPERATOR(const Parameter<long double>&,               \
-                           const long double&);                         \
-    template bool OPERATOR(const long double&,                          \
-                           const Parameter<long double>&);              \
+    template bool OPERATOR(const Parameter<long double>&, const Parameter<long double>&); \
+    template bool OPERATOR(const Parameter<long double>&, const long double&); \
+    template bool OPERATOR(const long double&, const Parameter<long double>&); \
                                                                         \
-    template bool OPERATOR(const Parameter<long long>&,                 \
-                           const Parameter<long long>&);                \
-    template bool OPERATOR(const Parameter<long long>&,                 \
-                           const long long&);                           \
-    template bool OPERATOR(const long long&,                            \
-                           const Parameter<long long>&);                \
+    template bool OPERATOR(const Parameter<long long>&, const Parameter<long long>&); \
+    template bool OPERATOR(const Parameter<long long>&, const long long&); \
+    template bool OPERATOR(const long long&, const Parameter<long long>&); \
                                                                         \
-    template bool OPERATOR(const Parameter<short>&,                     \
-                           const Parameter<short>&);                    \
-    template bool OPERATOR(const Parameter<short>&,                     \
-                           const short&);                               \
-    template bool OPERATOR(const short&,                                \
-                           const Parameter<short>&);                    \
+    template bool OPERATOR(const Parameter<short>&, const Parameter<short>&); \
+    template bool OPERATOR(const Parameter<short>&, const short&);      \
+    template bool OPERATOR(const short&, const Parameter<short>&);      \
                                                                         \
-    template bool OPERATOR(const Parameter<unsigned char>&,             \
-                           const Parameter<unsigned char>&);            \
-    template bool OPERATOR(const Parameter<unsigned char>&,             \
-                           const unsigned char&);                       \
-    template bool OPERATOR(const unsigned char&,                        \
-                           const Parameter<unsigned char>&);            \
+    template bool OPERATOR(const Parameter<unsigned char>&, const Parameter<unsigned char>&); \
+    template bool OPERATOR(const Parameter<unsigned char>&, const unsigned char&); \
+    template bool OPERATOR(const unsigned char&, const Parameter<unsigned char>&); \
                                                                         \
-    template bool OPERATOR(const Parameter<unsigned int>&,              \
-                           const Parameter<unsigned int>&);             \
-    template bool OPERATOR(const Parameter<unsigned int>&,              \
-                           const unsigned int&);                        \
-    template bool OPERATOR(const unsigned int&,                         \
-                           const Parameter<unsigned int>&);             \
+    template bool OPERATOR(const Parameter<unsigned int>&, const Parameter<unsigned int>&); \
+    template bool OPERATOR(const Parameter<unsigned int>&, const unsigned int&); \
+    template bool OPERATOR(const unsigned int&, const Parameter<unsigned int>&); \
                                                                         \
-    template bool OPERATOR(const Parameter<unsigned long>&,             \
-                           const Parameter<unsigned long>&);            \
-    template bool OPERATOR(const Parameter<unsigned long>&,             \
-                           const unsigned long&);                       \
-    template bool OPERATOR(const unsigned long&,                        \
-                           const Parameter<unsigned long>&);            \
+    template bool OPERATOR(const Parameter<unsigned long>&, const Parameter<unsigned long>&); \
+    template bool OPERATOR(const Parameter<unsigned long>&, const unsigned long&); \
+    template bool OPERATOR(const unsigned long&, const Parameter<unsigned long>&); \
                                                                         \
     template bool OPERATOR(const Parameter<unsigned long long>&,        \
                            const Parameter<unsigned long long>&);       \
@@ -268,10 +239,8 @@ namespace Configuration
                                                                         \
     template bool OPERATOR(const Parameter<unsigned short>&,            \
                            const Parameter<unsigned short>&);           \
-    template bool OPERATOR(const Parameter<unsigned short>&,            \
-                           const unsigned short&);                      \
-    template bool OPERATOR(const unsigned short&,                       \
-                           const Parameter<unsigned short>&);
+    template bool OPERATOR(const Parameter<unsigned short>&, const unsigned short&); \
+    template bool OPERATOR(const unsigned short&, const Parameter<unsigned short>&);
 
     INSTANTIATE_PARAMETER_OPERATOR(operator<);
     INSTANTIATE_PARAMETER_OPERATOR(operator>);
