@@ -159,6 +159,7 @@ Configuration::ArgumentProcessor_test::Process::OptionalCountingArgument::body()
 
     // Check for the correct value using the equality operator.
     MUST_BE_TRUE(cv0 == 2);
+    MUST_BE_TRUE(cv1 == 1);
 
     // We should be done processing.
     MUST_BE_TRUE(argument_processor.current_optional_argument ==

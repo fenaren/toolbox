@@ -11,7 +11,6 @@ namespace Configuration
     public:
 
         Parameter();
-        Parameter(const Parameter& parameter);
         virtual ~Parameter();
 
         // Marks the ConfigurationParameter as unset. The value of an unset
@@ -32,11 +31,13 @@ namespace Configuration
     };
 }
 
+//=============================================================================================
 inline void Configuration::Parameter::unset()
 {
     this->set = false;
 }
 
+//=============================================================================================
 inline bool Configuration::Parameter::isSet() const
 {
     return set;

@@ -42,15 +42,15 @@ namespace Configuration
         void registerOptionalCountingArgument(SimpleParameter<unsigned int>*         argument,
                                               const std::unordered_set<std::string>& flags);
 
-        // Processes a single command-line argument.  If this is a positional argument its
-        // value will be written into the next unset registered positional argument.  If this
-        // is a flag for an optional argument, ArgumentProcessor will expect the next argument
-        // given to represent the value of the optional argument, or in the case of
-        // Parameter-type arguments, will increment the count.
+        // Processes a single argument token.  If this is a positional argument its value will
+        // be written into the next unset registered positional argument.  If this is a flag
+        // for an optional argument, ArgumentProcessor will expect the next argument given to
+        // represent the value of the optional argument, or in the case of Parameter-type
+        // arguments, will increment the count.
         void process(const std::string& argument);
 
-        // Process multiple sequential arguments using the single-argument version of process()
-        // above.
+        // Process multiple sequential argument tokens using the single-argument version of
+        // process() above.
         void process(const std::list<std::string>& arguments);
 
         // For arguments straight off the command line.  Uses the single-argument version of
