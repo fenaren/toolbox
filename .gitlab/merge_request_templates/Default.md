@@ -1,1 +1,0 @@
-Closes issue #XX.
