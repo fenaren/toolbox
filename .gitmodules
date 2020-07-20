@@ -3,4 +3,4 @@
 	url = ../../leighgarbs/tools-cmake.git
 [submodule ".gitlab"]
 	path = .gitlab
-	url = git@gitlab.dmz:leighgarbs/gitlab.git
+	url = ../../leighgarbs/gitlab.git
