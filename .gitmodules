@@ -1,6 +1,3 @@
 [submodule "tools-cmake"]
 	path = tools-cmake
 	url = ../../leighgarbs/tools-cmake.git
-[submodule ".gitlab"]
-	path = .gitlab
-	url = ../../leighgarbs/gitlab.git
