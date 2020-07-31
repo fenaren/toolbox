@@ -1,15 +1,15 @@
-#if !defined CONFIGURATION_SIMPLE_PARAMETER_TEST_HPP
-#define CONFIGURATION_SIMPLE_PARAMETER_TEST_HPP
+#if !defined CONFIGURATION_PARAMETER_TEST_HPP
+#define CONFIGURATION_PARAMETER_TEST_HPP
 
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
 
-#include "ConfigurationSimpleParameter.hpp"
+#include "ConfigurationParameter.hpp"
 
 namespace Configuration
 {
-    TEST_CASES_BEGIN(SimpleParameter_test)
+    TEST_CASES_BEGIN(Parameter_test)
 
         TEST_CASES_BEGIN(SetValue)
 
@@ -209,7 +209,7 @@ namespace Configuration
 
         TEST_CASES_END(ToString)
 
-    TEST_CASES_END(SimpleParameter_test)
+    TEST_CASES_END(Parameter_test)
 }
 
 #endif
