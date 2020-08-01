@@ -6,7 +6,7 @@
 #include "ConfigurationArgumentProcessor.hpp"
 
 #include "ConfigurationParameter.hpp"
-#include "ConfigurationSimpleParameter.hpp"
+#include "ConfigurationParameterBase.hpp"
 
 //=============================================================================================
 Configuration::ArgumentProcessor::ArgumentProcessor() :
@@ -21,7 +21,7 @@ Configuration::ArgumentProcessor::~ArgumentProcessor()
 }
 
 //=============================================================================================
-void Configuration::ArgumentProcessor::registerPositionalArgument(Parameter* argument)
+void Configuration::ArgumentProcessor::registerPositionalArgument(ParameterBase* argument)
 {
     // Don't let the user register over top of something already registered.
     if (isRegistered(argument))
@@ -49,7 +49,7 @@ void Configuration::ArgumentProcessor::registerPositionalArgument(Parameter* arg
 
 //=============================================================================================
 void Configuration::ArgumentProcessor::registerOptionalArgument(
-    Parameter*                             argument,
+    ParameterBase*                         argument,
     const std::unordered_set<std::string>& flags)
 {
     // Don't bother if no flags were provided
@@ -83,7 +83,7 @@ void Configuration::ArgumentProcessor::registerOptionalArgument(
 
 //=============================================================================================
 void Configuration::ArgumentProcessor::registerOptionalCountingArgument(
-    SimpleParameter<unsigned int>*         argument,
+    Parameter<unsigned int>*               argument,
     const std::unordered_set<std::string>& flags)
 {
     // Don't bother if no flags were provided
@@ -134,7 +134,7 @@ void Configuration::ArgumentProcessor::process(const std::string& argument)
     // If we're here then we're not processing the value for an optional argument.
 
     // Have we been given a flag for an optional argument that doesn't take a value?
-    std::unordered_map<std::string, SimpleParameter<unsigned int>*>::iterator i =
+    std::unordered_map<std::string, Parameter<unsigned int>*>::iterator i =
         optional_counting_arguments.find(argument);
     if (i != optional_counting_arguments.end())
     {
@@ -184,9 +184,9 @@ void Configuration::ArgumentProcessor::process(int argc, char** argv)
 }
 
 //=============================================================================================
-bool Configuration::ArgumentProcessor::isRegistered(const Parameter* cv) const
+bool Configuration::ArgumentProcessor::isRegistered(const ParameterBase* cv) const
 {
-    for (std::list<Parameter*>::const_iterator i = positional_arguments.begin();
+    for (std::list<ParameterBase*>::const_iterator i = positional_arguments.begin();
          i != positional_arguments.end();
          ++i)
     {
@@ -196,7 +196,7 @@ bool Configuration::ArgumentProcessor::isRegistered(const Parameter* cv) const
         }
     }
 
-    for (std::unordered_map<std::string, Parameter*>::const_iterator i =
+    for (std::unordered_map<std::string, ParameterBase*>::const_iterator i =
              optional_arguments.begin();
          i != optional_arguments.end();
          ++i)
@@ -207,7 +207,7 @@ bool Configuration::ArgumentProcessor::isRegistered(const Parameter* cv) const
         }
     }
 
-    for (std::unordered_map<std::string, SimpleParameter<unsigned int>*>::const_iterator i =
+    for (std::unordered_map<std::string, Parameter<unsigned int>*>::const_iterator i =
              optional_counting_arguments.begin();
          i != optional_counting_arguments.end();
          ++i)
