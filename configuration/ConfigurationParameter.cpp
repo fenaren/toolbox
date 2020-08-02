@@ -262,3 +262,23 @@ INSTANTIATE_PARAMETER_OPERATOR(operator<=);
 INSTANTIATE_PARAMETER_OPERATOR(operator>=);
 INSTANTIATE_PARAMETER_OPERATOR(operator==);
 INSTANTIATE_PARAMETER_OPERATOR(operator!=);
+
+namespace Configuration
+{
+    // Intrinsic types
+    template class Parameter<char>;
+    template class Parameter<double>;
+    template class Parameter<float>;
+    template class Parameter<int>;
+    template class Parameter<long>;
+    template class Parameter<long double>;
+    template class Parameter<long long>;
+    template class Parameter<short>;
+    template class Parameter<unsigned char>;
+    template class Parameter<unsigned int>;
+    template class Parameter<unsigned long>;
+    template class Parameter<unsigned long long>;
+    template class Parameter<unsigned short>;
+
+    template class Parameter<std::string>;
+}

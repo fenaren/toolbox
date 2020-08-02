@@ -2,7 +2,7 @@
 
 #include "ConfigurationParameter_test.hpp"
 
-#include "ConfigurationParameter.hpp"
+#include "ConfigurationNoopParameter.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -21,8 +21,6 @@ void Configuration::Parameter_test::addTestCases()
     ADD_TEST_CASE(OperatorGreaterThanOrEqualTo);
     ADD_TEST_CASE(OperatorEquality);
     ADD_TEST_CASE(OperatorNotEqual);
-    ADD_TEST_CASE(FromString);
-    ADD_TEST_CASE(ToString);
 }
 
 //=============================================================================================
@@ -165,49 +163,11 @@ void Configuration::Parameter_test::OperatorNotEqual::addTestCases()
 }
 
 //=============================================================================================
-void Configuration::Parameter_test::FromString::addTestCases()
-{
-    ADD_TEST_CASE(String);
-    ADD_TEST_CASE(Char);
-    ADD_TEST_CASE(Double);
-    ADD_TEST_CASE(Float);
-    ADD_TEST_CASE(Int);
-    ADD_TEST_CASE(Long);
-    ADD_TEST_CASE(LongDouble);
-    ADD_TEST_CASE(LongLong);
-    ADD_TEST_CASE(Short);
-    ADD_TEST_CASE(UnsignedChar);
-    ADD_TEST_CASE(UnsignedInt);
-    ADD_TEST_CASE(UnsignedLong);
-    ADD_TEST_CASE(UnsignedLongLong);
-    ADD_TEST_CASE(UnsignedShort);
-}
-
-//=============================================================================================
-void Configuration::Parameter_test::ToString::addTestCases()
-{
-    ADD_TEST_CASE(String);
-    ADD_TEST_CASE(Char);
-    ADD_TEST_CASE(Double);
-    ADD_TEST_CASE(Float);
-    ADD_TEST_CASE(Int);
-    ADD_TEST_CASE(Long);
-    ADD_TEST_CASE(LongDouble);
-    ADD_TEST_CASE(LongLong);
-    ADD_TEST_CASE(Short);
-    ADD_TEST_CASE(UnsignedChar);
-    ADD_TEST_CASE(UnsignedInt);
-    ADD_TEST_CASE(UnsignedLong);
-    ADD_TEST_CASE(UnsignedLongLong);
-    ADD_TEST_CASE(UnsignedShort);
-}
-
-//=============================================================================================
 template <class T> Test::Result Configuration::Parameter_test::SetValue::test(
     const T& initial_value,
     const T& set_value)
 {
-    Parameter<T> configuration_value(initial_value);
+    NoopParameter<T> configuration_value(initial_value);
 
     // Arguments are not set by default, even when given a default value.
     MUST_BE_TRUE(!configuration_value.isSet());
@@ -230,20 +190,20 @@ template <class T>
 Test::Result Configuration::Parameter_test::OperatorLessThan::test(const T& smaller,
                                                                    const T& bigger)
 {
-    Parameter<T> arg_smaller(smaller);
-    Parameter<T> arg_bigger(bigger);
+    NoopParameter<T> arg_smaller(smaller);
+    NoopParameter<T> arg_bigger(bigger);
 
-    // Parameter<T> vs. Parameter<T>
+    // NoopParameter<T> vs. NoopParameter<T>
     MUST_BE_TRUE(arg_smaller < arg_bigger);
     MUST_BE_TRUE(!(arg_bigger < arg_smaller));
     MUST_BE_TRUE(!(arg_smaller < arg_smaller));
 
-    // Parameter<T> vs. const T
+    // NoopParameter<T> vs. const T
     MUST_BE_TRUE(arg_smaller < bigger);
     MUST_BE_TRUE(!(bigger < arg_smaller));
     MUST_BE_TRUE(!(arg_smaller < arg_smaller));
 
-    // const T vs. Parameter<T>
+    // const T vs. NoopParameter<T>
     MUST_BE_TRUE(smaller < arg_bigger);
     MUST_BE_TRUE(!(arg_bigger < smaller));
     MUST_BE_TRUE(!(smaller < smaller));
@@ -256,20 +216,20 @@ template <class T>
 Test::Result Configuration::Parameter_test::OperatorGreaterThan::test(const T& smaller,
                                                                       const T& bigger)
 {
-    Parameter<T> arg_smaller(smaller);
-    Parameter<T> arg_bigger(bigger);
+    NoopParameter<T> arg_smaller(smaller);
+    NoopParameter<T> arg_bigger(bigger);
 
-    // Parameter<T> vs. Parameter<T>
+    // NoopParameter<T> vs. NoopParameter<T>
     MUST_BE_TRUE(arg_bigger > arg_smaller);
     MUST_BE_TRUE(!(arg_smaller > arg_bigger));
     MUST_BE_TRUE(!(arg_smaller > arg_smaller));
 
-    // Parameter<T> vs. const T
+    // NoopParameter<T> vs. const T
     MUST_BE_TRUE(bigger > arg_smaller);
     MUST_BE_TRUE(!(arg_smaller > bigger));
     MUST_BE_TRUE(!(arg_smaller > arg_smaller));
 
-    // const T vs. Parameter<T>
+    // const T vs. NoopParameter<T>
     MUST_BE_TRUE(arg_bigger > smaller);
     MUST_BE_TRUE(!(smaller > arg_bigger));
     MUST_BE_TRUE(!(smaller > smaller));
@@ -282,20 +242,20 @@ template <class T>
 Test::Result Configuration::Parameter_test::OperatorLessThanOrEqualTo::test(const T& smaller,
                                                                             const T& bigger)
 {
-    Parameter<T> arg_smaller(smaller);
-    Parameter<T> arg_bigger(bigger);
+    NoopParameter<T> arg_smaller(smaller);
+    NoopParameter<T> arg_bigger(bigger);
 
-    // Parameter<T> vs. Parameter<T>
+    // NoopParameter<T> vs. NoopParameter<T>
     MUST_BE_TRUE(arg_smaller <= arg_bigger);
     MUST_BE_TRUE(!(arg_bigger <= arg_smaller));
     MUST_BE_TRUE(arg_smaller <= arg_smaller);
 
-    // Parameter<T> vs. const T
+    // NoopParameter<T> vs. const T
     MUST_BE_TRUE(arg_smaller <= bigger);
     MUST_BE_TRUE(!(bigger <= arg_smaller));
     MUST_BE_TRUE(arg_smaller <= arg_smaller);
 
-    // const T vs. Parameter<T>
+    // const T vs. NoopParameter<T>
     MUST_BE_TRUE(smaller <= arg_bigger);
     MUST_BE_TRUE(!(arg_bigger <= smaller));
     MUST_BE_TRUE(smaller <= smaller);
@@ -308,20 +268,20 @@ template <class T> Test::Result
 Configuration::Parameter_test::OperatorGreaterThanOrEqualTo::test(const T& smaller,
                                                                   const T& bigger)
 {
-    Parameter<T> arg_smaller(smaller);
-    Parameter<T> arg_bigger(bigger);
+    NoopParameter<T> arg_smaller(smaller);
+    NoopParameter<T> arg_bigger(bigger);
 
-    // Parameter<T> vs. Parameter<T>
+    // NoopParameter<T> vs. NoopParameter<T>
     MUST_BE_TRUE(arg_bigger >= arg_smaller);
     MUST_BE_TRUE(!(arg_smaller >= arg_bigger));
     MUST_BE_TRUE(arg_smaller >= arg_smaller);
 
-    // Parameter<T> vs. const T
+    // NoopParameter<T> vs. const T
     MUST_BE_TRUE(bigger >= arg_smaller);
     MUST_BE_TRUE(!(arg_smaller >= bigger));
     MUST_BE_TRUE(arg_smaller >= arg_smaller);
 
-    // const T vs. Parameter<T>
+    // const T vs. NoopParameter<T>
     MUST_BE_TRUE(arg_bigger >= smaller);
     MUST_BE_TRUE(!(smaller >= arg_bigger));
     MUST_BE_TRUE(smaller >= smaller);
@@ -333,18 +293,18 @@ Configuration::Parameter_test::OperatorGreaterThanOrEqualTo::test(const T& small
 template <class T> Test::Result Configuration::Parameter_test::OperatorEquality::test(
     const T& smaller, const T& bigger)
 {
-    Parameter<T> arg_smaller(smaller);
-    Parameter<T> arg_bigger(bigger);
+    NoopParameter<T> arg_smaller(smaller);
+    NoopParameter<T> arg_bigger(bigger);
 
-    // Parameter<T> vs. Parameter<T>
+    // NoopParameter<T> vs. NoopParameter<T>
     MUST_BE_TRUE(arg_smaller == arg_smaller);
     MUST_BE_TRUE(!(arg_smaller == arg_bigger));
 
-    // Parameter<T> vs. const T
+    // NoopParameter<T> vs. const T
     MUST_BE_TRUE(arg_smaller == arg_smaller);
     MUST_BE_TRUE(!(arg_smaller == bigger));
 
-    // const T vs. Parameter<T>
+    // const T vs. NoopParameter<T>
     MUST_BE_TRUE(smaller == smaller);
     MUST_BE_TRUE(!(smaller == arg_bigger));
 
@@ -355,46 +315,20 @@ template <class T> Test::Result Configuration::Parameter_test::OperatorEquality:
 template <class T> Test::Result Configuration::Parameter_test::OperatorNotEqual::test(
     const T& smaller, const T& bigger)
 {
-    Parameter<T> arg_smaller(smaller);
-    Parameter<T> arg_bigger(bigger);
+    NoopParameter<T> arg_smaller(smaller);
+    NoopParameter<T> arg_bigger(bigger);
 
-    // Parameter<T> vs. Parameter<T>
+    // NoopParameter<T> vs. NoopParameter<T>
     MUST_BE_TRUE(arg_smaller != arg_bigger);
     MUST_BE_TRUE(!(arg_smaller != arg_smaller));
 
-    // Parameter<T> vs. const T
+    // NoopParameter<T> vs. const T
     MUST_BE_TRUE(arg_smaller != bigger);
     MUST_BE_TRUE(!(arg_smaller != arg_smaller));
 
-    // const T vs. Parameter<T>
+    // const T vs. NoopParameter<T>
     MUST_BE_TRUE(smaller != arg_bigger);
     MUST_BE_TRUE(!(smaller != smaller));
-
-    return Test::PASSED;
-}
-
-//=============================================================================================
-template <class T> Test::Result Configuration::Parameter_test::FromString::test(
-    const std::string& initial_value, const T& should_equal)
-{
-    Parameter<T> temp;
-    temp.fromString(initial_value);
-
-    MUST_BE_TRUE(temp.getValue() == should_equal);
-
-    return Test::PASSED;
-}
-
-//=============================================================================================
-template <class T> Test::Result Configuration::Parameter_test::ToString::test(
-    const T& initial_value, const std::string& should_equal)
-{
-    Parameter<T> temp(initial_value);
-
-    std::string temp_string;
-    temp.toString(temp_string);
-
-    MUST_BE_TRUE(temp_string == should_equal);
 
     return Test::PASSED;
 }
@@ -489,8 +423,8 @@ Test::Result Configuration::Parameter_test::OperatorLessThan::StringConstCharP::
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    Parameter<std::string> smaller_arg(smaller);
-    Parameter<std::string> bigger_arg(bigger);
+    NoopParameter<std::string> smaller_arg(smaller);
+    NoopParameter<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(smaller < bigger_arg);
     MUST_BE_TRUE(smaller_arg < bigger);
@@ -589,8 +523,8 @@ Test::Result Configuration::Parameter_test::OperatorGreaterThan::StringConstChar
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    Parameter<std::string> smaller_arg(smaller);
-    Parameter<std::string> bigger_arg(bigger);
+    NoopParameter<std::string> smaller_arg(smaller);
+    NoopParameter<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger_arg > smaller);
     MUST_BE_TRUE(bigger > smaller_arg);
@@ -689,8 +623,8 @@ Test::Result Configuration::Parameter_test::OperatorLessThanOrEqualTo::StringCon
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    Parameter<std::string> smaller_arg(smaller);
-    Parameter<std::string> bigger_arg(bigger);
+    NoopParameter<std::string> smaller_arg(smaller);
+    NoopParameter<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(smaller <= bigger_arg);
     MUST_BE_TRUE(smaller_arg <= bigger);
@@ -790,8 +724,8 @@ Configuration::Parameter_test::OperatorGreaterThanOrEqualTo::StringConstCharP::b
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    Parameter<std::string> smaller_arg(smaller);
-    Parameter<std::string> bigger_arg(bigger);
+    NoopParameter<std::string> smaller_arg(smaller);
+    NoopParameter<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger >= smaller_arg);
     MUST_BE_TRUE(bigger_arg  >= smaller);
@@ -891,8 +825,8 @@ Test::Result Configuration::Parameter_test::OperatorEquality::StringConstCharP::
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    Parameter<std::string> smaller_arg(smaller);
-    Parameter<std::string> bigger_arg(bigger);
+    NoopParameter<std::string> smaller_arg(smaller);
+    NoopParameter<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger == bigger_arg);
     MUST_BE_TRUE(bigger_arg == bigger);
@@ -993,8 +927,8 @@ Test::Result Configuration::Parameter_test::OperatorNotEqual::StringConstCharP::
     const char* smaller = "abcd";
     const char* bigger  = "efgh";
 
-    Parameter<std::string> smaller_arg(smaller);
-    Parameter<std::string> bigger_arg(bigger);
+    NoopParameter<std::string> smaller_arg(smaller);
+    NoopParameter<std::string> bigger_arg(bigger);
 
     MUST_BE_TRUE(bigger != smaller_arg);
     MUST_BE_TRUE(bigger_arg != smaller);
@@ -1087,172 +1021,4 @@ Test::Result Configuration::Parameter_test::OperatorNotEqual::UnsignedLongLong::
 Test::Result Configuration::Parameter_test::OperatorNotEqual::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::String::body()
-{
-    return test<std::string>("abcd", "abcd");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::Char::body()
-{
-    return test<char>("a", 'a');
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::Double::body()
-{
-    return test<double>("2.0", 2.0);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::Float::body()
-{
-    return test<float>("2.0", 2.0f);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::Int::body()
-{
-    return test<int>("3", 3);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::Long::body()
-{
-    return test<long>("4", 4);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::LongDouble::body()
-{
-    return test<long double>("5.0", 5.0l);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::LongLong::body()
-{
-    return test<long long>("6", 6ll);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::Short::body()
-{
-    return test<short>("7", 7);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::UnsignedChar::body()
-{
-    return test<unsigned char>("x", 'x');
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::UnsignedInt::body()
-{
-    return test<unsigned int>("9", 9u);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::UnsignedLong::body()
-{
-    return test<unsigned long>("44", 44ul);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::UnsignedLongLong::body()
-{
-    return test<unsigned long long>("12", 12ull);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::FromString::UnsignedShort::body()
-{
-    return test<unsigned short>("13", 13);
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::String::body()
-{
-    return test<std::string>("1", "1");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::Char::body()
-{
-    return test<char>('a', "a");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::Double::body()
-{
-    return test<double>(14.333, "14.333");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::Float::body()
-{
-    return test<float>(13.2f, "13.2");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::Int::body()
-{
-    return test<int>(4, "4");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::Long::body()
-{
-    return test<long>(234, "234");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::LongDouble::body()
-{
-    return test<long double>(987.4l, "987.4");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::LongLong::body()
-{
-    return test<long long>(10000, "10000");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::Short::body()
-{
-    return test<short>(-111, "-111");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::UnsignedChar::body()
-{
-    return test<unsigned char>('9', "9");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::UnsignedInt::body()
-{
-    return test<unsigned int>(56791, "56791");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::UnsignedLong::body()
-{
-    return test<unsigned long>(99999, "99999");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::UnsignedLongLong::body()
-{
-    return test<unsigned long long>(11223344, "11223344");
-}
-
-//=============================================================================================
-Test::Result Configuration::Parameter_test::ToString::UnsignedShort::body()
-{
-    return test<unsigned short>(7766, "7766");
 }
