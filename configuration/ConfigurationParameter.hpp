@@ -35,13 +35,10 @@ namespace Configuration
         // Returns a reference to the current value of the configuration parameter.
         void getValue(T& value) const;
 
-        virtual void fromString(const std::string& value);
-        virtual void toString(std::string& value) const;
-
         Parameter& operator=(const Parameter& parameter);
         Parameter& operator=(const T& parameter);
 
-    private:
+    protected:
 
         T value;
     };

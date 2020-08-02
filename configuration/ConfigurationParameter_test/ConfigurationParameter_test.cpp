@@ -2,11 +2,10 @@
 
 #include "ConfigurationParameter_test.hpp"
 
+#include "ConfigurationParameter.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
-
-#include "ConfigurationParameter.hpp"
 
 TEST_PROGRAM_MAIN(Configuration::Parameter_test);
 

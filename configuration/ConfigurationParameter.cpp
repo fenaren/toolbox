@@ -1,3 +1,4 @@
+#include <list>
 #include <sstream>
 #include <string>
 
@@ -45,21 +46,6 @@ template <class T> T Configuration::Parameter<T>::getValue() const
 template <class T> void Configuration::Parameter<T>::getValue(T& value) const
 {
     value = this->value;
-}
-
-//=============================================================================================
-template <class T> void Configuration::Parameter<T>::fromString(const std::string& value)
-{
-    std::istringstream outstream(value);
-    outstream >> this->value;
-}
-
-//=============================================================================================
-template <class T> void Configuration::Parameter<T>::toString(std::string& value) const
-{
-    std::ostringstream instream;
-    instream << this->value;
-    value = instream.str();
 }
 
 //=============================================================================================
@@ -140,37 +126,50 @@ template <class T> bool operator!=(const Configuration::Parameter<T>& lhs,
     return !(lhs == rhs);
 }
 
-#define DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(OPERATOR, OP)            \
+// Defining these operators is a little interesting. To make the operator comparison we have to
+// change the type of one of the operators to the type of the other, but changing to the
+// non-parameter type to the parameter type isn't an option, because we only know its abstract
+// type here.  We have to get its value and then compare non-parameter types.
+
+#define DEFINE_MIXED_PARAMETER_OPERATOR(OPERATOR, OP)                   \
     template <class T> bool OPERATOR(const Configuration::Parameter<T>& lhs, \
-                                     const T& rhs)                      \
+                                     const T&                           rhs) \
     {                                                                   \
-        return lhs OP Configuration::Parameter<T>(rhs);                 \
+        T lhs_value;                                                    \
+        lhs.getValue(lhs_value);                                        \
+        return lhs_value OP rhs;                                        \
     }                                                                   \
                                                                         \
-    template <class T> bool OPERATOR(const T& lhs,                      \
+    template <class T> bool OPERATOR(const T&                           lhs, \
                                      const Configuration::Parameter<T>& rhs) \
     {                                                                   \
-        return Configuration::Parameter<T>(lhs) OP rhs;                 \
+    T rhs_value;                                                        \
+    rhs.getValue(rhs_value);                                            \
+    return lhs OP rhs_value;                                            \
     }                                                                   \
                                                                         \
     bool OPERATOR(const Configuration::Parameter<std::string>& lhs, const char* rhs) \
     {                                                                   \
-        return lhs OP Configuration::Parameter<std::string>(rhs);       \
+        std::string lhs_value;                                          \
+        lhs.getValue(lhs_value);                                        \
+        return lhs_value OP rhs;                                        \
     }                                                                   \
                                                                         \
     bool OPERATOR(const char* lhs, const Configuration::Parameter<std::string>& rhs) \
     {                                                                   \
-        return Configuration::Parameter<std::string>(lhs) OP rhs;       \
+    std::string rhs_value;                                              \
+    rhs.getValue(rhs_value);                                            \
+    return lhs OP rhs_value;                                            \
     }
 
-DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(operator<, <);
-DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(operator>, >);
-DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(operator<=, <=);
-DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(operator>=, >=);
-DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(operator==, ==);
-DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(operator!=, !=);
+DEFINE_MIXED_PARAMETER_OPERATOR(operator<, <);
+DEFINE_MIXED_PARAMETER_OPERATOR(operator>, >);
+DEFINE_MIXED_PARAMETER_OPERATOR(operator<=, <=);
+DEFINE_MIXED_PARAMETER_OPERATOR(operator>=, >=);
+DEFINE_MIXED_PARAMETER_OPERATOR(operator==, ==);
+DEFINE_MIXED_PARAMETER_OPERATOR(operator!=, !=);
 
-#define INSTANTIATE_SIMPLE_PARAMETER_OPERATOR(OPERATOR)                 \
+#define INSTANTIATE_PARAMETER_OPERATOR(OPERATOR)                        \
     template bool OPERATOR(const Configuration::Parameter<std::string>&, \
                            const Configuration::Parameter<std::string>&); \
     template bool OPERATOR(const Configuration::Parameter<std::string>&, \
@@ -257,28 +256,9 @@ DEFINE_MIXED_SIMPLE_PARAMETER_OPERATOR(operator!=, !=);
     template bool OPERATOR(const unsigned short&,                       \
                            const Configuration::Parameter<unsigned short>&);
 
-INSTANTIATE_SIMPLE_PARAMETER_OPERATOR(operator<);
-INSTANTIATE_SIMPLE_PARAMETER_OPERATOR(operator>);
-INSTANTIATE_SIMPLE_PARAMETER_OPERATOR(operator<=);
-INSTANTIATE_SIMPLE_PARAMETER_OPERATOR(operator>=);
-INSTANTIATE_SIMPLE_PARAMETER_OPERATOR(operator==);
-INSTANTIATE_SIMPLE_PARAMETER_OPERATOR(operator!=);
-
-namespace Configuration
-{
-    template class Parameter<std::string>;
-
-    template class Parameter<char>;
-    template class Parameter<double>;
-    template class Parameter<float>;
-    template class Parameter<int>;
-    template class Parameter<long>;
-    template class Parameter<long double>;
-    template class Parameter<long long>;
-    template class Parameter<short>;
-    template class Parameter<unsigned char>;
-    template class Parameter<unsigned int>;
-    template class Parameter<unsigned long>;
-    template class Parameter<unsigned long long>;
-    template class Parameter<unsigned short>;
-}
+INSTANTIATE_PARAMETER_OPERATOR(operator<);
+INSTANTIATE_PARAMETER_OPERATOR(operator>);
+INSTANTIATE_PARAMETER_OPERATOR(operator<=);
+INSTANTIATE_PARAMETER_OPERATOR(operator>=);
+INSTANTIATE_PARAMETER_OPERATOR(operator==);
+INSTANTIATE_PARAMETER_OPERATOR(operator!=);
