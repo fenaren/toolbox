@@ -31,7 +31,7 @@ Test::Result Configuration::ListParameter_test::FromString::body()
 
     for (std::list<unsigned int>::const_iterator i = asdf.begin();
          i != asdf.end();
-         i++)
+         ++i)
     {
         std::cout << *i << "\n";
     }

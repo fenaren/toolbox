@@ -39,7 +39,7 @@ template <class T, class U>
 void Configuration::ListParameter<T, U>::toString(std::string& value) const
 {
     std::ostringstream outstream;
-    for (typename U::const_iterator i = this->value.begin(); i != this->value.end(); i++)
+    for (typename U::const_iterator i = this->value.begin(); i != this->value.end(); ++i)
     {
         outstream << *i;
     }

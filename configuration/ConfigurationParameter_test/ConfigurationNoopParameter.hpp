@@ -11,8 +11,7 @@ namespace Configuration
     {
     public:
 
-        // Frobnicates the widget
-        NoopParameter(const T& initial_value = T());
+        explicit NoopParameter(const T& initial_value = T());
 
         // Defrobnicates the widget.  Make this virtual if this class derives from something
         virtual ~NoopParameter();

@@ -12,8 +12,7 @@ namespace Configuration
     {
     public:
 
-        // Frobnicates the widget
-        SimpleParameter(const T& initial_value = T());
+        explicit SimpleParameter(const T& initial_value = T());
 
         // Defrobnicates the widget.  Make this virtual if this class derives from something
         virtual ~SimpleParameter();
