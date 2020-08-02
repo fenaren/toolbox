@@ -1,5 +1,6 @@
 #include <list>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include "ConfigurationListParameter.hpp"
@@ -23,14 +24,19 @@ void Configuration::ListParameter<T, U>::fromString(const std::string& value)
     std::istringstream instream(value);
     if (!instream)
     {
-        // Something went wrong, throw exception
+        throw std::runtime_error("String could not be processed");
     }
 
-    while (instream.good())
+    T element;
+    while(instream >> element)
     {
-        T element;
-        instream >> element;
         this->value.push_back(element);
+    }
+
+    // We're done, but why are we done?  If something went wrong report it.
+    if (instream.bad())
+    {
+        throw std::runtime_error("I/O error while processing");
     }
 }
 
@@ -41,6 +47,11 @@ void Configuration::ListParameter<T, U>::toString(std::string& value) const
     std::ostringstream outstream;
     for (typename U::const_iterator i = this->value.begin(); i != this->value.end(); ++i)
     {
+        if (i != this->value.begin())
+        {
+            outstream << " ";
+        }
+
         outstream << *i;
     }
 

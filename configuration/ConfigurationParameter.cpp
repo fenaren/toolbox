@@ -281,4 +281,20 @@ namespace Configuration
     template class Parameter<unsigned short>;
 
     template class Parameter<std::string>;
+
+    template class Parameter<std::list<char> >;
+    template class Parameter<std::list<double> >;
+    template class Parameter<std::list<float> >;
+    template class Parameter<std::list<int> >;
+    template class Parameter<std::list<long> >;
+    template class Parameter<std::list<long double> >;
+    template class Parameter<std::list<long long> >;
+    template class Parameter<std::list<short> >;
+    template class Parameter<std::list<unsigned char> >;
+    template class Parameter<std::list<unsigned int> >;
+    template class Parameter<std::list<unsigned long> >;
+    template class Parameter<std::list<unsigned long long> >;
+    template class Parameter<std::list<unsigned short> >;
+
+    template class Parameter<std::list<std::string> >;
 }
