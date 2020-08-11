@@ -1,6 +1,7 @@
 #if !defined CONFIGURATION_SIMPLE_PARAMETER_HPP
 #define CONFIGURATION_SIMPLE_PARAMETER_HPP
 
+#include <iostream>
 #include <list>
 #include <string>
 
@@ -13,13 +14,17 @@ namespace Configuration
     public:
 
         explicit SimpleParameter(const T& initial_value = T());
-
-        // Defrobnicates the widget.  Make this virtual if this class derives from something
         virtual ~SimpleParameter();
 
         virtual void fromString(const std::string& value);
         virtual void toString(std::string& value) const;
     };
 }
+
+template <class T>
+std::istream& operator>>(std::istream& is, Configuration::SimpleParameter<T>& obj);
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, const Configuration::SimpleParameter<T>& obj);
 
 #endif

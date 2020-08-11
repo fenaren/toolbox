@@ -1,5 +1,4 @@
 #include <list>
-#include <sstream>
 #include <string>
 
 #include "ConfigurationParameter.hpp"
