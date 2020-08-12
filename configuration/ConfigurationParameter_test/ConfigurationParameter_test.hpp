@@ -13,6 +13,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(SetValue)
 
+            TEST(Bool)
             TEST(String)
             TEST(Char)
             TEST(Double)
@@ -35,6 +36,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(OperatorLessThan)
 
+            TEST(Bool)
             TEST(StringConstCharP)
             TEST(String)
             TEST(Char)
@@ -57,6 +59,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(OperatorGreaterThan)
 
+            TEST(Bool)
             TEST(StringConstCharP)
             TEST(String)
             TEST(Char)
@@ -123,6 +126,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(OperatorEquality)
 
+            TEST(Bool)
             TEST(StringConstCharP)
             TEST(String)
             TEST(Char)
@@ -145,6 +149,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(OperatorNotEqual)
 
+            TEST(Bool)
             TEST(StringConstCharP)
             TEST(String)
             TEST(Char)

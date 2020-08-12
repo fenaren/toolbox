@@ -21,6 +21,7 @@ void Configuration::SimpleParameter_test::addTestCases()
 //=============================================================================================
 void Configuration::SimpleParameter_test::FromString::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
     ADD_TEST_CASE(Double);
@@ -40,6 +41,7 @@ void Configuration::SimpleParameter_test::FromString::addTestCases()
 //=============================================================================================
 void Configuration::SimpleParameter_test::ToString::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
     ADD_TEST_CASE(Double);
@@ -59,6 +61,7 @@ void Configuration::SimpleParameter_test::ToString::addTestCases()
 //=============================================================================================
 void Configuration::SimpleParameter_test::OperatorStreamExtraction::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
     ADD_TEST_CASE(Double);
@@ -78,6 +81,7 @@ void Configuration::SimpleParameter_test::OperatorStreamExtraction::addTestCases
 //=============================================================================================
 void Configuration::SimpleParameter_test::OperatorStreamInsertion::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
     ADD_TEST_CASE(Double);
@@ -148,6 +152,12 @@ Test::Result Configuration::SimpleParameter_test::OperatorStreamExtraction::test
     MUST_BE_TRUE(parameter.getValue() == should_equal);
 
     return Test::PASSED;
+}
+
+//=============================================================================================
+Test::Result Configuration::SimpleParameter_test::FromString::Bool::body()
+{
+    return test<bool>("0", false);
 }
 
 //=============================================================================================
@@ -235,6 +245,12 @@ Test::Result Configuration::SimpleParameter_test::FromString::UnsignedShort::bod
 }
 
 //=============================================================================================
+Test::Result Configuration::SimpleParameter_test::ToString::Bool::body()
+{
+    return test<bool>(true, "1");
+}
+
+//=============================================================================================
 Test::Result Configuration::SimpleParameter_test::ToString::String::body()
 {
     return test<std::string>("1", "1");
@@ -316,6 +332,12 @@ Test::Result Configuration::SimpleParameter_test::ToString::UnsignedLongLong::bo
 Test::Result Configuration::SimpleParameter_test::ToString::UnsignedShort::body()
 {
     return test<unsigned short>(7766, "7766");
+}
+
+//=============================================================================================
+Test::Result Configuration::SimpleParameter_test::OperatorStreamExtraction::Bool::body()
+{
+    return test<bool>("1", true);
 }
 
 //=============================================================================================
@@ -404,6 +426,12 @@ Test::Result
 Configuration::SimpleParameter_test::OperatorStreamExtraction::UnsignedShort::body()
 {
     return test<unsigned short>("13", 13);
+}
+
+//=============================================================================================
+Test::Result Configuration::SimpleParameter_test::OperatorStreamInsertion::Bool::body()
+{
+    return test<bool>(false, "0");
 }
 
 //=============================================================================================

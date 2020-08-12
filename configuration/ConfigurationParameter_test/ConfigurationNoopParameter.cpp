@@ -28,6 +28,7 @@ template <class T> void Configuration::NoopParameter<T>::toString(std::string& v
 namespace Configuration
 {
     // Intrinsic types
+    template class NoopParameter<bool>;
     template class NoopParameter<char>;
     template class NoopParameter<double>;
     template class NoopParameter<float>;

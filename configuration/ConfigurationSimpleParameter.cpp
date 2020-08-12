@@ -102,6 +102,7 @@ std::ostream& operator<<(std::ostream& os, const Configuration::SimpleParameter<
 namespace Configuration
 {
     // Intrinsic types
+    template class SimpleParameter<bool>;
     template class SimpleParameter<char>;
     template class SimpleParameter<double>;
     template class SimpleParameter<float>;
@@ -119,6 +120,7 @@ namespace Configuration
     template class SimpleParameter<std::string>;
 }
 
+template std::istream& operator>>(std::istream& is, Configuration::SimpleParameter<bool>& obj);
 template std::istream& operator>>(std::istream& is, Configuration::SimpleParameter<char>& obj);
 template std::istream& operator>>(std::istream& is,
                                   Configuration::SimpleParameter<double>& obj);
@@ -147,6 +149,8 @@ template std::istream& operator>>(std::istream& is,
 template std::istream& operator>>(std::istream& is,
                                   Configuration::SimpleParameter<std::string>& obj);
 
+template std::ostream& operator<<(std::ostream& os,
+                                  const Configuration::SimpleParameter<bool>& obj);
 template std::ostream& operator<<(std::ostream& os,
                                   const Configuration::SimpleParameter<char>& obj);
 template std::ostream& operator<<(std::ostream& os,

@@ -26,6 +26,7 @@ void Configuration::Parameter_test::addTestCases()
 //=============================================================================================
 void Configuration::Parameter_test::SetValue::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
     ADD_TEST_CASE(Double);
@@ -45,6 +46,7 @@ void Configuration::Parameter_test::SetValue::addTestCases()
 //=============================================================================================
 void Configuration::Parameter_test::OperatorLessThan::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
@@ -65,6 +67,7 @@ void Configuration::Parameter_test::OperatorLessThan::addTestCases()
 //=============================================================================================
 void Configuration::Parameter_test::OperatorGreaterThan::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
@@ -125,6 +128,7 @@ void Configuration::Parameter_test::OperatorGreaterThanOrEqualTo::addTestCases()
 //=============================================================================================
 void Configuration::Parameter_test::OperatorEquality::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
@@ -145,6 +149,7 @@ void Configuration::Parameter_test::OperatorEquality::addTestCases()
 //=============================================================================================
 void Configuration::Parameter_test::OperatorNotEqual::addTestCases()
 {
+    ADD_TEST_CASE(Bool);
     ADD_TEST_CASE(StringConstCharP);
     ADD_TEST_CASE(String);
     ADD_TEST_CASE(Char);
@@ -334,6 +339,12 @@ template <class T> Test::Result Configuration::Parameter_test::OperatorNotEqual:
 }
 
 //=============================================================================================
+Test::Result Configuration::Parameter_test::SetValue::Bool::body()
+{
+    return test<bool>(false, true);
+}
+
+//=============================================================================================
 Test::Result Configuration::Parameter_test::SetValue::String::body()
 {
     return test<std::string>("", "1234");
@@ -415,6 +426,12 @@ Test::Result Configuration::Parameter_test::SetValue::UnsignedLongLong::body()
 Test::Result Configuration::Parameter_test::SetValue::UnsignedShort::body()
 {
     return test<unsigned short>(0, static_cast<unsigned short>(111));
+}
+
+//=============================================================================================
+Test::Result Configuration::Parameter_test::OperatorLessThan::Bool::body()
+{
+    return test<bool>(false, true);
 }
 
 //=============================================================================================
@@ -515,6 +532,12 @@ Test::Result Configuration::Parameter_test::OperatorLessThan::UnsignedLongLong::
 Test::Result Configuration::Parameter_test::OperatorLessThan::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
+}
+
+//=============================================================================================
+Test::Result Configuration::Parameter_test::OperatorGreaterThan::Bool::body()
+{
+    return test<bool>(false, true);
 }
 
 //=============================================================================================
@@ -820,6 +843,12 @@ Test::Result Configuration::Parameter_test::OperatorGreaterThanOrEqualTo::Unsign
 }
 
 //=============================================================================================
+Test::Result Configuration::Parameter_test::OperatorEquality::Bool::body()
+{
+    return test<bool>(false, true);
+}
+
+//=============================================================================================
 Test::Result Configuration::Parameter_test::OperatorEquality::StringConstCharP::body()
 {
     const char* smaller = "abcd";
@@ -919,6 +948,12 @@ Test::Result Configuration::Parameter_test::OperatorEquality::UnsignedLongLong::
 Test::Result Configuration::Parameter_test::OperatorEquality::UnsignedShort::body()
 {
     return test<unsigned short>(0, 1);
+}
+
+//=============================================================================================
+Test::Result Configuration::Parameter_test::OperatorNotEqual::Bool::body()
+{
+    return test<bool>(false, true);
 }
 
 //=============================================================================================

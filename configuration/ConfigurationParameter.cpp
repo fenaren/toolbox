@@ -176,6 +176,11 @@ DEFINE_MIXED_PARAMETER_OPERATOR(operator!=, !=);
     template bool OPERATOR(const std::string&,                          \
                            const Configuration::Parameter<std::string>&); \
                                                                         \
+    template bool OPERATOR(const Configuration::Parameter<bool>&,       \
+                           const Configuration::Parameter<bool>&);      \
+    template bool OPERATOR(const Configuration::Parameter<bool>&, const bool&); \
+    template bool OPERATOR(const bool&, const Configuration::Parameter<bool>&); \
+                                                                        \
     template bool OPERATOR(const Configuration::Parameter<char>&,       \
                            const Configuration::Parameter<char>&);      \
     template bool OPERATOR(const Configuration::Parameter<char>&, const char&); \
@@ -265,6 +270,7 @@ INSTANTIATE_PARAMETER_OPERATOR(operator!=);
 namespace Configuration
 {
     // Intrinsic types
+    template class Parameter<bool>;
     template class Parameter<char>;
     template class Parameter<double>;
     template class Parameter<float>;

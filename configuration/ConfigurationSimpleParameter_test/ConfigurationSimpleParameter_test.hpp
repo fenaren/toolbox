@@ -13,6 +13,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(FromString)
 
+            TEST(Bool)
             TEST(String)
             TEST(Char)
             TEST(Double)
@@ -35,6 +36,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(ToString)
 
+            TEST(Bool)
             TEST(String)
             TEST(Char)
             TEST(Double)
@@ -57,6 +59,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(OperatorStreamInsertion)
 
+            TEST(Bool)
             TEST(String)
             TEST(Char)
             TEST(Double)
@@ -79,6 +82,7 @@ namespace Configuration
 
         TEST_CASES_BEGIN(OperatorStreamExtraction)
 
+            TEST(Bool)
             TEST(String)
             TEST(Char)
             TEST(Double)
