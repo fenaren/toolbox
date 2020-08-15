@@ -10,7 +10,7 @@ namespace Configuration
 
     TEST_CASES_BEGIN(FileProcessor_test)
 
-        TEST(Stub)
+        TEST(Process)
 
     TEST_CASES_END(FileProcessor_test)
 

@@ -1,78 +1,114 @@
-#include "ConfigurationFileProcessor.hpp"
-
 #include <cstring>
 #include <fstream>
 #include <ios>
-#include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string.h>
 
-namespace Configuration
+#include "ConfigurationFileProcessor.hpp"
+
+#include "ConfigurationParameterBase.hpp"
+
+const std::streamsize Configuration::FileProcessor::PROCESS_BUFFER_SIZE = 1000;
+
+//=============================================================================================
+Configuration::FileProcessor::FileProcessor() :
+    comment_character('#'),
+    name_value_delimiter('=')
 {
+}
 
-    const std::streamsize FileProcessor::PROCESS_BUFFER_SIZE = 1000;
+//=============================================================================================
+Configuration::FileProcessor::~FileProcessor()
+{
+}
 
-    //==========================================================================
-    FileProcessor::FileProcessor() :
-        comment_character('#'),
-        identifier_value_delimiter('='),
-        value_delimiter(' ')
+//=============================================================================================
+void Configuration::FileProcessor::registerParameter(ParameterBase*     parameter,
+                                                     const std::string& name)
+{
+    if (name.empty())
     {
+        // Parameters have to have names
+        throw std::runtime_error("Parameter name is empty");
     }
 
-    //==========================================================================
-    FileProcessor::~FileProcessor()
+    if (parameters.find(name) != parameters.end())
     {
+        // Parameters must have unique names
+        throw std::runtime_error("Parameter name already registered");
     }
 
-    //==========================================================================
-    void FileProcessor::registerParameter(ParameterBase* parameter,
-                                          const std::string& name)
+    parameters[name] = parameter;
+}
+
+//=============================================================================================
+void Configuration::FileProcessor::process(const std::string& filename)
+{
+    // Each line in filename reads into this one-by-one
+    char line_buffer[PROCESS_BUFFER_SIZE];
+
+    // The line currently being processed
+    unsigned int line_number = 0;
+
+    // Open an input file stream, make sure the open went okay
+    std::ifstream instream(filename, std::ios_base::in);
+    if (!instream)
     {
-        if (name.empty())
-        {
-            // Parameters have to have names
-            throw std::runtime_error("Parameter name is empty");
-        }
-
-        if (parameters.find(name) != parameters.end())
-        {
-            // Parameters must have unique names
-            throw std::runtime_error("Parameter name already registered");
-        }
-
-        parameters[name] = parameter;
+        throw std::runtime_error("Could not open file \"" + filename + "\"");
     }
 
-    //==========================================================================
-    void FileProcessor::process(const std::string& filename)
+    // Keep reading while there's something to read. Getline will null-terminate unless getline
+    // retrieves a string that's exactly the length of the buffer, so read one less to give
+    // room for the null
+    while (instream.getline(line_buffer, PROCESS_BUFFER_SIZE - 1).good())
     {
-        // Each line in filename reads into this one-by-one
-        char line_buffer[PROCESS_BUFFER_SIZE];
+        // Process the current line
+        line_number++;
 
-        // Open an input file stream, make sure the open went okay
-        std::fstream instream(filename, std::ios_base::in);
-        if (!instream)
+        // Error message prefix, in case we need it
+        std::ostringstream outstream;
+        outstream << line_number;
+        std::string error_msg = filename + " line " + outstream.str() + ": ";
+
+        // Find where the first non-whitespace character in line_buffer is
+        char* line_buffer_nostartws = line_buffer + std::strspn(line_buffer, " ");
+
+        // Is this line a comment?
+        if (*line_buffer_nostartws == comment_character)
         {
-            throw std::runtime_error(
-                "Could not open file \"" + filename + "\"");
+            continue;
         }
 
-        // Keep reading while there's something to read. Getline will
-        // null-terminate unless getline retrieves a string that's exactly the
-        // length of the buffer, so read one less to give room for the null
-        while (instream.getline(line_buffer, PROCESS_BUFFER_SIZE - 1).good())
+        // Is this line empty?
+        if (strlen(line_buffer_nostartws) == 0)
         {
-            // Process the current line
-
-            const char* current_token = line_buffer;
-
-            // The line has to have a character delimiting the name of the
-            // configuration parameter from its value setting
-
-            // Lines beginning with the comment character are skipped
-
+            continue;
         }
+
+        const char* name_value_delimiter_pos = strchr(line_buffer, name_value_delimiter);
+        if (name_value_delimiter_pos == NULL)
+        {
+            outstream.str("");
+            outstream << name_value_delimiter;
+            error_msg += "Missing name-value delimiter (" + outstream.str() + ")";
+            throw std::runtime_error(error_msg);
+        }
+
+        // Now we know where to find the name and the value, so pick those out
+        std::string name(line_buffer_nostartws,
+                         name_value_delimiter_pos - line_buffer_nostartws);
+        std::string value(name_value_delimiter_pos + 1, strlen(name_value_delimiter_pos + 1));
+
+        // Do we have a parameter registered with the name we just picked out?
+        std::unordered_map<std::string, ParameterBase*>::iterator parameter =
+            parameters.find(name);
+        if (parameter == parameters.end())
+        {
+            continue;
+        }
+
+        parameter->second->fromString(value);
     }
-
 }
