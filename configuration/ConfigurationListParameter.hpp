@@ -12,8 +12,6 @@ namespace Configuration
     public:
 
         explicit ListParameter(const U& initial_value = U());
-
-        // Defrobnicates the widget.  Make this virtual if this class derives from something
         virtual ~ListParameter();
 
         virtual void fromString(const std::string& value);

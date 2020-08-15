@@ -12,8 +12,6 @@ namespace Configuration
     public:
 
         explicit NoopParameter(const T& initial_value = T());
-
-        // Defrobnicates the widget.  Make this virtual if this class derives from something
         virtual ~NoopParameter();
 
         virtual void fromString(const std::string& value);
@@ -21,8 +19,6 @@ namespace Configuration
 
     private:
 
-        // Copy construction and assignment not allowed.  Consider getting rid of the operator=
-        // code in the implementation file if operator= remains private
         NoopParameter(const NoopParameter&);
         NoopParameter& operator=(const NoopParameter&);
     };
