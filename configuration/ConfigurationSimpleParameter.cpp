@@ -9,6 +9,10 @@ template <class T> Configuration::SimpleParameter<T>::SimpleParameter(const T& i
     RelationalParameter<T>(initial_value),
     StreamParameter<T>(initial_value)
 {
+    // One might think only the RelationalParameter and StreamParameter constructors need be
+    // called here, because those are the two classes this class derived from, but both of
+    // those classes derive from Parameter virtually. As a result, neither of them actually
+    // calls the Parameter constructor, and we have to call it here ourselves.
 }
 
 //=============================================================================================
@@ -17,6 +21,10 @@ template <class T> Configuration::SimpleParameter<std::list<T> >::SimpleParamete
     Parameter<std::list<T> >(initial_value),
     RelationalParameter<std::list<T> >(initial_value)
 {
+    // One might think only the RelationalParameter constructor need be called here, because
+    // that is the class this class derived from, but RelationalParameter derived from
+    // Parameter virtually. As a result, the RelationalParameter constructor doesn't call the
+    // Parameter constructor, and we have to call it here ourselves.
 }
 
 //=============================================================================================

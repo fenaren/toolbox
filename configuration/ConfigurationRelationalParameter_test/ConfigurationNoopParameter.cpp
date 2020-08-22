@@ -6,9 +6,13 @@
 
 //=============================================================================================
 template <class T> Configuration::NoopParameter<T>::NoopParameter(const T& initial_value) :
-    Parameter<T>(initial_value), // Parameter is inherited as a virtual base
+    Parameter<T>(initial_value),
     RelationalParameter<T>(initial_value)
 {
+    // One might think only the RelationalParameter constructor need be called here, because
+    // that is the class this class derived from, but RelationalParameter derived from
+    // Parameter virtually. As a result, the RelationalParameter constructor doesn't call the
+    // Parameter constructor, and we have to call it here ourselves.
 }
 
 //=============================================================================================

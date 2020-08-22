@@ -71,11 +71,10 @@ template <class T> bool operator!=(const Configuration::RelationalParameter<T>& 
     return !(lhs == rhs);
 }
 
-// Defining these operators is a little interesting. To make the operator comparison we have to
-// change the type of one of the operators to the type of the other, but changing to the
-// non-parameter type to the parameter type isn't an option, because we only know its abstract
-// type here.  We have to get its value and then compare non-parameter types.
-
+// Defining these operators is a little interesting. To make the operator comparisons between
+// mixed types we have to change the type of one of the operators to the type of the other, but
+// changing to the non-parameter type to the parameter type isn't an option, because we only
+// know its abstract type here.  We have to get its value and then compare non-parameter types.
 #define DEFINE_MIXED_RELATIONAL_PARAMETER_OPERATOR(OPERATOR, OP)        \
     template <class T> bool OPERATOR(const Configuration::RelationalParameter<T>& lhs, \
                                      const T&                                     rhs) \

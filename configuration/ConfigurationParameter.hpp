@@ -17,8 +17,7 @@ namespace Configuration
 
         friend class Parameter_test;
 
-        // cppcheck-suppress noExplicitConstructor
-        Parameter(const T& initial_value = T());
+        explicit Parameter(const T& initial_value = T());
         Parameter(const Parameter& parameter);
 
         virtual ~Parameter();

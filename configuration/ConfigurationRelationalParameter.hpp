@@ -7,6 +7,8 @@
 
 namespace Configuration
 {
+    // Takes the definitions provided by the Parameter base class and adds relational operator
+    // definitions.
     template <class T> class RelationalParameter : virtual public Parameter<T>
     {
     public:
@@ -18,6 +20,8 @@ namespace Configuration
     };
 }
 
+// Save ourselves some time and use a macro to so we don't have to write these definitions six
+// times.
 #define DECLARE_CONFIGURATION_RELATIONAL_PARAMETER_OPERATOR(OPERATOR)   \
     template <class T> bool OPERATOR(const Configuration::RelationalParameter<T>& lhs, \
                                      const Configuration::RelationalParameter<T>& rhs); \

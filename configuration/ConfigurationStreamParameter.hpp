@@ -8,6 +8,8 @@
 
 namespace Configuration
 {
+    // Takes the definitions provided by the Parameter base class and adds stream insertion and
+    // extraction definitions.
     template <class T> class StreamParameter : virtual public Parameter<T>
     {
     public:
