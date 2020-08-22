@@ -3,11 +3,11 @@
 
 #include <string>
 
-#include "ConfigurationParameter.hpp"
+#include "ConfigurationRelationalParameter.hpp"
 
 namespace Configuration
 {
-    template <class T> class NoopParameter : virtual public Parameter<T>
+    template <class T> class NoopParameter : public RelationalParameter<T>
     {
     public:
 

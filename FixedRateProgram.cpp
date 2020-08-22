@@ -5,7 +5,7 @@
 
 #include "FixedRateProgram.hpp"
 
-//==============================================================================
+//=============================================================================================
 FixedRateProgram::FixedRateProgram(int                             argc,
                                    char**                          argv,
                                    const std::chrono::nanoseconds& period,
@@ -18,18 +18,17 @@ FixedRateProgram::FixedRateProgram(int                             argc,
 {
 }
 
-//==============================================================================
+//=============================================================================================
 FixedRateProgram::~FixedRateProgram()
 {
 }
 
-//==============================================================================
+//=============================================================================================
 int FixedRateProgram::run()
 {
-    // Take the time once at the start of execution.  We'll compare to this over
-    // the course of execution, rather than comparing to loop start, to
-    // determine how long to sleep after each frame.  This eliminates any drift
-    // over time inherent to this code.
+    // Take the time once at the start of execution.  We'll compare to this over the course of
+    // execution, rather than comparing to loop start, to determine how long to sleep after
+    // each frame.  This eliminates any drift over time inherent to this code.
     std::chrono::time_point<std::chrono::steady_clock> run_start =
         std::chrono::steady_clock::now();
 
@@ -39,8 +38,7 @@ int FixedRateProgram::run()
         std::chrono::time_point<std::chrono::steady_clock> frame_start_ideal =
             run_start + (period * completed_iterations);
 
-        // After the loop below this will be set to when we actually start the
-        // frame.
+        // After the loop below this will be set to when we actually start the frame.
         std::chrono::time_point<std::chrono::steady_clock> frame_start =
             std::chrono::steady_clock::now();
 
@@ -69,8 +67,7 @@ int FixedRateProgram::run()
 
         // Include frame time into running frame statistics
         statistics.update(
-            static_cast<std::chrono::nanoseconds>(
-                frame_end - frame_start).count() / 1e9);
+            static_cast<std::chrono::nanoseconds>(frame_end - frame_start).count() / 1e9);
     }
 
     // Retrieve and print frame time used statistics

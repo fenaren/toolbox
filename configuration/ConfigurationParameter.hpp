@@ -44,24 +44,4 @@ namespace Configuration
     };
 }
 
-#define DECLARE_CONFIGURATION_PARAMETER_OPERATOR(OPERATOR)              \
-    template <class T> bool OPERATOR(const Configuration::Parameter<T>& lhs, \
-                                     const Configuration::Parameter<T>& rhs); \
-    template <class T> bool OPERATOR(const Configuration::Parameter<T>& lhs, \
-                                     const T&                           rhs); \
-    template <class T> bool OPERATOR(const T&                           lhs, \
-                                     const Configuration::Parameter<T>& rhs); \
-                                                                        \
-    bool OPERATOR(const Configuration::Parameter<std::string>& lhs,     \
-                  const char*                                  rhs);    \
-    bool OPERATOR(const char*                                  lhs,     \
-                  const Configuration::Parameter<std::string>& rhs);
-
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator<);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator>);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator<=);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator>=);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator==);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator!=);
-
 #endif

@@ -1,7 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
-set(SRC ConfigurationListParameter_test.cpp)
+set(SRC ConfigurationStreamParameter_test.cpp)
 
 # We need these include directories
 set(INC . ..)
@@ -10,4 +10,4 @@ set(INC . ..)
 set(LIB ${PROJECT_NAME})
 
 # Finally, add the test
-add_test_executable(ConfigurationListParameter_test "${SRC}" "${INC}" "${LIB}")
+add_test_executable(ConfigurationStreamParameter_test "${SRC}" "${INC}" "${LIB}")

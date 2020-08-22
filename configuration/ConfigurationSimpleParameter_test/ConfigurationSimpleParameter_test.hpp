@@ -11,97 +11,55 @@ namespace Configuration
 {
     TEST_CASES_BEGIN(SimpleParameter_test)
 
-        TEST_CASES_BEGIN(FromString)
+        TEST(Generic)
 
-            TEST(Bool)
-            TEST(String)
-            TEST(Char)
-            TEST(Double)
-            TEST(Float)
-            TEST(Int)
-            TEST(Long)
-            TEST(LongDouble)
-            TEST(LongLong)
-            TEST(Short)
-            TEST(UnsignedChar)
-            TEST(UnsignedInt)
-            TEST(UnsignedLong)
-            TEST(UnsignedLongLong)
-            TEST(UnsignedShort)
+        TEST_CASES_BEGIN(List)
 
-            template <class T> static Test::Result test(const std::string& initial_value,
-                                                        const T&           should_equal);
+            TEST_CASES_BEGIN(FromString)
 
-        TEST_CASES_END(FromString)
+                TEST(String)
+                TEST(Char)
+                TEST(Double)
+                TEST(Float)
+                TEST(Int)
+                TEST(Long)
+                TEST(LongDouble)
+                TEST(LongLong)
+                TEST(Short)
+                TEST(UnsignedChar)
+                TEST(UnsignedInt)
+                TEST(UnsignedLong)
+                TEST(UnsignedLongLong)
+                TEST(UnsignedShort)
 
-        TEST_CASES_BEGIN(ToString)
+                template <class T> static Test::Result test(const std::string&  initial_value,
+                                                            const std::list<T>& should_equal);
 
-            TEST(Bool)
-            TEST(String)
-            TEST(Char)
-            TEST(Double)
-            TEST(Float)
-            TEST(Int)
-            TEST(Long)
-            TEST(LongDouble)
-            TEST(LongLong)
-            TEST(Short)
-            TEST(UnsignedChar)
-            TEST(UnsignedInt)
-            TEST(UnsignedLong)
-            TEST(UnsignedLongLong)
-            TEST(UnsignedShort)
+            TEST_CASES_END(FromString)
 
-            template <class T> static Test::Result test(const T&           initial_value,
-                                                        const std::string& should_equal);
+            TEST_CASES_BEGIN(ToString)
 
-        TEST_CASES_END(ToString)
+                TEST(String)
+                TEST(Char)
+                TEST(Double)
+                TEST(Float)
+                TEST(Int)
+                TEST(Long)
+                TEST(LongDouble)
+                TEST(LongLong)
+                TEST(Short)
+                TEST(UnsignedChar)
+                TEST(UnsignedInt)
+                TEST(UnsignedLong)
+                TEST(UnsignedLongLong)
+                TEST(UnsignedShort)
 
-        TEST_CASES_BEGIN(OperatorStreamInsertion)
+                template <class T> static Test::Result test(const std::list<T>& initial_value,
+                                                            const std::string&  should_equal);
 
-            TEST(Bool)
-            TEST(String)
-            TEST(Char)
-            TEST(Double)
-            TEST(Float)
-            TEST(Int)
-            TEST(Long)
-            TEST(LongDouble)
-            TEST(LongLong)
-            TEST(Short)
-            TEST(UnsignedChar)
-            TEST(UnsignedInt)
-            TEST(UnsignedLong)
-            TEST(UnsignedLongLong)
-            TEST(UnsignedShort)
+            TEST_CASES_END(ToString)
 
-            template <class T> static Test::Result test(const T&           initial_value,
-                                                        const std::string& should_equal);
-
-        TEST_CASES_END(OperatorStreamInsertion)
-
-        TEST_CASES_BEGIN(OperatorStreamExtraction)
-
-            TEST(Bool)
-            TEST(String)
-            TEST(Char)
-            TEST(Double)
-            TEST(Float)
-            TEST(Int)
-            TEST(Long)
-            TEST(LongDouble)
-            TEST(LongLong)
-            TEST(Short)
-            TEST(UnsignedChar)
-            TEST(UnsignedInt)
-            TEST(UnsignedLong)
-            TEST(UnsignedLongLong)
-            TEST(UnsignedShort)
-
-            template <class T> static Test::Result test(const std::string& initial_value,
-                                                        const T&           should_equal);
-
-        TEST_CASES_END(OperatorStreamExtraction)
+        TEST_CASES_END(List)
 
     TEST_CASES_END(SimpleParameter_test)
 }

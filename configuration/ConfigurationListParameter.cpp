@@ -6,20 +6,19 @@
 #include "ConfigurationListParameter.hpp"
 
 //=============================================================================================
-template <class T, class U>
-Configuration::ListParameter<T, U>::ListParameter(const U& initial_value) :
-    Parameter<U>(initial_value)
+template <class T>
+Configuration::ListParameter<T>::ListParameter(const std::list<T>& initial_value) :
+    RelationalParameter<std::list<T> >(initial_value)
 {
 }
 
 //=============================================================================================
-template <class T, class U> Configuration::ListParameter<T, U>::~ListParameter()
+template <class T> Configuration::ListParameter<T>::~ListParameter()
 {
 }
 
 //=============================================================================================
-template <class T, class U>
-void Configuration::ListParameter<T, U>::fromString(const std::string& value)
+template <class T> void Configuration::ListParameter<T>::fromString(const std::string& value)
 {
     std::istringstream instream(value);
     if (!instream)
@@ -41,11 +40,12 @@ void Configuration::ListParameter<T, U>::fromString(const std::string& value)
 }
 
 //=============================================================================================
-template <class T, class U>
-void Configuration::ListParameter<T, U>::toString(std::string& value) const
+template <class T> void Configuration::ListParameter<T>::toString(std::string& value) const
 {
     std::ostringstream outstream;
-    for (typename U::const_iterator i = this->value.begin(); i != this->value.end(); ++i)
+    for (typename std::list<T>::const_iterator i = this->value.begin();
+         i != this->value.end();
+         ++i)
     {
         if (i != this->value.begin())
         {

@@ -1,17 +1,18 @@
 #if !defined CONFIGURATION_LIST_PARAMETER_HPP
 #define CONFIGURATION_LIST_PARAMETER_HPP
 
+#include <list>
 #include <string>
 
-#include "ConfigurationParameter.hpp"
+#include "ConfigurationRelationalParameter.hpp"
 
 namespace Configuration
 {
-    template <class T, class U = std::list<T> > class ListParameter : public Parameter<U>
+    template <class T> class ListParameter : public RelationalParameter<std::list<T> >
     {
     public:
 
-        explicit ListParameter(const U& initial_value = U());
+        explicit ListParameter(const std::list<T>& initial_value = std::list<T>());
         virtual ~ListParameter();
 
         virtual void fromString(const std::string& value);
