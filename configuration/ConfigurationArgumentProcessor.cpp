@@ -5,8 +5,8 @@
 
 #include "ConfigurationArgumentProcessor.hpp"
 
-#include "ConfigurationParameter.hpp"
 #include "ConfigurationParameterBase.hpp"
+#include "ConfigurationParameterTemplateBase.hpp"
 
 //=============================================================================================
 Configuration::ArgumentProcessor::ArgumentProcessor() :
@@ -83,7 +83,7 @@ void Configuration::ArgumentProcessor::registerOptionalArgument(
 
 //=============================================================================================
 void Configuration::ArgumentProcessor::registerOptionalCountingArgument(
-    Parameter<unsigned int>*               argument,
+    ParameterTemplateBase<unsigned int>*   argument,
     const std::unordered_set<std::string>& flags)
 {
     // Don't bother if no flags were provided
@@ -134,7 +134,7 @@ void Configuration::ArgumentProcessor::process(const std::string& argument)
     // If we're here then we're not processing the value for an optional argument.
 
     // Have we been given a flag for an optional argument that doesn't take a value?
-    std::unordered_map<std::string, Parameter<unsigned int>*>::iterator i =
+    std::unordered_map<std::string, ParameterTemplateBase<unsigned int>*>::iterator i =
         optional_counting_arguments.find(argument);
     if (i != optional_counting_arguments.end())
     {
@@ -207,7 +207,8 @@ bool Configuration::ArgumentProcessor::isRegistered(const ParameterBase* cv) con
         }
     }
 
-    for (std::unordered_map<std::string, Parameter<unsigned int>*>::const_iterator i =
+    for (std::unordered_map<std::string,
+             ParameterTemplateBase<unsigned int>*>::const_iterator i =
              optional_counting_arguments.begin();
          i != optional_counting_arguments.end();
          ++i)

@@ -1,5 +1,5 @@
-#if !defined CONFIGURATION_SIMPLE_PARAMETER_TEST_HPP
-#define CONFIGURATION_SIMPLE_PARAMETER_TEST_HPP
+#if !defined CONFIGURATION_STREAM_PARAMETER_TEST_HPP
+#define CONFIGURATION_STREAM_PARAMETER_TEST_HPP
 
 #include <string>
 
@@ -9,7 +9,7 @@
 
 namespace Configuration
 {
-    TEST_CASES_BEGIN(SimpleParameter_test)
+    TEST_CASES_BEGIN(StreamParameter_test)
 
         TEST_CASES_BEGIN(FromString)
 
@@ -103,7 +103,7 @@ namespace Configuration
 
         TEST_CASES_END(OperatorStreamExtraction)
 
-    TEST_CASES_END(SimpleParameter_test)
+    TEST_CASES_END(StreamParameter_test)
 }
 
 #endif

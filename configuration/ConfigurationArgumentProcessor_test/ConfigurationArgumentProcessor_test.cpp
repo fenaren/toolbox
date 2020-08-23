@@ -5,7 +5,7 @@
 #include "ConfigurationArgumentProcessor_test.hpp"
 
 #include "ConfigurationArgumentProcessor.hpp"
-#include "ConfigurationSimpleParameter.hpp"
+#include "ConfigurationParameter.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -35,8 +35,8 @@ Test::Result Configuration::ArgumentProcessor_test::RegisterPositionalArgument::
 {
     ArgumentProcessor argument_processor;
 
-    SimpleParameter<int> cv0(0);
-    SimpleParameter<int> cv1(1);
+    Parameter<int> cv0(0);
+    Parameter<int> cv1(1);
 
     // Iterator should indicate that every positional argument (none at this point) has been
     // processed
@@ -72,7 +72,7 @@ Test::Result Configuration::ArgumentProcessor_test::RegisterOptionalArgument::bo
     // Optional argument list should be empty since we haven't registered anything yet.
     MUST_BE_TRUE(argument_processor.optional_arguments.empty());
 
-    SimpleParameter<std::string> cv0;
+    Parameter<std::string> cv0;
     argument_processor.registerOptionalArgument(&cv0, {"badflag"});
 
     // Size should be one since we've registered exactly one argument.
@@ -97,7 +97,7 @@ Test::Result Configuration::ArgumentProcessor_test::Process::PositionalArgument:
     // No arguments registered, so list should be empty.
     MUST_BE_TRUE(argument_processor.positional_arguments.size() == 0);
 
-    SimpleParameter<int> cv0;
+    Parameter<int> cv0;
     argument_processor.registerPositionalArgument(&cv0);
 
     // One argument registered, so list should be of size 1.
@@ -124,7 +124,7 @@ Test::Result Configuration::ArgumentProcessor_test::Process::OptionalArgument::b
     // No arguments registered yet, size should be 0.
     MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
 
-    SimpleParameter<int> cv0;
+    Parameter<int> cv0;
     argument_processor.registerOptionalArgument(&cv0, {"-a"});
 
     // Do this one with the version of process() that accepts a list of strings.
@@ -149,8 +149,8 @@ Configuration::ArgumentProcessor_test::Process::OptionalCountingArgument::body()
     // No arguments registered yet, size should be 0.
     MUST_BE_TRUE(argument_processor.optional_arguments.size() == 0);
 
-    SimpleParameter<unsigned int> cv0;
-    SimpleParameter<unsigned int> cv1;
+    Parameter<unsigned int> cv0;
+    Parameter<unsigned int> cv1;
     argument_processor.registerOptionalCountingArgument(&cv0, {"-a"});
     argument_processor.registerOptionalCountingArgument(&cv1, {"-b"});
 
@@ -181,8 +181,8 @@ Test::Result Configuration::ArgumentProcessor_test::Process::Combined::body()
     MUST_BE_TRUE(argument_processor.next_positional_argument ==
                  argument_processor.positional_arguments.end());
 
-    SimpleParameter<int> cv0;
-    SimpleParameter<int> cv1;
+    Parameter<int> cv0;
+    Parameter<int> cv1;
 
     argument_processor.registerOptionalArgument(&cv1, {"--wtf"});
     argument_processor.registerPositionalArgument(&cv0);
@@ -211,9 +211,9 @@ Test::Result Configuration::ArgumentProcessor_test::IsRegistered::body()
 {
     ArgumentProcessor argument_processor;
 
-    SimpleParameter<int> cv0;
-    SimpleParameter<int> cv1;
-    SimpleParameter<unsigned int> cv2;
+    Parameter<int> cv0;
+    Parameter<int> cv1;
+    Parameter<unsigned int> cv2;
 
     argument_processor.registerPositionalArgument(&cv0);
     argument_processor.registerOptionalArgument(

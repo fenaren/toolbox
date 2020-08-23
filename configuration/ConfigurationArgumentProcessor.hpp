@@ -9,7 +9,7 @@
 namespace Configuration
 {
     class ParameterBase;
-    template <class T> class Parameter;
+    template <class T> class ParameterTemplateBase;
 
     // Implements a method of more easily processing command line arguments into actual
     // in-program values.  The idea is to get rid of having to manually code the looping over
@@ -39,7 +39,7 @@ namespace Configuration
         // optional arguments are identified by their flags, not their position in the argument
         // list.  Optional arguments registered with this method do not take a value; instead,
         // the number of times the argument flag appears is counted and stored as the value.
-        void registerOptionalCountingArgument(Parameter<unsigned int>*               argument,
+        void registerOptionalCountingArgument(ParameterTemplateBase<unsigned int>*   argument,
                                               const std::unordered_set<std::string>& flags);
 
         // Processes a single argument token.  If this is a positional argument its value will
@@ -75,7 +75,7 @@ namespace Configuration
         // Maps flags that do not take a value to their associated optional argument counts.
         // Multiple flags will link to the same object for arguments with multiple flags
         // (ex. -v and --verbose).
-        std::unordered_map<std::string, Parameter<unsigned int>*>
+        std::unordered_map<std::string, ParameterTemplateBase<unsigned int>*>
         optional_counting_arguments;
 
         bool isRegistered(const ParameterBase* parameter) const;

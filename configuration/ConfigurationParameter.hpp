@@ -1,67 +1,42 @@
 #if !defined CONFIGURATION_PARAMETER_HPP
 #define CONFIGURATION_PARAMETER_HPP
 
-#include <stdexcept>
+#include <list>
 #include <string>
 
-#include "ConfigurationParameterBase.hpp"
+#include "ConfigurationRelationalParameter.hpp"
+#include "ConfigurationStreamParameter.hpp"
 
 namespace Configuration
 {
-    // ConfigurationParameter is a class for associating a small amount of metadata (the "set"
-    // field) with a piece of data (the "value" field).  It's a simple implementation of the
-    // data element concept (see "https://en.wikipedia.org/wiki/Data_element").
-    template <class T> class Parameter : public ParameterBase
+    // The generic form of Parameter includes definitions for both relational and stream
+    // operators.
+    template <class T> class Parameter : public RelationalParameter<T>,
+                                         public StreamParameter<T>
     {
     public:
 
         friend class Parameter_test;
 
-        // cppcheck-suppress noExplicitConstructor
-        Parameter(const T& initial_value = T());
-        Parameter(const Parameter& parameter);
+        explicit Parameter(const T& initial_value = T());
+        virtual ~Parameter();
+    };
 
+    // The partial specialization of Parameter for std::list only includes definitions
+    // for relational operators (std::list doesn't support stream insertion and extraction).
+    template <class T>
+    class Parameter<std::list<T> > : public RelationalParameter<std::list<T> >
+    {
+    public:
+
+        friend class Parameter_test;
+
+        explicit Parameter(const std::list<T>& initial_value = std::list<T>());
         virtual ~Parameter();
 
-        // Defines how to convert a Parameter<T> to a T
-        operator T() const;
-
-        void setValue(const T& value);
-
-        // Returns the current value on the stack.  Try to use the other getValue() method if T
-        // is large in memory.
-        T getValue() const;
-
-        // Returns a reference to the current value of the configuration parameter.
-        void getValue(T& value) const;
-
-        Parameter& operator=(const Parameter& parameter);
-        Parameter& operator=(const T& parameter);
-
-    protected:
-
-        T value;
+        virtual void fromString(const std::string& value);
+        virtual void toString(std::string& value) const;
     };
 }
-
-#define DECLARE_CONFIGURATION_PARAMETER_OPERATOR(OPERATOR)              \
-    template <class T> bool OPERATOR(const Configuration::Parameter<T>& lhs, \
-                                     const Configuration::Parameter<T>& rhs); \
-    template <class T> bool OPERATOR(const Configuration::Parameter<T>& lhs, \
-                                     const T&                           rhs); \
-    template <class T> bool OPERATOR(const T&                           lhs, \
-                                     const Configuration::Parameter<T>& rhs); \
-                                                                        \
-    bool OPERATOR(const Configuration::Parameter<std::string>& lhs,     \
-                  const char*                                  rhs);    \
-    bool OPERATOR(const char*                                  lhs,     \
-                  const Configuration::Parameter<std::string>& rhs);
-
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator<);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator>);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator<=);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator>=);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator==);
-DECLARE_CONFIGURATION_PARAMETER_OPERATOR(operator!=);
 
 #endif
