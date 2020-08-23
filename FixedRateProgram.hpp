@@ -20,7 +20,8 @@ public:
     // human-noticeable 100 milliseconds.
     FixedRateProgram(int                             argc,
                      char**                          argv,
-                     const std::chrono::nanoseconds& period,
+                     const std::chrono::nanoseconds& period =
+                     std::chrono::nanoseconds(static_cast<unsigned int>(1e9)),
                      const std::chrono::nanoseconds& tolerance =
                      std::chrono::nanoseconds(static_cast<unsigned int>(1e8)));
 
