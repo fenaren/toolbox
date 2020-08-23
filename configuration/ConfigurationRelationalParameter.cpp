@@ -205,7 +205,133 @@ DEFINE_MIXED_RELATIONAL_PARAMETER_OPERATOR(operator!=, !=);
     template bool OPERATOR(const Configuration::RelationalParameter<std::string>&, \
                            const std::string&);                         \
     template bool OPERATOR(const std::string&,                          \
-                           const Configuration::RelationalParameter<std::string>&);
+                           const Configuration::RelationalParameter<std::string>&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<bool> >&, \
+                           const Configuration::RelationalParameter<std::list<bool> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<bool> >&, \
+                           const std::list<bool>&);                     \
+    template bool OPERATOR(const std::list<bool>&,                      \
+                           const Configuration::RelationalParameter<std::list<bool> >&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<char> >&, \
+                           const Configuration::RelationalParameter<std::list<char> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<char> >&, \
+                           const std::list<char>&);                     \
+    template bool OPERATOR(const std::list<char>&,                      \
+                           const Configuration::RelationalParameter<std::list<char> >&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<double> >&, \
+                           const Configuration::RelationalParameter<std::list<double> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<double> >&, \
+                           const std::list<double>&);                   \
+    template bool OPERATOR(const std::list<double>&,                    \
+                           const Configuration::RelationalParameter<std::list<double> >&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<float> >&, \
+                           const Configuration::RelationalParameter<std::list<float> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<float> >&, \
+                           const std::list<float>&);                    \
+    template bool OPERATOR(const std::list<float>&,                     \
+                           const Configuration::RelationalParameter<std::list<float> >&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<int> >&, \
+                           const Configuration::RelationalParameter<std::list<int> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<int> >&, \
+                           const std::list<int>&);                      \
+    template bool OPERATOR(const std::list<int>&,                       \
+                           const Configuration::RelationalParameter<std::list<int> >&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<long> >&, \
+                           const Configuration::RelationalParameter<std::list<long> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<long> >&, \
+                           const std::list<long>&);                     \
+    template bool OPERATOR(const std::list<long>&,                      \
+                           const Configuration::RelationalParameter<std::list<long> >&); \
+                                                                        \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<long double> >&, \
+        const Configuration::RelationalParameter<std::list<long double> >&); \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<long double> >&, \
+        const std::list<long double>&);                                 \
+    template bool OPERATOR(                                             \
+        const std::list<long double>&,                                  \
+        const Configuration::RelationalParameter<std::list<long double> >&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<long long> >&, \
+                           const Configuration::RelationalParameter<std::list<long long> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<long long> >&, \
+                           const std::list<long long>&);                \
+    template bool OPERATOR(const std::list<long long>&,                 \
+                           const Configuration::RelationalParameter<std::list<long long> >&); \
+                                                                        \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<short> >&, \
+                           const Configuration::RelationalParameter<std::list<short> >&); \
+    template bool OPERATOR(const Configuration::RelationalParameter<std::list<short> >&, \
+                           const std::list<short>&);                    \
+    template bool OPERATOR(const std::list<short>&,                     \
+                           const Configuration::RelationalParameter<std::list<short> >&); \
+                                                                        \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned char> >&, \
+        const Configuration::RelationalParameter<std::list<unsigned char> >&); \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned char> >&, \
+        const std::list<unsigned char>&);                               \
+    template bool OPERATOR(                                             \
+        const std::list<unsigned char>&,                                \
+        const Configuration::RelationalParameter<std::list<unsigned char> >&); \
+                                                                        \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned int> >&, \
+        const Configuration::RelationalParameter<std::list<unsigned int> >&); \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned int> >&, \
+        const std::list<unsigned int>&);                                \
+    template bool OPERATOR(                                             \
+        const std::list<unsigned int>&,                                 \
+        const Configuration::RelationalParameter<std::list<unsigned int> >&); \
+                                                                        \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned long> >&, \
+        const Configuration::RelationalParameter<std::list<unsigned long> >&); \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned long> >&, \
+        const std::list<unsigned long>&);                               \
+    template bool OPERATOR(                                             \
+        const std::list<unsigned long>&,                                \
+        const Configuration::RelationalParameter<std::list<unsigned long> >&); \
+                                                                        \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned long long> >&, \
+        const Configuration::RelationalParameter<std::list<unsigned long long> >&); \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned long long> >&, \
+        const std::list<unsigned long long>&);                          \
+    template bool OPERATOR(                                             \
+        const std::list<unsigned long long>&,                           \
+        const Configuration::RelationalParameter<std::list<unsigned long long> >&); \
+                                                                        \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned short> >&, \
+        const Configuration::RelationalParameter<std::list<unsigned short> >&); \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<unsigned short> >&, \
+        const std::list<unsigned short>&);                              \
+    template bool OPERATOR(                                             \
+        const std::list<unsigned short>&,                               \
+        const Configuration::RelationalParameter<std::list<unsigned short> >&); \
+                                                                        \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<std::string> >&, \
+        const Configuration::RelationalParameter<std::list<std::string> >&); \
+    template bool OPERATOR(                                             \
+        const Configuration::RelationalParameter<std::list<std::string> >&, \
+        const std::list<std::string>&);                                 \
+    template bool OPERATOR(                                             \
+        const std::list<std::string>&,                                  \
+        const Configuration::RelationalParameter<std::list<std::string> >&);
 
 INSTANTIATE_RELATIONAL_PARAMETER_OPERATOR(operator<);
 INSTANTIATE_RELATIONAL_PARAMETER_OPERATOR(operator>);

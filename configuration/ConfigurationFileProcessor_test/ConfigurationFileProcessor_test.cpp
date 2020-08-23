@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include <string>
 
 #include "ConfigurationFileProcessor_test.hpp"
@@ -20,7 +21,7 @@ void Configuration::FileProcessor_test::addTestCases()
 //=============================================================================================
 Test::Result Configuration::FileProcessor_test::Process::body()
 {
-    Parameter<std::string> eth_interface;
+    Parameter<std::list<std::string> > eth_interface;
     Parameter<std::string> log_file;
     Parameter<std::string> pid_file;
     Parameter<bool> daemonize;
@@ -40,7 +41,7 @@ Test::Result Configuration::FileProcessor_test::Process::body()
 
     file_processor.process("config");
 
-    MUST_BE_TRUE(eth_interface == "eth0");
+    MUST_BE_TRUE(eth_interface == std::list<std::string>({"eth0"}));
     MUST_BE_TRUE(log_file == "/var/log/sproxy.log");
     MUST_BE_TRUE(pid_file == "/var/run/sproxy.pid");
     MUST_BE_TRUE(daemonize);
