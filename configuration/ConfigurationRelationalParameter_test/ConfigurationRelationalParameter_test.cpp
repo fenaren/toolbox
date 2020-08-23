@@ -153,9 +153,6 @@ Test::Result Configuration::RelationalParameter_test::OperatorLessThan::test(con
     NoopParameter<T> arg_smaller(smaller);
     NoopParameter<T> arg_bigger(bigger);
 
-    arg_smaller.setValue(smaller);
-    arg_bigger.setValue(bigger);
-
     // NoopParameter<T> vs. NoopParameter<T>
     MUST_BE_TRUE(arg_smaller < arg_bigger);
     MUST_BE_TRUE(!(arg_bigger < arg_smaller));

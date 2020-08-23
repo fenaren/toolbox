@@ -1,4 +1,3 @@
-#include <chrono>
 #include <iostream>
 #include <list>
 #include <string>
@@ -359,8 +358,6 @@ namespace Configuration
     template class RelationalParameter<unsigned short>;
 
     template class RelationalParameter<std::string>;
-    template class RelationalParameter<std::chrono::seconds>;
-    template class RelationalParameter<std::chrono::nanoseconds>;
 
     // std::lists of intrinsic types
     template class RelationalParameter<std::list<bool> >;
@@ -379,6 +376,4 @@ namespace Configuration
     template class RelationalParameter<std::list<unsigned short> >;
 
     template class RelationalParameter<std::list<std::string> >;
-    template class RelationalParameter<std::list<std::chrono::seconds> >;
-    template class RelationalParameter<std::list<std::chrono::nanoseconds> >;
 }

@@ -1,6 +1,7 @@
 #if !defined CONFIGURATION_PARAMETER_TEST_HPP
 #define CONFIGURATION_PARAMETER_TEST_HPP
 
+#include <list>
 #include <string>
 
 #include "Test.hpp"

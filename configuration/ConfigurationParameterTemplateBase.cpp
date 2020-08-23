@@ -1,4 +1,3 @@
-#include <chrono>
 #include <list>
 #include <string>
 
@@ -94,8 +93,6 @@ namespace Configuration
     template class ParameterTemplateBase<unsigned short>;
 
     template class ParameterTemplateBase<std::string>;
-    template class ParameterTemplateBase<std::chrono::seconds>;
-    template class ParameterTemplateBase<std::chrono::nanoseconds>;
 
     // std::lists of intrinsic types
     template class ParameterTemplateBase<std::list<bool> >;
@@ -114,6 +111,4 @@ namespace Configuration
     template class ParameterTemplateBase<std::list<unsigned short> >;
 
     template class ParameterTemplateBase<std::list<std::string> >;
-    template class ParameterTemplateBase<std::list<std::chrono::seconds> >;
-    template class ParameterTemplateBase<std::list<std::chrono::nanoseconds> >;
 }

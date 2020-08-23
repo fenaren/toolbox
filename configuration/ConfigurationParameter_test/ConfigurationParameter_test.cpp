@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #include <string>
 
 #include "ConfigurationParameter_test.hpp"
@@ -109,7 +110,6 @@ template <class T> Test::Result Configuration::Parameter_test::List::ToString::t
 
     std::string temp_string;
     temp.toString(temp_string);
-    std::cout << temp_string << "\n";
 
     MUST_BE_TRUE(temp_string == should_equal);
 
