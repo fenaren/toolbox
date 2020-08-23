@@ -9,7 +9,7 @@
 
 //=============================================================================================
 template <class T> Configuration::StreamParameter<T>::StreamParameter(const T& initial_value) :
-    Parameter<T>(initial_value)
+    ParameterTemplateBase<T>(initial_value)
 {
 }
 

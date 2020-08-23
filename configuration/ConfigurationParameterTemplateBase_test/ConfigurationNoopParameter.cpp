@@ -1,10 +1,11 @@
 #include <string>
 
 #include "ConfigurationNoopParameter.hpp"
+#include "ConfigurationParameterTemplateBase.hpp"
 
 //=============================================================================================
 template <class T> Configuration::NoopParameter<T>::NoopParameter(const T& initial_value) :
-    Parameter<T>(initial_value)
+    ParameterTemplateBase<T>(initial_value)
 {
 }
 

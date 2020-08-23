@@ -4,13 +4,13 @@
 #include <iostream>
 #include <string>
 
-#include "ConfigurationParameter.hpp"
+#include "ConfigurationParameterTemplateBase.hpp"
 
 namespace Configuration
 {
     // Takes the definitions provided by the Parameter base class and adds stream insertion and
     // extraction definitions.
-    template <class T> class StreamParameter : virtual public Parameter<T>
+    template <class T> class StreamParameter : virtual public ParameterTemplateBase<T>
     {
     public:
 

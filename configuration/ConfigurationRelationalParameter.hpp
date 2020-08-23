@@ -3,13 +3,13 @@
 
 #include <string>
 
-#include "ConfigurationParameter.hpp"
+#include "ConfigurationParameterTemplateBase.hpp"
 
 namespace Configuration
 {
     // Takes the definitions provided by the Parameter base class and adds relational operator
     // definitions.
-    template <class T> class RelationalParameter : virtual public Parameter<T>
+    template <class T> class RelationalParameter : virtual public ParameterTemplateBase<T>
     {
     public:
 

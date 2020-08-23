@@ -3,10 +3,11 @@
 #include "ConfigurationNoopParameter.hpp"
 
 #include "ConfigurationRelationalParameter.hpp"
+#include "ConfigurationParameterTemplateBase.hpp"
 
 //=============================================================================================
 template <class T> Configuration::NoopParameter<T>::NoopParameter(const T& initial_value) :
-    Parameter<T>(initial_value),
+    ParameterTemplateBase<T>(initial_value),
     RelationalParameter<T>(initial_value)
 {
     // One might think only the RelationalParameter constructor need be called here, because

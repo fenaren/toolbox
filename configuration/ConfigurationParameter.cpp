@@ -1,21 +1,30 @@
-#include <chrono>
 #include <list>
-#include <string>
+#include <sstream>
 
 #include "ConfigurationParameter.hpp"
 
 //=============================================================================================
 template <class T> Configuration::Parameter<T>::Parameter(const T& initial_value) :
-    ParameterBase(),
-    value(initial_value)
+    ParameterTemplateBase<T>(initial_value),
+    RelationalParameter<T>(initial_value),
+    StreamParameter<T>(initial_value)
 {
+    // One might think only the RelationalParameter and StreamParameter constructors need be
+    // called here, because those are the two classes this class derived from, but both of
+    // those classes derive from Parameter virtually. As a result, neither of them actually
+    // calls the Parameter constructor, and we have to call it here ourselves.
 }
 
 //=============================================================================================
-template <class T> Configuration::Parameter<T>::Parameter(const Parameter<T>& parameter) :
-    ParameterBase()
+template <class T> Configuration::Parameter<std::list<T> >::Parameter(
+    const std::list<T>& initial_value) :
+    ParameterTemplateBase<std::list<T> >(initial_value),
+    RelationalParameter<std::list<T> >(initial_value)
 {
-    parameter.getValue(value);
+    // One might think only the RelationalParameter constructor need be called here, because
+    // that is the class this class derived from, but RelationalParameter derived from
+    // Parameter virtually. As a result, the RelationalParameter constructor doesn't call the
+    // Parameter constructor, and we have to call it here ourselves.
 }
 
 //=============================================================================================
@@ -24,52 +33,51 @@ template <class T> Configuration::Parameter<T>::~Parameter()
 }
 
 //=============================================================================================
-template <class T> Configuration::Parameter<T>::operator T() const
+template <class T> Configuration::Parameter<std::list<T> >::~Parameter()
 {
-    return value;
-}
-
-//=============================================================================================
-template <class T> void Configuration::Parameter<T>::setValue(const T& value)
-{
-    this->value = value;
-    set = true;
-}
-
-//=============================================================================================
-template <class T> T Configuration::Parameter<T>::getValue() const
-{
-    return value;
-}
-
-//=============================================================================================
-template <class T> void Configuration::Parameter<T>::getValue(T& value) const
-{
-    value = this->value;
 }
 
 //=============================================================================================
 template <class T>
-Configuration::Parameter<T>& Configuration::Parameter<T>::operator=(const Parameter& parameter)
+void Configuration::Parameter<std::list<T> >::fromString(const std::string& value)
 {
-    // Don't do anything if we're assigning to ourselves
-    if (this != &parameter)
+    std::istringstream instream(value);
+    if (!instream)
     {
-        value = parameter.value;
-        set = true;
+        throw std::runtime_error("String could not be processed");
     }
 
-    return *this;
+    T element;
+    while(instream >> element)
+    {
+        this->value.push_back(element);
+    }
+
+    // We're done, but why are we done?  If something went wrong report it.
+    if (instream.bad())
+    {
+        throw std::runtime_error("I/O error while processing");
+    }
 }
 
 //=============================================================================================
 template <class T>
-Configuration::Parameter<T>& Configuration::Parameter<T>::operator=(const T& value)
+void Configuration::Parameter<std::list<T> >::toString(std::string& value) const
 {
-    this->value = value;
-    set = true;
+    std::ostringstream outstream;
+    for (typename std::list<T>::const_iterator i = this->value.begin();
+         i != this->value.end();
+         ++i)
+    {
+        if (i != this->value.begin())
+        {
+            outstream << " ";
+        }
 
-    return *this;
+        outstream << *i;
+    }
+
+    value = outstream.str();
 }
 
 namespace Configuration
@@ -91,8 +99,6 @@ namespace Configuration
     template class Parameter<unsigned short>;
 
     template class Parameter<std::string>;
-    template class Parameter<std::chrono::seconds>;
-    template class Parameter<std::chrono::nanoseconds>;
 
     // std::lists of intrinsic types
     template class Parameter<std::list<bool> >;
@@ -111,6 +117,4 @@ namespace Configuration
     template class Parameter<std::list<unsigned short> >;
 
     template class Parameter<std::list<std::string> >;
-    template class Parameter<std::list<std::chrono::seconds> >;
-    template class Parameter<std::list<std::chrono::nanoseconds> >;
 }

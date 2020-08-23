@@ -1,9 +1,7 @@
 include(${PROJECT_SOURCE_DIR}/tools-cmake/ProjectCommon.cmake)
 
 # All the source files
-set(SRC
-  ConfigurationNoopParameter.cpp
-  ConfigurationParameter_test.cpp)
+set(SRC ConfigurationParameter_test.cpp)
 
 # We need these include directories
 set(INC . ..)

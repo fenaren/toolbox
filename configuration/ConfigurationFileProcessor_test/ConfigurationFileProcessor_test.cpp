@@ -4,7 +4,7 @@
 #include "ConfigurationFileProcessor_test.hpp"
 
 #include "ConfigurationFileProcessor.hpp"
-#include "ConfigurationSimpleParameter.hpp"
+#include "ConfigurationParameter.hpp"
 #include "Test.hpp"
 #include "TestCases.hpp"
 #include "TestMacros.hpp"
@@ -20,13 +20,13 @@ void Configuration::FileProcessor_test::addTestCases()
 //=============================================================================================
 Test::Result Configuration::FileProcessor_test::Process::body()
 {
-    SimpleParameter<std::string> eth_interface;
-    SimpleParameter<std::string> log_file;
-    SimpleParameter<std::string> pid_file;
-    SimpleParameter<bool> daemonize;
-    SimpleParameter<unsigned int> device_check_period;
-    SimpleParameter<unsigned int> device_response_grace_period;
-    SimpleParameter<bool> aggressive_garp;
+    Parameter<std::string> eth_interface;
+    Parameter<std::string> log_file;
+    Parameter<std::string> pid_file;
+    Parameter<bool> daemonize;
+    Parameter<unsigned int> device_check_period;
+    Parameter<unsigned int> device_response_grace_period;
+    Parameter<bool> aggressive_garp;
 
     FileProcessor file_processor;
     file_processor.registerParameter(&eth_interface, "ETH_INTERFACE");

@@ -8,7 +8,7 @@
 //=============================================================================================
 template <class T>
 Configuration::RelationalParameter<T>::RelationalParameter(const T& initial_value) :
-    Parameter<T>(initial_value)
+    ParameterTemplateBase<T>(initial_value)
 {
 }
 
