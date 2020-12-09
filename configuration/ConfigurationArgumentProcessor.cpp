@@ -138,6 +138,7 @@ void Configuration::ArgumentProcessor::process(const std::string& argument)
         optional_counting_arguments.find(argument);
     if (i != optional_counting_arguments.end())
     {
+        i->second->unset();
         *(i->second) = i->second->getValue() + 1;
         return;
     }

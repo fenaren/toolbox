@@ -33,7 +33,11 @@ template <class T> Configuration::ParameterTemplateBase<T>::operator T() const
 //=============================================================================================
 template <class T> void Configuration::ParameterTemplateBase<T>::setValue(const T& value)
 {
-    this->value = value;
+    if (!set)
+    {
+        this->value = value;
+    }
+
     set = true;
 }
 
@@ -57,8 +61,7 @@ Configuration::ParameterTemplateBase<T>& Configuration::ParameterTemplateBase<T>
     // Don't do anything if we're assigning to ourselves
     if (this != &parameter)
     {
-        value = parameter.value;
-        set = true;
+        setValue(parameter.value);
     }
 
     return *this;
@@ -68,9 +71,7 @@ Configuration::ParameterTemplateBase<T>& Configuration::ParameterTemplateBase<T>
 template <class T> Configuration::ParameterTemplateBase<T>&
 Configuration::ParameterTemplateBase<T>::operator=(const T& value)
 {
-    this->value = value;
-    set = true;
-
+    setValue(value);
     return *this;
 }
 

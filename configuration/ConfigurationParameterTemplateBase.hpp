@@ -8,9 +8,9 @@
 
 namespace Configuration
 {
-    // ConfigurationParameter is a class for associating a small amount of metadata (the "set"
-    // field) with a piece of data (the "value" field).  It's a simple implementation of the
-    // data element concept (see "https://en.wikipedia.org/wiki/Data_element").
+    // Adds to ConfigurationParameterBase an actual definition of the "value" that is protected
+    // by the "set" data member back up in ConfigurationParameterBase.  Any type can be used as
+    // the value, as long as it's assignable.
     template <class T> class ParameterTemplateBase : public ParameterBase
     {
     public:
