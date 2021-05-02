@@ -17,7 +17,6 @@ PosixTimespec::PosixTimespec()
 
 // Saves the provided timespec internally
 PosixTimespec::PosixTimespec(const timespec& tp) :
-    PosixTimespec(),
     tp(tp)
 {
 }
