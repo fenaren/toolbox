@@ -28,7 +28,7 @@ def pipeline = new Pipeline(
 
      new StageClangStaticAnalysis(this, false, true, false),
 
-     new StageCppcheck(this, '--suppress=unusedFunction', false, true, false)])
+     new StageCppcheck(this, '--suppress=unusedFunction -UTEST_MACROS_HPP', false, true, false)])
 
 // Run the pipeline
 pipeline.run()

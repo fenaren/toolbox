@@ -1,4 +1,5 @@
 #if !defined TEST_MACROS_HPP
+#define TEST_MACROS_HPP
 
 #include <iostream>
 #include <string>
