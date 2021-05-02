@@ -6,7 +6,7 @@
 
 #include "PosixTimespec.hpp"
 
-const unsigned int PosixTimespec::nanoseconds_per_second = 1000000000;
+const unsigned int PosixTimespec::nanoseconds_per_second = 1e9;
 
 // Initializes to 0s 0ns
 PosixTimespec::PosixTimespec()
@@ -17,18 +17,21 @@ PosixTimespec::PosixTimespec()
 
 // Saves the provided timespec internally
 PosixTimespec::PosixTimespec(const timespec& tp) :
+    PosixTimespec(),
     tp(tp)
 {
 }
 
 // Converts to timespec before saving
-PosixTimespec::PosixTimespec(double tp_sec)
+PosixTimespec::PosixTimespec(double tp_sec) :
+    PosixTimespec()
 {
     fromDouble(tp_sec);
 }
 
 // Copy constructor
-PosixTimespec::PosixTimespec(const PosixTimespec& ts)
+PosixTimespec::PosixTimespec(const PosixTimespec& ts) :
+    PosixTimespec()
 {
     *this = ts;
 }
